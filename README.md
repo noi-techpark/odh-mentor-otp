@@ -18,6 +18,8 @@ defined in docker-compose.yml
 
 ```docker-entrypoint.sh``` download and build data graph
 
+```otp.jar``` compiled version of Opentriplanner
+
 ```otp.sh``` a shortcut for command `java -jar otp.jar`
 
 ```gtfs2bbox``` nodejs script to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
