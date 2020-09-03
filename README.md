@@ -9,7 +9,7 @@ This project contains a Docker images for stable
 
 defined in docker-compose.yml
 
-```otp-build``` build a new OTP graph by /data directory
+```build``` build a new OTP graph by /data directory
 
 ```otp``` run a new instance of OTP by /data
 
@@ -20,10 +20,8 @@ defined in docker-compose.yml
 
 ```otp.sh``` a shortcut for command `java -jar otp.jar`
 
-```gtfs2bbox``` nodejs script to calculate bounding box of gtfs data and async download Openstreetmap Data
+```gtfs2bbox``` nodejs script to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
-others:
-```otp_trentino.sh``` historical openmove script
 
 ## Download data
 
