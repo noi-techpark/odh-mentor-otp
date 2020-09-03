@@ -25,18 +25,18 @@ defined in docker-compose.yml
 ```gtfs2bbox``` nodejs script to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
 
-## Download data
+## Download Openstreetmap data
 
 calculate bounding box with buffer for GTFS directory
 
-1)download and unzip gtfs in data directory:
+1) download and unzip gtfs in data directory:
 ```bash
 cd ./data
 wget http://example.source.gtfs.com/200804_ExportGTFS.zip
 unzip -o ./data/200804_ExportGTFS.zip -d ./data/gtfs
 ```
 
-calculate api overpass urls to download .osm files
+2) calculate api overpass urls to download .osm files
 ```bash
 cd gtfs2bbox/
 npm install
@@ -49,6 +49,15 @@ https://overpass-api.de/api/map?bbox=9.880233649086051,46.66553146341906,10.3970
 https://overpass-api.de/api/map?bbox=10.397045932724035,45.94607517243942,10.91385821636202,46.30580331792924
 ...
 ```
+
+3) check environment vars of servive ```build``` contains:
+```yml
+environment:
+      - GTFS_FILE=200804_ExportGTFS.zip
+      - DOWNLOAD_DATA=True
+      - BUILD_GRAPH=True
+```
+the service build automatically download Openstreetmap data and terrain model, before build a new graph
 
 ## First build Graph and Cache
 
