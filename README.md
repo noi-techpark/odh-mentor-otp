@@ -9,9 +9,9 @@ This project contains a Docker images for stable
 
 defined in docker-compose.yml
 
-```build``` build a new OTP graph by /data directory
+```build``` build a new OTP graph by /data directory, automatically stopped on finish, ```docker logs``` notice if the building was successful.
 
-```otp``` run a new instance of OTP by /data
+```otp``` run a new instance of OTP by /data, distribute API rest and default UI on port 8080
 
 ## Volumes
 
