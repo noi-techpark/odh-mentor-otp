@@ -13,6 +13,11 @@ defined in docker-compose.yml
 
 ```otp``` run a new instance of OTP by /data
 
+## Volumes
+
+```/opt/odh-mentor-otp/:/data/``` the path used in reading and writing in which the Osm, Altimetric data are downloaded.
+It must contains the GTFS zip file before building the graph.
+Here where the graph generated will be written by OTP, in path ```/data/openmove/Graph.obj```
 
 ## Scripts
 
