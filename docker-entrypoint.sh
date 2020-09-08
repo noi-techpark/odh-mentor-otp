@@ -15,20 +15,16 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		rm -f $srtmzip
 	fi
 
-	if [ -f "/data/${GTFS_FILE}" ]; then
+	#if [ -f "/data/${GTFS_FILE}" ]; then
+	if [ -f "/data/osm.url" ]; then
 
-		zipfile="/data/${GTFS_FILE}"
-		unzipdir="${zipfile%.zip}"
-
-		if [ ! -d $unzipdir ]; then
-
-			mkdir -p $unzipdir
-			echo "unzip gtfs file... ${zipfile}"
-
-			unzip -qo -d "$unzipdir" "$zipfile"
-		fi
-
-		#TODO dockerize or include in same image gtfs2bbox
+		# zipfile="/data/${GTFS_FILE}"
+		# unzipdir="${zipfile%.zip}"
+		# if [ ! -d $unzipdir ]; then
+		# 	mkdir -p $unzipdir
+		# 	echo "unzip gtfs file... ${zipfile}"
+		# 	unzip -qo -d "$unzipdir" "$zipfile"
+		# fi
 
 		#TODO manage multiple gtfs zipfiles
 		#echo "TODO download based on gtfs bbox"
@@ -60,7 +56,8 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		#
 		#TEST POVO little bbox curl 'https://overpass-api.de/api/map?bbox=11.145640,46.058827,11.166111,46.070020' -o ./data/povo.osm
 	else
-		echo "File GTFS not found! /data/${GTFS_FILE}"
+		#echo "File GTFS not found! /data/${GTFS_FILE}"
+		echo "File /data/osm.url not found! see README to generate it"
 	fi
 	#
 	# TODO use scripts in ./gtfs2bbox after dowloaded gtfs data
