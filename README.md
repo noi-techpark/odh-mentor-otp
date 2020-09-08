@@ -25,6 +25,13 @@ defined in docker-compose.yml
 ```gtfs2bbox``` nodejs script to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
 
+## Environment
+
+```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
+	Generate a new *Graph.obj* file in the path
+/data/openmove/Graph.obj
+
+
 ## Download Openstreetmap data
 
 calculate bounding box with buffer for GTFS directory
