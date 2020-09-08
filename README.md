@@ -59,7 +59,8 @@ cd ./gtfs2bbox/
 npm install
 node bboxes.js /opt/odh-mentor-otp/200804_ExportGTFS --overpass > /opt/odh-mentor-otp/osm.url
 ```
-contents of file ```/opt/odh-mentor-otp/osm.url```
+
+3) check contents of file ```/opt/odh-mentor-otp/osm.url``` like this:
 ```javascript
 https://overpass-api.de/api/map?bbox=9.880233649086051,46.30580331792924,10.397045932724035,46.66553146341906
 https://overpass-api.de/api/map?bbox=9.880233649086051,46.66553146341906,10.397045932724035,47.025259608908875
