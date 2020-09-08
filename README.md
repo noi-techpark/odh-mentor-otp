@@ -68,15 +68,6 @@ https://overpass-api.de/api/map?bbox=9.880233649086051,46.66553146341906,10.3970
 a list of urls of small pieces of osm data needed to fill the area occupied by the gtfs data.
 These can be downloaded separately or by ```build``` service and they will then be merged during the OTP building graph.
 
-3) check environment vars of service ```build``` contains:
-```yml
-environment:
-      - GTFS_FILE=200804_ExportGTFS.zip
-      - DOWNLOAD_DATA=True
-      - BUILD_GRAPH=True
-```
-the service build automatically download Openstreetmap data and terrain model.
-
 ### First build Graph and Cache
 
 ```bash
