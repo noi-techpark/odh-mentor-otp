@@ -25,11 +25,13 @@ defined in docker-compose.yml
 ```gtfs2bbox``` nodejs script to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
 
-## Environment
+### Environment
+
+**JAVA_MX**: The amount of heap space available to OpenTripPlanner. (The `otp`
+             command adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
 
 ```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
-	Generate a new *Graph.obj* file in the path
-/data/openmove/Graph.obj
+	Generate a new *Graph.obj* file in the path ```/data/openmove/Graph.obj```
 
 
 ## Download Openstreetmap data
@@ -80,15 +82,10 @@ docker-compose up otp
 
 After the graph has been built, the planner is available at port *8080*.
 
-### Environment variables
 
-**JAVA_MX**: The amount of heap space available to OpenTripPlanner. (The `otp`
-             command adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
+### Experimental scripts
 
-
-### Experimental
-
-async parallel download osm data, see gtfs2bbox directory
+async parallel download osm data directly by nodejs, see gtfs2bbox directory to learn more
 ```bash
 cd gtfs2bbox/
 node bboxes.js ../data/200804_ExportGTFS  | node fetch-osm-wget.js
