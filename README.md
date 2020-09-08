@@ -5,7 +5,7 @@ This project contains a Docker images for stable
 [OpenTripPlanner](http://opentripplanner.org) releases.
 *docker-compose* is required.
 
-## Services
+### Services
 
 defined in docker-compose.yml
 
@@ -13,13 +13,11 @@ defined in docker-compose.yml
 
 ```otp``` run a new instance of OTP by /data, distribute API rest and default UI on port 8080, need restart: "always"
 
-## Volumes
+### Volumes
 
-```/opt/odh-mentor-otp/:/data/``` the path used in reading and writing in which the Osm, Altimetric data are downloaded.
-It must contains the GTFS zip file before building the graph.
-Here where the graph generated will be written by OTP, in path ```/data/openmove/Graph.obj```
+```/opt/odh-mentor-otp/:/data/``` the path used in reading and writing in which the Osm, Altimetric data are downloaded. It must contains the GTFS zip file before building the graph. Here where the graph generated will be written by OTP, in path ```/data/openmove/Graph.obj```
 
-## Scripts
+### Scripts
 
 ```docker-entrypoint.sh``` download and build data graph
 
@@ -36,12 +34,13 @@ Here where the graph generated will be written by OTP, in path ```/data/openmove
 
 ```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
 	Generate a new *Graph.obj* file in the path ```/data/openmove/Graph.obj```
-	
+
 ```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/data/Graph.obj.%y-%m-%d.tgz```
 
 ## Usage
 
-calculate bounding box with buffer for GTFS directory
+calculate bounding box with buffer for GTFS directory.
+this step can be automated if necessary
 
 1) download and unzip gtfs in data directory:
 ```bash
@@ -50,7 +49,7 @@ wget http://example.source.gtfs.com/200804_ExportGTFS.zip
 unzip -o ./data/200804_ExportGTFS.zip -d ./data/gtfs
 ```
 
-2) calculate api overpass urls to download .osm files
+2) generate urls to download .osm files
 ```bash
 cd gtfs2bbox/
 npm install
@@ -75,13 +74,13 @@ environment:
 ```
 the service build automatically download Openstreetmap data and terrain model.
 
-## First build Graph and Cache
+### First build Graph and Cache
 
 ```bash
 docker-compose up build
 ```
 
-## Execute OTP instance
+### Execute OTP instance
 
 ```bash
 docker-compose up otp
@@ -89,11 +88,3 @@ docker-compose up otp
 
 After the graph has been built, the planner is available at port *8080*.
 
-
-### Experimental scripts
-
-async parallel download osm data directly by nodejs, see gtfs2bbox directory to learn more
-```bash
-cd gtfs2bbox/
-node bboxes.js ../data/200804_ExportGTFS  | node fetch-osm-wget.js
-```
