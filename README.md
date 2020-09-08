@@ -15,7 +15,8 @@ defined in docker-compose.yml
 
 ### Volumes
 
-```/opt/odh-mentor-otp/:/data/``` the path used in reading and writing in which the Osm, Altimetric data are downloaded. It must contains the GTFS zip file before building the graph. Here where the graph generated will be written by OTP, in path ```/opt/odh-mentor-otp/openmove/Graph.obj```
+```/opt/odh-mentor-otp/:/data/``` the path used in reading and writing in which the Osm, Altimetric data are downloaded. It must contains the GTFS zip file before building the graph. Here where the graph generated will be written by OTP, in path:
+```/opt/odh-mentor-otp/openmove/Graph.obj```
 
 ### Scripts
 
