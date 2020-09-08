@@ -7,7 +7,7 @@ This project contains a Docker images for stable
 
 ### Services
 
-defined in docker-compose.yml
+defined in docker-compose.yml, both of these services are defined by the same docker image which behaves differently according to the defined environment parameters.
 
 ```build``` build a new OTP graph by gtfs file in /opt/odh-mentor-otp/ directory, automatically stopped on finish, ```docker logs``` notice if the building was successful.
 

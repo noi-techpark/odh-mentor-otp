@@ -9,7 +9,7 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 
 	if [ ! -f $srtmfile ]; then
 		#TODO check srtm data and download by bbox of gtfs
-		echo "Download digital terrain model SRTM..."
+		echo "Download altimetric data SRTM..."
 		curl -L $srtmurl -o $srtmzip
 		unzip -qo -d /data $srtmzip -x "*.tfw" "*.hdr" "*.txt"
 		rm -f $srtmzip
@@ -34,7 +34,7 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		echo "Openstreetmap downloading... ${countfiles} files"
 		#echo $osmurl > /data/osm.url
 
-		if [ -f /data/osm.url ]; then
+		#if [ -f /data/osm.url ]; then
 
 			while read -r url ; do
 				name=$(echo $url | cut -d '=' -f2 | sed 's/[,\.]/_/g') #clear name
@@ -46,7 +46,7 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 					echo "Osm file downloaded $fileout"
 				fi
 			done < /data/osm.url
-		fi
+		#fi
 		#
 		#TODO join osm files into one:(osmconvert is faster than otp)
 		#	osmconvert *.osm  -o=../trentino.osm
