@@ -22,11 +22,11 @@ defined in docker-compose.yml
 
 ```docker-entrypoint.sh``` download and build data graph
 
-```otp.jar``` compiled version of Opentriplanner
+```otp.jar``` compiled version of Opentriplanner(it will be downloaded automatically)
 
 ```otp.sh``` a shortcut for command `java -jar otp.jar`
 
-```gtfs2bbox``` nodejs script to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
+```gtfs2bbox``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
 
 ### Environment
@@ -36,7 +36,10 @@ defined in docker-compose.yml
 ```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
 	Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
 
+```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
+
 ```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/opt/odh-mentor-otp/Graph.obj.%y-%m-%d.tgz```
+
 
 ## Usage
 
