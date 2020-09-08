@@ -13,14 +13,10 @@ services:
     build:
       context: ./
     environment:
+      - JAVA_MX=2G      
       - BUILD_GRAPH=False
-      - JAVA_MX=2G
-      - OTP_START=True      
     volumes:
-      - ./data/:/data/
-      #/opt/odh-mentor-otp/:/data/
-      - ./docker-entrypoint.sh:/docker-entrypoint.sh
-      #uncomment to test script
+      /opt/odh-mentor-otp/:/data/
 
   build:
     container_name: openmove-build
@@ -30,18 +26,15 @@ services:
     build:
       context: ./
     environment:
+      - JAVA_MX=8G      
+      - BUILD_GRAPH=True
+      #create new Graph.obj from /data
       - GTFS_FILE=200804_ExportGTFS.zip
       #only for automatic download of osm/srtm data
       - DOWNLOAD_DATA=True
       #download openstreetmap and terrain model data around the GTFS_FILE 
-      - BUILD_GRAPH=True
-      #create new Graph.obj from /data
       - BACKUP_GRAPH=True
-      #backup graph after builded
-      - JAVA_MX=8G
-      - OTP_START=False
     volumes:
-      - ./data/:/data/
-      #/opt/odh-mentor-otp/:/data/
-      - ./docker-entrypoint.sh:/docker-entrypoint.sh
+      - /opt/odh-mentor-otp/:/data/
+      #- ./docker-entrypoint.sh:/docker-entrypoint.sh
       #uncomment to test script

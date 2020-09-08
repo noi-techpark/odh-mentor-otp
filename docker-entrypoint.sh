@@ -92,22 +92,18 @@ if [ "${BUILD_GRAPH}" = "True" ]; then
 
 		mv -f /data/Graph.obj /data/openmove/Graph.obj 
 	else
-		echo "Error to build graph!"
+		echo "Error to build /data/Graph.obj"
 		exit 1
 	fi
 	#TODO check graph valid,size,bounding box
 
 	exit 0
-	#EXIT on graph generated
-	#
 	#TODO shutdown the machine and gen logs
+else
+	otp.sh --graphs /data --router openmove --server
 fi
 
 if [ ! -f /data/openmove/Graph.obj ]; then
 	echo "File GRAPH not found! /data/openmove/Graph.obj build a new graph!"
 	exit 1
-else
-	if [ "${OTP_START}" != "False" ]; then
-		otp.sh --graphs /data --router openmove --server
-	fi
 fi
