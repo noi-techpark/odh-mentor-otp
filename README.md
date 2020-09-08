@@ -11,7 +11,7 @@ defined in docker-compose.yml
 
 ```build``` build a new OTP graph by /data directory, automatically stopped on finish, ```docker logs``` notice if the building was successful.
 
-```otp``` run a new instance of OTP by /data, distribute API rest and default UI on port 8080
+```otp``` run a new instance of OTP by /data, distribute API rest and default UI on port 8080, need restart: "always"
 
 ## Volumes
 
@@ -32,14 +32,14 @@ Here where the graph generated will be written by OTP, in path ```/data/openmove
 
 ### Environment
 
-**JAVA_MX**: The amount of heap space available to OpenTripPlanner. (The `otp`
-             command adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
+```JAVA_MX``` the amount of heap space available to OpenTripPlanner. (The `otp.sh` script adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
 
 ```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
 	Generate a new *Graph.obj* file in the path ```/data/openmove/Graph.obj```
+	
+```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/data/Graph.obj.%y-%m-%d.tgz```
 
-
-## Download Openstreetmap data
+## Usage
 
 calculate bounding box with buffer for GTFS directory
 
@@ -56,13 +56,15 @@ cd gtfs2bbox/
 npm install
 node bboxes.js ../data/gtfs --overpass > ../data/osm.url
 ```
+
 contents of file ```../data/osm.url```
 ```javascript
 https://overpass-api.de/api/map?bbox=9.880233649086051,46.30580331792924,10.397045932724035,46.66553146341906
 https://overpass-api.de/api/map?bbox=9.880233649086051,46.66553146341906,10.397045932724035,47.025259608908875
-https://overpass-api.de/api/map?bbox=10.397045932724035,45.94607517243942,10.91385821636202,46.30580331792924
 ...
 ```
+a list of urls of small pieces of osm data needed to fill the area occupied by the gtfs data.
+These can be downloaded separately or by build service and they will then be merged during the OTP building graph.
 
 3) check environment vars of servive ```build``` contains:
 ```yml
@@ -71,7 +73,7 @@ environment:
       - DOWNLOAD_DATA=True
       - BUILD_GRAPH=True
 ```
-the service build automatically download Openstreetmap data and terrain model, before build a new graph
+the service build automatically download Openstreetmap data and terrain model.
 
 ## First build Graph and Cache
 
