@@ -69,13 +69,13 @@ https://overpass-api.de/api/map?bbox=9.880233649086051,46.66553146341906,10.3970
 a list of urls of small pieces of osm data needed to fill the area occupied by the gtfs data.
 These can be downloaded separately or by ```build``` service and they will then be merged during the OTP building graph.
 
-### First build Graph and Cache
+#### First build Graph and Cache
 
 ```bash
 docker-compose up build
 ```
 
-### Execute OTP instance
+#### Execute OTP instance
 
 ```bash
 docker-compose up otp
