@@ -3,7 +3,7 @@
 
 This project contains a Docker images for stable
 [OpenTripPlanner](http://opentripplanner.org) releases.
-*docker-compose* is required.
+*docker-compose* and *Nodejs* is required.
 
 ### Services
 
