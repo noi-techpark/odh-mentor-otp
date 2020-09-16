@@ -1,0 +1,37 @@
+version: '3'
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  otp:
+    container_name: openmove-otp
+    ports: ["8080:8080"]
+    #restart: "always"
+    image: openmove_otp:latest
+    build:
+      context: ./
+    environment:
+      - JAVA_MX=2G
+      - BUILD_GRAPH=False
+    volumes:
+      - /opt/odh-mentor-otp/:/data/
+
+  build:
+    container_name: openmove-build
+    ports: ["8090:8080"]
+    restart: "no"
+    image: openmove_otp:latest
+    build:
+      context: ./
+    environment:
+      - JAVA_MX=8G
+      - BUILD_GRAPH=True
+      - DOWNLOAD_DATA=True
+      - BACKUP_GRAPH=True
+      #TODO - GTFS_FILE=200804_ExportGTFS.zip
+    volumes:
+      - /opt/odh-mentor-otp/:/data/
+      #- ./docker-entrypoint.sh:/docker-entrypoint.sh
+      #uncomment to test script

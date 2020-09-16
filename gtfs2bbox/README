@@ -1,0 +1,54 @@
+
+## USAGE
+
+directory ```../data/200804_ExportGTFS``` contains gtfs files(stops.txt...)
+
+generate single bounding box with 10km of buffer around gtfs, default output is JSON
+```bash
+$ node bbox.js ../data/
+```
+output:
+```json
+{
+    "stops": 4669,
+    "buffer": 5,
+    "bboxes": [
+        [
+            10.045198235794025,
+            46.04124495172635,
+            12.81614276420598,
+            47.29382838996485
+        ]
+    ],
+    "overpass": "https://overpass-api.de/api/map?bbox=10.045198235794025,46.04124495172635,12.81614276420598,47.29382838996485",    
+    "bboxfinder": "http://bboxfinder.com/#46.04124495172635,10.045198235794025,47.29382838996485,12.81614276420598"
+}
+```
+
+list only overpass url in txt
+```bash
+$ node bbox.js ../data/200804_ExportGTFS --overpass
+```
+
+output:
+```text
+https://overpass-api.de/api/map?bbox=10.045198235794025,46.04124495172635,12.81614276420598,47.29382838996485
+```
+
+## DOWNLOAD using multiple bboxes
+
+Useful when overpass response is too large bounding box or memory!
+Generate a list of multiple sub bounding boxes, removing areas without gtfs
+```bash
+$ node bboxes.js ../data/200804_ExportGTFS --overpass > ../data/osm.url
+```
+
+
+
+## Experimental
+
+parallel download via nodejs/wget
+
+```bash
+$ node bboxes.js ../data/200804_ExportGTFS | node fetch-osm-wget.js
+```
