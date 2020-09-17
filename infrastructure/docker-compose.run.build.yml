@@ -3,7 +3,7 @@ version: "3.4"
 services:
   app:
     image: ${DOCKER_IMAGE}:${DOCKER_TAG}
-    restart: no
+    restart: "no"
     environment:
       JAVA_MX: ${JAVA_MX}
       BUILD_GRAPH: ${BUILD_GRAPH}
