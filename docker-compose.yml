@@ -12,6 +12,7 @@ services:
     image: openmove_otp:latest
     build:
       context: ./
+      dockerfile: infrastructure/docker/Dockerfile
     environment:
       - JAVA_MX=2G
       - BUILD_GRAPH=False
@@ -25,6 +26,7 @@ services:
     image: openmove_otp:latest
     build:
       context: ./
+      dockerfile: infrastructure/docker/Dockerfile
     environment:
       - JAVA_MX=8G
       - BUILD_GRAPH=True
