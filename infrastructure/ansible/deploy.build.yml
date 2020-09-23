@@ -1,7 +1,5 @@
 ---
 - hosts: build
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
   roles:
     - role: ansible-docker-deployment
       vars:
