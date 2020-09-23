@@ -7,10 +7,10 @@ pipeline {
         DOCKER_TAG = "test-$BUILD_NUMBER"
 
         SERVER_PORT = "1014"
-        JAVA_MX: "2G"
-        BUILD_GRAPH: "False"
-        DOWNLOAD_DATA: "False"
-        BACKUP_GRAPH: "False"
+        JAVA_MX = "2G"
+        BUILD_GRAPH = "False"
+        DOWNLOAD_DATA = "False"
+        BACKUP_GRAPH = "False"
     }
 
     stages {
