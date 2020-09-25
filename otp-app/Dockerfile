@@ -25,12 +25,12 @@ COPY ./config.yml otp-react-redux/config.yml
 
 RUN cd otp-react-redux && \
 	yarn build && \
-	cp -fr dist /usr/share/nginx/html/
+	rm -f /var/www/html/index.nginx-debian.html && \
+	cp -fr dist /var/www/html/
 
+COPY ./style.css /var/www/html/
 
-COPY ./style.css /usr/share/nginx/html/style.css
-
-COPY ./index.html /usr/share/nginx/html/index.html
+COPY ./index.html /var/www/html/
 
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 

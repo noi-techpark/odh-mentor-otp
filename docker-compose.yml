@@ -17,9 +17,6 @@ services:
       args:
         OTP_RR_BRANCH: mentor-meran
         OTP_UI_BRANCH: master
-    volumes:
-      - ./otp-app/config.yml:/otp-app/otp-react-redux/config.yml
-      - ./otp-app/index.html:/usr/share/nginx/html/index.html
 
   otp:
     container_name: openmove-otp

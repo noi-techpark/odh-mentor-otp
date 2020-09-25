@@ -1,5 +1,5 @@
 api:
-  host: http://otp
+  host: http://localhost
   path: /otp/routers/default
   port: 8080
 # Add suggested locations to be shown as options in the form view.
@@ -41,8 +41,8 @@ persistence:
 #    apiKey: your-middleware-api-key
 
 map:
-  initLat: 45.52
-  initLon: -122.682
+  initLat: 46.68101
+  initLon: 11.13396
   baseLayers:
     - name: Streets
       url: //cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}@2x.png
