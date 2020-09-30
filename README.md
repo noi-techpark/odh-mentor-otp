@@ -15,7 +15,7 @@ This project contains a Docker images for stable
 ## Getting started
 
 calculate bounding box of Openstreetmap data with buffer from GTFS data bounds.
-it generate a ```osm.url``` file in data dir '''/opt/odh-mentor-otp/''' 
+it generate a ```osm.url``` file in data dir ```/opt/odh-mentor-otp/```
 
 1) download and unzip gtfs in data directory:
 ```bash
