@@ -97,7 +97,7 @@ if [ "${BUILD_GRAPH}" = "True" ]; then
 	exit 0
 	#TODO shutdown the machine and gen logs
 else
-	otp.sh --graphs /data --router openmove --server
+	otp.sh --graphs /data --router openmove --server --insecure
 fi
 
 if [ ! -f /data/openmove/Graph.obj ]; then
