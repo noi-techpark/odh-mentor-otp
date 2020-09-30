@@ -6,9 +6,6 @@ ENV BRANCH=v1.4.0 \
     BRANCH_ALIAS=1.4.0 \
     JAVA_MX=4G
 
-# RUN apk update
-# RUN apk --no-cache add bash curl
-
 RUN	apt-get -qq update && \
 	apt-get -y install bash curl
 
