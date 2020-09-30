@@ -18,6 +18,7 @@ RUN mkdir -p /usr/local/share/java
 
 COPY otp.jar /usr/local/share/java/otp.jar
 COPY otp.sh /usr/local/bin/
+COPY otp-keystore /var/otp/keystore
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
