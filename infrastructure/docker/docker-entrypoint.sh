@@ -30,8 +30,14 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		fi
 
 		#TODO manage multiple gtfs zipfiles
+		#
+		echo "Openstreetmap calculation of downloadable urls from gtfs..."		
 		
 		node /gtfs2bbox/bboxes.js $unzipdir --overpass > /data/osm.url
+
+		#head -n2 /data/osm.url > /data/osm.url.tmp
+		#cp /data/osm.url.tmp /data/osm.url
+		#for DEBUG speed up the download
 		
 		countfiles=$(wc -l < /data/osm.url)
 
@@ -46,14 +52,16 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 				if [ ! -f $fileout ]; then
 					echo "Osm file downloading... $url"
 					
-					#curl -o "$fileout" "$url"
-					
+					curl -o "$fileout" "$url"
+
+					sleep 1
+					#prevent request ban
 				else
 					echo "Osm file downloaded $fileout"
 				fi
 			done < /data/osm.url
 		else
-			echo "Openstreetmap urls not found!"
+			echo "Openstreetmap osm.url file is empty!"
 		fi
 		#
 		#TODO join osm files into one:(osmconvert is faster than otp)
