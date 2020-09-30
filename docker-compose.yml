@@ -22,7 +22,7 @@ services:
     container_name: openmove-otp
     ports: ["8080:8080"]
     #restart: "always"
-    image: openmove_otp:latest
+    image: openmove_otp:node
     build:
       context: ./
       dockerfile: infrastructure/docker/Dockerfile
@@ -36,7 +36,7 @@ services:
     container_name: openmove-build
     ports: ["8090:8080"]
     restart: "no"
-    image: openmove_otp:latest
+    image: openmove_otp:node
     build:
       context: ./
       dockerfile: infrastructure/docker/Dockerfile

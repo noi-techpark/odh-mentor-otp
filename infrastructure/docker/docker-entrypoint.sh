@@ -15,38 +15,43 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		rm -f $srtmzip
 	fi
 
-	#if [ -f "/data/${GTFS_FILE}" ]; then
-	if [ -f "/data/osm.url" ]; then
+	if [ -f "/data/${GTFS_FILE}" ]; then
+	#if [ -f "/data/osm.url" ]; then
 
-		# zipfile="/data/${GTFS_FILE}"
-		# unzipdir="${zipfile%.zip}"
-		# if [ ! -d $unzipdir ]; then
-		# 	mkdir -p $unzipdir
-		# 	echo "unzip gtfs file... ${zipfile}"
-		# 	unzip -qo -d "$unzipdir" "$zipfile"
-		# fi
+		zipfile="/data/${GTFS_FILE}"
+		unzipdir="${zipfile%.zip}"
+		if [ ! -d $unzipdir ]; then
+			mkdir -p $unzipdir
+			echo "unzip gtfs file... ${zipfile}"
+			unzip -qo -d "$unzipdir" "$zipfile"
+		fi
 
 		#TODO manage multiple gtfs zipfiles
-		#echo "TODO download based on gtfs bbox"
-		#osmurl=$(node gtfs2bbox/bbox.js $unzipdir --overpass)
+		
+		osmurl=$(node /gtfs2bbox/bbox.js $unzipdir --overpass)
 		#print only overpass url to download data
+		
+		echo $osmurl > /data/osm.url
 		countfiles=$(wc -l < /data/osm.url)
-		echo "Openstreetmap downloading... ${countfiles} files"
-		#echo $osmurl > /data/osm.url
+		echo "Openstreetmap downloading... ${countfiles} .osm files in data dir"		
 
-		#if [ -f /data/osm.url ]; then
+		if [ -s /data/osm.url ]; then
 
 			while read -r url ; do
 				name=$(echo $url | cut -d '=' -f2 | sed 's/[,\.]/_/g') #clear name
 				fileout="/data/${name}.osm"
 				if [ ! -f $fileout ]; then
 					echo "Osm file downloading... $url"
-					curl -o "$fileout" "$url"
+					
+					#curl -o "$fileout" "$url"
+					
 				else
 					echo "Osm file downloaded $fileout"
 				fi
 			done < /data/osm.url
-		#fi
+		else
+			echo "Openstreetmap urls not found!"
+		fi
 		#
 		#TODO join osm files into one:(osmconvert is faster than otp)
 		#	osmconvert *.osm  -o=../trentino.osm
@@ -56,8 +61,8 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		#
 		#TEST POVO little bbox curl 'https://overpass-api.de/api/map?bbox=11.145640,46.058827,11.166111,46.070020' -o ./data/povo.osm
 	else
-		#echo "File GTFS not found! /data/${GTFS_FILE}"
-		echo "File /data/osm.url not found! see README to generate it"
+		echo "File GTFS not found! /data/${GTFS_FILE}"
+		#echo "File /data/osm.url not found! see README to generate it"
 	fi
 	#
 	# TODO use scripts in ./gtfs2bbox after dowloaded gtfs data
