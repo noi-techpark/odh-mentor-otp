@@ -83,6 +83,7 @@ cd odh-mentor-otp
 
 ```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
 
+```osm.url``` a pregenerated urls list of downloadable Openstreetmap data Meran area.
 
 ### Docker Environment
 
