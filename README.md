@@ -15,7 +15,8 @@ This project contains a Docker images for stable
 ## Getting started
 
 calculate bounding box of Openstreetmap data with buffer from GTFS data bounds.
-it generate a ```osm.url``` file in data dir '''/opt/odh-mentor-otp/''' 
+it generate a ```osm.url``` file in data dir ```/opt/odh-mentor-otp/```.
+This steps can be skipped using the pre-built [osm.url](osm.url) file.
 
 1) download and unzip gtfs in data directory:
 ```bash
@@ -61,13 +62,13 @@ If you want to run the application using [Docker](https://www.docker.com/), the 
 Get a copy of the repository:
 
 ```bash
-ToDo: git clone https://github.com/noi-techpark/odh-mentor-otp.git
+git clone https://github.com/noi-techpark/odh-mentor-otp.git
 ```
 
 Change directory:
 
 ```bash
-ToDo: cd odh-mentor-otp
+cd odh-mentor-otp
 ```
 
 #### Scripts and sub folders
@@ -82,6 +83,7 @@ ToDo: cd odh-mentor-otp
 
 ```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
 
+```osm.url``` a pregenerated urls list of downloadable Openstreetmap data Meran area.
 
 ### Docker Environment
 
@@ -157,7 +159,3 @@ More documentation can be found at [https://opendatahub.readthedocs.io/en/latest
 ### Boilerplate
 
 The project uses this boilerplate: [https://github.com/noi-techpark/java-boilerplate](https://github.com/noi-techpark/java-boilerplate).
-
-### License
-
-The code in this project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE Version 3 license. See the [LICENSE.md](LICENSE.md) file for more information.
