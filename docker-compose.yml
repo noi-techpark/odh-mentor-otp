@@ -45,7 +45,7 @@ services:
       - BUILD_GRAPH=True
       - DOWNLOAD_DATA=True
       - BACKUP_GRAPH=True
-      #TODO - GTFS_FILE=200804_ExportGTFS.zip
+      - GTFS_FILE=200804_ExportGTFS.zip
     volumes:
       - /opt/odh-mentor-otp/:/data/
       #- ./docker-entrypoint.sh:/docker-entrypoint.sh

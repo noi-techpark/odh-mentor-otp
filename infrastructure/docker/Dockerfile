@@ -7,7 +7,7 @@ ENV BRANCH=v1.4.0 \
     JAVA_MX=4G
 
 RUN	apt-get -qq update && \
-	apt-get -y install bash curl
+	apt-get -y install unzip bash curl
 
 RUN mkdir -p /usr/local/share/java
 

@@ -7,13 +7,16 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 	srtmzip=/data/srtm_39_03.zip
 	srtmfile=/data/srtm_39_03.tif
 
-	if [ ! -f $srtmfile ]; then
+	if [ ! -f $srtmzip ]; then
 		#TODO check srtm data and download by bbox of gtfs
 		echo "Download altimetric data SRTM..."
 		curl -L $srtmurl -o $srtmzip
-		unzip -qo -d /data $srtmzip -x "*.tfw" "*.hdr" "*.txt"
-		rm -f $srtmzip
 	fi
+	if [ ! -f $srtmfile ]; then
+		echo "Unzip altimetric data SRTM..."
+		unzip -qo -d /data $srtmzip -x "*.tfw" "*.hdr" "*.txt"
+		#rm -f $srtmzip
+	fi	
 
 	if [ -f "/data/${GTFS_FILE}" ]; then
 	#if [ -f "/data/osm.url" ]; then
@@ -28,14 +31,14 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 
 		#TODO manage multiple gtfs zipfiles
 		
-		osmurl=$(node /gtfs2bbox/bbox.js $unzipdir --overpass)
-		#print only overpass url to download data
+		node /gtfs2bbox/bboxes.js $unzipdir --overpass > /data/osm.url
 		
-		echo $osmurl > /data/osm.url
 		countfiles=$(wc -l < /data/osm.url)
+
 		echo "Openstreetmap downloading... ${countfiles} .osm files in data dir"		
 
 		if [ -s /data/osm.url ]; then
+			#file is not empty
 
 			while read -r url ; do
 				name=$(echo $url | cut -d '=' -f2 | sed 's/[,\.]/_/g') #clear name
