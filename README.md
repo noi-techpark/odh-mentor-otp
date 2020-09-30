@@ -1,8 +1,7 @@
 
 # OpenTripPlanner Openmove Docker Services
 
-This project contains a Docker images for stable
-[OpenTripPlanner](http://opentripplanner.org) releases.
+This project contains a Docker images for stable [OpenTripPlanner](http://opentripplanner.org) releases and tools to auto download Openstreetmap data related to a certain gtfs file.
 
 ## Table of contents
 
@@ -14,6 +13,46 @@ This project contains a Docker images for stable
 
 ## Getting started
 
+### Prerequisites
+
+To build the project, the following prerequisites must be met:
+
+- Docker
+- Docker-compose
+
+If you want to run the application using [Docker](https://www.docker.com/), the environment is already set up with all dependencies for you. You only have to install [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
+
+### Source code
+
+Get a copy of the repository:
+
+```bash
+git clone https://github.com/noi-techpark/odh-mentor-otp.git
+```
+
+Change directory:
+
+```bash
+cd odh-mentor-otp
+```
+
+#### Scripts and sub folders
+
+```docker-entrypoint.sh``` download and build data graph
+
+```otp.jar``` compiled version of Opentriplanner(it will be downloaded automatically)
+
+```otp.sh``` a shortcut for command `java -jar otp.jar`
+
+```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
+
+```osm.url``` a pregenerated urls list of downloadable Openstreetmap data Meran area.
+
+```gtfs2bbox``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
+
+#### gtfs2bbox
+
+This tool auto running whe build container is start with DOWNLOAD_DATA=True
 calculate bounding box of Openstreetmap data with buffer from GTFS data bounds.
 it generate a ```osm.url``` file in data dir ```/opt/odh-mentor-otp/```.
 This steps can be skipped using the pre-built [osm.url](osm.url) file.
@@ -45,51 +84,23 @@ These can be downloaded separately or by ```build``` service and they will then 
 This 3 steps must be done again in case the GTFS data is updated and is larger as a spatial extent
 and could be included as an automatic operation in the build image.
 
-
-### Prerequisites
-
-To build the project, the following prerequisites must be met:
-
-- Docker
-- Docker-compose
-- Nodejs 10/12.x and NPM (only for building the osm.url file if not exists)
-- unzip, git-core, wget
-
-If you want to run the application using [Docker](https://www.docker.com/), the environment is already set up with all dependencies for you. You only have to install [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) and follow the instruction in the [dedicated section](#execute-with-docker).
-
-### Source code
-
-Get a copy of the repository:
-
-```bash
-git clone https://github.com/noi-techpark/odh-mentor-otp.git
-```
-
-Change directory:
-
-```bash
-cd odh-mentor-otp
-```
-
-#### Scripts and sub folders
-
-```docker-entrypoint.sh``` download and build data graph
-
-```otp.jar``` compiled version of Opentriplanner(it will be downloaded automatically)
-
-```otp.sh``` a shortcut for command `java -jar otp.jar`
-
-```gtfs2bbox``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
-
-```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
-
-```osm.url``` a pregenerated urls list of downloadable Openstreetmap data Meran area.
-
 ### Docker Environment
 
 Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 
+```JAVA_MX``` the amount of heap space available to OpenTripPlanner. (The `otp.sh` script adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
+
+```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
+
+```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
+
+```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/opt/odh-mentor-otp/Graph.obj.%y-%m-%d.tgz```
+
+```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
+	Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
+
 Then you can start the application using the following command:
+
 #### First build Graph and Cache
 
 ```bash
@@ -116,20 +127,6 @@ defined in docker-compose.yml, both of these services are defined by the same do
 
 ```/opt/odh-mentor-otp/:/data/``` the path used in reading and writing in which the Osm, Altimetric data are downloaded. It must contains the GTFS zip file before building the graph. Here where the graph generated will be written by OTP, in path:
 ```/opt/odh-mentor-otp/openmove/Graph.obj```
-
-#### Environment
-
-```JAVA_MX``` the amount of heap space available to OpenTripPlanner. (The `otp.sh` script adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
-
-```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
-
-```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
-
-```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/opt/odh-mentor-otp/Graph.obj.%y-%m-%d.tgz```
-
-```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
-	Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
-
 
 ## Information
 
