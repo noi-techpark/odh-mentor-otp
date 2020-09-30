@@ -5,6 +5,45 @@ This project contains a Docker images for stable
 [OpenTripPlanner](http://opentripplanner.org) releases.
 *docker-compose* and *Nodejs* is required.
 
+## Table of contents
+
+- [Gettings started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Source code](#source-code)
+  - [Execute with Docker](#execute-with-docker)
+- [Information](#information)
+
+## Getting started
+
+calculate bounding box of Openstreetmap data with buffer from GTFS data bounds.
+it generate a ```osm.url``` file in data dir '''/opt/odh-mentor-otp/''' 
+
+1) download and unzip gtfs in data directory:
+```bash
+cd /opt/odh-mentor-otp/
+wget http://example.source.gtfs.com/200804_ExportGTFS.zip
+unzip -o /opt/odh-mentor-otp/200804_ExportGTFS.zip -d /opt/odh-mentor-otp/200804_ExportGTFS
+```
+
+2) generate urls list to download .osm files
+```bash
+cd ./gtfs2bbox/
+npm install
+node bboxes.js /opt/odh-mentor-otp/200804_ExportGTFS --overpass > /opt/odh-mentor-otp/osm.url
+```
+
+3) check contents of file ```/opt/odh-mentor-otp/osm.url``` like this:
+```javascript
+https://overpass-api.de/api/map?bbox=9.880233649086051,46.30580331792924,10.397045932724035,46.66553146341906
+https://overpass-api.de/api/map?bbox=9.880233649086051,46.66553146341906,10.397045932724035,47.025259608908875
+...
+```
+a list of urls of small pieces of osm data needed to fill the area occupied by the gtfs data.
+These can be downloaded separately or by ```build``` service and they will then be merged during the OTP building graph.
+
+This 3 steps must be done again in case the GTFS data is updated and is larger as a spatial extent
+and could be included as an automatic operation in the build image.
+
 ### Services
 
 defined in docker-compose.yml, both of these services are defined by the same docker image which behaves differently according to the defined environment parameters.
@@ -41,34 +80,35 @@ defined in docker-compose.yml, both of these services are defined by the same do
 ```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/opt/odh-mentor-otp/Graph.obj.%y-%m-%d.tgz```
 
 
-## Usage
+### Prerequisites
 
-calculate bounding box with buffer for GTFS directory.
-this step can be automated if necessary
+To build the project, the following prerequisites must be met:
 
-1) download and unzip gtfs in data directory:
+- Docker
+- Docker-compose
+- Nodejs 10/12.x(only for building the osm.url file if not exists)
+
+If you want to run the application using [Docker](https://www.docker.com/), the environment is already set up with all dependencies for you. You only have to install [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) and follow the instruction in the [dedicated section](#execute-with-docker).
+
+### Source code
+
+Get a copy of the repository:
+
 ```bash
-cd /opt/odh-mentor-otp/
-wget http://example.source.gtfs.com/200804_ExportGTFS.zip
-unzip -o /opt/odh-mentor-otp/200804_ExportGTFS.zip -d /opt/odh-mentor-otp/200804_ExportGTFS
+ToDo: git clone https://github.com/noi-techpark/odh-mentor-otp.git
 ```
 
-2) generate urls list to download .osm files
+Change directory:
+
 ```bash
-cd ./gtfs2bbox/
-npm install
-node bboxes.js /opt/odh-mentor-otp/200804_ExportGTFS --overpass > /opt/odh-mentor-otp/osm.url
+ToDo: cd odh-mentor-otp
 ```
 
-3) check contents of file ```/opt/odh-mentor-otp/osm.url``` like this:
-```javascript
-https://overpass-api.de/api/map?bbox=9.880233649086051,46.30580331792924,10.397045932724035,46.66553146341906
-https://overpass-api.de/api/map?bbox=9.880233649086051,46.66553146341906,10.397045932724035,47.025259608908875
-...
-```
-a list of urls of small pieces of osm data needed to fill the area occupied by the gtfs data.
-These can be downloaded separately or by ```build``` service and they will then be merged during the OTP building graph.
+### Execute with Docker
 
+Copy the file `.env.example` to `.env` and adjust the configuration parameters.
+
+Then you can start the application using the following command:
 #### First build Graph and Cache
 
 ```bash
@@ -83,3 +123,39 @@ docker-compose up otp
 
 After the graph has been built, the planner is available at port *8080*.
 
+
+## Information
+
+### Guidelines
+
+Find [here](https://opendatahub.readthedocs.io/en/latest/guidelines.html) guidelines for developers.
+
+### Support
+
+ToDo: For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+
+### Contributing
+
+If you'd like to contribute, please follow the following instructions:
+
+- Fork the repository.
+
+- Checkout a topic branch from the `development` branch.
+
+- Make sure the tests are passing.
+
+- Create a pull request against the `development` branch.
+
+A more detailed description can be found here: [https://github.com/noi-techpark/documentation/blob/master/contributors.md](https://github.com/noi-techpark/documentation/blob/master/contributors.md).
+
+### Documentation
+
+More documentation can be found at [https://opendatahub.readthedocs.io/en/latest/index.html](https://opendatahub.readthedocs.io/en/latest/index.html).
+
+### Boilerplate
+
+The project uses this boilerplate: [https://github.com/noi-techpark/java-boilerplate](https://github.com/noi-techpark/java-boilerplate).
+
+### License
+
+The code in this project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE Version 3 license. See the [LICENSE.md](LICENSE.md) file for more information.
