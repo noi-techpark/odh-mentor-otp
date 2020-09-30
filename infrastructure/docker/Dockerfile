@@ -8,6 +8,7 @@ RUN apk update
 RUN apk --no-cache add bash curl
 
 RUN mkdir -p /usr/local/share/java
+RUN mkdir -p /var/otp
 
 COPY otp.jar /usr/local/share/java/otp.jar
 COPY otp.sh /usr/local/bin/
