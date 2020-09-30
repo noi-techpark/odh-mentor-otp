@@ -9,26 +9,22 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 
 	if [ ! -f $srtmfile ]; then
 		#TODO check srtm data and download by bbox of gtfs
-		echo "Download digital terrain model SRTM..."
+		echo "Download altimetric data SRTM..."
 		curl -L $srtmurl -o $srtmzip
 		unzip -qo -d /data $srtmzip -x "*.tfw" "*.hdr" "*.txt"
 		rm -f $srtmzip
 	fi
 
-	if [ -f "/data/${GTFS_FILE}" ]; then
+	#if [ -f "/data/${GTFS_FILE}" ]; then
+	if [ -f "/data/osm.url" ]; then
 
-		zipfile="/data/${GTFS_FILE}"
-		unzipdir="${zipfile%.zip}"
-
-		if [ ! -d $unzipdir ]; then
-
-			mkdir -p $unzipdir
-			echo "unzip gtfs file... ${zipfile}"
-
-			unzip -qo -d "$unzipdir" "$zipfile"
-		fi
-
-		#TODO dockerize or include in same image gtfs2bbox
+		# zipfile="/data/${GTFS_FILE}"
+		# unzipdir="${zipfile%.zip}"
+		# if [ ! -d $unzipdir ]; then
+		# 	mkdir -p $unzipdir
+		# 	echo "unzip gtfs file... ${zipfile}"
+		# 	unzip -qo -d "$unzipdir" "$zipfile"
+		# fi
 
 		#TODO manage multiple gtfs zipfiles
 		#echo "TODO download based on gtfs bbox"
@@ -38,7 +34,7 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		echo "Openstreetmap downloading... ${countfiles} files"
 		#echo $osmurl > /data/osm.url
 
-		if [ -f /data/osm.url ]; then
+		#if [ -f /data/osm.url ]; then
 
 			while read -r url ; do
 				name=$(echo $url | cut -d '=' -f2 | sed 's/[,\.]/_/g') #clear name
@@ -50,7 +46,7 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 					echo "Osm file downloaded $fileout"
 				fi
 			done < /data/osm.url
-		fi
+		#fi
 		#
 		#TODO join osm files into one:(osmconvert is faster than otp)
 		#	osmconvert *.osm  -o=../trentino.osm
@@ -60,7 +56,8 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		#
 		#TEST POVO little bbox curl 'https://overpass-api.de/api/map?bbox=11.145640,46.058827,11.166111,46.070020' -o ./data/povo.osm
 	else
-		echo "File GTFS not found! /data/${GTFS_FILE}"
+		#echo "File GTFS not found! /data/${GTFS_FILE}"
+		echo "File /data/osm.url not found! see README to generate it"
 	fi
 	#
 	# TODO use scripts in ./gtfs2bbox after dowloaded gtfs data
@@ -92,22 +89,18 @@ if [ "${BUILD_GRAPH}" = "True" ]; then
 
 		mv -f /data/Graph.obj /data/openmove/Graph.obj 
 	else
-		echo "Error to build graph!"
+		echo "Error to build /data/Graph.obj"
 		exit 1
 	fi
 	#TODO check graph valid,size,bounding box
 
 	exit 0
-	#EXIT on graph generated
-	#
 	#TODO shutdown the machine and gen logs
+else
+	otp.sh --graphs /data --router openmove --server
 fi
 
 if [ ! -f /data/openmove/Graph.obj ]; then
 	echo "File GRAPH not found! /data/openmove/Graph.obj build a new graph!"
 	exit 1
-else
-	if [ "${OTP_START}" != "False" ]; then
-		otp.sh --graphs /data --router openmove --server
-	fi
 fi

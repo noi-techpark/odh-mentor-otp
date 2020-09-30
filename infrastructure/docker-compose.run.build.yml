@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+  app:
+    image: ${DOCKER_IMAGE}:${DOCKER_TAG}
+    restart: "no"
+    environment:
+      JAVA_MX: ${JAVA_MX}
+      BUILD_GRAPH: ${BUILD_GRAPH}
+      DOWNLOAD_DATA: ${DOWNLOAD_DATA}
+      BACKUP_GRAPH: ${BACKUP_GRAPH}
+    volumes:
+      - /opt/odh-mentor-otp/:/data/

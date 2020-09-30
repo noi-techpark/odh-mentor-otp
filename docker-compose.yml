@@ -5,6 +5,19 @@ networks:
     driver: bridge
 
 services:
+
+  otp-app:
+    container_name: openmove-otp-app
+    ports: ["8070:80"]
+    #restart: "always"
+    image: openmove_otp_app:latest
+    build:
+      context: ./otp-app/
+      dockerfile: ./Dockerfile
+      args:
+        OTP_RR_BRANCH: mentor-meran
+        OTP_UI_BRANCH: master
+
   otp:
     container_name: openmove-otp
     ports: ["8080:8080"]
@@ -12,15 +25,12 @@ services:
     image: openmove_otp:latest
     build:
       context: ./
+      dockerfile: infrastructure/docker/Dockerfile
     environment:
-      - BUILD_GRAPH=False
       - JAVA_MX=2G
-      - OTP_START=True      
+      - BUILD_GRAPH=False
     volumes:
-      - ./data/:/data/
-      #/opt/odh-mentor-otp/:/data/
-      - ./docker-entrypoint.sh:/docker-entrypoint.sh
-      #uncomment to test script
+      - /opt/odh-mentor-otp/:/data/
 
   build:
     container_name: openmove-build
@@ -29,19 +39,14 @@ services:
     image: openmove_otp:latest
     build:
       context: ./
+      dockerfile: infrastructure/docker/Dockerfile
     environment:
-      - GTFS_FILE=200804_ExportGTFS.zip
-      #only for automatic download of osm/srtm data
-      - DOWNLOAD_DATA=True
-      #download openstreetmap and terrain model data around the GTFS_FILE 
-      - BUILD_GRAPH=True
-      #create new Graph.obj from /data
-      - BACKUP_GRAPH=True
-      #backup graph after builded
       - JAVA_MX=8G
-      - OTP_START=False
+      - BUILD_GRAPH=True
+      - DOWNLOAD_DATA=True
+      - BACKUP_GRAPH=True
+      #TODO - GTFS_FILE=200804_ExportGTFS.zip
     volumes:
-      - ./data/:/data/
-      #/opt/odh-mentor-otp/:/data/
-      - ./docker-entrypoint.sh:/docker-entrypoint.sh
+      - /opt/odh-mentor-otp/:/data/
+      #- ./docker-entrypoint.sh:/docker-entrypoint.sh
       #uncomment to test script
