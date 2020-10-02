@@ -1,7 +1,7 @@
 api:
-  host: http://localhost
-  path: /otp/routers/default
-  port: 8080
+  host: ${API_HOST}
+  path: ${API_PATH}
+  port: ${API_PORT}
 # Add suggested locations to be shown as options in the form view.
 # locations:
 #   - id: 'airport'
