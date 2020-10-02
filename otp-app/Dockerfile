@@ -32,6 +32,7 @@ RUN cd otp-react-redux && \
 COPY ./config.yml .
 COPY ./envtmpl.js .
 
+#valorize config ${VAR} vars with env vars
 RUN sh -c 'node envtmpl.js config.yml > /otp-app/otp-react-redux/config.yml'
 
 RUN cd otp-react-redux && \
