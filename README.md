@@ -50,40 +50,6 @@ cd odh-mentor-otp
 
 ```gtfs2bbox``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
-#### gtfs2bbox
-
-This tool auto running whe build container is start with DOWNLOAD_DATA=True
-calculate bounding box of Openstreetmap data with buffer from GTFS data bounds.
-it generate a ```osm.url``` file in data dir ```/opt/odh-mentor-otp/```.
-This steps can be skipped using the pre-built [osm.url](osm.url) file.
-
-1) download and unzip gtfs in data directory:
-```bash
-cd /opt/odh-mentor-otp/
-wget http://example.com/200804_ExportGTFS.zip
-unzip -o /opt/odh-mentor-otp/200804_ExportGTFS.zip -d /opt/odh-mentor-otp/200804_ExportGTFS
-```
-don't remove orginal gtfs zip file.
-
-2) generate urls list to download .osm files
-```bash
-cd ./gtfs2bbox/
-npm install
-node bboxes.js /opt/odh-mentor-otp/200804_ExportGTFS --overpass > /opt/odh-mentor-otp/osm.url
-```
-
-3) check contents of file ```/opt/odh-mentor-otp/osm.url``` like this:
-```javascript
-https://overpass-api.de/api/map?bbox=9.880233649086051,46.30580331792924,10.397045932724035,46.66553146341906
-https://overpass-api.de/api/map?bbox=9.880233649086051,46.66553146341906,10.397045932724035,47.025259608908875
-...
-```
-a list of urls of small pieces of osm data needed to fill the area occupied by the gtfs data.
-These can be downloaded separately or by ```build``` service and they will then be merged during the OTP building graph.
-
-This 3 steps must be done again in case the GTFS data is updated and is larger as a spatial extent
-and could be included as an automatic operation in the build image.
-
 ### Docker Environment
 
 Copy the file `.env.example` to `.env` and adjust the configuration parameters.
@@ -98,6 +64,17 @@ Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 
 ```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
 	Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
+
+#### Building Arguments
+
+these arguments are used to build the **otp-app** service image which is the modern interface for OTP.
+they refer to the host name where the **otp** service is located
+
+```API_HOST``` deployed hostname of otp api default: ```http://otp``` (name of internal service otp)
+
+```API_PATH``` aboslute url path ```/otp/routers/openmove```
+
+```API_PORT``` port default ```8080``` (port of internal service otp)
 
 Then you can start the application using the following command:
 
