@@ -19,9 +19,12 @@ RUN echo "Cloning otp-react-redux branch ${OTP_RR_BRANCH}..." && \
     git clone --single-branch --branch $OTP_RR_BRANCH https://github.com/openmove/otp-react-redux.git
 
 RUN cd otp-react-redux && \
-	yarn install
+	yarn install && \
+	npm install underscore
 
 COPY ./config.yml otp-react-redux/config.yml
+
+COPY ./env2yml.js 
 
 RUN cd otp-react-redux && \
 	yarn build && \

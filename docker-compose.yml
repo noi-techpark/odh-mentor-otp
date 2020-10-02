@@ -17,6 +17,9 @@ services:
       args:
         OTP_RR_BRANCH: mentor-meran
         OTP_UI_BRANCH: master
+    environment:
+      - OTP_HOST=otp
+      - OTP_PORT=8080
 
   otp:
     container_name: openmove-otp
