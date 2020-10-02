@@ -7,8 +7,6 @@ const fs = require('fs');
 
 const ENV = process.env;
 
-console.warn('ENV', ENV);
-
 //const tmplReg = /\$\{(.+?)\}/g
 const tmplReg = /\$\{([\w_\-]+)\}/g
 //const tmplReg = /\{ *([\w_\-]+) *\}/g
