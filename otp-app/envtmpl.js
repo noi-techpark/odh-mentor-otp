@@ -5,6 +5,10 @@ usage:
 */
 const fs = require('fs');
 
+const ENV = process.env;
+
+console.warn('ENV', ENV);
+
 //const tmplReg = /\$\{(.+?)\}/g
 const tmplReg = /\$\{([\w_\-]+)\}/g
 //const tmplReg = /\{ *([\w_\-]+) *\}/g
@@ -24,7 +28,7 @@ function tmpl(str, data, double) {
 
 try {
     
-    process.stdout.write( tmpl(fs.readFileSync(0, "utf-8"), process.env) );
+    process.stdout.write( tmpl(fs.readFileSync(process.argv[2], "utf-8"), ENV) );
 
 } catch (e) {
     console.log(e);
