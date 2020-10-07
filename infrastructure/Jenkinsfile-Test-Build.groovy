@@ -26,6 +26,7 @@ pipeline {
                     echo 'BUILD_GRAPH=${BUILD_GRAPH}' >> .env
                     echo 'DOWNLOAD_DATA=${DOWNLOAD_DATA}' >> .env
                     echo 'BACKUP_GRAPH=${BACKUP_GRAPH}' >> .env
+                    echo 'GTFS_FILE=${GTFS_FILE}' >> .env
                 """
             }
         }

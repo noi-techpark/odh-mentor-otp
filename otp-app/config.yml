@@ -1,0 +1,142 @@
+api:
+  host: ${API_HOST}
+  path: ${API_PATH}
+  port: ${API_PORT}
+# Add suggested locations to be shown as options in the form view.
+# locations:
+#   - id: 'airport'
+#     icon: 'plane'
+#     name: 'Portland International Airport (PDX)'
+#     lat: 45.587579
+#     lon: -122.593084
+#   - id: 'zoo'
+#     icon: building
+#     lat: 45.51010444232195
+#     lon: -122.71607145667079
+#     name: Oregon Zoo, Portland, OR
+
+### The persistence setting is used to enable the storage of places (home, work),
+### recent searches/places, user overrides, and favorite stops.
+### Pick the strategy that best suits your needs.
+###
+### If you do not require remote storage of preferences,
+### then use the localStorage strategy outlined below (which is used by default).
+### The localStorage strategy will use the browser application storage.
+### It must be enabled to show the stored locations (see above).
+persistence:
+  enabled: true
+  strategy: localStorage
+
+### If using the OTP Middleware to store user profiles
+### with Auth0 as the authentication mechanism,
+### then use the otp_middleware strategy below instead: 
+# persistence:
+#  enabled: true
+#  strategy: otp_middleware
+#  auth0:
+#    domain: your-auth0-domain
+#    clientId: your-auth0-client-id
+#  otp_middleware:
+#    apiBaseUrl: https://otp-middleware.example.com
+#    apiKey: your-middleware-api-key
+
+map:
+  initLat: 46.68101
+  initLon: 11.13396
+  baseLayers:
+    - name: Streets
+      url: //cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}@2x.png
+      subdomains: 'abcd'
+      attribution: 'Map tiles: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      maxZoom: 20
+      hasRetinaSupport: true
+    - name: Stamen Toner Lite
+      url: http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png
+      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+
+# it is possible to leave out a geocoder config entirely. In that case only
+# GPS coordinates will be used when finding the origin/destination.
+
+# example config for a Pelias geocoder (https://pelias.io/)
+geocoder:
+  apiKey: MAPZEN_KEY
+  boundary:
+    rect:
+      minLon: -123.2034
+      maxLon: -122.135
+      minLat: 45.273
+      maxLat: 45.7445
+  focusPoint:
+    lat: 45.5223452
+    lon: -122.6821804
+  # Custom fetch options to pass to geocoder resource.
+  # options:
+  #   headers:
+  #     x-custom-header: abc123
+  # required geocoder type.
+  type: PELIAS
+  # This base URL is required as the libraries will default to using now-defunct
+  # mapzen urls
+  baseUrl: https://geocoder.example.com/pelias/v1
+
+# example config for an ArcGIS geocoder
+# (https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm)
+# WARNING: using the ArcGIS geocoder with a persistence strategy of
+#   `localStorage` will result in an error being thrown because ArcGIS
+#   requires the use of a paid account to store geocode results.
+#   See https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm
+# geocoder:
+#   boundary:
+#     rect:
+#       minLon: -123.2034
+#       maxLon: -122.135
+#       minLat: 45.273
+#       maxLat: 45.7445
+#   focusPoint:
+#     lat: 45.5223452
+#     lon: -122.6821804
+#   # required geocoder type.
+#   type: ARCGIS
+
+# Use this mode config for the enhanced Transit+ config
+modes:
+  transitModes:
+    - mode: BUS
+      label: Bus
+    - mode: TRAM
+      label: MAX & Streetcar
+    - mode: RAIL
+      label: WES
+    - mode: GONDOLA
+      label: Aerial Tram
+
+  accessModes:
+    - mode: BICYCLE
+      label: Transit + Bike
+
+  bicycleModes:
+    - mode: BICYCLE
+      label: Own Bike
+      iconWidth: 18
+
+
+routingTypes:
+  - key: ITINERARY
+    text: Exact Time
+
+# Itinerary options
+itinerary:
+  # Show fares for each transit leg (false if omitted).
+  # (Requires using LineItinerary.)
+  showRouteFares: false
+
+### Use this config for the standard mode selector
+# modeGroups:
+#   - name: Transit
+#     modes:
+#       - TRAM
+#       - BUS
+#   - name: Walk/Bike
+#     modes:
+#       - WALK
+#       - BICYCLE

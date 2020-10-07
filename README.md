@@ -1,24 +1,42 @@
 
 # OpenTripPlanner Openmove Docker Services
 
-This project contains a Docker images for stable
-[OpenTripPlanner](http://opentripplanner.org) releases.
-*docker-compose* and *Nodejs* is required.
+This project contains a Docker images for stable [OpenTripPlanner](http://opentripplanner.org) releases and tools to auto download Openstreetmap data related to a certain gtfs file.
 
-### Services
+## Table of contents
 
-defined in docker-compose.yml, both of these services are defined by the same docker image which behaves differently according to the defined environment parameters.
+- [Gettings started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Source code](#source-code)
+  - [Docker environment](#docker)
+- [Information](#information)
 
-```build``` build a new OTP graph by gtfs file in /opt/odh-mentor-otp/ directory, automatically stopped on finish, ```docker logs``` notice if the building was successful.
+## Getting started
 
-```otp``` run a new instance of OTP by /opt/odh-mentor-otp/, distribute API rest and default UI on port 8080, need restart: "always"
+### Prerequisites
 
-### Volumes
+To build the project, the following prerequisites must be met:
 
-```/opt/odh-mentor-otp/:/data/``` the path used in reading and writing in which the Osm, Altimetric data are downloaded. It must contains the GTFS zip file before building the graph. Here where the graph generated will be written by OTP, in path:
-```/opt/odh-mentor-otp/openmove/Graph.obj```
+- Docker
+- Docker-compose
 
-### Scripts
+If you want to run the application using [Docker](https://www.docker.com/), the environment is already set up with all dependencies for you. You only have to install [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
+
+### Source code
+
+Get a copy of the repository:
+
+```bash
+git clone https://github.com/noi-techpark/odh-mentor-otp.git
+```
+
+Change directory:
+
+```bash
+cd odh-mentor-otp
+```
+
+#### Scripts and sub folders
 
 ```docker-entrypoint.sh``` download and build data graph
 
@@ -26,48 +44,39 @@ defined in docker-compose.yml, both of these services are defined by the same do
 
 ```otp.sh``` a shortcut for command `java -jar otp.jar`
 
+```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
+
+```osm.url``` a pregenerated urls list of downloadable Openstreetmap data Meran area.
+
 ```gtfs2bbox``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
+### Docker Environment
 
-### Environment
+Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 
 ```JAVA_MX``` the amount of heap space available to OpenTripPlanner. (The `otp.sh` script adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
 
-```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
-	Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
+```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
 
 ```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
 
 ```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/opt/odh-mentor-otp/Graph.obj.%y-%m-%d.tgz```
 
+```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
+	Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
 
-## Usage
+#### Building Arguments
 
-calculate bounding box with buffer for GTFS directory.
-this step can be automated if necessary
+these arguments are used to build the **otp-app** service image which is the modern interface for OTP.
+they refer to the host name where the **otp** service is located
 
-1) download and unzip gtfs in data directory:
-```bash
-cd /opt/odh-mentor-otp/
-wget http://example.source.gtfs.com/200804_ExportGTFS.zip
-unzip -o /opt/odh-mentor-otp/200804_ExportGTFS.zip -d /opt/odh-mentor-otp/200804_ExportGTFS
-```
+```API_HOST``` deployed hostname of otp api default: ```http://otp``` (name of internal service otp)
 
-2) generate urls list to download .osm files
-```bash
-cd ./gtfs2bbox/
-npm install
-node bboxes.js /opt/odh-mentor-otp/200804_ExportGTFS --overpass > /opt/odh-mentor-otp/osm.url
-```
+```API_PATH``` aboslute url path ```/otp/routers/openmove```
 
-3) check contents of file ```/opt/odh-mentor-otp/osm.url``` like this:
-```javascript
-https://overpass-api.de/api/map?bbox=9.880233649086051,46.30580331792924,10.397045932724035,46.66553146341906
-https://overpass-api.de/api/map?bbox=9.880233649086051,46.66553146341906,10.397045932724035,47.025259608908875
-...
-```
-a list of urls of small pieces of osm data needed to fill the area occupied by the gtfs data.
-These can be downloaded separately or by ```build``` service and they will then be merged during the OTP building graph.
+```API_PORT``` port default ```8080``` (port of internal service otp)
+
+Then you can start the application using the following command:
 
 #### First build Graph and Cache
 
@@ -80,6 +89,50 @@ docker-compose up build
 ```bash
 docker-compose up otp
 ```
-
 After the graph has been built, the planner is available at port *8080*.
 
+
+#### Services
+
+defined in docker-compose.yml, both of these services are defined by the same docker image which behaves differently according to the defined environment parameters.
+
+```build``` build a new OTP graph by gtfs file in /opt/odh-mentor-otp/ directory, automatically stopped on finish, ```docker logs``` notice if the building was successful.
+
+```otp``` run a new instance of OTP by /opt/odh-mentor-otp/, distribute API rest and default UI on port 8080, need restart: "always"
+
+#### Volumes
+
+```/opt/odh-mentor-otp/:/data/``` the path used in reading and writing in which the Osm, Altimetric data are downloaded. It must contains the GTFS zip file before building the graph. Here where the graph generated will be written by OTP, in path:
+```/opt/odh-mentor-otp/openmove/Graph.obj```
+
+## Information
+
+### Guidelines
+
+Find [here](https://opendatahub.readthedocs.io/en/latest/guidelines.html) guidelines for developers.
+
+### Support
+
+ToDo: For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+
+### Contributing
+
+If you'd like to contribute, please follow the following instructions:
+
+- Fork the repository.
+
+- Checkout a topic branch from the `development` branch.
+
+- Make sure the tests are passing.
+
+- Create a pull request against the `development` branch.
+
+A more detailed description can be found here: [https://github.com/noi-techpark/documentation/blob/master/contributors.md](https://github.com/noi-techpark/documentation/blob/master/contributors.md).
+
+### Documentation
+
+More documentation can be found at [https://opendatahub.readthedocs.io/en/latest/index.html](https://opendatahub.readthedocs.io/en/latest/index.html).
+
+### Boilerplate
+
+The project uses this boilerplate: [https://github.com/noi-techpark/java-boilerplate](https://github.com/noi-techpark/java-boilerplate).
