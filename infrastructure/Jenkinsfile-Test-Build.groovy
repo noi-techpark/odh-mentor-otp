@@ -10,6 +10,7 @@ pipeline {
         BUILD_GRAPH = "True"
         DOWNLOAD_DATA = "True"
         BACKUP_GRAPH = "True"
+        GTFS_FILE = "200804_ExportGTFS.zip"
     }
 
     stages {
