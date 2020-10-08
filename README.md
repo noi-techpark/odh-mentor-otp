@@ -70,7 +70,7 @@ Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 these arguments are used to build the **otp-app** service image which is the modern interface for OTP.
 they refer to the host name where the **otp** service is located
 
-```API_HOST``` deployed hostname of otp api default: ```http://otp``` (name of internal service otp)
+```API_HOST``` deployed hostname of otp api default: ```http://otp``` (extenal domain name of otp host service)
 
 ```API_PATH``` aboslute url path ```/otp/routers/openmove```
 
