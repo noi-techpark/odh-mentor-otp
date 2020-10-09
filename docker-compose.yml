@@ -29,6 +29,8 @@ services:
     build:
       context: ./
       dockerfile: infrastructure/docker/Dockerfile
+      args:
+        OTP_VERSION: 1.4.0
     environment:
       - JAVA_MX=2G
       - BUILD_GRAPH=False

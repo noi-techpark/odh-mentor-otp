@@ -40,9 +40,7 @@ cd odh-mentor-otp
 
 ```docker-entrypoint.sh``` download and build data graph
 
-```otp.jar``` compiled version of Opentriplanner(it will be downloaded automatically)
-
-```otp.sh``` a shortcut for command `java -jar otp.jar`
+```otp.sh``` a script to run otp by command line
 
 ```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
 
@@ -67,8 +65,11 @@ Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 
 #### Building Arguments
 
+these arguments are used to build the **otp** service image downloading Opentripplanner from official repos
+```OTP_VERSION``` default is 1.4.0
+
 these arguments are used to build the **otp-app** service image which is the modern interface for OTP.
-they refer to the host name where the **otp** service is located
+they refer to the hostname where the **otp** service is located
 
 ```API_HOST``` deployed hostname of otp api default: ```http://otp``` (name of internal service otp)
 
