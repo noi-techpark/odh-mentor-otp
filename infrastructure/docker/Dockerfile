@@ -17,7 +17,6 @@ RUN mkdir -p /var/otp
 RUN curl -o /usr/local/share/java/otp.jar https://repo1.maven.org/maven2/org/opentripplanner/otp/$OTP_VERSION/otp-$OTP_VERSION-shaded.jar
 
 COPY otp.sh /usr/local/bin/
-COPY otp-keystore /var/otp/keystore
 
 COPY infrastructure/docker/docker-entrypoint.sh /docker-entrypoint.sh
 
