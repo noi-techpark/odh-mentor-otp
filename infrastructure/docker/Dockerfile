@@ -2,6 +2,8 @@
 
 FROM timbru31/java-node:8-jre
 
+ARG OTP_VERSION=1.4.0
+
 ENV BRANCH=v1.4.0 \
     BRANCH_ALIAS=1.4.0 \
     JAVA_MX=4G
@@ -12,7 +14,8 @@ RUN	apt-get -qq update && \
 RUN mkdir -p /usr/local/share/java
 RUN mkdir -p /var/otp
 
-COPY otp.jar /usr/local/share/java/otp.jar
+RUN curl -o /usr/local/share/java/otp.jar https://repo1.maven.org/maven2/org/opentripplanner/otp/$OTP_VERSION/otp-$OTP_VERSION-shaded.jar
+
 COPY otp.sh /usr/local/bin/
 COPY otp-keystore /var/otp/keystore
 
