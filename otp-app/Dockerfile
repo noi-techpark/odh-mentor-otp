@@ -1,11 +1,8 @@
 FROM node:12-buster-slim
 
-#ARG OTP_UI_BRANCH=master
-#ARG OTP_RR_BRANCH=mentor-meran
-
-ARG API_HOST=https://otp.openmove.com
-ARG	API_PATH=/otp/routers/trento
-ARG	API_PORT=443
+ARG API_HOST=http://otp
+ARG	API_PATH=/otp/routers/default
+ARG	API_PORT=8080
 ARG	BRAND=OpenMove
 ARG	TITLE=OpenMove
 ARG	FOLDER=it
