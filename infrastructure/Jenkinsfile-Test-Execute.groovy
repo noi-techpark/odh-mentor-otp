@@ -17,6 +17,9 @@ pipeline {
 
         OTP_RR_BRANCH = "mentor-meran"
         OTP_UI_BRANCH = "master"
+        API_HOST = "https://otp.opendatahub.testingmachine.eu"
+        API_PORT = "443"
+        API_PATH = "/otp/routers/openmove"
     }
 
     stages {
