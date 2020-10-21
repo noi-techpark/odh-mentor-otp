@@ -8,12 +8,13 @@ pipeline {
         DOCKER_TAG = "test-$BUILD_NUMBER"
 
         SERVER_PORT_OTP = "1014"
+        SERVER_PORT_JOURNEY = "1015"
+
         JAVA_MX = "2G"
         BUILD_GRAPH = "False"
         DOWNLOAD_DATA = "False"
         BACKUP_GRAPH = "False"
 
-        SERVER_PORT_JOURNEY = "1015"
         OTP_RR_BRANCH = "mentor-meran"
         OTP_UI_BRANCH = "master"
     }
@@ -29,7 +30,8 @@ pipeline {
                     echo 'DOCKER_IMAGE_JOURNEY=${DOCKER_IMAGE_JOURNEY}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
 
-                    echo 'SERVER_PORT=${SERVER_PORT}' >> .env
+                    echo 'SERVER_PORT_OTP=${SERVER_PORT_OTP}' >> .env
+                    echo 'SERVER_PORT_JOURNEY=${SERVER_PORT_JOURNEY}' >> .env
 
                     echo 'JAVA_MX=${JAVA_MX}' >> .env
                     echo 'BUILD_GRAPH=${BUILD_GRAPH}' >> .env
