@@ -6,14 +6,14 @@ networks:
 
 services:
 
-  otp-app:
-    container_name: openmove-otp-app
+  journey:
+    container_name: openmove-otp-journey
     ports: ["8070:80"]
     #restart: "always"
-    image: openmove_otp_app:latest
+    image: openmove_otp_journey:latest
     build:
-      context: ./otp-app/
-      dockerfile: ./Dockerfile
+      context: ./
+      dockerfile: infrastructure/docker/journey/Dockerfile
       args:
         OTP_RR_BRANCH: mentor-meran
         OTP_UI_BRANCH: master
@@ -28,7 +28,7 @@ services:
     image: openmove_otp:latest
     build:
       context: ./
-      dockerfile: infrastructure/docker/Dockerfile
+      dockerfile: infrastructure/docker/otp/Dockerfile
     environment:
       - JAVA_MX=2G
       - BUILD_GRAPH=False
@@ -42,7 +42,7 @@ services:
     image: openmove_otp:latest
     build:
       context: ./
-      dockerfile: infrastructure/docker/Dockerfile
+      dockerfile: infrastructure/docker/otp/Dockerfile
     environment:
       - JAVA_MX=8G
       - BUILD_GRAPH=True

@@ -5,9 +5,9 @@ mentor01.opendatahub.testingmachine.eu ansible_ssh_common_args='-o StrictHostKey
 [prod]
 docker02.opendatahub.bz.it ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
-[build]
+[calculate]
 mentor01.opendatahub.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
-[run]
+[execute]
 docker02.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 docker02.opendatahub.bz.it ansible_ssh_common_args='-o StrictHostKeyChecking=no'

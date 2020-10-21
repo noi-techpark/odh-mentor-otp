@@ -1,0 +1,27 @@
+version: "3.4"
+
+services:
+  journey:
+    image: ${DOCKER_IMAGE_JOURNEY}:${DOCKER_TAG}
+    restart: unless-stopped
+    environment:
+      OTP_RR_BRANCH: ${OTP_RR_BRANCH}
+      OTP_UI_BRANCH: ${OTP_UI_BRANCH}
+      API_HOST: http://otp
+      API_PATH: /otp/routers/openmove
+      API_PORT: 8080
+    ports:
+      - ${SERVER_PORT_JOURNEY}:80
+
+  otp:
+    image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
+    restart: unless-stopped
+    environment:
+      JAVA_MX: ${JAVA_MX}
+      BUILD_GRAPH: ${BUILD_GRAPH}
+      DOWNLOAD_DATA: ${DOWNLOAD_DATA}
+      BACKUP_GRAPH: ${BACKUP_GRAPH}
+    volumes:
+      - /opt/odh-mentor-otp/:/data/
+    ports:
+      - ${SERVER_PORT_OTP}:8080

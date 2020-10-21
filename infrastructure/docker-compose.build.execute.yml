@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  journey:
+    image: ${DOCKER_IMAGE_JOURNEY}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/journey/Dockerfile
+
+  otp:
+    image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/otp/Dockerfile

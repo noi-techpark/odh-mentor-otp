@@ -29,8 +29,8 @@ RUN echo "Cloning otp-react-redux..." && \
 RUN cd otp-react-redux && \
 	yarn install
 
-COPY ./config.yml .
-COPY ./envtmpl.js .
+COPY ./otp-app/config.yml .
+COPY ./otp-app/envtmpl.js .
 
 #valorize config ${VAR} vars with env vars
 RUN sh -c 'node envtmpl.js config.yml > /otp-app/otp-react-redux/config.yml'
@@ -40,11 +40,11 @@ RUN cd otp-react-redux && \
 	rm -f /var/www/html/index.nginx-debian.html && \
 	cp -fr dist /var/www/html/
 
-COPY ./style.css /var/www/html/
+COPY ./otp-app/style.css /var/www/html/
 
-COPY ./index.html /var/www/html/
+COPY ./otp-app/index.html /var/www/html/
 
-COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 
 EXPOSE 80
 ENTRYPOINT ["/bin/bash"]
