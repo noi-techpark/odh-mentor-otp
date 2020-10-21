@@ -2,7 +2,7 @@
 #
 if [ "${DOWNLOAD_DATA}" = "True" ]; then
 	#TODO move to file download-data.sh
-	
+
 	srtmurl="http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_03.zip"
 	srtmzip=/data/srtm_39_03.zip
 	srtmfile=/data/srtm_39_03.tif
@@ -16,7 +16,9 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		echo "Unzip altimetric data SRTM..."
 		unzip -qo -d /data $srtmzip -x "*.tfw" "*.hdr" "*.txt"
 		#rm -f $srtmzip
-	fi	
+		#fix srtm data with gdal
+		gdal_edit.py -unsetnodata $srtmfile
+	fi
 
 	if [ -f "/data/${GTFS_FILE}" ]; then
 	#if [ -f "/data/osm.url" ]; then
@@ -31,17 +33,17 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 
 		#TODO manage multiple gtfs zipfiles
 		#
-		echo "Openstreetmap calculation of downloadable urls from gtfs..."		
-		
+		echo "Openstreetmap calculation of downloadable urls from gtfs..."
+
 		node /gtfs2bbox/bboxes.js $unzipdir --overpass > /data/osm.url
 
 		#head -n2 /data/osm.url > /data/osm.url.tmp
 		#cp /data/osm.url.tmp /data/osm.url
 		#for DEBUG speed up the download
-		
+
 		countfiles=$(wc -l < /data/osm.url)
 
-		echo "Openstreetmap downloading... ${countfiles} .osm files in data dir"		
+		echo "Openstreetmap downloading... ${countfiles} .osm files in data dir"
 
 		if [ -s /data/osm.url ]; then
 			#file is not empty
@@ -51,7 +53,7 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 				fileout="/data/${name}.osm"
 				if [ ! -f $fileout ]; then
 					echo "Osm file downloading... $url"
-					
+
 					curl -o "$fileout" "$url"
 
 					sleep 1
@@ -77,15 +79,15 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 	fi
 	#
 	# TODO use scripts in ./gtfs2bbox after dowloaded gtfs data
-	# bbox.js, bboxes.js and fetch-osm-wget.js or 
+	# bbox.js, bboxes.js and fetch-osm-wget.js or
 	# #curl 'https://overpass-api.de/api/map?bbox=10.4233,45.6601,11.9778,46.4908' -o $DIR/trento.OSM
 fi
 
 if [ "${BUILD_GRAPH}" = "True" ]; then
 	#TODO check gtfs data
-	#TODO use build-config.json
-	# https://docs.opentripplanner.org/en/latest/Configuration/
-
+	#TODO useTransfersTxt true if GTFS have it and we want to use it.
+	echo '{"useTransfersTxt": false}' > /data/build-config.json
+	echo '{"updaters":[{"type":"bike-rental","frequencySec":900,"sourceType":"gbfs","url":"http://gbfs:8089/bz/"},{"type":"bike-rental","frequencySec":900,"sourceType":"gbfs","url":"http://gbfs:8089/me/"}]}' > /data/router-config.json
 	echo "Building graph file... /data/Graph.obj"
 
 	#BUILD GRAPH
@@ -96,14 +98,14 @@ if [ "${BUILD_GRAPH}" = "True" ]; then
 	if [ -f /data/Graph.obj ]; then
 
 		#BUILD GRAPH BACKUP
-		
+
 		if [ "${BACKUP_GRAPH}" = "True" ]; then
 			backupfile=$(date +"Graph.obj.%y-%m-%d.tgz")
 			echo "Create new backup... $backupfile"
 			tar -C /data -czf $backupfile Graph.obj
 		fi
 
-		mv -f /data/Graph.obj /data/openmove/Graph.obj 
+		mv -f /data/Graph.obj /data/openmove/Graph.obj
 	else
 		echo "Error to build /data/Graph.obj"
 		exit 1
@@ -113,7 +115,7 @@ if [ "${BUILD_GRAPH}" = "True" ]; then
 	exit 0
 	#TODO shutdown the machine and gen logs
 else
-	otp.sh --graphs /data --router openmove --server --insecure
+	otp.sh --graphs /data --router openmove --server --autoReload
 fi
 
 if [ ! -f /data/openmove/Graph.obj ]; then

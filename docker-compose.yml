@@ -9,22 +9,27 @@ services:
   otp-app:
     container_name: openmove-otp-app
     ports: ["8070:80"]
-    #restart: "always"
     image: openmove_otp_app:latest
     build:
       context: ./otp-app/
       dockerfile: ./Dockerfile
       args:
-        OTP_RR_BRANCH: mentor-meran
-        OTP_UI_BRANCH: master
         API_HOST: http://otp
         API_PATH: /otp/routers/openmove
         API_PORT: 8080
+        BRAND: "Mentor - Alto Adige / Suedtirol"
+        TITLE: "Mentor - Alto Adige / Suedtirol"
+  gbfs:
+    container_name: openmove-gbfs
+    ports: ["8089:8089"]
+    image: openmove_gbfs:latest
+    build:
+      context: ./gbfs/
+      dockerfile: ./Dockerfile
 
   otp:
     container_name: openmove-otp
     ports: ["8080:8080"]
-    #restart: "always"
     image: openmove_otp:latest
     build:
       context: ./
