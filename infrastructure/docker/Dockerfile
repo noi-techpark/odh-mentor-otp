@@ -1,6 +1,4 @@
-#FROM openjdk:8-jre-alpine3.9
-
-FROM timbru31/java-node:8-jre
+FROM node:12.18.2-alpine3.11
 
 ARG OTP_VERSION=1.4.0
 
@@ -8,8 +6,12 @@ ENV BRANCH=v1.4.0 \
     BRANCH_ALIAS=1.4.0 \
     JAVA_MX=4G
 
-RUN	apt-get -qq update && \
-	apt-get -y install unzip bash curl
+RUN apk add --no-cache \
+    openjdk8-jre \
+    unzip \
+    bash \
+    curl \
+    gdal-tools
 
 RUN mkdir -p /usr/local/share/java
 RUN mkdir -p /var/otp

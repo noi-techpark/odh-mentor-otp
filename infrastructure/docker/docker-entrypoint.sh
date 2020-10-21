@@ -16,6 +16,8 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		echo "Unzip altimetric data SRTM..."
 		unzip -qo -d /data $srtmzip -x "*.tfw" "*.hdr" "*.txt"
 		#rm -f $srtmzip
+		#fix srtm data with gdal
+		gdal_edit.py -unsetnodata $srtmfile
 	fi
 
 	if [ -f "/data/${GTFS_FILE}" ]; then
