@@ -20,6 +20,14 @@ services:
         API_PORT: 8080
         BRAND: "Mentor - Alto Adige / Suedtirol"
         TITLE: "Mentor - Alto Adige / Suedtirol"
+  gbfs:
+    container_name: openmove-gbfs
+    ports: ["8089:8089"]
+    #restart: "always"
+    image: openmove_gbfs:latest
+    build:
+      context: ./gbfs/
+      dockerfile: ./Dockerfile
 
   otp:
     container_name: openmove-otp
