@@ -12,7 +12,7 @@ const tmplReg = /\$\{([\w_\-]+)\}/g
 //const tmplReg = /\{ *([\w_\-]+) *\}/g
 
 
-function tmpl(str, data, double) {
+function tmpl(str, data) {
 
 	return str.replace(tmplReg, function (str, key) {
 		var value = data[key];

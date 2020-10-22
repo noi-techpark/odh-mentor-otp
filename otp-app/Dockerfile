@@ -1,6 +1,6 @@
 FROM node:12-buster-slim
 
-ARG API_HOST=http://otp
+ARG API_HOST=http://localhost
 ARG	API_PATH=/otp/routers/default
 ARG	API_PORT=8080
 ARG	BRAND=OpenMove
