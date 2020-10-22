@@ -15,7 +15,7 @@ services:
       context: ./otp-app/
       dockerfile: ./Dockerfile
       args:
-        API_HOST: http://otp
+        API_HOST: http://localhost
         API_PATH: /otp/routers/openmove
         API_PORT: 8080
         BRAND: "Mentor - Alto Adige / Suedtirol"
@@ -56,10 +56,10 @@ services:
     environment:
       - JAVA_MX=8G
       - BUILD_GRAPH=True
-      - DOWNLOAD_DATA=True
+      - DOWNLOAD_DATA=False
       - BACKUP_GRAPH=True
       - GTFS_FILE=200804_ExportGTFS.zip
     volumes:
       - /opt/odh-mentor-otp/:/data/
-      #- ./docker-entrypoint.sh:/docker-entrypoint.sh
+      #- infrastructure/docker/docker-entrypoint.sh:/docker-entrypoint.sh
       #uncomment to test script
