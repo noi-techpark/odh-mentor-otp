@@ -16,6 +16,8 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 		echo "Unzip altimetric data SRTM..."
 		unzip -qo -d /data $srtmzip -x "*.tfw" "*.hdr" "*.txt"
 		#rm -f $srtmzip
+		#fix srtm data with gdal
+		gdal_edit.py -unsetnodata $srtmfile
 	fi
 
 	if [ -f "/data/${GTFS_FILE}" ]; then
@@ -83,9 +85,9 @@ fi
 
 if [ "${BUILD_GRAPH}" = "True" ]; then
 	#TODO check gtfs data
-	#TODO use build-config.json
-	# https://docs.opentripplanner.org/en/latest/Configuration/
-
+	#TODO useTransfersTxt true if GTFS have it and we want to use it.
+	echo '{"useTransfersTxt": false}' > /data/build-config.json
+	echo '{"updaters":[{"type":"bike-rental","frequencySec":900,"sourceType":"gbfs","url":"http://gbfs:8089/bz/"},{"type":"bike-rental","frequencySec":900,"sourceType":"gbfs","url":"http://gbfs:8089/me/"}]}' > /data/router-config.json
 	echo "Building graph file... /data/Graph.obj"
 
 	#BUILD GRAPH

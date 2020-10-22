@@ -44,7 +44,9 @@ cd odh-mentor-otp
 
 ```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
 
-```osm.url``` a pregenerated urls list of downloadable Openstreetmap data Meran area.
+```gbfs``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
+
+```osm.url``` a pregenerated urls list of downloadable Openstreetmap data for SouthTyrol area.
 
 ```gtfs2bbox``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
