@@ -56,7 +56,7 @@ services:
     environment:
       - JAVA_MX=8G
       - BUILD_GRAPH=True
-      - DOWNLOAD_DATA=False
+      - DOWNLOAD_DATA=True
       - BACKUP_GRAPH=True
       - GTFS_FILE=200804_ExportGTFS.zip
       - GBFS_HOST=http://gbfs
