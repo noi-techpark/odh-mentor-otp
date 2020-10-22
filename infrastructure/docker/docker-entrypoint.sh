@@ -87,7 +87,7 @@ if [ "${BUILD_GRAPH}" = "True" ]; then
 	#TODO check gtfs data
 	#TODO useTransfersTxt true if GTFS have it and we want to use it.
 	echo '{"useTransfersTxt": false}' > /data/build-config.json
-	echo '{"updaters":[{"type":"bike-rental","frequencySec":900,"sourceType":"gbfs","url":"http://gbfs:8089/bz/"},{"type":"bike-rental","frequencySec":900,"sourceType":"gbfs","url":"http://gbfs:8089/me/"}]}' > /data/router-config.json
+	echo '{"updaters":[{"type":"bike-rental","frequencySec":900,"sourceType":"gbfs","url":"'${GBFS_HOST}':'${GBFS_PORT}'/bz/"},{"type":"bike-rental","frequencySec":900,"sourceType":"gbfs","url":"'${GBFS_HOST}':'${GBFS_PORT}'/me/"}]}' > /data/router-config.json
 	echo "Building graph file... /data/Graph.obj"
 
 	#BUILD GRAPH

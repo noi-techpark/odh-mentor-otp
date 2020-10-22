@@ -59,6 +59,8 @@ services:
       - DOWNLOAD_DATA=True
       - BACKUP_GRAPH=True
       - GTFS_FILE=200804_ExportGTFS.zip
+      - GBFS_HOST=http://gbfs
+      - GBFS_PORT=8089
     volumes:
       - /opt/odh-mentor-otp/:/data/
       #- ./docker-entrypoint.sh:/docker-entrypoint.sh
