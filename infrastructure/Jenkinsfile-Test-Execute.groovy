@@ -43,10 +43,6 @@ pipeline {
 
                     echo 'OTP_RR_BRANCH=${OTP_RR_BRANCH}' >> .env
                     echo 'OTP_UI_BRANCH=${OTP_UI_BRANCH}' >> .env
-
-                    echo 'API_HOST=${API_HOST}' >> .env
-                    echo 'API_PORT=${API_PORT}' >> .env
-                    echo 'API_PATH=${API_PATH}' >> .env
                 """
             }
         }
