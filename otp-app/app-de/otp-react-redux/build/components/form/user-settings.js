@@ -150,7 +150,7 @@ var UserSettings = /*#__PURE__*/function (_Component) {
           id: 'work',
           type: 'work',
           icon: 'briefcase',
-          name: 'aggiungi',
+          name: "$_add_$",
           blank: true
         });
       }
@@ -162,7 +162,7 @@ var UserSettings = /*#__PURE__*/function (_Component) {
           id: 'home',
           type: 'home',
           icon: 'home',
-          name: 'aggiungi',
+          name: "$_add_$",
           blank: true
         });
       }
@@ -247,17 +247,17 @@ var UserSettings = /*#__PURE__*/function (_Component) {
         className: "remember-settings"
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "section-header"
-      }, "Le mie preferenze"), /*#__PURE__*/_react.default.createElement("small", null, "Ricordare ricerche recenti e luoghi?"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, "$_my_preferences_$"), /*#__PURE__*/_react.default.createElement("small", null, "$_save_researches_$"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         onClick: this._enableTracking,
         className: trackRecent ? 'active' : '',
         bsSize: "xsmall",
         bsStyle: "link"
-      }, "Sì"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, "$_yes_$"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         onClick: this._disableTracking,
         className: !trackRecent ? 'active' : '',
         bsSize: "xsmall",
         bsStyle: "link"
-      }, "No")), storageDisclaimer && /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement("div", {
+      }, "$_no_$")), storageDisclaimer && /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement("div", {
         className: "disclaimer"
       }, storageDisclaimer)));
     }
@@ -385,7 +385,7 @@ var Place = /*#__PURE__*/function (_Component2) {
           width: "".concat(BUTTON_WIDTH, "px")
         },
         bsStyle: "link"
-      }, "Clear"));
+      }, "$_clear_$"));
     }
   }]);
 
@@ -460,7 +460,7 @@ var RecentSearch = /*#__PURE__*/function (_Component3) {
           width: "".concat(BUTTON_WIDTH, "px")
         },
         bsStyle: "link"
-      }, "Clear"));
+      }, "$_clear_$"));
     }
   }]);
 

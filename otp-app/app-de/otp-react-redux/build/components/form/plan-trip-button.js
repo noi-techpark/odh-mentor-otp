@@ -105,7 +105,7 @@ var PlanTripButton = /*#__PURE__*/function (_Component) {
         className: "plan-trip-button",
         disabled: disabled,
         onClick: this._onClick
-      }, text || 'Pianifica Viaggio');
+      }, text || "$_plan_trip_$");
     }
   }]);
 

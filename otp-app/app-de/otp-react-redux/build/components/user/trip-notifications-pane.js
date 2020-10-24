@@ -124,12 +124,12 @@ var TripNotificationsPane = /*#__PURE__*/function (_Component) {
         name: "isActive",
         onChange: this._handleIsActiveChange,
         value: true
-      }, "Sì"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Radio, {
+      }, "$_yes_$"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Radio, {
         checked: !monitoredTrip.isActive,
         name: "isActive",
         onChange: this._handleIsActiveChange,
         value: false
-      }, "No"), /*#__PURE__*/_react.default.createElement(SmallInfoText, null, "Note: you will be notified by [email|SMS]. This can be changed in your account settings once the trip has been saved.")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.ControlLabel, null, "When would you like to receive notifications about delays or disruptions to your trip?"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.ControlLabel, null, "Check for delays or disruptions:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+      }, "$_no_$"), /*#__PURE__*/_react.default.createElement(SmallInfoText, null, "Note: you will be notified by [email|SMS]. This can be changed in your account settings once the trip has been saved.")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.ControlLabel, null, "When would you like to receive notifications about delays or disruptions to your trip?"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.ControlLabel, null, "Check for delays or disruptions:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         componentClass: "select",
         onChange: this._handleLeadTimeChange,
         placeholder: "select",

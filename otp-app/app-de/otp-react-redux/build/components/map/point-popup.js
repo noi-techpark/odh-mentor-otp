@@ -48,7 +48,7 @@ var PopupTitle = _styledComponents.default.div(_templateObject2());
 function MapPopup(_ref) {
   var mapPopupLocation = _ref.mapPopupLocation,
       onSetLocationFromPopup = _ref.onSetLocationFromPopup;
-  return /*#__PURE__*/_react.default.createElement(PopupContainer, null, /*#__PURE__*/_react.default.createElement(PopupTitle, null, mapPopupLocation.name.split(',').length > 3 ? mapPopupLocation.name.split(',').splice(0, 3).join(',') : mapPopupLocation.name), /*#__PURE__*/_react.default.createElement("div", null, "Viaggia:", /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
+  return /*#__PURE__*/_react.default.createElement(PopupContainer, null, /*#__PURE__*/_react.default.createElement(PopupTitle, null, mapPopupLocation.name.split(',').length > 3 ? mapPopupLocation.name.split(',').splice(0, 3).join(',') : mapPopupLocation.name), /*#__PURE__*/_react.default.createElement("div", null, "$_travel_$:", /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
     location: mapPopupLocation,
     setLocation: onSetLocationFromPopup
   })));

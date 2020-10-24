@@ -320,7 +320,7 @@ var StopViewer = /*#__PURE__*/function (_Component) {
         onClick: _this._toggleScheduleView
       }, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: scheduleView ? 'clock-o' : 'calendar'
-      }), ' ', "Vedi ", scheduleView ? 'prossimi arrivi' : 'pianificazione')), /*#__PURE__*/_react.default.createElement("b", null, "Viaggia:"), /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
+      }), ' ', "Vedi ", scheduleView ? 'prossimi arrivi' : 'pianificazione')), /*#__PURE__*/_react.default.createElement("b", null, "$_travel_$:"), /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
         onFromClick: _this._onClickPlanFrom,
         onToClick: _this._onClickPlanTo
       }), scheduleView && /*#__PURE__*/_react.default.createElement("input", {

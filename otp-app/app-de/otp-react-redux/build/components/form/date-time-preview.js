@@ -103,7 +103,7 @@ var DateTimePreview = /*#__PURE__*/function (_Component) {
       var formattedTime = _moment.default.utc(time, OTP_API_TIME_FORMAT).format(timeFormat);
 
       if (routingType === 'ITINERARY') {
-        if (departArrive === 'NOW') timeStr = 'Adesso';else if (departArrive === 'ARRIVE') timeStr = 'Arrivo ' + formattedTime;else if (departArrive === 'DEPART') timeStr = 'Partenza ' + formattedTime;
+        if (departArrive === 'NOW') timeStr = "$_now_$";else if (departArrive === 'ARRIVE') timeStr = 'Arrivo ' + formattedTime;else if (departArrive === 'DEPART') timeStr = 'Partenza ' + formattedTime;
       } else if (routingType === 'PROFILE') {
         timeStr = startTime + ' a ' + endTime;
       }

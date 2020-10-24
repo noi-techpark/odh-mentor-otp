@@ -143,7 +143,7 @@ exports.StyledSubmodeSelector = StyledSubmodeSelector;
 var departureOptions = [{
   // Default option.
   value: 'NOW',
-  children: 'Adesso'
+  children: "$_now_$"
 }, {
   value: 'DEPART',
   children: 'Partenza alle'
