@@ -15,11 +15,9 @@ services:
       context: ./otp-app/
       dockerfile: ./Dockerfile
       args:
-        API_HOST: http://otp
+        API_HOST: http://localhost
         API_PATH: /otp/routers/openmove
         API_PORT: 8080
-        BRAND: "Mentor - Alto Adige / Suedtirol"
-        TITLE: "Mentor - Alto Adige / Suedtirol"
   gbfs:
     container_name: openmove-gbfs
     ports: ["8089:8089"]
@@ -40,10 +38,10 @@ services:
       args:
         OTP_VERSION: 1.4.0
     environment:
-      - JAVA_MX=2G
+      - JAVA_MX=4G
       - BUILD_GRAPH=False
     volumes:
-      - /opt/odh-mentor-otp/:/data/
+      - ./data/:/data/
 
   build:
     container_name: openmove-build
@@ -56,12 +54,13 @@ services:
     environment:
       - JAVA_MX=8G
       - BUILD_GRAPH=True
-      - DOWNLOAD_DATA=True
-      - BACKUP_GRAPH=True
+      - DOWNLOAD_DATA=False
+      - BACKUP_GRAPH=False
       - GTFS_FILE=200804_ExportGTFS.zip
+      - UPDATERS=False
       - GBFS_HOST=http://gbfs
       - GBFS_PORT=8089
     volumes:
-      - /opt/odh-mentor-otp/:/data/
+      - ./data/:/data/
       #- ./docker-entrypoint.sh:/docker-entrypoint.sh
       #uncomment to test script

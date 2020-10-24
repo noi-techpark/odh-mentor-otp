@@ -23,7 +23,7 @@ export function currentPositionToLocation(currentPosition) {
   return {
     lat: currentPosition.coords.latitude,
     lon: currentPosition.coords.longitude,
-    name: "(Current Location)",
+    name: "(Posizione Corrente)",
     category: "CURRENT_LOCATION"
   };
 }
@@ -55,7 +55,7 @@ export function getDetailText(location) {
 
 export function formatStoredPlaceName(location, withDetails = true) {
     var displayName = location.type === "home" || location.type === "work" ? (0, _itinerary.toSentenceCase)(location.type) : location.name;
-    displayName = location.type === "home" ? "Casa" : "Lavoro";
+    displayName = location.type === "home" ? "Casa" : (location.type === "work" ? "Lavoro": location.name);
   if (withDetails) {
     const detailText = getDetailText(location);
     if (detailText) displayName += ` (${detailText})`;

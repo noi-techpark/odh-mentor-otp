@@ -1,17 +1,17 @@
 # react-router config, for URL routing (not to be confused with multimodal/OTP routing)
-reactRouter:
-  # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
-  basename: ${FOLDER}
+# reactRouter:
+#   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
+#   basename: ${FOLDER}
 
-branding: ${BRAND}
+branding: OpenMove
 homeTimezone: Europe/Rome
-title: ${TITLE}
+title: OpenMove
 
 # Default OTP API
 api:
-  host: ${API_HOST}
-  path: ${API_PATH}
-  port: ${API_PORT}
+  host: http://localhost
+  path: /otp/routers/openmove
+  port: 8080
 # Alternate TransitIndex API
 # alternateTransitIndex:
 #  apiRoot: https://newplanner.trimet.org/ws/ti/v0/
@@ -71,8 +71,8 @@ map:
     - type: DEFAULT
       text: Mappa
     # Delete/uncomment the following block to disable the stylized map
-    #- type: STYLIZED
-    #  text: Network View
+    # - type: STYLIZED
+    #   text: Network View
 
   # Default map center
   initLat: 46.072506
@@ -128,28 +128,28 @@ map:
     #   name: Zipcar Locations
     #   api: https://newplanner.trimet.org/ws/carshare/zipcar/data.json
     #
-    # - type: bike-rental
-    #   name: BIKETOWN Locations
-    #   modes:
-    #     - BICYCLE_RENT
-    #   mapSymbols:
-    #     - maxZoom: 12
-    #       minZoom: 0
-    #       type: circle
-    #       pixels: 3
-    #       fillColor: "#FF2E28"
-    #       dockStrokeColor: "#000000"
-    #     - maxZoom: 15
-    #       minZoom: 13
-    #       type: circle
-    #       pixels: 5
-    #       fillColor: "#FF2E28"
-    #       dockStrokeColor: "#000000"
-    #     - maxZoom: 20
-    #       minZoom: 16
-    #       fillColor: "#FF2E28"
-    #       dockStrokeColor: "#000000"
-    #       type: hubAndFloatingBike
+    - type: bike-rental
+      name: Bike Stations
+      modes:
+        - BICYCLE_RENT
+      mapSymbols:
+        - maxZoom: 12
+          minZoom: 0
+          type: circle
+          pixels: 3
+          fillColor: "#FF2E28"
+          dockStrokeColor: "#000000"
+        - maxZoom: 15
+          minZoom: 13
+          type: circle
+          pixels: 5
+          fillColor: "#FF2E28"
+          dockStrokeColor: "#000000"
+        - maxZoom: 20
+          minZoom: 16
+          fillColor: "#FF2E28"
+          dockStrokeColor: "#000000"
+          type: circle
     #
     # - type: micromobility-rental
     #   name: Bird E-scooter Locations
@@ -293,7 +293,7 @@ modes:
       label: Bike & Ride
     - mode: BICYCLE_RENT
       label: Bikesharing & Ride
-    #  company: Bikesharing
+      company: Bikesharing
     # - mode: MICROMOBILITY_RENT
     #   label: Transit + E-scooter
     - mode: CAR_PARK
@@ -323,10 +323,10 @@ modes:
 # provide rental vehicles or transportation network companies. Companies that
 # have multiple modes of transport should have all modes listed as a string with
 # commas. For example: BICYCLE_RENT,MICROMOBILITY_RENT.
-# companies:
-#   - id: BIKETOWN
-#     label: BIKETOWN
-#     modes: BICYCLE_RENT
+  companies:
+    - id: Bikesharing
+      label: Bikesharing Alto Adige
+      modes: BICYCLE_RENT
 #   - id: UBER
 #     label: Uber
 #     modes: CAR_HAIL

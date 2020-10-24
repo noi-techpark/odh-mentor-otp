@@ -3,9 +3,9 @@ reactRouter:
   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
   basename: ${FOLDER}
 
-branding: ${BRAND}
+branding: Mentor - Alto Adige/Suedtirol
 homeTimezone: Europe/Rome
-title: ${TITLE}
+title: Mentor - Alto Adige/Suedtirol
 
 # Default OTP API
 api:
@@ -75,8 +75,8 @@ map:
     #  text: Network View
 
   # Default map center
-  initLat: 46.072506
-  initLon: 11.120124
+  initLat: 46.670953
+  initLon: 11.155007
 
   # closer-in zoom levels don't have any tiles that could be rendered by
   # TriMet's tile service
@@ -128,28 +128,22 @@ map:
     #   name: Zipcar Locations
     #   api: https://newplanner.trimet.org/ws/carshare/zipcar/data.json
     #
-    # - type: bike-rental
-    #   name: BIKETOWN Locations
-    #   modes:
-    #     - BICYCLE_RENT
-    #   mapSymbols:
-    #     - maxZoom: 12
-    #       minZoom: 0
-    #       type: circle
-    #       pixels: 3
-    #       fillColor: "#FF2E28"
-    #       dockStrokeColor: "#000000"
-    #     - maxZoom: 15
-    #       minZoom: 13
-    #       type: circle
-    #       pixels: 5
-    #       fillColor: "#FF2E28"
-    #       dockStrokeColor: "#000000"
-    #     - maxZoom: 20
-    #       minZoom: 16
-    #       fillColor: "#FF2E28"
-    #       dockStrokeColor: "#000000"
-    #       type: hubAndFloatingBike
+    - type: bike-rental
+      name: Bikesharing
+      modes:
+        - BICYCLE_RENT
+      mapSymbols:
+        - maxZoom: 15
+          minZoom: 13
+          type: circle
+          pixels: 5
+          fillColor: "#FF2E28"
+          dockStrokeColor: "#000000"
+        - maxZoom: 20
+          minZoom: 16
+          fillColor: "#FF2E28"
+          dockStrokeColor: "#000000"
+          type: circle
     #
     # - type: micromobility-rental
     #   name: Bird E-scooter Locations
@@ -293,7 +287,7 @@ modes:
       label: Bike & Ride
     - mode: BICYCLE_RENT
       label: Bikesharing & Ride
-    #  company: Bikesharing
+      company: Bikesharing
     # - mode: MICROMOBILITY_RENT
     #   label: Transit + E-scooter
     - mode: CAR_PARK
@@ -323,10 +317,10 @@ modes:
 # provide rental vehicles or transportation network companies. Companies that
 # have multiple modes of transport should have all modes listed as a string with
 # commas. For example: BICYCLE_RENT,MICROMOBILITY_RENT.
-# companies:
-#   - id: BIKETOWN
-#     label: BIKETOWN
-#     modes: BICYCLE_RENT
+companies:
+  - id: Bikesharing
+    label: Bikesharing
+    modes: BICYCLE_RENT
 #   - id: UBER
 #     label: Uber
 #     modes: CAR_HAIL

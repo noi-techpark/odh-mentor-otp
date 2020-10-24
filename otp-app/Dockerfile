@@ -3,15 +3,11 @@ FROM node:12-buster-slim
 ARG API_HOST=http://otp
 ARG	API_PATH=/otp/routers/default
 ARG	API_PORT=8080
-ARG	BRAND=OpenMove
-ARG	TITLE=OpenMove
 ARG	FOLDER=it
 
 ENV API_HOST=$API_HOST \
 	API_PATH=$API_PATH \
 	API_PORT=$API_PORT \
-	BRAND=$BRAND \
-	TITLE=$TITLE \
 	FOLDER=$FOLDER
 
 RUN	apt-get -qq update && \

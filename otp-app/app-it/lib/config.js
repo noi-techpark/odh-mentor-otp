@@ -35,10 +35,10 @@ export function configure (otpConfig) {
         Prima di partire controlla gli arrivi in tempo reale alla fermata e gli avvisi sul servizio che possono influire sul tuo viaggio.
         Tempi e percorsi sono solo a scopo di pianificazione e possono subire variazioni a causa del traffico, la condizione della strada, deviazioni e altri fattori.
         <div className='link-row'>
-          <a href='https://trimet.org/legal/index.htm' target='_blank'>
+          <a href='https://openmove.com' target='_blank'>
             Termini d'uso
           </a> •{' '}
-          <a href='https://trimet.org/legal/privacy.htm' target='_blank'>
+          <a href='https://openmove.com' target='_blank'>
             Privacy Policy
           </a>
         </div>
