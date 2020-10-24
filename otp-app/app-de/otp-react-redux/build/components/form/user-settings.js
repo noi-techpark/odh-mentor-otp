@@ -206,7 +206,7 @@ var UserSettings = /*#__PURE__*/function (_Component) {
         }, _this2.props));
       })), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement("div", {
         className: "section-header"
-      }, "Fermate preferite"), /*#__PURE__*/_react.default.createElement("ul", {
+      }, "$_favorite_stops_$"), /*#__PURE__*/_react.default.createElement("ul", {
         style: {
           padding: 0
         }

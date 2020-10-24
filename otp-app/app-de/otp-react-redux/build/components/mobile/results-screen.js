@@ -298,7 +298,7 @@ var MobileResultsScreen = /*#__PURE__*/function (_Component) {
       }
 
       return /*#__PURE__*/_react.default.createElement(_container.default, null, /*#__PURE__*/_react.default.createElement(_navigationBar.default, {
-        headerText: resultCount ? "Trovate ".concat(resultCount, " Opzion").concat(resultCount > 1 ? 'i' : 'e') : 'Attendi...',
+        headerText: resultCount ? "$_found_$ ".concat(resultCount, " ").concat(resultCount > 1 ? "$_options_$" : "$_option_$") : "$_wait_$...",
         headerAction: headerAction
       }), locationsSummary, /*#__PURE__*/_react.default.createElement("div", {
         className: "results-map"
@@ -309,7 +309,7 @@ var MobileResultsScreen = /*#__PURE__*/function (_Component) {
           top: expanded ? 100 : null
         },
         onClick: this._optionClicked
-      }, "Opzione ", activeItineraryIndex + 1, /*#__PURE__*/_react.default.createElement("i", {
+      }, "$_option_$ ", activeItineraryIndex + 1, /*#__PURE__*/_react.default.createElement("i", {
         className: "fa fa-caret-".concat(expanded ? 'down' : 'up'),
         style: {
           marginLeft: 8

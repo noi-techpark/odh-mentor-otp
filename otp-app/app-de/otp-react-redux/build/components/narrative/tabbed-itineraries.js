@@ -260,9 +260,9 @@ var TabButton = /*#__PURE__*/function (_Component2) {
         onClick: this._onClick
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "title"
-      }, /*#__PURE__*/_react.default.createElement("span", null, "Opzione ", index + 1)), /*#__PURE__*/_react.default.createElement("div", {
+      }, /*#__PURE__*/_react.default.createElement("span", null, "$_option_$ ", index + 1)), /*#__PURE__*/_react.default.createElement("div", {
         className: "details"
-    }, formatDuration(itinerary.duration), /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("br", null), formatTime(itinerary.startTime, timeOptions), " - ", formatTime(itinerary.endTime, timeOptions)), /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("br", null), minTotalFare ? /*#__PURE__*/_react.default.createElement("span", null, "".concat(centsToString(minTotalFare)).concat(plus), " \u2022 ") : '', Math.round(caloriesBurned), " Cal"), itinerary.transfers > 0 && /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("br", null), itinerary.transfers, " cambi", itinerary.transfers > 1 ? '' : 'o')));
+    }, formatDuration(itinerary.duration), /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("br", null), formatTime(itinerary.startTime, timeOptions), " - ", formatTime(itinerary.endTime, timeOptions)), /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("br", null), minTotalFare ? /*#__PURE__*/_react.default.createElement("span", null, "".concat(centsToString(minTotalFare)).concat(plus), " \u2022 ") : '', Math.round(caloriesBurned), " Cal"), itinerary.transfers > 0 && /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("br", null), itinerary.transfers, " ", itinerary.transfers > 1 ? "$_transfers_$" : "$_transfer_$")));
     }
   }]);
 
