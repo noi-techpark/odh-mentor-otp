@@ -73,7 +73,7 @@ these arguments are used to build the **otp** service image downloading Opentrip
 these arguments are used to build the **otp-app** service image which is the modern interface for OTP.
 they refer to the hostname where the **otp** service is located
 
-```API_HOST``` deployed hostname of otp api default: ```http://otp``` (name of internal service otp)
+```API_HOST``` deployed hostname of otp api default: ```http://localhost``` (name of deployed)
 
 ```API_PATH``` aboslute url path ```/otp/routers/openmove```
 
