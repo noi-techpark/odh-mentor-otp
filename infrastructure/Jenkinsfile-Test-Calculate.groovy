@@ -8,7 +8,7 @@ pipeline {
 
         JAVA_MX = "8G"
         BUILD_GRAPH = "True"
-        DOWNLOAD_DATA = "True"
+        DOWNLOAD_DATA = "False"
         BACKUP_GRAPH = "True"
         GTFS_FILE = "200804_ExportGTFS.zip"
     }
