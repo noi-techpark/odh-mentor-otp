@@ -1,2 +1,0 @@
-# ensure that branch-specific package.json does not change on merge
-package.json merge=ours

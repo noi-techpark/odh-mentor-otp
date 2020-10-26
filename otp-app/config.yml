@@ -1,7 +1,7 @@
 # react-router config, for URL routing (not to be confused with multimodal/OTP routing)
-reactRouter:
-  # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
-  basename: ${FOLDER}
+# reactRouter:
+#   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
+#   basename: ${FOLDER}
 
 branding: Mentor - Alto Adige/Suedtirol
 homeTimezone: Europe/Rome
@@ -251,7 +251,7 @@ map:
     #     - CAR_PARK
 
     - type: stops
-      name: Fermate
+      name: $_stops_$
       visible: true
 
 
@@ -272,11 +272,11 @@ map:
 modes:
   transitModes:
     - mode: BUS
-      label: Bus
+      label: $_bus_$
     # - mode: TRAM
     #   label: MAX & Streetcar
     - mode: RAIL
-      label: Treno
+      label: $_train_$
 
     # - mode: GONDOLA
     #   label: Funivia
@@ -307,7 +307,7 @@ modes:
 
   bicycleModes:
     - mode: BICYCLE
-      label: Bici personale
+      label: $_my_bike_$
       iconWidth: 18
     - mode: BICYCLE_RENT
       label: Bikesharing
@@ -318,9 +318,9 @@ modes:
 # have multiple modes of transport should have all modes listed as a string with
 # commas. For example: BICYCLE_RENT,MICROMOBILITY_RENT.
 companies:
-  - id: Bikesharing
-    label: Bikesharing
-    modes: BICYCLE_RENT
+    - id: Bikesharing
+      label: Bikesharing Alto Adige
+      modes: BICYCLE_RENT
 #   - id: UBER
 #     label: Uber
 #     modes: CAR_HAIL
@@ -354,11 +354,11 @@ reportIssue:
 #     globalSiteTag: UA-133677388-1
 
 language:
-  storageDisclaimer: Ogni preferenza, luogo o impostazione che hai deciso di salvare sarà salvato nello storage locale del tuo browser. Nessun esterno sarà a conoscenza della posizione della tua casa, il tuo lavoro, o altri luoghi. In ogni momento puoi decidere di interrompere il salvataggio dei dati e rimuoverli.
-  routeViewer: Visualizza Linee
-  routeViewerDetails: Seleziona una linea da mostrare su mappa e vedere più informazioni su questa linea.
-  tripViewer: Vedi Corsa
-  stopViewer: Vedi Fermata
+    storageDisclaimer: $_storage_disclaimer_$
+    routeViewer: $_route_viewer_$
+    routeViewerDetails: $_route_view_details_$
+    tripViewer: $_trip_$
+    stopViewer: $_stop_$
 
 dateTime:
   timeFormat: HH:mm
