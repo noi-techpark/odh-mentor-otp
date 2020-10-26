@@ -16,9 +16,12 @@
         return languages["default_lang"];
     };
     window.onload = function(){
+
     var mutationObserver = new MutationObserver(function(mutations) {
         mutationObserver.disconnect();
         myfunction();
+
+
         mutationObserver.observe(document.documentElement, {
           //attributes: true,
           // characterData: true,
@@ -33,17 +36,12 @@
         childList: true,
         subtree: true,
       });
-
-      var mut = new MutationObserver(function(mutations){
-        myfunction();
-      });
-      mut.observe(document.querySelector("div.store-settings button"),{
-        'attributes': true
-      });
-
       myfunction();
     };
-
+    var mut = new MutationObserver(function(mutations){
+        console.log("mut");
+        myfunction();
+    });
     var myfunction = function(){
         console.log("change");
         for (const [key, value] of Object.entries(languages)) {
@@ -59,8 +57,16 @@
             });
             $("button").each(function() {
                 if($(this).attr("title"))
-              $(this).attr("title", $(this).attr("title").replaceAll("$_"+key+"_$", value));
+                $(this).attr("title", $(this).attr("title").replaceAll("$_"+key+"_$", value));
             });
+        }
+        try{
+            mut.observe(document.querySelector("div.store-settings button"),{
+              'attributes': true,
+              'subtree': true,
+            });
+        }catch(e){
+            console.log(e);
         }
     }
     </script>
