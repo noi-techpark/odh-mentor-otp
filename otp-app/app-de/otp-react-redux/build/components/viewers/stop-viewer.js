@@ -281,7 +281,7 @@ var StopViewer = /*#__PURE__*/function (_Component) {
         onClick: _this._backClicked
       }, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: "arrow-left"
-      }), "Indietro")), /*#__PURE__*/_react.default.createElement("div", {
+      }), "$_back_$")), /*#__PURE__*/_react.default.createElement("div", {
         className: "header-text"
       }, stopData ? /*#__PURE__*/_react.default.createElement("span", null, stopData.name) : /*#__PURE__*/_react.default.createElement("span", null, "Loading Stop..."), showUserSettings ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         onClick: _this._toggleFavorite,
@@ -320,7 +320,7 @@ var StopViewer = /*#__PURE__*/function (_Component) {
         onClick: _this._toggleScheduleView
       }, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: scheduleView ? 'clock-o' : 'calendar'
-      }), ' ', "Vedi ", scheduleView ? 'prossimi arrivi' : 'pianificazione')), /*#__PURE__*/_react.default.createElement("b", null, "$_travel_$:"), /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
+      }), ' ', " $_show_$ ", scheduleView ? "$_next_$" : "$_schedule_$")), /*#__PURE__*/_react.default.createElement("b", null, "$_travel_$:"), /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
         onFromClick: _this._onClickPlanFrom,
         onToClick: _this._onClickPlanTo
       }), scheduleView && /*#__PURE__*/_react.default.createElement("input", {
@@ -441,7 +441,7 @@ var StopViewer = /*#__PURE__*/function (_Component) {
         type: "checkbox",
         checked: this.props.autoRefreshStopTimes,
         onChange: this._onToggleAutoRefresh
-      }), ' ', "Auto-aggiorna arrivi?"), /*#__PURE__*/_react.default.createElement("button", {
+      }), ' ', "$_refresh_arrival_$"), /*#__PURE__*/_react.default.createElement("button", {
         className: "link-button pull-right",
         style: {
           fontSize: 'small'

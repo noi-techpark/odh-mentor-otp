@@ -36,7 +36,7 @@ class BatchRoutingPanel extends Component {
       mobile,
       showUserSettings
     } = this.props
-    const actionText = mobile ? 'tappa' : 'clicca'
+    const actionText = mobile ? "$_tap_$" : "$_click_$"
     return (
       <ViewerContainer>
         <LocationField

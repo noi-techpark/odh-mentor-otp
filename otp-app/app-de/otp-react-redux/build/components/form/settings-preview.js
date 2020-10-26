@@ -140,7 +140,7 @@ _defineProperty(SettingsPreview, "defaultProps", {
     className: "fa fa-pencil"
   }),
   messages: {
-    label: 'Impostazioni\n& Preferenze'
+    label: "$_settings_$"
   }
 });
 

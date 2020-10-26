@@ -116,7 +116,7 @@ var PatternRow = /*#__PURE__*/function (_Component) {
         className: "header"
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "route-name"
-      }, /*#__PURE__*/_react.default.createElement("b", null, routeName), " Per ", pattern.headsign), hasStopTimes && /*#__PURE__*/_react.default.createElement("div", {
+      }, /*#__PURE__*/_react.default.createElement("b", null, routeName), " $_direction_$ ", pattern.headsign), hasStopTimes && /*#__PURE__*/_react.default.createElement("div", {
         className: "next-trip-preview"
       }, (0, _viewer.getFormattedStopTime)(sortedStopTimes[0], homeTimezone, stopViewerArriving, timeFormat)), /*#__PURE__*/_react.default.createElement("div", {
         className: "expansion-button-container"
@@ -140,9 +140,9 @@ var PatternRow = /*#__PURE__*/function (_Component) {
         className: "cell"
       }), /*#__PURE__*/_react.default.createElement("div", {
         className: "cell time-column"
-      }, "PARTENZA"), /*#__PURE__*/_react.default.createElement("div", {
+      }, "$_departure_cap_$"), /*#__PURE__*/_react.default.createElement("div", {
         className: "cell status-column"
-      }, "STATO")), hasStopTimes && sortedStopTimes.map(function (stopTime, i) {
+      }, "$_status_cap_$")), hasStopTimes && sortedStopTimes.map(function (stopTime, i) {
         return /*#__PURE__*/_react.default.createElement("div", {
           className: "trip-row",
           style: {
@@ -153,7 +153,7 @@ var PatternRow = /*#__PURE__*/function (_Component) {
           key: i
         }, /*#__PURE__*/_react.default.createElement("div", {
           className: "cell"
-        }, "Per ", stopTime.headsign), /*#__PURE__*/_react.default.createElement("div", {
+        }, "$_direction_$ ", stopTime.headsign), /*#__PURE__*/_react.default.createElement("div", {
           className: "cell time-column"
         }, (0, _viewer.getFormattedStopTime)(stopTime, homeTimezone, stopViewerArriving, timeFormat)), /*#__PURE__*/_react.default.createElement("div", {
           className: "cell status-column"
@@ -162,7 +162,7 @@ var PatternRow = /*#__PURE__*/function (_Component) {
           style: {
             backgroundColor: '#bbb'
           }
-        }, "Pianificato")));
+        }, "$_scheduled_$")));
       })))));
     });
 
@@ -199,7 +199,7 @@ var PatternRow = /*#__PURE__*/function (_Component) {
         className: "header"
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "route-name"
-      }, /*#__PURE__*/_react.default.createElement("b", null, routeName), " Per ", pattern.headsign)), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+      }, /*#__PURE__*/_react.default.createElement("b", null, routeName), " $_direction_$ ", pattern.headsign)), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
         className: "trip-table"
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "header"
@@ -207,9 +207,9 @@ var PatternRow = /*#__PURE__*/function (_Component) {
         className: "cell"
       }), /*#__PURE__*/_react.default.createElement("div", {
         className: "cell"
-      }, "MEZZO"), /*#__PURE__*/_react.default.createElement("div", {
+      }, "$_mean_cap_$"), /*#__PURE__*/_react.default.createElement("div", {
         className: "cell time-column"
-      }, "PARTENZA")), hasStopTimes && sortedStopTimes.map(function (stopTime, i) {
+      }, "$_departure_cap_$")), hasStopTimes && sortedStopTimes.map(function (stopTime, i) {
         // Get formatted scheduled departure time.
         var time = (0, _viewer.getFormattedStopTime)(stopTime, homeTimezone, stopViewerArriving, timeFormat, true);
         return /*#__PURE__*/_react.default.createElement("div", {
@@ -222,7 +222,7 @@ var PatternRow = /*#__PURE__*/function (_Component) {
           key: i
         }, /*#__PURE__*/_react.default.createElement("div", {
           className: "cell"
-        }, "Per ", stopTime.headsign), /*#__PURE__*/_react.default.createElement("div", {
+        }, "$_direction_$ ", stopTime.headsign), /*#__PURE__*/_react.default.createElement("div", {
           className: "cell",
           style: {
             textAlign: 'center'

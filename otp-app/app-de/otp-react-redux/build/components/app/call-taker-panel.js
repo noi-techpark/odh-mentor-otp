@@ -344,7 +344,7 @@ var CallTakerPanel = /*#__PURE__*/function (_Component) {
           mode = currentQuery.mode,
           time = currentQuery.time,
           to = currentQuery.to;
-      var actionText = mobile ? 'tappa' : 'clicca';
+      var actionText = mobile ? "$_tap_$" : "$_click_$";
       var expandAdvanced = this.state.expandAdvanced;
       var advancedSearchStyle = {
         zIndex: 99999,
@@ -373,7 +373,7 @@ var CallTakerPanel = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "form"
       }, /*#__PURE__*/_react.default.createElement(_connectedLocationField.default, {
-        inputPlaceholder: "Inserisci partenza o ".concat(actionText, " su mappa..."),
+        inputPlaceholder: "$_insert_departure_$ ".concat(actionText, " $_on_map_$..."),
         locationType: "from",
         showClearButton: true
       }), Array.isArray(intermediatePlaces) && intermediatePlaces.map(function (place, i) {
@@ -392,7 +392,7 @@ var CallTakerPanel = /*#__PURE__*/function (_Component) {
           showClearButton: !mobile
         });
       }), /*#__PURE__*/_react.default.createElement(_connectedLocationField.default, {
-        inputPlaceholder: "Inserisci destinazione o ".concat(actionText, " su mappa..."),
+        inputPlaceholder: "$_insert_arrive_$ ".concat(actionText, " $_on_map_$..."),
         locationType: "to",
         showClearButton: !mobile
       }), /*#__PURE__*/_react.default.createElement("div", {

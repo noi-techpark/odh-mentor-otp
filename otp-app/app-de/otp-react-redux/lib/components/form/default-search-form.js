@@ -26,7 +26,7 @@ export default class DefaultSearchForm extends Component {
 
   render () {
     const { mobile, ModeIcon } = this.props
-    const actionText = mobile ? 'tappa' : 'clicca'
+    const actionText = mobile ? "$_tap_$" : "$_click_$"
 
     return (
       <div>

@@ -129,7 +129,7 @@ var TripViewer = /*#__PURE__*/function (_Component) {
         onClick: this._backClicked
       }, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: "arrow-left"
-      }), "Indietro")), /*#__PURE__*/_react.default.createElement("div", {
+      }), "$_back_$")), /*#__PURE__*/_react.default.createElement("div", {
         className: "header-text"
       }, languageConfig.tripViewer || 'Trip Viewer'), /*#__PURE__*/_react.default.createElement("div", {
         style: {
@@ -141,11 +141,11 @@ var TripViewer = /*#__PURE__*/function (_Component) {
         bsStyle: "primary"
       }, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: "wheelchair-alt"
-      }), " Accessibile"), ' ', tripData.bikesAllowed === 1 && /*#__PURE__*/_react.default.createElement(_reactBootstrap.Label, {
+      }), " $_available_$"), ' ', tripData.bikesAllowed === 1 && /*#__PURE__*/_react.default.createElement(_reactBootstrap.Label, {
         bsStyle: "success"
       }, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: "bicycle"
-      }), " Permessa"))), tripData && tripData.stops && tripData.stopTimes && tripData.stops.map(function (stop, i) {
+      }), " $_allowed_$"))), tripData && tripData.stops && tripData.stopTimes && tripData.stops.map(function (stop, i) {
         // determine whether to use special styling for first/last stop
         var stripMapLineClass = 'strip-map-line';
         if (i === 0) stripMapLineClass = 'strip-map-line-first';else if (i === tripData.stops.length - 1) stripMapLineClass = 'strip-map-line-last'; // determine whether to show highlight in strip map
@@ -170,7 +170,7 @@ var TripViewer = /*#__PURE__*/function (_Component) {
           className: "stop-button-container"
         }, /*#__PURE__*/_react.default.createElement(_viewStopButton.default, {
           stopId: stop.id,
-          text: "Vedi"
+          text: "$_show_$"
         })), /*#__PURE__*/_react.default.createElement("div", {
           className: "stop-name"
         }, stop.name), /*#__PURE__*/_react.default.createElement("div", {

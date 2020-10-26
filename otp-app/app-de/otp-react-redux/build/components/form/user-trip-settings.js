@@ -130,7 +130,7 @@ var UserTripSettings = /*#__PURE__*/function (_Component) {
         onClick: resetForm
       }, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: "undo"
-    }), ' ', "Ripristina le", defaults ? ' mie' : '', " impostazioni"));
+    }), " ", "$_reset_the_$", defaults ? " $_my_$" : "", " $_settings2_$"));
     }
   }]);
 

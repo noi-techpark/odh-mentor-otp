@@ -159,7 +159,7 @@ var RouteViewer = /*#__PURE__*/function (_Component) {
         onClick: this._backClicked
       }, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: "arrow-left"
-      }), "Indietro")), /*#__PURE__*/_react.default.createElement("div", {
+      }), "$_back_$")), /*#__PURE__*/_react.default.createElement("div", {
         className: "header-text"
       }, languageConfig.routeViewer || 'Visualizza Linee'), /*#__PURE__*/_react.default.createElement("div", {
         className: ""

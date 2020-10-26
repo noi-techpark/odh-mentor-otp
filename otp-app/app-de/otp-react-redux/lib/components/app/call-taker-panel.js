@@ -225,7 +225,7 @@ class CallTakerPanel extends Component {
       time,
       to
     } = currentQuery
-    const actionText = mobile ? 'tappa' : 'clicca'
+    const actionText = mobile ? "$_tap_$" : "$_click_$"
     const {expandAdvanced} = this.state
     const advancedSearchStyle = {
       zIndex: 99999,

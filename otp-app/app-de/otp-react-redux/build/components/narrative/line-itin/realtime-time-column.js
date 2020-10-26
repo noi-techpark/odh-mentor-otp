@@ -146,7 +146,7 @@ function RealtimeTimeColumn(_ref) {
   // except for transit legs where we add the "scheduled" text underneath.
 
   if (!leg.realTime) {
-    return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(TimeText, null, formattedTime), isTransitLeg && /*#__PURE__*/_react.default.createElement(StatusText, null, "scheduled"));
+    return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(TimeText, null, formattedTime), isTransitLeg && /*#__PURE__*/_react.default.createElement(StatusText, null, "$_schedule2_$"));
   } // Delay in seconds.
 
 

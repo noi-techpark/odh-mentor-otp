@@ -92,7 +92,7 @@ var SwitchButton = /*#__PURE__*/function (_Component) {
       var content = this.props.content;
       return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         className: "switch-button",
-        title: "Inverti località",
+        title: "$_switch_$",
         onClick: this._onClick || this.props.onClick
       }, content);
     }

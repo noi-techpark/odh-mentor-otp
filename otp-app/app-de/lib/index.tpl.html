@@ -35,14 +35,15 @@
     var myfunction = function(){
         mutationObserver.disconnect();
 
-        // for (const [key, value] of Object.entries(languages)) {
-        //
-        //     $("body *").contents().each(function() {
-        //       if(this.nodeType==3){
-        //         this.nodeValue = this.nodeValue.replaceAll("$_"+key+"_$", value)
-        //       }
-        //     });
-        // }
+        for (const [key, value] of Object.entries(languages)) {
+
+            // $("body *").contents().each(function() {
+            //   if(this.nodeType==3){
+            //     this.nodeValue = this.nodeValue.replaceAll("$_"+key+"_$", value);
+            //     this.nodeValue = this.nodeValue.replaceAll("$_"+key+"_$".toUpperCase(), value.toUpperCase());
+            //   }
+            // });
+        }
 
 
     }

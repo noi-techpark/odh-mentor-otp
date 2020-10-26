@@ -87,15 +87,15 @@ var DefaultSearchForm = /*#__PURE__*/function (_Component) {
       var _this$props = this.props,
           mobile = _this$props.mobile,
           ModeIcon = _this$props.ModeIcon;
-      var actionText = mobile ? 'tappa' : 'clicca';
+      var actionText = mobile ? "$_tap_$" : "$_click_$";
       return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
         className: "locations"
       }, /*#__PURE__*/_react.default.createElement(_connectedLocationField.default, {
-        inputPlaceholder: "Inserisci partenza o ".concat(actionText, " su mappa..."),
+        inputPlaceholder: "$_insert_departure_$ ".concat(actionText, " $_on_map_$..."),
         locationType: "from",
         showClearButton: true
       }), /*#__PURE__*/_react.default.createElement(_connectedLocationField.default, {
-        inputPlaceholder: "Inserisci destinazione o ".concat(actionText, " su mappa..."),
+        inputPlaceholder: "$_insert_arrive_$ ".concat(actionText, " $_on_map_$..."),
         locationType: "to",
         showClearButton: !mobile
       }), /*#__PURE__*/_react.default.createElement("div", {

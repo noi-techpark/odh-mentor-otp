@@ -122,13 +122,13 @@ var BatchRoutingPanel = /*#__PURE__*/function (_Component) {
           LegIcon = _this$props2.LegIcon,
           mobile = _this$props2.mobile,
           showUserSettings = _this$props2.showUserSettings;
-      var actionText = mobile ? 'tappa' : 'clicca';
+      var actionText = mobile ? "$_tap_$" : "$_click_$";
       return /*#__PURE__*/_react.default.createElement(_viewerContainer.default, null, /*#__PURE__*/_react.default.createElement(_connectedLocationField.default, {
-        inputPlaceholder: "Inserisci partenza o ".concat(actionText, " su mappa..."),
+        inputPlaceholder: "$_insert_departure_$ ".concat(actionText, " $_on_map_$..."),
         locationType: "from",
         showClearButton: true
       }), /*#__PURE__*/_react.default.createElement(_connectedLocationField.default, {
-        inputPlaceholder: "Inserisci destinazione o ".concat(actionText, " su mappa..."),
+        inputPlaceholder: "$_insert_arrive_$ ".concat(actionText, " $_on_map_$..."),
         locationType: "to",
         showClearButton: !mobile
       }), /*#__PURE__*/_react.default.createElement("div", {

@@ -144,7 +144,7 @@ var TransitLeg = /*#__PURE__*/function (_Component) {
         className: "route-long-name"
       }, leg.routeLongName)), leg.headsign && /*#__PURE__*/_react.default.createElement("div", {
         className: "headsign"
-      }, "Per ", leg.headsign)), leg.realTime ? /*#__PURE__*/_react.default.createElement(_icon.default, {
+      }, "$_direction_$ ", leg.headsign)), leg.realTime ? /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: "rss"
       }) : null), /*#__PURE__*/_react.default.createElement("div", {
         className: "step-by-step"
