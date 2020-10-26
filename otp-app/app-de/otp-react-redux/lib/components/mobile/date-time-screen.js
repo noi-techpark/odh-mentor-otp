@@ -22,7 +22,7 @@ class MobileDateTimeScreen extends Component {
     return (
       <MobileContainer>
         <MobileNavigationBar
-          headerText='Imposta Data/Ora'
+          headerText='$_set_time_$'
           showBackButton
           backScreen={MobileScreens.SEARCH_FORM}
         />

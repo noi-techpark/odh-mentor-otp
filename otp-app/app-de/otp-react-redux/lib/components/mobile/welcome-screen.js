@@ -42,7 +42,7 @@ class MobileWelcomeScreen extends Component {
         <MobileNavigationBar title={title} />
         <div className='welcome-location mobile-padding'>
           <LocationField
-            inputPlaceholder='Dove vuoi andare?'
+            inputPlaceholder='$_where_go_$'
             locationType='to'
             onTextInputClick={this._toFieldClicked}
             showClearButton={false}

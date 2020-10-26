@@ -123,7 +123,7 @@ var UserTripSettings = /*#__PURE__*/function (_Component) {
         type: "times"
     }), " $_forget_settings_$") : /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: "lock"
-    }), " Ricorda opzioni di viaggio")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+    }), " $_remember_settings_$")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         bsStyle: "link",
         bsSize: "xsmall",
         disabled: queryIsDefault && !defaults,

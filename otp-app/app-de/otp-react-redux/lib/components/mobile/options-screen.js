@@ -24,7 +24,7 @@ class MobileOptionsScreen extends Component {
     return (
       <MobileContainer>
         <MobileNavigationBar
-          headerText='Imposta Ricerca'
+          headerText='$_set_search_$'
           showBackButton
           backScreen={MobileScreens.SEARCH_FORM}
         />

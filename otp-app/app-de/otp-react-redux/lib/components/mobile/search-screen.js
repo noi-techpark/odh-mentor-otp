@@ -44,7 +44,7 @@ class MobileSearchScreen extends Component {
   render () {
     return (
       <MobileContainer>
-        <MobileNavigationBar headerText='Pianifica viaggio' />
+        <MobileNavigationBar headerText='$_plan_trip_$' />
         <div className='search-settings mobile-padding'>
           <LocationField
             locationType='from'

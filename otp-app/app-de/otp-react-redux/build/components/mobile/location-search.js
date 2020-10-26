@@ -102,14 +102,14 @@ var MobileLocationSearch = /*#__PURE__*/function (_Component) {
           otherLocation = _this$props.otherLocation;
       var suppressNearby = otherLocation && otherLocation.category === 'CURRENT_LOCATION';
       return /*#__PURE__*/_react.default.createElement(_container.default, null, /*#__PURE__*/_react.default.createElement(_navigationBar.default, {
-        headerText: "Imposta ".concat(locationType === 'to' ? 'Destinazione' : 'Origine'),
+        headerText: "$_set_$ ".concat(locationType === 'to' ? "$_destination_$" : "$_origin_$"),
         showBackButton: true,
         backScreen: backScreen
       }), /*#__PURE__*/_react.default.createElement("div", {
         className: "location-search mobile-padding"
       }, /*#__PURE__*/_react.default.createElement(_connectedLocationField.default, {
         hideExistingValue: true,
-        inputPlaceholder: location ? location.name : 'Digita località',
+        inputPlaceholder: location ? location.name : '$_type_location_$',
         locationType: locationType,
         onLocationSelected: this._locationSelected,
         static: true,

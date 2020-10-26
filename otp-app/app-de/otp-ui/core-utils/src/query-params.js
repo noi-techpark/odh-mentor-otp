@@ -593,7 +593,7 @@ const queryParams = [
 {
     name: "locale",
     routingTypes: ["ITINERARY"],
-    default: "it",
+    default: getUserLang(),
 }
 ];
 // Iterate over stored settings and update query param defaults.

@@ -122,7 +122,7 @@ var MobileSearchScreen = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/_react.default.createElement(_container.default, null, /*#__PURE__*/_react.default.createElement(_navigationBar.default, {
-        headerText: "Pianifica viaggio"
+        headerText: "$_plan_trip_$"
       }), /*#__PURE__*/_react.default.createElement("div", {
         className: "search-settings mobile-padding"
       }, /*#__PURE__*/_react.default.createElement(_connectedLocationField.default, {

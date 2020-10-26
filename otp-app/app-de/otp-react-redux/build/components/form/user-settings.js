@@ -215,7 +215,7 @@ var UserSettings = /*#__PURE__*/function (_Component) {
           key: location.id,
           location: location
         }, _this2.props));
-      }) : /*#__PURE__*/_react.default.createElement("small", null, "Nessuna fermata preferita ")), trackRecent && recentPlaces.length > 0 && /*#__PURE__*/_react.default.createElement("div", {
+      }) : /*#__PURE__*/_react.default.createElement("small", null, "$_no_favorite_stops_$ ")), trackRecent && recentPlaces.length > 0 && /*#__PURE__*/_react.default.createElement("div", {
         className: "recent-places-container"
       }, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement("div", {
         className: "section-header"

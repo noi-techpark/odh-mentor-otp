@@ -37,7 +37,7 @@ class MobileLocationSearch extends Component {
         <div className='location-search mobile-padding'>
           <LocationField
             hideExistingValue
-            inputPlaceholder={location ? location.name : 'Digita località'}
+            inputPlaceholder={location ? location.name : '$_type_location_$'}
             locationType={locationType}
             onLocationSelected={this._locationSelected}
             static

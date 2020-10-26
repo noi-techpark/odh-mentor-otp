@@ -97,7 +97,7 @@ var MobileOptionsScreen = /*#__PURE__*/function (_Component) {
     value: function render() {
       var ModeIcon = this.props.ModeIcon;
       return /*#__PURE__*/_react.default.createElement(_container.default, null, /*#__PURE__*/_react.default.createElement(_navigationBar.default, {
-        headerText: "Imposta Ricerca",
+        headerText: "$_set_search_$",
         showBackButton: true,
         backScreen: _ui.MobileScreens.SEARCH_FORM
       }), /*#__PURE__*/_react.default.createElement("div", {

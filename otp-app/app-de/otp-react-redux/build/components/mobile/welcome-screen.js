@@ -114,7 +114,7 @@ var MobileWelcomeScreen = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/_react.default.createElement("div", {
         className: "welcome-location mobile-padding"
       }, /*#__PURE__*/_react.default.createElement(_connectedLocationField.default, {
-        inputPlaceholder: "Dove vuoi andare?",
+        inputPlaceholder: "$_where_go_$",
         locationType: "to",
         onTextInputClick: this._toFieldClicked,
         showClearButton: false

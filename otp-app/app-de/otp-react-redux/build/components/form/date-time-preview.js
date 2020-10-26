@@ -99,13 +99,13 @@ var DateTimePreview = /*#__PURE__*/function (_Component) {
           timeFormat = _this$props.timeFormat,
           dateFormat = _this$props.dateFormat;
       var timeStr;
-      _moment.default.locale("it");
+      _moment.default.locale(getUserLang());
       var formattedTime = _moment.default.utc(time, OTP_API_TIME_FORMAT).format(timeFormat);
-
+      var separator = getUserLang() === "it" ? "a" : "um";
       if (routingType === 'ITINERARY') {
-        if (departArrive === 'NOW') timeStr = "$_now_$";else if (departArrive === 'ARRIVE') timeStr = 'Arrivo ' + formattedTime;else if (departArrive === 'DEPART') timeStr = 'Partenza ' + formattedTime;
+        if (departArrive === 'NOW') timeStr = "$_now_$";else if (departArrive === 'ARRIVE') timeStr = '$_arrive_$ ' + formattedTime;else if (departArrive === 'DEPART') timeStr = '$_departure_$ ' + formattedTime;
       } else if (routingType === 'PROFILE') {
-        timeStr = startTime + ' a ' + endTime;
+        timeStr = startTime + separator + endTime;
       }
 
       var summary = /*#__PURE__*/_react.default.createElement("div", {
@@ -114,7 +114,7 @@ var DateTimePreview = /*#__PURE__*/function (_Component) {
         className: "fa fa-calendar"
       }), " ", (0, _moment.default)(date, OTP_API_DATE_FORMAT).calendar(null, {
         sameElse: dateFormat
-    }).split(' a')[0], /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("i", {
+    }).split(" "+separator)[0], /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("i", {
         className: "fa fa-clock-o"
       }), " ", timeStr);
 

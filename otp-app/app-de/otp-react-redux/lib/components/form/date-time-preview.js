@@ -43,14 +43,15 @@ class DateTimePreview extends Component {
     } = this.props
 
     let timeStr
-    moment.locale("de")
+    moment.locale(getUserLang);
+    var separator = getUserLang() === "it" ? "a" : "um";
     const formattedTime = moment.utc(time, OTP_API_TIME_FORMAT).format(timeFormat)
     if (routingType === 'ITINERARY') {
       if (departArrive === 'NOW') timeStr = '$_now_$'
       else if (departArrive === 'ARRIVE') timeStr = '$_arrive_$ ' + formattedTime
       else if (departArrive === 'DEPART') timeStr = '$_departure_$ ' + formattedTime
     } else if (routingType === 'PROFILE') {
-      timeStr = startTime + ' a ' + endTime
+      timeStr = startTime + " "+separator+" " + endTime
     }
 
     const summary = (
@@ -58,7 +59,7 @@ class DateTimePreview extends Component {
         <i className='fa fa-calendar' /> {
           moment(date, OTP_API_DATE_FORMAT)
             .calendar(null, { sameElse: dateFormat })
-            .split(' a')[0]}
+            .split(" "+separator)[0]}
         <br />
         <i className='fa fa-clock-o' /> {timeStr}
       </div>

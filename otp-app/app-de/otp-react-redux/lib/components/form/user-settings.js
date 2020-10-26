@@ -77,7 +77,7 @@ class UserSettings extends Component {
             ? favoriteStops.map(location => {
               return <Place key={location.id} location={location} {...this.props} />
             })
-            : <small>Nessuna fermata preferita </small>
+            : <small>$_no_favorite_stops_$ </small>
           }
         </ul>
         {trackRecent && recentPlaces.length > 0 &&

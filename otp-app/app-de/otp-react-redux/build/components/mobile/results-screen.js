@@ -263,7 +263,7 @@ var MobileResultsScreen = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         className: "edit-search-button pull-right",
         onClick: this._editSearchClicked
-    }, "Modifica"))));
+    }, "$_edit_$"))));
 
       if (error) {
         return /*#__PURE__*/_react.default.createElement(_container.default, null, /*#__PURE__*/_react.default.createElement(_navigationBar.default, {

@@ -96,7 +96,7 @@ var MobileDateTimeScreen = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/_react.default.createElement(_container.default, null, /*#__PURE__*/_react.default.createElement(_navigationBar.default, {
-        headerText: "Imposta Data/Ora",
+        headerText: "$_set_time_$",
         showBackButton: true,
         backScreen: _ui.MobileScreens.SEARCH_FORM
       }), /*#__PURE__*/_react.default.createElement("div", {
