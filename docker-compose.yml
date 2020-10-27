@@ -41,7 +41,7 @@ services:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
     volumes:
-      - ./data/:/data/
+      - /opt/odh-mentor-otp/:/data/
 
   build:
     container_name: openmove-build
@@ -52,7 +52,7 @@ services:
       context: ./
       dockerfile: infrastructure/docker/Dockerfile
     environment:
-      - JAVA_MX=8G
+      - JAVA_MX=10G
       - BUILD_GRAPH=True
       - DOWNLOAD_DATA=False
       - BACKUP_GRAPH=False
