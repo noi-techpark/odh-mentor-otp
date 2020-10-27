@@ -57,7 +57,7 @@ services:
       - DOWNLOAD_DATA=False
       - BACKUP_GRAPH=False
       - GTFS_FILE=200804_ExportGTFS.zip
-      - UPDATERS=False
+      - UPDATERS=True
       - GBFS_HOST=http://gbfs
       - GBFS_PORT=8089
     volumes:
