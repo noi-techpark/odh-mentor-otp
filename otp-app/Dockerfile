@@ -3,6 +3,7 @@ FROM node:12-buster-slim
 ARG API_HOST=http://localhost
 ARG	API_PATH=/otp/routers/default
 ARG	API_PORT=8080
+ARG FOLDER=/
 
 ENV API_HOST=$API_HOST \
 	API_PATH=$API_PATH \

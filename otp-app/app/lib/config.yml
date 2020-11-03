@@ -1,4 +1,4 @@
-# react-router config, for URL routing (not to be confused with multimodal/OTP routing)
+## react-router config, for URL routing (not to be confused with multimodal/OTP routing)
 # reactRouter:
 #   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
 #   basename: ${FOLDER}
