@@ -8,7 +8,7 @@ services:
 
   otp-app:
     container_name: openmove-otp-app
-    ports: ["8070:80"]
+    ports: ["80:80"]
     image: openmove_otp_app:latest
     build:
       context: ./otp-app/
