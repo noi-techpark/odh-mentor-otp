@@ -1,12 +1,12 @@
 var languages = {
     "default_lang": "it",
-    "privacy_policy" : "Privacy Policy",
+    "privacy_policy": "Privacy Policy",
     "disclaimer": "Prima di partire controlla gli arrivi in tempo reale alla fermata e gli avvisi sul servizio che possono influire sul tuo viaggio. Tempi e percorsi sono solo a scopo di pianificazione e possono subire variazioni a causa del traffico, la condizione della strada, deviazioni e altri fattori.",
-    "tnc"  : "Termini d'Uso",
+    "tnc": "Termini d'Uso",
     "south": "sud",
     "north": "nord",
-    "west" : "ovest",
-    "east" : "est",
+    "west": "ovest",
+    "east": "est",
     "north_west": "nord-ovest",
     "north_east": "nord-est",
     "south_west": "sud-ovest",
@@ -29,7 +29,7 @@ var languages = {
     "details_trip": "Dettagli del viaggio",
     "calories": "Calorie Bruciate",
     "calories_info_1": "Le calorie bruciate si basano su",
-    "minute" : "minuto(i)",
+    "minute": "minuto(i)",
     "at_time": "alle",
     "pass_walked": "spesi a camminare e",
     "pass_rided": "spesi a pedalare in questo viaggio. Adattato da",
@@ -151,4 +151,4 @@ var languages = {
     "edit": "Modifica",
     "no_favorite_stops": "Nessuna fermata preferita",
     "remember_settings": "Ricorda opzioni di viaggio"
-}
+};
