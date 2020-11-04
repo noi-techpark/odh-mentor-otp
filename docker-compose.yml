@@ -19,6 +19,8 @@ services:
         API_PORT: 8080
     depends_on:
       - otp
+    #volumes:
+    #  - ./otp-app/index.html:/var/www/html/index.html
   
   gbfs:
     container_name: openmove-gbfs
