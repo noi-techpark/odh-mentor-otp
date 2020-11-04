@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Note: title should be supplied/injected via config.yml -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Hind:300,400,500,600,700" rel="stylesheet">
+     <script type="text/javascript" language="javascript" src="language.js"></script>
+  </head>
+  <body>
+    <div id="main" ></div>
+    <script>
+    var getUserLang = function(){
+        return languages["default_lang"];
+    };
+    window.onload = function(){
+
+    var mutationObserver = new MutationObserver(function(mutations) {
+        mutationObserver.disconnect();
+        myfunction();
+
+
+        mutationObserver.observe(document.documentElement, {
+          //attributes: true,
+          // characterData: true,
+          childList: true,
+          subtree: true,
+        });
+      });
+
+      mutationObserver.observe(document.documentElement, {
+         //attributes: true,
+        // characterData: true,
+        childList: true,
+        subtree: true,
+      });
+      myfunction();
+    };
+    var mut = new MutationObserver(function(mutations){
+        console.log("mut");
+        myfunction();
+    });
+    var myfunction = function(){
+        console.log("change");
+        for (const [key, value] of Object.entries(languages)) {
+            $("body *").contents().each(function() {
+              if(this.nodeType==3){
+                this.nodeValue = this.nodeValue.replaceAll("$_"+key+"_$", value);
+                this.nodeValue = this.nodeValue.replaceAll("$_"+key+"_$".toUpperCase(), value.toUpperCase());
+              }
+            });
+            $("input").each(function() {
+                if($(this).attr("placeholder"))
+              $(this).attr("placeholder", $(this).attr("placeholder").replaceAll("$_"+key+"_$", value));
+            });
+            $("button").each(function() {
+                if($(this).attr("title"))
+                $(this).attr("title", $(this).attr("title").replaceAll("$_"+key+"_$", value));
+            });
+        }
+        try{
+            mut.observe(document.querySelector("div.store-settings button"),{
+              'attributes': true,
+              'subtree': true,
+            });
+        }catch(e){
+            console.log(e);
+        }
+    }
+    </script>
+  </body>
+</html>

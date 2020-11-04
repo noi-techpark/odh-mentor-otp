@@ -8,23 +8,31 @@ services:
 
   otp-app:
     container_name: openmove-otp-app
-    ports: ["8070:80"]
-    #restart: "always"
+    ports: ["80:80"]
     image: openmove_otp_app:latest
     build:
       context: ./otp-app/
       dockerfile: ./Dockerfile
       args:
-        OTP_RR_BRANCH: mentor-meran
-        OTP_UI_BRANCH: master
-        API_HOST: http://otp
+        API_HOST: http://localhost
         API_PATH: /otp/routers/openmove
         API_PORT: 8080
+    depends_on:
+      - otp
+    #volumes:
+    #  - ./otp-app/index.html:/var/www/html/index.html
+  
+  gbfs:
+    container_name: openmove-gbfs
+    ports: ["8089:8089"]
+    image: openmove_gbfs:latest
+    build:
+      context: ./gbfs/
+      dockerfile: ./Dockerfile
 
   otp:
     container_name: openmove-otp
     ports: ["8080:8080"]
-    #restart: "always"
     image: openmove_otp:latest
     build:
       context: ./
@@ -32,10 +40,12 @@ services:
       args:
         OTP_VERSION: 1.4.0
     environment:
-      - JAVA_MX=2G
+      - JAVA_MX=4G
       - BUILD_GRAPH=False
     volumes:
       - /opt/odh-mentor-otp/:/data/
+    depends_on:
+      - gbfs
 
   build:
     container_name: openmove-build
@@ -46,12 +56,16 @@ services:
       context: ./
       dockerfile: infrastructure/docker/Dockerfile
     environment:
-      - JAVA_MX=8G
+      - JAVA_MX=10G
       - BUILD_GRAPH=True
-      - DOWNLOAD_DATA=True
-      - BACKUP_GRAPH=True
+      - DOWNLOAD_DATA=False
+      - BACKUP_GRAPH=False
       - GTFS_FILE=200804_ExportGTFS.zip
+      - UPDATERS=True
+      - GBFS_HOST=http://gbfs
+      - GBFS_PORT=8089
     volumes:
       - /opt/odh-mentor-otp/:/data/
-      #- ./docker-entrypoint.sh:/docker-entrypoint.sh
+      #- infrastructure/docker/docker-entrypoint.sh:/docker-entrypoint.sh
       #uncomment to test script
+    restart: "no"
