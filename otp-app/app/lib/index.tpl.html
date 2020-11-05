@@ -5,14 +5,47 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <!-- Note: title should be supplied/injected via config.yml -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Hind:300,400,500,600,700" rel="stylesheet">
     
     <script type="text/javascript" language="javascript" src="language.js"></script>
+    <style type="text/css">
+      #lang-switch {
+        position: fixed;
+        top: 0;
+        right: 1px;
+        float: left;
+        background: white;
+        padding: 2px;
+        z-index: 20000;
+      }
+      #lang-switch a {
+        display: inline-block;
+        height: 30px;
+        width: 30px;
+        line-height: 30px;
+        font-size: 18px;
+        text-align: center;
+        margin: 2px;
+        background: #ddd;
+      }
+    </style>
   </head>
   <body>
-    <div id="main" ></div>
+    <div id="lang-switch">
+      <a data-lang="it" href="#">IT</a>
+      <a data-lang="en" href="#">EN</a>
+      <!--a id="lang-it" href="#">IT</a-->
+    </div>
+    <div id="main"></div>
     <script>
+
+    $('#lang-switch').on('click','a', (e)=> {
+        e.preventDefault();
+        let lang = $(e.currentTarget).data('lang');
+        localStorage.setItem('lang', lang);
+        location.href = '/'+lang;
+    });
 
     var getUserLang = function() {
         return languages["default_lang"];
@@ -27,6 +60,7 @@
       userlang = 'it';
     }
 
+    //CHECK CURRENT PATH
     if(location.pathname.split('/')[1] !== userlang) {
       location.href = '/'+userlang;
     }
