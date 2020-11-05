@@ -1,3 +1,4 @@
+
 var languages = {
     "default_lang": "it",
     "privacy_policy": "Privacy Policy",

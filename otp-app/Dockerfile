@@ -11,8 +11,8 @@ ENV API_HOST=$API_HOST \
 	FOLDER=$FOLDER
 
 RUN	apt-get -qq update && \
-	apt-get -y install \
-	nginx
+	apt-get -y install nginx && \
+	rm -f /var/www/html/index.nginx-debian.html
 
 RUN mkdir -p /otp-app
 
@@ -25,20 +25,26 @@ COPY ./config.yml .
 RUN cd app && \
 	yarn install
 
-
 #valorize config ${VAR} vars with env vars
 RUN sh -c 'node envtmpl.js config.yml > /otp-app/app/lib/config.yml'
 
+#COPY ./style.css /var/www/html/
+#COPY ./index.html /var/www/html/
+
 RUN cd /otp-app/app/ && \
-	yarn build && \
-	rm -f /var/www/html/index.nginx-debian.html && \
-	cp -fr dist /var/www/html/
+	yarn build -o /var/www/html/dist
 
-COPY ./style.css /var/www/html/
-COPY ./index.html /var/www/html/
+RUN mkdir -p /var/www/html/it /var/www/html/en /var/www/html/de
 
-#language for this distro
-COPY ./language_it.js /var/www/html/dist/language.js
+RUN	cd /var/www/html/ && \
+	cp -r ./dist/* ./ && \
+	cp -r ./dist/* ./it/ && \
+	cp -r ./dist/* ./en/ && \
+	cp -r ./dist/* ./de/
+
+COPY ./language_it.js /var/www/html/language.js
+COPY ./language_it.js /var/www/html/it/language.js
+COPY ./language_en.js /var/www/html/en/language.js
 
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 

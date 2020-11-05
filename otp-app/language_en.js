@@ -1,4 +1,5 @@
-var languages ​​= {
+
+var languages = {
     "default_lang": "en",
     "privacy_policy": "Privacy Policy",
     "disclaimer": "Before leaving check real-time arrivals at the stop and service alerts that may affect your journey. Times and routes are for planning purposes only and may vary due to traffic, road condition , deviations and other factors. ",
