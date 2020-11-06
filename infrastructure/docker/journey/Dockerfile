@@ -1,48 +1,47 @@
 FROM node:12-buster-slim
 
-ARG OTP_UI_BRANCH=master
-ARG OTP_RR_BRANCH=mentor-meran
-
 ARG API_HOST=http://localhost
 ARG	API_PATH=/otp/routers/default
 ARG	API_PORT=8080
+ARG FOLDER=/
 
 ENV API_HOST=$API_HOST \
 	API_PATH=$API_PATH \
-	API_PORT=$API_PORT
+	API_PORT=$API_PORT \
+	FOLDER=$FOLDER
 
 RUN	apt-get -qq update && \
-	apt-get -y install \
-	nginx \
-	git-core
+	apt-get -y install nginx && \
+	rm -f /var/www/html/index.nginx-debian.html
 
 RUN mkdir -p /otp-app
 
 WORKDIR /otp-app
 
-RUN echo "Cloning otp-ui..." && \
-    git clone --single-branch --branch $OTP_UI_BRANCH https://github.com/openmove/otp-ui.git
-
-RUN echo "Cloning otp-react-redux..." && \
-    git clone --single-branch --branch $OTP_RR_BRANCH https://github.com/openmove/otp-react-redux.git
-
-RUN cd otp-react-redux && \
-	yarn install
-
+COPY ./otp-app/app ./app
 COPY ./otp-app/config.yml .
 COPY ./otp-app/envtmpl.js .
 
+RUN cd ./app && \
+	yarn install
+
 #valorize config ${VAR} vars with env vars
-RUN sh -c 'node envtmpl.js config.yml > /otp-app/otp-react-redux/config.yml'
+RUN sh -c 'node envtmpl.js config.yml > /otp-app/app/lib/config.yml'
 
-RUN cd otp-react-redux && \
-	yarn build && \
-	rm -f /var/www/html/index.nginx-debian.html && \
-	cp -fr dist /var/www/html/
+RUN cd /otp-app/app/ && \
+	yarn build -o /var/www/html/dist
 
-COPY ./otp-app/style.css /var/www/html/
+RUN mkdir -p /var/www/html/it /var/www/html/en /var/www/html/de
 
-COPY ./otp-app/index.html /var/www/html/
+RUN	cd /var/www/html/ && \
+	cp -r ./dist/* ./ && \
+	cp -r ./dist/* ./it/ && \
+	cp -r ./dist/* ./en/ && \
+	cp -r ./dist/* ./de/
+
+COPY ./otp-app/language_it.js /var/www/html/language.js
+COPY ./otp-app/language_it.js /var/www/html/it/language.js
+COPY ./otp-app/language_en.js /var/www/html/en/language.js
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 

@@ -40,13 +40,13 @@ cd odh-mentor-otp
 
 ```docker-entrypoint.sh``` download and build data graph
 
-```otp.jar``` compiled version of Opentriplanner(it will be downloaded automatically)
-
-```otp.sh``` a shortcut for command `java -jar otp.jar`
+```otp.sh``` a script to run otp by command line
 
 ```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
 
-```osm.url``` a pregenerated urls list of downloadable Openstreetmap data Meran area.
+```gbfs``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
+
+```osm.url``` a pregenerated urls list of downloadable Openstreetmap data for SouthTyrol area.
 
 ```gtfs2bbox``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
@@ -67,14 +67,23 @@ Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 
 #### Building Arguments
 
-these arguments are used to build the **otp-app** service image which is the modern interface for OTP.
-they refer to the host name where the **otp** service is located
+these arguments are used to build the **otp** service image downloading Opentripplanner from official repos
+```OTP_VERSION``` default is 1.4.0
 
-```API_HOST``` deployed hostname of otp api default: ```http://otp``` (name of internal service otp)
+these arguments are used to build the **otp-app** service image which is the modern interface for OTP.
+they refer to the hostname where the **otp** service is located
+
+```API_HOST``` deployed hostname of otp api default: ```http://localhost``` (name of deployed)
 
 ```API_PATH``` aboslute url path ```/otp/routers/openmove```
 
 ```API_PORT``` port default ```8080``` (port of internal service otp)
+
+```UPDATERS``` if *True* create the router-config.json with GBFS/GTFS-RT updaters
+
+```GBFS_HOST``` host path to GBFS service 
+ 
+```GBFS_PORT``` port of GBFS service
 
 Then you can start the application using the following command:
 
