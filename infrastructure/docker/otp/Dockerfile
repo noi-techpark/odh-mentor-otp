@@ -20,7 +20,7 @@ RUN curl -o /usr/local/share/java/otp.jar https://repo1.maven.org/maven2/org/ope
 
 COPY otp.sh /usr/local/bin/
 
-COPY infrastructure/docker/docker-entrypoint.sh /docker-entrypoint.sh
+COPY infrastructure/docker/otp/docker-entrypoint.sh /docker-entrypoint.sh
 
 COPY ./gtfs2bbox /gtfs2bbox
 
