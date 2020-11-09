@@ -50,5 +50,10 @@ pipeline {
                 }
             }
         }
+        stage('Reload new graph into memory of live instance'){
+            steps{
+                sh '''curl -i -X PUT -H 'Content-Type:applicaton/json' "https://otp.opendatahub.testingmachine.eu/otp/routers/openmove"'''
+            }
+        }
     }
 }
