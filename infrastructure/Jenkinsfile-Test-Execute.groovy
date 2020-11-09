@@ -5,10 +5,14 @@ pipeline {
         DOCKER_PROJECT_NAME = "odh-mentor-otp"
         DOCKER_IMAGE_OTP = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-otp'
         DOCKER_IMAGE_JOURNEY = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-journey'
+        DOCKER_IMAGE_GBFS = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-gbfs'
         DOCKER_TAG = "test-$BUILD_NUMBER"
 
         SERVER_PORT_OTP = "1014"
         SERVER_PORT_JOURNEY = "1015"
+        GBFS_HOST ="https://gbfs.otp.opendatahub.testingmachine.eu/"
+        GBFS_PORT = "443"
+        DOCKER_GBFS_PORT = "1016"
 
         JAVA_MX = "2G"
         BUILD_GRAPH = "False"
@@ -31,6 +35,7 @@ pipeline {
                     echo 'COMPOSE_PROJECT_NAME=${DOCKER_PROJECT_NAME}' > .env
                     echo 'DOCKER_IMAGE_OTP=${DOCKER_IMAGE_OTP}' >> .env
                     echo 'DOCKER_IMAGE_JOURNEY=${DOCKER_IMAGE_JOURNEY}' >> .env
+                    echo 'DOCKER_IMAGE_GBFS=${DOCKER_IMAGE_GBFS}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
 
                     echo 'SERVER_PORT_OTP=${SERVER_PORT_OTP}' >> .env
@@ -43,6 +48,9 @@ pipeline {
 
                     echo 'OTP_RR_BRANCH=${OTP_RR_BRANCH}' >> .env
                     echo 'OTP_UI_BRANCH=${OTP_UI_BRANCH}' >> .env
+                    echo 'GBFS_HOST=${GBFS_HOST}' >> .env
+                    echo 'GBFS_PORT="${GBFS_PORT}"' >> .env
+                    echo 'DOCKER_GBFS_PORT="${DOCKER_GBFS_PORT}"' >> .env
                 """
             }
         }
