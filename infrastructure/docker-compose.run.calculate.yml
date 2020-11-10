@@ -10,5 +10,8 @@ services:
       DOWNLOAD_DATA: ${DOWNLOAD_DATA}
       BACKUP_GRAPH: ${BACKUP_GRAPH}
       GTFS_FILE: ${GTFS_FILE}
+      GBFS_HOST: ${GBFS_HOST}
+      GBFS_PORT: ${GBFS_PORT}
+      UPDATERS: ${UPDATERS}
     volumes:
       - /opt/odh-mentor-otp/:/data/
