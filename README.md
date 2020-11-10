@@ -79,11 +79,15 @@ they refer to the hostname where the **otp** service is located
 
 ```API_PORT``` port default ```8080``` (port of internal service otp)
 
+```GEOCODER_BASEURL``` default pelias geoder instance http://localhost/geocoder/v1
+
 ```UPDATERS``` if *True* create the router-config.json with GBFS/GTFS-RT updaters
 
 ```GBFS_HOST``` host path to GBFS service 
  
 ```GBFS_PORT``` port of GBFS service
+
+
 
 Then you can start the application using the following command:
 

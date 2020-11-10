@@ -19,6 +19,19 @@ api:
 #     - stops
 #     - stops/routes
 #     - routes
+
+geocoder:
+  baseUrl: ${GEOCODER_BASEURL}
+  maxNearbyStops: 6
+  type: PELIAS
+  boundary:
+    rect:
+      minLon: 10.470121
+      maxLon: 12.255011
+      minLat: 46.188280
+      maxLat: 47.088780
+#Suedtirol 10.470121,46.188280,12.255011,47.088780
+
 # Enabled multimodal routing types (e.g. interary, profile)
 routingTypes:
   - key: ITINERARY
@@ -253,20 +266,6 @@ map:
     - type: stops
       name: $_stops_$
       visible: true
-
-
-
-# geocoder:
-#   baseUrl: https://ws-st.trimet.org/peliaswrap/v1
-#   maxNearbyStops: 6
-#   type: PELIAS
-#   boundary:
-#     rect:
-#       minLon: -123.2034
-#       maxLon: -122.135
-#       minLat: 45.273
-#       maxLat: 45.7445
-
 
 # Mode selector configuration
 modes:
