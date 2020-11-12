@@ -7,6 +7,7 @@ const yaml = require('js-yaml');
 const CONFIGFILE = path.join(__dirname, 'config.yml');
 const ENV = process.env;
 
+
 function tmpl(str, data) {
 	//const tmplReg = /\$\{(.+?)\}/g
 	const tmplReg = /\$\{([\w_\-]+)\}/g
@@ -19,7 +20,6 @@ function tmpl(str, data) {
 		return value;
 	});	
 }
-
 
 try {
 	const configFile = fs.readFileSync(CONFIGFILE, 'utf8');
@@ -38,15 +38,14 @@ catch (e) {
 
 const defaultConfig = {
 	server: {
-		port: 8089,
-		polling_interval: 10 //minutes
+		port: 8088
 	},
 	endpoints: {
 		default: {
 			port: 80,
 			method: 'GET',
 			headers: {
-				'User-Agent': "OpenMove-Bikesharing-Client"
+				'User-Agent': "OpenMove-Geocoder-Client"
 			}
 		}
 	}

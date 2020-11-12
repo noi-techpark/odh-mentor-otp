@@ -6,7 +6,6 @@ endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
     port: 443
-    #path: /v2
     #headers:
     # User-Agent: OpenMove-Bikesharing-Client
   stations:

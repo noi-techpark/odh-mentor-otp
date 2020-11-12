@@ -1,14 +1,27 @@
 {
   "name": "pelias-lite",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "minimal standalone instance of Pelias geocoder",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon -e js,html,css,json ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": {
+    "name": "Stefano Cudini",
+    "email": "stefano.cudini@gmail.com"
+  },
   "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
   "dependencies": {
-    "pelias-lite":"0.0.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "js-yaml": "^3.14.0",
+    "lodash": "^4.17.20",
+    "parallel-http-request": "^1.1.3",
+    "pelias-api": "^5.20.0",
+    "pelias-parser": "^1.57.0"
   }
 }

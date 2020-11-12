@@ -1,0 +1,19 @@
+server:
+  port: 8088
+  #TODO cache_ttl: 0
+  default_lang: 'en'
+
+endpoints:
+  default:
+    hostname: tourism.opendatahub.bz.it
+    port: 443
+    #method: 'GET'
+    #headers:
+    # User-Agent: OpenMove-Geocoder-Client
+  # otp:
+  #   hostname: otp
+  #   path: 
+  accommodations:
+    path: /api/Accommodation?searchfilter={{text}}&pagesize=10&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
+  pois:
+    path: /api/Poi?searchfilter={{text}}&pagesize=10&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo

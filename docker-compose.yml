@@ -9,7 +9,7 @@ services:
   journey:
     container_name: openmove-otp-journey
     ports: ["80:80"]
-    image: openmove_otp_journey:pelias
+    image: openmove_otp_journey:test-geocoder
     build:
       context: ./
       dockerfile: infrastructure/docker/journey/Dockerfile
@@ -20,6 +20,14 @@ services:
         GEOCODER_BASEURL: http://localhost:8088/v1
     depends_on:
       - otp
+
+  geocoder:
+    container_name: openmove-geocoder
+    ports: ["8088:8088"]
+    image: openmove_geocoder:latest
+    build:
+      context: ./geocoder/
+      dockerfile: ./Dockerfile
 
   gbfs:
     container_name: openmove-gbfs
