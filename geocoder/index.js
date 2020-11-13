@@ -51,8 +51,6 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	let text = q_search || q_autocomplete;
 	
 	combineResults(text, jsonres => {
-
-		console.log(jsonres);
 		
 		res.json(jsonres);
 
@@ -102,18 +100,25 @@ function combineResults(text, cb) {
 	var request = new ParallelRequest();
 	//docs https://github.com/aalfiann/parallel-http-request
 
+	var acco_url = makeUrl(config.endpoints.accommodations, text),
+		pois_url = makeUrl(config.endpoints.pois, text);
+
 	request
 	.add({
-		url: makeUrl(config.endpoints.accommodations, text),
+		url: acco_url,
 		method: config.endpoints.accommodations.method,
 		headers: config.endpoints.accommodations.headers
 	})
 	.add({
-		url: makeUrl(config.endpoints.pois, text),
+		url: pois_url,
 		method: config.endpoints.pois.method,
 		headers: config.endpoints.pois.headers
 	});
 
+	console.log('[GEOCODER] remote requests...');
+	console.log(acco_url);
+	console.log(pois_url);
+	console.log('...');
 
 	request.send((resp)=> {
 

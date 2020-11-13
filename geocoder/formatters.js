@@ -6,7 +6,7 @@ function createHit(ff) {
 	return {
 		"_index" : "pelias",
 		"_type" : "_doc",
-		"_id" : ff.id,
+		"_id" : 'osm:venue:'+ff.id,
 		"_score" : 1.0,
 		"_source" : {
 			"name" : {
@@ -16,8 +16,8 @@ function createHit(ff) {
 				"lon" : ff.lon,
 				"lat" : ff.lat
 			},
-			"source" : "venue",
-			"source_id" : "1::tte::venues",
+			"source" : "osm",
+			"source_id" : ff.id,
 			"layer" : "venue",
 			"parent" : {
 				"country" : [ "Italy" ],
@@ -42,6 +42,9 @@ module.exports = {
 	//example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
 	'accommodations': function(odhdata) {
 		return _.map(odhdata.Items, (item)=> {
+			
+			//console.log('ACC', item['AccoDetail.en.Name'], item['Latitude'],item['Longitude'])
+
 			return createHit({
 				id:   item['Id'],
 				text: item['AccoDetail.en.Name'],
@@ -54,11 +57,14 @@ module.exports = {
 	//example: http://tourism.opendatahub.bz.it/api/Poi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=der
 	'pois': function(odhdata) {
 		return _.map(odhdata.Items, (item)=> {
+			
+			//console.log('POI', item['Detail.en.Title'], item)
+
 			return createHit({
 				id:   item['Id'],
 				text: item['Detail.en.Title'],
-				lat:  parseFloat(item['GpsInfo']['Latitude']),
-				lon:  parseFloat(item['GpsInfo']['Longitude']),
+				lat:  parseFloat(item['GpsInfo'][0]['Latitude']),
+				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
 			});
 		})
 	},
