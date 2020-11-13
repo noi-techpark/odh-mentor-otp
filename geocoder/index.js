@@ -16,6 +16,7 @@ const config = require('./config');
 const formatters = require('./formatters');
 
 const PORT_SERVICES = 8087;
+//same port in pelias.json
 
 const servicesApp = express();
 
