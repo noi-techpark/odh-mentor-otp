@@ -1,4 +1,11 @@
 
+# DEBUGGING
+
+uncomment line, at config.yml
+
+#hostname: localhost
+
+
 mapping fields from this:
 
 // 20201111010909

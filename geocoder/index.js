@@ -140,6 +140,9 @@ function combineResults(text, cb) {
 	request.send((resp)=> {
 		let results = [];
 
+		//hack to limiti otp geocode results
+		resp[0].body = _.slice(resp[0].body, 0, config.endpoints.opentripplanner.size);
+
 		results.push( formatters.opentripplanner(resp[0].body) );
 		results.push( formatters.accommodations(resp[1].body) );
 		results.push( formatters.pois(resp[2].body) );

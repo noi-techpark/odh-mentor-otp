@@ -17,10 +17,11 @@ endpoints:
   opentripplanner:
     #TODO priority: 100
     hostname: otp
+    #hostname: localhost
     # docs  http://dev.opentripplanner.org/apidoc/1.4.0/resource_GeocoderResource.html
     path: /otp/routers/default/geocode?query={{text}}
     port: 8080
-    size: 10
+    size: 5
 
   accommodations:
     #TODO priority: 50

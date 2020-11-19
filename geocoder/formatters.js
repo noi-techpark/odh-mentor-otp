@@ -72,7 +72,7 @@ module.exports = {
 				lat:  item['lat'],
 				lon:  item['lng'],
 			});
-		})
+		});
 	},
 
 	//example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
