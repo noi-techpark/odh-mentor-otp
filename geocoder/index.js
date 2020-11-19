@@ -107,6 +107,9 @@ function combineResults(text, cb) {
 
 	var request = new ParallelRequest();
 	//docs https://github.com/aalfiann/parallel-http-request
+	//
+	
+	//TODO refactoring in a for loop by endpoints
 
 	var otp_url = makeUrl(config.endpoints.opentripplanner, text),
 		acco_url = makeUrl(config.endpoints.accommodations, text),
