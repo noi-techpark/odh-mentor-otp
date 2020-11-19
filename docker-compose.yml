@@ -29,6 +29,11 @@ services:
     build:
       context: ./geocoder/
       dockerfile: ./Dockerfile
+    #TODO ONLY FOR DEBUG
+    # environment:
+    #   API_HOST: otp
+    #   API_PATH: /otp/routers/openmove
+    #   API_PORT: 8080
 
   gbfs:
     container_name: openmove-gbfs

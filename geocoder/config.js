@@ -4,9 +4,11 @@ const fs = require('fs');
 const _ = require('lodash');
 const yaml = require('js-yaml');
 
+//TODO use for debug const dotenv = require('dotenv');
+//dotenv.config();
+
 const CONFIGFILE = path.join(__dirname, 'config.yml');
 const ENV = process.env;
-
 
 function tmpl(str, data) {
 	//const tmplReg = /\$\{(.+?)\}/g

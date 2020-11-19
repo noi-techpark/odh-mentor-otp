@@ -91,8 +91,9 @@ function tmpl(str, data) {
 }
 
 function makeUrl(opt, text, lang) {
-	let prot = 'http'+(opt.port===443?'s':''); 
-	return tmpl(prot+'://' + opt.hostname + opt.path, {
+	let prot = 'http'+(opt.port===443?'s':'');
+	let port = (opt.port!=80 && opt.port!=443)? (':'+opt.port) : '';
+	return tmpl(prot+'://' + opt.hostname + port + opt.path, {
 		text: text,
 		size: opt.size,
 		lang: lang || config.server.default_lang
@@ -107,10 +108,16 @@ function combineResults(text, cb) {
 	var request = new ParallelRequest();
 	//docs https://github.com/aalfiann/parallel-http-request
 
-	var acco_url = makeUrl(config.endpoints.accommodations, text),
+	var otp_url = makeUrl(config.endpoints.opentripplanner, text),
+		acco_url = makeUrl(config.endpoints.accommodations, text),
 		pois_url = makeUrl(config.endpoints.pois, text);
 
 	request
+	.add({
+		url: otp_url,
+		method: config.endpoints.opentripplanner.method,
+		headers: config.endpoints.opentripplanner.headers
+	})
 	.add({
 		url: acco_url,
 		method: config.endpoints.accommodations.method,
@@ -125,15 +132,19 @@ function combineResults(text, cb) {
 
 
 	console.log(`[GEOCODER] search: "${text}" remote requests...`);
+	console.log(otp_url);
 	console.log(acco_url);
 	console.log(pois_url);
 	console.log('...');
 
 	request.send((resp)=> {
-		let acco_res = formatters.accommodations( resp[0].body );
-		let pois_res = formatters.pois( resp[1].body );
-		let result = formatters.elasticsearch( _.concat(acco_res, pois_res) )
+		let results = [];
 
+		results.push( formatters.opentripplanner(resp[0].body) );
+		results.push( formatters.accommodations(resp[1].body) );
+		results.push( formatters.pois(resp[2].body) );
+		
+		let result = formatters.elasticsearch( _.flatten(results) );
 
 		console.log(`[GEOCODER] search: "${text}" responses...`, result.hits.total.value);
 

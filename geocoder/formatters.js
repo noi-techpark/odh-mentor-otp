@@ -1,7 +1,9 @@
 
 const _ = require('lodash');
 
-
+//an elasticsearch hit result
+//in Pelias 'venue' is a Point Of Interest
+//
 function createHit(ff) {
 	return {
 		"_index" : "pelias",
@@ -17,7 +19,7 @@ function createHit(ff) {
 				"lat" : ff.lat
 			},
 			"source" : "osm",
-			"source_id" : ff.id,
+			"source_id" : 'osm'+ff.id,
 			"layer" : "venue",
 			"parent" : {
 				"country" : [ "Italy" ],
@@ -62,12 +64,20 @@ module.exports = {
 
 	},
 
+	'opentripplanner': function(otpdata) {
+		return _.map(otpdata, (item,k)=> {
+			return createHit({
+				id:   item['id'],
+				text: item['description'],
+				lat:  item['lat'],
+				lon:  item['lng'],
+			});
+		})
+	},
+
 	//example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
 	'accommodations': function(odhdata) {
 		return _.map(odhdata.Items, (item)=> {
-			
-			//console.log('ACC', item['AccoDetail.en.Name'], item['Latitude'],item['Longitude'])
-
 			return createHit({
 				id:   item['Id'],
 				text: item['AccoDetail.en.Name'],
@@ -80,9 +90,6 @@ module.exports = {
 	//example: http://tourism.opendatahub.bz.it/api/Poi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=der
 	'pois': function(odhdata) {
 		return _.map(odhdata.Items, (item)=> {
-			
-			//console.log('POI', item['Detail.en.Title'], item)
-
 			return createHit({
 				id:   item['Id'],
 				text: item['Detail.en.Title'],

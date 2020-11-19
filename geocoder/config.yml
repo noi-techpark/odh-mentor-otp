@@ -14,13 +14,20 @@ endpoints:
     #method: 'GET'
     #headers:
     # User-Agent: OpenMove-Geocoder-Client
-  # otp:
-  #   hostname: otp
-  #   path: 
+  opentripplanner:
+    #TODO priority: 100
+    hostname: otp
+    # docs  http://dev.opentripplanner.org/apidoc/1.4.0/resource_GeocoderResource.html
+    path: /otp/routers/default/geocode?query={{text}}
+    port: 8080
+    size: 10
+
   accommodations:
-    size: 5
+    #TODO priority: 50
     path: /api/Accommodation?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
+    size: 5  
   
   pois:
-    size: 5
+    #TODO priority: 50
     path: /api/Poi?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
+    size: 5
