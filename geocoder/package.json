@@ -4,7 +4,8 @@
   "description": "minimal standalone instance of Pelias geocoder",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -e js,html,css,json ./index.js",
+    "start": "node index.js",
+    "dev": "nodemon -e js,html,css,json,yml ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {

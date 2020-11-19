@@ -51,12 +51,17 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 
 	let text = q_search || q_autocomplete;
 	
-	combineResults(text, jsonres => {
+	if(!_.isString(text) || text.length < config.server.mintextlength) {
 		
-		res.json(jsonres);
+		res.json( formatters.elasticsearch([]) )
+	}
+	else {
+		combineResults(text, jsonres => {
+			
+			res.json(jsonres);
 
-	});
-
+		});
+	}
 });
 
 const serverParser = servicesApp.listen(PORT_SERVICES, () => {
@@ -89,6 +94,7 @@ function makeUrl(opt, text, lang) {
 	let prot = 'http'+(opt.port===443?'s':''); 
 	return tmpl(prot+'://' + opt.hostname + opt.path, {
 		text: text,
+		size: opt.size,
 		lang: lang || config.server.default_lang
 	});
 }
@@ -116,19 +122,20 @@ function combineResults(text, cb) {
 		headers: config.endpoints.pois.headers
 	});
 
-	console.log('[GEOCODER] remote requests...');
+
+
+	console.log(`[GEOCODER] search: "${text}" remote requests...`);
 	console.log(acco_url);
 	console.log(pois_url);
 	console.log('...');
 
 	request.send((resp)=> {
-
-
 		let acco_res = formatters.accommodations( resp[0].body );
-
 		let pois_res = formatters.pois( resp[1].body );
-
 		let result = formatters.elasticsearch( _.concat(acco_res, pois_res) )
+
+
+		console.log(`[GEOCODER] search: "${text}" responses...`, result.hits.total.value);
 
 		cb(result);
 

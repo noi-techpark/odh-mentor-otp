@@ -38,11 +38,14 @@ catch (e) {
 
 const defaultConfig = {
 	server: {
-		port: 8088
+		port: 8088,
+		default_lang: 'en',
+		mintextlength: 3
 	},
 	endpoints: {
 		default: {
 			port: 80,
+			size: 10,
 			method: 'GET',
 			headers: {
 				'User-Agent': "OpenMove-Geocoder-Client"

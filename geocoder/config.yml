@@ -2,9 +2,13 @@ server:
   port: 8088
   #TODO cache_ttl: 0
   default_lang: 'en'
+  mintextlength: 3
 
 endpoints:
   default:
+    #priority: 1
+    #TODO parameter by sorted results
+    #size: 10 result size for each endpoints
     hostname: tourism.opendatahub.bz.it
     port: 443
     #method: 'GET'
@@ -14,6 +18,9 @@ endpoints:
   #   hostname: otp
   #   path: 
   accommodations:
-    path: /api/Accommodation?searchfilter={{text}}&pagesize=10&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
+    size: 5
+    path: /api/Accommodation?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
+  
   pois:
-    path: /api/Poi?searchfilter={{text}}&pagesize=10&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
+    size: 5
+    path: /api/Poi?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo

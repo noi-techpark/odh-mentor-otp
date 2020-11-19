@@ -9,7 +9,7 @@ services:
   journey:
     container_name: openmove-otp-journey
     ports: ["80:80"]
-    image: openmove_otp_journey:test-geocoder
+    image: openmove_otp_journey:latest
     build:
       context: ./
       dockerfile: infrastructure/docker/journey/Dockerfile

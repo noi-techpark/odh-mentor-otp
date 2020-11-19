@@ -39,6 +39,29 @@ function createHit(ff) {
 
 module.exports = {
 
+	'elasticsearch': function(hits) {
+
+		return {
+			"took" : 1,
+			"timed_out" : false,
+			"_shards" : {
+				"total" : 1,
+				"successful" : 1,
+				"skipped" : 0,
+				"failed" : 0
+			},
+			"hits" : {
+				"total" : {
+					"value" : hits.length,
+					"relation" : "eq"
+				},
+				"max_score" : 1.0,
+				"hits" : hits
+			}
+		};
+
+	},
+
 	//example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
 	'accommodations': function(odhdata) {
 		return _.map(odhdata.Items, (item)=> {
@@ -67,28 +90,5 @@ module.exports = {
 				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
 			});
 		})
-	},
-
-	'elasticsearch': function(hits) {
-
-		return {
-			"took" : 1,
-			"timed_out" : false,
-			"_shards" : {
-				"total" : 1,
-				"successful" : 1,
-				"skipped" : 0,
-				"failed" : 0
-			},
-			"hits" : {
-				"total" : {
-					"value" : hits.length,
-					"relation" : "eq"
-				},
-				"max_score" : 1.0,
-				"hits" : hits
-			}
-		};
-
 	}
 };
