@@ -19,4 +19,12 @@ endpoints:
     path: /v2/flat%2Cnode/Bicyclestationbay?distinct=true
 
   bikes:
-    path: /v2/flat%2Cnode/Bicycle?distinct=true
+    path: /v2/flat%2Cnode/Bicycle?distinct=true&limit=500
+
+uri:
+    meran:
+        android: https://play.google.com/store/apps/details?id=de.moqo.work&hl=en_US"
+        ios: https://apps.apple.com/de/app/moqo/id1385011262
+        web: https://www.comune.merano.bz.it/it/Bikesharing
+    bozen:
+        web: https://bolzano.ecospazio.it/
