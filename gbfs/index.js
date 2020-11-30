@@ -217,16 +217,21 @@ app.get('/:context/system_information.json', function (req, res) {
     if(context === "bz"){
         systemId += "_bz";
         systemName += " Bolzano";
-        androidUri = config.uri.bozen.android;
-        iosUri = config.uri.bozen.ios;
-	    url = config.uri.bozen.web;
+        if(config.uri && config.uri.bozen){
+            androidUri = config.uri.bozen.android;
+            iosUri = config.uri.bozen.ios;
+    	    url = config.uri.bozen.web;
+        }
+
     }
     if(context === "me"){
         systemId += "_me";
         systemName += " Merano";
-        androidUri = config.uri.meran.android;
-        iosUri = config.uri.meran.ios;
-        url = config.uri.meran.web;
+        if(config.uri && config.uri.meran){
+            androidUri = config.uri.meran.android;
+            iosUri = config.uri.meran.ios;
+            url = config.uri.meran.web;
+        }        
     }
 
     if(androidUri || iosUri){
