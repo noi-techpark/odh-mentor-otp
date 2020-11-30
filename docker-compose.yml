@@ -6,23 +6,35 @@ networks:
 
 services:
 
-  otp-app:
-    container_name: openmove-otp-app
+  journey:
+    container_name: openmove-otp-journey
     ports: ["80:80"]
-    image: openmove_otp_app:latest
+    image: openmove_otp_journey:latest
     build:
-      context: ./otp-app/
-      dockerfile: ./Dockerfile
+      context: ./
+      dockerfile: infrastructure/docker/journey/Dockerfile
       args:
         API_HOST: http://localhost
         API_PATH: /otp/routers/openmove
         API_PORT: 8080
+        GEOCODER_BASEURL: http://localhost:8088/v1
     depends_on:
+      - geocoder
       - otp
-    #UNCOMMENT TO DEBUG WITHOUT REBUILD IMAGE
-    #volumes:
-    #  - ./otp-app/index.html:/var/www/html/index.html
-  
+
+  geocoder:
+    container_name: openmove-geocoder
+    ports: ["8088:8088"]
+    image: openmove_geocoder:latest
+    build:
+      context: ./geocoder/
+      dockerfile: ./Dockerfile
+    #TODO ONLY FOR DEBUG
+    # environment:
+    #   API_HOST: otp
+    #   API_PATH: /otp/routers/openmove
+    #   API_PORT: 8080
+
   gbfs:
     container_name: openmove-gbfs
     ports: ["8089:8089"]
@@ -37,9 +49,7 @@ services:
     image: openmove_otp:latest
     build:
       context: ./
-      dockerfile: infrastructure/docker/Dockerfile
-      args:
-        OTP_VERSION: 1.4.0
+      dockerfile: infrastructure/docker/otp/Dockerfile
     environment:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
@@ -55,11 +65,11 @@ services:
     image: openmove_otp:latest
     build:
       context: ./
-      dockerfile: infrastructure/docker/Dockerfile
+      dockerfile: infrastructure/docker/otp/Dockerfile
     environment:
       - JAVA_MX=10G
       - BUILD_GRAPH=True
-      - DOWNLOAD_DATA=False
+      - DOWNLOAD_DATA=True
       - BACKUP_GRAPH=False
       - GTFS_FILE=200804_ExportGTFS.zip
       - UPDATERS=True

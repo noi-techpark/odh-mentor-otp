@@ -1,0 +1,35 @@
+
+# DEBUGGING
+
+uncomment line, at config.yml
+
+#hostname: localhost
+
+
+mapping fields from this:
+
+// 20201111010909
+// https://tourism.opendatahub.bz.it/api/Accommodation?language=de&poitype=447&active=true&fields=Id,AccoDetail.de.Name,Latitude,Longitude&pagesize=100
+
+{
+  "OnlineResults": -1,
+  "ResultId": "",
+  "TotalResults": 9592,
+  "TotalPages": 96,
+  "CurrentPage": 1,
+  "Seed": null,
+  "Items": [
+    {
+      "Id": "2657B7CBCB85380B253D2FBE28AF100E",
+      "AccoDetail.de.Name": "1477 Reichhalter",
+      "Latitude": 46.615101,
+      "Longitude": 11.143296
+    },
+    {
+      "Id": "C93CE627A8497E697C657CF53028F9D2",
+      "AccoDetail.de.Name": "360 Grad - Bundeswehr Sozialwerk",
+      "Latitude": 46.660809,
+      "Longitude": 11.180298
+    },
+    
+    ....

@@ -4,6 +4,9 @@ const fs = require('fs');
 const _ = require('lodash');
 const yaml = require('js-yaml');
 
+//TODO use for debug const dotenv = require('dotenv');
+//dotenv.config();
+
 const CONFIGFILE = path.join(__dirname, 'config.yml');
 const ENV = process.env;
 
@@ -19,7 +22,6 @@ function tmpl(str, data) {
 		return value;
 	});	
 }
-
 
 try {
 	const configFile = fs.readFileSync(CONFIGFILE, 'utf8');
@@ -38,15 +40,17 @@ catch (e) {
 
 const defaultConfig = {
 	server: {
-		port: 8089,
-		polling_interval: 10 //minutes
+		port: 8088,
+		default_lang: 'en',
+		mintextlength: 3
 	},
 	endpoints: {
 		default: {
 			port: 80,
+			size: 10,
 			method: 'GET',
 			headers: {
-				'User-Agent': "OpenMove-Bikesharing-Client"
+				'User-Agent': "OpenMove-Geocoder-Client"
 			}
 		}
 	}

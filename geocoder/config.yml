@@ -1,0 +1,34 @@
+server:
+  port: 8088
+  #TODO cache_ttl: 0
+  default_lang: 'en'
+  mintextlength: 3
+
+endpoints:
+  default:
+    #priority: 1
+    #TODO parameter by sorted results
+    #size: 10 result size for each endpoints
+    hostname: tourism.opendatahub.bz.it
+    port: 443
+    #method: 'GET'
+    #headers:
+    # User-Agent: OpenMove-Geocoder-Client
+  opentripplanner:
+    #TODO priority: 100
+    hostname: otp
+    #hostname: localhost
+    # docs  http://dev.opentripplanner.org/apidoc/1.4.0/resource_GeocoderResource.html
+    path: /otp/routers/default/geocode?query={{text}}
+    port: 8080
+    size: 5
+
+  accommodations:
+    #TODO priority: 50
+    path: /api/Accommodation?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
+    size: 5  
+  
+  pois:
+    #TODO priority: 50
+    path: /api/Poi?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
+    size: 5
