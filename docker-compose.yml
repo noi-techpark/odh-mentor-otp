@@ -73,7 +73,7 @@ services:
       - BUILD_GRAPH=True
       - DOWNLOAD_DATA=True
       - BACKUP_GRAPH=False
-      - GTFS_FILE=200804_ExportGTFS.zip
+      - GTFS_FILE=201105_ExportGTFS.zip
       - UPDATERS=True
       - GBFS_HOST=http://gbfs
       - GBFS_PORT=8089
