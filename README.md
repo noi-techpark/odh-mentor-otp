@@ -42,6 +42,8 @@ cd odh-mentor-otp
 
 ```otp.sh``` a script to run otp by command line
 
+```otp-unofficial.sh``` a script to run otp unofficial version by command line
+
 ```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
 
 ```gbfs``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
