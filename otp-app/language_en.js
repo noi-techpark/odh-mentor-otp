@@ -152,4 +152,5 @@ var languages = {
     "edit": "Edit",
     "no_favorite_stops": "No favorite stops",
     "remember_settings": "Remember travel options",
+    "funicular": "Funicular"
 };

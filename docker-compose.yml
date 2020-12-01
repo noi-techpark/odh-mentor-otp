@@ -53,6 +53,7 @@ services:
     environment:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
+      - OFFICIAL=False
     volumes:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
@@ -68,6 +69,7 @@ services:
       dockerfile: infrastructure/docker/otp/Dockerfile
     environment:
       - JAVA_MX=10G
+      - OFFICIAL=False
       - BUILD_GRAPH=True
       - DOWNLOAD_DATA=True
       - BACKUP_GRAPH=False

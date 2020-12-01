@@ -151,5 +151,6 @@ var languages = {
     "set_search": "Imposta Ricerca",
     "edit": "Modifica",
     "no_favorite_stops": "Nessuna fermata preferita",
-    "remember_settings": "Ricorda opzioni di viaggio"
+    "remember_settings": "Ricorda opzioni di viaggio",
+    "funicular": "Funivia"
 };

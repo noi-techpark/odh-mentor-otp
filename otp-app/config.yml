@@ -277,8 +277,8 @@ modes:
     - mode: RAIL
       label: $_train_$
 
-    # - mode: GONDOLA
-    #   label: Funivia
+    - mode: FUNICULAR
+      label: $_funicular_$
     #   showWheelchairSetting: true
 
   accessModes:

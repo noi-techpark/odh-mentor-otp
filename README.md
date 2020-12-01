@@ -58,6 +58,8 @@ Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 
 ```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
 
+```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
+
 ```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
 
 ```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/opt/odh-mentor-otp/Graph.obj.%y-%m-%d.tgz```
@@ -83,10 +85,11 @@ they refer to the hostname where the **otp** service is located
 
 ```UPDATERS``` if *True* create the router-config.json with GBFS/GTFS-RT updaters
 
-```GBFS_HOST``` host path to GBFS service 
- 
+```GBFS_HOST``` host path to GBFS service
+
 ```GBFS_PORT``` port of GBFS service
 
+```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
 
 
 Then you can start the application using the following command:
@@ -96,6 +99,11 @@ Then you can start the application using the following command:
 ```bash
 docker-compose up build
 ```
+
+#### Compatibility
+
+In OpenTripPlanner is not allowed running a graph built with a different version.
+In case you change the OpenTripPlanner version or switch from/to Ufficial/IBI-Group Version **you have to rebuild the graph**.  
 
 #### Execute OTP instance
 
