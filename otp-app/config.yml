@@ -276,8 +276,7 @@ modes:
     #   label: MAX & Streetcar
     - mode: RAIL
       label: $_train_$
-
-    - mode: FUNICULAR
+    - mode: GONDOLA
       label: $_funicular_$
     #   showWheelchairSetting: true
 
