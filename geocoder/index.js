@@ -20,8 +20,6 @@ const PORT_SERVICES = 8087;
 
 const servicesApp = express();
 
-console.log('endpoints',config.endpoints);
-
 //TODO manage parameter lang for any requests
 //
 //TODO add support to param lang un endpoints urls 
@@ -66,6 +64,17 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	}
 });
 
+//useful 
+servicesApp.get('/testSearch', (req,res) => {
+	
+	console.log('/testSearch',req.query)
+	
+	if(!_.isEmpty(req.query.text))
+	combineResults(req.query.text, jsonres => {
+		res.json(jsonres);
+	});
+});
+
 const serverParser = servicesApp.listen(PORT_SERVICES, () => {
 	console.log('[GEOCODER-SERVICES] listening on %s:%s', PORT_SERVICES)
 	process.on('SIGTERM', () => {
@@ -107,50 +116,36 @@ function combineResults(text, cb) {
 
 	cb = cb || _.noop;
 
-	var request = new ParallelRequest();
 	//docs https://github.com/aalfiann/parallel-http-request
-	//
-	
-	//TODO refactoring in a for loop by endpoints
+	var request = new ParallelRequest();
 
-	var otp_url = makeUrl(config.endpoints.opentripplanner, text),
-		acco_url = makeUrl(config.endpoints.accommodations, text),
-		pois_url = makeUrl(config.endpoints.pois, text);
-
-	request
-	.add({
-		url: otp_url,
-		method: config.endpoints.opentripplanner.method,
-		headers: config.endpoints.opentripplanner.headers
-	})
-	.add({
-		url: acco_url,
-		method: config.endpoints.accommodations.method,
-		headers: config.endpoints.accommodations.headers
-	})
-	.add({
-		url: pois_url,
-		method: config.endpoints.pois.method,
-		headers: config.endpoints.pois.headers
+	_.forOwn(config.endpoints, (eOpt, eKey) => {
+		request.add({
+			url: makeUrl(eOpt, text),
+			method: eOpt.method,
+			headers: eOpt.headers
+		})
 	});
 
-
-
-	console.log(`[GEOCODER] search: "${text}" remote requests...`);
-	console.log(otp_url);
-	console.log(acco_url);
-	console.log(pois_url);
-	console.log('...');
+	console.log(`[GEOCODER] search: "${text}" parallel remote requests...`);
 
 	request.send((resp)=> {
-		let results = [];
+		
+		let results = [], i = 0;
 
-		//hack to limiti otp geocode results
-		resp[0].body = _.slice(resp[0].body, 0, config.endpoints.opentripplanner.size);
+		_.forOwn(config.endpoints, (eOpt, eKey) => {
+			
+			if(_.isFunction(formatters[eKey])) {
+				
+				let eRes = formatters[eKey]( resp[i++].body )
 
-		results.push( formatters.opentripplanner(resp[0].body) );
+				results.push(eRes);
+			}
+		});
+
+		/*old code results.push( formatters.opentripplanner(resp[0].body) );
 		results.push( formatters.accommodations(resp[1].body) );
-		results.push( formatters.pois(resp[2].body) );
+		results.push( formatters.pois(resp[2].body) );*/
 		
 		let result = formatters.elasticsearch( _.flatten(results) );
 
