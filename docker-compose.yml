@@ -30,6 +30,9 @@ services:
       context: ./geocoder/
       dockerfile: ./Dockerfile
     #TODO ONLY FOR DEBUG
+    #volumes:
+    #  - ./config.yml:/home/config.yml
+    #  - ./index.js:/home/index.js
     # environment:
     #   API_HOST: otp
     #   API_PATH: /otp/routers/openmove

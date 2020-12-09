@@ -14,6 +14,9 @@ endpoints:
     #method: 'GET'
     #headers:
     # User-Agent: OpenMove-Geocoder-Client
+  
+  ##check in file formatters.js for fields mapping
+
   opentripplanner:
     #TODO priority: 100
     hostname: otp
@@ -31,4 +34,8 @@ endpoints:
   pois:
     #TODO priority: 50
     path: /api/Poi?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
+    size: 5
+
+  ODHActivityPoi:
+    path: /api/ODHActivityPoi/?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
     size: 5

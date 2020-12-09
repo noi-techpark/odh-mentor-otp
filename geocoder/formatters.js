@@ -1,6 +1,10 @@
 
 const _ = require('lodash');
 
+const config = require('./config');
+
+const lang = config.server.default_lang || 'en';
+
 //an elasticsearch hit result
 //in Pelias 'venue' is a Point Of Interest
 //
@@ -80,7 +84,7 @@ module.exports = {
 		return _.map(odhdata.Items, (item)=> {
 			return createHit({
 				id:   item['Id'],
-				text: item['AccoDetail.en.Name'],
+				text: item['AccoDetail.'+lang+'.Name'],
 				lat:  parseFloat(item['Latitude']),
 				lon:  parseFloat(item['Longitude']),
 			});
@@ -92,7 +96,19 @@ module.exports = {
 		return _.map(odhdata.Items, (item)=> {
 			return createHit({
 				id:   item['Id'],
-				text: item['Detail.en.Title'],
+				text: item['Detail.'+lang+'.Title'],
+				lat:  parseFloat(item['GpsInfo'][0]['Latitude']),
+				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
+			});
+		})
+	},
+
+	//example: http://tourism.opendatahub.bz.it/api/ODHActivityPoi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=magic
+	'ODHActivityPoi': function(odhdata) {
+		return _.map(odhdata.Items, (item)=> {
+			return createHit({
+				id:   item['Id'],
+				text: item['Detail.'+lang+'.Title'],
 				lat:  parseFloat(item['GpsInfo'][0]['Latitude']),
 				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
 			});

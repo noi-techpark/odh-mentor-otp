@@ -20,6 +20,8 @@ const PORT_SERVICES = 8087;
 
 const servicesApp = express();
 
+console.log('endpoints',config.endpoints);
+
 //TODO manage parameter lang for any requests
 //
 //TODO add support to param lang un endpoints urls 
