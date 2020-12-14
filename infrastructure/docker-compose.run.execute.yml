@@ -21,7 +21,16 @@ services:
       BUILD_GRAPH: ${BUILD_GRAPH}
       DOWNLOAD_DATA: ${DOWNLOAD_DATA}
       BACKUP_GRAPH: ${BACKUP_GRAPH}
+      GBFS_HOST: ${GBFS_HOST}
+      GBFS_PORT: ${GBFS_PORT}
+      UPDATERS: "True"
     volumes:
       - /opt/odh-mentor-otp/:/data/
     ports:
       - ${SERVER_PORT_OTP}:8080
+
+  gbfs:
+    image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
+    restart: unless-stopped
+    ports:
+     - ${DOCKER_GBFS_PORT}:8089

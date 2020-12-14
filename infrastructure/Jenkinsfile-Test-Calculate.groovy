@@ -10,6 +10,9 @@ pipeline {
         BUILD_GRAPH = "True"
         DOWNLOAD_DATA = "False"
         BACKUP_GRAPH = "True"
+        GBFS_HOST = "https://gbfs.otp.opendatahub.testingmachine.eu"
+        GBFS_PORT = "443"
+        UPDATERS = "True"
         GTFS_FILE = "200804_ExportGTFS.zip"
     }
 
@@ -28,6 +31,9 @@ pipeline {
                     echo 'DOWNLOAD_DATA=${DOWNLOAD_DATA}' >> .env
                     echo 'BACKUP_GRAPH=${BACKUP_GRAPH}' >> .env
                     echo 'GTFS_FILE=${GTFS_FILE}' >> .env
+                    echo 'UPDATERS=${UPDATERS}' >> .env
+                    echo 'GBFS_HOST=${GBFS_HOST}' >> .env
+                    echo 'GBFS_PORT="${GBFS_PORT}"' >> .env
                 """
             }
         }

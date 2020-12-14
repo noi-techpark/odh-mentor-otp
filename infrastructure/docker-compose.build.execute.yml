@@ -16,3 +16,8 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/otp/Dockerfile
+  gbfs:
+    image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/gbfs/Dockerfile

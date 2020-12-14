@@ -43,7 +43,7 @@
         e.preventDefault();
         let lang = $(e.currentTarget).data('lang');
         localStorage.setItem('lang', lang);
-        location.href = '/'+lang;
+        location.href = '/'+lang + '/';
     });
 
     var getUserLang = function() {
@@ -61,7 +61,7 @@
 
     //CHECK CURRENT PATH
     if(location.pathname.split('/')[1] !== userlang) {
-      location.href = '/'+userlang;
+      location.href = '/'+userlang + '/';
     }
 
 //TODO button event to set user language
