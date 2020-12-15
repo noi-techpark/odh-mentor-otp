@@ -84,6 +84,7 @@ module.exports = {
 				text: item['description'],
 				lat:  item['lat'],
 				lon:  item['lng'],
+				//source used in func createHit()
 				source: 'opentripplanner',
 			});
 		});
@@ -97,6 +98,7 @@ module.exports = {
 				text: item['AccoDetail.'+lang+'.Name'],
 				lat:  parseFloat(item['Latitude']),
 				lon:  parseFloat(item['Longitude']),
+				//source used in func createHit()
 				source: 'ODH_accommodations',
 			});
 		})
@@ -110,6 +112,7 @@ module.exports = {
 				text: item['Detail.'+lang+'.Title'],
 				lat:  parseFloat(item['GpsInfo'][0]['Latitude']),
 				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
+				//source used in func createHit()
 				source: 'ODH_pois',			
 			});
 		})
@@ -123,6 +126,7 @@ module.exports = {
 				text: item['Detail.'+lang+'.Title'],
 				lat:  parseFloat(item['GpsInfo'][0]['Latitude']),
 				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
+				//source used in func createHit()
 				source: 'ODH_ODHActivityPoi',
 			});
 		})
