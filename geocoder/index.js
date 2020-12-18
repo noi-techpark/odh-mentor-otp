@@ -121,23 +121,29 @@ function combineResults(text, cb) {
 
 	_.forOwn(config.endpoints, (eOpt, eKey) => {
 		request.add({
+			
+			id: eKey,	//not required by ParallelRequest
+			
 			url: makeUrl(eOpt, text),
 			method: eOpt.method,
 			headers: eOpt.headers
-		})
+		});
 	});
+
+	var requests = request.getCollection();
 
 	console.log(`[GEOCODER] search: "${text}" parallel remote requests...`);
 
-	request.send((resp)=> {
-		
+
+	request.send( resp => {
+
 		let results = [], i = 0;
 
-		_.forOwn(config.endpoints, (eOpt, eKey) => {
+		requests.forEach( req => {
 			
-			if(_.isFunction(formatters[eKey])) {
+			if(_.isFunction(formatters[ req.id ])) {
 				
-				let eRes = formatters[eKey]( resp[i++].body )
+				let eRes = formatters[ req.id ]( resp[i++].body )
 
 				results.push(eRes);
 			}
