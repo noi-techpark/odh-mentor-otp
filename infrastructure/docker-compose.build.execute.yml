@@ -21,3 +21,8 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/gbfs/Dockerfile
+  geocoder:
+    image: ${DOCKER_IMAGE_GEOCODER}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/geocoder/Dockerfile

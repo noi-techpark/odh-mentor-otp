@@ -6,6 +6,7 @@ pipeline {
         DOCKER_IMAGE_OTP = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-otp'
         DOCKER_IMAGE_JOURNEY = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-journey'
         DOCKER_IMAGE_GBFS = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-gbfs'
+        DOCKER_IMAGE_GEOCODER = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-geocoder'
         DOCKER_TAG = "test-$BUILD_NUMBER"
 
         SERVER_PORT_OTP = "1014"
@@ -13,6 +14,7 @@ pipeline {
         GBFS_HOST ="https://gbfs.otp.opendatahub.testingmachine.eu/"
         GBFS_PORT = "443"
         DOCKER_GBFS_PORT = "1016"
+        DOCKER_GEOCODER_PORT = "1017"
 
         JAVA_MX = "2G"
         BUILD_GRAPH = "False"
@@ -24,6 +26,10 @@ pipeline {
         API_HOST = "https://otp.opendatahub.testingmachine.eu"
         API_PORT = "443"
         API_PATH = "/otp/routers/openmove"
+
+        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/"
+        OFFICIAL = "False"
+        GBFS_VERSION=1
     }
 
     stages {
@@ -51,6 +57,9 @@ pipeline {
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
                     echo 'GBFS_PORT="${GBFS_PORT}"' >> .env
                     echo 'DOCKER_GBFS_PORT="${DOCKER_GBFS_PORT}"' >> .env
+                    echo 'GEOCODER_BASEURL="${GEOCODER_BASEURL}"' >> .env
+                    echo 'OFFICIAL="${OFFICIAL}"' >> .env
+                    echo 'GBFS_VERSION=${GBFS_VERSION}' >> .env
                 """
             }
         }

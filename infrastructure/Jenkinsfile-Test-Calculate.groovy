@@ -14,6 +14,8 @@ pipeline {
         GBFS_PORT = "443"
         UPDATERS = "True"
         GTFS_FILE = "200804_ExportGTFS.zip"
+        OFFICIAL="False"
+        GBFS_VERSION=1
     }
 
     stages {
@@ -34,6 +36,8 @@ pipeline {
                     echo 'UPDATERS=${UPDATERS}' >> .env
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
                     echo 'GBFS_PORT="${GBFS_PORT}"' >> .env
+                    echo 'OFFICIAL="${OFFICIAL}"' >> .env
+                    echo 'GBFS_VERSION="${GBFS_VERSION}"' >> .env
                 """
             }
         }

@@ -23,6 +23,7 @@ services:
       BACKUP_GRAPH: ${BACKUP_GRAPH}
       GBFS_HOST: ${GBFS_HOST}
       GBFS_PORT: ${GBFS_PORT}
+      GBFS_VERSION: ${GBFS_VERSION}
       UPDATERS: "True"
     volumes:
       - /opt/odh-mentor-otp/:/data/
@@ -34,3 +35,8 @@ services:
     restart: unless-stopped
     ports:
      - ${DOCKER_GBFS_PORT}:8089
+
+  geocoder:
+    image: ${DOCKER_IMAGE_GEOCODER}:${DOCKER_TAG}
+    ports:
+      - ${DOCKER_GEOCODER_PORT}:8088

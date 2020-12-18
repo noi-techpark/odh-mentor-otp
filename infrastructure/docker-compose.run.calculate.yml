@@ -12,6 +12,8 @@ services:
       GTFS_FILE: ${GTFS_FILE}
       GBFS_HOST: ${GBFS_HOST}
       GBFS_PORT: ${GBFS_PORT}
+      GBFS_VERSION: ${GBFS_VERSION}
       UPDATERS: ${UPDATERS}
+      GEOCODER_BASEURL: ${GEOCODER_BASEURL}
     volumes:
       - /opt/odh-mentor-otp/:/data/
