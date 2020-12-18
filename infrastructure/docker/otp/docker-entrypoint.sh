@@ -93,7 +93,12 @@ if [ "${BUILD_GRAPH}" = "True" ]; then
 	echo "Building graph file... /data/Graph.obj"
 
 	#BUILD GRAPH
-	otp.sh --build /data
+	if [ "${OFFICIAL}" = "False" ]; then
+		otp-unofficial.sh --build /data
+	else
+		otp.sh --build /data
+	fi
+
 
 	mkdir -p /data/openmove
 
@@ -117,7 +122,12 @@ if [ "${BUILD_GRAPH}" = "True" ]; then
 	exit 0
 	#TODO shutdown the machine and gen logs
 else
-	otp.sh --graphs /data --router openmove --server --autoReload
+	if [ "${OFFICIAL}" = "False" ]; then
+		otp-unofficial.sh --graphs /data --router openmove --server --autoReload
+	else
+		otp.sh --graphs /data --router openmove --server --autoReload
+	fi
+
 fi
 
 if [ ! -f /data/openmove/Graph.obj ]; then

@@ -7,11 +7,11 @@ const yaml = require('js-yaml');
 const CONFIGFILE = path.join(__dirname, 'config.yml');
 const ENV = process.env;
 
-//const tmplReg = /\$\{(.+?)\}/g
-const tmplReg = /\$\{([\w_\-]+)\}/g
-//const tmplReg = /\{ *([\w_\-]+) *\}/g
-
 function tmpl(str, data) {
+	//const tmplReg = /\$\{(.+?)\}/g
+	const tmplReg = /\$\{([\w_\-]+)\}/g
+	//const tmplReg = /\{ *([\w_\-]+) *\}/g
+
 	return str.replace(tmplReg, function (str, key) {
 		var value = data[key];
 		if (value === undefined)
@@ -19,6 +19,7 @@ function tmpl(str, data) {
 		return value;
 	});	
 }
+
 
 try {
 	const configFile = fs.readFileSync(CONFIGFILE, 'utf8');

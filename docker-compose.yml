@@ -17,8 +17,26 @@ services:
         API_HOST: http://localhost
         API_PATH: /otp/routers/openmove
         API_PORT: 8080
+        GEOCODER_BASEURL: http://localhost:8088/v1
     depends_on:
+      - geocoder
       - otp
+
+  geocoder:
+    container_name: openmove-geocoder
+    ports: ["8088:8088"]
+    image: openmove_geocoder:latest
+    build:
+      context: ./geocoder/
+      dockerfile: ./Dockerfile
+    #TODO ONLY FOR DEBUG
+    #volumes:
+    #  - ./config.yml:/home/config.yml
+    #  - ./index.js:/home/index.js
+    # environment:
+    #   API_HOST: otp
+    #   API_PATH: /otp/routers/openmove
+    #   API_PORT: 8080
 
   gbfs:
     container_name: openmove-gbfs
@@ -38,6 +56,7 @@ services:
     environment:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
+      - OFFICIAL=False
     volumes:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
@@ -53,10 +72,11 @@ services:
       dockerfile: infrastructure/docker/otp/Dockerfile
     environment:
       - JAVA_MX=10G
+      - OFFICIAL=False
       - BUILD_GRAPH=True
       - DOWNLOAD_DATA=True
       - BACKUP_GRAPH=False
-      - GTFS_FILE=200804_ExportGTFS.zip
+      - GTFS_FILE=201105_ExportGTFS.zip
       - UPDATERS=True
       - GBFS_HOST=http://gbfs
       - GBFS_PORT=8089

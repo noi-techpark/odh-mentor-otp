@@ -42,6 +42,8 @@ cd odh-mentor-otp
 
 ```otp.sh``` a script to run otp by command line
 
+```otp-unofficial.sh``` a script to run otp unofficial version by command line
+
 ```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
 
 ```gbfs``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
@@ -57,6 +59,8 @@ Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 ```JAVA_MX``` the amount of heap space available to OpenTripPlanner. (The `otp.sh` script adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
 
 ```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
+
+```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
 
 ```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
 
@@ -79,11 +83,16 @@ they refer to the hostname where the **otp** service is located
 
 ```API_PORT``` port default ```8080``` (port of internal service otp)
 
+```GEOCODER_BASEURL``` default pelias geoder instance http://localhost/geocoder/v1
+
 ```UPDATERS``` if *True* create the router-config.json with GBFS/GTFS-RT updaters
 
-```GBFS_HOST``` host path to GBFS service 
- 
+```GBFS_HOST``` host path to GBFS service
+
 ```GBFS_PORT``` port of GBFS service
+
+```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
+
 
 Then you can start the application using the following command:
 
@@ -92,6 +101,11 @@ Then you can start the application using the following command:
 ```bash
 docker-compose up build
 ```
+
+#### Compatibility
+
+In OpenTripPlanner is not allowed running a graph built with a different version.
+In case you change the OpenTripPlanner version or switch from/to Ufficial/IBI-Group Version **you have to rebuild the graph**.  
 
 #### Execute OTP instance
 

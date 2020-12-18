@@ -1,0 +1,46 @@
+server:
+  port: 8088
+  #TODO cache_ttl: 0
+  default_lang: 'en'
+  mintextlength: 3
+
+endpoints:
+  default:
+    #priority: 1
+    #TODO parameter by sorted results
+    #size: 10 result size for each endpoints
+    hostname: tourism.opendatahub.bz.it
+    port: 443
+    size: 3
+    #method: 'GET'
+    #headers:
+    # User-Agent: OpenMove-Geocoder-Client
+  
+  ##check in file formatters.js for fields mapping
+  ##(there must be a function with the same name as the endpoint)
+
+  opentripplanner:
+    #TODO priority: 100
+    hostname: otp
+    #hostname: localhost
+    # docs  http://dev.opentripplanner.org/apidoc/1.4.0/resource_GeocoderResource.html
+    path: /otp/routers/default/geocode?query={{text}}
+    port: 8080
+    size: 3
+
+  #example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
+  accommodations:
+    #TODO priority: 50
+    path: /api/Accommodation?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
+    size: 3  
+  
+  #example: http://tourism.opendatahub.bz.it/api/Poi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=der
+  pois:
+    #TODO priority: 50
+    path: /api/Poi?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
+    size: 3
+
+  ##example: http://tourism.opendatahub.bz.it/api/ODHActivityPoi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=magic
+  ODHActivityPoi:
+    path: /api/ODHActivityPoi/?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
+    size: 3

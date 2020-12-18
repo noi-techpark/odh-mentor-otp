@@ -1,7 +1,7 @@
 # react-router config, for URL routing (not to be confused with multimodal/OTP routing)
-reactRouter:
+#reactRouter:
 #   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
-  basename: ${FOLDER}
+#  basename: ${FOLDER}
 
 branding: Mentor - Alto Adige/Suedtirol
 homeTimezone: Europe/Rome
@@ -19,6 +19,19 @@ api:
 #     - stops
 #     - stops/routes
 #     - routes
+
+geocoder:
+  baseUrl: ${GEOCODER_BASEURL}
+  maxNearbyStops: 6
+  type: PELIAS
+  boundary:
+    rect:
+      minLon: 10.470121
+      maxLon: 12.255011
+      minLat: 46.188280
+      maxLat: 47.088780
+#Suedtirol 10.470121,46.188280,12.255011,47.088780
+
 # Enabled multimodal routing types (e.g. interary, profile)
 routingTypes:
   - key: ITINERARY
@@ -254,20 +267,6 @@ map:
       name: $_stops_$
       visible: true
 
-
-
-# geocoder:
-#   baseUrl: https://ws-st.trimet.org/peliaswrap/v1
-#   maxNearbyStops: 6
-#   type: PELIAS
-#   boundary:
-#     rect:
-#       minLon: -123.2034
-#       maxLon: -122.135
-#       minLat: 45.273
-#       maxLat: 45.7445
-
-
 # Mode selector configuration
 modes:
   transitModes:
@@ -277,9 +276,8 @@ modes:
     #   label: MAX & Streetcar
     - mode: RAIL
       label: $_train_$
-
-    # - mode: GONDOLA
-    #   label: Funivia
+    - mode: GONDOLA
+      label: $_funicular_$
     #   showWheelchairSetting: true
 
   accessModes:
