@@ -4,7 +4,8 @@ ARG OTP_VERSION=1.4.0
 
 ENV BRANCH=v1.4.0 \
     BRANCH_ALIAS=1.4.0 \
-    JAVA_MX=4G
+    JAVA_MX=4G \
+    GBFS_VERSION=1
 
 RUN apk add --no-cache \
     openjdk8-jre \

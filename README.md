@@ -91,6 +91,8 @@ they refer to the hostname where the **otp** service is located
 
 ```GBFS_PORT``` port of GBFS service
 
+```GBFS_VERSION``` gbfs version 1 or 2.1 (rebuild graph is required)
+
 ```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
 
 
