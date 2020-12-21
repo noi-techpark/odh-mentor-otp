@@ -38,5 +38,6 @@ services:
 
   geocoder:
     image: ${DOCKER_IMAGE_GEOCODER}:${DOCKER_TAG}
+    restart: unless-stopped
     ports:
       - ${DOCKER_GEOCODER_PORT}:8088
