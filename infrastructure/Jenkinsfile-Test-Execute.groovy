@@ -42,6 +42,7 @@ pipeline {
                     echo 'DOCKER_IMAGE_OTP=${DOCKER_IMAGE_OTP}' >> .env
                     echo 'DOCKER_IMAGE_JOURNEY=${DOCKER_IMAGE_JOURNEY}' >> .env
                     echo 'DOCKER_IMAGE_GBFS=${DOCKER_IMAGE_GBFS}' >> .env
+                    echo 'DOCKER_IMAGE_GEOCODER=${DOCKER_IMAGE_GEOCODER}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
 
                     echo 'SERVER_PORT_OTP=${SERVER_PORT_OTP}' >> .env
