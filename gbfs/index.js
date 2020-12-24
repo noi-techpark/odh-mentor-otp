@@ -123,7 +123,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         res.status(500).send({ error: "wrong context" });
         return;
     }
-    var url = req.protocol + '://' + req.get('host') + "/" + context + "/"+version;
+    var url = req.protocol + '://' + (req.get("x-forwarded-host") || req.get('host')) + "/" + context + "/"+version;
     var feeds = [
         {
             name: "system_information",
@@ -189,7 +189,7 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
         res.status(500).send({ error: "wrong context" });
         return;
     }
-    var url = req.protocol + '://' + req.get('host') + "/" + context;
+    var url = req.protocol + '://' + (req.get("x-forwarded-host") || req.get('host')) + "/" + context;
 
     res.json(
     {
