@@ -9,7 +9,7 @@ endpoints:
     #priority: 1
     #TODO parameter by sorted results
     #size: 10 result size for each endpoints
-    hostname: tourism.opendatahub.bz.it
+    hostname: api.tourism.testingmachine.eu
     port: 443
     size: 3
     #method: 'GET'
