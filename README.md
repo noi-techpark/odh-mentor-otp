@@ -93,6 +93,10 @@ they refer to the hostname where the **otp** service is located
 
 ```GBFS_VERSION``` gbfs version 1 or 2.1 (rebuild graph is required)
 
+```GTFS_RT_URL``` gtfs-realtime url with trip updates (rebuild graph is required)
+
+```GTFS_FEED_ID``` gtfs feed id which the gtfs-rt refers to. This is the defined by the  'feed_id' value (unofficial) inside feed_info.txt, if not defined this should be "1" (rebuild graph is required)
+
 ```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
 
 
