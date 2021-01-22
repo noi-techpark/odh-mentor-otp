@@ -81,7 +81,6 @@ services:
       - GBFS_HOST=http://gbfs
       - GBFS_PORT=8089
       - GBFS_VERSION=1
-      - GBFS_VERSION=1
       - GTFS_RT_URL=http://developer.trimet.org/ws/V1/TripUpdate/appID/0123456789ABCDEF
       - GTFS_FEED_ID=1
       #- GBFS_VERSION=2.1
