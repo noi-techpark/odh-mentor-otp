@@ -44,13 +44,17 @@ cd odh-mentor-otp
 
 ```otp-unofficial.sh``` a script to run otp unofficial version by command line
 
-```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
+```router-config.json``` define OTP updaters(GTFS-RT) and router settings from environment vars
 
-```gbfs``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
+```build-config.json``` default OTP build config from environment vars
 
 ```osm.url``` a pregenerated urls list of downloadable Openstreetmap data for SouthTyrol area.
 
-```gtfs2bbox``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
+```otp-app/``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
+
+```gbfs/``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
+
+```gtfs2bbox/``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
 ### Docker Environment
 
