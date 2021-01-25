@@ -27,7 +27,7 @@ pipeline {
         API_PORT = "443"
         API_PATH = "/otp/routers/openmove"
 
-        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/"
+        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
         OFFICIAL = "False"
         GBFS_VERSION=1
     }
