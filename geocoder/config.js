@@ -1,3 +1,4 @@
+
 const path = require('path');
 const fs = require('fs');
 
@@ -55,8 +56,6 @@ const defaultConfig = {
 		}
 	}
 };
-
-
 
 var configYml = _.defaultsDeep(configYml, defaultConfig)
 

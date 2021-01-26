@@ -1,0 +1,23 @@
+{
+	"updaters": [
+		{
+			"type": "stop-time-updater",
+			"sourceType": "gtfs-http",
+			"frequencySec": 60,
+			"feedId": "${GTFS_FEED_ID}",			
+			"url": "${GTFS_RT_URL}"			
+		},
+		{
+			"type": "bike-rental",
+			"frequencySec": 900,
+			"sourceType": "gbfs",
+			"url": "${GBFS_HOST}:${GBFS_PORT}/bz/${GBFS_VERSION}/"
+		},
+		{
+			"type": "bike-rental",
+			"frequencySec": 900,
+			"sourceType": "gbfs",
+			"url": "${GBFS_HOST}:${GBFS_PORT}/me/${GBFS_VERSION}/"
+		}
+	]
+}

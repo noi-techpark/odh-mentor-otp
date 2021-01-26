@@ -7,9 +7,9 @@ networks:
 services:
 
   journey:
-    container_name: openmove-otp-journey
+    container_name: openmove-journey
     ports: ["80:80"]
-    image: openmove_otp_journey:latest
+    image: openmove_journey:latest
     build:
       context: ./
       dockerfile: infrastructure/docker/journey/Dockerfile
@@ -27,8 +27,8 @@ services:
     ports: ["8088:8088"]
     image: openmove_geocoder:latest
     build:
-      context: ./geocoder/
-      dockerfile: ./Dockerfile
+      context: ./
+      dockerfile: infrastructure/docker/geocoder/Dockerfile
     #TODO ONLY FOR DEBUG
     #volumes:
     #  - ./config.yml:/home/config.yml
@@ -43,8 +43,8 @@ services:
     ports: ["8089:8089"]
     image: openmove_gbfs:latest
     build:
-      context: ./gbfs/
-      dockerfile: ./Dockerfile
+      context: ./
+      dockerfile: infrastructure/docker/gbfs/Dockerfile
 
   otp:
     container_name: openmove-otp
@@ -72,8 +72,8 @@ services:
       dockerfile: infrastructure/docker/otp/Dockerfile
     environment:
       - JAVA_MX=10G
-      - OFFICIAL=False
       - BUILD_GRAPH=True
+      - OFFICIAL=False
       - DOWNLOAD_DATA=True
       - BACKUP_GRAPH=False
       - GTFS_FILE=201105_ExportGTFS.zip
@@ -81,6 +81,8 @@ services:
       - GBFS_HOST=http://gbfs
       - GBFS_PORT=8089
       - GBFS_VERSION=1
+      - GTFS_RT_URL=https://efa.sta.bz.it/gtfs-r/
+      - GTFS_FEED_ID=1
       #- GBFS_VERSION=2.1
     volumes:
       - /opt/odh-mentor-otp/:/data/

@@ -44,13 +44,17 @@ cd odh-mentor-otp
 
 ```otp-unofficial.sh``` a script to run otp unofficial version by command line
 
-```otp-app``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
+```router-config.json``` define OTP updaters(GTFS-RT) and router settings from environment vars
 
-```gbfs``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
+```build-config.json``` default OTP build config from environment vars
 
 ```osm.url``` a pregenerated urls list of downloadable Openstreetmap data for SouthTyrol area.
 
-```gtfs2bbox``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
+```otp-app/``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
+
+```gbfs/``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
+
+```gtfs2bbox/``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
 ### Docker Environment
 
@@ -92,6 +96,10 @@ they refer to the hostname where the **otp** service is located
 ```GBFS_PORT``` port of GBFS service
 
 ```GBFS_VERSION``` gbfs version 1 or 2.1 (rebuild graph is required)
+
+```GTFS_RT_URL``` gtfs-realtime url with trip updates (rebuild graph is required)
+
+```GTFS_FEED_ID``` gtfs feed id which the gtfs-rt refers to. This is the defined by the  'feed_id' value (unofficial) inside feed_info.txt, if not defined this should be "1" (rebuild graph is required)
 
 ```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
 
