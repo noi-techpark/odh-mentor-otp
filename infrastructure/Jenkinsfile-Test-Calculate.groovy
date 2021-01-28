@@ -13,7 +13,7 @@ pipeline {
         GBFS_HOST = "https://gbfs.otp.opendatahub.testingmachine.eu"
         GBFS_PORT = "443"
         UPDATERS = "True"
-        GTFS_FILE = "200804_ExportGTFS.zip"
+        GTFS_FILE = "latestGTFS.zip"
         OFFICIAL="False"
         GBFS_VERSION=1
     }
