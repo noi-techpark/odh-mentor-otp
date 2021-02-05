@@ -25,11 +25,11 @@ COPY ./otp-app/config.yml .
 COPY ./otp-app/config.yml .
 COPY ./otp-app/envtmpl.js .
 
-RUN cd ./app && \
-	yarn install
-
 #valorize env vars inside app/config.yml
 RUN npm run genconfig
+
+RUN cd ./app && \
+	yarn install
 
 RUN cd /otp-app/app/ && \
 	yarn build -o /var/www/html/dist

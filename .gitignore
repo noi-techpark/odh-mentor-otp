@@ -1,6 +1,8 @@
 .env
 data/*
 **node_modules
-otp-app/yarn.lock
+otp-app/app/yarn.lock
+otp-app/app/yarn-error.log
 otp-app/app/lib/config.yml
 otp-app/.env
+
