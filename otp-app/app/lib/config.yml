@@ -1,11 +1,11 @@
-## react-router config, for URL routing (not to be confused with multimodal/OTP routing)
-# reactRouter:
+# react-router config, for URL routing (not to be confused with multimodal/OTP routing)
+#reactRouter:
 #   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
-#   basename: ${FOLDER}
+#  basename: ${FOLDER}
 
-branding: OpenMove
+branding: Mentor - Alto Adige/Suedtirol
 homeTimezone: Europe/Rome
-title: OpenMove
+title: Mentor - Alto Adige/Suedtirol
 
 # Default OTP API
 api:
@@ -19,6 +19,19 @@ api:
 #     - stops
 #     - stops/routes
 #     - routes
+
+geocoder:
+  baseUrl: http://localhost:8088/v1
+  maxNearbyStops: 6
+  type: PELIAS
+  boundary:
+    rect:
+      minLon: 10.470121
+      maxLon: 12.255011
+      minLat: 46.188280
+      maxLat: 47.088780
+#Suedtirol 10.470121,46.188280,12.255011,47.088780
+
 # Enabled multimodal routing types (e.g. interary, profile)
 routingTypes:
   - key: ITINERARY
@@ -71,12 +84,12 @@ map:
     - type: DEFAULT
       text: Mappa
     # Delete/uncomment the following block to disable the stylized map
-    # - type: STYLIZED
-    #   text: Network View
+    #- type: STYLIZED
+    #  text: Network View
 
   # Default map center
-  initLat: 46.072506
-  initLon: 11.120124
+  initLat: 46.670953
+  initLon: 11.155007
 
   # closer-in zoom levels don't have any tiles that could be rendered by
   # TriMet's tile service
@@ -129,16 +142,10 @@ map:
     #   api: https://newplanner.trimet.org/ws/carshare/zipcar/data.json
     #
     - type: bike-rental
-      name: Bike Stations
+      name: Bikesharing
       modes:
         - BICYCLE_RENT
       mapSymbols:
-        - maxZoom: 12
-          minZoom: 0
-          type: circle
-          pixels: 3
-          fillColor: "#FF2E28"
-          dockStrokeColor: "#000000"
         - maxZoom: 15
           minZoom: 13
           type: circle
@@ -257,22 +264,8 @@ map:
     #     - CAR_PARK
 
     - type: stops
-      name: Fermate
+      name: $_stops_$
       visible: true
-
-
-
-# geocoder:
-#   baseUrl: https://ws-st.trimet.org/peliaswrap/v1
-#   maxNearbyStops: 6
-#   type: PELIAS
-#   boundary:
-#     rect:
-#       minLon: -123.2034
-#       maxLon: -122.135
-#       minLat: 45.273
-#       maxLat: 45.7445
-
 
 # Mode selector configuration
 modes:
@@ -283,9 +276,8 @@ modes:
     #   label: MAX & Streetcar
     - mode: RAIL
       label: $_train_$
-
-    # - mode: GONDOLA
-    #   label: Funivia
+    - mode: GONDOLA
+      label: $_funicular_$
     #   showWheelchairSetting: true
 
   accessModes:
@@ -323,7 +315,7 @@ modes:
 # provide rental vehicles or transportation network companies. Companies that
 # have multiple modes of transport should have all modes listed as a string with
 # commas. For example: BICYCLE_RENT,MICROMOBILITY_RENT.
-  companies:
+companies:
     - id: Bikesharing
       label: Bikesharing Alto Adige
       modes: BICYCLE_RENT
@@ -360,11 +352,11 @@ reportIssue:
 #     globalSiteTag: UA-133677388-1
 
 language:
-  storageDisclaimer: $_storage_disclaimer_$
-  routeViewer: $_route_viewer_$
-  routeViewerDetails: $_route_view_details_$
-  tripViewer: $_trip_$
-  stopViewer: $_stop_$
+    storageDisclaimer: $_storage_disclaimer_$
+    routeViewer: $_route_viewer_$
+    routeViewerDetails: $_route_view_details_$
+    tripViewer: $_trip_$
+    stopViewer: $_stop_$
 
 dateTime:
   timeFormat: HH:mm

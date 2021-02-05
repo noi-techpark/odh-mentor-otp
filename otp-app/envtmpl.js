@@ -5,12 +5,16 @@ usage:
 */
 const fs = require('fs');
 
+const dotenv = require('dotenv');
+
 const ENV = process.env;
 
 //const tmplReg = /\$\{(.+?)\}/g
 const tmplReg = /\$\{([\w_\-]+)\}/g
 //const tmplReg = /\{ *([\w_\-]+) *\}/g
 
+//only for debugging
+dotenv.config();
 
 function tmpl(str, data) {
 

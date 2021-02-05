@@ -22,13 +22,14 @@ WORKDIR /otp-app
 
 COPY ./otp-app/app ./app
 COPY ./otp-app/config.yml .
+COPY ./otp-app/config.yml .
 COPY ./otp-app/envtmpl.js .
 
 RUN cd ./app && \
 	yarn install
 
-#valorize config ${VAR} vars with env vars
-RUN sh -c 'node envtmpl.js config.yml > /otp-app/app/lib/config.yml'
+#valorize env vars inside app/config.yml
+RUN npm run genconfig
 
 RUN cd /otp-app/app/ && \
 	yarn build -o /var/www/html/dist
