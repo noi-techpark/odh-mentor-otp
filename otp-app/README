@@ -1,5 +1,12 @@
 
+original: https://github.com/ibi-group/trimet-mod-otp
+
 ## debug 
+
+```bash
+cd ../
+docker-compose up -d otp
+```
 
 create new .env file in /otp-app/.env
 ```
@@ -21,4 +28,4 @@ yarn install
 yarn start
 ```
 
-browse http://localhost:
+browse http://0.0.0.0:8081/

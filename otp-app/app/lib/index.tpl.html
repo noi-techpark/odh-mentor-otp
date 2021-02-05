@@ -39,6 +39,10 @@
     <div id="main"></div>
     <script>
 
+    var getUserLang = function() {
+        return languages["default_lang"];
+    };
+
     $('#lang-switch').on('click','a', (e)=> {
         e.preventDefault();
         let lang = $(e.currentTarget).data('lang');
@@ -46,53 +50,54 @@
         location.href = '/'+lang + '/';
     });
 
-    var getUserLang = function() {
-        return languages["default_lang"];
-    };
 
     window.onload = function() {
 
-    var userlang = localStorage.getItem('lang');
+        if(location.port!=='8081')  //is not debug mode in localhost by webpack
+        {
+          var userlang = localStorage.getItem('lang');
 
-    if(!userlang) {
-      localStorage.setItem('lang', 'it');   //default lang
-      userlang = 'it';
-    }
+          if(!userlang) {
+              localStorage.setItem('lang', 'it');   //default lang
+              userlang = 'it';
+          }
 
-    //CHECK CURRENT PATH
-    if(location.pathname.split('/')[1] !== userlang) {
-      location.href = '/'+userlang + '/';
-    }
+          //check current path
+          if(location.pathname.split('/')[1] !== userlang) {
+              location.href = '/'+userlang + '/';
+          }
+        }
 
-//TODO button event to set user language
-    
 
-    var mutationObserver = new MutationObserver(function(mutations) {
-        mutationObserver.disconnect();
-        myfunction();
+        var mutationObserver = new MutationObserver(function(mutations) {
+          mutationObserver.disconnect();
+          replacerFunc();
 
+
+          mutationObserver.observe(document.documentElement, {
+            //attributes: true,
+            // characterData: true,
+            childList: true,
+            subtree: true,
+          });
+        });
 
         mutationObserver.observe(document.documentElement, {
-          //attributes: true,
+           //attributes: true,
           // characterData: true,
           childList: true,
           subtree: true,
         });
-      });
 
-      mutationObserver.observe(document.documentElement, {
-         //attributes: true,
-        // characterData: true,
-        childList: true,
-        subtree: true,
-      });
-      myfunction();
+        replacerFunc();
     };
+    
     var mut = new MutationObserver(function(mutations){
         console.log("mut");
-        myfunction();
+        replacerFunc();
     });
-    var myfunction = function(){
+
+    var replacerFunc = function(){
         console.log("change");
         for (const [key, value] of Object.entries(window.languages)) {
             $("body *").contents().each(function() {
