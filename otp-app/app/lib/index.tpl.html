@@ -43,18 +43,18 @@
         return languages["default_lang"];
     };
 
-    $('#lang-switch').on('click','a', (e)=> {
-        e.preventDefault();
-        let lang = $(e.currentTarget).data('lang');
-        localStorage.setItem('lang', lang);
-        location.href = '/'+lang + '/';
-    });
-
 
     window.onload = function() {
 
         if(location.port!=='8081')  //is not debug mode in localhost by webpack
         {
+          $('#lang-switch').on('click','a', (e)=> {
+              e.preventDefault();
+              let lang = $(e.currentTarget).data('lang');
+              localStorage.setItem('lang', lang);
+              location.href = '/'+lang + '/';
+          });
+
           var userlang = localStorage.getItem('lang');
 
           if(!userlang) {
@@ -67,6 +67,7 @@
               location.href = '/'+userlang + '/';
           }
         }
+        console.warn('switch lang disable on dev mode')
 
 
         var mutationObserver = new MutationObserver(function(mutations) {
