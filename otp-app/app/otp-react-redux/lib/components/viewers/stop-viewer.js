@@ -267,7 +267,8 @@ class StopViewer extends Component {
             {hasStopTimesAndRoutes
               ? <>
                 <div style={{ marginTop: 20 }}>
-                  {Object.values(stopTimesByPattern)
+                  {
+                    Object.values(stopTimesByPattern)
                     .sort((a, b) => coreUtils.route.routeComparator(a.route, b.route))
                     .map(patternTimes => {
                       // Only add pattern row if route is found.

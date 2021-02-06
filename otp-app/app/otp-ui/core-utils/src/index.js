@@ -7,6 +7,7 @@ import * as storage from "./storage";
 import * as time from "./time";
 import * as types from "./types";
 import * as ui from "./ui";
+import * as route from "./route";
 
 const core = {
   itinerary,
@@ -17,7 +18,8 @@ const core = {
   storage,
   time,
   types,
-  ui
+  ui,
+  route
 };
 
 export default core;

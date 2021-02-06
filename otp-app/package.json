@@ -7,7 +7,7 @@
     "dotenv": "^8.2.0"
   },
   "scripts": {
-    "genconfig": "node envtmpl.js config.yml > app/lib/config.yml"
+    "genconfig": "node envtmpl.js config.yml > app/lib/config.yml "
   },
   "author": "",
   "license": "ISC"

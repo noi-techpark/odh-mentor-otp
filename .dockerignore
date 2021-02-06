@@ -2,4 +2,4 @@
 **/*.osm.pbf
 **/*.zip
 **/*.tif
-
+**/node_modules

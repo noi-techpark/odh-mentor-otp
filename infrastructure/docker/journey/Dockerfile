@@ -21,26 +21,27 @@ RUN mkdir -p /otp-app
 WORKDIR /otp-app
 
 COPY ./otp-app/app ./app
-COPY ./otp-app/config.yml .
+COPY ./otp-app/package.json .
 COPY ./otp-app/config.yml .
 COPY ./otp-app/envtmpl.js .
 
 #valorize env vars inside app/config.yml
-RUN npm run genconfig
+RUN npm install && npm run genconfig
 
 RUN cd ./app && \
 	yarn install
 
-RUN cd /otp-app/app/ && \
+RUN	cd ./app && \
 	yarn build -o /var/www/html/dist
 
 RUN mkdir -p /var/www/html/it /var/www/html/en /var/www/html/de
 
 RUN	cd /var/www/html/ && \
-	cp -r ./dist/* ./ && \
-	cp -r ./dist/* ./it/ && \
-	cp -r ./dist/* ./en/ && \
-	cp -r ./dist/* ./de/
+	ls -l ./dist && \
+	#cp ./dist/* ./ && \
+	cp -r ./dist ./it && \
+	cp -r ./dist ./en && \
+	cp -r ./dist ./de
 
 COPY ./otp-app/language_it.js /var/www/html/language.js
 COPY ./otp-app/language_it.js /var/www/html/it/language.js
