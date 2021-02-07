@@ -3,3 +3,4 @@
 **/*.zip
 **/*.tif
 **/node_modules
+otp-app/app/dist

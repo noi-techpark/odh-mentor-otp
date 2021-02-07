@@ -32,13 +32,14 @@ RUN cd ./app && \
 	yarn install
 
 RUN	cd ./app && \
-	yarn build -o /var/www/html/dist
+	yarn build && \
+	mv dist /var/www/html/
 
-RUN mkdir -p /var/www/html/it /var/www/html/en /var/www/html/de
+#RUN mkdir -p /var/www/html/it /var/www/html/en /var/www/html/de
 
 RUN	cd /var/www/html/ && \
-	ls -l ./dist && \
-	#cp ./dist/* ./ && \
+#	ls -l ./dist && \
+	cp ./dist/* ./ && \
 	cp -r ./dist ./it && \
 	cp -r ./dist ./en && \
 	cp -r ./dist ./de
