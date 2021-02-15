@@ -47,6 +47,7 @@ RUN	cd /var/www/html/ && \
 COPY ./otp-app/language_it.js /var/www/html/language.js
 COPY ./otp-app/language_it.js /var/www/html/it/language.js
 COPY ./otp-app/language_en.js /var/www/html/en/language.js
+COPY ./otp-app/language_de.js /var/www/html/de/language.js
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 
