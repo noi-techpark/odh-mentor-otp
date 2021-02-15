@@ -13,7 +13,7 @@ cd ../
 docker-compose up -d otp
 ```
 
-create new .env file in /otp-app/.env
+create new .env file in /journey/.env
 ```
 API_HOST=http://localhost
 API_PATH=/otp/routers/openmove

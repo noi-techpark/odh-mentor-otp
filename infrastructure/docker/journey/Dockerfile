@@ -16,14 +16,14 @@ RUN	apt-get -qq update && \
 	apt-get -y install nginx && \
 	rm -f /var/www/html/index.nginx-debian.html
 
-RUN mkdir -p /otp-app
+RUN mkdir -p /journey
 
-WORKDIR /otp-app
+WORKDIR /journey
 
-COPY ./otp-app/app ./app
-COPY ./otp-app/package.json .
-COPY ./otp-app/config.yml .
-COPY ./otp-app/envtmpl.js .
+COPY ./journey/app ./app
+COPY ./journey/package.json .
+COPY ./journey/config.yml .
+COPY ./journey/envtmpl.js .
 
 #valorize env vars inside app/config.yml
 RUN npm install && npm run genconfig
@@ -44,10 +44,10 @@ RUN	cd /var/www/html/ && \
 	cp -r ./dist ./en && \
 	cp -r ./dist ./de
 
-COPY ./otp-app/language_it.js /var/www/html/language.js
-COPY ./otp-app/language_it.js /var/www/html/it/language.js
-COPY ./otp-app/language_en.js /var/www/html/en/language.js
-COPY ./otp-app/language_de.js /var/www/html/de/language.js
+COPY ./journey/language_it.js /var/www/html/language.js
+COPY ./journey/language_it.js /var/www/html/it/language.js
+COPY ./journey/language_en.js /var/www/html/en/language.js
+COPY ./journey/language_de.js /var/www/html/de/language.js
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 

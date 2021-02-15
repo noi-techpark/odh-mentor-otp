@@ -93,13 +93,17 @@
         replacerFunc();
     };
     
-    var mut = new MutationObserver(function(mutations){
+    var mut = new MutationObserver(function(mutations) {
+
         console.log("mut");
+
         replacerFunc();
     });
 
-    var replacerFunc = function(){
+    var replacerFunc = function() {
+        
         console.log("change");
+
         for (const [key, value] of Object.entries(window.languages)) {
             $("body *").contents().each(function() {
               if(this.nodeType==3){
