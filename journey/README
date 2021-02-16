@@ -11,9 +11,10 @@ echo fs.inotify.max_user_watches=1000000 | sudo tee -a /etc/sysctl.conf && sudo 
 ```bash
 cd ../
 docker-compose up -d otp
-```
+cp env.example .env
 
-create new .env file in /journey/.env
+```
+edit .env file if needed
 ```
 API_HOST=http://localhost
 API_PATH=/otp/routers/openmove
