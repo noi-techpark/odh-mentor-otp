@@ -3,4 +3,6 @@
 **/*.zip
 **/*.tif
 **/node_modules
+journey/package-lock.json
+journey/app/package-lock.json
 journey/app/dist

@@ -13,7 +13,7 @@ ENV API_HOST=$API_HOST \
 	GEOCODER_BASEURL=$GEOCODER_BASEURL
 
 RUN	apt-get -qq update && \
-	apt-get -y install nginx && \
+	apt-get -y install nginx git && \
 	rm -f /var/www/html/index.nginx-debian.html
 
 RUN mkdir -p /journey
@@ -28,15 +28,11 @@ WORKDIR /journey
 RUN npm install
 RUN npm run genconfig
 
-RUN rm -f package-lock.json
-
 RUN cd ./app && yarn install
 
 RUN	cd ./app && yarn build
 
 RUN	cd ./app && mv dist /var/www/html/
-
-#RUN mkdir -p /var/www/html/it /var/www/html/en /var/www/html/de
 
 RUN	cd /var/www/html/ && \
 #	ls -l ./dist && \
@@ -45,10 +41,10 @@ RUN	cd /var/www/html/ && \
 	cp -r ./dist ./en && \
 	cp -r ./dist ./de
 
-COPY ./journey/language_it.js /var/www/html/language.js
-COPY ./journey/language_it.js /var/www/html/it/language.js
-COPY ./journey/language_en.js /var/www/html/en/language.js
-COPY ./journey/language_de.js /var/www/html/de/language.js
+RUN cp /journey/language_it.js /var/www/html/language.js && \
+	cp /journey/language_it.js /var/www/html/it/language.js && \
+	cp /journey/language_en.js /var/www/html/en/language.js && \
+	cp /journey/language_de.js /var/www/html/de/language.js
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 
