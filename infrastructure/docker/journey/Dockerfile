@@ -18,22 +18,23 @@ RUN	apt-get -qq update && \
 
 RUN mkdir -p /journey
 
+#WORKDIR /journey
+
+COPY ./journey /journey
+
 WORKDIR /journey
 
-COPY ./journey/app ./app
-COPY ./journey/package.json .
-COPY ./journey/config.yml .
-COPY ./journey/envtmpl.js .
-
 #valorize env vars inside app/config.yml
-RUN npm install && npm run genconfig
+RUN npm install
+RUN npm run genconfig
 
-RUN cd ./app && \
-	yarn install
+RUN rm -f package-lock.json
 
-RUN	cd ./app && \
-	yarn build && \
-	mv dist /var/www/html/
+RUN cd ./app && yarn install
+
+RUN	cd ./app && yarn build
+
+RUN	cd ./app && mv dist /var/www/html/
 
 #RUN mkdir -p /var/www/html/it /var/www/html/en /var/www/html/de
 
