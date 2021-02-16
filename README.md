@@ -50,7 +50,7 @@ cd odh-mentor-otp
 
 ```osm.url``` a pregenerated urls list of downloadable Openstreetmap data for SouthTyrol area.
 
-```otp-app/``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
+```journey/``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
 
 ```gbfs/``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
 
@@ -78,7 +78,7 @@ Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 these arguments are used to build the **otp** service image downloading Opentripplanner from official repos
 ```OTP_VERSION``` default is 1.4.0
 
-these arguments are used to build the **otp-app** service image which is the modern interface for OTP.
+these arguments are used to build the **journey** service image which is the modern interface for OTP.
 they refer to the hostname where the **otp** service is located
 
 ```API_HOST``` deployed hostname of otp api default: ```http://localhost``` (name of deployed)

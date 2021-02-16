@@ -2,4 +2,5 @@
 **/*.osm.pbf
 **/*.zip
 **/*.tif
-
+**/node_modules
+journey/app/dist
