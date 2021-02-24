@@ -121,14 +121,20 @@ module.exports = {
 	//example: http://tourism.opendatahub.bz.it/api/ODHActivityPoi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=magic
 	'ODHActivityPoi': function(data) {
 		return _.map(data.Items, (item)=> {
-			return createHit({
-				id:   item['Id'],
-				text: item['Detail.'+lang+'.Title'],
-				lat:  parseFloat(item['GpsInfo'][0]['Latitude']),
-				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
-				//source used in func createHit()
-				source: 'ODH_ODHActivityPoi',
-			});
+
+			let lat = _.get(item,"GpsInfo[0].Latitude"),
+				lon = _.get(item,"GpsInfo[0].Longitude");
+			
+			if(lat && lon) {
+				return createHit({
+					id:   item['Id'],
+					text: item['Detail.'+lang+'.Title'],
+					lat:  parseFloat(lat),
+					lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
+					//source used in func createHit()
+					source: 'ODH_ODHActivityPoi',
+				});
+			}
 		})
 	}
 };
