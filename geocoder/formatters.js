@@ -79,12 +79,15 @@ module.exports = {
 		let datal = _.slice(data, 0, config.endpoints.opentripplanner.size);
 
 		return _.map(datal, (item,k)=> {
+
+			let lat = _.get(item,"lat"),
+				lon = _.get(item,"lng");
+
 			return createHit({
 				id:   item['id'],
 				text: item['description'],
-				lat:  item['lat'],
-				lon:  item['lng'],
-				//source used in func createHit()
+				lat:  parseFloat(lat),
+				lon:  parseFloat(lon),
 				source: 'opentripplanner',
 			});
 		});
@@ -93,12 +96,15 @@ module.exports = {
 	//example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
 	'accommodations': function(data) {
 		return _.map(data.Items, (item)=> {
+
+			let lat = _.get(item,"Latitude"),
+				lon = _.get(item,"Longitude");
+
 			return createHit({
 				id:   item['Id'],
 				text: item['AccoDetail.'+lang+'.Name'],
-				lat:  parseFloat(item['Latitude']),
-				lon:  parseFloat(item['Longitude']),
-				//source used in func createHit()
+				lat:  parseFloat(lat),
+				lon:  parseFloat(lon),
 				source: 'ODH_accommodations',
 			});
 		})
@@ -107,13 +113,16 @@ module.exports = {
 	//example: http://tourism.opendatahub.bz.it/api/Poi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=der
 	'pois': function(data) {
 		return _.map(data.Items, (item)=> {
+
+			let lat = _.get(item,"GpsInfo[0].Latitude"),
+				lon = _.get(item,"GpsInfo[0].Longitude");
+
 			return createHit({
 				id:   item['Id'],
 				text: item['Detail.'+lang+'.Title'],
-				lat:  parseFloat(item['GpsInfo'][0]['Latitude']),
-				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
-				//source used in func createHit()
-				source: 'ODH_pois',			
+				lat:  parseFloat(lat),
+				lon:  parseFloat(lon),
+				source: 'ODH_pois',
 			});
 		})
 	},
@@ -130,8 +139,7 @@ module.exports = {
 					id:   item['Id'],
 					text: item['Detail.'+lang+'.Title'],
 					lat:  parseFloat(lat),
-					lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
-					//source used in func createHit()
+					lon:  parseFloat(lon),
 					source: 'ODH_ODHActivityPoi',
 				});
 			}
