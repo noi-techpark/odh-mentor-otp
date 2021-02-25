@@ -7,7 +7,8 @@ npm run dev
 ```
 
 
-browse: http://localhost:8087/testSearch?text=magic
+browse:
+http://localhost:8087/testSearch?text=magic
 
 
 sample mapping fields from this:

@@ -76,7 +76,7 @@ servicesApp.get('/testSearch', (req,res) => {
 });
 
 const serverParser = servicesApp.listen(PORT_SERVICES, () => {
-	console.log('[GEOCODER-SERVICES] listening on %s:%s', PORT_SERVICES)
+	//console.log('[GEOCODER-SERVICES] listening on %s:%s', PORT_SERVICES)
 	process.on('SIGTERM', () => {
 		console.error('[GEOCODER-SERVICES] closing...')
 		serverParser.close();

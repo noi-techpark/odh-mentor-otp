@@ -19,8 +19,8 @@ function createHit(ff) {
 				"default" : ff.text
 			},
 			"center_point" : {
-				"lon" : ff.lon,
-				"lat" : ff.lat
+				"lon" : parseFloat(ff.lon),
+				"lat" : parseFloat(ff.lat)
 			},
 			"source" : ff.source,
 			"source_id" : 'osm'+ff.id,
@@ -46,7 +46,6 @@ function createHit(ff) {
 module.exports = {
 
 	'elasticsearch': function(hits) {
-
 		return {
 			"took" : 1,
 			"timed_out" : false,
@@ -65,7 +64,6 @@ module.exports = {
 				"hits" : hits
 			}
 		};
-
 	},
 
 /*
@@ -82,14 +80,15 @@ module.exports = {
 
 			let lat = _.get(item,"lat"),
 				lon = _.get(item,"lng");
-
-			return createHit({
-				id:   item['id'],
-				text: item['description'],
-				lat:  parseFloat(lat),
-				lon:  parseFloat(lon),
-				source: 'opentripplanner',
-			});
+			if (lat && lon) {
+				return createHit({
+					id:   item['id'],
+					text: item['description'],
+					lat: lat,
+					lon: lon,
+					source: 'opentripplanner',
+				});
+			}
 		});
 	},
 
@@ -100,13 +99,15 @@ module.exports = {
 			let lat = _.get(item,"Latitude"),
 				lon = _.get(item,"Longitude");
 
-			return createHit({
-				id:   item['Id'],
-				text: item['AccoDetail.'+lang+'.Name'],
-				lat:  parseFloat(lat),
-				lon:  parseFloat(lon),
-				source: 'ODH_accommodations',
-			});
+			if (lat && lon) {
+				return createHit({
+					id:   item['Id'],
+					text: item['AccoDetail.'+lang+'.Name'],
+					lat: lat,
+					lon: lon,
+					source: 'ODH_accommodations',
+				});
+			}
 		})
 	},
 	
@@ -117,13 +118,15 @@ module.exports = {
 			let lat = _.get(item,"GpsInfo[0].Latitude"),
 				lon = _.get(item,"GpsInfo[0].Longitude");
 
-			return createHit({
-				id:   item['Id'],
-				text: item['Detail.'+lang+'.Title'],
-				lat:  parseFloat(lat),
-				lon:  parseFloat(lon),
-				source: 'ODH_pois',
-			});
+			if (lat && lon) {
+				return createHit({
+					id:   item['Id'],
+					text: item['Detail.'+lang+'.Title'],
+					lat: lat,
+					lon: lon,
+					source: 'ODH_pois',
+				});
+			}
 		})
 	},
 
@@ -134,12 +137,12 @@ module.exports = {
 			let lat = _.get(item,"GpsInfo[0].Latitude"),
 				lon = _.get(item,"GpsInfo[0].Longitude");
 			
-			if(lat && lon) {
+			if (lat && lon) {
 				return createHit({
 					id:   item['Id'],
 					text: item['Detail.'+lang+'.Title'],
-					lat:  parseFloat(lat),
-					lon:  parseFloat(lon),
+					lat: lat,
+					lon: lon,
 					source: 'ODH_ODHActivityPoi',
 				});
 			}
