@@ -79,11 +79,13 @@ module.exports = {
 		return _.map(datal, (item,k)=> {
 
 			let lat = _.get(item,"lat"),
-				lon = _.get(item,"lng");
+				lon = _.get(item,"lng"),
+				text = _.get(item,"description");
+
 			if (lat && lon) {
 				return createHit({
 					id:   item['id'],
-					text: item['description'],
+					text: text,
 					lat: lat,
 					lon: lon,
 					source: 'opentripplanner',
@@ -97,12 +99,13 @@ module.exports = {
 		return _.map(data.Items, (item)=> {
 
 			let lat = _.get(item,"Latitude"),
-				lon = _.get(item,"Longitude");
+				lon = _.get(item,"Longitude"),
+				text = _.get(item,"AccoDetail."+lang+".Name");
 
 			if (lat && lon) {
 				return createHit({
 					id:   item['Id'],
-					text: item['AccoDetail.'+lang+'.Name'],
+					text: text,
 					lat: lat,
 					lon: lon,
 					source: 'ODH_accommodations',
@@ -116,12 +119,13 @@ module.exports = {
 		return _.map(data.Items, (item)=> {
 
 			let lat = _.get(item,"GpsInfo[0].Latitude"),
-				lon = _.get(item,"GpsInfo[0].Longitude");
+				lon = _.get(item,"GpsInfo[0].Longitude"),
+				text = _.get(item,"Detail."+lang+".Title");
 
 			if (lat && lon) {
 				return createHit({
 					id:   item['Id'],
-					text: item['Detail.'+lang+'.Title'],
+					text: text,
 					lat: lat,
 					lon: lon,
 					source: 'ODH_pois',
@@ -135,12 +139,13 @@ module.exports = {
 		return _.map(data.Items, (item)=> {
 
 			let lat = _.get(item,"GpsInfo[0].Latitude"),
-				lon = _.get(item,"GpsInfo[0].Longitude");
+				lon = _.get(item,"GpsInfo[0].Longitude"),
+				text = _.get(item,"Detail."+lang+".Title");
 			
 			if (lat && lon) {
 				return createHit({
 					id:   item['Id'],
-					text: item['Detail.'+lang+'.Title'],
+					text: text,
 					lat: lat,
 					lon: lon,
 					source: 'ODH_ODHActivityPoi',
