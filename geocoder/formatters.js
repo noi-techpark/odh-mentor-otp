@@ -19,8 +19,8 @@ function createHit(ff) {
 				"default" : ff.text
 			},
 			"center_point" : {
-				"lon" : ff.lon,
-				"lat" : ff.lat
+				"lon" : parseFloat(ff.lon),
+				"lat" : parseFloat(ff.lat)
 			},
 			"source" : ff.source,
 			"source_id" : 'osm'+ff.id,
@@ -46,7 +46,6 @@ function createHit(ff) {
 module.exports = {
 
 	'elasticsearch': function(hits) {
-
 		return {
 			"took" : 1,
 			"timed_out" : false,
@@ -65,7 +64,6 @@ module.exports = {
 				"hits" : hits
 			}
 		};
-
 	},
 
 /*
@@ -78,57 +76,81 @@ module.exports = {
 		//hack to limit otp geocode results
 		let datal = _.slice(data, 0, config.endpoints.opentripplanner.size);
 
-		return _.map(datal, (item,k)=> {
-			return createHit({
-				id:   item['id'],
-				text: item['description'],
-				lat:  item['lat'],
-				lon:  item['lng'],
-				//source used in func createHit()
-				source: 'opentripplanner',
-			});
-		});
+		return _.compact(_.map(datal, (item,k)=> {
+
+			let lat = _.get(item,"lat"),
+				lon = _.get(item,"lng"),
+				text = _.get(item,"description");
+
+			if (lat && lon) {
+				return createHit({
+					id:   item['id'],
+					text: text,
+					lat: lat,
+					lon: lon,
+					source: 'opentripplanner',
+				});
+			}
+		}));
 	},
 
 	//example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
 	'accommodations': function(data) {
-		return _.map(data.Items, (item)=> {
-			return createHit({
-				id:   item['Id'],
-				text: item['AccoDetail.'+lang+'.Name'],
-				lat:  parseFloat(item['Latitude']),
-				lon:  parseFloat(item['Longitude']),
-				//source used in func createHit()
-				source: 'ODH_accommodations',
-			});
-		})
+		return _.compact(_.map(data.Items, (item)=> {
+
+			let lat = _.get(item,"Latitude"),
+				lon = _.get(item,"Longitude"),
+				text = _.get(item,"AccoDetail."+lang+".Name");
+
+			if (lat && lon) {
+				return createHit({
+					id:   item['Id'],
+					text: text,
+					lat: lat,
+					lon: lon,
+					source: 'ODH_accommodations',
+				});
+			}
+		}));
 	},
 	
 	//example: http://tourism.opendatahub.bz.it/api/Poi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=der
 	'pois': function(data) {
-		return _.map(data.Items, (item)=> {
-			return createHit({
-				id:   item['Id'],
-				text: item['Detail.'+lang+'.Title'],
-				lat:  parseFloat(item['GpsInfo'][0]['Latitude']),
-				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
-				//source used in func createHit()
-				source: 'ODH_pois',			
-			});
-		})
+		return _.compact(_.map(data.Items, (item)=> {
+
+			let lat = _.get(item,"GpsInfo[0].Latitude"),
+				lon = _.get(item,"GpsInfo[0].Longitude"),
+				text = _.get(item,"Detail."+lang+".Title");
+
+			if (lat && lon) {
+				return createHit({
+					id:   item['Id'],
+					text: text,
+					lat: lat,
+					lon: lon,
+					source: 'ODH_pois',
+				});
+			}
+		}));
 	},
 
 	//example: http://tourism.opendatahub.bz.it/api/ODHActivityPoi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=magic
 	'ODHActivityPoi': function(data) {
-		return _.map(data.Items, (item)=> {
-			return createHit({
-				id:   item['Id'],
-				text: item['Detail.'+lang+'.Title'],
-				lat:  parseFloat(item['GpsInfo'][0]['Latitude']),
-				lon:  parseFloat(item['GpsInfo'][0]['Longitude']),
-				//source used in func createHit()
-				source: 'ODH_ODHActivityPoi',
-			});
-		})
+		return _.compact(_.map(data.Items, (item)=> {
+
+			let lat = _.get(item,"GpsInfo[0].Latitude"),
+				lon = _.get(item,"GpsInfo[0].Longitude"),
+				text = _.get(item,"Detail."+lang+".Title");
+			
+			if (lat && lon) {
+				return createHit({
+					id:   item['Id'],
+					text: text,
+					lat: lat,
+					lon: lon,
+					source: 'ODH_ODHActivityPoi',
+				});
+			}
+		}));
 	}
 };

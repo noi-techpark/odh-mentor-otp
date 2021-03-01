@@ -2,19 +2,18 @@
 const path = require('path');
 const fs = require('fs');
 
+const dotenv = require('dotenv');
 const _ = require('lodash');
 const yaml = require('js-yaml');
 
 //TODO use for debug const dotenv = require('dotenv');
-//dotenv.config();
+dotenv.config();
 
 const CONFIGFILE = path.join(__dirname, 'config.yml');
 const ENV = process.env;
 
 function tmpl(str, data) {
-	//const tmplReg = /\$\{(.+?)\}/g
 	const tmplReg = /\$\{([\w_\-]+)\}/g
-	//const tmplReg = /\{ *([\w_\-]+) *\}/g
 
 	return str.replace(tmplReg, function (str, key) {
 		var value = data[key];
@@ -58,6 +57,9 @@ const defaultConfig = {
 };
 
 var configYml = _.defaultsDeep(configYml, defaultConfig)
+
+if(process.env.PORT)
+	configYml.server.port = process.env.PORT;
 
 //normalize defaults
 configYml.endpoints = _.mapValues(configYml.endpoints, (c)=>{
