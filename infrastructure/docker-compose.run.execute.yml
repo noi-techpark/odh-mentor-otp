@@ -25,6 +25,7 @@ services:
       GBFS_PORT: ${GBFS_PORT}
       GBFS_VERSION: ${GBFS_VERSION}
       UPDATERS: "True"
+      OFFICIAL: ${OFFICIAL}
     volumes:
       - /opt/odh-mentor-otp/:/data/
     ports:

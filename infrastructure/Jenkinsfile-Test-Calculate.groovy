@@ -38,7 +38,7 @@ pipeline {
                     echo 'UPDATERS=${UPDATERS}' >> .env
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
                     echo 'GBFS_PORT="${GBFS_PORT}"' >> .env
-                    echo 'OFFICIAL="${OFFICIAL}"' >> .env
+                    echo 'OFFICIAL=${OFFICIAL}' >> .env
                     echo 'GBFS_VERSION="${GBFS_VERSION}"' >> .env
                     echo 'GTFS_RT_URL="${GTFS_RT_URL}"' >> .env
                     echo 'GTFS_FEED_ID="${GTFS_FEED_ID}"' >> .env

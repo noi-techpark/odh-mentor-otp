@@ -60,7 +60,7 @@ pipeline {
                     echo 'DOCKER_GBFS_PORT="${DOCKER_GBFS_PORT}"' >> .env
                     echo 'GEOCODER_BASEURL="${GEOCODER_BASEURL}"' >> .env
                     echo 'DOCKER_GEOCODER_PORT=${DOCKER_GEOCODER_PORT}' >> .env
-                    echo 'OFFICIAL="${OFFICIAL}"' >> .env
+                    echo 'OFFICIAL=${OFFICIAL}' >> .env
                     echo 'GBFS_VERSION=${GBFS_VERSION}' >> .env
                 """
             }
