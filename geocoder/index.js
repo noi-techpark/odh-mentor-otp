@@ -51,6 +51,9 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 
 	let text = q_search || q_autocomplete;
 	
+	//console.log('TEXXXXXXXXXXT')
+	//console.log(JSON.stringify(req.body.query,null,4))
+
 	if(!_.isString(text) || text.length < config.server.mintextlength) {
 		
 		res.json( formatters.elasticsearch([]) )
@@ -69,10 +72,11 @@ servicesApp.get('/testSearch', (req,res) => {
 	
 	console.log('/testSearch',req.query)
 	
-	if(!_.isEmpty(req.query.text))
-	combineResults(req.query.text, jsonres => {
-		res.json(jsonres);
-	});
+	if(!_.isEmpty(req.query.text)) {
+		combineResults(req.query.text, jsonres => {
+			res.json(jsonres);
+		});
+	}
 });
 
 const serverParser = servicesApp.listen(PORT_SERVICES, () => {
@@ -104,11 +108,12 @@ function tmpl(str, data) {
 function makeUrl(opt, text, lang) {
 	let prot = 'http'+(opt.port===443?'s':'');
 	let port = (opt.port!=80 && opt.port!=443)? (':'+opt.port) : '';
-	return tmpl(prot+'://' + opt.hostname + port + opt.path, {
+	let url = tmpl(prot+'://' + opt.hostname + port + opt.path, {
 		text: text,
 		size: opt.size,
 		lang: lang || config.server.default_lang
 	});
+	return url;
 }
 
 

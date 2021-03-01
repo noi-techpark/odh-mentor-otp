@@ -76,7 +76,7 @@ module.exports = {
 		//hack to limit otp geocode results
 		let datal = _.slice(data, 0, config.endpoints.opentripplanner.size);
 
-		return _.map(datal, (item,k)=> {
+		return _.compact(_.map(datal, (item,k)=> {
 
 			let lat = _.get(item,"lat"),
 				lon = _.get(item,"lng"),
@@ -91,12 +91,12 @@ module.exports = {
 					source: 'opentripplanner',
 				});
 			}
-		});
+		}));
 	},
 
 	//example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
 	'accommodations': function(data) {
-		return _.map(data.Items, (item)=> {
+		return _.compact(_.map(data.Items, (item)=> {
 
 			let lat = _.get(item,"Latitude"),
 				lon = _.get(item,"Longitude"),
@@ -111,12 +111,12 @@ module.exports = {
 					source: 'ODH_accommodations',
 				});
 			}
-		})
+		}));
 	},
 	
 	//example: http://tourism.opendatahub.bz.it/api/Poi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=der
 	'pois': function(data) {
-		return _.map(data.Items, (item)=> {
+		return _.compact(_.map(data.Items, (item)=> {
 
 			let lat = _.get(item,"GpsInfo[0].Latitude"),
 				lon = _.get(item,"GpsInfo[0].Longitude"),
@@ -131,12 +131,12 @@ module.exports = {
 					source: 'ODH_pois',
 				});
 			}
-		})
+		}));
 	},
 
 	//example: http://tourism.opendatahub.bz.it/api/ODHActivityPoi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=magic
 	'ODHActivityPoi': function(data) {
-		return _.map(data.Items, (item)=> {
+		return _.compact(_.map(data.Items, (item)=> {
 
 			let lat = _.get(item,"GpsInfo[0].Latitude"),
 				lon = _.get(item,"GpsInfo[0].Longitude"),
@@ -151,6 +151,6 @@ module.exports = {
 					source: 'ODH_ODHActivityPoi',
 				});
 			}
-		})
+		}));
 	}
 };
