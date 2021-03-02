@@ -44,15 +44,31 @@ servicesApp.get(/^\/placeholder(.*)$/,  (req, res)=> {
 //ElasticSearch proxy
 servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	
-	//console.log('ELASTIC REQUEST', JSON.stringify(req.body,null,4))
+	//console.clear();
+	//console.log('ELASTIC REQUEST', JSON.stringify(req.body, null, 4))
 	
-	let q_search = _.get(req.body, "query.bool.must[0].match['name.default'].query");
-	let q_autocomplete = _.get(req.body, "query.bool.must[0].constant_score.filter.multi_match.query");
+	let musts = _.get(req.body, "query.bool.must");
+	
+	if (!musts || musts.length===0) {
+		res.json( formatters.elasticsearch([]) );
+		return false;
+	}
+	//UN USEFUL let q_search = _.get(req.body, "query.bool.must[0].match['name.default'].query");
+	let texts = [];
 
-	let text = q_search || q_autocomplete;
+	_.forEach(musts, function(v, k) {
+		let q1 = _.get(v, "constant_score.filter.multi_match.query");
+		let q2 = _.get(v, "multi_match.query");
+		texts.push(q1 || q2)
+	});
+
+
+	//let q = _.get(req.body, "query.bool.must[0].constant_score.filter.multi_match.query");
+	//	let q2 = _.get(req.body, "query.bool.must[1].constant_score.filter.multi_match.query");
+
+	let text = texts.join(' ');
 	
-	//console.log('TEXXXXXXXXXXT')
-	//console.log(JSON.stringify(req.body.query,null,4))
+	//console.log('ELASTIC SEARCH: "'+text+'"')
 
 	if(!_.isString(text) || text.length < config.server.mintextlength) {
 		
@@ -109,7 +125,8 @@ function makeUrl(opt, text, lang) {
 	let prot = 'http'+(opt.port===443?'s':'');
 	let port = (opt.port!=80 && opt.port!=443)? (':'+opt.port) : '';
 	let url = tmpl(prot+'://' + opt.hostname + port + opt.path, {
-		text: text,
+		text: encodeURI(text),
+		//text: text,
 		size: opt.size,
 		lang: lang || config.server.default_lang
 	});
@@ -138,7 +155,6 @@ function combineResults(text, cb) {
 	var requests = request.getCollection();
 
 	console.log(`[GEOCODER] search: "${text}" parallel remote requests...`);
-
 
 	request.send( resp => {
 

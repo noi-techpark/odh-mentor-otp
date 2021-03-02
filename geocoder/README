@@ -38,3 +38,8 @@ sample mapping fields from this:
     },
     
     ....
+
+## Pelias logging levels
+
+https://github.com/winstonjs/winston#logging-levels
+
