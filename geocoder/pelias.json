@@ -23,6 +23,6 @@
     }
   },
   "logger": {
-    "level": "info"
+    "level": "alert"
   }
 }

@@ -21,11 +21,12 @@ endpoints:
 
   opentripplanner:
     #TODO priority: 100
-    hostname: otp
+    hostname: ${API_HOST}
     #hostname: localhost
     # docs  http://dev.opentripplanner.org/apidoc/1.4.0/resource_GeocoderResource.html
     path: /otp/routers/default/geocode?query={{text}}
-    port: 8080
+    #TODO use env var API_PATH
+    port: ${API_PORT}
     size: 3
 
   #example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
