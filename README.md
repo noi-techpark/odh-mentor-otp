@@ -58,7 +58,9 @@ cd odh-mentor-otp
 
 ### Docker Environment
 
-Copy the file `.env.example` to `.env` and adjust the configuration parameters.
+In each service directory the file `.env.example` list the default configuration parameters by service.
+
+**otp**
 
 ```JAVA_MX``` the amount of heap space available to OpenTripPlanner. (The `otp.sh` script adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
 
@@ -73,15 +75,23 @@ Copy the file `.env.example` to `.env` and adjust the configuration parameters.
 ```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
 	Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
 
+**geocoder**
+
+```API_HOST``` deployed hostname of OpenTripPlanner api default: ```http://localhost``` (name of deployed)
+
+```API_PATH``` aboslute url path ```/otp/routers/openmove```
+
+```API_PORT``` port default ```8080``` (port of internal service otp)
+
 #### Building Arguments
 
 these arguments are used to build the **otp** service image downloading Opentripplanner from official repos
 ```OTP_VERSION``` default is 1.4.0
 
 these arguments are used to build the **journey** service image which is the modern interface for OTP.
-they refer to the hostname where the **otp** service is located
+they refer to the hostname where the OpenTripPlanner service is located
 
-```API_HOST``` deployed hostname of otp api default: ```http://localhost``` (name of deployed)
+```API_HOST``` deployed hostname of OpenTripPlanner api default: ```http://localhost``` (name of deployed)
 
 ```API_PATH``` aboslute url path ```/otp/routers/openmove```
 

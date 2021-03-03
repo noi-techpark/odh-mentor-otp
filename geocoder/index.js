@@ -123,8 +123,9 @@ function tmpl(str, data) {
 
 function makeUrl(opt, text, lang) {
 	let prot = 'http'+(opt.port===443?'s':'');
+	let host = prot+'://' + opt.hostname;
 	let port = (opt.port!=80 && opt.port!=443)? (':'+opt.port) : '';
-	let url = tmpl(prot+'://' + opt.hostname + port + opt.path, {
+	let url = tmpl(host + port + opt.path, {
 		text: encodeURI(text),
 		//text: text,
 		size: opt.size,

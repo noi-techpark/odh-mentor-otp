@@ -1,5 +1,6 @@
 
 const path = require('path');
+const url = require('url');
 const fs = require('fs');
 
 const dotenv = require('dotenv');
@@ -46,6 +47,7 @@ const defaultConfig = {
 	},
 	endpoints: {
 		default: {
+			//hostname: 'localhost',
 			port: 80,
 			size: 10,
 			method: 'GET',
@@ -62,10 +64,18 @@ if(process.env.PORT)
 	configYml.server.port = process.env.PORT;
 
 //normalize defaults
-configYml.endpoints = _.mapValues(configYml.endpoints, (c)=>{
-	return _.defaults(c, configYml.endpoints.default);
+configYml.endpoints = _.mapValues(configYml.endpoints, (c) => {
+	
+	let val = _.defaults(c, configYml.endpoints.default),
+		u = url.parse(val.hostname);
+
+	val.hostname = u.hostname || val.hostname;
+
+	return val;
 });
 
 delete configYml.endpoints.default;
+
+console.log(configYml)
 
 module.exports = configYml;
