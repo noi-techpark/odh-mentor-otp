@@ -104,7 +104,7 @@ in addition to those of *otp* vars
 ```API_PORT``` port default ```8080``` (port of internal service otp)
 
 
-#### Building Arguments
+### Building Arguments
 
 Below is a list of Docker args variables for each container:
 
