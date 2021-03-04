@@ -56,48 +56,31 @@ cd odh-mentor-otp
 
 ```gtfs2bbox/``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
+```geocoder/``` nodejs simplified implementation of Pelias Geocoder 
+
 ### Docker Environment
 
-In each service directory the file `.env.example` list the default configuration parameters by service.
+In each service directory the file `.env.example` list the default env vars by service.
+Below is a list of env variables for each container:
 
 **otp**
 
 ```JAVA_MX``` the amount of heap space available to OpenTripPlanner. (The `otp.sh` script adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
 
-```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
-
 ```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
 
-```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
+**build**
 
-```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/opt/odh-mentor-otp/Graph.obj.%y-%m-%d.tgz```
+in addition to those of *otp* vars
 
 ```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
 	Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
 
-**geocoder**
+```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
 
-```API_HOST``` deployed hostname of OpenTripPlanner api default: ```http://localhost``` (name of deployed)
+```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
 
-```API_PATH``` aboslute url path ```/otp/routers/openmove```
-
-```API_PORT``` port default ```8080``` (port of internal service otp)
-
-#### Building Arguments
-
-these arguments are used to build the **otp** service image downloading Opentripplanner from official repos
-```OTP_VERSION``` default is 1.4.0
-
-these arguments are used to build the **journey** service image which is the modern interface for OTP.
-they refer to the hostname where the OpenTripPlanner service is located
-
-```API_HOST``` deployed hostname of OpenTripPlanner api default: ```http://localhost``` (name of deployed)
-
-```API_PATH``` aboslute url path ```/otp/routers/openmove```
-
-```API_PORT``` port default ```8080``` (port of internal service otp)
-
-```GEOCODER_BASEURL``` default pelias geoder instance http://localhost/geocoder/v1
+```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path ```/opt/odh-mentor-otp/Graph.obj.%y-%m-%d.tgz```
 
 ```UPDATERS``` if *True* create the router-config.json with GBFS/GTFS-RT updaters
 
@@ -112,6 +95,33 @@ they refer to the hostname where the OpenTripPlanner service is located
 ```GTFS_FEED_ID``` gtfs feed id which the gtfs-rt refers to. This is the defined by the  'feed_id' value (unofficial) inside feed_info.txt, if not defined this should be "1" (rebuild graph is required)
 
 ```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
+
+**geocoder**
+
+```API_HOST``` deployed hostname of OpenTripPlanner api default: ```localhost``` (name of deployed)
+
+```API_PATH``` aboslute url path ```/otp/routers/openmove```
+
+```API_PORT``` port default ```8080``` (port of internal service otp)
+
+
+#### Building Arguments
+
+Below is a list of Docker args variables for each container:
+
+**otp**, **builder**
+
+```OTP_VERSION``` version of OpenTripPlanner binary downloaded from official repos, default is 1.4.0
+
+**journey**
+
+```API_HOST``` deployed hostname of OpenTripPlanner api default: ```localhost``` (name of deployed)
+
+```API_PATH``` aboslute url path ```/otp/routers/openmove```
+
+```API_PORT``` port default ```8080``` (port of internal service otp)
+
+```GEOCODER_BASEURL``` default pelias geoder instance http://localhost/geocoder/v1
 
 
 Then you can start the application using the following command:
