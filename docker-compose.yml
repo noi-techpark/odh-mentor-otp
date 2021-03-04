@@ -81,9 +81,9 @@ services:
       - GBFS_HOST=http://gbfs
       - GBFS_PORT=8089
       - GBFS_VERSION=1
+      #- GBFS_VERSION=2.1      
       - GTFS_RT_URL=https://efa.sta.bz.it/gtfs-r/
       - GTFS_FEED_ID=1
-      #- GBFS_VERSION=2.1
     volumes:
       - /opt/odh-mentor-otp/:/data/
       #- infrastructure/docker/docker-entrypoint.sh:/docker-entrypoint.sh

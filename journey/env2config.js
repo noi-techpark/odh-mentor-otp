@@ -4,19 +4,27 @@ usage:
 	cat config.template.yml | VAR1=test node envtmpl.js > config.valued.yml
 */
 const fs = require('fs');
+const url = require('url');
 
 const dotenv = require('dotenv');
-
-const ENV = process.env;
-
-//const tmplReg = /\$\{(.+?)\}/g
-const tmplReg = /\$\{([\w_\-]+)\}/g
-//const tmplReg = /\{ *([\w_\-]+) *\}/g
-
 //only for debugging
 dotenv.config();
 
+const ENV = process.env;
+
+function addHttp(url) {
+    if (url.indexOf("http://") == 0 || url.indexOf("https://") == 0) {
+        return url;
+    }
+    else {
+    	let prot = 'http'+(ENV.API_PORT===443?'s':'');
+		return prot+'://' + url;
+    }
+    
+}
+
 function tmpl(str, data) {
+	const tmplReg = /\$\{([\w_\-]+)\}/g
 
 	return str.replace(tmplReg, function (str, key) {
 		var value = data[key];
@@ -29,7 +37,9 @@ function tmpl(str, data) {
 }
 
 try {
-    
+
+	ENV.API_HOST = addHttp(ENV.API_HOST);
+
     process.stdout.write( tmpl(fs.readFileSync(process.argv[2], "utf-8"), ENV) );
 
 } catch (e) {
