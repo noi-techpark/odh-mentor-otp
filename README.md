@@ -73,8 +73,7 @@ Below is a list of env variables for each container:
 
 in addition to those of *otp* vars
 
-```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm.
-	Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
+```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm. Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
 
 ```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
 
