@@ -396,7 +396,7 @@ class LocationField extends _react.Component {
       geocodedFeatures
     } = this.state;
 
-    const maxGeocoderResults = 20;
+    const maxGeocoderResults = parseInt(geocoderConfig.maxResults) || 30;
 
 //console.log('GEOCODER ff',geocodedFeatures)
 

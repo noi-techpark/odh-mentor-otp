@@ -23,6 +23,7 @@ api:
 geocoder:
   baseUrl: http://localhost:8088/v1
   maxNearbyStops: 6
+  maxResults: 30
   type: PELIAS
   boundary:
     rect:
