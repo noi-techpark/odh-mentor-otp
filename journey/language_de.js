@@ -1,6 +1,4 @@
-//
-//TODO replace it with de version
-//
+
 var languages = {
     "default_lang": "de",
     "privacy_policy": "Datenschutzrichtlinien",

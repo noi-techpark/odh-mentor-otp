@@ -1,4 +1,4 @@
-"use strict";
+ot"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -395,11 +395,17 @@ class LocationField extends _react.Component {
     let {
       geocodedFeatures
     } = this.state;
-    if (geocodedFeatures.length > 5) geocodedFeatures = geocodedFeatures.slice(0, 5);
+
+    const maxGeocoderResults = 20;
+
+//console.log('GEOCODER ff',geocodedFeatures)
+
+    if (geocodedFeatures.length > maxGeocoderResults) geocodedFeatures = geocodedFeatures.slice(0, maxGeocoderResults);
     let {
       sessionSearches
     } = this.props;
-    if (sessionSearches.length > 5) sessionSearches = sessionSearches.slice(0, 5); // Assemble menu contents, to be displayed either as dropdown or static panel.
+    if (sessionSearches.length > maxGeocoderResults) sessionSearches = sessionSearches.slice(0, maxGeocoderResults);
+    // Assemble menu contents, to be displayed either as dropdown or static panel.
     // Menu items are created in four phases: (1) the current location, (2) any
     // geocoder search results; (3) nearby transit stops; and (4) saved searches
 
