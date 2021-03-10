@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Ban, Bus, LocationArrow, Search, Times } from "styled-icons/fa-solid";
-import { throttle } from "throttle-debounce";
+import { debounce } from "throttle-debounce";
 
 import {
   GeocodedOptionIcon,
@@ -34,7 +34,7 @@ DefaultLocationIcon.propTypes = {
 };
 
 class LocationField extends Component {
-  geocodeAutocomplete = throttle(1000, text => {
+  geocodeAutocomplete = debounce(800, text => {
     if (!text) {
       console.warn("No text entry provided for geocode autocomplete search.");
       return;
@@ -691,6 +691,7 @@ LocationField.propTypes = {
         maxLat: PropTypes.number
       })
     }),
+    maxResults: PropTypes.number,
     maxNearbyStops: PropTypes.number,
     type: PropTypes.string.isRequired
   }).isRequired,

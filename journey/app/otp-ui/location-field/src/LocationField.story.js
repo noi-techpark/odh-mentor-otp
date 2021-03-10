@@ -39,6 +39,7 @@ const geocoderConfig = {
       maxLat: 45.7445
     }
   },
+  maxResults: 30,  
   maxNearbyStops: 4,
   type: "PELIAS"
 };

@@ -13,12 +13,12 @@
     "parser": "babel-eslint"
   },
   "dependencies": {
+    "otp-react-redux": "file:./otp-react-redux",    
     "connected-react-router": "^6.5.2",
     "core-js": "2",
     "es6-math": "^1.0.0",
     "history": "^4.7.2",
     "leaflet": "^1.6.0",
-    "otp-react-redux": "file:./otp-react-redux",
     "react": "^16.9.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.9.0",
