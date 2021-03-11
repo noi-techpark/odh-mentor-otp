@@ -396,7 +396,7 @@ app.get('/:context/:version/station_information.json', function (req, res) {
         if(stationsReceived){
             for(var i = 0; i < stationsReceived.length; i++){
                 var station = stationsReceived[i];
-                if(station.sactive && station.savailable){
+                if(station.sorigin === "BIKE_SHARING_BOLZANO" && station.sactive && station.savailable && station.scoordinate && station.smetadata){
                     stations.push({
                         station_id: station.scode,
                         name: station.sname,
@@ -470,7 +470,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         if(stationsReceived){
             for(var i = 0; i < stationsReceived.length; i++){
                 var station = stationsReceived[i];
-                if(station.sactive && station.savailable){
+                if(station.sactive && station.savailable && station.sorigin === "BIKE_SHARING_BOLZANO"){
                     var obj = {
                         station_id: station.scode,
                         is_renting: true,
