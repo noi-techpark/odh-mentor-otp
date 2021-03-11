@@ -8,7 +8,7 @@
     "dev": "nodemon -e js,html,css,json,yml ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Federico Bertolini <federico.bertolini@openmove.com>",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.7"

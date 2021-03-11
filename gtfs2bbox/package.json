@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Stefano Cudini <stefano.cudini@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "@transit/gtfs": "^3.0.0",
     "@turf/turf": "^5.1.6",
