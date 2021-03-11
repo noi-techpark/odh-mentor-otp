@@ -15,9 +15,6 @@ endpoints:
     #method: 'GET'
     #headers:
     # User-Agent: OpenMove-Geocoder-Client
-  
-  ##check in file formatters.js for fields mapping
-  ##(there must be a function with the same name as the endpoint)
 
   opentripplanner:
     #TODO priority: 100
