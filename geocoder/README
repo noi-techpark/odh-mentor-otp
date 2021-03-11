@@ -7,7 +7,8 @@ npm run dev
 ```
 
 
-browse: http://localhost:8087/testSearch?text=magic
+browse:
+http://localhost:8087/testSearch?text=magic
 
 
 sample mapping fields from this:
@@ -37,3 +38,8 @@ sample mapping fields from this:
     },
     
     ....
+
+## Pelias logging levels
+
+https://github.com/winstonjs/winston#logging-levels
+

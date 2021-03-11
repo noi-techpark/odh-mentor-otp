@@ -13,37 +13,38 @@ ENV API_HOST=$API_HOST \
 	GEOCODER_BASEURL=$GEOCODER_BASEURL
 
 RUN	apt-get -qq update && \
-	apt-get -y install nginx && \
+	apt-get -y install nginx git && \
 	rm -f /var/www/html/index.nginx-debian.html
 
-RUN mkdir -p /otp-app
+RUN mkdir -p /journey
 
-WORKDIR /otp-app
+#WORKDIR /journey
 
-COPY ./otp-app/app ./app
-COPY ./otp-app/config.yml .
-COPY ./otp-app/envtmpl.js .
+COPY ./journey /journey
 
-RUN cd ./app && \
-	yarn install
+WORKDIR /journey
 
-#valorize config ${VAR} vars with env vars
-RUN sh -c 'node envtmpl.js config.yml > /otp-app/app/lib/config.yml'
+#valorize env vars inside app/config.yml
+RUN npm install
+RUN npm run genconfig
 
-RUN cd /otp-app/app/ && \
-	yarn build -o /var/www/html/dist
+RUN cd ./app && yarn install
 
-RUN mkdir -p /var/www/html/it /var/www/html/en /var/www/html/de
+RUN	cd ./app && yarn build
+
+RUN	cd ./app && mv dist /var/www/html/
 
 RUN	cd /var/www/html/ && \
-	cp -r ./dist/* ./ && \
-	cp -r ./dist/* ./it/ && \
-	cp -r ./dist/* ./en/ && \
-	cp -r ./dist/* ./de/
+#	ls -l ./dist && \
+	cp ./dist/* ./ && \
+	cp -r ./dist ./it && \
+	cp -r ./dist ./en && \
+	cp -r ./dist ./de
 
-COPY ./otp-app/language_it.js /var/www/html/language.js
-COPY ./otp-app/language_it.js /var/www/html/it/language.js
-COPY ./otp-app/language_en.js /var/www/html/en/language.js
+RUN cp /journey/language_it.js /var/www/html/language.js && \
+	cp /journey/language_it.js /var/www/html/it/language.js && \
+	cp /journey/language_en.js /var/www/html/en/language.js && \
+	cp /journey/language_de.js /var/www/html/de/language.js
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 

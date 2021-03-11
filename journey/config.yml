@@ -1,0 +1,365 @@
+# react-router config, for URL routing (not to be confused with multimodal/OTP routing)
+#reactRouter:
+#   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
+#  basename: ${FOLDER}
+
+branding: Mentor - Alto Adige/Suedtirol
+homeTimezone: Europe/Rome
+title: Mentor - Alto Adige/Suedtirol
+
+# Default OTP API
+api:
+  host: ${API_HOST}
+  path: ${API_PATH}
+  port: ${API_PORT}
+# Alternate TransitIndex API
+# alternateTransitIndex:
+#  apiRoot: https://newplanner.trimet.org/ws/ti/v0/
+#  services:
+#     - stops
+#     - stops/routes
+#     - routes
+
+geocoder:
+  baseUrl: ${GEOCODER_BASEURL}
+  maxNearbyStops: 6
+  maxResults: 30
+  type: PELIAS
+  boundary:
+    rect:
+      minLon: 10.470121
+      maxLon: 12.255011
+      minLat: 46.188280
+      maxLat: 47.088780
+#Suedtirol 10.470121,46.188280,12.255011,47.088780
+
+# Enabled multimodal routing types (e.g. interary, profile)
+routingTypes:
+  - key: ITINERARY
+    text: Tempo esatto
+
+  # Delete/uncomment the following block to disable profile routing
+  #- key: PROFILE
+  #  text: Time Window
+  #  api: # Specifies a different API endpoint for profile routing
+  #    host: https://trimet-modeify.conveyal.com
+  #    path: /api
+
+# Show/hide elevation profile chart for walk/bike legs
+elevationProfile: true
+
+# Provide a list of operators to enhance the user experience for multi-agency
+# implementations. The order of the agencies will dictate the order that routes
+# appear in the route viewer. Also, optionally provide operator logos to appear
+# in narrative itinerary (matched on agency_id). Note: these logos will
+# override the values found in agency.txt#agency_branding_url.
+transitOperators:
+  - id: "12"
+    logo: http://www.trasporti.provincia.tn.it/binary/pat_trasporti/orari/LogoTT2018.1547032531.jpg
+
+# Add suggested locations to be shown as options in the form view.
+# locations:
+#   - id: 'airport'
+#     icon: 'plane'
+#     name: 'Portland International Airport (PDX)'
+#     lat: 45.587579
+#     lon: -122.593084
+#   - id: 'zoo'
+#     icon: building
+#     lat: 45.51010444232195
+#     lon: -122.71607145667079
+#     name: Oregon Zoo, Portland, OR
+
+### The persistence setting is used to enable the storage of places (home, work),
+### recent searches/places, user overrides, and favorite stops. Currently the
+### only strategy is localStorage (which is used by default)
+### TODO: add another server-based strategy
+persistence:
+  enabled: true
+  strategy: localStorage
+
+# Map config
+map:
+  # Enabled map views
+  views:
+    - type: DEFAULT
+      text: Mappa
+    # Delete/uncomment the following block to disable the stylized map
+    #- type: STYLIZED
+    #  text: Network View
+
+  # Default map center
+  initLat: 46.670953
+  initLon: 11.155007
+
+  # closer-in zoom levels don't have any tiles that could be rendered by
+  # TriMet's tile service
+  maxZoom: 20
+
+  # Base layers for default map
+  baseLayers:
+    - name: Streets
+      url: //cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}@2x.png
+      subdomains: 'abcd'
+      attribution: 'Map tiles: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      maxZoom: 20
+      hasRetinaSupport: true
+
+    - name: Streets Dark
+      url: //cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}@2x.png
+      subdomains: 'abcd'
+      attribution: 'Map tiles: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      maxZoom: 20
+      hasRetinaSupport: true
+
+    - name: Stamen Toner Lite
+      url: http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png
+      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+
+    - name: OpenStreetMaps
+      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+      attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+      maxZoom: 16
+
+
+
+    # - name: Aerials
+    #   url: //tile{s}.trimet.org/tilecache/tilecache.py/1.0.0/hybridOSM/{z}/{x}/{y}
+    #   attribution: 'Map tiles: <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+    #   maxZoom: 20
+
+  overlays:
+    # real-time vehicles config
+    # - type: vehicles
+    #   name: Real-Time Buses and Trains
+    #   api: https://maps.trimet.org/gtfs/rt/vehicles
+    #   #pauseAnimationOnZoom: false # note: when true, MOD+vehicles has issues with multiple (additive) ws calls
+    #   refresh: 5
+    #   default: 'all'
+    #
+    #
+    # - type: zipcar
+    #   name: Zipcar Locations
+    #   api: https://newplanner.trimet.org/ws/carshare/zipcar/data.json
+    #
+    - type: bike-rental
+      name: Bikesharing
+      modes:
+        - BICYCLE_RENT
+      mapSymbols:
+        - maxZoom: 15
+          minZoom: 13
+          type: circle
+          pixels: 5
+          fillColor: "#FF2E28"
+          dockStrokeColor: "#000000"
+        - maxZoom: 20
+          minZoom: 16
+          fillColor: "#FF2E28"
+          dockStrokeColor: "#000000"
+          type: circle
+    #
+    # - type: micromobility-rental
+    #   name: Bird E-scooter Locations
+    #   modes:
+    #     - MICROMOBILITY_RENT
+    #   companies:
+    #     - BIRD
+    #   mapSymbols:
+    #     - maxZoom: 12
+    #       minZoom: 0
+    #       type: circle
+    #       pixels: 3
+    #       fillColor: "#656565"
+    #       strokeColor: "#CCCCCC"
+    #     - maxZoom: 15
+    #       minZoom: 13
+    #       type: circle
+    #       pixels: 5
+    #       fillColor: "#656565"
+    #       strokeColor: "#CCCCCC"
+    #     - maxZoom: 20
+    #       minZoom: 16
+    #       fillColor: "#656565"
+    #       type: marker
+    #
+    #
+    #
+    # - type: micromobility-rental
+    #   name: Lime E-scooter Locations
+    #   modes:
+    #     - MICROMOBILITY_RENT
+    #   companies:
+    #     - LIME
+    #   mapSymbols:
+    #     - maxZoom: 12
+    #       minZoom: 0
+    #       type: circle
+    #       pixels: 3
+    #       fillColor: "#656565"
+    #       strokeColor: "#CCCCCC"
+    #     - maxZoom: 15
+    #       minZoom: 13
+    #       type: circle
+    #       pixels: 5
+    #       fillColor: "#656565"
+    #       strokeColor: "#CCCCCC"
+    #     - maxZoom: 20
+    #       minZoom: 16
+    #       fillColor: "#656565"
+    #       type: marker
+    #
+    # - type: micromobility-rental
+    #   name: Razor E-scooter Locations
+    #   modes:
+    #     - MICROMOBILITY_RENT
+    #   companies:
+    #     - RAZOR
+    #   mapSymbols:
+    #     - maxZoom: 12
+    #       minZoom: 0
+    #       type: circle
+    #       pixels: 3
+    #       fillColor: "#656565"
+    #       strokeColor: "#CCCCCC"
+    #     - maxZoom: 15
+    #       minZoom: 13
+    #       type: circle
+    #       pixels: 5
+    #       fillColor: "#656565"
+    #       strokeColor: "#CCCCCC"
+    #     - maxZoom: 20
+    #       minZoom: 16
+    #       fillColor: "#656565"
+    #       type: marker
+    #
+    #
+    # - type: micromobility-rental
+    #   name: Spin E-scooter Locations
+    #   modes:
+    #     - MICROMOBILITY_RENT
+    #   companies:
+    #     - SPIN
+    #   mapSymbols:
+    #     - maxZoom: 12
+    #       minZoom: 0
+    #       type: circle
+    #       pixels: 3
+    #       fillColor: "#656565"
+    #       strokeColor: "#CCCCCC"
+    #     - maxZoom: 15
+    #       minZoom: 13
+    #       type: circle
+    #       pixels: 5
+    #       fillColor: "#656565"
+    #       strokeColor: "#CCCCCC"
+    #     - maxZoom: 20
+    #       minZoom: 16
+    #       fillColor: "#656565"
+    #       type: marker
+    #
+    # - type: park-and-ride
+    #   name: Aree Park & Ride
+    #   maxTransitDistance: 1000
+    #   modes:
+    #     - CAR_PARK
+
+    - type: stops
+      name: $_stops_$
+      visible: true
+
+# Mode selector configuration
+modes:
+  transitModes:
+    - mode: BUS
+      label: $_bus_$
+    # - mode: TRAM
+    #   label: MAX & Streetcar
+    - mode: RAIL
+      label: $_train_$
+    - mode: GONDOLA
+      label: $_funicular_$
+    #   showWheelchairSetting: true
+
+  accessModes:
+    - mode: BICYCLE
+      label: Bike & Ride
+    - mode: BICYCLE_RENT
+      label: Bikesharing & Ride
+      company: Bikesharing
+    # - mode: MICROMOBILITY_RENT
+    #   label: Transit + E-scooter
+    - mode: CAR_PARK
+      label: Park & Ride
+    # - mode: CAR_HAIL
+    #   label: Transit + Uber
+    #   company: UBER
+    #   showWheelchairSetting: false
+
+  # which exclusive modes to show. This involves using a single mode and no
+  # transit for the duration of the trip. Further configurations of
+  # `bicycleModes`, `micromobilityModes` and/or `carModes` are needed as
+  # desired, but no extra configuration is needed for a WALK exclusive mode.
+  exclusiveModes:
+    - WALK
+    - BICYCLE
+
+  bicycleModes:
+    - mode: BICYCLE
+      label: $_my_bike_$
+      iconWidth: 18
+    - mode: BICYCLE_RENT
+      label: Bikesharing
+      iconWidth: 36
+
+# A list of private transportation operators. These are either companies that
+# provide rental vehicles or transportation network companies. Companies that
+# have multiple modes of transport should have all modes listed as a string with
+# commas. For example: BICYCLE_RENT,MICROMOBILITY_RENT.
+companies:
+    - id: Bikesharing
+      label: Bikesharing Alto Adige
+      modes: BICYCLE_RENT
+#   - id: UBER
+#     label: Uber
+#     modes: CAR_HAIL
+#
+#   - id: BIRD
+#     label: Bird
+#     modes: MICROMOBILITY_RENT
+#   - id: LIME
+#     label: Lime
+#     modes: MICROMOBILITY_RENT
+#   - id: RAZOR
+#     label: Razor
+#     modes: MICROMOBILITY_RENT
+#   - id: SPIN
+#     label: Spin
+#     modes: MICROMOBILITY_RENT
+
+errorMessages:
+  - id: 404
+    msg: Nessun percorso trovato. Prova a modificare le impostazioni del tuo viaggio.
+  - id: 405
+    msg: Nessun percorso trovato. Prova a modificare le impostazioni del tuo viaggio.
+  - id: 480
+    msg: Nessun percorso trovato. Prova a modificare le impostazioni del tuo viaggio.
+
+reportIssue:
+  mailto: support@openmove.com
+
+# analytics:
+#   google:
+#     globalSiteTag: UA-133677388-1
+
+language:
+    storageDisclaimer: $_storage_disclaimer_$
+    routeViewer: $_route_viewer_$
+    routeViewerDetails: $_route_view_details_$
+    tripViewer: $_trip_$
+    stopViewer: $_stop_$
+
+dateTime:
+  timeFormat: HH:mm
+  dateFormat: DD/MM/YYYY
+  longDateFormat: D MMMM YYYY

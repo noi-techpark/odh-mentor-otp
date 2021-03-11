@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Note: title should be supplied/injected via config.yml -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Hind:300,400,500,600,700" rel="stylesheet">
+    
+    <script type="text/javascript" language="javascript" src="language.js"></script>
+    <style type="text/css">
+      #lang-switch {
+        position: fixed;
+        top: 5px;
+        right: 5px;
+        float: left;
+        padding: 2px;
+        z-index: 20000;
+      }
+      #lang-switch a {
+        display: inline-block;
+        height: 30px;
+        width: 30px;
+        line-height: 30px;
+        font-size: 18px;
+        text-align: center;
+        margin: 2px;
+        background: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="lang-switch">
+      <a data-lang="it" href="#">IT</a>
+      <a data-lang="en" href="#">EN</a>
+      <a data-lang="de" href="#">DE</a>
+    </div>
+    <div id="main"></div>
+    <script>
+
+    var getUserLang = function() {
+        return languages["default_lang"];
+    };
+
+
+    window.onload = function() {
+
+        if(location.port!=='8081')  //is not debug mode in localhost by webpack
+        {
+          $('#lang-switch').on('click','a', (e)=> {
+              e.preventDefault();
+              let lang = $(e.currentTarget).data('lang');
+              localStorage.setItem('lang', lang);
+              location.href = '/'+lang + '/';
+          });
+
+          var userlang = localStorage.getItem('lang');
+
+          if(!userlang) {
+              localStorage.setItem('lang', 'it');   //default lang
+              userlang = 'it';
+          }
+
+          //check current path
+          if(location.pathname.split('/')[1] !== userlang) {
+              location.href = '/'+userlang + '/';
+          }
+        }
+        console.warn('switch lang disable on dev mode');
+
+
+        var mutationObserver = new MutationObserver(function(mutations) {
+          mutationObserver.disconnect();
+          replacerFunc();
+
+
+          mutationObserver.observe(document.documentElement, {
+            //attributes: true,
+            // characterData: true,
+            childList: true,
+            subtree: true,
+          });
+        });
+
+        mutationObserver.observe(document.documentElement, {
+           //attributes: true,
+          // characterData: true,
+          childList: true,
+          subtree: true,
+        });
+
+        replacerFunc();
+    };
+    
+    var mut = new MutationObserver(function(mutations) {
+
+        console.log("mut");
+
+        replacerFunc();
+    });
+
+    var replacerFunc = function() {
+        
+        //console.log("change");
+
+        for (const [key, value] of Object.entries(window.languages)) {
+            $("body *").contents().each(function() {
+              if(this.nodeType==3){
+                this.nodeValue = this.nodeValue.replaceAll("$_"+key+"_$", value);
+                this.nodeValue = this.nodeValue.replaceAll("$_"+key+"_$".toUpperCase(), value.toUpperCase());
+              }
+            });
+            $("input").each(function() {
+                if($(this).attr("placeholder"))
+              $(this).attr("placeholder", $(this).attr("placeholder").replaceAll("$_"+key+"_$", value));
+            });
+            $("button").each(function() {
+                if($(this).attr("title"))
+                $(this).attr("title", $(this).attr("title").replaceAll("$_"+key+"_$", value));
+            });
+        }
+        try{
+            mut.observe(document.querySelector("div.store-settings button"),{
+              'attributes': true,
+              'subtree': true,
+            });
+        }catch(e){
+            //console.log(e);
+        }
+    }
+    </script>
+  </body>
+</html>

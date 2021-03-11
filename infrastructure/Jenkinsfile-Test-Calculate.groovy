@@ -13,9 +13,11 @@ pipeline {
         GBFS_HOST = "https://gbfs.otp.opendatahub.testingmachine.eu"
         GBFS_PORT = "443"
         UPDATERS = "True"
-        GTFS_FILE = "200804_ExportGTFS.zip"
+        GTFS_FILE = "latestGTFS.zip"
         OFFICIAL="False"
         GBFS_VERSION=1
+        GTFS_RT_URL="https://efa.sta.bz.it/gtfs-r/"
+        GTFS_FEED_ID=1
     }
 
     stages {
@@ -36,8 +38,10 @@ pipeline {
                     echo 'UPDATERS=${UPDATERS}' >> .env
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
                     echo 'GBFS_PORT="${GBFS_PORT}"' >> .env
-                    echo 'OFFICIAL="${OFFICIAL}"' >> .env
+                    echo 'OFFICIAL=${OFFICIAL}' >> .env
                     echo 'GBFS_VERSION="${GBFS_VERSION}"' >> .env
+                    echo 'GTFS_RT_URL="${GTFS_RT_URL}"' >> .env
+                    echo 'GTFS_FEED_ID="${GTFS_FEED_ID}"' >> .env
                 """
             }
         }

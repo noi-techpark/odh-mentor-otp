@@ -1,20 +1,20 @@
 
 const path = require('path');
+const url = require('url');
 const fs = require('fs');
 
+const dotenv = require('dotenv');
 const _ = require('lodash');
 const yaml = require('js-yaml');
 
 //TODO use for debug const dotenv = require('dotenv');
-//dotenv.config();
+dotenv.config();
 
 const CONFIGFILE = path.join(__dirname, 'config.yml');
 const ENV = process.env;
 
 function tmpl(str, data) {
-	//const tmplReg = /\$\{(.+?)\}/g
 	const tmplReg = /\$\{([\w_\-]+)\}/g
-	//const tmplReg = /\{ *([\w_\-]+) *\}/g
 
 	return str.replace(tmplReg, function (str, key) {
 		var value = data[key];
@@ -47,6 +47,7 @@ const defaultConfig = {
 	},
 	endpoints: {
 		default: {
+			//hostname: 'localhost',
 			port: 80,
 			size: 10,
 			method: 'GET',
@@ -59,11 +60,22 @@ const defaultConfig = {
 
 var configYml = _.defaultsDeep(configYml, defaultConfig)
 
+if(process.env.PORT)
+	configYml.server.port = process.env.PORT;
+
 //normalize defaults
-configYml.endpoints = _.mapValues(configYml.endpoints, (c)=>{
-	return _.defaults(c, configYml.endpoints.default);
+configYml.endpoints = _.mapValues(configYml.endpoints, (c) => {
+	
+	let val = _.defaults(c, configYml.endpoints.default),
+		u = url.parse(val.hostname);
+
+	val.hostname = u.hostname || val.hostname;
+
+	return val;
 });
 
 delete configYml.endpoints.default;
+
+console.log(configYml)
 
 module.exports = configYml;
