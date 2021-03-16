@@ -309,7 +309,7 @@ var StopViewer = /*#__PURE__*/function (_Component) {
       var stopId;
 
       if (stopData && stopData.id) {
-        stopId = stopData.id.includes(':') ? stopData.id.split(':')[1] : stopData.id;
+        stopId = stopData.id.includes(':') ? stopData.id.split(':').pop() : stopData.id;
       }
 
       return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("b", null, "Stop ID"), ": ", stopId, /*#__PURE__*/_react.default.createElement("button", {
