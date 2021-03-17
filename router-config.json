@@ -4,20 +4,36 @@
 			"type": "stop-time-updater",
 			"sourceType": "gtfs-http",
 			"frequencySec": 60,
-			"feedId": "${GTFS_FEED_ID}",			
-			"url": "${GTFS_RT_URL}"			
+			"feedId": "${GTFS_FEED_ID}",
+			"url": "${GTFS_RT_URL}"
 		},
 		{
 			"type": "bike-rental",
 			"frequencySec": 900,
 			"sourceType": "gbfs",
+			"network": "BZ",
 			"url": "${GBFS_HOST}:${GBFS_PORT}/bz/${GBFS_VERSION}/"
 		},
 		{
 			"type": "bike-rental",
 			"frequencySec": 900,
 			"sourceType": "gbfs",
+			"network": "ME",
 			"url": "${GBFS_HOST}:${GBFS_PORT}/me/${GBFS_VERSION}/"
+		},
+		{
+			"type": "bike-rental",
+			"frequencySec": 900,
+			"sourceType": "gbfs",
+			"network": "PAPIN",
+			"url": "${GBFS_HOST}:${GBFS_PORT}/papin/${GBFS_VERSION}/"
+		},
+		{
+		    "type": "car-rental-updater",
+		    "sourceType": "car2go",
+		    "frequencySec": 60,
+		    "vehiclesUrl": "http://carsharing:8091/carsharing/vehicles.json",
+		    "regionsUrl": "http://carsharing:8091/carsharing/regions.json"
 		}
 	]
 }

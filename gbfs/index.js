@@ -119,7 +119,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         return;
     }
 
-    if(context != "bz" && context!="me"){
+    if(context != "bz" && context!="me" && context != "papin"){
         res.status(500).send({ error: "wrong context" });
         return;
     }
@@ -140,6 +140,10 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         {
             name: "system_regions.json",
             url: url+"/system_regions.json"
+        },
+        {
+            name: "system_hours.json",
+            url: url+"/system_hours.json"
         }
     ];
 
@@ -185,7 +189,7 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
         res.status(500).send({ error: "wrong version" });
         return;
     }
-    if(context != "bz" && context!="me"){
+    if(context != "bz" && context!="me" && context != "papin"){
         res.status(500).send({ error: "wrong context" });
         return;
     }
@@ -224,7 +228,7 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
         res.status(500).send({ error: "wrong version" });
         return;
     }
-    if(context != "bz" && context!="me"){
+    if(context != "bz" && context!="me" && context != "papin"){
         res.status(500).send({ error: "wrong context" });
         return;
     }
@@ -242,6 +246,10 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
                 {
                     region_id: "ME",
                     region_name: "Merano - Meran"
+                },
+                {
+                    region_id: "PAPIN",
+                    region_name: "Papin - Rent a bike"
                 }
             ]
         }
@@ -261,7 +269,7 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
         res.status(500).send({ error: "wrong version" });
         return;
     }
-    if(context != "bz" && context!="me"){
+    if(context != "bz" && context!="me" && context != "papin"){
         res.status(500).send({ error: "wrong context" });
         return;
     }
@@ -303,7 +311,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
         res.status(500).send({ error: "wrong version" });
         return;
     }
-    if(context != "bz" && context!="me"){
+    if(context != "bz" && context!="me" && context != "papin"){
         res.status(500).send({ error: "wrong context" });
         return;
     }
@@ -330,6 +338,16 @@ app.get('/:context/:version/system_information.json', function (req, res) {
             androidUri = config.uri.meran.android;
             iosUri = config.uri.meran.ios;
             url = config.uri.meran.web;
+        }
+    }
+
+    if(context === "papin"){
+        systemId += "_papin";
+        systemName += " Papin";
+        if(config.uri && config.uri.papin){
+            androidUri = config.uri.papin.android;
+            iosUri = config.uri.papin.ios;
+            url = config.uri.papin.web;
         }
     }
 
@@ -387,7 +405,7 @@ app.get('/:context/:version/station_information.json', function (req, res) {
         res.status(500).send({ error: "wrong version" });
         return;
     }
-    if(context != "bz" && context!="me"){
+    if(context != "bz" && context!="me" && context != "papin"){
         res.status(500).send({ error: "wrong context" });
         return;
     }
@@ -410,6 +428,41 @@ app.get('/:context/:version/station_information.json', function (req, res) {
             }
         }
     }
+
+    if(context === "papin"){
+        if(stationsReceived){
+            for(var i = 0; i < stationsReceived.length; i++){
+                var station = stationsReceived[i];
+                if(station.sorigin === "BIKE_SHARING_PAPIN" && station.sactive && station.savailable && station.scoordinate && station.smetadata){
+                    var openingHours = null;
+                    if(station.smetadata.startHour && station.smetadata.startHour != "" &&
+                        station.smetadata.endHour && station.smetadata.endHour != ""
+                    ){
+                        if(station.smetadata.lunchBreakStart && station.smetadata.lunchBreakStart != "" &&
+                            station.smetadata.lunchBreakEnd && station.smetadata.lunchBreakEnd != ""
+                        ){
+                            openingHours = "Mo-Su "+station.smetadata.startHour+"-"+station.smetadata.lunchBreakStart;
+                            openingHours += ", Mo-Su "+station.smetadata.lunchBreakEnd+"-"+station.smetadata.endHour
+
+                        }else{
+                            openingHours = "Mo-Su "+station.smetadata.startHour+"-"+station.smetadata.endHour;
+                        }
+
+                    }
+                    stations.push({
+                        station_id: station.scode.replace("BIKE_SHARING_PAPIN:", ""),
+                        name: station.sname,
+                        lat: station.scoordinate.y,
+                        lon: station.scoordinate.x,
+                        region_id: "PAPIN",
+                        station_opening_hours: openingHours
+                    })
+                }
+            }
+        }
+    }
+
+
 
     if(context === "me"){
         //ADD MERAN STATIONS (Drop-off stations)
@@ -460,7 +513,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         res.status(500).send({ error: "wrong version" });
         return;
     }
-    if(context != "bz" && context!="me"){
+    if(context != "bz" && context!="me" && context != "papin"){
         res.status(500).send({ error: "wrong context" });
         return;
     }
@@ -543,6 +596,27 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         }
     }
 
+    if(context === "papin"){
+        if(stationsReceived){
+            for(var i = 0; i < stationsReceived.length; i++){
+                var station = stationsReceived[i];
+                if(station.sactive && station.savailable && station.sorigin === "BIKE_SHARING_PAPIN"){
+                    var obj = {
+                        station_id: station.scode.replace("BIKE_SHARING_PAPIN:", ""),
+                        is_renting: true,
+                        is_installed: true,
+                        is_returning: true,
+                        num_docks_available: 100,
+                        num_bikes_available: 100,
+                        last_reported: lastUpdate
+                    };
+                    stations.push(obj);
+                }
+
+            }
+        }
+    }
+
     if(context === "me"){
         //ADD MERAN STATIONS (Drop-off stations)
         for(var k = 0; k < meranStations.length; k++){
@@ -583,7 +657,7 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
         res.status(500).send({ error: "wrong version" });
         return;
     }
-    if(context != "bz" && context!="me"){
+    if(context != "bz" && context!="me" && context != "papin"){
         res.status(500).send({ error: "wrong context" });
         return;
     }
@@ -615,6 +689,44 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
         version: version >= 2.1 ? ""+version : undefined,
         data: {
             bikes: bikes
+        }
+    });
+});
+
+app.get('/:context/:version/system_hours.json', function (req, res) {
+    let context = req.params.context;
+    if(!req.params.version){
+        req.params.version = 1;
+    }
+
+    let version = +(req.params.version);
+
+
+    if(version != 1 && version !=2.1 ){
+        res.status(500).send({ error: "wrong version" });
+        return;
+    }
+    if(context != "bz" && context!="me" && context != "papin"){
+        res.status(500).send({ error: "wrong context" });
+        return;
+    }
+    var rental_hours = [];
+    if(context === "me" || context === "bz"){
+        rental_hours.push({
+            user_types: [ "member", "nonmember" ],
+            days: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
+            start_time: "00:00:00",
+            end_time: "23:59:59"
+        });
+    }
+
+    res.json(
+    {
+        last_updated: lastUpdate,
+        ttl: 0,
+        version: version >= 2.1 ? ""+version : undefined,
+        data: {
+            rental_hours: rental_hours
         }
     });
 });

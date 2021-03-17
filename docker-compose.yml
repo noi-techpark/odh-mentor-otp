@@ -8,7 +8,7 @@ services:
 
   journey:
     container_name: openmove-journey
-    ports: ["80:80"]
+    ports: ["9080:80"]
     image: openmove_journey:latest
     build:
       context: ./
@@ -50,6 +50,14 @@ services:
       context: ./
       dockerfile: infrastructure/docker/gbfs/Dockerfile
 
+  carsharing:
+    container_name: openmove-carsharing
+    ports: ["8091:8091"]
+    image: openmove_carsharing:latest
+    build:
+      context: ./
+      dockerfile: infrastructure/docker/carsharing/Dockerfile
+
   otp:
     container_name: openmove-otp
     ports: ["8080:8080"]
@@ -65,6 +73,7 @@ services:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
       - gbfs
+      - carsharing
 
   build:
     container_name: openmove-build
@@ -85,7 +94,7 @@ services:
       - GBFS_HOST=http://gbfs
       - GBFS_PORT=8089
       - GBFS_VERSION=1
-      #- GBFS_VERSION=2.1      
+      #- GBFS_VERSION=2.1
       - GTFS_RT_URL=https://efa.sta.bz.it/gtfs-r/
       - GTFS_FEED_ID=1
     volumes:
