@@ -9,7 +9,5 @@
   },
   "scripts": {
     "genconfig": "node env2config.js config.yml > app/lib/config.yml "
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }

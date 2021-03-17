@@ -86,12 +86,14 @@ class StopMarker extends _react.Component {
       lon
     } = stop;
     const idArr = id.split(":");
+    const agency = idArr[0];
+    const stopId = idArr.pop();    
     return /*#__PURE__*/_react.default.createElement(_reactLeaflet.CircleMarker
     /* eslint-disable-next-line react/jsx-props-no-spreading */
     , _extends({}, leafletPath, {
       center: [lat, lon],
       radius: radius
-    }), /*#__PURE__*/_react.default.createElement(_reactLeaflet.Popup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.MapOverlayPopup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupTitle, null, name), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("b", null, "Agency:"), " ", idArr[0]), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("b", null, "Stop ID:"), " ", idArr[1]), /*#__PURE__*/_react.default.createElement(Styled.ViewStopButton, {
+    }), /*#__PURE__*/_react.default.createElement(_reactLeaflet.Popup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.MapOverlayPopup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupTitle, null, name), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("b", null, "Stop ID:"), " ", idArr[1]), /*#__PURE__*/_react.default.createElement(Styled.ViewStopButton, {
       onClick: this.onClickView
     }, languageConfig.stopViewer || "Fermata")), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("b", null, "$_travel_$"), /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
       onFromClick: this.onFromClick,

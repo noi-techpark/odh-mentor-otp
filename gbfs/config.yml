@@ -9,11 +9,12 @@ endpoints:
     #path: /v2
     #headers:
     # User-Agent: OpenMove-Bikesharing-Client
-  stations:
-    path: /v2/flat%2Cnode/BikesharingStation?distinct=true
     #example of custom host and port for specific endpoint
     #hostname: ${STATIONS_HOST}
     #port: ${STATIONS_PORT}
+
+  stations:
+    path: /v2/flat%2Cnode/BikesharingStation?distinct=true
 
   bays:
     path: /v2/flat%2Cnode/Bicyclestationbay?distinct=true

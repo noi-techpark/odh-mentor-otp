@@ -2,7 +2,11 @@
 **/*.osm.pbf
 **/*.zip
 **/*.tif
+**/.env
 **/node_modules
 journey/package-lock.json
 journey/app/package-lock.json
 journey/app/dist
+journey/app/yarn.lock
+journey/.env
+geocoder/.env

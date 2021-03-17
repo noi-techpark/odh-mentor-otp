@@ -35,6 +35,8 @@ export default class StopMarker extends Component {
     const { languageConfig, leafletPath, radius, stop } = this.props;
     const { id, name, lat, lon } = stop;
     const idArr = id.split(":");
+    const agency = idArr[0];
+    const stopId = idArr.pop();
 
     return (
       <CircleMarker
@@ -47,11 +49,11 @@ export default class StopMarker extends Component {
           <BaseMapStyled.MapOverlayPopup>
             <BaseMapStyled.PopupTitle>{name}</BaseMapStyled.PopupTitle>
             <BaseMapStyled.PopupRow>
-              <b>Agency:</b> {idArr[0]}
+              <!--b>Agency:</b> {agency}-->
             </BaseMapStyled.PopupRow>
             <BaseMapStyled.PopupRow>
               <span>
-                <b>Stop ID:</b> {idArr[1]}
+                <b>Stop ID:</b> {stopId}
               </span>
               <Styled.ViewStopButton onClick={this.onClickView}>
                 {languageConfig.stopViewer || "Fermata"}

@@ -209,7 +209,7 @@ class StopViewer extends Component {
     // TODO: make this functionality configurable?
     let stopId
     if (stopData && stopData.id) {
-      stopId = stopData.id.includes(':') ? stopData.id.split(':')[1] : stopData.id
+      stopId = stopData.id.includes(':') ? stopData.id.split(':').pop() : stopData.id
     }
     return (
       <div>
@@ -220,7 +220,7 @@ class StopViewer extends Component {
             style={{ fontSize: 'small' }}
             onClick={this._toggleScheduleView}>
             <Icon type={scheduleView ? 'clock-o' : 'calendar'} />{' '}
-            View {scheduleView ? '$_next_$' : '$_schedule_}
+            View {scheduleView ? '$_next_$' : '$_schedule_$'}
           </button>
         </div>
         <b>$_travel_$</b>
