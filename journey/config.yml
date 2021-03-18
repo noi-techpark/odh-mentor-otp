@@ -148,10 +148,10 @@ map:
       modes:
         - CAR_RENT
       companies:
-        - CarSharing
+        - CAR2GO
       mapSymbols:
         - maxZoom: 15
-          minZoom: 13
+          minZoom: 10
           type: circle
           pixels: 5
           fillColor: "#1D6802"
@@ -167,12 +167,12 @@ map:
       modes:
         - BICYCLE_RENT
       companies:
-        - Bikesharing_BZ
-        - Bikesharing_ME
-        - Bikesharing_PAPIN
+        - BZ
+        - ME
+        - PAPIN
       mapSymbols:
         - maxZoom: 15
-          minZoom: 13
+          minZoom: 10
           type: circle
           pixels: 5
           fillColor: "#FF2E28"
@@ -316,8 +316,8 @@ modes:
     - mode: CAR_PARK
       label: Park & Ride
     - mode: CAR_RENT
-       label: Carsharing
-       company: CarSharing
+      label: Carsharing & Ride
+      company: CAR2GO
     #   showWheelchairSetting: false
 
   # which exclusive modes to show. This involves using a single mode and no
@@ -341,16 +341,16 @@ modes:
 # have multiple modes of transport should have all modes listed as a string with
 # commas. For example: BICYCLE_RENT,MICROMOBILITY_RENT.
 companies:
-    - id: Bikesharing_BZ
+    - id: BZ
       label: Bikesharing BZ
       modes: BICYCLE_RENT
-    - id: Bikesharing_ME
+    - id: ME
       label: Bikesharing Meran
       modes: BICYCLE_RENT
-    - id: Bikesharing_PAPIN
+    - id: PAPIN
       label: Bike Rental Papin
       modes: BICYCLE_RENT
-    - id: CarSharing
+    - id: CAR2GO
       label: CarSharing
       modes: CAR_RENT
 #   - id: BIRD
