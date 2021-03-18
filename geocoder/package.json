@@ -8,10 +8,7 @@
     "dev": "nodemon -e js,html,css,json,yml ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": {
-    "name": "Stefano Cudini",
-    "email": "stefano.cudini@gmail.com"
-  },
+  "author": "Stefano Cudini <stefano.cudini@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^2.0.7"

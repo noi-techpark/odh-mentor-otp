@@ -1,0 +1,38 @@
+{
+  "name": "odh-mentor-otp",
+  "version": "2.0.0",
+  "description": "This project contains a Docker images for stable [OpenTripPlanner](http://opentripplanner.org) releases and tools to auto download Openstreetmap data related to a certain gtfs file.",
+  "main": "envconfig.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openmove/odh-mentor-otp.git"
+  },
+  "contributors": [
+    {
+      "name" : "Federico Bertolini",
+      "email" : "federico.bertolini@openmove.com",
+      "url" : "https://github.com/zabuTNT"
+    },
+    {
+      "name" : "Patrick Bertolla",
+      "email" : "p.bertolla@noi.bz.it"
+    },
+    {
+      "name" : "Roberto Cavaliere",
+      "email" : "r.cavaliere@noi.bz.it"
+    },    
+    {
+      "name" : "Stefano Cudini",
+      "email" : "stefano.cudini@gmail.com",
+      "url" : "https://github.com/stefanocudini"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/openmove/odh-mentor-otp/issues"
+  },
+  "homepage": "https://github.com/openmove/odh-mentor-otp#readme"
+}

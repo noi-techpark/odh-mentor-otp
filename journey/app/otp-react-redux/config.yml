@@ -78,6 +78,7 @@ geocoder:
   # This base URL is required as the libraries will default to using now-defunct
   # mapzen urls
   baseUrl: https://geocoder.example.com/pelias/v1
+  maxResults: 30
 
 # example config for an ArcGIS geocoder
 # (https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm)

@@ -18,8 +18,6 @@ RUN	apt-get -qq update && \
 
 RUN mkdir -p /journey
 
-#WORKDIR /journey
-
 COPY ./journey /journey
 
 WORKDIR /journey
@@ -35,7 +33,6 @@ RUN	cd ./app && yarn build
 RUN	cd ./app && mv dist /var/www/html/
 
 RUN	cd /var/www/html/ && \
-#	ls -l ./dist && \
 	cp ./dist/* ./ && \
 	cp -r ./dist ./it && \
 	cp -r ./dist ./en && \

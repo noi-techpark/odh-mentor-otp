@@ -1,5 +1,5 @@
 
-# OpenTripPlanner Openmove Docker Services
+# Mentor
 
 This project contains a Docker images for stable [OpenTripPlanner](http://opentripplanner.org) releases and tools to auto download Openstreetmap data related to a certain gtfs file.
 

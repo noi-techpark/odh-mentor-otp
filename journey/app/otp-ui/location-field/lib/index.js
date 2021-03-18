@@ -55,7 +55,7 @@ class LocationField extends _react.Component {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "geocodeAutocomplete", (0, _throttleDebounce.throttle)(1000, text => {
+    _defineProperty(this, "geocodeAutocomplete", (0, _throttleDebounce.debounce)(800, text => {
       if (!text) {
         console.warn("No text entry provided for geocode autocomplete search.");
         return;
@@ -395,11 +395,19 @@ class LocationField extends _react.Component {
     let {
       geocodedFeatures
     } = this.state;
-    if (geocodedFeatures.length > 5) geocodedFeatures = geocodedFeatures.slice(0, 5);
+
+    const maxGeocoderResults = parseInt(geocoderConfig.maxResults) || 30;
+
+console.log('GEOCODER ff',geocoderConfig)
+
+    if (geocodedFeatures.length > maxGeocoderResults)
+      geocodedFeatures = geocodedFeatures.slice(0, maxGeocoderResults);
     let {
       sessionSearches
     } = this.props;
-    if (sessionSearches.length > 5) sessionSearches = sessionSearches.slice(0, 5); // Assemble menu contents, to be displayed either as dropdown or static panel.
+    if (sessionSearches.length > maxGeocoderResults)
+      sessionSearches = sessionSearches.slice(0, maxGeocoderResults);
+    // Assemble menu contents, to be displayed either as dropdown or static panel.
     // Menu items are created in four phases: (1) the current location, (2) any
     // geocoder search results; (3) nearby transit stops; and (4) saved searches
 
@@ -737,6 +745,7 @@ LocationField.propTypes = {
         maxLat: _propTypes.default.number
       })
     }),
+    maxResults: _propTypes.default.number,
     maxNearbyStops: _propTypes.default.number,
     type: _propTypes.default.string.isRequired
   }).isRequired,
