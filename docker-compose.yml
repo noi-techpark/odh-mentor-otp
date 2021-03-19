@@ -8,7 +8,7 @@ services:
 
   journey:
     container_name: openmove-journey
-    ports: ["9080:80"]
+    ports: ["80:80"]
     image: openmove_journey:latest
     build:
       context: ./
