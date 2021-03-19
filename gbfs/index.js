@@ -123,7 +123,14 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         res.status(500).send({ error: "wrong context" });
         return;
     }
-    var url = req.protocol + '://' + (req.get("x-forwarded-host") || req.get('host')) + "/" + context + "/"+version;
+
+    var protocol = req.protocol;
+    var host = req.get("x-forwarded-host") || req.get('host');
+    if(host.indexOf(":443")){
+        protocol = "https";
+    }
+
+    var url = protocol + '://' + host + "/" + context + "/"+version;
     var feeds = [
         {
             name: "system_information",

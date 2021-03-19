@@ -9,31 +9,24 @@
 		},
 		{
 			"type": "bike-rental",
-			"frequencySec": 900,
+			"frequencySec": 120,
 			"sourceType": "gbfs",
 			"network": "BZ",
-			"url": "${GBFS_HOST}:${GBFS_PORT}/bz/${GBFS_VERSION}/"
+			"url": "${GBFS_HOST}/bz/${GBFS_VERSION}/"
 		},
 		{
 			"type": "bike-rental",
-			"frequencySec": 900,
+			"frequencySec": 120,
 			"sourceType": "gbfs",
 			"network": "ME",
-			"url": "${GBFS_HOST}:${GBFS_PORT}/me/${GBFS_VERSION}/"
+			"url": "${GBFS_HOST}/me/${GBFS_VERSION}/"
 		},
 		{
 			"type": "bike-rental",
-			"frequencySec": 900,
+			"frequencySec": 120,
 			"sourceType": "gbfs",
 			"network": "PAPIN",
-			"url": "${GBFS_HOST}:${GBFS_PORT}/papin/${GBFS_VERSION}/"
-		},
-		{
-		    "type": "car-rental-updater",
-		    "sourceType": "car2go",
-		    "frequencySec": 60,
-		    "vehiclesUrl": "http://carsharing:8091/carsharing/vehicles.json",
-		    "regionsUrl": "http://carsharing:8091/carsharing/regions.json"
+			"url": "${GBFS_HOST}/papin/${GBFS_VERSION}/"
 		}
 	]
 }
