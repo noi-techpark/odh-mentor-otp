@@ -126,7 +126,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
 
     var protocol = req.protocol;
     var host = req.get("x-forwarded-host") || req.get('host');
-    if(host.indexOf(":443")){
+    if(host.indexOf(":443") > -1){
         protocol = "https";
     }
 
