@@ -91,7 +91,7 @@ services:
       - BACKUP_GRAPH=False
       - GTFS_FILE=210126_ExportGTFS.zip
       - UPDATERS=True
-      - GBFS_HOST=http://gbfs
+      - GBFS_HOST=http://gbfs:8089
       - GBFS_VERSION=1
       #- GBFS_VERSION=2.1
       - GTFS_RT_URL=https://efa.sta.bz.it/gtfs-r/
