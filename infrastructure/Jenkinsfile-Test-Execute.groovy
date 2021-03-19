@@ -12,7 +12,6 @@ pipeline {
         SERVER_PORT_OTP = "1014"
         SERVER_PORT_JOURNEY = "1015"
         GBFS_HOST ="https://gbfs.otp.opendatahub.testingmachine.eu/"
-        GBFS_PORT = "443"
         DOCKER_GBFS_PORT = "1016"
         DOCKER_GEOCODER_PORT = "1017"
 
@@ -56,7 +55,6 @@ pipeline {
                     echo 'OTP_RR_BRANCH=${OTP_RR_BRANCH}' >> .env
                     echo 'OTP_UI_BRANCH=${OTP_UI_BRANCH}' >> .env
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
-                    echo 'GBFS_PORT="${GBFS_PORT}"' >> .env
                     echo 'DOCKER_GBFS_PORT="${DOCKER_GBFS_PORT}"' >> .env
                     echo 'GEOCODER_BASEURL="${GEOCODER_BASEURL}"' >> .env
                     echo 'DOCKER_GEOCODER_PORT=${DOCKER_GEOCODER_PORT}' >> .env
