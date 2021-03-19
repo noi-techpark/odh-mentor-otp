@@ -143,33 +143,33 @@ map:
     #   api: https://newplanner.trimet.org/ws/carshare/zipcar/data.json
     #
     #
-    - type: car-rental
-      name: Carsharing
-      modes:
-        - CAR_RENT
-      companies:
-        - CarSharing
-      mapSymbols:
-        - maxZoom: 15
-          minZoom: 13
-          type: circle
-          pixels: 5
-          fillColor: "#1D6802"
-          dockStrokeColor: "#000000"
-        - maxZoom: 20
-          minZoom: 16
-          pixels: 5
-          fillColor: "#1D6802"
-          dockStrokeColor: "#000000"
-          type: circle
+    # - type: car-rental
+    #   name: Carsharing
+    #   modes:
+    #     - CAR_RENT
+    #   companies:
+    #     - CarSharing
+    #   mapSymbols:
+    #     - maxZoom: 15
+    #       minZoom: 13
+    #       type: circle
+    #       pixels: 5
+    #       fillColor: "#1D6802"
+    #       dockStrokeColor: "#000000"
+    #     - maxZoom: 20
+    #       minZoom: 16
+    #       pixels: 5
+    #       fillColor: "#1D6802"
+    #       dockStrokeColor: "#000000"
+    #       type: circle
     - type: bike-rental
       name: Bikesharing
       modes:
         - BICYCLE_RENT
       companies:
-        - Bikesharing_BZ
-        - Bikesharing_ME
-        - Bikesharing_PAPIN
+        - BZ
+        - ME
+        - PAPIN
       mapSymbols:
         - maxZoom: 15
           minZoom: 13
@@ -341,18 +341,18 @@ modes:
 # have multiple modes of transport should have all modes listed as a string with
 # commas. For example: BICYCLE_RENT,MICROMOBILITY_RENT.
 companies:
-    - id: Bikesharing_BZ
+    - id: BZ
       label: Bikesharing BZ
       modes: BICYCLE_RENT
-    - id: Bikesharing_ME
+    - id: ME
       label: Bikesharing Meran
       modes: BICYCLE_RENT
-    - id: Bikesharing_PAPIN
+    - id: PAPIN
       label: Bike Rental Papin
       modes: BICYCLE_RENT
-    - id: CarSharing
-      label: CarSharing
-      modes: CAR_RENT
+    # - id: CarSharing
+    #   label: CarSharing
+    #   modes: CAR_RENT
 #   - id: BIRD
 #     label: Bird
 #     modes: MICROMOBILITY_RENT
