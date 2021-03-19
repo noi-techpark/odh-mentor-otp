@@ -56,7 +56,7 @@ cd odh-mentor-otp
 
 ```gtfs2bbox/``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
-```geocoder/``` nodejs simplified implementation of Pelias Geocoder 
+```geocoder/``` nodejs simplified implementation of Pelias Geocoder
 
 ### Docker Environment
 
@@ -84,8 +84,6 @@ in addition to those of *otp* vars
 ```UPDATERS``` if *True* create the router-config.json with GBFS/GTFS-RT updaters
 
 ```GBFS_HOST``` host path to GBFS service
-
-```GBFS_PORT``` port of GBFS service
 
 ```GBFS_VERSION``` gbfs version 1 or 2.1 (rebuild graph is required)
 
