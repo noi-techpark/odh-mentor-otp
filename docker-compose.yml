@@ -49,15 +49,6 @@ services:
     build:
       context: ./
       dockerfile: infrastructure/docker/gbfs/Dockerfile
-
-  carsharing:
-    container_name: openmove-carsharing
-    ports: ["8091:8091"]
-    image: openmove_carsharing:latest
-    build:
-      context: ./
-      dockerfile: infrastructure/docker/carsharing/Dockerfile
-
   otp:
     container_name: openmove-otp
     ports: ["8080:8080"]
@@ -73,7 +64,6 @@ services:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
       - gbfs
-      - carsharing
 
   build:
     container_name: openmove-build
