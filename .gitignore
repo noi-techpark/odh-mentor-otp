@@ -6,4 +6,5 @@ journey/app/yarn.lock
 journey/app/yarn-error.log
 journey/app/lib/config.yml
 journey/.env
+geocoder/.env
 
