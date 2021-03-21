@@ -316,8 +316,8 @@ modes:
     - mode: CAR_PARK
       label: Park & Ride
     - mode: CAR_RENT
-       label: Carsharing
-       company: CarSharing
+      label: Carsharing
+      company: CarSharing
     #   showWheelchairSetting: false
 
   # which exclusive modes to show. This involves using a single mode and no
