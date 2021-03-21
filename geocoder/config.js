@@ -66,8 +66,9 @@ if(process.env.PORT)
 //normalize defaults
 configYml.endpoints = _.mapValues(configYml.endpoints, (c) => {
 	
-	let val = _.defaults(c, configYml.endpoints.default),
-		u = url.parse(val.hostname);
+	let val = _.defaults(c, configYml.endpoints.default);
+
+	let u = url.parse(""+val.hostname);
 
 	val.hostname = u.hostname || val.hostname;
 
@@ -76,6 +77,6 @@ configYml.endpoints = _.mapValues(configYml.endpoints, (c) => {
 
 delete configYml.endpoints.default;
 
-console.log(configYml)
+console.log('GEOCODER CONFIG',configYml)
 
 module.exports = configYml;
