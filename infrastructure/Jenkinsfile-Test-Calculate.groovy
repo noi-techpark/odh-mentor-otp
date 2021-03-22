@@ -11,7 +11,6 @@ pipeline {
         DOWNLOAD_DATA = "False"
         BACKUP_GRAPH = "True"
         GBFS_HOST = "https://gbfs.otp.opendatahub.testingmachine.eu"
-        GBFS_PORT = "443"
         UPDATERS = "True"
         GTFS_FILE = "latestGTFS.zip"
         OFFICIAL="False"
@@ -37,7 +36,6 @@ pipeline {
                     echo 'GTFS_FILE=${GTFS_FILE}' >> .env
                     echo 'UPDATERS=${UPDATERS}' >> .env
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
-                    echo 'GBFS_PORT="${GBFS_PORT}"' >> .env
                     echo 'OFFICIAL=${OFFICIAL}' >> .env
                     echo 'GBFS_VERSION="${GBFS_VERSION}"' >> .env
                     echo 'GTFS_RT_URL="${GTFS_RT_URL}"' >> .env

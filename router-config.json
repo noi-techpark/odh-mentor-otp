@@ -4,20 +4,29 @@
 			"type": "stop-time-updater",
 			"sourceType": "gtfs-http",
 			"frequencySec": 60,
-			"feedId": "${GTFS_FEED_ID}",			
-			"url": "${GTFS_RT_URL}"			
+			"feedId": "${GTFS_FEED_ID}",
+			"url": "${GTFS_RT_URL}"
 		},
 		{
 			"type": "bike-rental",
-			"frequencySec": 900,
+			"frequencySec": 120,
 			"sourceType": "gbfs",
-			"url": "${GBFS_HOST}:${GBFS_PORT}/bz/${GBFS_VERSION}/"
+			"network": "BZ",
+			"url": "${GBFS_HOST}/bz/${GBFS_VERSION}/"
 		},
 		{
 			"type": "bike-rental",
-			"frequencySec": 900,
+			"frequencySec": 120,
 			"sourceType": "gbfs",
-			"url": "${GBFS_HOST}:${GBFS_PORT}/me/${GBFS_VERSION}/"
+			"network": "ME",
+			"url": "${GBFS_HOST}/me/${GBFS_VERSION}/"
+		},
+		{
+			"type": "bike-rental",
+			"frequencySec": 120,
+			"sourceType": "gbfs",
+			"network": "PAPIN",
+			"url": "${GBFS_HOST}/papin/${GBFS_VERSION}/"
 		}
 	]
 }

@@ -142,10 +142,34 @@ map:
     #   name: Zipcar Locations
     #   api: https://newplanner.trimet.org/ws/carshare/zipcar/data.json
     #
+    #
+    # - type: car-rental
+    #   name: Carsharing
+    #   modes:
+    #     - CAR_RENT
+    #   companies:
+    #     - CarSharing
+    #   mapSymbols:
+    #     - maxZoom: 15
+    #       minZoom: 13
+    #       type: circle
+    #       pixels: 5
+    #       fillColor: "#1D6802"
+    #       dockStrokeColor: "#000000"
+    #     - maxZoom: 20
+    #       minZoom: 16
+    #       pixels: 5
+    #       fillColor: "#1D6802"
+    #       dockStrokeColor: "#000000"
+    #       type: circle
     - type: bike-rental
       name: Bikesharing
       modes:
         - BICYCLE_RENT
+      companies:
+        - BZ
+        - ME
+        - PAPIN
       mapSymbols:
         - maxZoom: 15
           minZoom: 13
@@ -286,14 +310,14 @@ modes:
       label: Bike & Ride
     - mode: BICYCLE_RENT
       label: Bikesharing & Ride
-      company: Bikesharing
+    #  company: Bikesharing
     # - mode: MICROMOBILITY_RENT
     #   label: Transit + E-scooter
     - mode: CAR_PARK
       label: Park & Ride
-    # - mode: CAR_HAIL
-    #   label: Transit + Uber
-    #   company: UBER
+    - mode: CAR_RENT
+      label: Carsharing
+      company: CarSharing
     #   showWheelchairSetting: false
 
   # which exclusive modes to show. This involves using a single mode and no
@@ -317,13 +341,18 @@ modes:
 # have multiple modes of transport should have all modes listed as a string with
 # commas. For example: BICYCLE_RENT,MICROMOBILITY_RENT.
 companies:
-    - id: Bikesharing
-      label: Bikesharing Alto Adige
+    - id: BZ
+      label: Bikesharing BZ
       modes: BICYCLE_RENT
-#   - id: UBER
-#     label: Uber
-#     modes: CAR_HAIL
-#
+    - id: ME
+      label: Bikesharing Meran
+      modes: BICYCLE_RENT
+    - id: PAPIN
+      label: Bike Rental Papin
+      modes: BICYCLE_RENT
+    # - id: CarSharing
+    #   label: CarSharing
+    #   modes: CAR_RENT
 #   - id: BIRD
 #     label: Bird
 #     modes: MICROMOBILITY_RENT
