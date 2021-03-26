@@ -56,6 +56,8 @@ elevationProfile: true
 transitOperators:
   - id: "12"
     logo: http://www.trasporti.provincia.tn.it/binary/pat_trasporti/orari/LogoTT2018.1547032531.jpg
+  - id: "1"
+    logo: https://www.suedtirolmobil.info/typo3conf/ext/sta_layout/Resources/Public/Images/logo.svg
 
 # Add suggested locations to be shown as options in the form view.
 # locations:
@@ -138,9 +140,9 @@ map:
     #   default: 'all'
     #
     #
-    # - type: zipcar
-    #   name: Zipcar Locations
-    #   api: https://newplanner.trimet.org/ws/carshare/zipcar/data.json
+    - type: parking
+      name: Parcheggi
+      api: http://parking:8092/parking/stations.json
     #
     #
     - type: car-rental

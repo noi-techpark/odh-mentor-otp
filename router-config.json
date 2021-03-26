@@ -32,8 +32,8 @@
 		    "type": "car-rental-updater",
 		    "sourceType": "car2go",
 		    "frequencySec": 10,
-		    "vehiclesUrl": "http://carsharing:8091/carsharing/vehicles.json",
-		    "regionsUrl": "http://carsharing:8091/carsharing/regions.json"
+		    "vehiclesUrl": "${CARSHARING_HOST}/carsharing/vehicles.json",
+		    "regionsUrl": "${CARSHARING_HOST}/carsharing/regions.json"
 		}
 	]
 }

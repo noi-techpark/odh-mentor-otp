@@ -56,7 +56,7 @@ cd odh-mentor-otp
 
 ```gtfs2bbox/``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
-```geocoder/``` nodejs simplified implementation of Pelias Geocoder 
+```geocoder/``` nodejs simplified implementation of Pelias Geocoder
 
 ### Docker Environment
 
@@ -94,6 +94,8 @@ in addition to those of *otp* vars
 ```GTFS_FEED_ID``` gtfs feed id which the gtfs-rt refers to. This is the defined by the  'feed_id' value (unofficial) inside feed_info.txt, if not defined this should be "1" (rebuild graph is required)
 
 ```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
+
+```CARSHARING_HOST``` host path to Carsharing service
 
 **geocoder**
 

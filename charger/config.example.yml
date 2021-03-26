@@ -1,5 +1,5 @@
 server:
-  port: 8092
+  port: 8093
   polling_interval: 10
 
 endpoints:
@@ -7,8 +7,8 @@ endpoints:
     hostname: mobility.api.opendatahub.bz.it
     port: 443
     #headers:
-    # User-Agent: OpenMove-Parking-Client
+    # User-Agent: OpenMove-Charger-Client
   stations:
-    path: /v2/flat%2Cnode/ParkingStation/*/latest?distinct=true&limit=-1
+    path: /v2/flat%2Cnode/ChargerStation/*/latest?distinct=true&limit=-1
   sensors:
     path: /v2/flat%2Cnode/ParkingSensor/*/latest?distinct=true&limit=-1

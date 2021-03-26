@@ -25,6 +25,8 @@ services:
     depends_on:
      - geocoder
      - otp
+     - parking
+     - charger
 
   geocoder:
     container_name: openmove-geocoder
@@ -57,6 +59,22 @@ services:
     build:
       context: ./
       dockerfile: infrastructure/docker/carsharing/Dockerfile
+
+  parking:
+    container_name: openmove-parking
+    ports: ["8092:8092"]
+    image: openmove_parking:latest
+    build:
+      context: ./
+      dockerfile: infrastructure/docker/parking/Dockerfile
+
+  charger:
+    container_name: openmove-charger
+    ports: ["8093:8093"]
+    image: openmove_charger:latest
+    build:
+      context: ./
+      dockerfile: infrastructure/docker/charger/Dockerfile
 
   otp:
     container_name: openmove-otp
@@ -97,6 +115,7 @@ services:
       #- GBFS_VERSION=2.1
       - GTFS_RT_URL=https://efa.sta.bz.it/gtfs-r/
       - GTFS_FEED_ID=1
+      - CARSHARING_HOST=http://carsharing:8091
     volumes:
       - /opt/odh-mentor-otp/:/data/
       #- infrastructure/docker/docker-entrypoint.sh:/docker-entrypoint.sh

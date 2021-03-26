@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8092
   polling_interval: 10
 
 endpoints:
@@ -8,8 +8,8 @@ endpoints:
     port: 443
     #path: /v2
     #headers:
-    # User-Agent: OpenMove-Bikesharing-Client
+    # User-Agent: OpenMove-Parking-Client
   stations:
-    path: /v2/flat%2Cnode/ParkingStation?distinct=true
+    path: /v2/flat%2Cnode/ParkingStation/*/latest?distinct=true&limit=-1
   sensors:
-    path: /v2/flat%2Cnode/ParkingSensor?distinct=true
+    path: /v2/flat%2Cnode/ParkingSensor/*/latest?distinct=true&limit=-1

@@ -7,9 +7,9 @@ var app = express();
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
-    sensorsReceived;
+    plugsReceived;
 
-console.log("Start Parking OpenData Hub...")
+console.log("Start Charger OpenData Hub...")
 
 console.log("Config:\n", config);
 
@@ -21,7 +21,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 function getData(){
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
-    getSensors();
+    getPlugs();
 }
 getData();
 setInterval(getData, config.server.polling_interval * 60 * 1000);
@@ -48,8 +48,8 @@ function getStations(){
     req.end()
 }
 
-function getSensors(){
-    const req = https.request(config.endpoints.sensors, res => {
+function getPlugs(){
+    const req = https.request(config.endpoints.plugs, res => {
             //console.log(`BIKES: statusCode: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
@@ -58,8 +58,8 @@ function getSensors(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var sensors = tmp.data;
-                sensorsReceived = sensors;
+                var plugs = tmp.data;
+                plugsReceived = plugs;
             });
         })
 
@@ -70,22 +70,42 @@ function getSensors(){
     req.end()
 }
 
-app.get('/parking/stations.json', function (req, res) {
-    var parkingStations = [];
+app.get('/charger/stations.json', function (req, res) {
+    var chargeStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata){
-                parkingStations.push({
+                var plugs = [];
+                for(var j = 0; j < plugsReceived.length; j++){
+                    var plug = plugsReceived[j];
+                    if(station.scode === plug.pcode && plug.smetadata){
+                        plugs.push({
+                            plug_id: plug.scode,
+                            name: plug.sname,
+                            available: plug.mvalue === 1 ? true : false,
+                            maxPower: (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].maxPower : plug.smetadata.maxPower,
+                            maxCurrent: (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].maxCurrent : plug.smetadata.maxCurrent,
+                            minCurrent: (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].minCurrent : plug.smetadata.minCurrent,
+                            outletTypeCode: (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].outletTypeCode : plug.smetadata.outletTypeCode,
+                        });
+                    }
+                }
+
+                chargeStations.push({
                     station_id: station.scode,
                     name: station.sname,
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
-                    address: station.smetadata.mainaddress,
-                    city: station.smetadata.municipality,
-                    capacity: station.smetadata.capacity || 0,
-                    free: station.mvalue || 0
-                })
+                    provider: station.smetadata.provider,
+                    address: station.smetadata.address,
+                    city: (station.smetadata.municipality || station.smetadata.city).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' '),
+                    accessType: station.smetadata.accessType,
+                    capacity: station.smetadata.capacity || plugs.length,
+                    reservable: station.smetadata.reservable,
+                    state: station.smetadata.state,
+                    plugs: plugs
+                });
             }
         }
     }
@@ -94,39 +114,10 @@ app.get('/parking/stations.json', function (req, res) {
         ttl: 0,
         version: "1.0",
         data: {
-            stations: parkingStations
+            stations: chargeStations
        }
     });
 });
-
-app.get('/parking/sensors.json', function (req, res) {
-    var parkingSensors = [];
-    if(sensorsReceived){
-        for(var i = 0; i < sensorsReceived.length; i++){
-            var sensor = sensorsReceived[i];
-            if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
-                parkingSensors.push({
-                    sensor_id: sensor.scode,
-                    name: sensor.sname,
-                    lat: sensor.scoordinate.y,
-                    lon: sensor.scoordinate.x,
-                    address: sensor.smetadata.group,
-                    city: sensor.smetadata.municipality,
-                    free: sensor.mvalue === 1 ? false : true
-                })
-            }
-        }
-    }
-    res.json({
-        last_updated: lastUpdate,
-        ttl: 0,
-        version: "1.0",
-        data: {
-            sensors: parkingSensors
-       }
-    });
-});
-
 
 var server = app.listen(config.server.port, function () {
    console.log("Listening on port ", config.server.port);
