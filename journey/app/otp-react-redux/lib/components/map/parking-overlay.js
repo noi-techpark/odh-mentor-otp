@@ -67,7 +67,7 @@ class ParkingOverlay extends MapLayer {
     const markerIcon = divIcon({
       iconSize: [24, 24],
       popupAnchor: [0, -12],
-      html: zipcarIcon,
+      html: parkingIcon,
       className: ''
     })
 

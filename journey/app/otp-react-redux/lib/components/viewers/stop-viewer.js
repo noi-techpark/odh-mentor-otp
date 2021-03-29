@@ -75,7 +75,7 @@ class StopViewer extends Component {
   _stopSpin = () => this.setState({ spin: false })
 
   componentDidMount () {
-    // Load the viewed stop in the store when the Fermata first mounts
+    // Load the viewed stop in the store when the Stop Viewer first mounts
     this.props.findStop({ stopId: this.props.viewedStop.stopId })
     // Turn on stop times refresh if enabled.
     if (this.props.autoRefreshStopTimes) this._startAutoRefresh()
@@ -125,7 +125,7 @@ class StopViewer extends Component {
     this.props.favoriteStops.findIndex(s => s.id === this.props.stopData.id) !== -1
 
   // refresh the stop in the store if the viewed stop changes w/ the
-  // Fermata already mounted
+  // Stop Viewer already mounted
   componentDidUpdate (prevProps) {
     if (
       prevProps.viewedStop &&
@@ -199,7 +199,7 @@ class StopViewer extends Component {
   }
 
   /**
-   * $_plan_trip_$ from/to here buttons, plus the schedule/next arrivals toggle.
+   * Plan trip from/to here buttons, plus the schedule/next arrivals toggle.
    * TODO: Can this use SetFromToButtons?
    */
   _renderControls = () => {
@@ -209,7 +209,7 @@ class StopViewer extends Component {
     // TODO: make this functionality configurable?
     let stopId
     if (stopData && stopData.id) {
-      stopId = stopData.id.includes(':') ? stopData.id.split(':').pop() : stopData.id
+      stopId = stopData.id.includes(':') ? stopData.id.split(':')[1] : stopData.id
     }
     return (
       <div>
@@ -220,10 +220,10 @@ class StopViewer extends Component {
             style={{ fontSize: 'small' }}
             onClick={this._toggleScheduleView}>
             <Icon type={scheduleView ? 'clock-o' : 'calendar'} />{' '}
-            View {scheduleView ? '$_next_$' : '$_schedule_$'}
+            View {scheduleView ? 'next arrivals' : 'schedule'}
           </button>
         </div>
-        <b>$_travel_$</b>
+        <b>Plan a trip:</b>
         <FromToLocationPicker
           onFromClick={this._onClickPlanFrom}
           onToClick={this._onClickPlanTo} />
@@ -250,91 +250,31 @@ class StopViewer extends Component {
       stopData,
       stopViewerArriving,
       stopViewerConfig,
-      timeFormat
+      timeFormat,
+      transitOperators
     } = this.props
     const { scheduleView, spin } = this.state
     const hasStopTimesAndRoutes = !!(stopData && stopData.stopTimes && stopData.stopTimes.length > 0 && stopData.routes)
-    // construct a lookup table mapping pattern (e.g. 'ROUTE_ID-HEADSIGN') to an array of stoptimes
+    // construct a lookup table mapping pattern (e.g. 'ROUTE_ID-HEADSIGN') to
+    // an array of stoptimes
     const stopTimesByPattern = getStopTimesByPattern(stopData)
-    return (
-      <div className='stop-viewer'>
-        {/* Header Block */}
-        {this._renderHeader()}
-
-        {stopData && (
-          <div className='stop-viewer-body'>
-            {this._renderControls()}
-            {hasStopTimesAndRoutes
-              ? <>
-                <div style={{ marginTop: 20 }}>
-                  {
-                    Object.values(stopTimesByPattern)
-                    .sort((a, b) => coreUtils.route.routeComparator(a.route, b.route))
-                    .map(patternTimes => {
-                      // Only add pattern row if route is found.
-                      // FIXME: there is currently a bug with the alernative transit index
-                      // where routes are not associated with the stop if the only stoptimes
-                      // for the stop are drop off only. See https://github.com/ibi-group/trimet-mod-otp/issues/217
-                      if (!patternTimes.route) {
-                        console.warn(`Cannot render stop times for missing route ID: ${getRouteIdForPattern(patternTimes.pattern)}`)
-                        return null
-                      }
-                      return (
-                        <PatternRow
-                          pattern={patternTimes.pattern}
-                          route={patternTimes.route}
-                          stopTimes={patternTimes.times}
-                          stopViewerConfig={stopViewerConfig}
-                          showScheduleView={scheduleView}
-                          key={patternTimes.id}
-                          stopViewerArriving={stopViewerArriving}
-                          homeTimezone={homeTimezone}
-                          timeFormat={timeFormat}
-                        />
-                      )
-                    })
-                  }
-                </div>
-                {!scheduleView
-                  // If showing next arrivals, include auto update controls.
-                  ? <div style={{ marginTop: '20px' }}>
-                    <label style={{ fontWeight: 300, fontSize: 'small' }}>
-}
-          </button>
-        </div>
-        <b>$_travel_$</b>
-        <FromToLocationPicker
-          onFromClick={this._onClickPlanFrom}
-          onToClick={this._onClickPlanTo} />
-        {scheduleView && <input
-          className='pull-right'
-          onKeyDown={this.props.onKeyDown}
-          type='date'
-          value={this.state.date}
-          style={{
-            width: '115px',
-            border: 'none',
-            outline: 'none'
-          }}
-          required
-          onChange={this.handleDateChange}
-        />}
-      </div>
+    const routeComparator = coreUtils.route.makeRouteComparator(
+      transitOperators
     )
-  }
+    const patternHeadsignComparator = coreUtils.route.makeStringValueComparator(
+      pattern => pattern.pattern.headsign
+    )
+    const patternComparator = (patternA, patternB) => {
+      // first sort by routes
+      const routeCompareValue = routeComparator(
+        patternA.route,
+        patternB.route
+      )
+      if (routeCompareValue !== 0) return routeCompareValue
 
-  render () {
-    const {
-      homeTimezone,
-      stopData,
-      stopViewerArriving,
-      stopViewerConfig,
-      timeFormat
-    } = this.props
-    const { scheduleView, spin } = this.state
-    const hasStopTimesAndRoutes = !!(stopData && stopData.stopTimes && stopData.stopTimes.length > 0 && stopData.routes)
-    // construct a lookup table mapping pattern (e.g. 'ROUTE_ID-HEADSIGN') to an array of stoptimes
-    const stopTimesByPattern = getStopTimesByPattern(stopData)
+      // if same route, sort by headsign
+      return patternHeadsignComparator(patternA, patternB)
+    }
     return (
       <div className='stop-viewer'>
         {/* Header Block */}
@@ -347,7 +287,7 @@ class StopViewer extends Component {
               ? <>
                 <div style={{ marginTop: 20 }}>
                   {Object.values(stopTimesByPattern)
-                    .sort((a, b) => coreUtils.route.routeComparator(a.route, b.route))
+                    .sort(patternComparator)
                     .map(patternTimes => {
                       // Only add pattern row if route is found.
                       // FIXME: there is currently a bug with the alernative transit index
@@ -382,7 +322,7 @@ class StopViewer extends Component {
                         type='checkbox'
                         checked={this.props.autoRefreshStopTimes}
                         onChange={this._onToggleAutoRefresh} />{' '}
-                      $_refresh_arrival_$
+                      Auto-refresh arrivals?
                     </label>
                     <button
                       className='link-button pull-right'
@@ -423,7 +363,8 @@ const mapStateToProps = (state, ownProps) => {
     stopData: state.otp.transitIndex.stops[state.otp.ui.viewedStop.stopId],
     stopViewerArriving: state.otp.config.language.stopViewerArriving,
     stopViewerConfig,
-    timeFormat: getTimeFormat(state.otp.config)
+    timeFormat: getTimeFormat(state.otp.config),
+    transitOperators: state.otp.config.transitOperators
   }
 }
 

@@ -1,7 +1,13 @@
 const express = require('express');
 const https = require('https');
 const _ = require('lodash');
+const cors = require('cors')
 const config = require('./config');
+
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 var app = express();
 
@@ -70,7 +76,7 @@ function getSensors(){
     req.end()
 }
 
-app.get('/parking/stations.json', function (req, res) {
+app.get('/parking/stations.json', cors(corsOptions),  function (req, res) {
     var parkingStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -99,7 +105,7 @@ app.get('/parking/stations.json', function (req, res) {
     });
 });
 
-app.get('/parking/sensors.json', function (req, res) {
+app.get('/parking/sensors.json', cors(corsOptions), function (req, res) {
     var parkingSensors = [];
     if(sensorsReceived){
         for(var i = 0; i < sensorsReceived.length; i++){

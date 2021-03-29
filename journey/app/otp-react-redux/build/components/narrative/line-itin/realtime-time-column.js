@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-require("core-js/modules/es6.object.freeze");
-
 var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
 
 var _types = require("@opentripplanner/core-utils/lib/types");
@@ -23,126 +21,53 @@ var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n  ", ", ", " {\n    color: #d9534f;\n  }\n"]);
+const TimeText = _styledComponents.default.div``;
+const TimeStruck = _styledComponents.default.div`
+  text-decoration: line-through;
+`;
+const TimeBlock = _styledComponents.default.div`
+  line-height: 1em;
+  margin-bottom: 4px;
+`;
+const TimeColumnBase = _styledComponents.default.div``;
+const StatusText = _styledComponents.default.div`
+  color: #bbb;
+  font-size: 80%;
+  line-height: 1em;
+`;
+const DelayText = _styledComponents.default.span`
+  display: block;
+  white-space: nowrap;
+`; // Reusing stop viewer colors.
 
-  _templateObject9 = function _templateObject9() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n  ", ", ", " {\n    color: #337ab7;\n  }\n"]);
-
-  _templateObject8 = function _templateObject8() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n  ", ", ", " {\n    color: #5cb85c;\n  }\n"]);
-
-  _templateObject7 = function _templateObject7() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n  display: block;\n  white-space: nowrap;\n"]);
-
-  _templateObject6 = function _templateObject6() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject5() {
-  var data = _taggedTemplateLiteral(["\n  color: #bbb;\n  font-size: 80%;\n  line-height: 1em;\n"]);
-
-  _templateObject5 = function _templateObject5() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject4() {
-  var data = _taggedTemplateLiteral([""]);
-
-  _templateObject4 = function _templateObject4() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n  line-height: 1em;\n  margin-bottom: 4px;\n"]);
-
-  _templateObject3 = function _templateObject3() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n  text-decoration: line-through;\n"]);
-
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral([""]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-var TimeText = _styledComponents.default.div(_templateObject());
-
-var TimeStruck = _styledComponents.default.div(_templateObject2());
-
-var TimeBlock = _styledComponents.default.div(_templateObject3());
-
-var TimeColumnBase = _styledComponents.default.div(_templateObject4());
-
-var StatusText = _styledComponents.default.div(_templateObject5());
-
-var DelayText = _styledComponents.default.span(_templateObject6()); // Reusing stop viewer colors.
-
-
-var TimeColumnOnTime = (0, _styledComponents.default)(TimeColumnBase)(_templateObject7(), TimeText, StatusText);
-var TimeColumnEarly = (0, _styledComponents.default)(TimeColumnBase)(_templateObject8(), TimeText, StatusText);
-var TimeColumnLate = (0, _styledComponents.default)(TimeColumnBase)(_templateObject9(), TimeText, StatusText);
+const TimeColumnOnTime = (0, _styledComponents.default)(TimeColumnBase)`
+  ${TimeText}, ${StatusText} {
+    color: #5cb85c;
+  }
+`;
+const TimeColumnEarly = (0, _styledComponents.default)(TimeColumnBase)`
+  ${TimeText}, ${StatusText} {
+    color: #337ab7;
+  }
+`;
+const TimeColumnLate = (0, _styledComponents.default)(TimeColumnBase)`
+  ${TimeText}, ${StatusText} {
+    color: #d9534f;
+  }
+`;
 /**
  * This component displays the scheduled departure/arrival time for a leg,
  * and, for transit legs, displays any delays or earliness where applicable.
  */
 
-function RealtimeTimeColumn(_ref) {
-  var isDestination = _ref.isDestination,
-      leg = _ref.leg,
-      timeOptions = _ref.timeOptions;
-  var time = isDestination ? leg.endTime : leg.startTime;
-  var formattedTime = time && (0, _time.formatTime)(time, timeOptions);
-  var isTransitLeg = (0, _itinerary.isTransit)(leg.mode); // For non-real-time legs, show only the scheduled time,
+function RealtimeTimeColumn({
+  isDestination,
+  leg,
+  timeOptions
+}) {
+  const time = isDestination ? leg.endTime : leg.startTime;
+  const formattedTime = time && (0, _time.formatTime)(time, timeOptions);
+  const isTransitLeg = (0, _itinerary.isTransit)(leg.mode); // For non-real-time legs, show only the scheduled time,
   // except for transit legs where we add the "scheduled" text underneath.
 
   if (!leg.realTime) {
@@ -150,15 +75,15 @@ function RealtimeTimeColumn(_ref) {
   } // Delay in seconds.
 
 
-  var delay = isDestination ? leg.arrivalDelay : leg.departureDelay; // Time is in milliseconds.
+  const delay = isDestination ? leg.arrivalDelay : leg.departureDelay; // Time is in milliseconds.
 
-  var originalTime = time - delay * 1000;
-  var originalFormattedTime = originalTime && (0, _time.formatTime)(originalTime, timeOptions); // TODO: refine on-time thresholds.
+  const originalTime = time - delay * 1000;
+  const originalFormattedTime = originalTime && (0, _time.formatTime)(originalTime, timeOptions); // TODO: refine on-time thresholds.
   // const isOnTime = delay >= -60 && delay <= 120;
 
-  var isOnTime = delay === 0;
-  var statusText;
-  var TimeColumn = TimeColumnBase;
+  const isOnTime = delay === 0;
+  let statusText;
+  let TimeColumn = TimeColumnBase;
 
   if (isOnTime) {
     statusText = 'on time';
@@ -172,8 +97,8 @@ function RealtimeTimeColumn(_ref) {
   } // Absolute delay in rounded minutes, for display purposes.
 
 
-  var delayInMinutes = Math.abs(Math.round((isDestination ? leg.arrivalDelay : leg.departureDelay) / 60));
-  var renderedTime;
+  const delayInMinutes = Math.abs(Math.round((isDestination ? leg.arrivalDelay : leg.departureDelay) / 60));
+  let renderedTime;
 
   if (!isOnTime) {
     // If the transit vehicle is not on time, strike the original scheduled time
@@ -187,7 +112,7 @@ function RealtimeTimeColumn(_ref) {
 } // Connect to redux store for timeOptions.
 
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     timeOptions: {
       format: (0, _time.getTimeFormat)(state.otp.config)

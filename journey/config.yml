@@ -142,7 +142,7 @@ map:
     #
     - type: parking
       name: Parcheggi
-      api: http://parking:8092/parking/stations.json
+      api: http://localhost:8092/parking/stations.json
     #
     #
     - type: car-rental

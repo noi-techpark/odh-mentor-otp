@@ -7,16 +7,16 @@ exports.updateOverlayVisibility = exports.setRouterId = exports.setMapZoom = exp
 
 var _reduxActions = require("redux-actions");
 
-var setAutoPlan = (0, _reduxActions.createAction)('SET_AUTOPLAN'); // TODO: this should eventually be handled via mapState
+const setAutoPlan = (0, _reduxActions.createAction)('SET_AUTOPLAN'); // TODO: this should eventually be handled via mapState
 
 exports.setAutoPlan = setAutoPlan;
-var setMapCenter = (0, _reduxActions.createAction)('SET_MAP_CENTER');
+const setMapCenter = (0, _reduxActions.createAction)('SET_MAP_CENTER');
 exports.setMapCenter = setMapCenter;
-var setMapZoom = (0, _reduxActions.createAction)('SET_MAP_ZOOM');
+const setMapZoom = (0, _reduxActions.createAction)('SET_MAP_ZOOM');
 exports.setMapZoom = setMapZoom;
-var setRouterId = (0, _reduxActions.createAction)('SET_ROUTER_ID');
+const setRouterId = (0, _reduxActions.createAction)('SET_ROUTER_ID');
 exports.setRouterId = setRouterId;
-var updateOverlayVisibility = (0, _reduxActions.createAction)('UPDATE_OVERLAY_VISIBILITY');
+const updateOverlayVisibility = (0, _reduxActions.createAction)('UPDATE_OVERLAY_VISIBILITY');
 exports.updateOverlayVisibility = updateOverlayVisibility;
 
 //# sourceMappingURL=config.js

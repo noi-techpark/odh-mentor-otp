@@ -27,6 +27,7 @@ import ElevationPointMarker from './elevation-point-marker'
 import PointPopup from './point-popup'
 import TileOverlay from './tile-overlay'
 import ZipcarOverlay from './zipcar-overlay'
+import ParkingOverlay from './parking-overlay'
 
 const MapContainer = styled.div`
   height: 100%;
@@ -191,6 +192,7 @@ class DefaultMap extends Component {
                 />
               )
               case 'zipcar': return <ZipcarOverlay key={k} {...overlayConfig} />
+              case 'parking': return <ParkingOverlay key={k} {...overlayConfig} />
               default: return null
             }
           })}

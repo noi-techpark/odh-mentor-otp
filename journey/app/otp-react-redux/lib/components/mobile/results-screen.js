@@ -183,7 +183,7 @@ class MobileResultsScreen extends Component {
       <MobileContainer>
         <MobileNavigationBar
           headerText={resultCount
-            ? `$_found_$ ${resultCount} ${resultCount > 1 ? '$_options_ : '$_option_}`
+            ? `$_found_$ ${resultCount} ${resultCount > 1 ? '$_options_$' : '$_option_$'}`
             : 'Attendi...'
           }
           headerAction={headerAction}

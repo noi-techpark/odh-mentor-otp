@@ -52,8 +52,8 @@ function processSignIn(appState) {
       // Here, we save the URL hash prior to login (contains a combination of itinerary search, stop/trip view, etc.),
       // so that the AfterLoginScreen can redirect back there when logged-in user info is fetched.
       // (For routing, it is easier to deal with the path without the hash sign.)
-      var hashIndex = appState.urlHash.indexOf('#');
-      var urlHashWithoutHash = hashIndex >= 0 ? appState.urlHash.substr(hashIndex + 1) : '/';
+      const hashIndex = appState.urlHash.indexOf('#');
+      const urlHashWithoutHash = hashIndex >= 0 ? appState.urlHash.substr(hashIndex + 1) : '/';
       dispatch((0, _user.setPathBeforeSignIn)(urlHashWithoutHash));
     } else if (appState && appState.returnTo) {// TODO: Handle other after-login situations.
       // Note that when redirecting from a login-protected (e.g. account) page while logged out,

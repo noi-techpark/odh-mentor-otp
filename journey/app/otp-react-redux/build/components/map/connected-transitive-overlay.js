@@ -16,16 +16,16 @@ var _state = require("../../util/state");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // connect to the redux store
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var activeSearch = (0, _state.getActiveSearch)(state.otp);
-  var transitiveData = null;
+const mapStateToProps = (state, ownProps) => {
+  const activeSearch = (0, _state.getActiveSearch)(state.otp);
+  let transitiveData = null;
 
   if (activeSearch && activeSearch.query.routingType === 'ITINERARY' && activeSearch.response && activeSearch.response.length > 0) {
     // FIXME: This may need some simplification.
-    var itins = (0, _state.getActiveItineraries)(state.otp);
-    var visibleIndex = activeSearch.visibleItinerary !== undefined && activeSearch.visibleItinerary !== null ? activeSearch.visibleItinerary : activeSearch.activeItinerary; // TODO: prevent itineraryToTransitive() from being called more than needed
+    const itins = (0, _state.getActiveItineraries)(state.otp);
+    const visibleIndex = activeSearch.visibleItinerary !== undefined && activeSearch.visibleItinerary !== null ? activeSearch.visibleItinerary : activeSearch.activeItinerary; // TODO: prevent itineraryToTransitive() from being called more than needed
 
-    var visibleItinerary = itins[visibleIndex] ? itins[visibleIndex] : (0, _state.getActiveItinerary)(state.otp);
+    const visibleItinerary = itins[visibleIndex] ? itins[visibleIndex] : (0, _state.getActiveItinerary)(state.otp);
     if (visibleItinerary) transitiveData = _coreUtils.default.map.itineraryToTransitive(visibleItinerary);
   } else if (activeSearch && activeSearch.response && activeSearch.response.otp) {
     transitiveData = activeSearch.response.otp;
@@ -34,12 +34,12 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     activeItinerary: activeSearch && activeSearch.activeItinerary,
     routingType: activeSearch && activeSearch.query && activeSearch.query.routingType,
-    transitiveData: transitiveData,
+    transitiveData,
     visible: true
   };
 };
 
-var mapDispatchToProps = {};
+const mapDispatchToProps = {};
 
 var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_transitiveOverlay.default);
 

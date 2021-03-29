@@ -5,295 +5,295 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "CallTakerControls", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _callTakerControls.default;
   }
 });
 Object.defineProperty(exports, "CallTakerWindows", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _callTakerWindows.default;
   }
 });
 Object.defineProperty(exports, "DateTimeModal", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _dateTimeModal.default;
   }
 });
 Object.defineProperty(exports, "DateTimePreview", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _dateTimePreview.default;
   }
 });
 Object.defineProperty(exports, "DefaultSearchForm", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _defaultSearchForm.default;
   }
 });
 Object.defineProperty(exports, "ErrorMessage", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _errorMessage.default;
   }
 });
 Object.defineProperty(exports, "LocationField", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _connectedLocationField.default;
   }
 });
 Object.defineProperty(exports, "PlanTripButton", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _planTripButton.default;
   }
 });
 Object.defineProperty(exports, "SettingsPreview", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _settingsPreview.default;
   }
 });
 Object.defineProperty(exports, "SwitchButton", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _switchButton.default;
   }
 });
 Object.defineProperty(exports, "DefaultMap", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _defaultMap.default;
   }
 });
 Object.defineProperty(exports, "Map", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _map.default;
   }
 });
 Object.defineProperty(exports, "StylizedMap", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _stylizedMap.default;
   }
 });
 Object.defineProperty(exports, "OsmBaseLayer", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _osmBaseLayer.default;
   }
 });
 Object.defineProperty(exports, "TileOverlay", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _tileOverlay.default;
   }
 });
 Object.defineProperty(exports, "ItineraryCarousel", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _itineraryCarousel.default;
   }
 });
 Object.defineProperty(exports, "NarrativeItineraries", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _narrativeItineraries.default;
   }
 });
 Object.defineProperty(exports, "NarrativeItinerary", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _narrativeItinerary.default;
   }
 });
 Object.defineProperty(exports, "NarrativeRoutingResults", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _narrativeRoutingResults.default;
   }
 });
 Object.defineProperty(exports, "RealtimeAnnotation", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _realtimeAnnotation.default;
   }
 });
 Object.defineProperty(exports, "SimpleRealtimeAnnotation", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _simpleRealtimeAnnotation.default;
   }
 });
 Object.defineProperty(exports, "TransportationNetworkCompanyLeg", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _tncLeg.default;
   }
 });
 Object.defineProperty(exports, "TripDetails", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _connectedTripDetails.default;
   }
 });
 Object.defineProperty(exports, "TripTools", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _tripTools.default;
   }
 });
 Object.defineProperty(exports, "LineItinerary", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _lineItinerary.default;
   }
 });
 Object.defineProperty(exports, "MobileMain", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _main.default;
   }
 });
 Object.defineProperty(exports, "NavLoginButton", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _navLoginButton.default;
   }
 });
 Object.defineProperty(exports, "NavLoginButtonAuth0", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _navLoginButtonAuth.default;
   }
 });
 Object.defineProperty(exports, "StopViewer", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _stopViewer.default;
   }
 });
 Object.defineProperty(exports, "ViewStopButton", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _viewStopButton.default;
   }
 });
 Object.defineProperty(exports, "ViewTripButton", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _viewTripButton.default;
   }
 });
 Object.defineProperty(exports, "ViewerContainer", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _viewerContainer.default;
   }
 });
 Object.defineProperty(exports, "ResponsiveWebapp", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _responsiveWebapp.default;
   }
 });
 Object.defineProperty(exports, "AppMenu", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _appMenu.default;
   }
 });
 Object.defineProperty(exports, "BatchRoutingPanel", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _batchRoutingPanel.default;
   }
 });
 Object.defineProperty(exports, "CallTakerPanel", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _callTakerPanel.default;
   }
 });
 Object.defineProperty(exports, "DesktopNav", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _desktopNav.default;
   }
 });
 Object.defineProperty(exports, "DefaultMainPanel", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _defaultMainPanel.default;
   }
 });
 Object.defineProperty(exports, "setAutoPlan", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _config.setAutoPlan;
   }
 });
 Object.defineProperty(exports, "setMapCenter", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _config.setMapCenter;
   }
 });
 Object.defineProperty(exports, "getCurrentPosition", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _location.getCurrentPosition;
   }
 });
 Object.defineProperty(exports, "setLocationToCurrent", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _map2.setLocationToCurrent;
   }
 });
 Object.defineProperty(exports, "clearLocation", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _map2.clearLocation;
   }
 });
 Object.defineProperty(exports, "setUseRealtimeResponse", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _narrative.setUseRealtimeResponse;
   }
 });
 Object.defineProperty(exports, "findNearbyStops", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _api.findNearbyStops;
   }
 });
 Object.defineProperty(exports, "createCallTakerReducer", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _callTaker.default;
   }
 });
 Object.defineProperty(exports, "createOtpReducer", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _createOtpReducer.default;
   }
 });
 Object.defineProperty(exports, "createUserReducer", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _createUserReducer.default;
   }
 });
 Object.defineProperty(exports, "otpUtils", {
   enumerable: true,
-  get: function get() {
+  get: function () {
     return _util.default;
   }
 });

@@ -13,9 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Screen that is flashed while retrieving user data.
  * TODO: Improve this screen.
  */
-var AwaitingScreen = function AwaitingScreen() {
-  return /*#__PURE__*/_react.default.createElement("div", null, "Processing...");
-};
+const AwaitingScreen = () => /*#__PURE__*/_react.default.createElement("div", null, "Processing...");
 
 var _default = AwaitingScreen;
 exports.default = _default;

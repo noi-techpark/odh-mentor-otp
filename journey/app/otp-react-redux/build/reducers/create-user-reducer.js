@@ -11,11 +11,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // TODO: port user-specific code from the otp reducer.
 function createUserReducer() {
-  var initialState = {};
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-    var action = arguments.length > 1 ? arguments[1] : undefined;
-
+  const initialState = {};
+  return (state = initialState, action) => {
     switch (action.type) {
       case 'SET_CURRENT_USER':
         {

@@ -10,21 +10,7 @@ exports.saveQueriesForCall = saveQueriesForCall;
 exports.fetchQueries = fetchQueries;
 exports.toggleCallHistory = exports.beginCall = void 0;
 
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
+require("core-js/modules/web.dom.iterable.js");
 
 var _query = require("@opentripplanner/core-utils/lib/query");
 
@@ -40,24 +26,18 @@ var _state = require("../util/state");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 if (typeof fetch === 'undefined') require('isomorphic-fetch'); /// PRIVATE ACTIONS
 
-var endingCall = (0, _reduxActions.createAction)('END_CALL');
-var receivedCalls = (0, _reduxActions.createAction)('RECEIVED_CALLS');
-var receivedQueries = (0, _reduxActions.createAction)('RECEIVED_QUERIES');
-var requestingCalls = (0, _reduxActions.createAction)('REQUESTING_CALLS');
-var requestingQueries = (0, _reduxActions.createAction)('REQUESTING_QUERIES');
-var storeSession = (0, _reduxActions.createAction)('STORE_SESSION'); /// PUBLIC ACTIONS
+const endingCall = (0, _reduxActions.createAction)('END_CALL');
+const receivedCalls = (0, _reduxActions.createAction)('RECEIVED_CALLS');
+const receivedQueries = (0, _reduxActions.createAction)('RECEIVED_QUERIES');
+const requestingCalls = (0, _reduxActions.createAction)('REQUESTING_CALLS');
+const requestingQueries = (0, _reduxActions.createAction)('REQUESTING_QUERIES');
+const storeSession = (0, _reduxActions.createAction)('STORE_SESSION'); /// PUBLIC ACTIONS
 
-var beginCall = (0, _reduxActions.createAction)('BEGIN_CALL');
+const beginCall = (0, _reduxActions.createAction)('BEGIN_CALL');
 exports.beginCall = beginCall;
-var toggleCallHistory = (0, _reduxActions.createAction)('TOGGLE_CALL_HISTORY');
+const toggleCallHistory = (0, _reduxActions.createAction)('TOGGLE_CALL_HISTORY');
 /**
  * End the active call and store the queries made during the call.
  */
@@ -66,32 +46,32 @@ exports.toggleCallHistory = toggleCallHistory;
 
 function endCall() {
   return function (dispatch, getState) {
-    var _getState = getState(),
-        callTaker = _getState.callTaker,
-        otp = _getState.otp;
-
-    var activeCall = callTaker.activeCall,
-        session = callTaker.session;
+    const {
+      callTaker,
+      otp
+    } = getState();
+    const {
+      activeCall,
+      session
+    } = callTaker;
     if (sessionIsInvalid(session)) return; // Make POST request to store call.
 
-    var callData = new FormData();
+    const callData = new FormData();
     callData.append('sessionId', session.sessionId);
     callData.append('call.startTime', activeCall.startTime);
     callData.append('call.endTime', (0, _state.getTimestamp)());
-    fetch("".concat(otp.config.datastoreUrl, "/calltaker/call"), {
+    fetch(`${otp.config.datastoreUrl}/calltaker/call`, {
       method: 'POST',
       body: callData
-    }).then(function (res) {
-      return res.json();
-    }).then(function (id) {
+    }).then(res => res.json()).then(id => {
       // Inject call ID into active call and save queries.
-      dispatch(saveQueriesForCall(_objectSpread(_objectSpread({}, activeCall), {}, {
-        id: id
-      })));
+      dispatch(saveQueriesForCall({ ...activeCall,
+        id
+      }));
       dispatch(fetchCalls());
-    }).catch(function (err) {
+    }).catch(err => {
       console.error(err);
-      alert("Could not save call: ".concat(JSON.stringify(err)));
+      alert(`Could not save call: ${JSON.stringify(err)}`);
     });
     dispatch(endingCall());
   };
@@ -105,13 +85,14 @@ function endCall() {
 
 function initializeModules() {
   return function (dispatch, getState) {
-    var _getState$otp$config = getState().otp.config,
-        datastoreUrl = _getState$otp$config.datastoreUrl,
-        trinetReDirect = _getState$otp$config.trinetReDirect; // Initialize session if datastore enabled.
+    const {
+      datastoreUrl,
+      trinetReDirect
+    } = getState().otp.config; // Initialize session if datastore enabled.
 
     if (datastoreUrl && trinetReDirect) {
       // TODO: Generalize for non-TriNet instances.
-      var sessionId = (0, _query.getUrlParams)().sessionId;
+      const sessionId = (0, _query.getUrlParams)().sessionId;
 
       if (sessionId) {
         // Initialize the session if found in URL query params.
@@ -130,18 +111,18 @@ function initializeModules() {
 
 
 function newSession(datastoreUrl, verifyLoginUrl, redirect) {
-  fetch(datastoreUrl + '/auth/newSession').then(function (res) {
-    return res.json();
-  }).then(function (data) {
-    var session = data.sessionId;
+  fetch(datastoreUrl + '/auth/newSession').then(res => res.json()).then(data => {
+    const {
+      sessionId: session
+    } = data;
     console.log('newSession success: ' + session);
-    var windowUrl = "".concat(verifyLoginUrl, "?").concat(_qs.default.stringify({
-      session: session,
-      redirect: redirect
-    }));
+    const windowUrl = `${verifyLoginUrl}?${_qs.default.stringify({
+      session,
+      redirect
+    })}`;
     console.log('redirecting to: ' + windowUrl);
     window.location = windowUrl;
-  }).catch(function (error) {
+  }).catch(error => {
     console.error('newSession error', error);
   });
 }
@@ -153,13 +134,9 @@ function newSession(datastoreUrl, verifyLoginUrl, redirect) {
 
 function checkSession(datastoreUrl, sessionId) {
   return function (dispatch, getState) {
-    fetch(datastoreUrl + "/auth/checkSession?sessionId=".concat(sessionId)).then(function (res) {
-      return res.json();
-    }).then(function (session) {
-      return dispatch(storeSession({
-        session: session
-      }));
-    }).catch(function (error) {
+    fetch(datastoreUrl + `/auth/checkSession?sessionId=${sessionId}`).then(res => res.json()).then(session => dispatch(storeSession({
+      session
+    }))).catch(error => {
       console.error('checkSession error', error);
       dispatch(storeSession({
         session: null
@@ -175,27 +152,28 @@ function checkSession(datastoreUrl, sessionId) {
 function fetchCalls() {
   return function (dispatch, getState) {
     dispatch(requestingCalls());
-
-    var _getState2 = getState(),
-        callTaker = _getState2.callTaker,
-        otp = _getState2.otp;
-
+    const {
+      callTaker,
+      otp
+    } = getState();
     if (sessionIsInvalid(callTaker.session)) return;
-    var datastoreUrl = otp.config.datastoreUrl;
-    var sessionId = callTaker.session.sessionId;
-    var limit = 10;
-    fetch("".concat(datastoreUrl, "/calltaker/call?").concat(_qs.default.stringify({
-      limit: limit,
-      sessionId: sessionId
-    }))).then(function (res) {
-      return res.json();
-    }).then(function (calls) {
+    const {
+      datastoreUrl
+    } = otp.config;
+    const {
+      sessionId
+    } = callTaker.session;
+    const limit = 10;
+    fetch(`${datastoreUrl}/calltaker/call?${_qs.default.stringify({
+      limit,
+      sessionId
+    })}`).then(res => res.json()).then(calls => {
       console.log('GET calls response', calls);
       dispatch(receivedCalls({
-        calls: calls
+        calls
       }));
-    }).catch(function (err) {
-      alert("Could not fetch calls: ".concat(JSON.stringify(err)));
+    }).catch(err => {
+      alert(`Could not fetch calls: ${JSON.stringify(err)}`);
     });
   };
 }
@@ -220,36 +198,38 @@ function sessionIsInvalid(session) {
 
 function saveQueriesForCall(call) {
   return function (dispatch, getState) {
-    var _getState3 = getState(),
-        callTaker = _getState3.callTaker,
-        otp = _getState3.otp;
-
-    var datastoreUrl = otp.config.datastoreUrl;
+    const {
+      callTaker,
+      otp
+    } = getState();
+    const {
+      datastoreUrl
+    } = otp.config;
     if (sessionIsInvalid(callTaker.session)) return;
 
     if (!call) {
-      alert("Could not find call for ".concat(call.id, ". Cancelling save queries request."));
+      alert(`Could not find call for ${call.id}. Cancelling save queries request.`);
       return;
     }
 
-    return Promise.all(call.searches.map(function (searchId) {
-      var search = otp.searches[searchId];
-      var query = (0, _callTaker.searchToQuery)(search, call, otp.config);
-      var sessionId = callTaker.session.sessionId;
-      var queryData = new FormData();
+    return Promise.all(call.searches.map(searchId => {
+      const search = otp.searches[searchId];
+      const query = (0, _callTaker.searchToQuery)(search, call, otp.config);
+      const {
+        sessionId
+      } = callTaker.session;
+      const queryData = new FormData();
       queryData.append('sessionId', sessionId);
       queryData.append('query.queryParams', query.queryParams);
       queryData.append('query.fromPlace', query.fromPlace);
       queryData.append('query.toPlace', query.toPlace);
       queryData.append('query.timeStamp', query.timeStamp);
       queryData.append('query.call.id', call.id);
-      return fetch("".concat(datastoreUrl, "/calltaker/callQuery?sessionId=").concat(sessionId), {
+      return fetch(`${datastoreUrl}/calltaker/callQuery?sessionId=${sessionId}`, {
         method: 'POST',
         body: queryData
-      }).then(function (res) {
-        return res.json();
-      }).catch(function (err) {
-        alert("Could not fetch calls: ".concat(JSON.stringify(err)));
+      }).then(res => res.json()).catch(err => {
+        alert(`Could not fetch calls: ${JSON.stringify(err)}`);
       });
     }));
   };
@@ -262,23 +242,24 @@ function saveQueriesForCall(call) {
 function fetchQueries(callId) {
   return function (dispatch, getState) {
     dispatch(requestingQueries());
-
-    var _getState4 = getState(),
-        callTaker = _getState4.callTaker,
-        otp = _getState4.otp;
-
-    var datastoreUrl = otp.config.datastoreUrl;
+    const {
+      callTaker,
+      otp
+    } = getState();
+    const {
+      datastoreUrl
+    } = otp.config;
     if (sessionIsInvalid(callTaker.session)) return;
-    var sessionId = callTaker.session.sessionId;
-    fetch("".concat(datastoreUrl, "/calltaker/callQuery?sessionId=").concat(sessionId, "&call.id=").concat(callId)).then(function (res) {
-      return res.json();
-    }).then(function (queries) {
+    const {
+      sessionId
+    } = callTaker.session;
+    fetch(`${datastoreUrl}/calltaker/callQuery?sessionId=${sessionId}&call.id=${callId}`).then(res => res.json()).then(queries => {
       dispatch(receivedQueries({
-        callId: callId,
-        queries: queries
+        callId,
+        queries
       }));
-    }).catch(function (err) {
-      alert("Could not fetch calls: ".concat(JSON.stringify(err)));
+    }).catch(err => {
+      alert(`Could not fetch calls: ${JSON.stringify(err)}`);
     });
   };
 }

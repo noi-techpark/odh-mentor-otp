@@ -17,24 +17,6 @@ exports.getStopViewerConfig = getStopViewerConfig;
 exports.getUiUrlParams = getUiUrlParams;
 exports.getTitle = getTitle;
 
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.object.assign");
-
 var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
 
 var _lodash = _interopRequireDefault(require("lodash.isequal"));
@@ -45,24 +27,13 @@ var _ui = require("../actions/ui");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-var _coreUtils$itinerary = _coreUtils.default.itinerary,
-    calculateFares = _coreUtils$itinerary.calculateFares,
-    hasBike = _coreUtils$itinerary.hasBike,
-    isCar = _coreUtils$itinerary.isCar,
-    isTransit = _coreUtils$itinerary.isTransit,
-    isWalk = _coreUtils$itinerary.isWalk;
+const {
+  calculateFares,
+  hasBike,
+  isCar,
+  isTransit,
+  isWalk
+} = _coreUtils.default.itinerary;
 /**
  * Get the active search object
  * @param {Object} otpState the OTP state object
@@ -79,8 +50,7 @@ function getActiveSearch(otpState) {
  */
 
 
-function getTimestamp() {
-  var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _moment.default)();
+function getTimestamp(time = (0, _moment.default)()) {
   return time.format('YYYY-MM-DDTHH:mm:ss');
 }
 /**
@@ -91,12 +61,12 @@ function getTimestamp() {
 
 
 function getActiveErrors(otpState) {
-  var search = getActiveSearch(otpState);
-  var errors = [];
-  var response = !search ? null : search.response;
+  const search = getActiveSearch(otpState);
+  const errors = [];
+  const response = !search ? null : search.response;
 
   if (response) {
-    response.forEach(function (res) {
+    response.forEach(res => {
       if (res && res.error) errors.push(res);
     });
   }
@@ -113,25 +83,30 @@ function getActiveErrors(otpState) {
 
 
 function getActiveItineraries(otpState) {
-  var search = getActiveSearch(otpState);
-  var config = otpState.config,
-      useRealtime = otpState.useRealtime; // set response to use depending on useRealtime
+  const search = getActiveSearch(otpState);
+  const {
+    config,
+    useRealtime
+  } = otpState; // set response to use depending on useRealtime
 
-  var response = !search ? null : useRealtime ? search.response : search.nonRealtimeResponse;
-  var itineraries = [];
+  const response = !search ? null : useRealtime ? search.response : search.nonRealtimeResponse;
+  const itineraries = [];
 
   if (response) {
-    response.forEach(function (res) {
-      if (res && res.plan) itineraries.push.apply(itineraries, _toConsumableArray(res.plan.itineraries));
+    response.forEach(res => {
+      if (res && res.plan) itineraries.push(...res.plan.itineraries);
     });
   }
 
-  var _otpState$filter = otpState.filter,
-      filter = _otpState$filter.filter,
-      sort = _otpState$filter.sort;
-  var direction = sort.direction,
-      type = sort.type;
-  return itineraries.filter(function (itinerary) {
+  const {
+    filter,
+    sort
+  } = otpState.filter;
+  const {
+    direction,
+    type
+  } = sort;
+  return itineraries.filter(itinerary => {
     switch (filter) {
       case 'ALL':
         return true;
@@ -139,8 +114,8 @@ function getActiveItineraries(otpState) {
       case 'ACTIVE':
         // ACTIVE filter checks that the only modes contained in the itinerary
         // are 'active' (i.e., walk or bike). FIXME: add micromobility?
-        var allActiveModes = true;
-        itinerary.legs.forEach(function (leg) {
+        let allActiveModes = true;
+        itinerary.legs.forEach(leg => {
           if (!isWalk(leg.mode) && !hasBike(leg.mode)) allActiveModes = false;
         });
         return allActiveModes;
@@ -149,17 +124,17 @@ function getActiveItineraries(otpState) {
         return itineraryHasTransit(itinerary);
 
       case 'CAR':
-        var hasCar = false;
-        itinerary.legs.forEach(function (leg) {
+        let hasCar = false;
+        itinerary.legs.forEach(leg => {
           if (isCar(leg.mode)) hasCar = true;
         });
         return hasCar;
 
       default:
-        console.warn("Filter (".concat(filter, ") not supported"));
+        console.warn(`Filter (${filter}) not supported`);
         return true;
     }
-  }).sort(function (a, b) {
+  }).sort((a, b) => {
     switch (type) {
       case 'WALKTIME':
         if (direction === 'ASC') return a.walkTime - b.walkTime;else return b.walkTime - a.walkTime;
@@ -174,15 +149,15 @@ function getActiveItineraries(otpState) {
         if (direction === 'ASC') return a.duration - b.duration;else return b.duration - a.duration;
 
       case 'COST':
-        var aTotal = getTotalFare(a, config);
-        var bTotal = getTotalFare(b, config);
+        const aTotal = getTotalFare(a, config);
+        const bTotal = getTotalFare(b, config);
         if (direction === 'ASC') return aTotal - bTotal;else return bTotal - aTotal;
 
       default:
-        if (type !== 'BEST') console.warn("Sort (".concat(type, ") not supported. Defaulting to BEST.")); // FIXME: Fully implement default sort algorithm.
+        if (type !== 'BEST') console.warn(`Sort (${type}) not supported. Defaulting to BEST.`); // FIXME: Fully implement default sort algorithm.
 
-        var aCost = calculateItineraryCost(a, config);
-        var bCost = calculateItineraryCost(b, config);
+        const aCost = calculateItineraryCost(a, config);
+        const bCost = calculateItineraryCost(b, config);
         if (direction === 'ASC') return aCost - bCost;else return bCost - aCost;
     }
   });
@@ -194,7 +169,7 @@ function getActiveItineraries(otpState) {
  */
 
 
-var DEFAULT_WEIGHTS = {
+const DEFAULT_WEIGHTS = {
   walkReluctance: 0.1,
   driveReluctance: 2,
   durationFactor: 0.25,
@@ -209,12 +184,11 @@ var DEFAULT_WEIGHTS = {
  * FIXME: Do major testing to get this right.
  */
 
-function calculateItineraryCost(itinerary) {
-  var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+function calculateItineraryCost(itinerary, config = {}) {
   // Initialize weights to default values.
-  var weights = DEFAULT_WEIGHTS; // If config contains values to override defaults, apply those.
+  const weights = DEFAULT_WEIGHTS; // If config contains values to override defaults, apply those.
 
-  var configWeights = config.itinerary && config.itinerary.weights;
+  const configWeights = config.itinerary && config.itinerary.weights;
   if (configWeights) Object.assign(weights, configWeights);
   return getTotalFare(itinerary, config) * weights.fareFactor + itinerary.duration * weights.durationFactor + itinerary.walkDistance * weights.walkReluctance + getDriveTime(itinerary) * weights.driveReluctance + itinerary.waitingTime * weights.waitReluctance + itinerary.transfers * weights.transferReluctance;
 }
@@ -226,8 +200,8 @@ function calculateItineraryCost(itinerary) {
 
 function getDriveTime(itinerary) {
   if (!itinerary) return 0;
-  var driveTime = 0;
-  itinerary.legs.forEach(function (leg) {
+  let driveTime = 0;
+  itinerary.legs.forEach(leg => {
     if (leg.mode === 'CAR') driveTime += leg.duration;
   });
   return driveTime;
@@ -238,7 +212,7 @@ function getDriveTime(itinerary) {
  */
 
 
-var DEFAULT_COSTS = {
+const DEFAULT_COSTS = {
   // $2 per trip? This is a made up number.
   bikeshareTripCostCents: 2 * 100,
   // $2 for 3 hours of parking?
@@ -252,23 +226,21 @@ var DEFAULT_COSTS = {
  * TODO: Add GBFS fares
  */
 
-function getTotalFare(itinerary) {
-  var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
+function getTotalFare(itinerary, config = {}) {
   // Get transit/TNC fares.
-  var _calculateFares = calculateFares(itinerary),
-      maxTNCFare = _calculateFares.maxTNCFare,
-      transitFare = _calculateFares.transitFare; // Start with default cost values.
+  const {
+    maxTNCFare,
+    transitFare
+  } = calculateFares(itinerary); // Start with default cost values.
 
+  const costs = DEFAULT_COSTS; // If config contains values to override defaults, apply those.
 
-  var costs = DEFAULT_COSTS; // If config contains values to override defaults, apply those.
-
-  var configCosts = config.itinerary && config.itinerary.costs;
+  const configCosts = config.itinerary && config.itinerary.costs;
   if (configCosts) Object.assign(costs, configCosts); // Calculate total cost from itinerary legs.
 
-  var drivingCost = 0;
-  var hasBikeshare = false;
-  itinerary.legs.forEach(function (leg) {
+  let drivingCost = 0;
+  let hasBikeshare = false;
+  itinerary.legs.forEach(leg => {
     if (leg.mode === 'CAR') {
       // Convert meters to miles and multiple by cost per mile.
       drivingCost += leg.distance * 0.000621371 * costs.drivingCentsPerMile;
@@ -278,7 +250,7 @@ function getTotalFare(itinerary) {
       hasBikeshare = true;
     }
   });
-  var bikeshareCost = hasBikeshare ? costs.bikeshareTripCostCents : 0; // If some leg uses driving, add parking cost to the total.
+  const bikeshareCost = hasBikeshare ? costs.bikeshareTripCostCents : 0; // If some leg uses driving, add parking cost to the total.
 
   if (drivingCost > 0) drivingCost += costs.carParkingCostCents;
   return bikeshareCost + drivingCost + transitFare + maxTNCFare * 100;
@@ -286,16 +258,16 @@ function getTotalFare(itinerary) {
 
 function getTotalFareAsString(itinerary) {
   // Get centsToString formatter.
-  var _calculateFares2 = calculateFares(itinerary),
-      centsToString = _calculateFares2.centsToString; // Return total fare as formatted string.
-
+  const {
+    centsToString
+  } = calculateFares(itinerary); // Return total fare as formatted string.
 
   return centsToString(getTotalFare(itinerary));
 }
 
 function itineraryHasTransit(itinerary) {
-  var itinHasTransit = false;
-  itinerary.legs.forEach(function (leg) {
+  let itinHasTransit = false;
+  itinerary.legs.forEach(leg => {
     if (isTransit(leg.mode)) itinHasTransit = true;
   });
   return itinHasTransit;
@@ -309,8 +281,8 @@ function itineraryHasTransit(itinerary) {
 
 
 function getActiveItinerary(otpState) {
-  var search = getActiveSearch(otpState);
-  var itineraries = getActiveItineraries(otpState);
+  const search = getActiveSearch(otpState);
+  const itineraries = getActiveItineraries(otpState);
   if (!itineraries || !search) return null;
   return itineraries.length > search.activeItinerary && search.activeItinerary >= 0 ? itineraries[search.activeItinerary] : null;
 }
@@ -333,38 +305,32 @@ function hasValidLocation(query, locationKey) {
 
 
 function queryIsValid(otpState) {
-  var currentQuery = otpState.currentQuery;
+  const {
+    currentQuery
+  } = otpState;
   return hasValidLocation(currentQuery, 'from') && hasValidLocation(currentQuery, 'to'); // TODO: add mode validation
   // TODO: add date/time validation
 }
 
 function getRealtimeEffects(otpState) {
-  var search = getActiveSearch(otpState);
-  var realtimeItineraries = search && search.response && search.response.plan ? search.response.plan.itineraries : null;
-  var hasNonRealtimeItineraries = search && search.nonRealtimeResponse && search.nonRealtimeResponse.plan;
-  var nonRealtimeItineraries = hasNonRealtimeItineraries ? search.nonRealtimeResponse.plan.itineraries : null;
-  var isAffectedByRealtimeData = !!(realtimeItineraries && hasNonRealtimeItineraries && // FIXME: Are realtime impacts only indicated by a change in the duration
+  const search = getActiveSearch(otpState);
+  const realtimeItineraries = search && search.response && search.response.plan ? search.response.plan.itineraries : null;
+  const hasNonRealtimeItineraries = search && search.nonRealtimeResponse && search.nonRealtimeResponse.plan;
+  const nonRealtimeItineraries = hasNonRealtimeItineraries ? search.nonRealtimeResponse.plan.itineraries : null;
+  const isAffectedByRealtimeData = !!(realtimeItineraries && hasNonRealtimeItineraries && // FIXME: Are realtime impacts only indicated by a change in the duration
   // of the first itinerary
   realtimeItineraries[0].duration !== nonRealtimeItineraries[0].duration);
-  var normalRoutes = isAffectedByRealtimeData && nonRealtimeItineraries ? nonRealtimeItineraries[0].legs.filter(function (leg) {
-    return !!leg.route;
-  }).map(function (leg) {
-    return leg.route;
-  }) : [];
-  var realtimeRoutes = isAffectedByRealtimeData && realtimeItineraries ? realtimeItineraries[0].legs.filter(function (leg) {
-    return !!leg.route;
-  }).map(function (leg) {
-    return leg.route;
-  }) : [];
-  var normalDuration = isAffectedByRealtimeData && nonRealtimeItineraries ? nonRealtimeItineraries[0].duration : 0;
-  var realtimeDuration = isAffectedByRealtimeData && realtimeItineraries ? realtimeItineraries[0].duration : 0;
+  const normalRoutes = isAffectedByRealtimeData && nonRealtimeItineraries ? nonRealtimeItineraries[0].legs.filter(leg => !!leg.route).map(leg => leg.route) : [];
+  const realtimeRoutes = isAffectedByRealtimeData && realtimeItineraries ? realtimeItineraries[0].legs.filter(leg => !!leg.route).map(leg => leg.route) : [];
+  const normalDuration = isAffectedByRealtimeData && nonRealtimeItineraries ? nonRealtimeItineraries[0].duration : 0;
+  const realtimeDuration = isAffectedByRealtimeData && realtimeItineraries ? realtimeItineraries[0].duration : 0;
   return {
-    isAffectedByRealtimeData: isAffectedByRealtimeData,
-    normalRoutes: normalRoutes,
-    realtimeRoutes: realtimeRoutes,
+    isAffectedByRealtimeData,
+    normalRoutes,
+    realtimeRoutes,
     routesDiffer: !(0, _lodash.default)(normalRoutes, realtimeRoutes),
-    normalDuration: normalDuration,
-    realtimeDuration: realtimeDuration,
+    normalDuration,
+    realtimeDuration,
     exceedsThreshold: Math.abs(normalDuration - realtimeDuration) >= otpState.config.realtimeEffectsDisplayThreshold
   }; // // TESTING: Return this instead to simulate a realtime-affected itinerary.
   // return {
@@ -396,8 +362,8 @@ function getStopViewerConfig(otpState) {
 
 
 function getUiUrlParams(otpState) {
-  var activeSearch = getActiveSearch(otpState);
-  var uiParams = {
+  const activeSearch = getActiveSearch(otpState);
+  const uiParams = {
     ui_activeItinerary: activeSearch ? activeSearch.activeItinerary : 0,
     ui_activeSearch: otpState.activeSearchId
   };
@@ -405,35 +371,38 @@ function getUiUrlParams(otpState) {
 } // Set default title to the original document title (on load) set in index.html
 
 
-var DEFAULT_TITLE = document.title;
+const DEFAULT_TITLE = document.title;
 
 function getTitle(state) {
   // Override title can optionally be provided in config.yml
-  var _state$otp = state.otp,
-      config = _state$otp.config,
-      ui = _state$otp.ui,
-      user = _state$otp.user;
-  var title = config.title || DEFAULT_TITLE;
-  var mainPanelContent = ui.mainPanelContent,
-      viewedRoute = ui.viewedRoute,
-      viewedStop = ui.viewedStop;
+  const {
+    config,
+    ui,
+    user
+  } = state.otp;
+  let title = config.title || DEFAULT_TITLE;
+  const {
+    mainPanelContent,
+    viewedRoute,
+    viewedStop
+  } = ui;
 
   switch (mainPanelContent) {
     case _ui.MainPanelContent.ROUTE_VIEWER:
       title += ' | Route';
-      if (viewedRoute && viewedRoute.routeId) title += " ".concat(viewedRoute.routeId);
+      if (viewedRoute && viewedRoute.routeId) title += ` ${viewedRoute.routeId}`;
       break;
 
     case _ui.MainPanelContent.STOP_VIEWER:
       title += ' | Stop';
-      if (viewedStop && viewedStop.stopId) title += " ".concat(viewedStop.stopId);
+      if (viewedStop && viewedStop.stopId) title += ` ${viewedStop.stopId}`;
       break;
 
     default:
-      var activeSearch = getActiveSearch(state.otp);
+      const activeSearch = getActiveSearch(state.otp);
 
       if (activeSearch) {
-        title += " | ".concat(_coreUtils.default.query.summarizeQuery(activeSearch.query, user.locations));
+        title += ` | ${_coreUtils.default.query.summarizeQuery(activeSearch.query, user.locations)}`;
       }
 
       break;
