@@ -166,6 +166,8 @@ function combineResults(text, cb) {
 			if(_.isFunction(formatters[ req.id ])) {
 				
 				let eRes = formatters[ req.id ]( resp[i++].body )
+				
+				console.log("[GEOCODER] source", req.id, "results", _.size(eRes));
 
 				results.push(eRes);
 			}
