@@ -211,7 +211,10 @@ export function getInitialState (userDefinedConfig, initialQuery) {
       },
       zipcar: {
         locations: []
-      }
+    },
+    parking: {
+      locations: []
+    }
     },
     tnc: {
       etaEstimates: {},
@@ -904,6 +907,16 @@ function createOtpReducer (config, initialQuery) {
             }
           }
         })
+
+        case 'PARKING_LOCATIONS_RESPONSE':
+          return update(state, {
+            overlay: {
+              parking: {
+                locations: { $set: action.payload.data.stations },
+                pending: { $set: false }
+              }
+            }
+          })
       case 'UPDATE_OVERLAY_VISIBILITY':
         const mapOverlays = clone(state.config.map.overlays)
         for (let key in action.payload) {

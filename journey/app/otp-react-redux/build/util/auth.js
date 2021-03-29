@@ -12,7 +12,7 @@ var _constants = require("./constants");
  * Custom links under the user account dropdown.
  * TODO: Determine/implement the urls below.
  */
-var accountLinks = [{
+const accountLinks = [{
   text: 'My Account',
   url: '/account'
 }, {
@@ -36,12 +36,11 @@ exports.accountLinks = accountLinks;
 
 function getAuth0Config(persistence) {
   if (persistence) {
-    var _persistence$enabled = persistence.enabled,
-        enabled = _persistence$enabled === void 0 ? false : _persistence$enabled,
-        _persistence$strategy = persistence.strategy,
-        strategy = _persistence$strategy === void 0 ? null : _persistence$strategy,
-        _persistence$auth = persistence.auth0,
-        auth0 = _persistence$auth === void 0 ? null : _persistence$auth;
+    const {
+      enabled = false,
+      strategy = null,
+      auth0 = null
+    } = persistence;
     return enabled && strategy === _constants.PERSISTENCE_STRATEGY_OTP_MIDDLEWARE ? auth0 : null;
   }
 

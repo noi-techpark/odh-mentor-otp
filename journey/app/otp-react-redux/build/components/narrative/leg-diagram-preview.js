@@ -14,14 +14,14 @@ var _map = require("../../actions/map");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Connect to the redux store
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     diagramVisible: state.otp.ui.diagramLeg,
     showElevationProfile: Boolean(state.otp.config.elevationProfile)
   };
 };
 
-var mapDispatchToProps = {
+const mapDispatchToProps = {
   setLegDiagram: _map.setLegDiagram
 };
 

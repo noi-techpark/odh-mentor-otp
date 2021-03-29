@@ -16,14 +16,14 @@ var _api = require("../../actions/api");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // connect to the redux store
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     StopMarker: _connectedStopMarker.default,
     stops: state.otp.overlay.transit.stops
   };
 };
 
-var mapDispatchToProps = {
+const mapDispatchToProps = {
   refreshStops: _api.findStopsWithinBBox
 };
 

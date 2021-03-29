@@ -56,6 +56,8 @@ elevationProfile: true
 transitOperators:
   - id: "12"
     logo: http://www.trasporti.provincia.tn.it/binary/pat_trasporti/orari/LogoTT2018.1547032531.jpg
+  - id: "1"
+    logo: https://www.suedtirolmobil.info/typo3conf/ext/sta_layout/Resources/Public/Images/logo.svg
 
 # Add suggested locations to be shown as options in the form view.
 # locations:
@@ -138,30 +140,30 @@ map:
     #   default: 'all'
     #
     #
-    # - type: zipcar
-    #   name: Zipcar Locations
-    #   api: https://newplanner.trimet.org/ws/carshare/zipcar/data.json
+    - type: parking
+      name: Parcheggi
+      api: http://localhost:8092/parking/stations.json
     #
     #
-    # - type: car-rental
-    #   name: Carsharing
-    #   modes:
-    #     - CAR_RENT
-    #   companies:
-    #     - CarSharing
-    #   mapSymbols:
-    #     - maxZoom: 15
-    #       minZoom: 13
-    #       type: circle
-    #       pixels: 5
-    #       fillColor: "#1D6802"
-    #       dockStrokeColor: "#000000"
-    #     - maxZoom: 20
-    #       minZoom: 16
-    #       pixels: 5
-    #       fillColor: "#1D6802"
-    #       dockStrokeColor: "#000000"
-    #       type: circle
+    - type: car-rental
+      name: Carsharing
+      modes:
+        - CAR_RENT
+      companies:
+        - CAR2GO
+      mapSymbols:
+        - maxZoom: 15
+          minZoom: 10
+          type: circle
+          pixels: 5
+          fillColor: "#1D6802"
+          dockStrokeColor: "#000000"
+        - maxZoom: 20
+          minZoom: 16
+          pixels: 5
+          fillColor: "#1D6802"
+          dockStrokeColor: "#000000"
+          type: circle
     - type: bike-rental
       name: Bikesharing
       modes:
@@ -172,7 +174,7 @@ map:
         - PAPIN
       mapSymbols:
         - maxZoom: 15
-          minZoom: 13
+          minZoom: 10
           type: circle
           pixels: 5
           fillColor: "#FF2E28"
@@ -316,8 +318,13 @@ modes:
     - mode: CAR_PARK
       label: Park & Ride
     - mode: CAR_RENT
+<<<<<<< HEAD
       label: Carsharing
       company: CarSharing
+=======
+      label: Carsharing & Ride
+      company: CAR2GO
+>>>>>>> carsharing
     #   showWheelchairSetting: false
 
   # which exclusive modes to show. This involves using a single mode and no
@@ -350,9 +357,15 @@ companies:
     - id: PAPIN
       label: Bike Rental Papin
       modes: BICYCLE_RENT
+<<<<<<< HEAD
     # - id: CarSharing
     #   label: CarSharing
     #   modes: CAR_RENT
+=======
+    - id: CAR2GO
+      label: CarSharing
+      modes: CAR_RENT
+>>>>>>> carsharing
 #   - id: BIRD
 #     label: Bird
 #     modes: MICROMOBILITY_RENT

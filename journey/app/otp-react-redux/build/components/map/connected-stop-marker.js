@@ -16,13 +16,13 @@ var _ui = require("../../actions/ui");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // connect to the redux store
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     languageConfig: state.otp.config.language
   };
 };
 
-var mapDispatchToProps = {
+const mapDispatchToProps = {
   setLocation: _map.setLocation,
   setViewedStop: _ui.setViewedStop
 };

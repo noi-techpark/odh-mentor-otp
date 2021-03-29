@@ -14,14 +14,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * This component is the new account wizard.
  */
-var NewAccountWizard = function NewAccountWizard(_ref) {
-  var onComplete = _ref.onComplete,
-      panes = _ref.panes,
-      userData = _ref.userData;
-  var hasConsentedToTerms = userData.hasConsentedToTerms,
-      _userData$notificatio = userData.notificationChannel,
-      notificationChannel = _userData$notificatio === void 0 ? 'email' : _userData$notificatio;
-  var paneSequence = {
+const NewAccountWizard = ({
+  onComplete,
+  panes,
+  userData
+}) => {
+  const {
+    hasConsentedToTerms,
+    notificationChannel = 'email'
+  } = userData;
+  const paneSequence = {
     terms: {
       disableNext: !hasConsentedToTerms,
       nextId: 'notifications',

@@ -12,36 +12,9 @@ exports.getTrips = getTrips;
 exports.addTrip = addTrip;
 exports.updateTrip = updateTrip;
 exports.deleteTrip = deleteTrip;
-
-require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 if (typeof fetch === 'undefined') require('isomorphic-fetch');
-var API_USER_PATH = '/api/secure/user';
-var API_MONITORTRIP_PATH = '/api/secure/monitoredtrip';
+const API_USER_PATH = '/api/secure/user';
+const API_MONITORTRIP_PATH = '/api/secure/monitoredtrip';
 /**
  * This method builds the options object for call to the fetch method.
  * @param {string} accessToken If non-null, a bearer Authorization header will be added with the specified token.
@@ -50,10 +23,8 @@ var API_MONITORTRIP_PATH = '/api/secure/monitoredtrip';
  * @param {*} options Extra options to pass to fetch.
  */
 
-function getSecureFetchOptions(accessToken, apiKey) {
-  var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'get';
-  var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-  var headers = {
+function getSecureFetchOptions(accessToken, apiKey, method = 'get', options = {}) {
+  const headers = {
     // JSON request bodies only.
     'Content-Type': 'application/json'
   };
@@ -63,15 +34,16 @@ function getSecureFetchOptions(accessToken, apiKey) {
   }
 
   if (accessToken) {
-    headers.Authorization = "Bearer ".concat(accessToken);
+    headers.Authorization = `Bearer ${accessToken}`;
   }
 
-  return _objectSpread({
-    method: method,
+  return {
+    method,
     mode: 'cors',
     // Middleware is at a different URL.
-    headers: headers
-  }, options);
+    headers,
+    ...options
+  };
 }
 /**
  * This convenience method wraps a fetch call to the specified URL
@@ -85,289 +57,126 @@ function getSecureFetchOptions(accessToken, apiKey) {
  */
 
 
-function secureFetch(_x, _x2, _x3) {
-  return _secureFetch.apply(this, arguments);
+async function secureFetch(url, accessToken, apiKey, method = 'get', options = {}) {
+  const res = await fetch(url, getSecureFetchOptions(accessToken, apiKey, method, options));
+
+  if (res.status && res.status >= 400 || res.code && res.code >= 400) {
+    const result = await res.json();
+    let message = `Error ${method}-ing user: ${result.message}`;
+    if (result.detail) message += `  (${result.detail})`;
+    return {
+      status: 'error',
+      message
+    };
+  }
+
+  return {
+    status: 'success',
+    data: await res.json()
+  };
 } // TODO: Move methods below to user/entity-specific files?
 
 
-function _secureFetch() {
-  _secureFetch = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(url, accessToken, apiKey) {
-    var method,
-        options,
-        res,
-        result,
-        message,
-        _args = arguments;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            method = _args.length > 3 && _args[3] !== undefined ? _args[3] : 'get';
-            options = _args.length > 4 && _args[4] !== undefined ? _args[4] : {};
-            _context.next = 4;
-            return fetch(url, getSecureFetchOptions(accessToken, apiKey, method, options));
-
-          case 4:
-            res = _context.sent;
-
-            if (!(res.status && res.status >= 400 || res.code && res.code >= 400)) {
-              _context.next = 12;
-              break;
-            }
-
-            _context.next = 8;
-            return res.json();
-
-          case 8:
-            result = _context.sent;
-            message = "Error ".concat(method, "-ing user: ").concat(result.message);
-            if (result.detail) message += "  (".concat(result.detail, ")");
-            return _context.abrupt("return", {
-              status: 'error',
-              message: message
-            });
-
-          case 12:
-            _context.next = 14;
-            return res.json();
-
-          case 14:
-            _context.t0 = _context.sent;
-            return _context.abrupt("return", {
-              status: 'success',
-              data: _context.t0
-            });
-
-          case 16:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _secureFetch.apply(this, arguments);
+async function fetchUser(middlewareConfig, token) {
+  const {
+    apiBaseUrl,
+    apiKey
+  } = middlewareConfig;
+  const requestUrl = `${apiBaseUrl}${API_USER_PATH}/fromtoken`;
+  return secureFetch(requestUrl, token, apiKey);
 }
 
-function fetchUser(_x4, _x5) {
-  return _fetchUser.apply(this, arguments);
+async function addUser(middlewareConfig, token, data) {
+  const {
+    apiBaseUrl,
+    apiKey
+  } = middlewareConfig;
+  const requestUrl = `${apiBaseUrl}${API_USER_PATH}`;
+  return secureFetch(requestUrl, token, apiKey, 'POST', {
+    body: JSON.stringify(data)
+  });
 }
 
-function _fetchUser() {
-  _fetchUser = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(middlewareConfig, token) {
-    var apiBaseUrl, apiKey, requestUrl;
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            apiBaseUrl = middlewareConfig.apiBaseUrl, apiKey = middlewareConfig.apiKey;
-            requestUrl = "".concat(apiBaseUrl).concat(API_USER_PATH, "/fromtoken");
-            return _context2.abrupt("return", secureFetch(requestUrl, token, apiKey));
+async function updateUser(middlewareConfig, token, data) {
+  const {
+    apiBaseUrl,
+    apiKey
+  } = middlewareConfig;
+  const {
+    id
+  } = data; // Middleware ID, NOT auth0 (or similar) id.
 
-          case 3:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-  return _fetchUser.apply(this, arguments);
+  const requestUrl = `${apiBaseUrl}${API_USER_PATH}/${id}`;
+
+  if (id) {
+    return secureFetch(requestUrl, token, apiKey, 'PUT', {
+      body: JSON.stringify(data)
+    });
+  } else {
+    return {
+      status: 'error',
+      message: 'Corrupted state: User ID not available for exiting user.'
+    };
+  }
 }
 
-function addUser(_x6, _x7, _x8) {
-  return _addUser.apply(this, arguments);
+async function getTrips(middlewareConfig, token) {
+  const {
+    apiBaseUrl,
+    apiKey
+  } = middlewareConfig;
+  const requestUrl = `${apiBaseUrl}${API_MONITORTRIP_PATH}`;
+  return secureFetch(requestUrl, token, apiKey, 'GET');
 }
 
-function _addUser() {
-  _addUser = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(middlewareConfig, token, data) {
-    var apiBaseUrl, apiKey, requestUrl;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            apiBaseUrl = middlewareConfig.apiBaseUrl, apiKey = middlewareConfig.apiKey;
-            requestUrl = "".concat(apiBaseUrl).concat(API_USER_PATH);
-            return _context3.abrupt("return", secureFetch(requestUrl, token, apiKey, 'POST', {
-              body: JSON.stringify(data)
-            }));
-
-          case 3:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  }));
-  return _addUser.apply(this, arguments);
+async function addTrip(middlewareConfig, token, data) {
+  const {
+    apiBaseUrl,
+    apiKey
+  } = middlewareConfig;
+  const requestUrl = `${apiBaseUrl}${API_MONITORTRIP_PATH}`;
+  return secureFetch(requestUrl, token, apiKey, 'POST', {
+    body: JSON.stringify(data)
+  });
 }
 
-function updateUser(_x9, _x10, _x11) {
-  return _updateUser.apply(this, arguments);
+async function updateTrip(middlewareConfig, token, data) {
+  const {
+    apiBaseUrl,
+    apiKey
+  } = middlewareConfig;
+  const {
+    id
+  } = data;
+  const requestUrl = `${apiBaseUrl}${API_MONITORTRIP_PATH}/${id}`;
+
+  if (id) {
+    return secureFetch(requestUrl, token, apiKey, 'PUT', {
+      body: JSON.stringify(data)
+    });
+  } else {
+    return {
+      status: 'error',
+      message: 'Corrupted state: Monitored Trip ID not available for exiting user.'
+    };
+  }
 }
 
-function _updateUser() {
-  _updateUser = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(middlewareConfig, token, data) {
-    var apiBaseUrl, apiKey, id, requestUrl;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            apiBaseUrl = middlewareConfig.apiBaseUrl, apiKey = middlewareConfig.apiKey;
-            id = data.id; // Middleware ID, NOT auth0 (or similar) id.
+async function deleteTrip(middlewareConfig, token, id) {
+  const {
+    apiBaseUrl,
+    apiKey
+  } = middlewareConfig;
+  const requestUrl = `${apiBaseUrl}${API_MONITORTRIP_PATH}/${id}`;
 
-            requestUrl = "".concat(apiBaseUrl).concat(API_USER_PATH, "/").concat(id);
-
-            if (!id) {
-              _context4.next = 7;
-              break;
-            }
-
-            return _context4.abrupt("return", secureFetch(requestUrl, token, apiKey, 'PUT', {
-              body: JSON.stringify(data)
-            }));
-
-          case 7:
-            return _context4.abrupt("return", {
-              status: 'error',
-              message: 'Corrupted state: User ID not available for exiting user.'
-            });
-
-          case 8:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4);
-  }));
-  return _updateUser.apply(this, arguments);
-}
-
-function getTrips(_x12, _x13) {
-  return _getTrips.apply(this, arguments);
-}
-
-function _getTrips() {
-  _getTrips = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(middlewareConfig, token) {
-    var apiBaseUrl, apiKey, requestUrl;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            apiBaseUrl = middlewareConfig.apiBaseUrl, apiKey = middlewareConfig.apiKey;
-            requestUrl = "".concat(apiBaseUrl).concat(API_MONITORTRIP_PATH);
-            return _context5.abrupt("return", secureFetch(requestUrl, token, apiKey, 'GET'));
-
-          case 3:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5);
-  }));
-  return _getTrips.apply(this, arguments);
-}
-
-function addTrip(_x14, _x15, _x16) {
-  return _addTrip.apply(this, arguments);
-}
-
-function _addTrip() {
-  _addTrip = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(middlewareConfig, token, data) {
-    var apiBaseUrl, apiKey, requestUrl;
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            apiBaseUrl = middlewareConfig.apiBaseUrl, apiKey = middlewareConfig.apiKey;
-            requestUrl = "".concat(apiBaseUrl).concat(API_MONITORTRIP_PATH);
-            return _context6.abrupt("return", secureFetch(requestUrl, token, apiKey, 'POST', {
-              body: JSON.stringify(data)
-            }));
-
-          case 3:
-          case "end":
-            return _context6.stop();
-        }
-      }
-    }, _callee6);
-  }));
-  return _addTrip.apply(this, arguments);
-}
-
-function updateTrip(_x17, _x18, _x19) {
-  return _updateTrip.apply(this, arguments);
-}
-
-function _updateTrip() {
-  _updateTrip = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(middlewareConfig, token, data) {
-    var apiBaseUrl, apiKey, id, requestUrl;
-    return regeneratorRuntime.wrap(function _callee7$(_context7) {
-      while (1) {
-        switch (_context7.prev = _context7.next) {
-          case 0:
-            apiBaseUrl = middlewareConfig.apiBaseUrl, apiKey = middlewareConfig.apiKey;
-            id = data.id;
-            requestUrl = "".concat(apiBaseUrl).concat(API_MONITORTRIP_PATH, "/").concat(id);
-
-            if (!id) {
-              _context7.next = 7;
-              break;
-            }
-
-            return _context7.abrupt("return", secureFetch(requestUrl, token, apiKey, 'PUT', {
-              body: JSON.stringify(data)
-            }));
-
-          case 7:
-            return _context7.abrupt("return", {
-              status: 'error',
-              message: 'Corrupted state: Monitored Trip ID not available for exiting user.'
-            });
-
-          case 8:
-          case "end":
-            return _context7.stop();
-        }
-      }
-    }, _callee7);
-  }));
-  return _updateTrip.apply(this, arguments);
-}
-
-function deleteTrip(_x20, _x21, _x22) {
-  return _deleteTrip.apply(this, arguments);
-}
-
-function _deleteTrip() {
-  _deleteTrip = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(middlewareConfig, token, id) {
-    var apiBaseUrl, apiKey, requestUrl;
-    return regeneratorRuntime.wrap(function _callee8$(_context8) {
-      while (1) {
-        switch (_context8.prev = _context8.next) {
-          case 0:
-            apiBaseUrl = middlewareConfig.apiBaseUrl, apiKey = middlewareConfig.apiKey;
-            requestUrl = "".concat(apiBaseUrl).concat(API_MONITORTRIP_PATH, "/").concat(id);
-
-            if (!id) {
-              _context8.next = 6;
-              break;
-            }
-
-            return _context8.abrupt("return", secureFetch(requestUrl, token, apiKey, 'DELETE'));
-
-          case 6:
-            return _context8.abrupt("return", {
-              status: 'error',
-              message: 'Corrupted state: Monitored Trip ID not available for exiting user.'
-            });
-
-          case 7:
-          case "end":
-            return _context8.stop();
-        }
-      }
-    }, _callee8);
-  }));
-  return _deleteTrip.apply(this, arguments);
+  if (id) {
+    return secureFetch(requestUrl, token, apiKey, 'DELETE');
+  } else {
+    return {
+      status: 'error',
+      message: 'Corrupted state: Monitored Trip ID not available for exiting user.'
+    };
+  }
 }
 
 //# sourceMappingURL=middleware.js

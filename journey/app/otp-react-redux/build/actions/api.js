@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.regexp.replace");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -29,32 +27,6 @@ exports.findStopsWithinBBox = findStopsWithinBBox;
 exports.setUrlSearch = setUrlSearch;
 exports.clearStops = exports.transportationNetworkCompanyRideError = exports.transportationNetworkCompanyRideResponse = exports.transportationNetworkCompanyEtaError = exports.transportationNetworkCompanyEtaResponse = exports.findRouteError = exports.findRouteResponse = exports.findGeometryForTripError = exports.findGeometryForTripResponse = exports.findStopTimesForTripError = exports.findStopTimesForTripResponse = exports.findStopsForTripError = exports.findStopsForTripResponse = exports.findTripError = exports.findTripResponse = exports.vehicleRentalError = exports.vehicleRentalResponse = exports.carRentalError = exports.carRentalResponse = exports.bikeRentalResponse = exports.bikeRentalError = exports.parkAndRideResponse = exports.parkAndRideError = exports.forgetSearch = exports.rememberSearch = exports.toggleTracking = exports.routingError = exports.routingResponse = exports.routingRequest = exports.nonRealtimeRoutingResponse = void 0;
 
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
-require("core-js/modules/es6.object.assign");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.array.find");
-
-require("regenerator-runtime/runtime");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
 var _connectedReactRouter = require("connected-react-router");
 
 var _haversine = _interopRequireDefault(require("haversine"));
@@ -79,58 +51,51 @@ var _middleware = require("../util/middleware");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* globals fetch */
 if (typeof fetch === 'undefined') require('isomorphic-fetch');
-var hasCar = _coreUtils.default.itinerary.hasCar;
-var _coreUtils$query = _coreUtils.default.query,
-    getTripOptionsFromQuery = _coreUtils$query.getTripOptionsFromQuery,
-    getUrlParams = _coreUtils$query.getUrlParams;
-var randId = _coreUtils.default.storage.randId;
-var _coreUtils$time = _coreUtils.default.time,
-    OTP_API_DATE_FORMAT = _coreUtils$time.OTP_API_DATE_FORMAT,
-    OTP_API_TIME_FORMAT = _coreUtils$time.OTP_API_TIME_FORMAT; // Generic API actions
+const {
+  hasCar
+} = _coreUtils.default.itinerary;
+const {
+  getTripOptionsFromQuery,
+  getUrlParams
+} = _coreUtils.default.query;
+const {
+  randId
+} = _coreUtils.default.storage;
+const {
+  OTP_API_DATE_FORMAT,
+  OTP_API_TIME_FORMAT
+} = _coreUtils.default.time; // Generic API actions
 
-var nonRealtimeRoutingResponse = (0, _reduxActions.createAction)('NON_REALTIME_ROUTING_RESPONSE');
+const nonRealtimeRoutingResponse = (0, _reduxActions.createAction)('NON_REALTIME_ROUTING_RESPONSE');
 exports.nonRealtimeRoutingResponse = nonRealtimeRoutingResponse;
-var routingRequest = (0, _reduxActions.createAction)('ROUTING_REQUEST');
+const routingRequest = (0, _reduxActions.createAction)('ROUTING_REQUEST');
 exports.routingRequest = routingRequest;
-var routingResponse = (0, _reduxActions.createAction)('ROUTING_RESPONSE');
+const routingResponse = (0, _reduxActions.createAction)('ROUTING_RESPONSE');
 exports.routingResponse = routingResponse;
-var routingError = (0, _reduxActions.createAction)('ROUTING_ERROR');
+const routingError = (0, _reduxActions.createAction)('ROUTING_ERROR');
 exports.routingError = routingError;
-var toggleTracking = (0, _reduxActions.createAction)('TOGGLE_TRACKING');
+const toggleTracking = (0, _reduxActions.createAction)('TOGGLE_TRACKING');
 exports.toggleTracking = toggleTracking;
-var rememberSearch = (0, _reduxActions.createAction)('REMEMBER_SEARCH');
+const rememberSearch = (0, _reduxActions.createAction)('REMEMBER_SEARCH');
 exports.rememberSearch = rememberSearch;
-var forgetSearch = (0, _reduxActions.createAction)('FORGET_SEARCH');
+const forgetSearch = (0, _reduxActions.createAction)('FORGET_SEARCH');
 exports.forgetSearch = forgetSearch;
 
 function formatRecentPlace(place) {
-  return _objectSpread(_objectSpread({}, place), {}, {
+  return { ...place,
     type: 'recent',
     icon: 'clock-o',
-    id: "recent-".concat(randId()),
+    id: `recent-${randId()}`,
     timestamp: new Date().getTime()
-  });
+  };
 }
 
 function formatRecentSearch(url, otpState) {
   return {
     query: getTripOptionsFromQuery(otpState.currentQuery, true),
-    url: url,
+    url,
     id: randId(),
     timestamp: new Date().getTime()
   };
@@ -147,14 +112,16 @@ function isStoredPlace(place) {
 
 
 function getActiveItinerary(otpState) {
-  var currentQuery = otpState.currentQuery,
-      searches = otpState.searches;
-  var activeItinerary = currentQuery.routingType === 'ITINERARY' ? 0 : null; // We cannot use window.history.state here to check for the active
+  const {
+    currentQuery,
+    searches
+  } = otpState;
+  let activeItinerary = currentQuery.routingType === 'ITINERARY' ? 0 : null; // We cannot use window.history.state here to check for the active
   // itinerary param because it is unreliable in some states (e.g.,
   // when the print layout component first loads).
 
-  var urlParams = getUrlParams();
-  var hasSearches = !searches || Object.keys(searches).length === 0;
+  const urlParams = getUrlParams();
+  const hasSearches = !searches || Object.keys(searches).length === 0;
 
   if (hasSearches && urlParams.ui_activeItinerary) {
     activeItinerary = +urlParams.ui_activeItinerary;
@@ -173,151 +140,131 @@ function getActiveItinerary(otpState) {
  */
 
 
-function routingQuery() {
-  var searchId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  return /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch, getState) {
-      var state, otpState, isNewSearch, activeItinerary, routingType, iterations;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              // FIXME: batchId is searchId for now.
-              state = getState();
-              otpState = state.otp;
-              isNewSearch = !searchId;
-              if (isNewSearch) searchId = randId(); // Don't permit a routing query if the query is invalid
+function routingQuery(searchId = null) {
+  return async function (dispatch, getState) {
+    // FIXME: batchId is searchId for now.
+    const state = getState();
+    const otpState = state.otp;
+    const isNewSearch = !searchId;
+    if (isNewSearch) searchId = randId(); // Don't permit a routing query if the query is invalid
 
-              if ((0, _state.queryIsValid)(otpState)) {
-                _context.next = 7;
-                break;
-              }
+    if (!(0, _state.queryIsValid)(otpState)) {
+      console.warn('Query is invalid. Aborting routing query', otpState.currentQuery);
+      return;
+    }
 
-              console.warn('Query is invalid. Aborting routing query', otpState.currentQuery);
-              return _context.abrupt("return");
+    const activeItinerary = getActiveItinerary(otpState);
+    const routingType = otpState.currentQuery.routingType; // For multiple mode combinations, gather injected params from config/query.
+    // Otherwise, inject nothing (rely on what's in current query) and perform
+    // one iteration.
 
-            case 7:
-              activeItinerary = getActiveItinerary(otpState);
-              routingType = otpState.currentQuery.routingType; // For multiple mode combinations, gather injected params from config/query.
-              // Otherwise, inject nothing (rely on what's in current query) and perform
-              // one iteration.
-
-              iterations = otpState.config.modes && otpState.config.modes.combinations ? otpState.config.modes.combinations.map(function (_ref2) {
-                var mode = _ref2.mode,
-                    params = _ref2.params;
-                return _objectSpread({
-                  mode: mode
-                }, params);
-              }) : [{}];
-              dispatch(routingRequest({
-                activeItinerary: activeItinerary,
-                routingType: routingType,
-                searchId: searchId,
-                pending: iterations.length
-              }));
-              iterations.forEach(function (injectedParams, i) {
-                var requestId = randId(); // fetch a realtime route
-
-                var query = constructRoutingQuery(otpState, false, injectedParams);
-                fetch(query, getOtpFetchOptions(state)).then(getJsonAndCheckResponse).then(function (json) {
-                  dispatch(routingResponse({
-                    response: json,
-                    requestId: requestId,
-                    searchId: searchId
-                  })); // If tracking is enabled, store locations and search after successful
-                  // search is completed.
-
-                  if (otpState.user.trackRecent) {
-                    var _otpState$currentQuer = otpState.currentQuery,
-                        from = _otpState$currentQuer.from,
-                        to = _otpState$currentQuer.to;
-
-                    if (!isStoredPlace(from)) {
-                      dispatch((0, _map.rememberPlace)({
-                        type: 'recent',
-                        location: formatRecentPlace(from)
-                      }));
-                    }
-
-                    if (!isStoredPlace(to)) {
-                      dispatch((0, _map.rememberPlace)({
-                        type: 'recent',
-                        location: formatRecentPlace(to)
-                      }));
-                    }
-
-                    dispatch(rememberSearch(formatRecentSearch(query, otpState)));
-                  }
-                }).catch(function (error) {
-                  dispatch(routingError({
-                    error: error,
-                    requestId: requestId,
-                    searchId: searchId
-                  }));
-                }); // Update OTP URL params if a new search. In other words, if we're
-                // performing a search based on query params taken from the URL after a back
-                // button press, we don't need to update the OTP URL.
-                // TODO: For old searches that we are re-running, should we be **replacing**
-                //  the URL params here (instead of **pushing** a new path to history like
-                //  what currently happens in updateOtpUrlParams)? That way we could ensure
-                //  that the path absolutely accurately reflects the app state.
-
-                var params = getUrlParams();
-
-                if (isNewSearch || params.ui_activeSearch !== searchId) {
-                  dispatch(updateOtpUrlParams(otpState, searchId));
-                } // Also fetch a non-realtime route.
-                //
-                // FIXME: The statement below may no longer apply with future work
-                // involving realtime info embedded in the OTP response.
-                // (That action records an entry again in the middleware.)
-                // For users who opted in to store trip request history,
-                // to avoid recording the same trip request twice in the middleware,
-                // only add the user Authorization token to the request
-                // when querying the non-realtime route.
-                //
-                // The advantage of using non-realtime route is that the middleware will be able to
-                // record and provide the theoretical itinerary summary without having to query OTP again.
-                // FIXME: Interestingly, and this could be from a side effect elsewhere,
-                // when a logged-in user refreshes the page, the trip request in the URL is not recorded again
-                // (state.user stays unpopulated until after this function is called).
-                //
-
-
-                var user = state.user;
-                var storeTripHistory = user && user.loggedInUser && user.loggedInUser.storeTripHistory;
-                fetch(constructRoutingQuery(otpState, true), getOtpFetchOptions(state, storeTripHistory)).then(getJsonAndCheckResponse).then(function (json) {
-                  // FIXME: This is only performed when ignoring realtimeupdates currently, just
-                  // to ensure it is not repeated twice.
-                  // FIXME: We should check that the mode combination actually has
-                  // realtime (or maybe this is set in the config file) to determine
-                  // whether this extra query to OTP is needed.
-                  dispatch(nonRealtimeRoutingResponse({
-                    response: json,
-                    searchId: searchId
-                  }));
-                }).catch(function (error) {
-                  console.error(error); // do nothing
-                });
-              });
-
-            case 12:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
+    const iterations = otpState.config.modes && otpState.config.modes.combinations ? otpState.config.modes.combinations.map(({
+      mode,
+      params
+    }) => ({
+      mode,
+      ...params
+    })) : [{}];
+    dispatch(routingRequest({
+      activeItinerary,
+      routingType,
+      searchId,
+      pending: iterations.length
     }));
+    iterations.forEach((injectedParams, i) => {
+      const requestId = randId(); // fetch a realtime route
 
-    return function (_x, _x2) {
-      return _ref.apply(this, arguments);
-    };
-  }();
+      const query = constructRoutingQuery(otpState, false, injectedParams);
+      fetch(query, getOtpFetchOptions(state)).then(getJsonAndCheckResponse).then(json => {
+        dispatch(routingResponse({
+          response: json,
+          requestId,
+          searchId
+        })); // If tracking is enabled, store locations and search after successful
+        // search is completed.
+
+        if (otpState.user.trackRecent) {
+          const {
+            from,
+            to
+          } = otpState.currentQuery;
+
+          if (!isStoredPlace(from)) {
+            dispatch((0, _map.rememberPlace)({
+              type: 'recent',
+              location: formatRecentPlace(from)
+            }));
+          }
+
+          if (!isStoredPlace(to)) {
+            dispatch((0, _map.rememberPlace)({
+              type: 'recent',
+              location: formatRecentPlace(to)
+            }));
+          }
+
+          dispatch(rememberSearch(formatRecentSearch(query, otpState)));
+        }
+      }).catch(error => {
+        dispatch(routingError({
+          error,
+          requestId,
+          searchId
+        }));
+      }); // Update OTP URL params if a new search. In other words, if we're
+      // performing a search based on query params taken from the URL after a back
+      // button press, we don't need to update the OTP URL.
+      // TODO: For old searches that we are re-running, should we be **replacing**
+      //  the URL params here (instead of **pushing** a new path to history like
+      //  what currently happens in updateOtpUrlParams)? That way we could ensure
+      //  that the path absolutely accurately reflects the app state.
+
+      const params = getUrlParams();
+
+      if (isNewSearch || params.ui_activeSearch !== searchId) {
+        dispatch(updateOtpUrlParams(otpState, searchId));
+      } // Also fetch a non-realtime route.
+      //
+      // FIXME: The statement below may no longer apply with future work
+      // involving realtime info embedded in the OTP response.
+      // (That action records an entry again in the middleware.)
+      // For users who opted in to store trip request history,
+      // to avoid recording the same trip request twice in the middleware,
+      // only add the user Authorization token to the request
+      // when querying the non-realtime route.
+      //
+      // The advantage of using non-realtime route is that the middleware will be able to
+      // record and provide the theoretical itinerary summary without having to query OTP again.
+      // FIXME: Interestingly, and this could be from a side effect elsewhere,
+      // when a logged-in user refreshes the page, the trip request in the URL is not recorded again
+      // (state.user stays unpopulated until after this function is called).
+      //
+
+
+      const {
+        user
+      } = state;
+      const storeTripHistory = user && user.loggedInUser && user.loggedInUser.storeTripHistory;
+      fetch(constructRoutingQuery(otpState, true), getOtpFetchOptions(state, storeTripHistory)).then(getJsonAndCheckResponse).then(json => {
+        // FIXME: This is only performed when ignoring realtimeupdates currently, just
+        // to ensure it is not repeated twice.
+        // FIXME: We should check that the mode combination actually has
+        // realtime (or maybe this is set in the config file) to determine
+        // whether this extra query to OTP is needed.
+        dispatch(nonRealtimeRoutingResponse({
+          response: json,
+          searchId
+        }));
+      }).catch(error => {
+        console.error(error); // do nothing
+      });
+    });
+  };
 }
 
 function getJsonAndCheckResponse(res) {
   if (res.status >= 400) {
-    var error = new Error('Received error from server');
+    const error = new Error('Received error from server');
     error.response = res;
     throw error;
   }
@@ -336,26 +283,28 @@ function getJsonAndCheckResponse(res) {
  */
 
 
-function getOtpFetchOptions(state) {
-  var includeToken = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  var apiBaseUrl, apiKey, token;
-  var _state$otp$config = state.otp.config,
-      api = _state$otp$config.api,
-      persistence = _state$otp$config.persistence;
+function getOtpFetchOptions(state, includeToken = false) {
+  let apiBaseUrl, apiKey, token;
+  const {
+    api,
+    persistence
+  } = state.otp.config;
 
   if (persistence && persistence.otp_middleware) {
-    var _persistence$otp_midd = persistence.otp_middleware;
-    apiBaseUrl = _persistence$otp_midd.apiBaseUrl;
-    apiKey = _persistence$otp_midd.apiKey;
+    ({
+      apiBaseUrl,
+      apiKey
+    } = persistence.otp_middleware);
   }
 
-  var isOtpServerSameAsMiddleware = apiBaseUrl === api.host;
+  const isOtpServerSameAsMiddleware = apiBaseUrl === api.host;
 
   if (isOtpServerSameAsMiddleware) {
     if (includeToken && state.user) {
-      var _state$user = state.user,
-          accessToken = _state$user.accessToken,
-          loggedInUser = _state$user.loggedInUser;
+      const {
+        accessToken,
+        loggedInUser
+      } = state.user;
 
       if (accessToken && loggedInUser) {
         token = accessToken;
@@ -368,41 +317,43 @@ function getOtpFetchOptions(state) {
   }
 }
 
-function constructRoutingQuery(otpState, ignoreRealtimeUpdates) {
-  var injectedParams = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  var config = otpState.config,
-      currentQuery = otpState.currentQuery;
-  var routingType = currentQuery.routingType; // Check for routingType-specific API config; if none, use default API
+function constructRoutingQuery(otpState, ignoreRealtimeUpdates, injectedParams = {}) {
+  const {
+    config,
+    currentQuery
+  } = otpState;
+  const routingType = currentQuery.routingType; // Check for routingType-specific API config; if none, use default API
 
-  var rt = config.routingTypes && config.routingTypes.find(function (rt) {
-    return rt.key === routingType;
-  });
-  var api = rt && rt.api || config.api;
-  var planEndpoint = "".concat(api.host).concat(api.port ? ':' + api.port : '').concat(api.path, "/plan");
-
-  var params = _objectSpread(_objectSpread({}, getRoutingParams(currentQuery, ignoreRealtimeUpdates)), injectedParams);
-
-  return "".concat(planEndpoint, "?").concat(_qs.default.stringify(params, {
+  const rt = config.routingTypes && config.routingTypes.find(rt => rt.key === routingType);
+  const api = rt && rt.api || config.api;
+  const planEndpoint = `${api.host}${api.port ? ':' + api.port : ''}${api.path}/plan`;
+  const params = { ...getRoutingParams(currentQuery, ignoreRealtimeUpdates),
+    // Apply mode override, if specified (for batch routing).
+    ...injectedParams
+  };
+  return `${planEndpoint}?${_qs.default.stringify(params, {
     arrayFormat: 'repeat'
-  }));
+  })}`;
 }
 
 function getRoutingParams(query, config, ignoreRealtimeUpdates) {
-  var routingType = query.routingType;
-  var isItinerary = routingType === 'ITINERARY';
-  var params = {}; // Start with the universe of OTP parameters defined in query-params.js:
+  const routingType = query.routingType;
+  const isItinerary = routingType === 'ITINERARY';
+  let params = {}; // Start with the universe of OTP parameters defined in query-params.js:
 
-  _queryParams.default.filter(function (qp) {
+  _queryParams.default.filter(qp => {
     // A given parameter is included in the request if all of the following:
     // 1. Must apply to the active routing type (ITINERARY or PROFILE)
     // 2. Must be included in the current user-defined query
     // 3. Must pass the parameter's applicability test, if one is specified
     return qp.routingTypes.indexOf(routingType) !== -1 && qp.name in query && (typeof qp.applicable !== 'function' || qp.applicable(query, config));
-  }).forEach(function (qp) {
+  }).forEach(qp => {
     // Translate the applicable parameters according to their rewrite
     // functions (if provided)
-    var rewriteFunction = isItinerary ? qp.itineraryRewrite : qp.profileRewrite;
-    params = Object.assign(params, rewriteFunction ? rewriteFunction(query[qp.name]) : _defineProperty({}, qp.name, query[qp.name]));
+    const rewriteFunction = isItinerary ? qp.itineraryRewrite : qp.profileRewrite;
+    params = Object.assign(params, rewriteFunction ? rewriteFunction(query[qp.name]) : {
+      [qp.name]: query[qp.name]
+    });
   }); // Additional processing specific to ITINERARY mode
 
 
@@ -413,8 +364,8 @@ function getRoutingParams(query, config, ignoreRealtimeUpdates) {
     } // check date/time validity; ignore both if either is invalid
 
 
-    var dateValid = (0, _moment.default)(params.date, OTP_API_DATE_FORMAT).isValid();
-    var timeValid = (0, _moment.default)(params.time, OTP_API_TIME_FORMAT).isValid();
+    const dateValid = (0, _moment.default)(params.date, OTP_API_DATE_FORMAT).isValid();
+    const timeValid = (0, _moment.default)(params.time, OTP_API_TIME_FORMAT).isValid();
 
     if (!dateValid || !timeValid) {
       delete params.time;
@@ -435,8 +386,8 @@ function getRoutingParams(query, config, ignoreRealtimeUpdates) {
 
   } else {
     // check start and end time validity; ignore both if either is invalid
-    var startTimeValid = (0, _moment.default)(params.startTime, OTP_API_TIME_FORMAT).isValid();
-    var endTimeValid = (0, _moment.default)(params.endTime, OTP_API_TIME_FORMAT).isValid();
+    const startTimeValid = (0, _moment.default)(params.startTime, OTP_API_TIME_FORMAT).isValid();
+    const endTimeValid = (0, _moment.default)(params.endTime, OTP_API_TIME_FORMAT).isValid();
 
     if (!startTimeValid || !endTimeValid) {
       delete params.startTimeValid;
@@ -454,27 +405,25 @@ function getRoutingParams(query, config, ignoreRealtimeUpdates) {
 } // Park and Ride location query
 
 
-var parkAndRideError = (0, _reduxActions.createAction)('PARK_AND_RIDE_ERROR');
+const parkAndRideError = (0, _reduxActions.createAction)('PARK_AND_RIDE_ERROR');
 exports.parkAndRideError = parkAndRideError;
-var parkAndRideResponse = (0, _reduxActions.createAction)('PARK_AND_RIDE_RESPONSE');
+const parkAndRideResponse = (0, _reduxActions.createAction)('PARK_AND_RIDE_RESPONSE');
 exports.parkAndRideResponse = parkAndRideResponse;
 
 function parkAndRideQuery(params) {
-  var endpoint = 'park_and_ride';
+  let endpoint = 'park_and_ride';
 
   if (params && Object.keys(params).length > 0) {
-    endpoint += '?' + Object.keys(params).map(function (key) {
-      return key + '=' + params[key];
-    }).join('&');
+    endpoint += '?' + Object.keys(params).map(key => key + '=' + params[key]).join('&');
   }
 
   return createQueryAction(endpoint, parkAndRideResponse, parkAndRideError);
 } // bike rental station query
 
 
-var bikeRentalError = (0, _reduxActions.createAction)('BIKE_RENTAL_ERROR');
+const bikeRentalError = (0, _reduxActions.createAction)('BIKE_RENTAL_ERROR');
 exports.bikeRentalError = bikeRentalError;
-var bikeRentalResponse = (0, _reduxActions.createAction)('BIKE_RENTAL_RESPONSE');
+const bikeRentalResponse = (0, _reduxActions.createAction)('BIKE_RENTAL_RESPONSE');
 exports.bikeRentalResponse = bikeRentalResponse;
 
 function bikeRentalQuery(params) {
@@ -482,9 +431,9 @@ function bikeRentalQuery(params) {
 } // Car rental (e.g. car2go) locations lookup query
 
 
-var carRentalResponse = (0, _reduxActions.createAction)('CAR_RENTAL_RESPONSE');
+const carRentalResponse = (0, _reduxActions.createAction)('CAR_RENTAL_RESPONSE');
 exports.carRentalResponse = carRentalResponse;
-var carRentalError = (0, _reduxActions.createAction)('CAR_RENTAL_ERROR');
+const carRentalError = (0, _reduxActions.createAction)('CAR_RENTAL_ERROR');
 exports.carRentalError = carRentalError;
 
 function carRentalQuery(params) {
@@ -495,9 +444,9 @@ function carRentalQuery(params) {
 // endpoints into one.
 
 
-var vehicleRentalResponse = (0, _reduxActions.createAction)('VEHICLE_RENTAL_RESPONSE');
+const vehicleRentalResponse = (0, _reduxActions.createAction)('VEHICLE_RENTAL_RESPONSE');
 exports.vehicleRentalResponse = vehicleRentalResponse;
-var vehicleRentalError = (0, _reduxActions.createAction)('VEHICLE_RENTAL_ERROR');
+const vehicleRentalError = (0, _reduxActions.createAction)('VEHICLE_RENTAL_ERROR');
 exports.vehicleRentalError = vehicleRentalError;
 
 function vehicleRentalQuery(params) {
@@ -505,13 +454,13 @@ function vehicleRentalQuery(params) {
 } // Single stop lookup query
 
 
-var findStopResponse = (0, _reduxActions.createAction)('FIND_STOP_RESPONSE');
-var findStopError = (0, _reduxActions.createAction)('FIND_STOP_ERROR');
+const findStopResponse = (0, _reduxActions.createAction)('FIND_STOP_RESPONSE');
+const findStopError = (0, _reduxActions.createAction)('FIND_STOP_ERROR');
 
 function findStop(params) {
-  return createQueryAction("index/stops/".concat(params.stopId), findStopResponse, findStopError, {
+  return createQueryAction(`index/stops/${params.stopId}`, findStopResponse, findStopError, {
     serviceId: 'stops',
-    postprocess: function postprocess(payload, dispatch) {
+    postprocess: (payload, dispatch) => {
       dispatch(findRoutesAtStop(params.stopId));
       dispatch(findStopTimesForStop(params));
     },
@@ -597,14 +546,14 @@ function findStop(params) {
 // Single trip lookup query
 
 
-var findTripResponse = (0, _reduxActions.createAction)('FIND_TRIP_RESPONSE');
+const findTripResponse = (0, _reduxActions.createAction)('FIND_TRIP_RESPONSE');
 exports.findTripResponse = findTripResponse;
-var findTripError = (0, _reduxActions.createAction)('FIND_TRIP_ERROR');
+const findTripError = (0, _reduxActions.createAction)('FIND_TRIP_ERROR');
 exports.findTripError = findTripError;
 
 function findTrip(params) {
-  return createQueryAction("index/trips/".concat(params.tripId), findTripResponse, findTripError, {
-    postprocess: function postprocess(payload, dispatch) {
+  return createQueryAction(`index/trips/${params.tripId}`, findTripResponse, findTripError, {
+    postprocess: (payload, dispatch) => {
       dispatch(findStopsForTrip({
         tripId: params.tripId
       }));
@@ -619,14 +568,14 @@ function findTrip(params) {
 } // Stops for trip query
 
 
-var findStopsForTripResponse = (0, _reduxActions.createAction)('FIND_STOPS_FOR_TRIP_RESPONSE');
+const findStopsForTripResponse = (0, _reduxActions.createAction)('FIND_STOPS_FOR_TRIP_RESPONSE');
 exports.findStopsForTripResponse = findStopsForTripResponse;
-var findStopsForTripError = (0, _reduxActions.createAction)('FIND_STOPS_FOR_TRIP_ERROR');
+const findStopsForTripError = (0, _reduxActions.createAction)('FIND_STOPS_FOR_TRIP_ERROR');
 exports.findStopsForTripError = findStopsForTripError;
 
 function findStopsForTrip(params) {
-  return createQueryAction("index/trips/".concat(params.tripId, "/stops"), findStopsForTripResponse, findStopsForTripError, {
-    rewritePayload: function rewritePayload(payload) {
+  return createQueryAction(`index/trips/${params.tripId}/stops`, findStopsForTripResponse, findStopsForTripError, {
+    rewritePayload: payload => {
       return {
         tripId: params.tripId,
         stops: payload
@@ -636,14 +585,14 @@ function findStopsForTrip(params) {
 } // Stop times for trip query
 
 
-var findStopTimesForTripResponse = (0, _reduxActions.createAction)('FIND_STOP_TIMES_FOR_TRIP_RESPONSE');
+const findStopTimesForTripResponse = (0, _reduxActions.createAction)('FIND_STOP_TIMES_FOR_TRIP_RESPONSE');
 exports.findStopTimesForTripResponse = findStopTimesForTripResponse;
-var findStopTimesForTripError = (0, _reduxActions.createAction)('FIND_STOP_TIMES_FOR_TRIP_ERROR');
+const findStopTimesForTripError = (0, _reduxActions.createAction)('FIND_STOP_TIMES_FOR_TRIP_ERROR');
 exports.findStopTimesForTripError = findStopTimesForTripError;
 
 function findStopTimesForTrip(params) {
-  return createQueryAction("index/trips/".concat(params.tripId, "/stoptimes"), findStopTimesForTripResponse, findStopTimesForTripError, {
-    rewritePayload: function rewritePayload(payload) {
+  return createQueryAction(`index/trips/${params.tripId}/stoptimes`, findStopTimesForTripResponse, findStopTimesForTripError, {
+    rewritePayload: payload => {
       return {
         tripId: params.tripId,
         stopTimes: payload
@@ -654,52 +603,54 @@ function findStopTimesForTrip(params) {
 } // Geometry for trip query
 
 
-var findGeometryForTripResponse = (0, _reduxActions.createAction)('FIND_GEOMETRY_FOR_TRIP_RESPONSE');
+const findGeometryForTripResponse = (0, _reduxActions.createAction)('FIND_GEOMETRY_FOR_TRIP_RESPONSE');
 exports.findGeometryForTripResponse = findGeometryForTripResponse;
-var findGeometryForTripError = (0, _reduxActions.createAction)('FIND_GEOMETRY_FOR_TRIP_ERROR');
+const findGeometryForTripError = (0, _reduxActions.createAction)('FIND_GEOMETRY_FOR_TRIP_ERROR');
 exports.findGeometryForTripError = findGeometryForTripError;
 
 function findGeometryForTrip(params) {
-  var tripId = params.tripId;
-  return createQueryAction("index/trips/".concat(tripId, "/geometry"), findGeometryForTripResponse, findGeometryForTripError, {
-    rewritePayload: function rewritePayload(payload) {
-      return {
-        tripId: tripId,
-        geometry: payload
-      };
-    }
+  const {
+    tripId
+  } = params;
+  return createQueryAction(`index/trips/${tripId}/geometry`, findGeometryForTripResponse, findGeometryForTripError, {
+    rewritePayload: payload => ({
+      tripId,
+      geometry: payload
+    })
   });
 }
 
-var findStopTimesForStopResponse = (0, _reduxActions.createAction)('FIND_STOP_TIMES_FOR_STOP_RESPONSE');
-var findStopTimesForStopError = (0, _reduxActions.createAction)('FIND_STOP_TIMES_FOR_STOP_ERROR');
+const findStopTimesForStopResponse = (0, _reduxActions.createAction)('FIND_STOP_TIMES_FOR_STOP_RESPONSE');
+const findStopTimesForStopError = (0, _reduxActions.createAction)('FIND_STOP_TIMES_FOR_STOP_ERROR');
 /**
  * Stop times for stop query (used in stop viewer).
  */
 
 function findStopTimesForStop(params) {
   return function (dispatch, getState) {
-    var stopId = params.stopId,
-        otherParams = _objectWithoutProperties(params, ["stopId"]); // If other params not provided, fall back on defaults from stop viewer config.
+    let {
+      stopId,
+      ...otherParams
+    } = params; // If other params not provided, fall back on defaults from stop viewer config.
 
-
-    var queryParams = _objectSpread(_objectSpread({}, (0, _state.getStopViewerConfig)(getState().otp)), otherParams); // If no start time is provided, pass in the current time. Note: this is not
+    const queryParams = { ...(0, _state.getStopViewerConfig)(getState().otp),
+      ...otherParams
+    }; // If no start time is provided, pass in the current time. Note: this is not
     // a required param by the back end, but if a value is not provided, the
     // time defaults to the server's time, which can make it difficult to test
     // scenarios when you may want to use a different date/time for your local
     // testing environment.
 
-
     if (!queryParams.startTime) {
-      var nowInSeconds = Math.floor(new Date().getTime() / 1000);
+      const nowInSeconds = Math.floor(new Date().getTime() / 1000);
       queryParams.startTime = nowInSeconds;
     }
 
-    dispatch(createQueryAction("index/stops/".concat(stopId, "/stoptimes?").concat(_qs.default.stringify(queryParams)), findStopTimesForStopResponse, findStopTimesForStopError, {
-      rewritePayload: function rewritePayload(stopTimes) {
+    dispatch(createQueryAction(`index/stops/${stopId}/stoptimes?${_qs.default.stringify(queryParams)}`, findStopTimesForStopResponse, findStopTimesForStopError, {
+      rewritePayload: stopTimes => {
         return {
-          stopId: stopId,
-          stopTimes: stopTimes
+          stopId,
+          stopTimes
         };
       },
       noThrottle: true
@@ -708,15 +659,15 @@ function findStopTimesForStop(params) {
 } // Routes lookup query
 
 
-var findRoutesResponse = (0, _reduxActions.createAction)('FIND_ROUTES_RESPONSE');
-var findRoutesError = (0, _reduxActions.createAction)('FIND_ROUTES_ERROR');
+const findRoutesResponse = (0, _reduxActions.createAction)('FIND_ROUTES_RESPONSE');
+const findRoutesError = (0, _reduxActions.createAction)('FIND_ROUTES_ERROR');
 
 function findRoutes(params) {
   return createQueryAction('index/routes', findRoutesResponse, findRoutesError, {
     serviceId: 'routes',
-    rewritePayload: function rewritePayload(payload) {
-      var routes = {};
-      payload.forEach(function (rte) {
+    rewritePayload: payload => {
+      const routes = {};
+      payload.forEach(rte => {
         routes[rte.id] = rte;
       });
       return routes;
@@ -764,17 +715,17 @@ function findRoutes(params) {
 // TODO: replace with GraphQL query for route => patterns => geometry
 
 
-var findPatternsForRouteResponse = (0, _reduxActions.createAction)('FIND_PATTERNS_FOR_ROUTE_RESPONSE');
-var findPatternsForRouteError = (0, _reduxActions.createAction)('FIND_PATTERNS_FOR_ROUTE_ERROR'); // Single Route lookup query
+const findPatternsForRouteResponse = (0, _reduxActions.createAction)('FIND_PATTERNS_FOR_ROUTE_RESPONSE');
+const findPatternsForRouteError = (0, _reduxActions.createAction)('FIND_PATTERNS_FOR_ROUTE_ERROR'); // Single Route lookup query
 
-var findRouteResponse = (0, _reduxActions.createAction)('FIND_ROUTE_RESPONSE');
+const findRouteResponse = (0, _reduxActions.createAction)('FIND_ROUTE_RESPONSE');
 exports.findRouteResponse = findRouteResponse;
-var findRouteError = (0, _reduxActions.createAction)('FIND_ROUTE_ERROR');
+const findRouteError = (0, _reduxActions.createAction)('FIND_ROUTE_ERROR');
 exports.findRouteError = findRouteError;
 
 function findRoute(params) {
-  return createQueryAction("index/routes/".concat(params.routeId), findRouteResponse, findRouteError, {
-    postprocess: function postprocess(payload, dispatch) {
+  return createQueryAction(`index/routes/${params.routeId}`, findRouteResponse, findRouteError, {
+    postprocess: (payload, dispatch) => {
       // load patterns
       dispatch(findPatternsForRoute({
         routeId: params.routeId
@@ -785,21 +736,21 @@ function findRoute(params) {
 }
 
 function findPatternsForRoute(params) {
-  return createQueryAction("index/routes/".concat(params.routeId, "/patterns"), findPatternsForRouteResponse, findPatternsForRouteError, {
-    rewritePayload: function rewritePayload(payload) {
+  return createQueryAction(`index/routes/${params.routeId}/patterns`, findPatternsForRouteResponse, findPatternsForRouteError, {
+    rewritePayload: payload => {
       // convert pattern array to ID-mapped object
-      var patterns = {};
-      payload.forEach(function (ptn) {
+      const patterns = {};
+      payload.forEach(ptn => {
         patterns[ptn.id] = ptn;
       });
       return {
         routeId: params.routeId,
-        patterns: patterns
+        patterns
       };
     },
-    postprocess: function postprocess(payload, dispatch) {
+    postprocess: (payload, dispatch) => {
       // load geometry for each pattern
-      payload.forEach(function (ptn) {
+      payload.forEach(ptn => {
         dispatch(findGeometryForPattern({
           routeId: params.routeId,
           patternId: ptn.id
@@ -810,12 +761,12 @@ function findPatternsForRoute(params) {
 } // Geometry for Pattern lookup query
 
 
-var findGeometryForPatternResponse = (0, _reduxActions.createAction)('FIND_GEOMETRY_FOR_PATTERN_RESPONSE');
-var findGeometryForPatternError = (0, _reduxActions.createAction)('FIND_GEOMETRY_FOR_PATTERN_ERROR');
+const findGeometryForPatternResponse = (0, _reduxActions.createAction)('FIND_GEOMETRY_FOR_PATTERN_RESPONSE');
+const findGeometryForPatternError = (0, _reduxActions.createAction)('FIND_GEOMETRY_FOR_PATTERN_ERROR');
 
 function findGeometryForPattern(params) {
-  return createQueryAction("index/patterns/".concat(params.patternId, "/geometry"), findGeometryForPatternResponse, findGeometryForPatternError, {
-    rewritePayload: function rewritePayload(payload) {
+  return createQueryAction(`index/patterns/${params.patternId}/geometry`, findGeometryForPatternResponse, findGeometryForPatternError, {
+    rewritePayload: payload => {
       return {
         routeId: params.routeId,
         patternId: params.patternId,
@@ -870,24 +821,26 @@ function findGeometryForPattern(params) {
 // TNC ETA estimate lookup query
 
 
-var transportationNetworkCompanyEtaResponse = (0, _reduxActions.createAction)('TNC_ETA_RESPONSE');
+const transportationNetworkCompanyEtaResponse = (0, _reduxActions.createAction)('TNC_ETA_RESPONSE');
 exports.transportationNetworkCompanyEtaResponse = transportationNetworkCompanyEtaResponse;
-var transportationNetworkCompanyEtaError = (0, _reduxActions.createAction)('TNC_ETA_ERROR');
+const transportationNetworkCompanyEtaError = (0, _reduxActions.createAction)('TNC_ETA_ERROR');
 exports.transportationNetworkCompanyEtaError = transportationNetworkCompanyEtaError;
 
 function getTransportationNetworkCompanyEtaEstimate(params) {
-  var companies = params.companies,
-      from = params.from;
-  return createQueryAction("transportation_network_company/eta_estimate?".concat(_qs.default.stringify({
-    companies: companies,
-    from: from
-  })), // endpoint
+  const {
+    companies,
+    from
+  } = params;
+  return createQueryAction(`transportation_network_company/eta_estimate?${_qs.default.stringify({
+    companies,
+    from
+  })}`, // endpoint
   transportationNetworkCompanyEtaResponse, // responseAction
   transportationNetworkCompanyEtaError, // errorAction
   {
-    rewritePayload: function rewritePayload(payload) {
+    rewritePayload: payload => {
       return {
-        from: from,
+        from,
         estimates: payload.estimates
       };
     }
@@ -895,49 +848,52 @@ function getTransportationNetworkCompanyEtaEstimate(params) {
 } // TNC ride estimate lookup query
 
 
-var transportationNetworkCompanyRideResponse = (0, _reduxActions.createAction)('TNC_RIDE_RESPONSE');
+const transportationNetworkCompanyRideResponse = (0, _reduxActions.createAction)('TNC_RIDE_RESPONSE');
 exports.transportationNetworkCompanyRideResponse = transportationNetworkCompanyRideResponse;
-var transportationNetworkCompanyRideError = (0, _reduxActions.createAction)('TNC_RIDE_ERROR');
+const transportationNetworkCompanyRideError = (0, _reduxActions.createAction)('TNC_RIDE_ERROR');
 exports.transportationNetworkCompanyRideError = transportationNetworkCompanyRideError;
 
 function getTransportationNetworkCompanyRideEstimate(params) {
-  var company = params.company,
-      from = params.from,
-      rideType = params.rideType,
-      to = params.to;
-  return createQueryAction("transportation_network_company/ride_estimate?".concat(_qs.default.stringify({
-    company: company,
-    from: from,
-    rideType: rideType,
-    to: to
-  })), // endpoint
+  const {
+    company,
+    from,
+    rideType,
+    to
+  } = params;
+  return createQueryAction(`transportation_network_company/ride_estimate?${_qs.default.stringify({
+    company,
+    from,
+    rideType,
+    to
+  })}`, // endpoint
   transportationNetworkCompanyRideResponse, // responseAction
   transportationNetworkCompanyRideError, // errorAction
   {
-    rewritePayload: function rewritePayload(payload) {
+    rewritePayload: payload => {
       return {
-        company: company,
-        from: from,
+        company,
+        from,
         rideEstimate: payload.rideEstimate,
-        to: to
+        to
       };
     }
   });
 } // Nearby Stops Query
 
 
-var receivedNearbyStopsResponse = (0, _reduxActions.createAction)('NEARBY_STOPS_RESPONSE');
-var receivedNearbyStopsError = (0, _reduxActions.createAction)('NEARBY_STOPS_ERROR');
+const receivedNearbyStopsResponse = (0, _reduxActions.createAction)('NEARBY_STOPS_RESPONSE');
+const receivedNearbyStopsError = (0, _reduxActions.createAction)('NEARBY_STOPS_ERROR');
 
 function findNearbyStops(params) {
-  return createQueryAction("index/stops?".concat(_qs.default.stringify(_objectSpread({
-    radius: 1000
-  }, params))), receivedNearbyStopsResponse, receivedNearbyStopsError, {
+  return createQueryAction(`index/stops?${_qs.default.stringify({
+    radius: 1000,
+    ...params
+  })}`, receivedNearbyStopsResponse, receivedNearbyStopsError, {
     serviceId: 'stops',
-    rewritePayload: function rewritePayload(stops) {
+    rewritePayload: stops => {
       if (stops) {
         // Sort the stops by proximity
-        stops.forEach(function (stop) {
+        stops.forEach(stop => {
           stop.distance = (0, _haversine.default)({
             latitude: params.lat,
             longitude: params.lon
@@ -946,70 +902,64 @@ function findNearbyStops(params) {
             longitude: stop.lon
           });
         });
-        stops.sort(function (a, b) {
+        stops.sort((a, b) => {
           return a.distance - b.distance;
         });
         if (params.max && stops.length > params.max) stops = stops.slice(0, params.max);
       }
 
       return {
-        stops: stops
+        stops
       };
     },
     // retrieve routes for each stop
-    postprocess: function postprocess(stops, dispatch, getState) {
+    postprocess: (stops, dispatch, getState) => {
       if (params.max && stops.length > params.max) stops = stops.slice(0, params.max);
-      stops.forEach(function (stop) {
-        return dispatch(findRoutesAtStop(stop.id));
-      });
+      stops.forEach(stop => dispatch(findRoutesAtStop(stop.id)));
     }
   });
 } // Routes at Stop query
 
 
-var receivedRoutesAtStopResponse = (0, _reduxActions.createAction)('ROUTES_AT_STOP_RESPONSE');
-var receivedRoutesAtStopError = (0, _reduxActions.createAction)('ROUTES_AT_STOP_ERROR');
+const receivedRoutesAtStopResponse = (0, _reduxActions.createAction)('ROUTES_AT_STOP_RESPONSE');
+const receivedRoutesAtStopError = (0, _reduxActions.createAction)('ROUTES_AT_STOP_ERROR');
 
 function findRoutesAtStop(stopId) {
-  return createQueryAction("index/stops/".concat(stopId, "/routes"), receivedRoutesAtStopResponse, receivedRoutesAtStopError, {
+  return createQueryAction(`index/stops/${stopId}/routes`, receivedRoutesAtStopResponse, receivedRoutesAtStopError, {
     serviceId: 'stops/routes',
-    rewritePayload: function rewritePayload(routes) {
-      return {
-        stopId: stopId,
-        routes: routes
-      };
-    },
+    rewritePayload: routes => ({
+      stopId,
+      routes
+    }),
     noThrottle: true
   });
 } // Stops within Bounding Box Query
 
 
-var receivedStopsWithinBBoxResponse = (0, _reduxActions.createAction)('STOPS_WITHIN_BBOX_RESPONSE');
-var receivedStopsWithinBBoxError = (0, _reduxActions.createAction)('STOPS_WITHIN_BBOX_ERROR');
+const receivedStopsWithinBBoxResponse = (0, _reduxActions.createAction)('STOPS_WITHIN_BBOX_RESPONSE');
+const receivedStopsWithinBBoxError = (0, _reduxActions.createAction)('STOPS_WITHIN_BBOX_ERROR');
 
 function findStopsWithinBBox(params) {
-  return createQueryAction("index/stops?".concat(_qs.default.stringify(params)), receivedStopsWithinBBoxResponse, receivedStopsWithinBBoxError, {
+  return createQueryAction(`index/stops?${_qs.default.stringify(params)}`, receivedStopsWithinBBoxResponse, receivedStopsWithinBBoxError, {
     serviceId: 'stops',
-    rewritePayload: function rewritePayload(stops) {
-      return {
-        stops: stops
-      };
-    }
+    rewritePayload: stops => ({
+      stops
+    })
   });
 }
 
-var clearStops = (0, _reduxActions.createAction)('CLEAR_STOPS_OVERLAY');
+const clearStops = (0, _reduxActions.createAction)('CLEAR_STOPS_OVERLAY');
 exports.clearStops = clearStops;
-var throttledUrls = {};
+const throttledUrls = {};
 
 function now() {
   return new Date().getTime();
 }
 
-var TEN_SECONDS = 10000; // automatically clear throttled urls older than 10 seconds
+const TEN_SECONDS = 10000; // automatically clear throttled urls older than 10 seconds
 
-window.setInterval(function () {
-  Object.keys(throttledUrls).forEach(function (key) {
+window.setInterval(() => {
+  Object.keys(throttledUrls).forEach(key => {
     if (throttledUrls[key] < now() - TEN_SECONDS) {
       delete throttledUrls[key];
     }
@@ -1035,100 +985,59 @@ window.setInterval(function () {
  *   - fetchOptions: fetch options (e.g., method, body, headers).
  */
 
-function createQueryAction(endpoint, responseAction, errorAction) {
-  var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-  return /*#__PURE__*/function () {
-    var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(dispatch, getState) {
-      var otpState, url, api, throttleKey, payload, response, error;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              otpState = getState().otp;
+function createQueryAction(endpoint, responseAction, errorAction, options = {}) {
+  return async function (dispatch, getState) {
+    const otpState = getState().otp;
+    let url;
 
-              if (options.serviceId && otpState.config.alternateTransitIndex && otpState.config.alternateTransitIndex.services.includes(options.serviceId)) {
-                console.log('Using alt service for ' + options.serviceId);
-                url = otpState.config.alternateTransitIndex.apiRoot + endpoint;
-              } else {
-                api = otpState.config.api;
-                url = "".concat(api.host).concat(api.port ? ':' + api.port : '').concat(api.path, "/").concat(endpoint);
-              }
+    if (options.serviceId && otpState.config.alternateTransitIndex && otpState.config.alternateTransitIndex.services.includes(options.serviceId)) {
+      console.log('Using alt service for ' + options.serviceId);
+      url = otpState.config.alternateTransitIndex.apiRoot + endpoint;
+    } else {
+      const api = otpState.config.api;
+      url = `${api.host}${api.port ? ':' + api.port : ''}${api.path}/${endpoint}`;
+    }
 
-              if (options.noThrottle) {
-                _context2.next = 10;
-                break;
-              }
+    if (!options.noThrottle) {
+      // don't make a request to a URL that has already seen the same request
+      // within the last 10 seconds
+      const throttleKey = options.fetchOptions ? `${url}-${(0, _objectHash.default)(options.fetchOptions)}` : url;
 
-              // don't make a request to a URL that has already seen the same request
-              // within the last 10 seconds
-              throttleKey = options.fetchOptions ? "".concat(url, "-").concat((0, _objectHash.default)(options.fetchOptions)) : url;
+      if (throttledUrls[throttleKey] && throttledUrls[throttleKey] > now() - TEN_SECONDS) {
+        // URL already had a request within last 10 seconds, warn and exit
+        console.warn(`Request throttled for url: ${url}`);
+        return;
+      } else {
+        throttledUrls[throttleKey] = now();
+      }
+    }
 
-              if (!(throttledUrls[throttleKey] && throttledUrls[throttleKey] > now() - TEN_SECONDS)) {
-                _context2.next = 9;
-                break;
-              }
+    let payload;
 
-              // URL already had a request within last 10 seconds, warn and exit
-              console.warn("Request throttled for url: ".concat(url));
-              return _context2.abrupt("return");
+    try {
+      const response = await fetch(url, options.fetchOptions);
 
-            case 9:
-              throttledUrls[throttleKey] = now();
+      if (response.status >= 400) {
+        const error = new Error('Received error from server');
+        error.response = response;
+        throw error;
+      }
 
-            case 10:
-              _context2.prev = 10;
-              _context2.next = 13;
-              return fetch(url, options.fetchOptions);
+      payload = await response.json();
+    } catch (err) {
+      return dispatch(errorAction(err));
+    }
 
-            case 13:
-              response = _context2.sent;
+    if (typeof options.rewritePayload === 'function') {
+      dispatch(responseAction(options.rewritePayload(payload)));
+    } else {
+      dispatch(responseAction(payload));
+    }
 
-              if (!(response.status >= 400)) {
-                _context2.next = 18;
-                break;
-              }
-
-              error = new Error('Received error from server');
-              error.response = response;
-              throw error;
-
-            case 18:
-              _context2.next = 20;
-              return response.json();
-
-            case 20:
-              payload = _context2.sent;
-              _context2.next = 26;
-              break;
-
-            case 23:
-              _context2.prev = 23;
-              _context2.t0 = _context2["catch"](10);
-              return _context2.abrupt("return", dispatch(errorAction(_context2.t0)));
-
-            case 26:
-              if (typeof options.rewritePayload === 'function') {
-                dispatch(responseAction(options.rewritePayload(payload)));
-              } else {
-                dispatch(responseAction(payload));
-              }
-
-              if (typeof options.postprocess === 'function') {
-                options.postprocess(payload, dispatch, getState);
-              }
-
-            case 28:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2, null, [[10, 23]]);
-    }));
-
-    return function (_x3, _x4) {
-      return _ref4.apply(this, arguments);
-    };
-  }();
+    if (typeof options.postprocess === 'function') {
+      options.postprocess(payload, dispatch, getState);
+    }
+  };
 } // TODO: Determine how we might be able to use GraphQL with the alternative
 // transit index. Currently this is not easily possible because the alternative
 // transit index does not have support for GraphQL and handling both Rest and
@@ -1154,13 +1063,12 @@ function createQueryAction(endpoint, responseAction, errorAction) {
  */
 
 
-function setUrlSearch(params) {
-  var replaceCurrent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+function setUrlSearch(params, replaceCurrent = false) {
   return function (dispatch, getState) {
-    var base = getState().router.location.pathname;
-    var path = "".concat(base, "?").concat(_qs.default.stringify(params, {
+    const base = getState().router.location.pathname;
+    const path = `${base}?${_qs.default.stringify(params, {
       arrayFormat: 'repeat'
-    }));
+    })}`;
     if (replaceCurrent) dispatch((0, _connectedReactRouter.replace)(path));else dispatch((0, _connectedReactRouter.push)(path));
   };
 }
@@ -1171,19 +1079,19 @@ function setUrlSearch(params) {
 
 
 function updateOtpUrlParams(otpState, searchId) {
-  var config = otpState.config,
-      currentQuery = otpState.currentQuery; // Get updated OTP params from current query.
+  const {
+    config,
+    currentQuery
+  } = otpState; // Get updated OTP params from current query.
 
-  var otpParams = getRoutingParams(currentQuery, config, true);
+  const otpParams = getRoutingParams(currentQuery, config, true);
   return function (dispatch, getState) {
-    var params = {}; // Get all URL params and ensure non-routing params (UI, sessionId) remain
+    const params = {}; // Get all URL params and ensure non-routing params (UI, sessionId) remain
     // unchanged.
 
-    var urlParams = getUrlParams();
+    const urlParams = getUrlParams();
     Object.keys(urlParams) // If param is non-routing, add to params to keep the same after update.
-    .filter(function (key) {
-      return key.indexOf('_') !== -1 || key === 'sessionId';
-    }).forEach(function (key) {
+    .filter(key => key.indexOf('_') !== -1 || key === 'sessionId').forEach(key => {
       params[key] = urlParams[key];
     });
     params.ui_activeSearch = searchId; // Assumes this is a new search and the active itinerary should be reset.
