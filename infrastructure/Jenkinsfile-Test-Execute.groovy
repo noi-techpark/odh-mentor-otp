@@ -7,7 +7,7 @@ pipeline {
         DOCKER_IMAGE_JOURNEY = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-journey'
         DOCKER_IMAGE_GBFS = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-gbfs'
         DOCKER_IMAGE_GEOCODER = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-geocoder'
-        DOCKER_IMAGE_GARSHARING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-carsharing'
+        DOCKER_IMAGE_CARSHARING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-carsharing'
         DOCKER_IMAGE_PARKING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-parking'
         DOCKER_TAG = "test-$BUILD_NUMBER"
 
