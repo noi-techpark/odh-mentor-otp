@@ -33,7 +33,7 @@ pipeline {
         GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
         OFFICIAL = "False"
         GBFS_VERSION=1
-        CARSHARING_HOST="mobility.api.opendatahub.bz.it"
+        CARSHARING_HOST="https://carsharing.otp.opendatahub.testingmachine.eu/"
     }
 
     stages {
