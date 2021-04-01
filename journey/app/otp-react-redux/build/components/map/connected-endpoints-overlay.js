@@ -16,30 +16,30 @@ var _state = require("../../util/state");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // connect to the redux store
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   // Use query from active search (if a search has been made) or default to
   // current query is no search is available.
-  var activeSearch = (0, _state.getActiveSearch)(state.otp);
-  var query = activeSearch ? activeSearch.query : state.otp.currentQuery;
-  var showUserSettings = (0, _state.getShowUserSettings)(state.otp);
-  var from = query.from,
-      to = query.to; // Intermediate places doesn't trigger a re-plan, so for now default to
+  const activeSearch = (0, _state.getActiveSearch)(state.otp);
+  const query = activeSearch ? activeSearch.query : state.otp.currentQuery;
+  const showUserSettings = (0, _state.getShowUserSettings)(state.otp);
+  const {
+    from,
+    to
+  } = query; // Intermediate places doesn't trigger a re-plan, so for now default to
   // current query. FIXME: Determine with TriMet if this is desired behavior.
 
-  var places = state.otp.currentQuery.intermediatePlaces.filter(function (p) {
-    return p;
-  });
+  const places = state.otp.currentQuery.intermediatePlaces.filter(p => p);
   return {
     fromLocation: from,
     intermediatePlaces: places,
     locations: state.otp.user.locations,
-    showUserSettings: showUserSettings,
+    showUserSettings,
     toLocation: to,
     visible: true
   };
 };
 
-var mapDispatchToProps = {
+const mapDispatchToProps = {
   forgetPlace: _map.forgetPlace,
   rememberPlace: _map.rememberPlace,
   setLocation: _map.setLocation,

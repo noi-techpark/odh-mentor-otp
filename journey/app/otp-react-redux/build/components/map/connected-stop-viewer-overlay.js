@@ -14,15 +14,15 @@ var _reactRedux = require("react-redux");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // connect to the redux store
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var viewedStop = state.otp.ui.viewedStop;
+const mapStateToProps = (state, ownProps) => {
+  const viewedStop = state.otp.ui.viewedStop;
   return {
     stop: viewedStop ? state.otp.transitIndex.stops[viewedStop.stopId] : null,
     StopMarker: _defaultStopMarker.default
   };
 };
 
-var mapDispatchToProps = {};
+const mapDispatchToProps = {};
 
 var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_stopViewerOverlay.default);
 

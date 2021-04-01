@@ -6,40 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.getInitialState = getInitialState;
 exports.default = void 0;
 
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.array.find-index");
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
-require("core-js/modules/es6.regexp.split");
-
-require("core-js/modules/es6.object.assign");
-
 var _clone = _interopRequireDefault(require("clone"));
 
 var _immutabilityHelper = _interopRequireDefault(require("immutability-helper"));
@@ -56,39 +22,30 @@ var _state = require("../util/state");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-var _coreUtils$itinerary = _coreUtils.default.itinerary,
-    isTransit = _coreUtils$itinerary.isTransit,
-    getTransitModes = _coreUtils$itinerary.getTransitModes;
-var matchLatLon = _coreUtils.default.map.matchLatLon;
-var filterProfileOptions = _coreUtils.default.profile.filterProfileOptions;
-var _coreUtils$query = _coreUtils.default.query,
-    ensureSingleAccessMode = _coreUtils$query.ensureSingleAccessMode,
-    getDefaultQuery = _coreUtils$query.getDefaultQuery,
-    getTripOptionsFromQuery = _coreUtils$query.getTripOptionsFromQuery;
-var _coreUtils$storage = _coreUtils.default.storage,
-    getItem = _coreUtils$storage.getItem,
-    removeItem = _coreUtils$storage.removeItem,
-    storeItem = _coreUtils$storage.storeItem;
-var getUserTimezone = _coreUtils.default.time.getUserTimezone;
-var MAX_RECENT_STORAGE = 5; // TODO: fire planTrip action if default query is complete/error-free
+const {
+  isTransit,
+  getTransitModes
+} = _coreUtils.default.itinerary;
+const {
+  matchLatLon
+} = _coreUtils.default.map;
+const {
+  filterProfileOptions
+} = _coreUtils.default.profile;
+const {
+  ensureSingleAccessMode,
+  getDefaultQuery,
+  getTripOptionsFromQuery
+} = _coreUtils.default.query;
+const {
+  getItem,
+  removeItem,
+  storeItem
+} = _coreUtils.default.storage;
+const {
+  getUserTimezone
+} = _coreUtils.default.time;
+const MAX_RECENT_STORAGE = 5; // TODO: fire planTrip action if default query is complete/error-free
 
 /**
  * Validates the initial state of the store. This is intended to mainly catch
@@ -99,8 +56,10 @@ var MAX_RECENT_STORAGE = 5; // TODO: fire planTrip action if default query is co
  */
 
 function validateInitalState(initialState) {
-  var config = initialState.config;
-  var errors = []; // validate that the ArcGIS geocoder isn't used with a persistence strategy of
+  const {
+    config
+  } = initialState;
+  const errors = []; // validate that the ArcGIS geocoder isn't used with a persistence strategy of
   // `localStorage`. ArcGIS requires the use of a paid account to store geocode
   // results.
   // See https://developers.arcgis.com/rest/geocode/api-reference/geocoding-free-vs-paid.htm
@@ -110,8 +69,8 @@ function validateInitalState(initialState) {
   }
 
   if (errors.length > 0) {
-    throw new Error(errors.reduce(function (message, error) {
-      return "".concat(message, "\n- ").concat(error.message);
+    throw new Error(errors.reduce((message, error) => {
+      return `${message}\n- ${error.message}`;
     }, 'Encountered the following configuration errors:'));
   }
 }
@@ -122,7 +81,7 @@ function validateInitalState(initialState) {
 
 
 function getInitialState(userDefinedConfig, initialQuery) {
-  var defaultConfig = {
+  const defaultConfig = {
     autoPlan: false,
     debouncePlanTimeMs: 0,
     language: {},
@@ -139,47 +98,47 @@ function getInitialState(userDefinedConfig, initialQuery) {
 
     }
   };
-  var config = Object.assign(defaultConfig, userDefinedConfig);
+  const config = Object.assign(defaultConfig, userDefinedConfig);
 
   if (!config.homeTimezone) {
     config.homeTimezone = getUserTimezone();
-    console.warn("Config value 'homeTimezone' not configured for this webapp!\n\n      This value is recommended in order to properly display stop times for\n      users that are not in the timezone that the transit system is in. The\n      detected user timezone of '".concat(config.homeTimezone, "' will be used. Hopefully\n      that is the right one..."));
+    console.warn(`Config value 'homeTimezone' not configured for this webapp!\n
+      This value is recommended in order to properly display stop times for
+      users that are not in the timezone that the transit system is in. The
+      detected user timezone of '${config.homeTimezone}' will be used. Hopefully
+      that is the right one...`);
   } // Load user settings from local storage.
   // TODO: Make this work with settings fetched from alternative storage system
   //  (e.g., OTP backend middleware containing user profile system).
   // User overrides determine user's default mode/query parameters.
 
 
-  var userOverrides = getItem('defaultQuery', {}); // Combine user overrides with default query to get default search settings.
+  const userOverrides = getItem('defaultQuery', {}); // Combine user overrides with default query to get default search settings.
 
-  var defaults = Object.assign(getDefaultQuery(config), userOverrides); // Whether to auto-refresh stop arrival times in the Fermata.
+  const defaults = Object.assign(getDefaultQuery(config), userOverrides); // Whether to auto-refresh stop arrival times in the Fermata.
 
-  var autoRefreshStopTimes = getItem('autoRefreshStopTimes', true); // User's home and work locations
+  const autoRefreshStopTimes = getItem('autoRefreshStopTimes', true); // User's home and work locations
 
-  var home = getItem('home');
-  var work = getItem('work'); // Whether recent searches and places should be tracked in local storage.
+  const home = getItem('home');
+  const work = getItem('work'); // Whether recent searches and places should be tracked in local storage.
 
-  var trackRecent = getItem('trackRecent', false);
-  var expandAdvanced = getItem('expandAdvanced', false); // Recent places used in trip plan searches.
+  const trackRecent = getItem('trackRecent', false);
+  const expandAdvanced = getItem('expandAdvanced', false); // Recent places used in trip plan searches.
 
-  var recentPlaces = getItem('recent', []); // List of user's favorite stops.
+  const recentPlaces = getItem('recent', []); // List of user's favorite stops.
 
-  var favoriteStops = getItem('favoriteStops', []); // Recent trip plan searches (excluding time/date parameters to avoid complexity).
+  const favoriteStops = getItem('favoriteStops', []); // Recent trip plan searches (excluding time/date parameters to avoid complexity).
 
-  var recentSearches = getItem('recentSearches', []); // Filter valid locations found into locations list.
+  const recentSearches = getItem('recentSearches', []); // Filter valid locations found into locations list.
 
-  var locations = [home, work].filter(function (p) {
-    return p;
-  }); // TODO: parse and merge URL query params w/ default query
+  const locations = [home, work].filter(p => p); // TODO: parse and merge URL query params w/ default query
   // populate query by merging any provided query params w/ the default params
 
-  var currentQuery = Object.assign(defaults, initialQuery); // Add configurable locations to home and work locations
+  const currentQuery = Object.assign(defaults, initialQuery); // Add configurable locations to home and work locations
 
   if (config.locations) {
-    locations.push.apply(locations, _toConsumableArray(config.locations.map(function (l) {
-      return _objectSpread(_objectSpread({}, l), {}, {
-        type: 'suggested'
-      });
+    locations.push(...config.locations.map(l => ({ ...l,
+      type: 'suggested'
     })));
   } // Check for alternative routerId in session storage. This is generally used
   // for testing single GTFS feed OTP graphs that are deployed to feed-specific
@@ -190,21 +149,19 @@ function getInitialState(userDefinedConfig, initialQuery) {
   // Note: this mechanism assumes that the OTP API path is otp/routers/default.
 
 
-  var routerId = window.sessionStorage.getItem('routerId'); // If routerId is found, update the config.api.path (keep the original config
+  const routerId = window.sessionStorage.getItem('routerId'); // If routerId is found, update the config.api.path (keep the original config
   // value at originalPath in case it needs to be reverted.)
 
   if (routerId) {
     config.api.originalPath = userDefinedConfig.api.path;
-    config.api.path = "/otp/routers/".concat(routerId);
+    config.api.path = `/otp/routers/${routerId}`;
   }
 
-  var queryModes = currentQuery.mode.split(','); // If 'TRANSIT' is included in the mode list, replace it with individual modes
+  let queryModes = currentQuery.mode.split(','); // If 'TRANSIT' is included in the mode list, replace it with individual modes
 
   if (queryModes.includes('TRANSIT')) {
     // Isolate the non-transit modes in queryModes
-    queryModes = queryModes.filter(function (m) {
-      return !isTransit(m);
-    }); // Add all possible transit modes
+    queryModes = queryModes.filter(m => !isTransit(m)); // Add all possible transit modes
 
     queryModes = queryModes.concat(getTransitModes(config)); // Stringify and set as OTP 'mode' query param
 
@@ -217,8 +174,8 @@ function getInitialState(userDefinedConfig, initialQuery) {
   }
 
   return {
-    config: config,
-    currentQuery: currentQuery,
+    config,
+    currentQuery,
     filter: {
       filter: 'ALL',
       sort: {
@@ -236,15 +193,15 @@ function getInitialState(userDefinedConfig, initialQuery) {
       nearbyStops: []
     },
     user: {
-      autoRefreshStopTimes: autoRefreshStopTimes,
+      autoRefreshStopTimes,
       // Do not store from/to or date/time in defaults
       defaults: getTripOptionsFromQuery(defaults),
-      expandAdvanced: expandAdvanced,
-      favoriteStops: favoriteStops,
-      trackRecent: trackRecent,
-      locations: locations,
-      recentPlaces: recentPlaces,
-      recentSearches: recentSearches
+      expandAdvanced,
+      favoriteStops,
+      trackRecent,
+      locations,
+      recentPlaces,
+      recentSearches
     },
     searches: {},
     transitIndex: {
@@ -273,6 +230,9 @@ function getInitialState(userDefinedConfig, initialQuery) {
       },
       zipcar: {
         locations: []
+      },
+      parking: {
+        locations: []
       }
     },
     tnc: {
@@ -288,34 +248,35 @@ function getInitialState(userDefinedConfig, initialQuery) {
 }
 
 function createOtpReducer(config, initialQuery) {
-  var initialState = getInitialState(config, initialQuery); // validate the inital state
+  const initialState = getInitialState(config, initialQuery); // validate the inital state
 
   validateInitalState(initialState);
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-    var action = arguments.length > 1 ? arguments[1] : undefined;
-    var searchId = action.payload && action.payload.searchId;
-    var requestId = action.payload && action.payload.requestId;
-    var activeSearch = state.searches[searchId];
+  return (state = initialState, action) => {
+    const searchId = action.payload && action.payload.searchId;
+    const requestId = action.payload && action.payload.requestId;
+    const activeSearch = state.searches[searchId];
 
     switch (action.type) {
       case 'ROUTING_REQUEST':
-        var _action$payload = action.payload,
-            activeItinerary = _action$payload.activeItinerary,
-            pending = _action$payload.pending;
+        const {
+          activeItinerary,
+          pending
+        } = action.payload;
         return (0, _immutabilityHelper.default)(state, {
-          searches: _defineProperty({}, searchId, {
-            $set: {
-              activeItinerary: activeItinerary,
-              activeLeg: null,
-              activeStep: null,
-              pending: pending,
-              // FIXME: get query from action payload?
-              query: (0, _clone.default)(state.currentQuery),
-              response: [],
-              timestamp: (0, _state.getTimestamp)()
+          searches: {
+            [searchId]: {
+              $set: {
+                activeItinerary,
+                activeLeg: null,
+                activeStep: null,
+                pending,
+                // FIXME: get query from action payload?
+                query: (0, _clone.default)(state.currentQuery),
+                response: [],
+                timestamp: (0, _state.getTimestamp)()
+              }
             }
-          }),
+          },
           activeSearchId: {
             $set: searchId
           }
@@ -323,31 +284,35 @@ function createOtpReducer(config, initialQuery) {
 
       case 'ROUTING_ERROR':
         return (0, _immutabilityHelper.default)(state, {
-          searches: _defineProperty({}, searchId, {
-            response: {
-              $push: [{
-                error: action.payload.error,
-                requestId: requestId
-              }]
-            },
-            pending: {
-              $set: activeSearch.pending - 1
+          searches: {
+            [searchId]: {
+              response: {
+                $push: [{
+                  error: action.payload.error,
+                  requestId
+                }]
+              },
+              pending: {
+                $set: activeSearch.pending - 1
+              }
             }
-          })
+          }
         });
 
       case 'ROUTING_RESPONSE':
-        var response = state.currentQuery.routingType === 'PROFILE' ? filterProfileOptions(action.payload.response) : action.payload.response;
+        const response = state.currentQuery.routingType === 'PROFILE' ? filterProfileOptions(action.payload.response) : action.payload.response;
         response.requestId = requestId;
         return (0, _immutabilityHelper.default)(state, {
-          searches: _defineProperty({}, searchId, {
-            response: {
-              $push: [response]
-            },
-            pending: {
-              $set: activeSearch.pending - 1
+          searches: {
+            [searchId]: {
+              response: {
+                $push: [response]
+              },
+              pending: {
+                $set: activeSearch.pending - 1
+              }
             }
-          }),
+          },
           ui: {
             diagramLeg: {
               $set: null
@@ -357,11 +322,13 @@ function createOtpReducer(config, initialQuery) {
 
       case 'NON_REALTIME_ROUTING_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
-          searches: _defineProperty({}, searchId, {
-            nonRealtimeResponse: {
-              $set: action.payload.response
+          searches: {
+            [searchId]: {
+              nonRealtimeResponse: {
+                $set: action.payload.response
+              }
             }
-          })
+          }
         });
 
       case 'BIKE_RENTAL_REQUEST':
@@ -472,17 +439,19 @@ function createOtpReducer(config, initialQuery) {
       case 'SET_ACTIVE_ITINERARY':
         if (state.activeSearchId !== null) {
           return (0, _immutabilityHelper.default)(state, {
-            searches: _defineProperty({}, state.activeSearchId, {
-              activeItinerary: {
-                $set: action.payload.index
-              },
-              activeLeg: {
-                $set: null
-              },
-              activeStep: {
-                $set: null
+            searches: {
+              [state.activeSearchId]: {
+                activeItinerary: {
+                  $set: action.payload.index
+                },
+                activeLeg: {
+                  $set: null
+                },
+                activeStep: {
+                  $set: null
+                }
               }
-            })
+            }
           });
         }
 
@@ -491,11 +460,13 @@ function createOtpReducer(config, initialQuery) {
       case 'SET_VISIBLE_ITINERARY':
         if (state.activeSearchId !== null) {
           return (0, _immutabilityHelper.default)(state, {
-            searches: _defineProperty({}, state.activeSearchId, {
-              visibleItinerary: {
-                $set: action.payload.index
+            searches: {
+              [state.activeSearchId]: {
+                visibleItinerary: {
+                  $set: action.payload.index
+                }
               }
-            })
+            }
           });
         }
 
@@ -504,14 +475,16 @@ function createOtpReducer(config, initialQuery) {
       case 'SET_ACTIVE_LEG':
         if (state.activeSearchId !== null) {
           return (0, _immutabilityHelper.default)(state, {
-            searches: _defineProperty({}, state.activeSearchId, {
-              activeLeg: {
-                $set: action.payload.index
-              },
-              activeStep: {
-                $set: null
+            searches: {
+              [state.activeSearchId]: {
+                activeLeg: {
+                  $set: action.payload.index
+                },
+                activeStep: {
+                  $set: null
+                }
               }
-            })
+            }
           });
         }
 
@@ -520,11 +493,13 @@ function createOtpReducer(config, initialQuery) {
       case 'SET_ACTIVE_STEP':
         if (state.activeSearchId !== null) {
           return (0, _immutabilityHelper.default)(state, {
-            searches: _defineProperty({}, state.activeSearchId, {
-              activeStep: {
-                $set: action.payload.index
+            searches: {
+              [state.activeSearchId]: {
+                activeStep: {
+                  $set: action.payload.index
+                }
               }
-            })
+            }
           });
         }
 
@@ -532,16 +507,20 @@ function createOtpReducer(config, initialQuery) {
 
       case 'SET_LOCATION':
         return (0, _immutabilityHelper.default)(state, {
-          currentQuery: _defineProperty({}, action.payload.locationType, {
-            $set: action.payload.location
-          })
+          currentQuery: {
+            [action.payload.locationType]: {
+              $set: action.payload.location
+            }
+          }
         });
 
       case 'CLEAR_LOCATION':
         return (0, _immutabilityHelper.default)(state, {
-          currentQuery: _defineProperty({}, action.payload.locationType, {
-            $set: null
-          })
+          currentQuery: {
+            [action.payload.locationType]: {
+              $set: null
+            }
+          }
         });
 
       case 'SET_QUERY_PARAM':
@@ -590,11 +569,9 @@ function createOtpReducer(config, initialQuery) {
           // Payload is the place ID.
           // Recent place IDs contain the string literal 'recent'.
           if (action.payload.indexOf('recent') !== -1) {
-            var recentPlaces = (0, _clone.default)(state.user.recentPlaces); // Remove recent from list of recent places
+            const recentPlaces = (0, _clone.default)(state.user.recentPlaces); // Remove recent from list of recent places
 
-            var removeIndex = recentPlaces.findIndex(function (l) {
-              return l.id === action.payload;
-            });
+            const removeIndex = recentPlaces.findIndex(l => l.id === action.payload);
             recentPlaces.splice(removeIndex, 1);
             storeItem('recent', recentPlaces);
             return removeIndex !== -1 ? (0, _immutabilityHelper.default)(state, {
@@ -605,17 +582,13 @@ function createOtpReducer(config, initialQuery) {
               }
             }) : state;
           } else {
-            var locations = (0, _clone.default)(state.user.locations);
-
-            var _removeIndex = locations.findIndex(function (l) {
-              return l.id === action.payload;
-            });
-
+            const locations = (0, _clone.default)(state.user.locations);
+            const removeIndex = locations.findIndex(l => l.id === action.payload);
             removeItem(action.payload);
-            return _removeIndex !== -1 ? (0, _immutabilityHelper.default)(state, {
+            return removeIndex !== -1 ? (0, _immutabilityHelper.default)(state, {
               user: {
                 locations: {
-                  $splice: [[_removeIndex, 1]]
+                  $splice: [[removeIndex, 1]]
                 }
               }
             }) : state;
@@ -624,33 +597,26 @@ function createOtpReducer(config, initialQuery) {
 
       case 'REMEMBER_PLACE':
         {
-          var _action$payload2 = action.payload,
-              location = _action$payload2.location,
-              type = _action$payload2.type;
+          const {
+            location,
+            type
+          } = action.payload;
 
           switch (type) {
             case 'recent':
               {
-                var _recentPlaces = (0, _clone.default)(state.user.recentPlaces);
+                const recentPlaces = (0, _clone.default)(state.user.recentPlaces);
+                const index = recentPlaces.findIndex(l => matchLatLon(l, location)); // Replace recent place if duplicate found or add to list.
 
-                var index = _recentPlaces.findIndex(function (l) {
-                  return matchLatLon(l, location);
-                }); // Replace recent place if duplicate found or add to list.
-
-
-                if (index !== -1) _recentPlaces.splice(index, 1, location);else _recentPlaces.push(location);
-
-                var sortedPlaces = _recentPlaces.sort(function (a, b) {
-                  return b.timestamp - a.timestamp;
-                }); // Only keep up to 5 recent locations
+                if (index !== -1) recentPlaces.splice(index, 1, location);else recentPlaces.push(location);
+                const sortedPlaces = recentPlaces.sort((a, b) => b.timestamp - a.timestamp); // Only keep up to 5 recent locations
                 // FIXME: Check for duplicates
 
-
-                if (_recentPlaces.length >= MAX_RECENT_STORAGE) {
+                if (recentPlaces.length >= MAX_RECENT_STORAGE) {
                   sortedPlaces.splice(MAX_RECENT_STORAGE);
                 }
 
-                storeItem('recent', _recentPlaces);
+                storeItem('recent', recentPlaces);
                 return (0, _immutabilityHelper.default)(state, {
                   user: {
                     recentPlaces: {
@@ -662,19 +628,15 @@ function createOtpReducer(config, initialQuery) {
 
             default:
               {
-                var _locations = (0, _clone.default)(state.user.locations); // Determine if location type (e.g., home or work) already exists in list
+                const locations = (0, _clone.default)(state.user.locations); // Determine if location type (e.g., home or work) already exists in list
 
-
-                var _index = _locations.findIndex(function (l) {
-                  return l.type === type;
-                });
-
-                if (_index !== -1) _locations.splice(_index, 1, location);else _locations.push(location);
+                const index = locations.findIndex(l => l.type === type);
+                if (index !== -1) locations.splice(index, 1, location);else locations.push(location);
                 storeItem(type, location);
                 return (0, _immutabilityHelper.default)(state, {
                   user: {
                     locations: {
-                      $set: _locations
+                      $set: locations
                     }
                   }
                 });
@@ -685,18 +647,15 @@ function createOtpReducer(config, initialQuery) {
       case 'FORGET_STOP':
         {
           // Payload is the stop ID.
-          var favoriteStops = (0, _clone.default)(state.user.favoriteStops); // Remove stop from favorites
+          const favoriteStops = (0, _clone.default)(state.user.favoriteStops); // Remove stop from favorites
 
-          var _removeIndex2 = favoriteStops.findIndex(function (l) {
-            return l.id === action.payload;
-          });
-
-          favoriteStops.splice(_removeIndex2, 1);
+          const removeIndex = favoriteStops.findIndex(l => l.id === action.payload);
+          favoriteStops.splice(removeIndex, 1);
           storeItem('favoriteStops', favoriteStops);
-          return _removeIndex2 !== -1 ? (0, _immutabilityHelper.default)(state, {
+          return removeIndex !== -1 ? (0, _immutabilityHelper.default)(state, {
             user: {
               favoriteStops: {
-                $splice: [[_removeIndex2, 1]]
+                $splice: [[removeIndex, 1]]
               }
             }
           }) : state;
@@ -706,44 +665,41 @@ function createOtpReducer(config, initialQuery) {
         {
           // Payload is stop data. We want to avoid saving other attributes that
           // might be contained there (like lists of patterns).
-          var _action$payload3 = action.payload,
-              id = _action$payload3.id,
-              name = _action$payload3.name,
-              lat = _action$payload3.lat,
-              lon = _action$payload3.lon;
-          var stop = {
+          const {
+            id,
+            name,
+            lat,
+            lon
+          } = action.payload;
+          const stop = {
             type: 'stop',
             icon: 'bus',
-            id: id,
-            name: name,
-            lat: lat,
-            lon: lon
+            id,
+            name,
+            lat,
+            lon
           };
+          const favoriteStops = (0, _clone.default)(state.user.favoriteStops);
 
-          var _favoriteStops = (0, _clone.default)(state.user.favoriteStops);
-
-          if (_favoriteStops.length >= MAX_RECENT_STORAGE) {
-            window.alert("Cannot save more than ".concat(MAX_RECENT_STORAGE, " stops. Remove one before adding more."));
+          if (favoriteStops.length >= MAX_RECENT_STORAGE) {
+            window.alert(`Cannot save more than ${MAX_RECENT_STORAGE} stops. Remove one before adding more.`);
             return state;
           }
 
-          var _index2 = _favoriteStops.findIndex(function (s) {
-            return s.id === stop.id;
-          }); // Do nothing if duplicate stop found.
+          const index = favoriteStops.findIndex(s => s.id === stop.id); // Do nothing if duplicate stop found.
 
-
-          if (_index2 !== -1) {
-            console.warn("Stop with id ".concat(stop.id, " already exists in favorites."));
+          if (index !== -1) {
+            console.warn(`Stop with id ${stop.id} already exists in favorites.`);
             return state;
           } else {
-            _favoriteStops.unshift(stop);
+            favoriteStops.unshift(stop);
           }
 
-          storeItem('favoriteStops', _favoriteStops);
+          storeItem('favoriteStops', favoriteStops);
           return (0, _immutabilityHelper.default)(state, {
             user: {
               favoriteStops: {
-                $set: _favoriteStops
+                $set: favoriteStops
               }
             }
           });
@@ -764,14 +720,12 @@ function createOtpReducer(config, initialQuery) {
       case 'TOGGLE_TRACKING':
         {
           storeItem('trackRecent', action.payload);
-
-          var _recentPlaces2 = (0, _clone.default)(state.user.recentPlaces);
-
-          var recentSearches = (0, _clone.default)(state.user.recentSearches);
+          let recentPlaces = (0, _clone.default)(state.user.recentPlaces);
+          let recentSearches = (0, _clone.default)(state.user.recentSearches);
 
           if (!action.payload) {
             // If user disables tracking, remove recent searches and locations.
-            _recentPlaces2 = [];
+            recentPlaces = [];
             recentSearches = [];
             removeItem('recent');
             removeItem('recentSearches');
@@ -783,7 +737,7 @@ function createOtpReducer(config, initialQuery) {
                 $set: action.payload
               },
               recentPlaces: {
-                $set: _recentPlaces2
+                $set: recentPlaces
               },
               recentSearches: {
                 $set: recentSearches
@@ -793,15 +747,11 @@ function createOtpReducer(config, initialQuery) {
         }
 
       case 'REMEMBER_SEARCH':
-        var searches = (0, _clone.default)(state.user.recentSearches);
-        var duplicateIndex = searches.findIndex(function (s) {
-          return (0, _lodash.default)(s.query, action.payload.query);
-        }); // Overwrite duplicate search (so that new timestamp is stored).
+        const searches = (0, _clone.default)(state.user.recentSearches);
+        const duplicateIndex = searches.findIndex(s => (0, _lodash.default)(s.query, action.payload.query)); // Overwrite duplicate search (so that new timestamp is stored).
 
         if (duplicateIndex !== -1) searches[duplicateIndex] = action.payload;else searches.unshift(action.payload);
-        var sortedSearches = searches.sort(function (a, b) {
-          return b.timestamp - a.timestamp;
-        }); // Ensure recent searches do not extend beyong MAX_RECENT_STORAGE
+        const sortedSearches = searches.sort((a, b) => b.timestamp - a.timestamp); // Ensure recent searches do not extend beyong MAX_RECENT_STORAGE
 
         if (sortedSearches.length >= MAX_RECENT_STORAGE) {
           sortedSearches.splice(MAX_RECENT_STORAGE);
@@ -818,20 +768,15 @@ function createOtpReducer(config, initialQuery) {
 
       case 'FORGET_SEARCH':
         {
-          var _recentSearches = (0, _clone.default)(state.user.recentSearches);
+          const recentSearches = (0, _clone.default)(state.user.recentSearches);
+          const index = recentSearches.findIndex(l => l.id === action.payload); // Remove item from list of recent searches
 
-          var _index3 = _recentSearches.findIndex(function (l) {
-            return l.id === action.payload;
-          }); // Remove item from list of recent searches
-
-
-          _recentSearches.splice(_index3, 1);
-
-          storeItem('recentSearches', _recentSearches);
-          return _index3 !== -1 ? (0, _immutabilityHelper.default)(state, {
+          recentSearches.splice(index, 1);
+          storeItem('recentSearches', recentSearches);
+          return index !== -1 ? (0, _immutabilityHelper.default)(state, {
             user: {
               recentSearches: {
-                $splice: [[_index3, 1]]
+                $splice: [[index, 1]]
               }
             }
           }) : state;
@@ -872,10 +817,10 @@ function createOtpReducer(config, initialQuery) {
         });
 
       case 'SET_ROUTER_ID':
-        var routerId = action.payload; // Store original path value in originalPath variable.
+        const routerId = action.payload; // Store original path value in originalPath variable.
 
-        var originalPath = config.api.originalPath || config.api.path || '/otp/routers/default';
-        var path = routerId ? "/otp/routers/".concat(routerId) // If routerId is null, revert to the original config's API path (or
+        const originalPath = config.api.originalPath || config.api.path || '/otp/routers/default';
+        const path = routerId ? `/otp/routers/${routerId}` // If routerId is null, revert to the original config's API path (or
         // the standard path if that is not found).
         : originalPath; // Store routerId in session storage (persists through page reloads but
         // not when a new tab/window is opened).
@@ -960,16 +905,14 @@ function createOtpReducer(config, initialQuery) {
         });
 
       case 'NEARBY_STOPS_RESPONSE':
-        var stopLookup = {};
-        action.payload.stops.forEach(function (s) {
+        const stopLookup = {};
+        action.payload.stops.forEach(s => {
           stopLookup[s.id] = s;
         });
         return (0, _immutabilityHelper.default)(state, {
           location: {
             nearbyStops: {
-              $set: action.payload.stops.map(function (s) {
-                return s.id;
-              })
+              $set: action.payload.stops.map(s => s.id)
             }
           },
           transitIndex: {
@@ -1010,11 +953,13 @@ function createOtpReducer(config, initialQuery) {
       case 'ROUTES_AT_STOP_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            stops: _defineProperty({}, action.payload.stopId, {
-              routes: {
-                $set: action.payload.routes
+            stops: {
+              [action.payload.stopId]: {
+                routes: {
+                  $set: action.payload.routes
+                }
               }
-            })
+            }
           }
         });
 
@@ -1114,65 +1059,77 @@ function createOtpReducer(config, initialQuery) {
       case 'FIND_STOP_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            stops: _defineProperty({}, action.payload.id, {
-              $set: action.payload
-            })
+            stops: {
+              [action.payload.id]: {
+                $set: action.payload
+              }
+            }
           }
         });
 
       case 'FIND_TRIP_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            trips: _defineProperty({}, action.payload.id, {
-              $set: action.payload
-            })
+            trips: {
+              [action.payload.id]: {
+                $set: action.payload
+              }
+            }
           }
         });
 
       case 'FIND_STOPS_FOR_TRIP_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            trips: _defineProperty({}, action.payload.tripId, {
-              stops: {
-                $set: action.payload.stops
+            trips: {
+              [action.payload.tripId]: {
+                stops: {
+                  $set: action.payload.stops
+                }
               }
-            })
+            }
           }
         });
 
       case 'FIND_STOP_TIMES_FOR_TRIP_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            trips: _defineProperty({}, action.payload.tripId, {
-              stopTimes: {
-                $set: action.payload.stopTimes
+            trips: {
+              [action.payload.tripId]: {
+                stopTimes: {
+                  $set: action.payload.stopTimes
+                }
               }
-            })
+            }
           }
         });
 
       case 'FIND_GEOMETRY_FOR_TRIP_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            trips: _defineProperty({}, action.payload.tripId, {
-              geometry: {
-                $set: action.payload.geometry
+            trips: {
+              [action.payload.tripId]: {
+                geometry: {
+                  $set: action.payload.geometry
+                }
               }
-            })
+            }
           }
         });
 
       case 'FIND_STOP_TIMES_FOR_STOP_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            stops: _defineProperty({}, action.payload.stopId, {
-              stopTimes: {
-                $set: action.payload.stopTimes
-              },
-              stopTimesLastUpdated: {
-                $set: new Date().getTime()
+            stops: {
+              [action.payload.stopId]: {
+                stopTimes: {
+                  $set: action.payload.stopTimes
+                },
+                stopTimesLastUpdated: {
+                  $set: new Date().getTime()
+                }
               }
-            })
+            }
           }
         });
 
@@ -1199,12 +1156,10 @@ function createOtpReducer(config, initialQuery) {
         } // Otherwise, merge in only the routes not already defined
 
 
-        var currentRouteIds = Object.keys(state.transitIndex.routes);
-        var newRoutes = Object.keys(action.payload).filter(function (key) {
-          return !currentRouteIds.includes(key);
-        }).reduce(function (res, key) {
-          return Object.assign(res, _defineProperty({}, key, action.payload[key]));
-        }, {});
+        const currentRouteIds = Object.keys(state.transitIndex.routes);
+        const newRoutes = Object.keys(action.payload).filter(key => !currentRouteIds.includes(key)).reduce((res, key) => Object.assign(res, {
+          [key]: action.payload[key]
+        }), {});
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
             routes: {
@@ -1219,7 +1174,9 @@ function createOtpReducer(config, initialQuery) {
           return (0, _immutabilityHelper.default)(state, {
             transitIndex: {
               routes: {
-                $set: _defineProperty({}, action.payload.id, action.payload)
+                $set: {
+                  [action.payload.id]: action.payload
+                }
               }
             }
           });
@@ -1228,24 +1185,29 @@ function createOtpReducer(config, initialQuery) {
 
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            routes: _defineProperty({}, action.payload.id, {
-              $set: action.payload
-            })
+            routes: {
+              [action.payload.id]: {
+                $set: action.payload
+              }
+            }
           }
         });
 
       case 'FIND_PATTERNS_FOR_ROUTE_RESPONSE':
-        var _action$payload4 = action.payload,
-            patterns = _action$payload4.patterns,
-            routeId = _action$payload4.routeId; // If routes is undefined, initialize it w/ this route only
+        const {
+          patterns,
+          routeId
+        } = action.payload; // If routes is undefined, initialize it w/ this route only
 
         if (!state.transitIndex.routes) {
           return (0, _immutabilityHelper.default)(state, {
             transitIndex: {
               routes: {
-                $set: _defineProperty({}, routeId, {
-                  patterns: patterns
-                })
+                $set: {
+                  [routeId]: {
+                    patterns
+                  }
+                }
               }
             }
           });
@@ -1254,74 +1216,85 @@ function createOtpReducer(config, initialQuery) {
 
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            routes: _defineProperty({}, routeId, {
-              patterns: {
-                $set: patterns
+            routes: {
+              [routeId]: {
+                patterns: {
+                  $set: patterns
+                }
               }
-            })
+            }
           }
         });
 
       case 'FIND_GEOMETRY_FOR_PATTERN_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           transitIndex: {
-            routes: _defineProperty({}, action.payload.routeId, {
-              patterns: _defineProperty({}, action.payload.patternId, {
-                geometry: {
-                  $set: action.payload.geometry
+            routes: {
+              [action.payload.routeId]: {
+                patterns: {
+                  [action.payload.patternId]: {
+                    geometry: {
+                      $set: action.payload.geometry
+                    }
+                  }
                 }
-              })
-            })
+              }
+            }
           }
         });
 
       case 'TNC_ETA_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           tnc: {
-            etaEstimates: _defineProperty({}, action.payload.from, function (fromData) {
-              fromData = Object.assign({}, fromData);
-              var estimates = action.payload.estimates || [];
-              estimates.forEach(function (estimate) {
-                if (!fromData[estimate.company]) {
-                  fromData[estimate.company] = {};
-                }
+            etaEstimates: {
+              [action.payload.from]: fromData => {
+                fromData = Object.assign({}, fromData);
+                const estimates = action.payload.estimates || [];
+                estimates.forEach(estimate => {
+                  if (!fromData[estimate.company]) {
+                    fromData[estimate.company] = {};
+                  }
 
-                fromData[estimate.company][estimate.productId] = Object.assign({
-                  estimateTimestamp: new Date()
-                }, estimate);
-              });
-              return fromData;
-            })
+                  fromData[estimate.company][estimate.productId] = Object.assign({
+                    estimateTimestamp: new Date()
+                  }, estimate);
+                });
+                return fromData;
+              }
+            }
           }
         });
 
       case 'TNC_RIDE_RESPONSE':
         return (0, _immutabilityHelper.default)(state, {
           tnc: {
-            rideEstimates: _defineProperty({}, action.payload.from, function (fromData) {
-              fromData = Object.assign({}, fromData);
-              var _action$payload5 = action.payload,
-                  company = _action$payload5.company,
-                  rideEstimate = _action$payload5.rideEstimate,
-                  to = _action$payload5.to;
+            rideEstimates: {
+              [action.payload.from]: fromData => {
+                fromData = Object.assign({}, fromData);
+                const {
+                  company,
+                  rideEstimate,
+                  to
+                } = action.payload;
 
-              if (!rideEstimate) {
+                if (!rideEstimate) {
+                  return fromData;
+                }
+
+                if (!fromData[to]) {
+                  fromData[to] = {};
+                }
+
+                if (!fromData[to][company]) {
+                  fromData[to][company] = {};
+                }
+
+                fromData[to][company][rideEstimate.rideType] = Object.assign({
+                  estimateTimestamp: new Date()
+                }, rideEstimate);
                 return fromData;
               }
-
-              if (!fromData[to]) {
-                fromData[to] = {};
-              }
-
-              if (!fromData[to][company]) {
-                fromData[to][company] = {};
-              }
-
-              fromData[to][company][rideEstimate.rideType] = Object.assign({
-                estimateTimestamp: new Date()
-              }, rideEstimate);
-              return fromData;
-            })
+            }
           }
         });
 
@@ -1354,18 +1327,26 @@ function createOtpReducer(config, initialQuery) {
           }
         });
 
+      case 'PARKING_LOCATIONS_RESPONSE':
+        return (0, _immutabilityHelper.default)(state, {
+          overlay: {
+            parking: {
+              locations: {
+                $set: action.payload.data.stations
+              },
+              pending: {
+                $set: false
+              }
+            }
+          }
+        });
+
       case 'UPDATE_OVERLAY_VISIBILITY':
-        var mapOverlays = (0, _clone.default)(state.config.map.overlays);
+        const mapOverlays = (0, _clone.default)(state.config.map.overlays);
 
-        var _loop = function _loop(key) {
-          var overlay = mapOverlays.find(function (o) {
-            return o.name === key;
-          });
+        for (let key in action.payload) {
+          const overlay = mapOverlays.find(o => o.name === key);
           overlay.visible = action.payload[key];
-        };
-
-        for (var key in action.payload) {
-          _loop(key);
         }
 
         return (0, _immutabilityHelper.default)(state, {

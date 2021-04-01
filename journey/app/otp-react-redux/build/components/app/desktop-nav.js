@@ -33,19 +33,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * TODO: merge with the mobile navigation bar.
  */
-var DesktopNav = function DesktopNav(_ref) {
-  var otpConfig = _ref.otpConfig;
-  var branding = otpConfig.branding,
-      persistence = otpConfig.persistence,
-      _otpConfig$title = otpConfig.title,
-      title = _otpConfig$title === void 0 ? _constants.DEFAULT_APP_TITLE : _otpConfig$title;
-  var showLogin = Boolean((0, _auth.getAuth0Config)(persistence)); // Display branding and title in the order as described in the class summary.
+const DesktopNav = ({
+  otpConfig
+}) => {
+  const {
+    branding,
+    persistence,
+    title = _constants.DEFAULT_APP_TITLE
+  } = otpConfig;
+  const showLogin = Boolean((0, _auth.getAuth0Config)(persistence)); // Display branding and title in the order as described in the class summary.
 
-  var brandingOrTitle;
+  let brandingOrTitle;
 
   if (branding) {
     brandingOrTitle = /*#__PURE__*/_react.default.createElement("div", {
-      className: "icon-".concat(branding) // FIXME: Style hack for desktop view.
+      className: `icon-${branding}` // FIXME: Style hack for desktop view.
       ,
       style: {
         marginLeft: 50
@@ -79,13 +81,13 @@ var DesktopNav = function DesktopNav(_ref) {
 }; // connect to the redux store
 
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     otpConfig: state.otp.config
   };
 };
 
-var mapDispatchToProps = {};
+const mapDispatchToProps = {};
 
 var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DesktopNav);
 

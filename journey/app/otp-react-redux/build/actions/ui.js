@@ -11,25 +11,7 @@ exports.setViewedStop = setViewedStop;
 exports.setViewedRoute = setViewedRoute;
 exports.MobileScreens = exports.MainPanelContent = exports.toggleAutoRefresh = exports.setViewedTrip = exports.clearPanel = exports.setMobileScreen = void 0;
 
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.regexp.split");
-
-require("core-js/modules/es6.regexp.search");
+require("core-js/modules/web.dom.iterable.js");
 
 var _connectedReactRouter = require("connected-react-router");
 
@@ -53,18 +35,6 @@ var _state = require("../util/state");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 /**
  * Wrapper function for history#push (or, if specified, replace, etc.)
  * that preserves the current search or, if
@@ -74,20 +44,19 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
  * @param  {string} replaceSearch optional search string to replace current one
  * @param  {func}   routingMethod the connected-react-router method to execute (defaults to push).
  */
-function routeTo(url, replaceSearch) {
-  var routingMethod = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _connectedReactRouter.push;
+function routeTo(url, replaceSearch, routingMethod = _connectedReactRouter.push) {
   return function (dispatch, getState) {
     // Get search to preserve when routing to new path.
-    var _getState = getState(),
-        router = _getState.router;
-
-    var search = router ? router.location.search : window.location.search;
-    var path = url;
+    const {
+      router
+    } = getState();
+    const search = router ? router.location.search : window.location.search;
+    let path = url;
 
     if (replaceSearch || replaceSearch === '') {
-      path = "".concat(path).concat(replaceSearch);
+      path = `${path}${replaceSearch}`;
     } else {
-      path = "".concat(path).concat(search);
+      path = `${path}${search}`;
     }
 
     dispatch(routingMethod(path));
@@ -104,13 +73,13 @@ function matchContentToUrl(location) {
     // This is a bit of a hack to make up for the fact that react-router does
     // not always provide the match params as expected.
     // https://github.com/ReactTraining/react-router/issues/5870#issuecomment-394194338
-    var root = location.pathname.split('/')[1];
-    var match = (0, _reactRouter.matchPath)(location.pathname, {
-      path: "/".concat(root, "/:id"),
+    const root = location.pathname.split('/')[1];
+    const match = (0, _reactRouter.matchPath)(location.pathname, {
+      path: `/${root}/:id`,
       exact: true,
       strict: false
     });
-    var id = match && match.params && match.params.id;
+    const id = match && match.params && match.params.id;
 
     switch (root) {
       case 'route':
@@ -143,34 +112,22 @@ function matchContentToUrl(location) {
       case 'start':
       case '@':
         // Parse comma separated params (ensuring numbers are parsed correctly).
-        var _ref = id ? idToParams(id) : [],
-            _ref2 = _slicedToArray(_ref, 4),
-            lat = _ref2[0],
-            lon = _ref2[1],
-            zoom = _ref2[2],
-            routerId = _ref2[3];
+        let [lat, lon, zoom, routerId] = id ? idToParams(id) : [];
 
         if (!lat || !lon) {
           // Attempt to parse path if lat/lon not found. (Legacy UI otp.js used
           // slashes in the pathname to specify lat, lon, etc.)
-          var _idToParams = idToParams(location.pathname, '/');
-
-          var _idToParams2 = _slicedToArray(_idToParams, 6);
-
-          lat = _idToParams2[2];
-          lon = _idToParams2[3];
-          zoom = _idToParams2[4];
-          routerId = _idToParams2[5];
+          [,, lat, lon, zoom, routerId] = idToParams(location.pathname, '/');
         }
 
         console.log(lat, lon, zoom, routerId); // Update map location/zoom and optionally override router ID.
 
         if (+lat && +lon) dispatch((0, _config.setMapCenter)({
-          lat: lat,
-          lon: lon
+          lat,
+          lon
         }));
         if (+zoom) dispatch((0, _config.setMapZoom)({
-          zoom: zoom
+          zoom
         })); // If router ID is provided, override the default routerId.
 
         if (routerId) dispatch((0, _config.setRouterId)(routerId));
@@ -190,11 +147,8 @@ function matchContentToUrl(location) {
  */
 
 
-function idToParams(id) {
-  var delimiter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ',';
-  return id.split(delimiter).map(function (s) {
-    return isNaN(s) ? s : +s;
-  });
+function idToParams(id, delimiter = ',') {
+  return id.split(delimiter).map(s => isNaN(s) ? s : +s);
 }
 /**
  * Event listener for responsive webapp that handles a back button press and
@@ -204,16 +158,18 @@ function idToParams(id) {
 
 function handleBackButtonPress(e) {
   return function (dispatch, getState) {
-    var otpState = getState().otp;
-    var activeSearchId = otpState.activeSearchId;
-    var uiUrlParams = (0, _state.getUiUrlParams)(otpState); // Get new search ID from URL after back button pressed.
+    const otpState = getState().otp;
+    const {
+      activeSearchId
+    } = otpState;
+    const uiUrlParams = (0, _state.getUiUrlParams)(otpState); // Get new search ID from URL after back button pressed.
     // console.log('back button pressed', e)
 
-    var urlParams = _coreUtils.default.query.getUrlParams();
+    const urlParams = _coreUtils.default.query.getUrlParams();
 
-    var previousSearchId = urlParams.ui_activeSearch;
-    var previousItinIndex = +urlParams.ui_activeItinerary || 0;
-    var previousSearch = otpState.searches[previousSearchId];
+    const previousSearchId = urlParams.ui_activeSearch;
+    const previousItinIndex = +urlParams.ui_activeItinerary || 0;
+    const previousSearch = otpState.searches[previousSearchId];
 
     if (previousSearch) {
       // If back button pressed and active search has changed, set search to
@@ -239,7 +195,7 @@ function handleBackButtonPress(e) {
           type: 'to'
         }));
       } else if (previousSearchId) {
-        console.warn("No search found in state history for search ID: ".concat(previousSearchId, ". Replanning...")); // Set query to the params found in the URL and perform routing query
+        console.warn(`No search found in state history for search ID: ${previousSearchId}. Replanning...`); // Set query to the params found in the URL and perform routing query
         // for search ID.
         // Also, we don't want to update the URL here because that will funk with
         // the browser history.
@@ -250,7 +206,7 @@ function handleBackButtonPress(e) {
   };
 }
 
-var setMobileScreen = (0, _reduxActions.createAction)('SET_MOBILE_SCREEN');
+const setMobileScreen = (0, _reduxActions.createAction)('SET_MOBILE_SCREEN');
 /**
  * Sets the main panel content according to the payload (one of the enum values
  * of MainPanelContent) and routes the application to the correct path.
@@ -261,12 +217,13 @@ exports.setMobileScreen = setMobileScreen;
 
 function setMainPanelContent(payload) {
   return function (dispatch, getState) {
-    var _getState2 = getState(),
-        otp = _getState2.otp,
-        router = _getState2.router;
+    const {
+      otp,
+      router
+    } = getState();
 
     if (otp.ui.mainPanelContent === payload) {
-      console.warn("Attempt to route from ".concat(otp.ui.mainPanelContent, " to ").concat(payload, ". Doing nothing")); // Do nothing if the panel is already set. This will guard against over
+      console.warn(`Attempt to route from ${otp.ui.mainPanelContent} to ${payload}. Doing nothing`); // Do nothing if the panel is already set. This will guard against over
       // enthusiastic routing and overwriting current/nested states.
 
       return;
@@ -294,41 +251,41 @@ function setMainPanelContent(payload) {
   };
 }
 
-var setPanel = (0, _reduxActions.createAction)('SET_MAIN_PANEL_CONTENT');
-var clearPanel = (0, _reduxActions.createAction)('CLEAR_MAIN_PANEL'); // Stop/Route/Trip Viewer actions
+const setPanel = (0, _reduxActions.createAction)('SET_MAIN_PANEL_CONTENT');
+const clearPanel = (0, _reduxActions.createAction)('CLEAR_MAIN_PANEL'); // Stop/Route/Trip Viewer actions
 
 exports.clearPanel = clearPanel;
 
 function setViewedStop(payload) {
   return function (dispatch, getState) {
     dispatch(viewStop(payload));
-    var path = payload && payload.stopId ? "/stop/".concat(payload.stopId) : '/stop';
+    const path = payload && payload.stopId ? `/stop/${payload.stopId}` : '/stop';
     dispatch(routeTo(path));
   };
 }
 
-var viewStop = (0, _reduxActions.createAction)('SET_VIEWED_STOP');
-var setViewedTrip = (0, _reduxActions.createAction)('SET_VIEWED_TRIP');
+const viewStop = (0, _reduxActions.createAction)('SET_VIEWED_STOP');
+const setViewedTrip = (0, _reduxActions.createAction)('SET_VIEWED_TRIP');
 exports.setViewedTrip = setViewedTrip;
 
 function setViewedRoute(payload) {
   return function (dispatch, getState) {
     dispatch(viewRoute(payload));
-    var path = payload && payload.routeId ? "/route/".concat(payload.routeId) : '/route';
+    const path = payload && payload.routeId ? `/route/${payload.routeId}` : '/route';
     dispatch(routeTo(path));
   };
 }
 
-var viewRoute = (0, _reduxActions.createAction)('SET_VIEWED_ROUTE');
-var toggleAutoRefresh = (0, _reduxActions.createAction)('TOGGLE_AUTO_REFRESH'); // UI state enums
+const viewRoute = (0, _reduxActions.createAction)('SET_VIEWED_ROUTE');
+const toggleAutoRefresh = (0, _reduxActions.createAction)('TOGGLE_AUTO_REFRESH'); // UI state enums
 
 exports.toggleAutoRefresh = toggleAutoRefresh;
-var MainPanelContent = {
+const MainPanelContent = {
   ROUTE_VIEWER: 1,
   STOP_VIEWER: 2
 };
 exports.MainPanelContent = MainPanelContent;
-var MobileScreens = {
+const MobileScreens = {
   WELCOME_SCREEN: 1,
   SET_INITIAL_LOCATION: 2,
   SEARCH_FORM: 3,

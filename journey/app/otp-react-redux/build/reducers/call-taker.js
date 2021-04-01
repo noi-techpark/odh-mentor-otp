@@ -5,20 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.find-index");
-
 var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
 
 var _immutabilityHelper = _interopRequireDefault(require("immutability-helper"));
@@ -29,18 +15,14 @@ var _state = require("../util/state");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var randId = _coreUtils.default.storage.randId;
-var UPPER_RIGHT_CORNER = {
+const {
+  randId
+} = _coreUtils.default.storage;
+const UPPER_RIGHT_CORNER = {
   x: 604,
   y: 53
 };
-var FETCH_STATUS = {
+const FETCH_STATUS = {
   UNFETCHED: 0,
   FETCHING: 1,
   FETCHED: 2,
@@ -48,7 +30,7 @@ var FETCH_STATUS = {
 };
 
 function createCallTakerReducer() {
-  var initialState = {
+  const initialState = {
     activeCall: null,
     callHistory: {
       position: UPPER_RIGHT_CORNER,
@@ -61,14 +43,11 @@ function createCallTakerReducer() {
     fieldTrips: [],
     session: null
   };
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-    var action = arguments.length > 1 ? arguments[1] : undefined;
-
+  return (state = initialState, action) => {
     switch (action.type) {
       case 'BEGIN_CALL':
         {
-          var newCall = {
+          const newCall = {
             startTime: (0, _state.getTimestamp)(),
             id: randId(),
             searches: []
@@ -101,12 +80,10 @@ function createCallTakerReducer() {
 
       case 'RECEIVED_CALLS':
         {
-          var data = action.payload.calls;
-          var calls = {
+          const data = action.payload.calls;
+          const calls = {
             status: FETCH_STATUS.FETCHED,
-            data: data.sort(function (a, b) {
-              return (0, _moment.default)(b.endTime) - (0, _moment.default)(a.endTime);
-            })
+            data: data.sort((a, b) => (0, _moment.default)(b.endTime) - (0, _moment.default)(a.endTime))
           };
           return (0, _immutabilityHelper.default)(state, {
             callHistory: {
@@ -119,25 +96,25 @@ function createCallTakerReducer() {
 
       case 'RECEIVED_QUERIES':
         {
-          var _action$payload = action.payload,
-              callId = _action$payload.callId,
-              queries = _action$payload.queries;
-          var _data = state.callHistory.calls.data;
-
-          var index = _data.findIndex(function (call) {
-            return call.id === callId;
-          });
-
-          var call = _objectSpread(_objectSpread({}, _data[index]), {}, {
-            queries: queries
-          });
-
+          const {
+            callId,
+            queries
+          } = action.payload;
+          const {
+            data
+          } = state.callHistory.calls;
+          const index = data.findIndex(call => call.id === callId);
+          const call = { ...data[index],
+            queries
+          };
           return (0, _immutabilityHelper.default)(state, {
             callHistory: {
               calls: {
-                data: _defineProperty({}, index, {
-                  $set: call
-                })
+                data: {
+                  [index]: {
+                    $set: call
+                  }
+                }
               }
             }
           });
@@ -164,12 +141,14 @@ function createCallTakerReducer() {
 
       case 'STORE_SESSION':
         {
-          var session = action.payload.session;
+          const {
+            session
+          } = action.payload;
 
           if (!session || !session.username) {
-            var sessionId = session ? session.sessionId : 'N/A'; // Session is invalid if username is missing.
+            const sessionId = session ? session.sessionId : 'N/A'; // Session is invalid if username is missing.
 
-            window.alert("Session ID ".concat(sessionId, " is invalid!")); // TODO: Should we return to URL_ROOT at this point?
+            window.alert(`Session ID ${sessionId} is invalid!`); // TODO: Should we return to URL_ROOT at this point?
 
             return (0, _immutabilityHelper.default)(state, {
               session: {

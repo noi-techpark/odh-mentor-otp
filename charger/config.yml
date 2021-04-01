@@ -1,0 +1,15 @@
+server:
+  port: 8093
+  polling_interval: 10
+
+endpoints:
+  default:
+    hostname: mobility.api.opendatahub.bz.it
+    port: 443
+    #path: /v2
+    #headers:
+    # User-Agent: OpenMove-Charger-Client
+  stations:
+    path: /v2/flat%2Cnode/EChargingStation/*/latest?distinct=true&limit=-1&where=scoordinate.bbc.(10,46,12.8,47.2)
+  plugs:
+    path: /v2/flat%2Cnode/EChargingPlug/*/latest?distinct=true&limit=-1&where=scoordinate.bbc.(10,46,12.8,47.2)

@@ -14,15 +14,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * This component handles editing of an existing trip.
  */
-var SavedTripEditor = function SavedTripEditor(_ref) {
-  var isCreating = _ref.isCreating,
-      monitoredTrip = _ref.monitoredTrip,
-      onCancel = _ref.onCancel,
-      onComplete = _ref.onComplete,
-      panes = _ref.panes;
-
+const SavedTripEditor = ({
+  isCreating,
+  monitoredTrip,
+  onCancel,
+  onComplete,
+  panes
+}) => {
   if (monitoredTrip) {
-    var paneSequence = [{
+    const paneSequence = [{
       pane: panes.basics,
       title: 'Trip information'
     }, {

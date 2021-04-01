@@ -19,25 +19,25 @@ function setActiveItinerary(payload) {
     // Trigger change in store.
     dispatch(settingActiveitinerary(payload)); // Update URL params.
 
-    var urlParams = _coreUtils.default.query.getUrlParams();
+    const urlParams = _coreUtils.default.query.getUrlParams();
 
     urlParams.ui_activeItinerary = payload.index;
     dispatch((0, _api.setUrlSearch)(urlParams));
   };
 }
 
-var settingActiveitinerary = (0, _reduxActions.createAction)('SET_ACTIVE_ITINERARY');
-var setActiveLeg = (0, _reduxActions.createAction)('SET_ACTIVE_LEG');
+const settingActiveitinerary = (0, _reduxActions.createAction)('SET_ACTIVE_ITINERARY');
+const setActiveLeg = (0, _reduxActions.createAction)('SET_ACTIVE_LEG');
 exports.setActiveLeg = setActiveLeg;
-var setActiveStep = (0, _reduxActions.createAction)('SET_ACTIVE_STEP');
+const setActiveStep = (0, _reduxActions.createAction)('SET_ACTIVE_STEP');
 exports.setActiveStep = setActiveStep;
-var setUseRealtimeResponse = (0, _reduxActions.createAction)('SET_USE_REALTIME_RESPONSE'); // Set itinerary visible on map. This is used for mouse over effects with
+const setUseRealtimeResponse = (0, _reduxActions.createAction)('SET_USE_REALTIME_RESPONSE'); // Set itinerary visible on map. This is used for mouse over effects with
 // itineraries in the list.
 
 exports.setUseRealtimeResponse = setUseRealtimeResponse;
-var setVisibleItinerary = (0, _reduxActions.createAction)('SET_VISIBLE_ITINERARY');
+const setVisibleItinerary = (0, _reduxActions.createAction)('SET_VISIBLE_ITINERARY');
 exports.setVisibleItinerary = setVisibleItinerary;
-var updateItineraryFilter = (0, _reduxActions.createAction)('UPDATE_ITINERARY_FILTER');
+const updateItineraryFilter = (0, _reduxActions.createAction)('UPDATE_ITINERARY_FILTER');
 exports.updateItineraryFilter = updateItineraryFilter;
 
 //# sourceMappingURL=narrative.js

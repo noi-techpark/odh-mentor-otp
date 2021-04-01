@@ -18,31 +18,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * This component wraps NavLoginButton with Auth0 information.
  */
-var NavLoginButtonAuth0 = function NavLoginButtonAuth0(_ref) {
-  var className = _ref.className,
-      id = _ref.id,
-      links = _ref.links,
-      style = _ref.style;
-
-  var _useAuth = (0, _useAuth0Hooks.useAuth)(),
-      isAuthenticated = _useAuth.isAuthenticated,
-      login = _useAuth.login,
-      logout = _useAuth.logout,
-      user = _useAuth.user; // On login, preserve the current trip query if any.
+const NavLoginButtonAuth0 = ({
+  className,
+  id,
+  links,
+  style
+}) => {
+  const {
+    isAuthenticated,
+    login,
+    logout,
+    user
+  } = (0, _useAuth0Hooks.useAuth)(); // On login, preserve the current trip query if any.
   // TODO: check that URLs are whitelisted. All trip query URLs in /#/ are.
 
+  const afterLoginPath = '/#/signedin';
 
-  var afterLoginPath = '/#/signedin';
+  const handleLogin = () => login({
+    redirect_uri: `${_constants.URL_ROOT}${afterLoginPath}`,
+    appState: {
+      urlHash: window.location.hash
+    } // The part of href from #/?, e.g. #/?ui_activeSearch=...
 
-  var handleLogin = function handleLogin() {
-    return login({
-      redirect_uri: "".concat(_constants.URL_ROOT).concat(afterLoginPath),
-      appState: {
-        urlHash: window.location.hash
-      } // The part of href from #/?, e.g. #/?ui_activeSearch=...
-
-    });
-  }; // On logout, it is better to "clear" the screen, so
+  }); // On logout, it is better to "clear" the screen, so
   // return to redirectUri set in <Auth0Provider> (no specific event handler).
 
 

@@ -93,6 +93,8 @@ in addition to those of *otp* vars
 
 ```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
 
+```CARSHARING_HOST``` host path to Carsharing service
+
 **geocoder**
 
 ```API_HOST``` deployed hostname of OpenTripPlanner api default: ```localhost``` (name of deployed)

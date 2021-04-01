@@ -27,6 +27,13 @@
 			"sourceType": "gbfs",
 			"network": "PAPIN",
 			"url": "${GBFS_HOST}/papin/${GBFS_VERSION}/"
+		},
+		{
+		    "type": "car-rental-updater",
+		    "sourceType": "car2go",
+		    "frequencySec": 10,
+		    "vehiclesUrl": "${CARSHARING_HOST}/carsharing/vehicles.json",
+		    "regionsUrl": "${CARSHARING_HOST}/carsharing/regions.json"
 		}
 	]
 }

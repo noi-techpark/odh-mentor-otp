@@ -34,16 +34,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *   }
  */
 // Private actions
-var clearingLocation = (0, _reduxActions.createAction)('CLEAR_LOCATION');
-var settingLocation = (0, _reduxActions.createAction)('SET_LOCATION'); // Public actions
+const clearingLocation = (0, _reduxActions.createAction)('CLEAR_LOCATION');
+const settingLocation = (0, _reduxActions.createAction)('SET_LOCATION'); // Public actions
 
-var forgetPlace = (0, _reduxActions.createAction)('FORGET_PLACE');
+const forgetPlace = (0, _reduxActions.createAction)('FORGET_PLACE');
 exports.forgetPlace = forgetPlace;
-var rememberPlace = (0, _reduxActions.createAction)('REMEMBER_PLACE');
+const rememberPlace = (0, _reduxActions.createAction)('REMEMBER_PLACE');
 exports.rememberPlace = rememberPlace;
-var forgetStop = (0, _reduxActions.createAction)('FORGET_STOP');
+const forgetStop = (0, _reduxActions.createAction)('FORGET_STOP');
 exports.forgetStop = forgetStop;
-var rememberStop = (0, _reduxActions.createAction)('REMEMBER_STOP');
+const rememberStop = (0, _reduxActions.createAction)('REMEMBER_STOP');
 exports.rememberStop = rememberStop;
 
 function clearLocation(payload) {
@@ -60,19 +60,20 @@ function clearLocation(payload) {
  */
 
 
-function onLocationSelected(_ref) {
-  var locationType = _ref.locationType,
-      location = _ref.location,
-      resultType = _ref.resultType;
+function onLocationSelected({
+  locationType,
+  location,
+  resultType
+}) {
   return function (dispatch, getState) {
     if (resultType === 'CURRENT_LOCATION') {
       dispatch(setLocationToCurrent({
-        locationType: locationType
+        locationType
       }));
     } else {
       dispatch(setLocation({
-        location: location,
-        locationType: locationType
+        location,
+        locationType
       }));
     }
   };
@@ -80,17 +81,17 @@ function onLocationSelected(_ref) {
 
 function setLocation(payload) {
   return function (dispatch, getState) {
-    var otpState = getState().otp; // reverse geocode point location if requested
+    const otpState = getState().otp; // reverse geocode point location if requested
 
     if (payload.reverseGeocode) {
       (0, _geocoder.default)(otpState.config.geocoder).reverse({
         point: payload.location
-      }).then(function (location) {
+      }).then(location => {
         dispatch(settingLocation({
           locationType: payload.locationType,
-          location: location
+          location
         }));
-      }).catch(function (err) {
+      }).catch(err => {
         dispatch(settingLocation({
           locationType: payload.locationType,
           location: payload.location
@@ -108,7 +109,7 @@ function setLocation(payload) {
 
 function setLocationToCurrent(payload) {
   return function (dispatch, getState) {
-    var currentPosition = getState().otp.location.currentPosition;
+    const currentPosition = getState().otp.location.currentPosition;
     if (currentPosition.error || !currentPosition.coords) return;
     payload.location = {
       lat: currentPosition.coords.latitude,
@@ -122,9 +123,10 @@ function setLocationToCurrent(payload) {
 
 function switchLocations() {
   return function (dispatch, getState) {
-    var _getState$otp$current = getState().otp.currentQuery,
-        from = _getState$otp$current.from,
-        to = _getState$otp$current.to; // First, reverse the locations.
+    const {
+      from,
+      to
+    } = getState().otp.currentQuery; // First, reverse the locations.
 
     dispatch(settingLocation({
       locationType: 'from',
@@ -139,27 +141,27 @@ function switchLocations() {
   };
 }
 
-var setLegDiagram = (0, _reduxActions.createAction)('SET_LEG_DIAGRAM');
+const setLegDiagram = (0, _reduxActions.createAction)('SET_LEG_DIAGRAM');
 exports.setLegDiagram = setLegDiagram;
-var setElevationPoint = (0, _reduxActions.createAction)('SET_ELEVATION_POINT');
+const setElevationPoint = (0, _reduxActions.createAction)('SET_ELEVATION_POINT');
 exports.setElevationPoint = setElevationPoint;
-var setMapPopupLocation = (0, _reduxActions.createAction)('SET_MAP_POPUP_LOCATION');
+const setMapPopupLocation = (0, _reduxActions.createAction)('SET_MAP_POPUP_LOCATION');
 exports.setMapPopupLocation = setMapPopupLocation;
 
 function setMapPopupLocationAndGeocode(mapEvent) {
-  var location = _coreUtils.default.map.constructLocation(mapEvent.latlng);
+  const location = _coreUtils.default.map.constructLocation(mapEvent.latlng);
 
   return function (dispatch, getState) {
     dispatch(setMapPopupLocation({
-      location: location
+      location
     }));
     (0, _geocoder.default)(getState().otp.config.geocoder).reverse({
       point: location
-    }).then(function (location) {
+    }).then(location => {
       dispatch(setMapPopupLocation({
-        location: location
+        location
       }));
-    }).catch(function (err) {
+    }).catch(err => {
       console.warn(err);
     });
   };

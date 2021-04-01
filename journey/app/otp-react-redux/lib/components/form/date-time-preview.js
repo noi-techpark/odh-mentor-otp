@@ -43,7 +43,7 @@ class DateTimePreview extends Component {
     } = this.props
 
     let timeStr
-    moment.locale(getUserLang);
+    moment.locale(getUserLang() || "it");
     var separator = getUserLang() === "it" ? "a" : "um";
     const formattedTime = moment.utc(time, OTP_API_TIME_FORMAT).format(timeFormat)
     if (routingType === 'ITINERARY') {
