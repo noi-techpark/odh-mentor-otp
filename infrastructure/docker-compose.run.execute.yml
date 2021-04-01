@@ -52,7 +52,7 @@ services:
     ports:
       - ${DOCKER_CARSHARING_PORT}:8091
   parking:
-    image: ${DOCKER_IMAGE_GEOCODER}:${DOCKER_TAG}
+    image: ${DOCKER_IMAGE_PARKING}:${DOCKER_TAG}
     restart: unless-stopped
     ports:
       - ${DOCKER_PARKING_PORT}:8092
