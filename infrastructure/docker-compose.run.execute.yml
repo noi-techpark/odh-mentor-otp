@@ -23,6 +23,7 @@ services:
       BACKUP_GRAPH: ${BACKUP_GRAPH}
       GBFS_HOST: ${GBFS_HOST}
       GBFS_VERSION: ${GBFS_VERSION}
+      CARSHARING_HOST: ${CARSHARING_HOST}
       UPDATERS: "True"
       OFFICIAL: ${OFFICIAL}
     volumes:
