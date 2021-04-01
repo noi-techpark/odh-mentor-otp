@@ -27,3 +27,13 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/geocoder/Dockerfile
+  carsharing:
+    image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/carsharing/Dockerfile
+  parking:
+    image: ${DOCKER_IMAGE_PARKING}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/parking/Dockerfile
