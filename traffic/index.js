@@ -13,7 +13,7 @@ var app = express();
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
-    sensorsReceived;
+    linkStationsReceived;
 
 console.log("Start Traffic OpenData Hub...")
 
@@ -26,15 +26,18 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 
 function getData(){
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
-    getStations();
-    getSensors();
+    
+    //TODO pass filter by bounding box
+    getLinkStations();
+
+    getStations();    
 }
 getData();
 setInterval(getData, config.server.polling_interval * 60 * 1000);
 
-function getStations(){
-    const req = https.request(config.endpoints.stations, res => {
-            //console.log(`STATIONS: statusCode: ${res.statusCode}`)
+function getLinkStations(){
+    const req = https.request(config.endpoints.geometries, res => {
+            //console.log(`TRAFFIC: statusCode: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
@@ -42,8 +45,8 @@ function getStations(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
+                var geometries = tmp.data;
+                linkStationsReceived = geometries;
             });
         })
 
@@ -53,10 +56,9 @@ function getStations(){
 
     req.end()
 }
-
-function getSensors(){
-    const req = https.request(config.endpoints.sensors, res => {
-            //console.log(`TRAFFIC: statusCode: ${res.statusCode}`)
+function getStations(){
+    const req = https.request(config.endpoints.stations, res => {
+            console.log(`STATIONS: statusCode: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
@@ -64,8 +66,8 @@ function getSensors(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var sensors = tmp.data;
-                sensorsReceived = sensors;
+                var stations = tmp.data;
+                stationsReceived = stations;
             });
         })
 
@@ -105,20 +107,20 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
     });
 });
 
-app.get('/traffic/sensors.json', cors(corsOptions), function (req, res) {
-    var trafficSensors = [];
-    if(sensorsReceived){
-        for(var i = 0; i < sensorsReceived.length; i++){
-            var sensor = sensorsReceived[i];
-            if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
-                trafficSensors.push({
-                    sensor_id: sensor.scode,
-                    name: sensor.sname,
-                    lat: sensor.scoordinate.y,
-                    lon: sensor.scoordinate.x,
-                    address: sensor.smetadata.group,
-                    city: sensor.smetadata.municipality,
-                    free: sensor.mvalue === 1 ? false : true
+app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) {
+    var linkStations = [];
+    if(linkStationsReceived) {
+        for(var i = 0; i < linkStationsReceived.length; i++){
+            var link = linkStationsReceived[i];
+            if(link.sactive && link.scoordinate && link.smetadata){
+                linkStations.push({
+                    link_id: link.scode,
+                    name: link.sname,
+                    lat: link.scoordinate.y,
+                    lon: link.scoordinate.x,
+                    address: link.smetadata.group,
+                    city: link.smetadata.municipality,
+                    free: link.mvalue === 1 ? false : true
                 })
             }
         }
@@ -128,7 +130,7 @@ app.get('/traffic/sensors.json', cors(corsOptions), function (req, res) {
         ttl: 0,
         version: "1.0",
         data: {
-            sensors: trafficSensors
+            sensors: linkStations
        }
     });
 });
