@@ -1,6 +1,6 @@
 server:
   port: 8094
-  polling_interval: 10
+  polling_interval: 20
 
 endpoints:
   default:

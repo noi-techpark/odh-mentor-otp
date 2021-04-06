@@ -12,8 +12,8 @@ var corsOptions = {
 var app = express();
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
-    stationsReceived,
-    linkStationsReceived;
+    linkStationsReceived,
+    stationsReceived;
 
 console.log("Start Traffic OpenData Hub...")
 
@@ -24,20 +24,18 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
     return;
 }
 
-function getData(){
+function getData() {
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
-    
     //TODO pass filter by bounding box
-    getLinkStations();
-
-    getStations();    
+    getLinkGeometries();
+    getStations();
 }
 getData();
 setInterval(getData, config.server.polling_interval * 60 * 1000);
 
-function getLinkStations(){
+function getLinkGeometries() {
     const req = https.request(config.endpoints.geometries, res => {
-            //console.log(`TRAFFIC: statusCode: ${res.statusCode}`)
+            console.log(`TRAFFIC geometries: statusCode: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
@@ -45,8 +43,7 @@ function getLinkStations(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var geometries = tmp.data;
-                linkStationsReceived = geometries;
+                linkStationsReceived = tmp.data;
             });
         })
 
@@ -56,9 +53,10 @@ function getLinkStations(){
 
     req.end()
 }
-function getStations(){
+
+function getStations() {
     const req = https.request(config.endpoints.stations, res => {
-            console.log(`STATIONS: statusCode: ${res.statusCode}`)
+            console.log(`TRAFFIC stations: statusCode: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
@@ -66,8 +64,12 @@ function getStations(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
+                let stations = tmp["data"]["LinkStation"]["stations"];
+                Object.keys(stations).map(key => {
+                    stationsReceived.push({
+                        id, value: obj[key]
+                    })
+                });
             });
         })
 
@@ -87,13 +89,8 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
                 trafficStations.push({
                     station_id: station.scode,
                     name: station.sname,
-                    lat: station.scoordinate.y,
-                    lon: station.scoordinate.x,
-                    address: station.smetadata.mainaddress,
-                    city: station.smetadata.municipality,
-                    capacity: station.smetadata.capacity || 0,
-                    free: station.mvalue || 0
-                })
+                   
+                });
             }
         }
     }
@@ -103,8 +100,8 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
         version: "1.0",
         data: {
             stations: trafficStations
-       }
-    });
+        }
+    }); 
 });
 
 app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) {
@@ -114,24 +111,19 @@ app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) 
             var link = linkStationsReceived[i];
             if(link.sactive && link.scoordinate && link.smetadata){
                 linkStations.push({
-                    link_id: link.scode,
-                    name: link.sname,
-                    lat: link.scoordinate.y,
-                    lon: link.scoordinate.x,
-                    address: link.smetadata.group,
-                    city: link.smetadata.municipality,
-                    free: link.mvalue === 1 ? false : true
-                })
+                    type: "Feature",
+                    id: link.ecode,     //identify station
+                    geometry: link.egeometry
+                });
             }
         }
     }
     res.json({
-        last_updated: lastUpdate,
-        ttl: 0,
         version: "1.0",
-        data: {
-            sensors: linkStations
-       }
+        ttl: 0,        
+        last_updated: lastUpdate,    
+        "type": "FeatureCollection",
+        "features": linkStations      
     });
 });
 
