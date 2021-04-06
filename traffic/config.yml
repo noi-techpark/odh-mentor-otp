@@ -8,12 +8,10 @@ endpoints:
     port: 443
     #headers:
     # User-Agent: OpenMove-Traffic-Client
-    # 
-  #
-  #TODO geometries
-  #
+    #
+  geometries:
+    path: /v2/flat,edge/LinkStation/?limit=-1&distinct=true&select=egeometry,ecode,etype&where=eactive.eq.true
+
   stations:
-  #TODO   named LinkStation
-  #TODO  path: /v2/flat%2Cnode/TrafficStation/*/latest?distinct=true&limit=-1
-  sensors:
-    path: /v2/flat/TrafficSensor/*/?distinct=true&limit=-1
+    path: /v2/tree/LinkStation/*/latest?limit=-1&distinct=true&select=tmeasurements&where=sactive.eq.true,or(and(tname.eq.%22Bluetooth%20Elapsed%20time%20%5C(test%5C)%22))
+
