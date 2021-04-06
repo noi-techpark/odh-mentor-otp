@@ -4,6 +4,8 @@ const fs = require('fs');
 const _ = require('lodash');
 const yaml = require('js-yaml');
 
+const dotenv = require('dotenv');
+
 const CONFIGFILE = path.join(__dirname, 'config.yml');
 const ENV = process.env;
 
