@@ -65,10 +65,11 @@ function getStations() {
             res.on('end', function () {
                 let tmp = JSON.parse(str);
                 let stations = tmp["data"]["LinkStation"]["stations"];
-                Object.keys(stations).map(key => {
-                    stationsReceived.push({
-                        id, value: obj[key]
-                    })
+                stationsReceived = Object.keys(stations).map(key => {
+                    return {
+                        id: key,
+                        val: stations[key]["sdatatypes"]["Bluetooth Elapsed time (test)"]
+                    }
                 });
             });
         })
@@ -84,12 +85,13 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
     var trafficStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
-            var station = stationsReceived[i];
-            if(station.sactive && station.scoordinate && station.smetadata){
+            var station = stationsReceived[i].val;
+            if(station["tmeasurements"]){
                 trafficStations.push({
-                    station_id: station.scode,
-                    name: station.sname,
-                   
+                    station_id: stationsReceived[i]['id'],
+                    station_value: station['tmeasurements']
+
+                    //TODO filter mvalue properties
                 });
             }
         }
