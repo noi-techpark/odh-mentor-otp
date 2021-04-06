@@ -111,7 +111,8 @@ app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) 
     if(linkStationsReceived) {
         for(var i = 0; i < linkStationsReceived.length; i++){
             var link = linkStationsReceived[i];
-            if(link.sactive && link.scoordinate && link.smetadata){
+            console.log('LINK',link)
+            if(link.ecode && link.egeometry){
                 linkStations.push({
                     type: "Feature",
                     id: link.ecode,     //identify station
