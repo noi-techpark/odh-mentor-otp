@@ -7,6 +7,8 @@ pipeline {
         DOCKER_IMAGE_JOURNEY = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-journey'
         DOCKER_IMAGE_GBFS = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-gbfs'
         DOCKER_IMAGE_GEOCODER = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-geocoder'
+        DOCKER_IMAGE_CARSHARING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-carsharing'
+        DOCKER_IMAGE_PARKING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-parking'
         DOCKER_TAG = "test-$BUILD_NUMBER"
 
         SERVER_PORT_OTP = "1014"
@@ -14,6 +16,8 @@ pipeline {
         GBFS_HOST ="https://gbfs.otp.opendatahub.testingmachine.eu/"
         DOCKER_GBFS_PORT = "1016"
         DOCKER_GEOCODER_PORT = "1017"
+        DOCKER_CARSHARING_PORT= "1018"
+        DOCKER_PARKING_PORT= "1019"
 
         JAVA_MX = "2G"
         BUILD_GRAPH = "False"
@@ -29,6 +33,7 @@ pipeline {
         GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
         OFFICIAL = "False"
         GBFS_VERSION=1
+        CARSHARING_HOST="https://carsharing.otp.opendatahub.testingmachine.eu/"
     }
 
     stages {
@@ -42,6 +47,8 @@ pipeline {
                     echo 'DOCKER_IMAGE_JOURNEY=${DOCKER_IMAGE_JOURNEY}' >> .env
                     echo 'DOCKER_IMAGE_GBFS=${DOCKER_IMAGE_GBFS}' >> .env
                     echo 'DOCKER_IMAGE_GEOCODER=${DOCKER_IMAGE_GEOCODER}' >> .env
+                    echo 'DOCKER_IMAGE_CARSHARING=${DOCKER_IMAGE_CARSHARING}' >> .env
+                    echo 'DOCKER_IMAGE_PARKING=${DOCKER_IMAGE_PARKING}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
 
                     echo 'SERVER_PORT_OTP=${SERVER_PORT_OTP}' >> .env
@@ -52,6 +59,10 @@ pipeline {
                     echo 'DOWNLOAD_DATA=${DOWNLOAD_DATA}' >> .env
                     echo 'BACKUP_GRAPH=${BACKUP_GRAPH}' >> .env
 
+                    echo 'API_HOST=${API_HOST}' >> .env
+                    echo 'API_HOST=${API_PORT}' >> .env
+                    echo 'API_HOST=${API_PATH}' >> .env
+
                     echo 'OTP_RR_BRANCH=${OTP_RR_BRANCH}' >> .env
                     echo 'OTP_UI_BRANCH=${OTP_UI_BRANCH}' >> .env
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
@@ -60,6 +71,9 @@ pipeline {
                     echo 'DOCKER_GEOCODER_PORT=${DOCKER_GEOCODER_PORT}' >> .env
                     echo 'OFFICIAL=${OFFICIAL}' >> .env
                     echo 'GBFS_VERSION=${GBFS_VERSION}' >> .env
+                    echo 'CARSHARING_HOST=${CARSHARING_HOST}' >> .env
+                    echo 'DOCKER_CARSHARING_PORT=${DOCKER_CARSHARING_PORT}' >> .env
+                    echo 'DOCKER_PARKING_PORT=${DOCKER_PARKING_PORT}' >> .env
                 """
             }
         }
