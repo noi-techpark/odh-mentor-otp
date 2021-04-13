@@ -56,6 +56,8 @@ import createUserReducer from './reducers/create-user-reducer'
 
 import otpUtils from './util'
 
+alert('test')
+
 export {
   // form components
   CallTakerControls,
