@@ -1,4 +1,4 @@
-import EndpointsOverlay from '@opentripplanner/endpoints-overlay'
+import EndpointsOverlay from '../../otp-ui/endpoints-overlay/src'
 import { connect } from 'react-redux'
 
 import {

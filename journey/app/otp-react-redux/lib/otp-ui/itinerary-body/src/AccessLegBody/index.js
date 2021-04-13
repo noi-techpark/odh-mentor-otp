@@ -1,9 +1,9 @@
-import { formatDuration } from "@opentripplanner/core-utils/lib/time";
+import { formatDuration } from "../../../core-utils/src/time";
 import {
   configType,
   legType,
   timeOptionsType
-} from "@opentripplanner/core-utils/lib/types";
+} from "../../../core-utils/src/types";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { VelocityTransitionGroup } from "velocity-react";

@@ -2,9 +2,9 @@
 
 require("core-js/modules/web.dom.iterable.js");
 
-var _baseMap = _interopRequireDefault(require("@opentripplanner/base-map"));
+var _src = _interopRequireDefault(require("../../base-map/src"));
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -147,7 +147,7 @@ class ZoomControlledMapWithVehicleRentalOverlay extends _react.Component {
     const {
       zoom
     } = this.state;
-    return /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+    return /*#__PURE__*/_react.default.createElement(_src.default, {
       center: center,
       onViewportChanged: this.onViewportChanged,
       zoom: zoom

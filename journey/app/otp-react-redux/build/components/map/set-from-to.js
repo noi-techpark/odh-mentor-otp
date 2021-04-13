@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _fromToLocationPicker = _interopRequireDefault(require("@opentripplanner/from-to-location-picker"));
+var _src = _interopRequireDefault(require("../../otp-ui/from-to-location-picker/src"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,7 +42,7 @@ class SetFromToButtons extends _react.Component {
   }
 
   render() {
-    return /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
+    return /*#__PURE__*/_react.default.createElement(_src.default, {
       onFromClick: this._setFromClicked,
       onToClick: this._setToClicked
     });

@@ -9,7 +9,7 @@ var _leaflet = _interopRequireDefault(require("leaflet"));
 
 var _lodash = _interopRequireDefault(require("lodash.isequal"));
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
 var _reactLeaflet = require("react-leaflet");
 

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _tripViewerOverlay = _interopRequireDefault(require("@opentripplanner/trip-viewer-overlay"));
+var _src = _interopRequireDefault(require("../../otp-ui/trip-viewer-overlay/src"));
 
 var _reactRedux = require("react-redux");
 
@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {};
 
-var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_tripViewerOverlay.default);
+var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_src.default);
 
 exports.default = _default;
 module.exports = exports.default;

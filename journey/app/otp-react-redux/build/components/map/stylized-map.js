@@ -11,7 +11,7 @@ var _d3Selection = require("d3-selection");
 
 var _d3Zoom = require("d3-zoom");
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -34,7 +34,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var STYLES = {};
 STYLES.places = {
   display: function (display, place) {
-    if (place.getId() !== 'from' && place.getId() !== 'to' && !_coreUtils.default.map.isBikeshareStation(place)) {
+    if (place.getId() !== 'from' && place.getId() !== 'to' && !_src.default.map.isBikeshareStation(place)) {
       return 'none';
     }
   },
@@ -129,7 +129,7 @@ const mapStateToProps = (state, ownProps) => {
   if (activeSearch && activeSearch.query.routingType === 'ITINERARY' && activeSearch.response && activeSearch.response.plan) {
     const itins = (0, _state.getActiveItineraries)(state.otp);
     const visibleItinerary = itins[activeSearch.activeItinerary];
-    if (visibleItinerary) transitiveData = _coreUtils.default.map.itineraryToTransitive(visibleItinerary);
+    if (visibleItinerary) transitiveData = _src.default.map.itineraryToTransitive(visibleItinerary);
   } else if (activeSearch && activeSearch.response && activeSearch.response.otp) {
     transitiveData = activeSearch.response.otp;
   }

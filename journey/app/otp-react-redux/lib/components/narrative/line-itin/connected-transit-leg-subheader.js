@@ -1,4 +1,4 @@
-import TransitLegSubheader from '@opentripplanner/itinerary-body/lib/otp-react-redux/transit-leg-subheader'
+import TransitLegSubheader from '../../../otp-ui/itinerary-body/src/otp-react-redux/transit-leg-subheader'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 

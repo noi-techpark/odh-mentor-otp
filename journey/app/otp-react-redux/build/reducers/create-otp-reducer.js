@@ -14,7 +14,7 @@ var _lodash = _interopRequireDefault(require("lodash.isequal"));
 
 var _objectPath = _interopRequireDefault(require("object-path"));
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../otp-ui/core-utils/src"));
 
 var _ui = require("../actions/ui");
 
@@ -25,26 +25,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const {
   isTransit,
   getTransitModes
-} = _coreUtils.default.itinerary;
+} = _src.default.itinerary;
 const {
   matchLatLon
-} = _coreUtils.default.map;
+} = _src.default.map;
 const {
   filterProfileOptions
-} = _coreUtils.default.profile;
+} = _src.default.profile;
 const {
   ensureSingleAccessMode,
   getDefaultQuery,
   getTripOptionsFromQuery
-} = _coreUtils.default.query;
+} = _src.default.query;
 const {
   getItem,
   removeItem,
   storeItem
-} = _coreUtils.default.storage;
+} = _src.default.storage;
 const {
   getUserTimezone
-} = _coreUtils.default.time;
+} = _src.default.time;
 const MAX_RECENT_STORAGE = 5; // TODO: fire planTrip action if default query is complete/error-free
 
 /**

@@ -21,7 +21,7 @@ exports.isValidLatLng = isValidLatLng;
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _itinerary2 = require("./itinerary");
+var _itinerary = require("./itinerary");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -180,14 +180,14 @@ function itineraryToTransitive(itin, companies) {
       });
       tdata.places.push({
         place_id: toPlaceId,
-        place_name: (0, _itinerary2.getPlaceName)(leg.to, companies),
+        place_name: (0, _itinerary.getPlaceName)(leg.to, companies),
         place_lat: leg.to.lat,
         place_lon: leg.to.lon
       });
       streetEdgeId++;
     }
 
-    if ((0, _itinerary2.isTransit)(leg.mode)) {
+    if ((0, _itinerary.isTransit)(leg.mode)) {
       // determine if we have valid inter-stop geometry
       const hasInterStopGeometry = !!leg.interStopGeometry;
       const hasIntermediateStopGeometry = hasInterStopGeometry && leg.intermediateStops && leg.interStopGeometry.length === leg.intermediateStops.length + 1; // create leg-specific pattern

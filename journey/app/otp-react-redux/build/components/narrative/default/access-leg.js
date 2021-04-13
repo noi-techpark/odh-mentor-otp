@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../../otp-ui/core-utils/src"));
 
-var _humanizeDistance = require("@opentripplanner/humanize-distance");
+var _humanizeDistance = require("../../../otp-ui/humanize-distance");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -75,7 +75,7 @@ class AccessLeg extends _react.Component {
       type: `caret-${active ? 'down' : 'right'}`
     })), /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("b", null, leg.mode)), ' ', /*#__PURE__*/_react.default.createElement("span", {
       className: "leg-duration"
-    }, _coreUtils.default.time.formatDuration(leg.duration)), ' ', /*#__PURE__*/_react.default.createElement("span", {
+    }, _src.default.time.formatDuration(leg.duration)), ' ', /*#__PURE__*/_react.default.createElement("span", {
       className: "leg-distance"
     }, "(", (0, _humanizeDistance.humanizeDistanceString)(leg.distance), ")")), active && /*#__PURE__*/_react.default.createElement("div", {
       className: "step-by-step"
@@ -91,7 +91,7 @@ class AccessLeg extends _react.Component {
         className: "step-distance"
       }, (0, _humanizeDistance.humanizeDistanceString)(step.distance)), /*#__PURE__*/_react.default.createElement("span", {
         className: "step-text"
-      }, _coreUtils.default.itinerary.getStepInstructions(step)));
+      }, _src.default.itinerary.getStepInstructions(step)));
     }))), /*#__PURE__*/_react.default.createElement(_legDiagramPreview.default, {
       leg: leg
     }));

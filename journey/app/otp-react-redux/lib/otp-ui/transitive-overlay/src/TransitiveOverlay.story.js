@@ -1,6 +1,6 @@
-import BaseMap from "@opentripplanner/base-map";
-import { itineraryToTransitive } from "@opentripplanner/core-utils/lib/map";
-import EndpointsOverlay from "@opentripplanner/endpoints-overlay";
+import BaseMap from "../../base-map/src";
+import { itineraryToTransitive } from "../../core-utils/src/map";
+import EndpointsOverlay from "../../endpoints-overlay";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { withA11y } from "@storybook/addon-a11y";
@@ -12,19 +12,19 @@ import TransitiveOverlay from ".";
 import "../../../node_modules/leaflet/dist/leaflet.css";
 
 // import mock itinaries. These are all trip plan outputs from OTP.
-const bikeOnlyItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/bike-only.json");
-const bikeRentalItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/bike-rental.json");
-const bikeRentalTransitBikeRentalItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/bike-rental-transit-bike-rental.json");
-const bikeTransitBikeItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/bike-transit-bike.json");
-const eScooterRentalItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/e-scooter-rental.json");
-const eScooterRentalTransiteScooterRentalItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/e-scooter-transit-e-scooter.json");
-const parkAndRideItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/park-and-ride.json");
-const tncTransitTncItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/tnc-transit-tnc.json");
-const walkInterlinedTransitItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-interlined-transit-walk.json");
-const walkOnlyItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-only.json");
-const walkTransitWalkItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-transit-walk.json");
-const walkTransitWalkItineraryNoIntermediateStops = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-transit-walk-no-intermediate-stops.json");
-const walkTransitWalkTransitWalkItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-transit-walk-transit-walk.json");
+const bikeOnlyItinerary = require("../../itinerary-body/src/__mocks__/itineraries/bike-only.json");
+const bikeRentalItinerary = require("../../itinerary-body/src/__mocks__/itineraries/bike-rental.json");
+const bikeRentalTransitBikeRentalItinerary = require("../../itinerary-body/src/__mocks__/itineraries/bike-rental-transit-bike-rental.json");
+const bikeTransitBikeItinerary = require("../../itinerary-body/src/__mocks__/itineraries/bike-transit-bike.json");
+const eScooterRentalItinerary = require("../../itinerary-body/src/__mocks__/itineraries/e-scooter-rental.json");
+const eScooterRentalTransiteScooterRentalItinerary = require("../../itinerary-body/src/__mocks__/itineraries/e-scooter-transit-e-scooter.json");
+const parkAndRideItinerary = require("../../itinerary-body/src/__mocks__/itineraries/park-and-ride.json");
+const tncTransitTncItinerary = require("../../itinerary-body/src/__mocks__/itineraries/tnc-transit-tnc.json");
+const walkInterlinedTransitItinerary = require("../../itinerary-body/src/__mocks__/itineraries/walk-interlined-transit-walk.json");
+const walkOnlyItinerary = require("../../itinerary-body/src/__mocks__/itineraries/walk-only.json");
+const walkTransitWalkItinerary = require("../../itinerary-body/src/__mocks__/itineraries/walk-transit-walk.json");
+const walkTransitWalkItineraryNoIntermediateStops = require("../../itinerary-body/src/__mocks__/itineraries/walk-transit-walk-no-intermediate-stops.json");
+const walkTransitWalkTransitWalkItinerary = require("../../itinerary-body/src/__mocks__/itineraries/walk-transit-walk-transit-walk.json");
 
 const companies = [
   {

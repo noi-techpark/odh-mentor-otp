@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -26,7 +26,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 // TODO: make this a prop
 const defaultRouteColor = '#008';
 const Container = _styledComponents.default.div`
-  display: ${() => _coreUtils.default.ui.isMobile() ? 'table' : 'none'};
+  display: ${() => _src.default.ui.isMobile() ? 'table' : 'none'};
   height: 60px;
   margin-bottom: 15px;
   padding-right: 5px;
@@ -101,7 +101,7 @@ class ItinerarySummary extends _react.Component {
       maxTNCFare,
       minTNCFare,
       transitFare
-    } = _coreUtils.default.itinerary.calculateFares(itinerary); // TODO: support non-USD
+    } = _src.default.itinerary.calculateFares(itinerary); // TODO: support non-USD
 
 
     const minTotalFare = minTNCFare * 100 + transitFare;
@@ -109,18 +109,18 @@ class ItinerarySummary extends _react.Component {
 
     const {
       caloriesBurned
-    } = _coreUtils.default.itinerary.calculatePhysicalActivity(itinerary);
+    } = _src.default.itinerary.calculatePhysicalActivity(itinerary);
 
     return /*#__PURE__*/_react.default.createElement(Container, {
       onClick: this._onSummaryClicked
-    }, /*#__PURE__*/_react.default.createElement(Details, null, /*#__PURE__*/_react.default.createElement(Header, null, _coreUtils.default.time.formatDuration(itinerary.duration)), /*#__PURE__*/_react.default.createElement(Detail, null, _coreUtils.default.time.formatTime(itinerary.startTime, timeOptions), " - ", _coreUtils.default.time.formatTime(itinerary.endTime, timeOptions)), /*#__PURE__*/_react.default.createElement(Detail, null, minTotalFare > 0 && /*#__PURE__*/_react.default.createElement("span", null, centsToString(minTotalFare), minTotalFare !== maxTotalFare && /*#__PURE__*/_react.default.createElement("span", null, " - ", centsToString(maxTotalFare)), /*#__PURE__*/_react.default.createElement("span", null, " \u2022 ")), Math.round(caloriesBurned), " Cals"), itinerary.transfers > 0 && /*#__PURE__*/_react.default.createElement(Detail, null, itinerary.transfers, " cambi", itinerary.transfers > 1 ? '' : 'o')), /*#__PURE__*/_react.default.createElement(Routes, null, itinerary.legs.filter(leg => {
+    }, /*#__PURE__*/_react.default.createElement(Details, null, /*#__PURE__*/_react.default.createElement(Header, null, _src.default.time.formatDuration(itinerary.duration)), /*#__PURE__*/_react.default.createElement(Detail, null, _src.default.time.formatTime(itinerary.startTime, timeOptions), " - ", _src.default.time.formatTime(itinerary.endTime, timeOptions)), /*#__PURE__*/_react.default.createElement(Detail, null, minTotalFare > 0 && /*#__PURE__*/_react.default.createElement("span", null, centsToString(minTotalFare), minTotalFare !== maxTotalFare && /*#__PURE__*/_react.default.createElement("span", null, " - ", centsToString(maxTotalFare)), /*#__PURE__*/_react.default.createElement("span", null, " \u2022 ")), Math.round(caloriesBurned), " Cals"), itinerary.transfers > 0 && /*#__PURE__*/_react.default.createElement(Detail, null, itinerary.transfers, " cambi", itinerary.transfers > 1 ? '' : 'o')), /*#__PURE__*/_react.default.createElement(Routes, null, itinerary.legs.filter(leg => {
       return !(leg.mode === 'WALK' && itinerary.transitTime > 0);
     }).map((leg, k) => {
       return /*#__PURE__*/_react.default.createElement(RoutePreview, {
         key: k
       }, /*#__PURE__*/_react.default.createElement(LegIconContainer, null, /*#__PURE__*/_react.default.createElement(LegIcon, {
         leg: leg
-      })), _coreUtils.default.itinerary.isTransit(leg.mode) ? /*#__PURE__*/_react.default.createElement(ShortName, {
+      })), _src.default.itinerary.isTransit(leg.mode) ? /*#__PURE__*/_react.default.createElement(ShortName, {
         leg: leg
       }, getRouteNameForBadge(leg)) : /*#__PURE__*/_react.default.createElement(NonTransitSpacer, null));
     })));

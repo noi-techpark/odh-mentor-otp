@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -132,7 +132,7 @@ StopsOverlay.propTypes = {
   /**
    * The list of stops to create stop markers for.
    */
-  stops: _propTypes.default.arrayOf(_coreUtils.default.types.stopLayerStopType).isRequired
+  stops: _propTypes.default.arrayOf(_src.default.types.stopLayerStopType).isRequired
 };
 StopsOverlay.defaultProps = {
   minZoom: 15,

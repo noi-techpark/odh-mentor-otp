@@ -1,4 +1,4 @@
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../../otp-ui/core-utils/src'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'

@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash.isequal"));
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _leaflet = _interopRequireDefault(require("leaflet"));
 
@@ -27,7 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function extendBoundsByPlaces(bounds, places = []) {
   places.filter(place => place).forEach(place => {
     const coords = [place.lat, place.lon];
-    if (_coreUtils.default.map.isValidLatLng(coords)) bounds.extend(coords);
+    if (_src.default.map.isValidLatLng(coords)) bounds.extend(coords);
   });
 }
 /**
@@ -96,7 +96,7 @@ class BoundsUpdatingOverlay extends _reactLeaflet.MapLayer {
       // more info.
       // TODO: Fix this so mobile devices will also update the bounds to the
       // from/to locations.
-      if (!_coreUtils.default.ui.isMobile()) {
+      if (!_src.default.ui.isMobile()) {
         const bounds = _leaflet.default.bounds([[newFrom.lat, newFrom.lon], [newTo.lat, newTo.lon]]); // Ensure bounds extend to include intermediatePlaces
 
 

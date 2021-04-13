@@ -3,9 +3,9 @@ import {
   getPlaceName,
   getStepDirection,
   getStepStreetName
-} from "@opentripplanner/core-utils/lib/itinerary";
-import { configType, legType } from "@opentripplanner/core-utils/lib/types";
-import { humanizeDistanceString } from "@opentripplanner/humanize-distance";
+} from "../../core-utils/src/itinerary";
+import { configType, legType } from "../../core-utils/src/types";
+import { humanizeDistanceString } from "../../humanize-distance/src";
 import PropTypes from "prop-types";
 import React from "react";
 

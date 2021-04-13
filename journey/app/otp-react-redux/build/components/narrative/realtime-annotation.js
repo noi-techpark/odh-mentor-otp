@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -43,7 +43,7 @@ class RealtimeAnnotation extends _react.Component {
       className: "fa fa-exclamation-circle"
     }), " Service update"), /*#__PURE__*/_react.default.createElement("p", null, useRealtime ? /*#__PURE__*/_react.default.createElement("span", {
       className: "small"
-    }, "Your trip results have been adjusted based on real-time information. Under normal conditions, this trip would take", ' ', /*#__PURE__*/_react.default.createElement("b", null, _coreUtils.default.time.formatDuration(realtimeEffects.normalDuration), " "), "using the following routes:", ' ', filteredRoutes.map((route, idx) => /*#__PURE__*/_react.default.createElement("span", {
+    }, "Your trip results have been adjusted based on real-time information. Under normal conditions, this trip would take", ' ', /*#__PURE__*/_react.default.createElement("b", null, _src.default.time.formatDuration(realtimeEffects.normalDuration), " "), "using the following routes:", ' ', filteredRoutes.map((route, idx) => /*#__PURE__*/_react.default.createElement("span", {
       key: idx
     }, /*#__PURE__*/_react.default.createElement("b", null, route), filteredRoutes.length - 1 > idx && ', ')), ".") : /*#__PURE__*/_react.default.createElement("span", {
       className: "small"

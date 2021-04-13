@@ -1,13 +1,13 @@
 import {
   calculateFares,
   calculatePhysicalActivity
-} from "@opentripplanner/core-utils/lib/itinerary";
-import { mergeMessages } from "@opentripplanner/core-utils/lib/messages";
-import { formatTime } from "@opentripplanner/core-utils/lib/time";
+} from "../../core-utils/src/itinerary";
+import { mergeMessages } from "../../core-utils/src/messages";
+import { formatTime } from "../../core-utils/src/time";
 import {
   itineraryType,
   timeOptionsType
-} from "@opentripplanner/core-utils/lib/types";
+} from "../../core-utils/src/types";
 import moment from "moment";
 import PropTypes from "prop-types";
 import React from "react";

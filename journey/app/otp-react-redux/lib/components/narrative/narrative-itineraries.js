@@ -1,4 +1,4 @@
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../../otp-ui/core-utils/src'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'

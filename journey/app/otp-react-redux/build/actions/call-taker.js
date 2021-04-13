@@ -12,7 +12,7 @@ exports.toggleCallHistory = exports.beginCall = void 0;
 
 require("core-js/modules/web.dom.iterable.js");
 
-var _query = require("@opentripplanner/core-utils/lib/query");
+var _query = require("../otp-ui/core-utils/src/query");
 
 var _qs = _interopRequireDefault(require("qs"));
 

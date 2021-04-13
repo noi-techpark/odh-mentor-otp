@@ -1,10 +1,10 @@
-import * as BaseMapStyled from "@opentripplanner/base-map/lib/styled";
+import * as BaseMapStyled from "../../base-map/src/styled";
 import {
   languageConfigType,
   leafletPathType,
   stopLayerStopType
-} from "@opentripplanner/core-utils/lib/types";
-import FromToLocationPicker from "@opentripplanner/from-to-location-picker";
+} from "../../core-utils/src/types";
+import FromToLocationPicker from "../../from-to-location-picker/src";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { CircleMarker, Popup } from "react-leaflet";

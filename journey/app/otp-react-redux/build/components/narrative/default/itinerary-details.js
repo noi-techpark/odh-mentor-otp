@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -39,7 +39,7 @@ class ItineraryDetails extends _react.Component {
       className: "detail"
     }, itinerary.legs.map((leg, index) => {
       const legIsActive = activeLeg === index;
-      return _coreUtils.default.itinerary.isTransit(leg.mode) ? /*#__PURE__*/_react.default.createElement(_transitLeg.default, {
+      return _src.default.itinerary.isTransit(leg.mode) ? /*#__PURE__*/_react.default.createElement(_transitLeg.default, {
         active: legIsActive,
         index: index,
         key: index,

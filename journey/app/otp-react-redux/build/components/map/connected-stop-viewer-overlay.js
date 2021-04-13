@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _stopViewerOverlay = _interopRequireDefault(require("@opentripplanner/stop-viewer-overlay"));
+var _src = _interopRequireDefault(require("../../otp-ui/stop-viewer-overlay/src"));
 
-var _defaultStopMarker = _interopRequireDefault(require("@opentripplanner/stop-viewer-overlay/lib/default-stop-marker"));
+var _defaultStopMarker = _interopRequireDefault(require("../../otp-ui/stop-viewer-overlay/src/default-stop-marker"));
 
 var _reactRedux = require("react-redux");
 
@@ -24,7 +24,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {};
 
-var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_stopViewerOverlay.default);
+var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_src.default);
 
 exports.default = _default;
 module.exports = exports.default;

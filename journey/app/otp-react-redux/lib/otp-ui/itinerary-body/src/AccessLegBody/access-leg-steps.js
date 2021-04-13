@@ -1,9 +1,9 @@
 import {
   getStepDirection,
   getStepStreetName
-} from "@opentripplanner/core-utils/lib/itinerary";
-import { stepsType } from "@opentripplanner/core-utils/lib/types";
-import { DirectionIcon } from "@opentripplanner/icons/lib/directions";
+} from "../../../core-utils/src/itinerary";
+import { stepsType } from "../../../core-utils/src/types";
+import { DirectionIcon } from "../../../icons/src/directions";
 import React from "react";
 
 import * as Styled from "../styled";

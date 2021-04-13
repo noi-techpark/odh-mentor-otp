@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _map = require("@opentripplanner/core-utils/lib/map");
+var _map = require("../../core-utils/src/map");
 
 const STYLES = {};
 /**

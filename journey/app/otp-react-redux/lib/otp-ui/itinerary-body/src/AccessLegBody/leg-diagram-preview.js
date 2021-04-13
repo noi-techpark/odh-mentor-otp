@@ -1,5 +1,5 @@
-import { getElevationProfile } from "@opentripplanner/core-utils/lib/itinerary";
-import { legType } from "@opentripplanner/core-utils/lib/types";
+import { getElevationProfile } from "../../../core-utils/src/itinerary";
+import { legType } from "../../../core-utils/src/types";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import ReactResizeDetector from "react-resize-detector";

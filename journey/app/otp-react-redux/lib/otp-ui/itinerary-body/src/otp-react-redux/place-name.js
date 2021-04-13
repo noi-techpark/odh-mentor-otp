@@ -1,5 +1,5 @@
-import { configType, placeType } from "@opentripplanner/core-utils/lib/types";
-import { getPlaceName } from "@opentripplanner/core-utils/lib/itinerary";
+import { configType, placeType } from "../../../core-utils/src/types";
+import { getPlaceName } from "../../../core-utils/src/itinerary";
 import PropTypes from "prop-types";
 import React from "react";
 

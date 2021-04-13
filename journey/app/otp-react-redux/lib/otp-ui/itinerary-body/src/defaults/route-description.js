@@ -1,4 +1,4 @@
-import { legType } from "@opentripplanner/core-utils/lib/types";
+import { legType } from "../../../core-utils/src/types";
 import React from "react";
 
 import * as Styled from "../styled";

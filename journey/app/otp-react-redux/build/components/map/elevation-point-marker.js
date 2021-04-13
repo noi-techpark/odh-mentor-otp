@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -39,7 +39,7 @@ class ElevationPointMarker extends _react.Component {
     let elevationPointMarker = null;
 
     if (showElevationProfile && diagramLeg && elevationPoint) {
-      const pos = _coreUtils.default.itinerary.legLocationAtDistance(diagramLeg, elevationPoint);
+      const pos = _src.default.itinerary.legLocationAtDistance(diagramLeg, elevationPoint);
 
       if (pos) {
         elevationPointMarker = /*#__PURE__*/_react.default.createElement(_reactLeaflet.CircleMarker, {

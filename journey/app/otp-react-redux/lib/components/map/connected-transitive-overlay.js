@@ -1,5 +1,5 @@
-import coreUtils from '@opentripplanner/core-utils'
-import TransitiveCanvasOverlay from '@opentripplanner/transitive-overlay'
+import coreUtils from '../../otp-ui/core-utils/src'
+import TransitiveCanvasOverlay from '../../otp-ui/transitive-overlay/src'
 import { connect } from 'react-redux'
 
 import { getActiveSearch, getActiveItinerary, getActiveItineraries } from '../../util/state'

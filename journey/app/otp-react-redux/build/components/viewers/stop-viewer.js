@@ -11,9 +11,9 @@ var _moment = _interopRequireDefault(require("moment"));
 
 require("moment-timezone");
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
-var _fromToLocationPicker = _interopRequireDefault(require("@opentripplanner/from-to-location-picker"));
+var _src2 = _interopRequireDefault(require("../../otp-ui/from-to-location-picker/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -49,7 +49,7 @@ const {
   getTimeFormat,
   getUserTimezone,
   OTP_API_DATE_FORMAT
-} = _coreUtils.default.time;
+} = _src.default.time;
 const defaultState = {
   date: (0, _moment.default)().format(OTP_API_DATE_FORMAT),
   scheduleView: false
@@ -253,7 +253,7 @@ class StopViewer extends _react.Component {
         onClick: this._toggleScheduleView
       }, /*#__PURE__*/_react.default.createElement(_icon.default, {
         type: scheduleView ? 'clock-o' : 'calendar'
-      }), ' ', "View ", scheduleView ? 'next arrivals' : 'schedule')), /*#__PURE__*/_react.default.createElement("b", null, "Plan a trip:"), /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
+      }), ' ', "View ", scheduleView ? 'next arrivals' : 'schedule')), /*#__PURE__*/_react.default.createElement("b", null, "Plan a trip:"), /*#__PURE__*/_react.default.createElement(_src2.default, {
         onFromClick: this._onClickPlanFrom,
         onToClick: this._onClickPlanTo
       }), scheduleView && /*#__PURE__*/_react.default.createElement("input", {
@@ -324,9 +324,9 @@ class StopViewer extends _react.Component {
 
     const stopTimesByPattern = (0, _viewer.getStopTimesByPattern)(stopData);
 
-    const routeComparator = _coreUtils.default.route.makeRouteComparator(transitOperators);
+    const routeComparator = _src.default.route.makeRouteComparator(transitOperators);
 
-    const patternHeadsignComparator = _coreUtils.default.route.makeStringValueComparator(pattern => pattern.pattern.headsign);
+    const patternHeadsignComparator = _src.default.route.makeStringValueComparator(pattern => pattern.pattern.headsign);
 
     const patternComparator = (patternA, patternB) => {
       // first sort by routes

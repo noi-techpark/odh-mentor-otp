@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
+var _itinerary = require("../../../otp-ui/core-utils/src/itinerary");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../../otp-ui/core-utils/src/types");
 
-var _time = require("@opentripplanner/core-utils/lib/time");
+var _time = require("../../../otp-ui/core-utils/src/time");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 

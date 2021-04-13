@@ -1,4 +1,4 @@
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../otp-ui/core-utils/src'
 import isEqual from 'lodash.isequal'
 import moment from 'moment'
 

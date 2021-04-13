@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = RentedVehicleSubheader;
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../../core-utils/src/types");
 
-var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
+var _itinerary = require("../../../core-utils/src/itinerary");
 
 var _react = _interopRequireDefault(require("react"));
 

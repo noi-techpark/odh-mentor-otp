@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce'
 import isEqual from 'lodash.isequal'
 import moment from 'moment'
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../otp-ui/core-utils/src'
 import { createAction } from 'redux-actions'
 
 import { queryIsValid } from '../util/state'

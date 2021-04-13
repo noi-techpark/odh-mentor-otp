@@ -1,5 +1,5 @@
-import coreUtils from "@opentripplanner/core-utils";
-import LocationIcon from "@opentripplanner/location-icon";
+import coreUtils from "../../../core-utils/src";
+import LocationIcon from "../../../location-icon/src";
 import PropTypes from "prop-types";
 import React from "react";
 import styled, { css } from "styled-components";

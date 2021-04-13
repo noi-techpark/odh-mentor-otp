@@ -2,13 +2,13 @@ import currencyFormatter from "currency-formatter";
 import {
   formatDuration,
   formatTime
-} from "@opentripplanner/core-utils/lib/time";
+} from "../../../core-utils/src/time";
 import {
   configType,
   legType,
   timeOptionsType
-} from "@opentripplanner/core-utils/lib/types";
-import { isMobile } from "@opentripplanner/core-utils/lib/ui";
+} from "../../../core-utils/src/types";
+import { isMobile } from "../../../core-utils/src/ui";
 import React from "react";
 import PropTypes from "prop-types";
 

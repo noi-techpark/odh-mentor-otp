@@ -7,7 +7,7 @@ exports.default = void 0;
 
 require("core-js/modules/web.dom.iterable.js");
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -317,7 +317,7 @@ const mapStateToProps = (state, ownProps) => {
     modes,
     persistence,
     sort,
-    timeFormat: _coreUtils.default.time.getTimeFormat(state.otp.config),
+    timeFormat: _src.default.time.getTimeFormat(state.otp.config),
     useRealtime,
     visibleItinerary: activeSearch && activeSearch.visibleItinerary
   };

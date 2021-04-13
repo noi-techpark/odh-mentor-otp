@@ -1,9 +1,9 @@
-import { isTransit } from '@opentripplanner/core-utils/lib/itinerary'
+import { isTransit } from '../../../otp-ui/core-utils/src/itinerary'
 import {
   legType,
   timeOptionsType
-} from '@opentripplanner/core-utils/lib/types'
-import { formatTime, getTimeFormat } from '@opentripplanner/core-utils/lib/time'
+} from '../../../otp-ui/core-utils/src/types'
+import { formatTime, getTimeFormat } from '../../../otp-ui/core-utils/src/time'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'

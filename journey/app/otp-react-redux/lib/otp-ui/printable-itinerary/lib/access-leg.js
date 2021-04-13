@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = AccessLeg;
 
-var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
+var _itinerary = require("../../core-utils/src/itinerary");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
-var _humanizeDistance = require("@opentripplanner/humanize-distance");
+var _humanizeDistance = require("../../humanize-distance");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 

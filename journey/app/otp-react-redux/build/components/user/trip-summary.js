@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
-var _icons = require("@opentripplanner/icons");
+var _src2 = require("../../otp-ui/icons/src");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -18,7 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const {
   formatDuration,
   formatTime
-} = _coreUtils.default.time;
+} = _src.default.time;
 
 const TripSummary = ({
   monitoredTrip
@@ -50,7 +50,7 @@ const TripSummary = ({
     className: "arrivalTime"
   }, formatTime(startTime), "\u2014", formatTime(endTime)), /*#__PURE__*/_react.default.createElement(_itinerarySummary.default, {
     itinerary: itinerary,
-    LegIcon: _icons.ClassicLegIcon
+    LegIcon: _src2.ClassicLegIcon
   }))));
 };
 

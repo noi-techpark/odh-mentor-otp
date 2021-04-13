@@ -1,5 +1,5 @@
-import { locationType } from "@opentripplanner/core-utils/lib/types";
-import LocationIcon from "@opentripplanner/location-icon";
+import { locationType } from "../../core-utils/src/types";
+import LocationIcon from "../../location-icon/src";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 

@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = LineColumnContent;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../../core-utils/src"));
 
-var _locationIcon = _interopRequireDefault(require("@opentripplanner/location-icon"));
+var _src2 = _interopRequireDefault(require("../../../location-icon/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -101,7 +101,7 @@ const IconStacker = _styledComponents.default.span`
 `;
 const LegLine = _styledComponents.default.div`
   ${props => getLegCSS(props.mode)}
-  background-color: ${props => _coreUtils.default.itinerary.isTransit(props.mode) ? props.routeColor ? `#${props.routeColor}` : "#008" : undefined};
+  background-color: ${props => _src.default.itinerary.isTransit(props.mode) ? props.routeColor ? `#${props.routeColor}` : "#008" : undefined};
   bottom: -11px;
   position: absolute;
   top: 11px;
@@ -117,7 +117,7 @@ const StackedCircle = (0, _styledComponents.default)(_faSolid.Circle)`
 const StackedCircleInner = (0, _styledComponents.default)(StackedCircle)`
   top: 3px;
 `;
-const StyledLocationIcon = (0, _styledComponents.default)(_locationIcon.default)`
+const StyledLocationIcon = (0, _styledComponents.default)(_src2.default)`
   left: 0;
   position: absolute;
   text-align: center;
@@ -198,10 +198,10 @@ LineColumnContent.propTypes = {
   isDestination: _propTypes.default.bool.isRequired,
 
   /** Contains details about leg object that is being displayed */
-  lastLeg: _coreUtils.default.types.legType,
+  lastLeg: _src.default.types.legType,
 
   /** Contains details about leg object that is being displayed */
-  leg: _coreUtils.default.types.legType.isRequired,
+  leg: _src.default.types.legType.isRequired,
 
   /** the index of the leg in the itinerary leg list */
   legIndex: _propTypes.default.number.isRequired

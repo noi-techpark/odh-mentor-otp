@@ -1,4 +1,4 @@
-import VehicleRentalOverlay from '@opentripplanner/vehicle-rental-overlay'
+import VehicleRentalOverlay from '../../otp-ui/vehicle-rental-overlay/src'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _legDiagramPreview = _interopRequireDefault(require("@opentripplanner/itinerary-body/lib/AccessLegBody/leg-diagram-preview"));
+var _legDiagramPreview = _interopRequireDefault(require("../../otp-ui/itinerary-body/src/AccessLegBody/leg-diagram-preview"));
 
 var _reactRedux = require("react-redux");
 

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../otp-ui/core-utils/src"));
 
 var _immutabilityHelper = _interopRequireDefault(require("immutability-helper"));
 
@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const {
   randId
-} = _coreUtils.default.storage;
+} = _src.default.storage;
 const UPPER_RIGHT_CORNER = {
   x: 604,
   y: 53

@@ -39,8 +39,7 @@ var _along = _interopRequireDefault(require("@turf/along"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-alert('itinerary'); // All OTP transit modes
-
+// All OTP transit modes
 const transitModes = ["TRAM", "BUS", "SUBWAY", "FERRY", "RAIL", "GONDOLA"];
 /**
  * @param  {config} config OTP-RR configuration object

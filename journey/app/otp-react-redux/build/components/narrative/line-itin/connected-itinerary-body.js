@@ -9,17 +9,17 @@ exports.default = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash.isequal"));
 
-var _transitLegSummary = _interopRequireDefault(require("@opentripplanner/itinerary-body/lib/defaults/transit-leg-summary"));
+var _transitLegSummary = _interopRequireDefault(require("../../../otp-ui/itinerary-body/src/defaults/transit-leg-summary"));
 
-var _itineraryBody = _interopRequireDefault(require("@opentripplanner/itinerary-body/lib/otp-react-redux/itinerary-body"));
+var _itineraryBody = _interopRequireDefault(require("../../../otp-ui/itinerary-body/src/otp-react-redux/itinerary-body"));
 
-var _lineColumnContent = _interopRequireDefault(require("@opentripplanner/itinerary-body/lib/otp-react-redux/line-column-content"));
+var _lineColumnContent = _interopRequireDefault(require("../../../otp-ui/itinerary-body/src/otp-react-redux/line-column-content"));
 
-var _placeName = _interopRequireDefault(require("@opentripplanner/itinerary-body/lib/otp-react-redux/place-name"));
+var _placeName = _interopRequireDefault(require("../../../otp-ui/itinerary-body/src/otp-react-redux/place-name"));
 
-var _styled = require("@opentripplanner/itinerary-body/lib/styled");
+var _styled = require("../../../otp-ui/itinerary-body/src/styled");
 
-var _routeDescription = _interopRequireDefault(require("@opentripplanner/itinerary-body/lib/otp-react-redux/route-description"));
+var _routeDescription = _interopRequireDefault(require("../../../otp-ui/itinerary-body/src/otp-react-redux/route-description"));
 
 var _react = _interopRequireWildcard(require("react"));
 

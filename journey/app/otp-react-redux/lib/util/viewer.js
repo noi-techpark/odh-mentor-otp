@@ -1,4 +1,4 @@
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../otp-ui/core-utils/src'
 import moment from 'moment'
 import 'moment-timezone'
 import React from 'react'

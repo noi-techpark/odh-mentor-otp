@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -41,10 +41,10 @@ const {
   getDetailText,
   formatStoredPlaceName,
   matchLatLon
-} = _coreUtils.default.map;
+} = _src.default.map;
 const {
   summarizeQuery
-} = _coreUtils.default.query;
+} = _src.default.query;
 const BUTTON_WIDTH = 40;
 
 class UserSettings extends _react.Component {

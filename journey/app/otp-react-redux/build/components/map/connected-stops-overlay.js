@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _stopsOverlay = _interopRequireDefault(require("@opentripplanner/stops-overlay"));
+var _src = _interopRequireDefault(require("../../otp-ui/stops-overlay/src"));
 
 var _connectedStopMarker = _interopRequireDefault(require("./connected-stop-marker"));
 
@@ -27,7 +27,7 @@ const mapDispatchToProps = {
   refreshStops: _api.findStopsWithinBBox
 };
 
-var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_stopsOverlay.default);
+var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_src.default);
 
 exports.default = _default;
 module.exports = exports.default;

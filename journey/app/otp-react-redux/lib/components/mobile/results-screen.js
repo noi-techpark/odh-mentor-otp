@@ -1,5 +1,5 @@
-import coreUtils from '@opentripplanner/core-utils'
-import LocationIcon from '@opentripplanner/location-icon'
+import coreUtils from '../../otp-ui/core-utils/src'
+import LocationIcon from '../../otp-ui/location-icon/src'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
