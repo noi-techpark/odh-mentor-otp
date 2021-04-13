@@ -2,7 +2,7 @@ import BaseMapIcon from "../../icons/src/trimet/Map";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import { CaretDown, CaretUp } from "styled-icons/fa-solid";
+import { CaretDown, CaretUp } from "@styled-icons/fa-solid";
 
 import { toModeBorder, toModeColor, toSafeRouteColor } from "./util";
 

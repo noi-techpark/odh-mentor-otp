@@ -7,8 +7,8 @@ import {
   isMicromobility,
   isTransit,
   isWalk
-} from "@opentripplanner/core-utils/lib/itinerary";
-import { getCompanyIcon } from "@opentripplanner/icons/lib/companies";
+} from "../../core-utils/src/itinerary";
+import { getCompanyIcon } from "../../icons/src/companies";
 
 export function isBike(mode) {
   return isBicycle(mode) || isBicycleRent(mode);

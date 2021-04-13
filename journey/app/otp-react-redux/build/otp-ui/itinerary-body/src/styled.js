@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
-var _faSolid = require("styled-icons/fa-solid");
+var _faSolid = require("@styled-icons/fa-solid");
 
 var _util = require("./util");
 

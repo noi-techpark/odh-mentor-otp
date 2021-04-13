@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 import { withA11y } from "@storybook/addon-a11y";
 import { withInfo } from "@storybook/addon-info";
 import { storiesOf } from "@storybook/react";
-import { Cat, Dog } from "styled-icons/fa-solid";
+import { Cat, Dog } from "@styled-icons/fa-solid";
 
 import EndpointsOverlay from ".";
 

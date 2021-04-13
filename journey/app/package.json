@@ -13,12 +13,14 @@
     "parser": "babel-eslint"
   },
   "dependencies": {
-    "otp-react-redux": "file:./otp-react-redux",    
+    "@styled-icons/fa-regular": "^10.26.0",
+    "@styled-icons/fa-solid": "^10.32.0",
     "connected-react-router": "^6.5.2",
     "core-js": "2",
     "es6-math": "^1.0.0",
     "history": "^4.7.2",
     "leaflet": "^1.6.0",
+    "otp-react-redux": "file:./otp-react-redux",
     "react": "^16.9.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.9.0",
@@ -35,6 +37,8 @@
   "devDependencies": {
     "@babel/core": "^7.1.0",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-syntax-jsx": "^7.12.13",
+    "@babel/plugin-transform-react-jsx": "^7.13.12",
     "@babel/plugin-transform-template-literals": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",

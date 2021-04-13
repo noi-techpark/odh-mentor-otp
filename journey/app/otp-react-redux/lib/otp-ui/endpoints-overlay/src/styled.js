@@ -1,6 +1,6 @@
 import LocationIcon from "../../location-icon/src";
 import styled, { css } from "styled-components";
-import { Circle } from "styled-icons/fa-solid";
+import { Circle } from "@styled-icons/fa-solid";
 
 export const Button = styled.button`
   border: none;

@@ -20,7 +20,7 @@ import {
   SkullCrossbones,
   Star,
   Train
-} from "styled-icons/fa-solid";
+} from "@styled-icons/fa-solid";
 
 import LocationField from ".";
 import * as LocationFieldClasses from "./styled";

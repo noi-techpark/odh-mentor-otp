@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { modeOptionType } from "@opentripplanner/core-utils/lib/types";
+import { modeOptionType } from "../../../core-utils/src/types";
 
 import ModeButton from "../ModeButton";
 import * as Styled from "../styled";

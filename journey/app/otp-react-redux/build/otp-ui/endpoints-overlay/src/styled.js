@@ -11,7 +11,7 @@ var _src = _interopRequireDefault(require("../../location-icon/src"));
 
 var _styledComponents = _interopRequireWildcard(require("styled-components"));
 
-var _faSolid = require("styled-icons/fa-solid");
+var _faSolid = require("@styled-icons/fa-solid");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
