@@ -14,7 +14,7 @@ import {
   MapMarkerAlt,
   Sync,
   Times
-} from "styled-icons/fa-solid";
+} from "@styled-icons/fa-solid";
 
 import * as Styled from "./styled";
 

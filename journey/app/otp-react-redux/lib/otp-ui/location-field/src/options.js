@@ -6,7 +6,7 @@ import { isIE } from "../../core-utils/src/ui";
 import { humanizeDistanceStringImperial } from "../../humanize-distance/src";
 import PropTypes from "prop-types";
 import React from "react";
-import { Briefcase, Home, MapMarker, MapPin } from "styled-icons/fa-solid";
+import { Briefcase, Home, MapMarker, MapPin } from "@styled-icons/fa-solid";
 
 import * as Styled from "./styled";
 

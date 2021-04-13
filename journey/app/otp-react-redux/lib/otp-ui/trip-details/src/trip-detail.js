@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { QuestionCircle, TimesCircle } from "styled-icons/fa-solid";
+import { QuestionCircle, TimesCircle } from "@styled-icons/fa-solid";
 import { VelocityTransitionGroup } from "velocity-react";
 
 import * as Styled from "./styled";

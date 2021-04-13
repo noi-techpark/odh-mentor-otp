@@ -9,7 +9,7 @@ import { action } from "@storybook/addon-actions";
 import { withA11y } from "@storybook/addon-a11y";
 import { withInfo } from "@storybook/addon-info";
 import { storiesOf } from "@storybook/react";
-import { Bus, Subway } from "styled-icons/fa-solid";
+import { Bus, Subway } from "@styled-icons/fa-solid";
 
 import StopsOverlay from ".";
 import mockStops from "../__mocks__/stops.json";

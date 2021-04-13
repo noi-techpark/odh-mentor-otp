@@ -21,7 +21,7 @@ var _reactLeaflet = require("react-leaflet");
 
 var _server = _interopRequireDefault(require("react-dom/server"));
 
-var _faSolid = require("styled-icons/fa-solid");
+var _faSolid = require("@styled-icons/fa-solid");
 
 var Styled = _interopRequireWildcard(require("./styled"));
 

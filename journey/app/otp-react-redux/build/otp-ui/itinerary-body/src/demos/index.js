@@ -24,7 +24,7 @@ var _addonActions = require("@storybook/addon-actions");
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
-var _faSolid = require("styled-icons/fa-solid");
+var _faSolid = require("@styled-icons/fa-solid");
 
 var _ = _interopRequireDefault(require(".."));
 

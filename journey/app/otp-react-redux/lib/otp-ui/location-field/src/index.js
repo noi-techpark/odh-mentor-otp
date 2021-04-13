@@ -11,7 +11,7 @@ import LocationIcon from "../../location-icon/src";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Ban, Bus, LocationArrow, Search, Times } from "styled-icons/fa-solid";
+import { Ban, Bus, LocationArrow, Search, Times } from "@styled-icons/fa-solid";
 import { debounce } from "throttle-debounce";
 
 import {

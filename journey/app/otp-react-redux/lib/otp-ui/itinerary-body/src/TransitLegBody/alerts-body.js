@@ -1,7 +1,7 @@
 import moment from "moment";
 import PropTypes from "prop-types";
 import React from "react";
-import { ExclamationTriangle } from "styled-icons/fa-solid";
+import { ExclamationTriangle } from "@styled-icons/fa-solid";
 
 import * as Styled from "../styled";
 

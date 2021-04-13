@@ -8,7 +8,7 @@ import {
 } from "../../../core-utils/src/types";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { ExclamationTriangle } from "styled-icons/fa-solid";
+import { ExclamationTriangle } from "@styled-icons/fa-solid";
 import { VelocityTransitionGroup } from "velocity-react";
 
 import AlertsBody from "./alerts-body";

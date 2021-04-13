@@ -212,7 +212,7 @@ function getStepStreetName(step) {
   return step.streetName;
 }
 
-function toSentenceCase(str) {
+export function toSentenceCase(str) {
   if (str == null) {
     return "";
   }
