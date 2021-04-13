@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.LineItineraryContainer = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../../otp-ui/core-utils/src"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -27,7 +27,7 @@ const {
   getLegModeLabel,
   getTimeZoneOffset,
   isTransit
-} = _coreUtils.default.itinerary;
+} = _src.default.itinerary;
 const LineItineraryContainer = _styledComponents.default.div`
   margin-bottom: 20px;
 `;

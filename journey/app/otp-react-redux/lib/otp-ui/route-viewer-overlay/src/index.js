@@ -1,7 +1,7 @@
 import {
   encodedPolylineType,
   leafletPathType
-} from "@opentripplanner/core-utils/lib/types";
+} from "../../core-utils/src/types";
 import PropTypes from "prop-types";
 import React from "react";
 import { FeatureGroup, MapLayer, Polyline, withLeaflet } from "react-leaflet";

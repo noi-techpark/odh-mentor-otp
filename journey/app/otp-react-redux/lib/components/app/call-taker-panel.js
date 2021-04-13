@@ -1,11 +1,11 @@
 import {
   OTP_API_DATE_FORMAT,
   OTP_API_TIME_FORMAT
-} from '@opentripplanner/core-utils/lib/time'
-import { hasBike, hasTransit } from '@opentripplanner/core-utils/lib/itinerary'
-import { storeItem } from '@opentripplanner/core-utils/lib/storage'
-import {SubmodeSelector} from '@opentripplanner/trip-form'
-import * as TripFormClasses from '@opentripplanner/trip-form/lib/styled'
+} from '../../otp-ui/core-utils/src/time'
+import { hasBike, hasTransit } from '../../otp-ui/core-utils/src/itinerary'
+import { storeItem } from '../../otp-ui/core-utils/src/storage'
+import {SubmodeSelector} from '../../otp-ui/trip-form/src'
+import * as TripFormClasses from '../../otp-ui/trip-form/src/styled'
 import moment from 'moment'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'

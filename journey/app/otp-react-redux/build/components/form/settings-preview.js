@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -37,7 +37,7 @@ class SettingsPreview extends _react.Component {
     } = this.props;
     const messages = (0, _messages.mergeMessages)(SettingsPreview.defaultProps, this.props); // Show dot indicator if the current query differs from the default query.
 
-    let showDot = _coreUtils.default.query.isNotDefaultQuery(query, config);
+    let showDot = _src.default.query.isNotDefaultQuery(query, config);
 
     const button = /*#__PURE__*/_react.default.createElement("div", {
       className: "button-container"

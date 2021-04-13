@@ -1,6 +1,6 @@
-import { itineraryType } from "@opentripplanner/core-utils/lib/types";
-import ClassicLegIcon from "@opentripplanner/icons/lib/classic-leg-icon";
-import TriMetLegIcon from "@opentripplanner/icons/lib/trimet-leg-icon";
+import { itineraryType } from "../../core-utils/src/types";
+import ClassicLegIcon from "../../icons/src/classic-leg-icon";
+import TriMetLegIcon from "../../icons/src/trimet-leg-icon";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { storiesOf } from "@storybook/react";

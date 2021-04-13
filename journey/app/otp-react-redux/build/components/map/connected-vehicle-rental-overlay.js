@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _vehicleRentalOverlay = _interopRequireDefault(require("@opentripplanner/vehicle-rental-overlay"));
+var _src = _interopRequireDefault(require("../../otp-ui/vehicle-rental-overlay/src"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -51,7 +51,7 @@ class ConnectedVehicleRentalOverlay extends _react.Component {
   }
 
   render() {
-    return /*#__PURE__*/_react.default.createElement(_vehicleRentalOverlay.default, _extends({}, this.props, {
+    return /*#__PURE__*/_react.default.createElement(_src.default, _extends({}, this.props, {
       visible: this.state.visible
     }));
   }

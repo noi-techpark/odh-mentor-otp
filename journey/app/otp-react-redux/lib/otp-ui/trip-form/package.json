@@ -1,5 +1,5 @@
 {
-  "name": "@opentripplanner/trip-form",
+  "name": "../otp-ui/trip-form",
   "version": "1.0.2",
   "description": "Trip Settings Form and Related Components",
   "author": "@binh-dam-ibigroup",

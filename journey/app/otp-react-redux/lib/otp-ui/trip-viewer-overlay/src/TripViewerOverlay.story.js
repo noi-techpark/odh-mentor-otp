@@ -1,4 +1,4 @@
-import BaseMap from "@opentripplanner/base-map";
+import BaseMap from "../../base-map/src";
 import React from "react";
 import { withA11y } from "@storybook/addon-a11y";
 import { withInfo } from "@storybook/addon-info";

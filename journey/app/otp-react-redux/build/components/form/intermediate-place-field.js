@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _locationField = _interopRequireDefault(require("@opentripplanner/location-field"));
+var _src = _interopRequireDefault(require("../../otp-ui/location-field/src"));
 
-var _styled = require("@opentripplanner/location-field/lib/styled");
+var _styled = require("../../otp-ui/location-field/src/styled");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -35,7 +35,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const StyledIntermediatePlace = (0, _styledComponents.default)(_locationField.default)`
+const StyledIntermediatePlace = (0, _styledComponents.default)(_src.default)`
   width: 100%;
 
   ${_styled.DropdownContainer} {

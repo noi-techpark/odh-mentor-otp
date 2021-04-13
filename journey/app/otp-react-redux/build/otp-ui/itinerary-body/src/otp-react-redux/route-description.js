@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = RouteDescription;
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../../core-utils/src/types");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 

@@ -155,7 +155,7 @@ const queryParams = [
       /* maxWalkDistance - the maximum distance in meters the user will walk to transit. */
       name: "maxWalkDistance",
       routingTypes: ["ITINERARY"],
-      applicable: query => query.mode && (0, _itinerary.hasTransit)(query.mode) && query.mode.indexOf("WALK") !== -1,
+      applicable: query => query.mode && (0, hasTransit)(query.mode) && query.mode.indexOf("WALK") !== -1,
       default: 1000,
       // 1Km
       selector: "DROPDOWN",
@@ -190,7 +190,7 @@ const queryParams = [
        */
       name: "maxBikeDistance",
       routingTypes: ["ITINERARY"],
-      applicable: query => query.mode && (0, _itinerary.hasTransit)(query.mode) && query.mode.indexOf("BICYCLE") !== -1,
+      applicable: query => query.mode && (0, hasTransit)(query.mode) && query.mode.indexOf("BICYCLE") !== -1,
       default: 5000,
       // 5Km
       selector: "DROPDOWN",
@@ -234,7 +234,7 @@ const queryParams = [
     }, {
       /* optimize -- how to optimize a trip (non-bike, non-micromobility trips) */
       name: "optimize",
-      applicable: query => (0, _itinerary.hasTransit)(query.mode) && !(0, _itinerary.hasBike)(query.mode),
+      applicable: query => (0, hasTransit)(query.mode) && !(0, hasBike)(query.mode),
       routingTypes: ["ITINERARY"],
       default: "QUICK",
       selector: "DROPDOWN",
@@ -249,7 +249,7 @@ const queryParams = [
     }, {
       /* optimizeBike -- how to optimize an bike-based trip */
       name: "optimizeBike",
-      applicable: query => (0, _itinerary.hasBike)(query.mode),
+      applicable: query => (0, hasBike)(query.mode),
       routingTypes: ["ITINERARY"],
       default: "SAFE",
       selector: "DROPDOWN",
@@ -266,7 +266,7 @@ const queryParams = [
           value: "FLAT"
         }]; // Include transit-specific option, if applicable
 
-        if ((0, _itinerary.hasTransit)(query.mode)) {
+        if ((0, hasTransit)(query.mode)) {
           opts.splice(1, 0, {
             text: "$_less_transfers_$",
             value: "TRANSFERS"
@@ -285,7 +285,7 @@ const queryParams = [
       default: 15,
       selector: "DROPDOWN",
       label: "Tempo massimo di cammino",
-      applicable: query => query.mode && (0, _itinerary.hasTransit)(query.mode) && query.mode.indexOf("WALK") !== -1,
+      applicable: query => query.mode && (0, hasTransit)(query.mode) && query.mode.indexOf("WALK") !== -1,
       options: [{
         text: "5 minuti",
         value: 5
@@ -333,7 +333,7 @@ const queryParams = [
       default: 20,
       selector: "DROPDOWN",
       label: "Tempo massimo in bici",
-      applicable: query => query.mode && (0, _itinerary.hasTransit)(query.mode) && query.mode.indexOf("BICYCLE") !== -1,
+      applicable: query => query.mode && (0, hasTransit)(query.mode) && query.mode.indexOf("BICYCLE") !== -1,
       options: [{
         text: "5 minuti",
         value: 5

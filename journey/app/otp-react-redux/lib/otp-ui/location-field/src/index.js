@@ -1,13 +1,13 @@
 import {
   currentPositionToLocation,
   formatStoredPlaceName
-} from "@opentripplanner/core-utils/lib/map";
+} from "../../core-utils/src/map";
 import {
   transitIndexStopWithRoutes,
   userLocationType
-} from "@opentripplanner/core-utils/lib/types";
-import getGeocoder from "@opentripplanner/geocoder";
-import LocationIcon from "@opentripplanner/location-icon";
+} from "../../core-utils/src/types";
+import getGeocoder from "../../geocoder/src";
+import LocationIcon from "../../location-icon/src";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";

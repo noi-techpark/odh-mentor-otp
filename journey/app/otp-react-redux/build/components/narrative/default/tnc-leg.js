@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _currencyFormatter = _interopRequireDefault(require("currency-formatter"));
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -29,13 +29,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 const {
   toSentenceCase
-} = _coreUtils.default.itinerary;
+} = _src.default.itinerary;
 const {
   formatDuration
-} = _coreUtils.default.time;
+} = _src.default.time;
 const {
   isMobile
-} = _coreUtils.default.ui;
+} = _src.default.ui;
 
 class TransportationNetworkCompanyLeg extends _react.Component {
   constructor(...args) {

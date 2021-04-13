@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -103,7 +103,7 @@ class TripViewer extends _react.Component {
         key: i
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "stop-time"
-      }, _coreUtils.default.time.formatSecondsAfterMidnight(tripData.stopTimes[i].scheduledDeparture, timeFormat)), /*#__PURE__*/_react.default.createElement("div", {
+      }, _src.default.time.formatSecondsAfterMidnight(tripData.stopTimes[i].scheduledDeparture, timeFormat)), /*#__PURE__*/_react.default.createElement("div", {
         className: "strip-map-container"
       }, highlightClass && /*#__PURE__*/_react.default.createElement("div", {
         className: highlightClass
@@ -140,7 +140,7 @@ const mapStateToProps = (state, ownProps) => {
   const viewedTrip = state.otp.ui.viewedTrip;
   return {
     languageConfig: state.otp.config.language,
-    timeFormat: _coreUtils.default.time.getTimeFormat(state.otp.config),
+    timeFormat: _src.default.time.getTimeFormat(state.otp.config),
     tripData: state.otp.transitIndex.trips[viewedTrip.tripId],
     viewedTrip
   };

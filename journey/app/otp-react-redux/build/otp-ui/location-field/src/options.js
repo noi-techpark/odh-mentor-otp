@@ -10,11 +10,11 @@ exports.Option = Option;
 exports.TransitStopOption = TransitStopOption;
 exports.UserLocationIcon = UserLocationIcon;
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
-var _ui = require("@opentripplanner/core-utils/lib/ui");
+var _ui = require("../../core-utils/src/ui");
 
-var _humanizeDistance = require("@opentripplanner/humanize-distance");
+var _src = require("../../humanize-distance/src");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -78,7 +78,7 @@ function TransitStopOption({
   return /*#__PURE__*/_react.default.createElement(Styled.MenuItem, {
     onClick: onClick,
     active: isActive
-  }, /*#__PURE__*/_react.default.createElement(Styled.StopIconAndDistanceContainer, null, stopOptionIcon, /*#__PURE__*/_react.default.createElement(Styled.StopDistance, null, (0, _humanizeDistance.humanizeDistanceStringImperial)(stop.dist, true))), /*#__PURE__*/_react.default.createElement(Styled.StopContentContainer, null, /*#__PURE__*/_react.default.createElement(Styled.StopName, null, stop.name, " (", stop.code, ")"), /*#__PURE__*/_react.default.createElement(Styled.StopRoutes, null, (stop.routes || []).map(route => {
+  }, /*#__PURE__*/_react.default.createElement(Styled.StopIconAndDistanceContainer, null, stopOptionIcon, /*#__PURE__*/_react.default.createElement(Styled.StopDistance, null, (0, _src.humanizeDistanceStringImperial)(stop.dist, true))), /*#__PURE__*/_react.default.createElement(Styled.StopContentContainer, null, /*#__PURE__*/_react.default.createElement(Styled.StopName, null, stop.name, " (", stop.code, ")"), /*#__PURE__*/_react.default.createElement(Styled.StopRoutes, null, (stop.routes || []).map(route => {
     const name = route.shortName || route.longName;
     return /*#__PURE__*/_react.default.createElement(Styled.RouteName, {
       key: `route-${name}`

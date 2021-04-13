@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = AccessLegSteps;
 
-var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
+var _itinerary = require("../../../core-utils/src/itinerary");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../../core-utils/src/types");
 
-var _directions = require("@opentripplanner/icons/lib/directions");
+var _directions = require("../../../icons/src/directions");
 
 var _react = _interopRequireDefault(require("react"));
 

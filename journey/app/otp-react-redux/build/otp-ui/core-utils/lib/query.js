@@ -19,7 +19,7 @@ exports.defaultParams = void 0;
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _lib = _interopRequireDefault(require("@opentripplanner/geocoder/lib"));
+var _lib = _interopRequireDefault(require("../otp-ui/geocoder/src/lib"));
 
 var _qs = _interopRequireDefault(require("qs"));
 

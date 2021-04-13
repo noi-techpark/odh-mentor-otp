@@ -1,11 +1,11 @@
-import { getTransitFare } from "@opentripplanner/core-utils/lib/itinerary";
-import { formatDuration } from "@opentripplanner/core-utils/lib/time";
+import { getTransitFare } from "../../../core-utils/src/itinerary";
+import { formatDuration } from "../../../core-utils/src/time";
 import {
   configType,
   fareType,
   legType,
   transitOperatorType
-} from "@opentripplanner/core-utils/lib/types";
+} from "../../../core-utils/src/types";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { ExclamationTriangle } from "styled-icons/fa-solid";

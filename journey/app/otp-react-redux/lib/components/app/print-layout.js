@@ -1,4 +1,4 @@
-import PrintableItinerary from '@opentripplanner/printable-itinerary'
+import PrintableItinerary from '../../otp-ui/printable-itinerary/src'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'

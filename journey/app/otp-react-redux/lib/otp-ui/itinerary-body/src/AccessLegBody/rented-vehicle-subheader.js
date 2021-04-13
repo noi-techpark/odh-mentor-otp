@@ -1,8 +1,8 @@
-import { configType, legType } from "@opentripplanner/core-utils/lib/types";
+import { configType, legType } from "../../../core-utils/src/types";
 import {
   getCompaniesLabelFromNetworks,
   getModeForPlace
-} from "@opentripplanner/core-utils/lib/itinerary";
+} from "../../../core-utils/src/itinerary";
 import React from "react";
 
 import * as Styled from "../styled";

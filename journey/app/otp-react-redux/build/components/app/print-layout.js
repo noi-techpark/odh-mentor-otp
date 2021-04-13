@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _printableItinerary = _interopRequireDefault(require("@opentripplanner/printable-itinerary"));
+var _src = _interopRequireDefault(require("../../otp-ui/printable-itinerary/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -104,7 +104,7 @@ class PrintLayout extends _react.Component {
       className: "fa fa-print"
     }), " Print")), "Itinerary"), this.state.mapVisible && /*#__PURE__*/_react.default.createElement("div", {
       className: "map-container"
-    }, /*#__PURE__*/_react.default.createElement(_defaultMap.default, null)), itinerary && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_printableItinerary.default, {
+    }, /*#__PURE__*/_react.default.createElement(_defaultMap.default, null)), itinerary && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_src.default, {
       config: config,
       itinerary: itinerary,
       LegIcon: LegIcon

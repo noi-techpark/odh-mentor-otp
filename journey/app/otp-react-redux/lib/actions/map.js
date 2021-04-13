@@ -1,5 +1,5 @@
-import coreUtils from '@opentripplanner/core-utils'
-import getGeocoder from '@opentripplanner/geocoder'
+import coreUtils from '../otp-ui/core-utils/src'
+import getGeocoder from '../otp-ui/geocoder/src'
 import { createAction } from 'redux-actions'
 
 import { routingQuery } from './api'

@@ -1,4 +1,4 @@
-import BaseMap from '@opentripplanner/base-map'
+import BaseMap from '../../otp-ui/base-map/src'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'

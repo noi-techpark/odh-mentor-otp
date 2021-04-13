@@ -1,13 +1,13 @@
 import { divIcon } from "leaflet";
 import memoize from "lodash.memoize";
-import * as BaseMapStyled from "@opentripplanner/base-map/lib/styled";
-import { getCompaniesLabelFromNetworks } from "@opentripplanner/core-utils/lib/itinerary";
+import * as BaseMapStyled from "../../base-map/src/styled";
+import { getCompaniesLabelFromNetworks } from "../../core-utils/src/itinerary";
 import {
   companyType,
   vehicleRentalMapOverlaySymbolsType,
   stationType
-} from "@opentripplanner/core-utils/lib/types";
-import FromToLocationPicker from "@opentripplanner/from-to-location-picker";
+} from "../../core-utils/src/types";
+import FromToLocationPicker from "../../from-to-location-picker/src";
 import PropTypes from "prop-types";
 import React from "react";
 import ReactDOMServer from "react-dom/server";

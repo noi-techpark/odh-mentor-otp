@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
-var _locationIcon = _interopRequireDefault(require("@opentripplanner/location-icon"));
+var _src2 = _interopRequireDefault(require("../../otp-ui/location-icon/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -68,7 +68,7 @@ const LocationsSummaryColFromTo = (0, _styledComponents.default)(_reactBootstrap
 const LocationsSummaryRow = (0, _styledComponents.default)(_reactBootstrap.Row)`
   padding: 4px 8px;
 `;
-const StyledLocationIcon = (0, _styledComponents.default)(_locationIcon.default)`
+const StyledLocationIcon = (0, _styledComponents.default)(_src2.default)`
   margin: 3px;
 `;
 
@@ -98,7 +98,7 @@ class MobileResultsScreen extends _react.Component {
     // Get the target element that we want to persist scrolling for
     // FIXME Do we need to add something that removes the listeners when
     // component unmounts?
-    _coreUtils.default.ui.enableScrollForSelector('.mobile-narrative-container');
+    _src.default.ui.enableScrollForSelector('.mobile-narrative-container');
   }
 
   componentDidUpdate(prevProps) {

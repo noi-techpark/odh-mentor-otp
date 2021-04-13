@@ -13,7 +13,7 @@ var _history = require("history");
 
 var _lodash = _interopRequireDefault(require("lodash.isequal"));
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -71,7 +71,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 const {
   isMobile
-} = _coreUtils.default.ui;
+} = _src.default.ui;
 
 class ResponsiveWebapp extends _react.Component {
   /** Lifecycle methods **/
@@ -84,7 +84,7 @@ class ResponsiveWebapp extends _react.Component {
     } = this.props;
     document.title = title;
 
-    const urlParams = _coreUtils.default.query.getUrlParams();
+    const urlParams = _src.default.query.getUrlParams();
 
     const newSearchId = urlParams.ui_activeSearch; // Determine if trip is being replanned by checking the active search ID
     // against the ID found in the URL params. If they are different, a new one

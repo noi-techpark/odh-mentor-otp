@@ -8,7 +8,7 @@ exports.getRouteIdForPattern = getRouteIdForPattern;
 exports.getStatusLabel = getStatusLabel;
 exports.getStopTimesByPattern = getStopTimesByPattern;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../otp-ui/core-utils/src"));
 
 var _moment = _interopRequireDefault(require("moment"));
 
@@ -24,7 +24,7 @@ const {
   formatDuration,
   formatSecondsAfterMidnight,
   getUserTimezone
-} = _coreUtils.default.time;
+} = _src.default.time;
 const ONE_HOUR_IN_SECONDS = 3600;
 const ONE_DAY_IN_SECONDS = 86400;
 /**

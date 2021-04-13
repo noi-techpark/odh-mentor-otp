@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -76,8 +76,8 @@ const mapStateToProps = (state, ownProps) => {
     date,
     time,
     // These props below are for legacy browsers (see render method above).
-    timeFormatLegacy: _coreUtils.default.time.getTimeFormat(config),
-    dateFormatLegacy: _coreUtils.default.time.getDateFormat(config)
+    timeFormatLegacy: _src.default.time.getTimeFormat(config),
+    dateFormatLegacy: _src.default.time.getDateFormat(config)
   };
 };
 

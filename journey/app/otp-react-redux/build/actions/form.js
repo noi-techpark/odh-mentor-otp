@@ -15,7 +15,7 @@ var _lodash2 = _interopRequireDefault(require("lodash.isequal"));
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../otp-ui/core-utils/src"));
 
 var _reduxActions = require("redux-actions");
 
@@ -32,7 +32,7 @@ const {
   getTripOptionsFromQuery,
   getUrlParams,
   planParamsToQueryAsync
-} = _coreUtils.default.query;
+} = _src.default.query;
 const settingQueryParam = (0, _reduxActions.createAction)('SET_QUERY_PARAM');
 exports.settingQueryParam = settingQueryParam;
 const clearActiveSearch = (0, _reduxActions.createAction)('CLEAR_ACTIVE_SEARCH');
@@ -55,7 +55,7 @@ function resetForm() {
       dispatch(settingQueryParam(otpState.user.defaults));
     } else {
       // Get user overrides and apply to default query
-      const userOverrides = _coreUtils.default.storage.getItem('defaultQuery', {});
+      const userOverrides = _src.default.storage.getItem('defaultQuery', {});
 
       const defaultQuery = Object.assign(getDefaultQuery(otpState.config), userOverrides); // Filter out non-options (i.e., date, places).
 
@@ -89,7 +89,7 @@ function parseUrlQueryString(params = getUrlParams()) {
       if (!key.startsWith('ui_')) planParams[key] = params[key];
     });
 
-    const searchId = params.ui_activeSearch || _coreUtils.default.storage.randId(); // Convert strings to numbers/objects and dispatch
+    const searchId = params.ui_activeSearch || _src.default.storage.randId(); // Convert strings to numbers/objects and dispatch
 
 
     planParamsToQueryAsync(planParams, getState().otp.config).then(query => dispatch(setQueryParam(query, searchId)));
@@ -104,12 +104,12 @@ function formChanged(oldQuery, newQuery) {
   return function (dispatch, getState) {
     const otpState = getState().otp;
 
-    const isMobile = _coreUtils.default.ui.isMobile(); // If departArrive is set to 'NOW', update the query time to current
+    const isMobile = _src.default.ui.isMobile(); // If departArrive is set to 'NOW', update the query time to current
 
 
     if (otpState.currentQuery && otpState.currentQuery.departArrive === 'NOW') {
       dispatch(settingQueryParam({
-        time: (0, _moment.default)().format(_coreUtils.default.time.OTP_API_TIME_FORMAT)
+        time: (0, _moment.default)().format(_src.default.time.OTP_API_TIME_FORMAT)
       }));
     } // Determine if either from/to location has changed
 

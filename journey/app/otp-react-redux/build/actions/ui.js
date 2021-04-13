@@ -15,7 +15,7 @@ require("core-js/modules/web.dom.iterable.js");
 
 var _connectedReactRouter = require("connected-react-router");
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../otp-ui/core-utils/src"));
 
 var _reduxActions = require("redux-actions");
 
@@ -165,7 +165,7 @@ function handleBackButtonPress(e) {
     const uiUrlParams = (0, _state.getUiUrlParams)(otpState); // Get new search ID from URL after back button pressed.
     // console.log('back button pressed', e)
 
-    const urlParams = _coreUtils.default.query.getUrlParams();
+    const urlParams = _src.default.query.getUrlParams();
 
     const previousSearchId = urlParams.ui_activeSearch;
     const previousItinIndex = +urlParams.ui_activeItinerary || 0;

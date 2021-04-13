@@ -1,8 +1,8 @@
 "use strict";
 
-var _baseMap = _interopRequireDefault(require("@opentripplanner/base-map"));
+var _src = _interopRequireDefault(require("../../base-map/src"));
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -43,14 +43,14 @@ function CustomMarker({
 CustomMarker.propTypes = {
   stop: _types.stopLayerStopType.isRequired
 };
-(0, _react2.storiesOf)("StopViewerOverlay", module).addDecorator(_addonA11y.withA11y).addDecorator(_addonInfo.withInfo).add("StopViewerOverlay", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+(0, _react2.storiesOf)("StopViewerOverlay", module).addDecorator(_addonA11y.withA11y).addDecorator(_addonInfo.withInfo).add("StopViewerOverlay", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: center,
   zoom: zoom
 }, /*#__PURE__*/_react.default.createElement(_.default, {
   stop: fakeStop,
   StopMarker: _defaultStopMarker.default,
   visible: true
-}))).add("StopViewerOverlay with custom marker", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("StopViewerOverlay with custom marker", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: center,
   zoom: zoom
 }, /*#__PURE__*/_react.default.createElement(_.default, {

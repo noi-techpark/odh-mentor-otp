@@ -1,5 +1,5 @@
-import BaseMap from "@opentripplanner/base-map";
-import { stopLayerStopType } from "@opentripplanner/core-utils/lib/types";
+import BaseMap from "../../base-map/src";
+import { stopLayerStopType } from "../../core-utils/src/types";
 import React from "react";
 import { CircleMarker } from "react-leaflet";
 import { withA11y } from "@storybook/addon-a11y";

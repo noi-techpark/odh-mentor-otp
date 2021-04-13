@@ -1,6 +1,6 @@
 import { select, event } from 'd3-selection'
 import { zoom } from 'd3-zoom'
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../../otp-ui/core-utils/src'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'

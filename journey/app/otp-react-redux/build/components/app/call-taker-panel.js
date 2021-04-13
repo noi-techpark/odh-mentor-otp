@@ -7,15 +7,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.StyledSubmodeSelector = void 0;
 
-var _time = require("@opentripplanner/core-utils/lib/time");
+var _time = require("../../otp-ui/core-utils/src/time");
 
-var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
+var _itinerary = require("../../otp-ui/core-utils/src/itinerary");
 
-var _storage = require("@opentripplanner/core-utils/lib/storage");
+var _storage = require("../../otp-ui/core-utils/src/storage");
 
-var _tripForm = require("@opentripplanner/trip-form");
+var _src = require("../../otp-ui/trip-form/src");
 
-var TripFormClasses = _interopRequireWildcard(require("@opentripplanner/trip-form/lib/styled"));
+var TripFormClasses = _interopRequireWildcard(require("../../otp-ui/trip-form/src/styled"));
 
 var _moment = _interopRequireDefault(require("moment"));
 
@@ -60,7 +60,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // FIXME: move to styled.js?
-const StyledSubmodeSelector = (0, _styledComponents.default)(_tripForm.SubmodeSelector)`
+const StyledSubmodeSelector = (0, _styledComponents.default)(_src.SubmodeSelector)`
   ${TripFormClasses.SubmodeSelector.Row} {
     > * {
       padding: 3px 5px 3px 0px;

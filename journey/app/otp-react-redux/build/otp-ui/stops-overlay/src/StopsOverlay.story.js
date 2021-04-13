@@ -4,9 +4,9 @@ require("core-js/modules/web.dom.iterable.js");
 
 var _leaflet = require("leaflet");
 
-var _baseMap = _interopRequireDefault(require("@opentripplanner/base-map"));
+var _src = _interopRequireDefault(require("../../base-map/src"));
 
-var _types = require("@opentripplanner/core-utils/src/types");
+var _types = require("../../core-utils/src/types");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -88,7 +88,7 @@ class Example extends _react.Component {
     const {
       stops
     } = this.state;
-    return /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+    return /*#__PURE__*/_react.default.createElement(_src.default, {
       center: center
     }, /*#__PURE__*/_react.default.createElement(_.default, {
       name: "Transit Stops",

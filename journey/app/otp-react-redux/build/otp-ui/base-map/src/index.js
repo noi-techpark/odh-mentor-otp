@@ -13,7 +13,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _reactLeaflet = require("react-leaflet");
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../core-utils/src"));
 
 var _leaflet = _interopRequireDefault(require("leaflet"));
 
@@ -311,7 +311,7 @@ BaseMap.propTypes = {
   /**
    * The center of the map, as a [lat, lng] array.
    */
-  center: _coreUtils.default.types.latlngType.isRequired,
+  center: _src.default.types.latlngType.isRequired,
 
   /**
    * The maximum zoom level allowed on the map.
@@ -367,7 +367,7 @@ BaseMap.propTypes = {
    */
   popup: _propTypes.default.shape({
     contents: _propTypes.default.node.isRequired,
-    location: _coreUtils.default.types.latlngType.isRequired
+    location: _src.default.types.latlngType.isRequired
   }),
 
   /**

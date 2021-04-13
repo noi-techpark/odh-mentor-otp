@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _transitLegSubheader = _interopRequireDefault(require("@opentripplanner/itinerary-body/lib/otp-react-redux/transit-leg-subheader"));
+var _transitLegSubheader = _interopRequireDefault(require("../../../otp-ui/itinerary-body/src/otp-react-redux/transit-leg-subheader"));
 
 var _react = _interopRequireWildcard(require("react"));
 

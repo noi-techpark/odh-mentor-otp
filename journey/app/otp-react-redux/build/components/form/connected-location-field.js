@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _locationField = _interopRequireDefault(require("@opentripplanner/location-field"));
+var _src = _interopRequireDefault(require("../../otp-ui/location-field/src"));
 
-var _styled = require("@opentripplanner/location-field/lib/styled");
+var _styled = require("../../otp-ui/location-field/src/styled");
 
 var _reactRedux = require("react-redux");
 
@@ -23,7 +23,7 @@ var _state = require("../../util/state");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const StyledLocationField = (0, _styledComponents.default)(_locationField.default)`
+const StyledLocationField = (0, _styledComponents.default)(_src.default)`
   width: 100%;
 
   ${_styled.DropdownContainer} {

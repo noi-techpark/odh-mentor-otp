@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import FromToLocationPicker from '@opentripplanner/from-to-location-picker'
+import FromToLocationPicker from '../../otp-ui/from-to-location-picker/src'
 
 export default class SetFromToButtons extends Component {
   _setLocation = (type) => {

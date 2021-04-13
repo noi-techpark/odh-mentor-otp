@@ -1,5 +1,5 @@
 import { latLngBounds } from 'leaflet'
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../otp-ui/core-utils/src'
 
 export function getLeafletItineraryBounds (itinerary) {
   return latLngBounds(coreUtils.itinerary.getItineraryBounds(itinerary))

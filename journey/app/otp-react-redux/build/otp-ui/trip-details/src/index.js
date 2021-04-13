@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = TripDetails;
 
-var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
+var _itinerary = require("../../core-utils/src/itinerary");
 
-var _messages = require("@opentripplanner/core-utils/lib/messages");
+var _messages = require("../../core-utils/src/messages");
 
-var _time = require("@opentripplanner/core-utils/lib/time");
+var _time = require("../../core-utils/src/time");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
 var _moment = _interopRequireDefault(require("moment"));
 

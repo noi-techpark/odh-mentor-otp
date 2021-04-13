@@ -1,6 +1,6 @@
 import L from "leaflet";
 import isEqual from "lodash.isequal";
-import { transitiveDataType } from "@opentripplanner/core-utils/lib/types";
+import { transitiveDataType } from "../../core-utils/src/types";
 import { MapLayer, withLeaflet } from "react-leaflet";
 import Transitive from "transitive-js";
 

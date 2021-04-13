@@ -1,8 +1,8 @@
-import BaseMap from "@opentripplanner/base-map";
+import BaseMap from "../../base-map/src";
 import {
   vehicleRentalMapOverlaySymbolsType,
   stationType
-} from "@opentripplanner/core-utils/lib/types";
+} from "../../core-utils/src/types";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { action } from "@storybook/addon-actions";

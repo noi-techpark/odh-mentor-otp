@@ -1,4 +1,4 @@
-import utils from "@opentripplanner/core-utils";
+import utils from "../../core-utils/src";
 import PropTypes from "prop-types";
 import React from "react";
 import { FeatureGroup, MapLayer, withLeaflet } from "react-leaflet";

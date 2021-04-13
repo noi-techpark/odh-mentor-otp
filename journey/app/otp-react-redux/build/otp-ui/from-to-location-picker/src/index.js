@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
-var _locationIcon = _interopRequireDefault(require("@opentripplanner/location-icon"));
+var _src = _interopRequireDefault(require("../../location-icon/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -76,12 +76,12 @@ class FromToLocationPicker extends _react.Component {
       showIcons,
       toText
     } = this.props;
-    return /*#__PURE__*/_react.default.createElement(_styled.FromToPickerSpan, null, /*#__PURE__*/_react.default.createElement(_styled.LocationPickerSpan, null, showIcons && /*#__PURE__*/_react.default.createElement(_locationIcon.default, {
+    return /*#__PURE__*/_react.default.createElement(_styled.FromToPickerSpan, null, /*#__PURE__*/_react.default.createElement(_styled.LocationPickerSpan, null, showIcons && /*#__PURE__*/_react.default.createElement(_src.default, {
       type: "from",
       size: iconSize
     }), /*#__PURE__*/_react.default.createElement(_styled.Button, {
       onClick: this.onFromClick
-    }, fromText)), /*#__PURE__*/_react.default.createElement(_styled.LocationPickerSpan, null, showIcons && /*#__PURE__*/_react.default.createElement(_locationIcon.default, {
+    }, fromText)), /*#__PURE__*/_react.default.createElement(_styled.LocationPickerSpan, null, showIcons && /*#__PURE__*/_react.default.createElement(_src.default, {
       type: "to",
       size: iconSize
     }), /*#__PURE__*/_react.default.createElement(_styled.Button, {

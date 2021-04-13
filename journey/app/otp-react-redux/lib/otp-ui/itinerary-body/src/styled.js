@@ -1,4 +1,4 @@
-import BaseMapIcon from "@opentripplanner/icons/lib/trimet/Map";
+import BaseMapIcon from "../../icons/src/trimet/Map";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";

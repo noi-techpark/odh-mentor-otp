@@ -1,4 +1,4 @@
-import LocationField from '@opentripplanner/location-field'
+import LocationField from '../../otp-ui/location-field/src'
 import {
   DropdownContainer,
   FormGroup,
@@ -6,7 +6,7 @@ import {
   InputGroup,
   InputGroupAddon,
   MenuItemA
-} from '@opentripplanner/location-field/lib/styled'
+} from '../../otp-ui/location-field/src/styled'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 

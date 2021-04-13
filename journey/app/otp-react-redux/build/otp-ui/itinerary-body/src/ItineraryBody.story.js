@@ -2,11 +2,11 @@
 
 require("core-js/modules/web.dom.iterable.js");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
-var _classicLegIcon = _interopRequireDefault(require("@opentripplanner/icons/lib/classic-leg-icon"));
+var _classicLegIcon = _interopRequireDefault(require("../../icons/src/classic-leg-icon"));
 
-var _trimetLegIcon = _interopRequireDefault(require("@opentripplanner/icons/lib/trimet-leg-icon"));
+var _trimetLegIcon = _interopRequireDefault(require("../../icons/src/trimet-leg-icon"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 

@@ -1,12 +1,12 @@
 import {
   formatDuration,
   formatTime
-} from "@opentripplanner/core-utils/lib/time";
+} from "../../../core-utils/src/time";
 import {
   languageConfigType,
   legType,
   timeOptionsType
-} from "@opentripplanner/core-utils/lib/types";
+} from "../../../core-utils/src/types";
 import PropTypes from "prop-types";
 import React from "react";
 import { action } from "@storybook/addon-actions";
