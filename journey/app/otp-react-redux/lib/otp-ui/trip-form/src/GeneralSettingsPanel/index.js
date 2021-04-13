@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import queryParams from "@opentripplanner/core-utils/lib/query-params";
+import queryParams from "../../../core-utils/src/query-params";
 import {
   defaultParams,
   getQueryParamProperty
-} from "@opentripplanner/core-utils/lib/query";
-import { configuredModesType } from "@opentripplanner/core-utils/lib/types";
+} from "../../../core-utils/src/query";
+import { configuredModesType } from "../../../core-utils/src/types";
 
 import CheckboxSelector from "../CheckboxSelector";
 import DropdownSelector from "../DropdownSelector";

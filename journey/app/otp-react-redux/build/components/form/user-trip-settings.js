@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -38,7 +38,7 @@ class UserTripSettings extends _react.Component {
     super(...args);
 
     _defineProperty(this, "_toggleStoredSettings", () => {
-      const options = _coreUtils.default.query.getTripOptionsFromQuery(this.props.query); // If user defaults are set, clear them. Otherwise, store them.
+      const options = _src.default.query.getTripOptionsFromQuery(this.props.query); // If user defaults are set, clear them. Otherwise, store them.
 
 
       if (this.props.defaults) this.props.clearDefaultSettings();else this.props.storeDefaultSettings(options);
@@ -54,7 +54,7 @@ class UserTripSettings extends _react.Component {
     } = this.props; // Do not permit remembering trip options if they do not differ from the
     // defaults and nothing has been stored
 
-    const queryIsDefault = !_coreUtils.default.query.isNotDefaultQuery(query, config);
+    const queryIsDefault = !_src.default.query.isNotDefaultQuery(query, config);
     const rememberIsDisabled = queryIsDefault && !defaults;
     return /*#__PURE__*/_react.default.createElement("div", {
       style: {

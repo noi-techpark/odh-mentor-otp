@@ -1,5 +1,5 @@
-import { legType } from "@opentripplanner/core-utils/lib/types";
-import { formatDuration } from "@opentripplanner/core-utils/lib/time";
+import { legType } from "../../core-utils/src/types";
+import { formatDuration } from "../../core-utils/src/time";
 import PropTypes from "prop-types";
 import React from "react";
 

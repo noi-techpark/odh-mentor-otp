@@ -2,7 +2,7 @@ import {
   isBikeshareStation,
   isCarWalkTransition,
   isEScooterStation
-} from "@opentripplanner/core-utils/lib/map";
+} from "../../core-utils/src/map";
 
 const STYLES = {};
 

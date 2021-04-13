@@ -1,6 +1,6 @@
 "use strict";
 
-var _baseMap = _interopRequireDefault(require("@opentripplanner/base-map"));
+var _src = _interopRequireDefault(require("../../base-map/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -58,7 +58,7 @@ function CatDogIcon({
 CatDogIcon.propTypes = {
   type: _propTypes.default.string.isRequired
 };
-(0, _react2.storiesOf)("EndpointsOverlay", module).addDecorator(_addonA11y.withA11y).addDecorator(_addonInfo.withInfo).add("EndpointsOverlay", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+(0, _react2.storiesOf)("EndpointsOverlay", module).addDecorator(_addonA11y.withA11y).addDecorator(_addonInfo.withInfo).add("EndpointsOverlay", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: center,
   zoom: zoom
 }, /*#__PURE__*/_react.default.createElement(_.default, {
@@ -66,7 +66,7 @@ CatDogIcon.propTypes = {
   setLocation: setLocation,
   toLocation: toLocation,
   visible: true
-}))).add("EndpointsOverlay with user settings", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("EndpointsOverlay with user settings", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: center,
   zoom: zoom
 }, /*#__PURE__*/_react.default.createElement(_.default, {
@@ -79,7 +79,7 @@ CatDogIcon.propTypes = {
   showUserSettings: true,
   toLocation: toLocation,
   visible: true
-}))).add("EndpointsOverlay with custom map markers", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("EndpointsOverlay with custom map markers", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: center,
   zoom: zoom
 }, /*#__PURE__*/_react.default.createElement(_.default, {
@@ -88,7 +88,7 @@ CatDogIcon.propTypes = {
   setLocation: setLocation,
   toLocation: toLocation,
   visible: true
-}))).add("EndpointsOverlay with intermediate place", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("EndpointsOverlay with intermediate place", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: center,
   zoom: zoom
 }, /*#__PURE__*/_react.default.createElement(_.default, {

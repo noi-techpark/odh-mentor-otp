@@ -1,4 +1,4 @@
-import StopsOverlay from '@opentripplanner/stops-overlay'
+import StopsOverlay from '../../otp-ui/stops-overlay/src'
 import StopMarker from './connected-stop-marker'
 import { connect } from 'react-redux'
 

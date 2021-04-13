@@ -1,5 +1,5 @@
-import coreUtils from '@opentripplanner/core-utils'
-import { ClassicLegIcon } from '@opentripplanner/icons'
+import coreUtils from '../../otp-ui/core-utils/src'
+import { ClassicLegIcon } from '../../otp-ui/icons/src'
 import React from 'react'
 
 import ItinerarySummary from '../narrative/default/itinerary-summary'

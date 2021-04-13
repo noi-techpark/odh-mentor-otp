@@ -2,7 +2,7 @@ import clone from 'clone'
 import update from 'immutability-helper'
 import isEqual from 'lodash.isequal'
 import objectPath from 'object-path'
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../otp-ui/core-utils/src'
 
 import { MainPanelContent, MobileScreens } from '../actions/ui'
 import {getTimestamp} from '../util/state'

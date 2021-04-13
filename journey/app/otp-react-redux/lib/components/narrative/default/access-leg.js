@@ -1,5 +1,5 @@
-import coreUtils from '@opentripplanner/core-utils'
-import { humanizeDistanceString } from '@opentripplanner/humanize-distance'
+import coreUtils from '../../../otp-ui/core-utils/src'
+import { humanizeDistanceString } from '../../../otp-ui/humanize-distance'
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 

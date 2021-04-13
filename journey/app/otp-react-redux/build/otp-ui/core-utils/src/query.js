@@ -19,7 +19,7 @@ exports.defaultParams = void 0;
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _lib = _interopRequireDefault(require("@opentripplanner/geocoder/lib"));
+var _src = _interopRequireDefault(require("../../geocoder/src"));
 
 var _qs = _interopRequireDefault(require("qs"));
 
@@ -166,7 +166,7 @@ function getDefaultQuery() {
 
 
 async function getFirstGeocodeResult(text, geocoderConfig) {
-  const geocoder = (0, _lib.default)(geocoderConfig); // Attempt to geocode search text and return first result if found.
+  const geocoder = (0, _src.default)(geocoderConfig); // Attempt to geocode search text and return first result if found.
   // TODO: Import geocoder from @opentripplanner
 
   return geocoder.search({

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -35,12 +35,12 @@ const {
   calculateFares,
   calculatePhysicalActivity,
   getTimeZoneOffset
-} = _coreUtils.default.itinerary;
+} = _src.default.itinerary;
 const {
   formatDuration,
   formatTime,
   getTimeFormat
-} = _coreUtils.default.time;
+} = _src.default.time;
 
 class TabbedItineraries extends _react.Component {
   constructor(...args) {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { LayersControl, Map, Popup, TileLayer } from "react-leaflet";
-import utils from "@opentripplanner/core-utils";
+import utils from "../../core-utils/src";
 import L from "leaflet";
 
 import callIfValid from "./util";

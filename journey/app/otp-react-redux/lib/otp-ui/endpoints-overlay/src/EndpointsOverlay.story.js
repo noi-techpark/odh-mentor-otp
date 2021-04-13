@@ -1,4 +1,4 @@
-import BaseMap from "@opentripplanner/base-map";
+import BaseMap from "../../base-map/src";
 import PropTypes from "prop-types";
 import React from "react";
 import { action } from "@storybook/addon-actions";

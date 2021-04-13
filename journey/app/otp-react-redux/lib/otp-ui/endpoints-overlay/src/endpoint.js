@@ -2,8 +2,8 @@ import { divIcon } from "leaflet";
 import {
   constructLocation,
   matchLatLon
-} from "@opentripplanner/core-utils/lib/map";
-import { locationType } from "@opentripplanner/core-utils/lib/types";
+} from "../../core-utils/src/map";
+import { locationType } from "../../core-utils/src/types";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Marker, Popup } from "react-leaflet";

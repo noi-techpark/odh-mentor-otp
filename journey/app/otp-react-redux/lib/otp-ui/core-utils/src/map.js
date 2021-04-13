@@ -54,7 +54,7 @@ export function getDetailText(location) {
 }
 
 export function formatStoredPlaceName(location, withDetails = true) {
-    var displayName = location.type === "home" || location.type === "work" ? (0, _itinerary.toSentenceCase)(location.type) : location.name;
+    var displayName = location.type === "home" || location.type === "work" ? (0, toSentenceCase)(location.type) : location.name;
     displayName = location.type === "home" ? "$_home_$" : (location.type === "work" ? "$_work_$": location.name);
   if (withDetails) {
     const detailText = getDetailText(location);

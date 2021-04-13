@@ -1,4 +1,4 @@
-import DefaultStopMarker from '@opentripplanner/stops-overlay/lib/stop-marker'
+import DefaultStopMarker from '../../otp-ui/stops-overlay/src/stop-marker'
 import { connect } from 'react-redux'
 
 import { setLocation } from '../../actions/map'

@@ -1,10 +1,10 @@
 "use strict";
 
-var _baseMap = _interopRequireDefault(require("@opentripplanner/base-map"));
+var _src = _interopRequireDefault(require("../../base-map/src"));
 
-var _map = require("@opentripplanner/core-utils/lib/map");
+var _map = require("../../core-utils/src/map");
 
-var _endpointsOverlay = _interopRequireDefault(require("@opentripplanner/endpoints-overlay"));
+var _endpointsOverlay = _interopRequireDefault(require("../../endpoints-overlay"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -23,31 +23,31 @@ require("../../../node_modules/leaflet/dist/leaflet.css");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import mock itinaries. These are all trip plan outputs from OTP.
-const bikeOnlyItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/bike-only.json");
+const bikeOnlyItinerary = require("../../itinerary-body/src/__mocks__/itineraries/bike-only.json");
 
-const bikeRentalItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/bike-rental.json");
+const bikeRentalItinerary = require("../../itinerary-body/src/__mocks__/itineraries/bike-rental.json");
 
-const bikeRentalTransitBikeRentalItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/bike-rental-transit-bike-rental.json");
+const bikeRentalTransitBikeRentalItinerary = require("../../itinerary-body/src/__mocks__/itineraries/bike-rental-transit-bike-rental.json");
 
-const bikeTransitBikeItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/bike-transit-bike.json");
+const bikeTransitBikeItinerary = require("../../itinerary-body/src/__mocks__/itineraries/bike-transit-bike.json");
 
-const eScooterRentalItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/e-scooter-rental.json");
+const eScooterRentalItinerary = require("../../itinerary-body/src/__mocks__/itineraries/e-scooter-rental.json");
 
-const eScooterRentalTransiteScooterRentalItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/e-scooter-transit-e-scooter.json");
+const eScooterRentalTransiteScooterRentalItinerary = require("../../itinerary-body/src/__mocks__/itineraries/e-scooter-transit-e-scooter.json");
 
-const parkAndRideItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/park-and-ride.json");
+const parkAndRideItinerary = require("../../itinerary-body/src/__mocks__/itineraries/park-and-ride.json");
 
-const tncTransitTncItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/tnc-transit-tnc.json");
+const tncTransitTncItinerary = require("../../itinerary-body/src/__mocks__/itineraries/tnc-transit-tnc.json");
 
-const walkInterlinedTransitItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-interlined-transit-walk.json");
+const walkInterlinedTransitItinerary = require("../../itinerary-body/src/__mocks__/itineraries/walk-interlined-transit-walk.json");
 
-const walkOnlyItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-only.json");
+const walkOnlyItinerary = require("../../itinerary-body/src/__mocks__/itineraries/walk-only.json");
 
-const walkTransitWalkItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-transit-walk.json");
+const walkTransitWalkItinerary = require("../../itinerary-body/src/__mocks__/itineraries/walk-transit-walk.json");
 
-const walkTransitWalkItineraryNoIntermediateStops = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-transit-walk-no-intermediate-stops.json");
+const walkTransitWalkItineraryNoIntermediateStops = require("../../itinerary-body/src/__mocks__/itineraries/walk-transit-walk-no-intermediate-stops.json");
 
-const walkTransitWalkTransitWalkItinerary = require("@opentripplanner/itinerary-body/src/__mocks__/itineraries/walk-transit-walk-transit-walk.json");
+const walkTransitWalkTransitWalkItinerary = require("../../itinerary-body/src/__mocks__/itineraries/walk-transit-walk-transit-walk.json");
 
 const companies = [{
   id: "RAZOR",
@@ -68,7 +68,7 @@ function getToLocation(itinerary) {
   return itinerary.legs[itinerary.legs.length - 1].to;
 }
 
-(0, _react2.storiesOf)("TransitiveOverlay", module).addDecorator(_addonA11y.withA11y).addDecorator(_addonInfo.withInfo).add("TransitiveOverlay with walking itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+(0, _react2.storiesOf)("TransitiveOverlay", module).addDecorator(_addonA11y.withA11y).addDecorator(_addonInfo.withInfo).add("TransitiveOverlay with walking itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.518841, -122.679302],
   zoom: 19
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -79,7 +79,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(walkOnlyItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with bike-only itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with bike-only itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.520441, -122.68302],
   zoom: 16
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -90,7 +90,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(bikeOnlyItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with walk-transit-walk itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with walk-transit-walk itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.520441, -122.68302],
   zoom: 16
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -101,7 +101,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(walkTransitWalkItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with walk-transit-walk itinerary with no intermediate stops", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with walk-transit-walk itinerary with no intermediate stops", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.525841, -122.649302],
   zoom: 13
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -112,7 +112,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(walkTransitWalkItineraryNoIntermediateStops, companies),
   visible: true
-}))).add("TransitiveOverlay with bike-transit-bike itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with bike-transit-bike itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.520441, -122.68302],
   zoom: 16
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -123,7 +123,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(bikeTransitBikeItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with walk-interlined-transit itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with walk-interlined-transit itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.511841, -122.679302],
   zoom: 14
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -134,7 +134,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(walkInterlinedTransitItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with walk-transit-transfer itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with walk-transit-transfer itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.505841, -122.631302],
   zoom: 14
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -145,7 +145,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(walkTransitWalkTransitWalkItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with bike-rental itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with bike-rental itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.508841, -122.631302],
   zoom: 14
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -156,7 +156,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(bikeRentalItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with E-scooter-rental itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with E-scooter-rental itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.52041, -122.675302],
   zoom: 16
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -167,7 +167,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(eScooterRentalItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with park and ride itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with park and ride itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.515841, -122.75302],
   zoom: 13
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -178,7 +178,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(parkAndRideItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with bike rental + transit itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with bike rental + transit itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.538841, -122.6302],
   zoom: 12
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -189,7 +189,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(bikeRentalTransitBikeRentalItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with E-scooter rental + transit itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with E-scooter rental + transit itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.538841, -122.6302],
   zoom: 12
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {
@@ -200,7 +200,7 @@ function getToLocation(itinerary) {
 }), /*#__PURE__*/_react.default.createElement(_.default, {
   transitiveData: (0, _map.itineraryToTransitive)(eScooterRentalTransiteScooterRentalItinerary, companies),
   visible: true
-}))).add("TransitiveOverlay with TNC + transit itinerary", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("TransitiveOverlay with TNC + transit itinerary", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: [45.538841, -122.6302],
   zoom: 12
 }, /*#__PURE__*/_react.default.createElement(_endpointsOverlay.default, {

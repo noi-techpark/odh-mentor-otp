@@ -1,5 +1,5 @@
-import StopViewerOverlay from '@opentripplanner/stop-viewer-overlay'
-import DefaultStopMarker from '@opentripplanner/stop-viewer-overlay/lib/default-stop-marker'
+import StopViewerOverlay from '../../otp-ui/stop-viewer-overlay/src'
+import DefaultStopMarker from '../../otp-ui/stop-viewer-overlay/src/default-stop-marker'
 import { connect } from 'react-redux'
 
 // connect to the redux store

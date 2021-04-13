@@ -9,7 +9,7 @@ var _map = require("@opentripplanner/core-utils/lib/map");
 
 var _types = require("@opentripplanner/core-utils/lib/types");
 
-var _geocoder = _interopRequireDefault(require("@opentripplanner/geocoder"));
+var _geocoder = _interopRequireDefault(require("../otp-ui/geocoder/src"));
 
 var _locationIcon = _interopRequireDefault(require("@opentripplanner/location-icon"));
 

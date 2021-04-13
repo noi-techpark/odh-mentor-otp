@@ -7,15 +7,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _icons = require("@opentripplanner/icons");
+var _src = require("../../../icons/src");
 
 var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
+var _itinerary = require("../../../core-utils/src/itinerary");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../../core-utils/src/types");
 
 var _ModeSelector = _interopRequireDefault(require("../ModeSelector"));
 
@@ -268,7 +268,7 @@ SettingsSelectorPanel.propTypes = {
 };
 SettingsSelectorPanel.defaultProps = {
   className: null,
-  ModeIcon: _icons.TriMetModeIcon,
+  ModeIcon: _src.TriMetModeIcon,
   onQueryParamChange: null,
   queryParams: null,
   supportedCompanies: []

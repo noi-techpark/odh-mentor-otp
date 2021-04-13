@@ -11,13 +11,13 @@ var _leaflet = require("leaflet");
 
 var _lodash = _interopRequireDefault(require("lodash.memoize"));
 
-var BaseMapStyled = _interopRequireWildcard(require("@opentripplanner/base-map/lib/styled"));
+var BaseMapStyled = _interopRequireWildcard(require("../../base-map/src/styled"));
 
-var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
+var _itinerary = require("../../core-utils/src/itinerary");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
-var _fromToLocationPicker = _interopRequireDefault(require("@opentripplanner/from-to-location-picker"));
+var _src = _interopRequireDefault(require("../../from-to-location-picker/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -69,7 +69,7 @@ class VehicleRentalOverlay extends _reactLeaflet.MapLayer {
         lon: station.x,
         name: stationName
       };
-      return /*#__PURE__*/_react.default.createElement(_reactLeaflet.Popup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.MapOverlayPopup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupTitle, null, stationName), stationIsHub && /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("div", null, "Available bikes: ", station.bikesAvailable), /*#__PURE__*/_react.default.createElement("div", null, "Available docks: ", station.spacesAvailable)), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("b", null, "$_travel_$"), /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
+      return /*#__PURE__*/_react.default.createElement(_reactLeaflet.Popup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.MapOverlayPopup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupTitle, null, stationName), stationIsHub && /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("div", null, "Available bikes: ", station.bikesAvailable), /*#__PURE__*/_react.default.createElement("div", null, "Available docks: ", station.spacesAvailable)), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("b", null, "$_travel_$"), /*#__PURE__*/_react.default.createElement(_src.default, {
         location: location,
         setLocation: setLocation
       }))));

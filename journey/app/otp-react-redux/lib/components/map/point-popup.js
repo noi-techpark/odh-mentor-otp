@@ -1,4 +1,4 @@
-import FromToLocationPicker from '@opentripplanner/from-to-location-picker'
+import FromToLocationPicker from '../../otp-ui/from-to-location-picker/src'
 import styled from 'styled-components'
 
 const PopupContainer = styled.div`

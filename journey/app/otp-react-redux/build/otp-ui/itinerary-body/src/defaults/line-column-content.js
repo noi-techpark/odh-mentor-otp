@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = LineColumnContent;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../../core-utils/src"));
 
-var _locationIcon = _interopRequireDefault(require("@opentripplanner/location-icon"));
+var _src2 = _interopRequireDefault(require("../../../location-icon/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -46,7 +46,7 @@ function LineColumnContent({
     leg: leg,
     title: `Travel by ${leg.mode}`,
     width: "66%"
-  })), isDestination && /*#__PURE__*/_react.default.createElement(Styled.Destination, null, /*#__PURE__*/_react.default.createElement(_locationIcon.default, {
+  })), isDestination && /*#__PURE__*/_react.default.createElement(Styled.Destination, null, /*#__PURE__*/_react.default.createElement(_src2.default, {
     size: 25,
     type: "to"
   }))));
@@ -60,7 +60,7 @@ LineColumnContent.propTypes = {
   isDestination: _propTypes.default.bool.isRequired,
 
   /** Contains details about leg object that is being displayed */
-  leg: _coreUtils.default.types.legType,
+  leg: _src.default.types.legType,
 
   /** A component class used to render the icon for a leg */
   LegIcon: _propTypes.default.elementType.isRequired,

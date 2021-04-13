@@ -1,4 +1,4 @@
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../../otp-ui/core-utils/src'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button, Label } from 'react-bootstrap'

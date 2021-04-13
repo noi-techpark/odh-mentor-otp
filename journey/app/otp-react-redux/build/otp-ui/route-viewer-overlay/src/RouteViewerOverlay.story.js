@@ -1,6 +1,6 @@
 "use strict";
 
-var _baseMap = _interopRequireDefault(require("@opentripplanner/base-map"));
+var _src = _interopRequireDefault(require("../../base-map/src"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -20,13 +20,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const center = [45.543092, -122.671202];
 const zoom = 11;
-(0, _react2.storiesOf)("RouteViewerOverlay", module).addDecorator(_addonA11y.withA11y).addDecorator(_addonInfo.withInfo).add("RouteViewerOverlay", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+(0, _react2.storiesOf)("RouteViewerOverlay", module).addDecorator(_addonA11y.withA11y).addDecorator(_addonInfo.withInfo).add("RouteViewerOverlay", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: center,
   zoom: zoom
 }, /*#__PURE__*/_react.default.createElement(_.default, {
   routeData: _mockRoute.default,
   visible: true
-}))).add("RouteViewerOverlay with path styling", () => /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+}))).add("RouteViewerOverlay with path styling", () => /*#__PURE__*/_react.default.createElement(_src.default, {
   center: center,
   zoom: zoom
 }, /*#__PURE__*/_react.default.createElement(_.default, {

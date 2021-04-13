@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _endpointsOverlay = _interopRequireDefault(require("@opentripplanner/endpoints-overlay"));
+var _src = _interopRequireDefault(require("../../otp-ui/endpoints-overlay/src"));
 
 var _reactRedux = require("react-redux");
 
@@ -46,7 +46,7 @@ const mapDispatchToProps = {
   clearLocation: _map.clearLocation
 };
 
-var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_endpointsOverlay.default);
+var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_src.default);
 
 exports.default = _default;
 module.exports = exports.default;

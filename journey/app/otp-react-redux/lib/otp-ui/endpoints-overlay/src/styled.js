@@ -1,4 +1,4 @@
-import LocationIcon from "@opentripplanner/location-icon";
+import LocationIcon from "../../location-icon/src";
 import styled, { css } from "styled-components";
 import { Circle } from "styled-icons/fa-solid";
 

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../../otp-ui/core-utils/src"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -26,11 +26,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 const {
   isBicycle,
   isTransit
-} = _coreUtils.default.itinerary;
+} = _src.default.itinerary;
 const {
   formatDuration,
   formatTime
-} = _coreUtils.default.time; // FIXME move to core utils
+} = _src.default.time; // FIXME move to core utils
 
 function getItineraryDescription(itinerary) {
   let primaryTransitDuration = 0;
@@ -166,7 +166,7 @@ class DefaultItinerary extends _narrativeItinerary.default {
     } = this.props;
     const timeOptions = {
       format: timeFormat,
-      offset: _coreUtils.default.itinerary.getTimeZoneOffset(itinerary)
+      offset: _src.default.itinerary.getTimeZoneOffset(itinerary)
     };
     return /*#__PURE__*/_react.default.createElement("div", {
       className: `option default-itin${active ? ' active' : ''}${expanded ? ' expanded' : ''}`,

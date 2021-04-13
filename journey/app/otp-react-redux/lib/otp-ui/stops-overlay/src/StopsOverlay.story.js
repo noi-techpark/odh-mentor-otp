@@ -1,6 +1,6 @@
 import { divIcon } from "leaflet";
-import BaseMap from "@opentripplanner/base-map";
-import { stopLayerStopType } from "@opentripplanner/core-utils/src/types";
+import BaseMap from "../../base-map/src";
+import { stopLayerStopType } from "../../core-utils/src/types";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import ReactDOMServer from "react-dom/server";

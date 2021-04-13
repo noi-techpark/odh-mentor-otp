@@ -1,8 +1,8 @@
-import { formatTime } from "@opentripplanner/core-utils/lib/time";
+import { formatTime } from "../../../core-utils/src/time";
 import {
   legType,
   timeOptionsType
-} from "@opentripplanner/core-utils/lib/types";
+} from "../../../core-utils/src/types";
 import PropTypes from "prop-types";
 
 /**

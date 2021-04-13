@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ToIcon = exports.StackedIconContainer = exports.StackedToIcon = exports.StackedLocationIcon = exports.StackedCircle = exports.Button = void 0;
 
-var _locationIcon = _interopRequireDefault(require("@opentripplanner/location-icon"));
+var _src = _interopRequireDefault(require("../../location-icon/src"));
 
 var _styledComponents = _interopRequireWildcard(require("styled-components"));
 
@@ -43,7 +43,7 @@ const StackedCircle = (0, _styledComponents.default)(_faSolid.Circle)`
   ${stacked}
 `;
 exports.StackedCircle = StackedCircle;
-const StackedLocationIcon = (0, _styledComponents.default)(_locationIcon.default)`
+const StackedLocationIcon = (0, _styledComponents.default)(_src.default)`
   ${stacked}
 `;
 exports.StackedLocationIcon = StackedLocationIcon;
@@ -64,7 +64,7 @@ const StackedIconContainer = _styledComponents.default.span`
   width: 2em;
 `;
 exports.StackedIconContainer = StackedIconContainer;
-const ToIcon = (0, _styledComponents.default)(_locationIcon.default)`
+const ToIcon = (0, _styledComponents.default)(_src.default)`
   ${stacked}
   line-height: inherit;
   margin-left: 2px;

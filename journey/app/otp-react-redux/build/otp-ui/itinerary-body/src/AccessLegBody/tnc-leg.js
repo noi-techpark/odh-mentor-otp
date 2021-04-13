@@ -9,11 +9,11 @@ exports.default = TNCLeg;
 
 var _currencyFormatter = _interopRequireDefault(require("currency-formatter"));
 
-var _time = require("@opentripplanner/core-utils/lib/time");
+var _time = require("../../../core-utils/src/time");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../../core-utils/src/types");
 
-var _ui = require("@opentripplanner/core-utils/lib/ui");
+var _ui = require("../../../core-utils/src/ui");
 
 var _react = _interopRequireDefault(require("react"));
 

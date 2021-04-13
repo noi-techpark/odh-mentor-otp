@@ -9,9 +9,9 @@ exports.StyledDateTimeSelector = exports.StyledSettingsSelectorPanel = exports.m
 
 var _styledComponents = _interopRequireWildcard(require("styled-components"));
 
-var _tripForm = require("@opentripplanner/trip-form");
+var _src = require("../../otp-ui/trip-form/src");
 
-var TripFormClasses = _interopRequireWildcard(require("@opentripplanner/trip-form/lib/styled"));
+var TripFormClasses = _interopRequireWildcard(require("../../otp-ui/trip-form/src/styled"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -56,7 +56,7 @@ const modeButtonButtonCss = (0, _styledComponents.css)`
   }
 `;
 exports.modeButtonButtonCss = modeButtonButtonCss;
-const StyledSettingsSelectorPanel = (0, _styledComponents.default)(_tripForm.SettingsSelectorPanel)`
+const StyledSettingsSelectorPanel = (0, _styledComponents.default)(_src.SettingsSelectorPanel)`
   ${modeButtonButtonCss}
 
   ${TripFormClasses.SettingLabel} {
@@ -184,7 +184,7 @@ const StyledSettingsSelectorPanel = (0, _styledComponents.default)(_tripForm.Set
   }
 `;
 exports.StyledSettingsSelectorPanel = StyledSettingsSelectorPanel;
-const StyledDateTimeSelector = (0, _styledComponents.default)(_tripForm.DateTimeSelector)`
+const StyledDateTimeSelector = (0, _styledComponents.default)(_src.DateTimeSelector)`
   margin: 0 -15px 15px;
 
   ${TripFormClasses.DateTimeSelector.DateTimeRow} {

@@ -11,9 +11,9 @@ exports.switchLocations = switchLocations;
 exports.setMapPopupLocationAndGeocode = setMapPopupLocationAndGeocode;
 exports.setMapPopupLocation = exports.setElevationPoint = exports.setLegDiagram = exports.rememberStop = exports.forgetStop = exports.rememberPlace = exports.forgetPlace = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../otp-ui/core-utils/src"));
 
-var _geocoder = _interopRequireDefault(require("@opentripplanner/geocoder"));
+var _src2 = _interopRequireDefault(require("../otp-ui/geocoder/src"));
 
 var _reduxActions = require("redux-actions");
 
@@ -84,7 +84,7 @@ function setLocation(payload) {
     const otpState = getState().otp; // reverse geocode point location if requested
 
     if (payload.reverseGeocode) {
-      (0, _geocoder.default)(otpState.config.geocoder).reverse({
+      (0, _src2.default)(otpState.config.geocoder).reverse({
         point: payload.location
       }).then(location => {
         dispatch(settingLocation({
@@ -149,13 +149,13 @@ const setMapPopupLocation = (0, _reduxActions.createAction)('SET_MAP_POPUP_LOCAT
 exports.setMapPopupLocation = setMapPopupLocation;
 
 function setMapPopupLocationAndGeocode(mapEvent) {
-  const location = _coreUtils.default.map.constructLocation(mapEvent.latlng);
+  const location = _src.default.map.constructLocation(mapEvent.latlng);
 
   return function (dispatch, getState) {
     dispatch(setMapPopupLocation({
       location
     }));
-    (0, _geocoder.default)(getState().otp.config.geocoder).reverse({
+    (0, _src2.default)(getState().otp.config.geocoder).reverse({
       point: location
     }).then(location => {
       dispatch(setMapPopupLocation({

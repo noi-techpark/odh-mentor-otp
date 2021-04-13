@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -36,7 +36,7 @@ class PlanTripButton extends _react.Component {
     _defineProperty(this, "_onClick", () => {
       this.props.routingQuery();
       if (typeof this.props.onClick === 'function') this.props.onClick();
-      if (!_coreUtils.default.ui.isMobile()) this.props.setMainPanelContent(null);
+      if (!_src.default.ui.isMobile()) this.props.setMainPanelContent(null);
     });
   }
 

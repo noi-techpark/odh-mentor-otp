@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _map = require("@opentripplanner/core-utils/lib/map");
+var _map = require("../../core-utils/src/map");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
-var _geocoder = _interopRequireDefault(require("@opentripplanner/geocoder"));
+var _src = _interopRequireDefault(require("../../geocoder/src"));
 
-var _locationIcon = _interopRequireDefault(require("@opentripplanner/location-icon"));
+var _src2 = _interopRequireDefault(require("../../location-icon/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -43,7 +43,7 @@ let optionKey = 0;
 function DefaultLocationIcon({
   locationType
 }) {
-  return /*#__PURE__*/_react.default.createElement(_locationIcon.default, {
+  return /*#__PURE__*/_react.default.createElement(_src2.default, {
     size: 13,
     type: locationType
   });
@@ -66,7 +66,7 @@ class LocationField extends _react.Component {
       const {
         geocoderConfig
       } = this.props;
-      (0, _geocoder.default)(geocoderConfig).autocomplete({
+      (0, _src.default)(geocoderConfig).autocomplete({
         text
       }).then(result => {
         this.setState({
@@ -346,7 +346,7 @@ class LocationField extends _react.Component {
       return;
     }
 
-    (0, _geocoder.default)(geocoderConfig).search({
+    (0, _src.default)(geocoderConfig).search({
       text
     }).then(result => {
       if (result.features && result.features.length > 0) {
@@ -420,7 +420,7 @@ class LocationField extends _react.Component {
       menuItems = menuItems.concat(geocodedFeatures.map(feature => {
         // Create the selection handler
         const locationSelected = () => {
-          (0, _geocoder.default)(geocoderConfig).getLocationFromGeocodedFeature(feature).then(geocodedLocation => {
+          (0, _src.default)(geocoderConfig).getLocationFromGeocodedFeature(feature).then(geocodedLocation => {
             // Set the current location
             this.setLocation(geocodedLocation, "GEOCODE"); // Add to the location search history. This is intended to
             // populate the sessionSearches array.

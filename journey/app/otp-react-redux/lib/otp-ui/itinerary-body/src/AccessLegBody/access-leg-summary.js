@@ -1,9 +1,9 @@
 import {
   getLegModeLabel,
   getPlaceName
-} from "@opentripplanner/core-utils/lib/itinerary";
-import { configType, legType } from "@opentripplanner/core-utils/lib/types";
-import { humanizeDistanceString } from "@opentripplanner/humanize-distance";
+} from "../../../core-utils/src/itinerary";
+import { configType, legType } from "../../../core-utils/src/types";
+import { humanizeDistanceString } from "../../../humanize-distance/src";
 import React from "react";
 import PropTypes from "prop-types";
 

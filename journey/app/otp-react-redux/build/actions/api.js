@@ -35,9 +35,9 @@ var _moment = _interopRequireDefault(require("moment"));
 
 var _objectHash = _interopRequireDefault(require("object-hash"));
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../otp-ui/core-utils/src"));
 
-var _queryParams = _interopRequireDefault(require("@opentripplanner/core-utils/lib/query-params"));
+var _queryParams = _interopRequireDefault(require("../otp-ui/core-utils/src/query-params"));
 
 var _reduxActions = require("redux-actions");
 
@@ -55,18 +55,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 if (typeof fetch === 'undefined') require('isomorphic-fetch');
 const {
   hasCar
-} = _coreUtils.default.itinerary;
+} = _src.default.itinerary;
 const {
   getTripOptionsFromQuery,
   getUrlParams
-} = _coreUtils.default.query;
+} = _src.default.query;
 const {
   randId
-} = _coreUtils.default.storage;
+} = _src.default.storage;
 const {
   OTP_API_DATE_FORMAT,
   OTP_API_TIME_FORMAT
-} = _coreUtils.default.time; // Generic API actions
+} = _src.default.time; // Generic API actions
 
 const nonRealtimeRoutingResponse = (0, _reduxActions.createAction)('NON_REALTIME_ROUTING_RESPONSE');
 exports.nonRealtimeRoutingResponse = nonRealtimeRoutingResponse;

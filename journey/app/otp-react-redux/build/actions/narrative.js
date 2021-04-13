@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.setActiveItinerary = setActiveItinerary;
 exports.updateItineraryFilter = exports.setVisibleItinerary = exports.setUseRealtimeResponse = exports.setActiveStep = exports.setActiveLeg = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../otp-ui/core-utils/src"));
 
 var _reduxActions = require("redux-actions");
 
@@ -19,7 +19,7 @@ function setActiveItinerary(payload) {
     // Trigger change in store.
     dispatch(settingActiveitinerary(payload)); // Update URL params.
 
-    const urlParams = _coreUtils.default.query.getUrlParams();
+    const urlParams = _src.default.query.getUrlParams();
 
     urlParams.ui_activeItinerary = payload.index;
     dispatch((0, _api.setUrlSearch)(urlParams));

@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash.memoize"));
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -35,7 +35,7 @@ const {
   getElevationProfile,
   getTextWidth,
   legElevationAtDistance
-} = _coreUtils.default.itinerary; // Fixed dimensions for chart
+} = _src.default.itinerary; // Fixed dimensions for chart
 
 const height = 160;
 const yAxisPanelWidth = 40; // width of y axis labels

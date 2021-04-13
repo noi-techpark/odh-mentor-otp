@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _parkAndRideOverlay = _interopRequireDefault(require("@opentripplanner/park-and-ride-overlay"));
+var _src = _interopRequireDefault(require("../../otp-ui/park-and-ride-overlay/src"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -36,7 +36,7 @@ class ConnectedParkAndRideOverlay extends _react.Component {
   }
 
   render() {
-    return /*#__PURE__*/_react.default.createElement(_parkAndRideOverlay.default, this.props);
+    return /*#__PURE__*/_react.default.createElement(_src.default, this.props);
   }
 
 } // connect to the redux store

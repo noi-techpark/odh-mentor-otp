@@ -1,4 +1,4 @@
-import LegDiagramPreviewLayout from '@opentripplanner/itinerary-body/lib/AccessLegBody/leg-diagram-preview'
+import LegDiagramPreviewLayout from '../../otp-ui/itinerary-body/src/AccessLegBody/leg-diagram-preview'
 import { connect } from 'react-redux'
 
 import { setLegDiagram } from '../../actions/map'

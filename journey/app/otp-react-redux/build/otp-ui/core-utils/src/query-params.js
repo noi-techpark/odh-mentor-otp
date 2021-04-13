@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.formatPlace = formatPlace;
 exports.default = void 0;
 
-var _itinerary2 = require("./itinerary");
+var _itinerary = require("./itinerary");
 
 var _storage = require("./storage");
 
@@ -133,12 +133,12 @@ const queryParams = [{
 
     if (value && value.length > 0) {
       value.split(",").forEach(m => {
-        if ((0, _itinerary2.isTransit)(m)) transitModes.push(m);
+        if ((0, _itinerary.isTransit)(m)) transitModes.push(m);
 
-        if ((0, _itinerary2.isAccessMode)(m)) {
+        if ((0, _itinerary.isAccessMode)(m)) {
           accessModes.push(m); // TODO: make configurable whether direct-driving is considered
 
-          if (!(0, _itinerary2.isCar)(m)) directModes.push(m);
+          if (!(0, _itinerary.isCar)(m)) directModes.push(m);
         }
       });
     }
@@ -389,7 +389,7 @@ const queryParams = [{
    */
   name: "maxEScooterDistance",
   routingTypes: ["ITINERARY"],
-  applicable: query => query.mode && (0, _itinerary2.hasTransit)(query.mode) && (0, _itinerary2.hasMicromobility)(query.mode),
+  applicable: query => query.mode && (0, _itinerary.hasTransit)(query.mode) && (0, _itinerary.hasMicromobility)(query.mode),
   default: 4828,
   // 3 mi.
   selector: "DROPDOWN",

@@ -13,7 +13,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _time2 = require("@opentripplanner/core-utils/lib/time");
+var _time2 = require("../../../core-utils/src/time");
 
 var _ModeButton = _interopRequireDefault(require("../ModeButton"));
 

@@ -1,5 +1,5 @@
 import isEqual from 'lodash.isequal'
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../../otp-ui/core-utils/src'
 import L from 'leaflet'
 import { MapLayer, withLeaflet } from 'react-leaflet'
 import { connect } from 'react-redux'

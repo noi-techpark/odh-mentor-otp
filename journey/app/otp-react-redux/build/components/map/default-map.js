@@ -7,7 +7,7 @@ exports.default = void 0;
 
 require("core-js/modules/web.dom.iterable.js");
 
-var _baseMap = _interopRequireDefault(require("@opentripplanner/base-map"));
+var _src = _interopRequireDefault(require("../../otp-ui/base-map/src"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -169,7 +169,7 @@ class DefaultMap extends _react.Component {
       }),
       location: [mapPopupLocation.lat, mapPopupLocation.lon]
     };
-    return /*#__PURE__*/_react.default.createElement(MapContainer, null, /*#__PURE__*/_react.default.createElement(_baseMap.default, {
+    return /*#__PURE__*/_react.default.createElement(MapContainer, null, /*#__PURE__*/_react.default.createElement(_src.default, {
       baseLayers: mapConfig.baseLayers,
       center: center,
       maxZoom: mapConfig.maxZoom,

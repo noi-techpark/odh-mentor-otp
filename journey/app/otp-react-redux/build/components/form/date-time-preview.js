@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -32,7 +32,7 @@ const {
   OTP_API_TIME_FORMAT,
   getTimeFormat,
   getDateFormat
-} = _coreUtils.default.time;
+} = _src.default.time;
 
 class DateTimePreview extends _react.Component {
   render() {

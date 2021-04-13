@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _stopMarker = _interopRequireDefault(require("@opentripplanner/stops-overlay/lib/stop-marker"));
+var _stopMarker = _interopRequireDefault(require("../../otp-ui/stops-overlay/src/stop-marker"));
 
 var _reactRedux = require("react-redux");
 

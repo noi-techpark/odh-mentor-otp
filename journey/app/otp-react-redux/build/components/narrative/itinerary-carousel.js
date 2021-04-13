@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -149,7 +149,7 @@ const mapStateToProps = (state, ownProps) => {
     activeLeg: activeSearch && activeSearch.activeLeg,
     activeStep: activeSearch && activeSearch.activeStep,
     companies: state.otp.currentQuery.companies,
-    timeFormat: _coreUtils.default.time.getTimeFormat(state.otp.config),
+    timeFormat: _src.default.time.getTimeFormat(state.otp.config),
     user: state.user.loggedInUser
   };
 };

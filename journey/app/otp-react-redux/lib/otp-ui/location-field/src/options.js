@@ -1,9 +1,9 @@
 import {
   transitIndexStopWithRoutes,
   userLocationType
-} from "@opentripplanner/core-utils/lib/types";
-import { isIE } from "@opentripplanner/core-utils/lib/ui";
-import { humanizeDistanceStringImperial } from "@opentripplanner/humanize-distance";
+} from "../../core-utils/src/types";
+import { isIE } from "../../core-utils/src/ui";
+import { humanizeDistanceStringImperial } from "../../humanize-distance/src";
 import PropTypes from "prop-types";
 import React from "react";
 import { Briefcase, Home, MapMarker, MapPin } from "styled-icons/fa-solid";

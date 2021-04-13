@@ -7,7 +7,7 @@ exports.default = MapPopup;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _fromToLocationPicker = _interopRequireDefault(require("@opentripplanner/from-to-location-picker"));
+var _src = _interopRequireDefault(require("../../otp-ui/from-to-location-picker/src"));
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
@@ -25,7 +25,7 @@ function MapPopup({
   mapPopupLocation,
   onSetLocationFromPopup
 }) {
-  return /*#__PURE__*/_react.default.createElement(PopupContainer, null, /*#__PURE__*/_react.default.createElement(PopupTitle, null, mapPopupLocation.name.split(',').length > 3 ? mapPopupLocation.name.split(',').splice(0, 3).join(',') : mapPopupLocation.name), /*#__PURE__*/_react.default.createElement("div", null, "$_travel_$", /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
+  return /*#__PURE__*/_react.default.createElement(PopupContainer, null, /*#__PURE__*/_react.default.createElement(PopupTitle, null, mapPopupLocation.name.split(',').length > 3 ? mapPopupLocation.name.split(',').splice(0, 3).join(',') : mapPopupLocation.name), /*#__PURE__*/_react.default.createElement("div", null, "$_travel_$", /*#__PURE__*/_react.default.createElement(_src.default, {
     location: mapPopupLocation,
     setLocation: onSetLocationFromPopup
   })));

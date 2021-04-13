@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
-var _transitiveOverlay = _interopRequireDefault(require("@opentripplanner/transitive-overlay"));
+var _src2 = _interopRequireDefault(require("../../otp-ui/transitive-overlay/src"));
 
 var _reactRedux = require("react-redux");
 
@@ -26,7 +26,7 @@ const mapStateToProps = (state, ownProps) => {
     const visibleIndex = activeSearch.visibleItinerary !== undefined && activeSearch.visibleItinerary !== null ? activeSearch.visibleItinerary : activeSearch.activeItinerary; // TODO: prevent itineraryToTransitive() from being called more than needed
 
     const visibleItinerary = itins[visibleIndex] ? itins[visibleIndex] : (0, _state.getActiveItinerary)(state.otp);
-    if (visibleItinerary) transitiveData = _coreUtils.default.map.itineraryToTransitive(visibleItinerary);
+    if (visibleItinerary) transitiveData = _src.default.map.itineraryToTransitive(visibleItinerary);
   } else if (activeSearch && activeSearch.response && activeSearch.response.otp) {
     transitiveData = activeSearch.response.otp;
   }
@@ -41,7 +41,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {};
 
-var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_transitiveOverlay.default);
+var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_src2.default);
 
 exports.default = _default;
 module.exports = exports.default;

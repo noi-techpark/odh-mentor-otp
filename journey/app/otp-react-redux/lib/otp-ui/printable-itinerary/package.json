@@ -1,5 +1,5 @@
 {
-  "name": "@opentripplanner/printable-itinerary",
+  "name": "../../printable-itinerary",
   "version": "1.0.0",
   "description": "A component for displaying a printable itinerary body of a trip planning result",
   "main": "lib/index.js",
@@ -9,13 +9,13 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "@opentripplanner/core-utils": "file:../core-utils",
-    "@opentripplanner/humanize-distance": "file:../humanize-distance",
+    "../../core-utils": "file:../core-utils",
+    "../../humanize-distance": "file:../humanize-distance",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {
-    "@opentripplanner/icons": "file:../icons",
-    "@opentripplanner/itinerary-body": "file:../itinerary-body"
+    "../../icons": "file:../icons",
+    "../../itinerary-body": "file:../itinerary-body"
   },
   "peerDependencies": {
     "react": "^16.8.6",

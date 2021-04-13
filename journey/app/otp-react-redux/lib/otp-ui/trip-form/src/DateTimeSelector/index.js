@@ -5,7 +5,7 @@ import moment from "moment";
 import {
   OTP_API_DATE_FORMAT,
   OTP_API_TIME_FORMAT
-} from "@opentripplanner/core-utils/lib/time";
+} from "../../../core-utils/src/time";
 
 import ModeButton from "../ModeButton";
 import * as Styled from "../styled";

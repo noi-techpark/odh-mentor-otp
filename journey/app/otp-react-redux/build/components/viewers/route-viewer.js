@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../../otp-ui/core-utils/src"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -78,7 +78,7 @@ class RouteViewer extends _react.Component {
       setViewedRoute,
       viewedRoute
     } = this.props;
-    const sortedRoutes = routes ? Object.values(routes).sort(_coreUtils.default.route.routeComparator) : [];
+    const sortedRoutes = routes ? Object.values(routes).sort(_src.default.route.routeComparator) : [];
     const agencySortedRoutes = transitOperators.length > 0 ? sortedRoutes.sort((a, b) => {
       return operatorIndexForRoute(transitOperators, a) - operatorIndexForRoute(transitOperators, b);
     }) : sortedRoutes;

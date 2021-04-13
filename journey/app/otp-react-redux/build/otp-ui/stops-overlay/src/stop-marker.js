@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var BaseMapStyled = _interopRequireWildcard(require("@opentripplanner/base-map/lib/styled"));
+var BaseMapStyled = _interopRequireWildcard(require("../../base-map/src/styled"));
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
-var _fromToLocationPicker = _interopRequireDefault(require("@opentripplanner/from-to-location-picker"));
+var _src = _interopRequireDefault(require("../../from-to-location-picker/src"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -97,7 +97,7 @@ class StopMarker extends _react.Component {
       radius: radius
     }), /*#__PURE__*/_react.default.createElement(_reactLeaflet.Popup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.MapOverlayPopup, null, /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupTitle, null, name), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement("b", null, "Stop ID:"), " ", stopId), /*#__PURE__*/_react.default.createElement(Styled.ViewStopButton, {
       onClick: this.onClickView
-    }, languageConfig.stopViewer || "Fermata")), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("b", null, "$_travel_$"), /*#__PURE__*/_react.default.createElement(_fromToLocationPicker.default, {
+    }, languageConfig.stopViewer || "Fermata")), /*#__PURE__*/_react.default.createElement(BaseMapStyled.PopupRow, null, /*#__PURE__*/_react.default.createElement("b", null, "$_travel_$"), /*#__PURE__*/_react.default.createElement(_src.default, {
       onFromClick: this.onFromClick,
       onToClick: this.onToClick
     })))));

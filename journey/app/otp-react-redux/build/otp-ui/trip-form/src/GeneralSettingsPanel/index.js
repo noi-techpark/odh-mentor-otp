@@ -11,11 +11,11 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _queryParams = _interopRequireDefault(require("@opentripplanner/core-utils/lib/query-params"));
+var _queryParams = _interopRequireDefault(require("../../../core-utils/src/query-params"));
 
-var _query = require("@opentripplanner/core-utils/lib/query");
+var _query = require("../../../core-utils/src/query");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../../core-utils/src/types");
 
 var _CheckboxSelector = _interopRequireDefault(require("../CheckboxSelector"));
 

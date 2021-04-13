@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router'
-import coreUtils from '@opentripplanner/core-utils'
+import coreUtils from '../otp-ui/core-utils/src'
 import { createAction } from 'redux-actions'
 import { matchPath } from 'react-router'
 

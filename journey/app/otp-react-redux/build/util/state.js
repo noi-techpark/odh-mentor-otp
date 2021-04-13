@@ -17,7 +17,7 @@ exports.getStopViewerConfig = getStopViewerConfig;
 exports.getUiUrlParams = getUiUrlParams;
 exports.getTitle = getTitle;
 
-var _coreUtils = _interopRequireDefault(require("@opentripplanner/core-utils"));
+var _src = _interopRequireDefault(require("../otp-ui/core-utils/src"));
 
 var _lodash = _interopRequireDefault(require("lodash.isequal"));
 
@@ -33,7 +33,7 @@ const {
   isCar,
   isTransit,
   isWalk
-} = _coreUtils.default.itinerary;
+} = _src.default.itinerary;
 /**
  * Get the active search object
  * @param {Object} otpState the OTP state object
@@ -402,7 +402,7 @@ function getTitle(state) {
       const activeSearch = getActiveSearch(state.otp);
 
       if (activeSearch) {
-        title += ` | ${_coreUtils.default.query.summarizeQuery(activeSearch.query, user.locations)}`;
+        title += ` | ${_src.default.query.summarizeQuery(activeSearch.query, user.locations)}`;
       }
 
       break;

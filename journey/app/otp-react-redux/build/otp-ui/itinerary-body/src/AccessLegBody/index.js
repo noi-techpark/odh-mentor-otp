@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _time = require("@opentripplanner/core-utils/lib/time");
+var _time = require("../../../core-utils/src/time");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../../core-utils/src/types");
 
 var _react = _interopRequireWildcard(require("react"));
 

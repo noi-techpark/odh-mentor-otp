@@ -9,9 +9,9 @@ exports.default = void 0;
 
 var _leaflet = require("leaflet");
 
-var _map = require("@opentripplanner/core-utils/lib/map");
+var _map = require("../../core-utils/src/map");
 
-var _types = require("@opentripplanner/core-utils/lib/types");
+var _types = require("../../core-utils/src/types");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 

@@ -1,14 +1,14 @@
-import { TriMetModeIcon } from "@opentripplanner/icons";
+import { TriMetModeIcon } from "../../../icons/src";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import {
   isMicromobility,
   isTransit
-} from "@opentripplanner/core-utils/lib/itinerary";
+} from "../../../core-utils/src/itinerary";
 import {
   configuredCompanyType,
   configuredModesType
-} from "@opentripplanner/core-utils/lib/types";
+} from "../../../core-utils/src/types";
 
 import ModeSelector from "../ModeSelector";
 import SubmodeSelector from "../SubmodeSelector";
