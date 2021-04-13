@@ -11,7 +11,7 @@ import {
 import moment from "moment";
 import PropTypes from "prop-types";
 import React from "react";
-import { CalendarAlt, Heartbeat, MoneyBillAlt } from "styled-icons/fa-solid";
+import { CalendarAlt, Heartbeat, MoneyBillAlt } from "@styled-icons/fa-solid";
 
 import * as Styled from "./styled";
 import TripDetail from "./trip-detail";

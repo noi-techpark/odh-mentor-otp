@@ -21,7 +21,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
-var _faSolid = require("styled-icons/fa-solid");
+var _faSolid = require("@styled-icons/fa-solid");
 
 var _throttleDebounce = require("throttle-debounce");
 

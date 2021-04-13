@@ -7,9 +7,9 @@ exports.ToIcon = exports.FromIcon = void 0;
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
-var _faRegular = require("styled-icons/fa-regular");
+var _faRegular = require("@styled-icons/fa-regular/");
 
-var _faSolid = require("styled-icons/fa-solid");
+var _faSolid = require("@styled-icons/fa-solid");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

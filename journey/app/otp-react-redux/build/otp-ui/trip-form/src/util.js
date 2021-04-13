@@ -13,9 +13,9 @@ exports.getBicycleOrMicromobilityModeOptions = getBicycleOrMicromobilityModeOpti
 
 var _react = _interopRequireDefault(require("react"));
 
-var _itinerary = require("@opentripplanner/core-utils/lib/itinerary");
+var _itinerary = require("../../core-utils/src/itinerary");
 
-var _companies = require("@opentripplanner/icons/lib/companies");
+var _companies = require("../../icons/src/companies");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

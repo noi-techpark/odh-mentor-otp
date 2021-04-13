@@ -14,7 +14,7 @@ var _addonInfo = require("@storybook/addon-info");
 
 var _react2 = require("@storybook/react");
 
-var _faSolid = require("styled-icons/fa-solid");
+var _faSolid = require("@styled-icons/fa-solid");
 
 var _ = _interopRequireDefault(require("."));
 

@@ -5,7 +5,7 @@ import {
   Ferry,
   LegIcon,
   StandardGondola
-} from '@opentripplanner/icons'
+} from './lib/otp-ui/icons/src'
 
 /**
  * For more advanced users, you can replicate and customize components and
