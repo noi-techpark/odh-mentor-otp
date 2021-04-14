@@ -4,17 +4,17 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/react-dates/21.8.0/css/_datepicker.min.css);
 @import url(https://cdn.jsdelivr.net/npm/transitive-js@0.13.3/lib/transitive.css);
-@import '../../node_modules/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css';
+@import '../../../node_modules/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css';
 
-@import 'components/admin/call-taker';
-@import 'components/app/app';
-@import 'components/map/map';
-@import 'components/form/form';
-@import 'components/narrative/narrative';
-@import 'components/narrative/default/itinerary';
-@import 'components/mobile/mobile';
-@import 'components/user/nav-login-button';
-@import 'components/viewers/viewers';
+@import '../components/admin/call-taker';
+@import '../components/app/app';
+@import '../components/map/map';
+@import '../components/form/form';
+@import '../components/narrative/narrative';
+@import '../components/narrative/default/itinerary';
+@import '../components/mobile/mobile';
+@import '../components/user/nav-login-button';
+@import '../components/viewers/viewers';
 
 @import 'bike-rental';
 
