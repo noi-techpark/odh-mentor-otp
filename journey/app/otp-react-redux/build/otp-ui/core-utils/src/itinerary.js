@@ -18,6 +18,7 @@ exports.hasMicromobility = hasMicromobility;
 exports.hasHail = hasHail;
 exports.hasRental = hasRental;
 exports.getMapColor = getMapColor;
+exports.toSentenceCase = toSentenceCase;
 exports.getItineraryBounds = getItineraryBounds;
 exports.getLegBounds = getLegBounds;
 exports.legLocationAtDistance = legLocationAtDistance;
