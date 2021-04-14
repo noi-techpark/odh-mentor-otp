@@ -128,7 +128,7 @@ export function getMapColor(mode) {
   return "#aaa";
 }
 
-function convertAbsoluteDirection(direction){
+export function convertAbsoluteDirection(direction){
     switch(direction){
         case "NORTH":
             return "$_north_$";
@@ -151,7 +151,7 @@ function convertAbsoluteDirection(direction){
     }
 }
 
-function getStepDirection(step) {
+export function getStepDirection(step) {
   switch (step.relativeDirection) {
     case "DEPART":
       return `$_go_to_$ ${convertAbsoluteDirection(step.absoluteDirection).toLowerCase()}`;
@@ -197,12 +197,12 @@ function getStepDirection(step) {
   }
 }
 
-function getStepInstructions(step) {
+export function getStepInstructions(step) {
   const conjunction = step.relativeDirection === "ELEVATOR" ? "su" : "su";
   return `${getStepDirection(step)} ${conjunction} ${step.streetName}`;
 }
 
-function getStepStreetName(step) {
+export function getStepStreetName(step) {
   if (step.streetName === "road") return "$_road_$";
   if (step.streetName === "path") return "$_path_$";
   if (step.streetName === "sidewalk") return "$_sidewalk_$";
@@ -221,7 +221,7 @@ export function toSentenceCase(str) {
   return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
 }
 
-function getLegModeLabel(leg) {
+export function getLegModeLabel(leg) {
   switch (leg.mode) {
       case "BICYCLE_RENT":
         return "$_ride_for_$";
