@@ -1,10 +1,10 @@
-/* @import url(../../../node_modules/bootstrap/dist/css/bootstrap.min.css); */
+@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css);
 
-/* @import url(https://unpkg.com/leaflet@1.0.3/dist/leaflet.css); */
-/* @import url(../../../node_modules/font-awesome/css/font-awesome.css); */
-/* @import url(../../../node_modules/react-dates/lib/css/_datepicker.css); */
-/* @import url(../../../node_modules/transitive-js/lib/transitive.css); */
-/* @import url(../../../node_modules/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css); */
+@import url(https://unpkg.com/leaflet@1.0.3/dist/leaflet.css);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/react-dates/21.8.0/css/_datepicker.min.css);
+@import url(https://cdn.jsdelivr.net/npm/transitive-js@0.13.3/lib/transitive.css);
+@import '../../../node_modules/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css';
 
 @import 'components/admin/call-taker';
 @import 'components/app/app';
