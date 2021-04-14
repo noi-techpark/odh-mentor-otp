@@ -1,4 +1,4 @@
-import coreUtils from '../../../otp-ui/core-utils/src'
+import coreUtils from '../../../otp-ui/core-utils'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import styled from 'styled-components'

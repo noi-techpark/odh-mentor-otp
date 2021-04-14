@@ -1,4 +1,4 @@
-import coreUtils from '../../otp-ui/core-utils/src'
+import coreUtils from '../../otp-ui/core-utils'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CircleMarker } from 'react-leaflet'

@@ -1,5 +1,5 @@
-import coreUtils from '../../otp-ui/core-utils/src'
-import TripDetailsBase from '../../otp-ui/trip-details/src'
+import coreUtils from '../../otp-ui/core-utils'
+import TripDetailsBase from '../../otp-ui/trip-details'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
