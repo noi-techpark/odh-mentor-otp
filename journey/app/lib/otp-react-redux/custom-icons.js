@@ -5,7 +5,7 @@ import {
   Ferry,
   LegIcon,
   StandardGondola
-} from './lib/otp-ui/icons/src'
+} from './otp-ui/icons/src'
 
 /**
  * For more advanced users, you can replicate and customize components and
