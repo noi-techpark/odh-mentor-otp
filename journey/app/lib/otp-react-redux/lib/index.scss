@@ -1,0 +1,53 @@
+/* @import url(../../../node_modules/bootstrap/dist/css/bootstrap.min.css); */
+
+/* @import url(https://unpkg.com/leaflet@1.0.3/dist/leaflet.css); */
+/* @import url(../../../node_modules/font-awesome/css/font-awesome.css); */
+/* @import url(../../../node_modules/react-dates/lib/css/_datepicker.css); */
+/* @import url(../../../node_modules/transitive-js/lib/transitive.css); */
+/* @import url(../../../node_modules/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css); */
+
+@import 'components/admin/call-taker';
+@import 'components/app/app';
+@import 'components/map/map';
+@import 'components/form/form';
+@import 'components/narrative/narrative';
+@import 'components/narrative/default/itinerary';
+@import 'components/mobile/mobile';
+@import 'components/user/nav-login-button';
+@import 'components/viewers/viewers';
+
+@import 'bike-rental';
+
+/* Hide IE/Edge clear button in text input fields. */
+input[type=text]::-ms-clear {
+    display: none;
+}
+
+/* Buttons */
+
+button.header, button.step, .clear-button-formatting  {
+  background: transparent;
+  color: inherit;
+  border: 0;
+  text-align: inherit;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+}
+
+.clear-button-formatting:active {
+  background: none;
+  box-shadow: none;
+}
+
+.clear-button-formatting:focus {
+  background: none;
+}
+
+.clear-button-formatting:hover {
+  background: none;
+}
+
+button.header, button.step {
+  width: 100%;
+}
