@@ -13,12 +13,12 @@ import createLogger from 'redux-logger'
 import ReactGA from 'react-ga'
 
 // import OTP-RR components
-import { createOtpReducer, createUserReducer } from '../otp-react-redux/lib'
+import { createOtpReducer, createUserReducer } from './otp-react-redux/lib'
 import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 
 // CSS imports
-import '../otp-react-redux/lib/index.css'
+import './otp-react-redux/lib/index.css'
 
 import TrimetWebapp from './app'
 
