@@ -1,4 +1,4 @@
-import StopsOverlay from '../../otp-ui/stops-overlay/src'
+import StopsOverlay from '../../otp-ui/stops-overlay'
 import StopMarker from './connected-stop-marker'
 import { connect } from 'react-redux'
 

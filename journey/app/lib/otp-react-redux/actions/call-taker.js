@@ -1,4 +1,4 @@
-import { getUrlParams } from '../otp-ui/core-utils/src/query'
+import { getUrlParams } from '../otp-ui/core-utils/query'
 import qs from 'qs'
 import { createAction } from 'redux-actions'
 

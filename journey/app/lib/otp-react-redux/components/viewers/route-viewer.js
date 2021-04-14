@@ -1,4 +1,4 @@
-import coreUtils from '../../otp-ui/core-utils/src'
+import coreUtils from '../../otp-ui/core-utils'
 import React, { Component, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Label, Button } from 'react-bootstrap'

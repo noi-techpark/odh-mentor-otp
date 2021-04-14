@@ -1,4 +1,4 @@
-import coreUtils from '../otp-ui/core-utils/src'
+import coreUtils from '../otp-ui/core-utils'
 import isEqual from 'lodash.isequal'
 import moment from 'moment'
 

@@ -1,4 +1,4 @@
-import EndpointsOverlay from '../../otp-ui/endpoints-overlay/src'
+import EndpointsOverlay from '../../otp-ui/endpoints-overlay'
 import { connect } from 'react-redux'
 
 import {

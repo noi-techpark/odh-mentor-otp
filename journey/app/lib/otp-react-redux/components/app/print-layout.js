@@ -1,4 +1,4 @@
-import PrintableItinerary from '../../otp-ui/printable-itinerary/src'
+import PrintableItinerary from '../../otp-ui/printable-itinerary'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'

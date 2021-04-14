@@ -1,9 +1,9 @@
-import { isTransit } from '../../../otp-ui/core-utils/src/itinerary'
+import { isTransit } from '../../../otp-ui/core-utils/itinerary'
 import {
   legType,
   timeOptionsType
-} from '../../../otp-ui/core-utils/src/types'
-import { formatTime, getTimeFormat } from '../../../otp-ui/core-utils/src/time'
+} from '../../../otp-ui/core-utils/types'
+import { formatTime, getTimeFormat } from '../../../otp-ui/core-utils/time'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'

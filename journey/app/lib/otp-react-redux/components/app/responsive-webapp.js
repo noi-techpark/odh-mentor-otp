@@ -1,7 +1,7 @@
 import { ConnectedRouter } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import isEqual from 'lodash.isequal'
-import coreUtils from '../../otp-ui/core-utils/src'
+import coreUtils from '../../otp-ui/core-utils'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'

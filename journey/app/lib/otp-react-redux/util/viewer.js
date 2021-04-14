@@ -1,4 +1,4 @@
-import coreUtils from '../otp-ui/core-utils/src'
+import coreUtils from '../otp-ui/core-utils'
 import moment from 'moment'
 import 'moment-timezone'
 import React from 'react'

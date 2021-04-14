@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
-import { DateTimeSelector, SettingsSelectorPanel } from '../../otp-ui/trip-form/src'
-import * as TripFormClasses from '../../otp-ui/trip-form/src/styled'
+import { DateTimeSelector, SettingsSelectorPanel } from '../../otp-ui/trip-form'
+import * as TripFormClasses from '../../otp-ui/trip-form/styled'
 
 const commonButtonCss = css`
   -webkit-user-select: none;
