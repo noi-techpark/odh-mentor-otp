@@ -18,7 +18,7 @@ import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 
 // CSS imports
-import './otp-react-redux/lib/index.css'
+import './otp-react-redux/lib/index.scss'
 
 import TrimetWebapp from './app'
 
