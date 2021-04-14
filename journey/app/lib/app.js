@@ -10,7 +10,7 @@ import {
   MobileMain,
   ResponsiveWebapp,
   AppMenu
-} from '../otp-react-redux/lib'
+} from './otp-react-redux/lib'
 
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or

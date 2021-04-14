@@ -37,6 +37,7 @@ exports.getTNCLocation = getTNCLocation;
 exports.calculatePhysicalActivity = calculatePhysicalActivity;
 exports.calculateFares = calculateFares;
 exports.getTimeZoneOffset = getTimeZoneOffset;
+exports.getTransitFare = getTransitFare;
 exports.routeComparator = exports.transitModes = void 0;
 
 var _polyline = _interopRequireDefault(require("@mapbox/polyline"));
@@ -829,6 +830,34 @@ function makeMultiCriteriaSort(...criteria) {
     }
 
     return 0;
+  };
+}
+
+function getTransitFare(fareComponent) {
+  // Default values (if fare component is not valid).
+  let digits = 2;
+  let transitFare = 0;
+  let symbol = "$";
+
+  if (fareComponent) {
+    digits = fareComponent.currency.defaultFractionDigits;
+    transitFare = fareComponent.cents;
+    symbol = fareComponent.currency.symbol;
+  } // For cents to string conversion, use digits from fare component.
+
+
+  const centsToString = cents => {
+    const dollars = (cents / 10 ** digits).toFixed(digits);
+    return `${symbol}${dollars}`;
+  }; // For dollars to string conversion, assume we're rounding to two digits.
+
+
+  const dollarsToString = dollars => `${symbol}${dollars.toFixed(2)}`;
+
+  return {
+    centsToString,
+    dollarsToString,
+    transitFare
   };
 }
 /**
