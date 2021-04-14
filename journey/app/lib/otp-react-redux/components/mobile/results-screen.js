@@ -1,5 +1,5 @@
-import coreUtils from '../../otp-ui/core-utils/src'
-import LocationIcon from '../../otp-ui/location-icon/src'
+import coreUtils from '../../otp-ui/core-utils'
+import LocationIcon from '../../otp-ui/location-icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'

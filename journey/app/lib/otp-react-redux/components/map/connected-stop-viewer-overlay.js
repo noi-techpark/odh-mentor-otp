@@ -1,5 +1,5 @@
-import StopViewerOverlay from '../../otp-ui/stop-viewer-overlay/src'
-import DefaultStopMarker from '../../otp-ui/stop-viewer-overlay/src/default-stop-marker'
+import StopViewerOverlay from '../../otp-ui/stop-viewer-overlay'
+import DefaultStopMarker from '../../otp-ui/stop-viewer-overlay/default-stop-marker'
 import { connect } from 'react-redux'
 
 // connect to the redux store

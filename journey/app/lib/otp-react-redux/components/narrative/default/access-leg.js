@@ -1,4 +1,4 @@
-import coreUtils from '../../../otp-ui/core-utils/src'
+import coreUtils from '../../../otp-ui/core-utils'
 import { humanizeDistanceString } from '../../../otp-ui/humanize-distance'
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'

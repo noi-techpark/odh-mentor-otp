@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce'
 import isEqual from 'lodash.isequal'
 import moment from 'moment'
-import coreUtils from '../otp-ui/core-utils/src'
+import coreUtils from '../otp-ui/core-utils'
 import { createAction } from 'redux-actions'
 
 import { queryIsValid } from '../util/state'

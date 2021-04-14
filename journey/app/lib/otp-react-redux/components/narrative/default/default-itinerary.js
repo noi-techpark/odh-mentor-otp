@@ -1,4 +1,4 @@
-import coreUtils from '../../../otp-ui/core-utils/src'
+import coreUtils from '../../../otp-ui/core-utils'
 import React from 'react'
 
 import NarrativeItinerary from '../narrative-itinerary'
