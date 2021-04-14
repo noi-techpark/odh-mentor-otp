@@ -58,6 +58,8 @@ const modeComparatorValue = {
   BUS: 8
 };
 
+const END_OF_LIST_COMPARATOR_VALUE = 999999999999;
+
 // Lookup that maps route types to the OTP mode sort values.
 // Note: JSDoc format not used to avoid bug in documentationjs.
 // https://github.com/documentationjs/documentation/issues/372
@@ -164,7 +166,7 @@ function alphabeticShortNameComparator(a, b) {
  * @param  {function} [objGetterFn] An optional function to obtain the
  *  comparison value from the comparator function arguments
  */
-function makeNumericValueComparator(objGetterFn) {
+export function makeNumericValueComparator(objGetterFn) {
   /* Note: Using the global version of isNaN (the Number version behaves differently. */
   /* eslint-disable no-restricted-globals */
   return (a, b) => {
@@ -190,7 +192,7 @@ function makeNumericValueComparator(objGetterFn) {
  * @param  {function} [objGetterFn] An optional function to obtain the
  *  comparison value from the comparator function arguments
  */
-function makeStringValueComparator(objGetterFn) {
+export function makeStringValueComparator(objGetterFn) {
   return (a, b) => {
     const { aVal, bVal } = getSortValues(objGetterFn, a, b);
     // both a and b are uncomparable strings, return equivalent value
@@ -240,6 +242,69 @@ function makeMultiCriteriaSort(...criteria) {
 }
 
 /**
+ * Returns a transit operator comparator value given a route and an optional
+ * transitOperators config value. This function will do its best to handle all
+ * kinds of input data as certain deployments of an implementing webapp may have
+ * incomplete data and certain versions of OTP might not have a modified
+ * implementation of the RouteShort model.
+ *
+ * @param  {object} route Either an OTP Route or RouteShort model
+ * @param  {array} transitOperators transitOperators from config
+ * @return {mixed} this could return a string value (the route's agency name) if
+ *   the transitOperators value is not defined. Otherwise an integer will be
+ *   returned.
+ */
+ function getTransitOperatorComparatorValue(route, transitOperators) {
+  // if the transitOperators is undefined or has zero length, use the route's
+  // agency name as the comparator value
+  if (!transitOperators || transitOperators.length === 0) {
+    // OTP Route
+    if (route.agency) return route.agency.name;
+    // OTP RouteShort (base OTP repo or IBI fork)
+    if (route.agencyName) return route.agencyName;
+    // shouldn't happen as agency names will be defined
+    return "zzz";
+  }
+
+  // find operator associated with route
+  const transitOperator = getTransitOperatorFromOtpRoute(
+    route,
+    transitOperators
+  );
+
+  // if transit operator not found, return infinity
+  if (!transitOperator) return END_OF_LIST_COMPARATOR_VALUE;
+
+  // return the transit operator's sort value or END_OF_LIST_COMPARATOR_VALUE if
+  // the sort value is not a number
+  return typeof transitOperator.order === "number"
+    ? transitOperator.order
+    : END_OF_LIST_COMPARATOR_VALUE;
+}
+
+/**
+ * Calculates the sort comparator value given two routes based off of the
+ * route's agency and provided transitOperators config data.
+ */
+ function makeTransitOperatorComparator(transitOperators) {
+  return (a, b) => {
+    const aVal = getTransitOperatorComparatorValue(a, transitOperators);
+    const bVal = getTransitOperatorComparatorValue(b, transitOperators);
+    if (typeof aVal === "string") {
+      // happens when transitOperators is undefined. Both aVal are guaranteed to
+      // be strings. Make a string comparison.
+      if (aVal < bVal) return -1;
+      if (aVal > bVal) return 1;
+      return 0;
+    }
+
+    // transitOperators are defined and therefore a numeric value is guaranteed
+    // to be returned
+    return aVal - bVal;
+  };
+}
+
+/**
  * Compares routes for the purposes of sorting and displaying in a user
  * interface. Due to GTFS feeds having varying levels of data quality, a multi-
  * criteria sort is needed to account for various differences. The criteria
@@ -269,3 +334,15 @@ export const routeComparator = makeMultiCriteriaSort(
   makeStringValueComparator(obj => obj.shortName),
   makeStringValueComparator(obj => obj.longName)
 );
+
+export function makeRouteComparator(transitOperators) {
+  return makeMultiCriteriaSort(
+    makeTransitOperatorComparator(transitOperators),
+    makeNumericValueComparator(obj => getRouteSortOrderValue(obj.sortOrder)),
+    routeTypeComparator,
+    alphabeticShortNameComparator,
+    makeNumericValueComparator(obj => parseInt(obj.shortName, 10)),
+    makeStringValueComparator(obj => obj.shortName),
+    makeStringValueComparator(obj => obj.longName)
+  );
+}
