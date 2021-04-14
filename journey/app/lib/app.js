@@ -3,14 +3,12 @@ import React, { Component } from 'react'
 // import Bootstrap Grid components for layout
 import { Navbar, Grid, Row, Col } from 'react-bootstrap'
 // import OTP-RR components
-import {
-  DefaultMainPanel,
-  LineItinerary,
-  Map,
-  MobileMain,
-  ResponsiveWebapp,
-  AppMenu
-} from './otp-react-redux'
+import DefaultMainPanel from './components/app/default-main-panel'
+import LineItinerary from './components/narrative/line-itin/line-itinerary'
+import Map from './components/map/map'
+import MobileMain from './components/mobile/main'
+import ResponsiveWebapp from './components/app/responsive-webapp'
+import AppMenu from './components/app/app-menu'
 
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or

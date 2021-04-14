@@ -7,7 +7,7 @@
  * - other files
  * - modules not installed in the node_modules of this project.
  */
-import { TriMetLegIcon, ClassicModeIcon } from './otp-react-redux/otp-ui/icons'
+import { TriMetLegIcon, ClassicModeIcon } from './otp-ui/icons'
 import React from 'react'
 
 /**
