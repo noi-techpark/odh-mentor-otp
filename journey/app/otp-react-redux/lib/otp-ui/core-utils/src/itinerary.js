@@ -753,6 +753,34 @@ function makeMultiCriteriaSort(...criteria) {
   };
 }
 
+export function getTransitFare(fareComponent) {
+  // Default values (if fare component is not valid).
+  let digits = 2;
+  let transitFare = 0;
+  let symbol = "$";
+
+  if (fareComponent) {
+    digits = fareComponent.currency.defaultFractionDigits;
+    transitFare = fareComponent.cents;
+    symbol = fareComponent.currency.symbol;
+  } // For cents to string conversion, use digits from fare component.
+
+
+  const centsToString = cents => {
+    const dollars = (cents / 10 ** digits).toFixed(digits);
+    return `${symbol}${dollars}`;
+  }; // For dollars to string conversion, assume we're rounding to two digits.
+
+
+  const dollarsToString = dollars => `${symbol}${dollars.toFixed(2)}`;
+
+  return {
+    centsToString,
+    dollarsToString,
+    transitFare
+  };
+}
+
 /**
  * Compares routes for the purposes of sorting and displaying in a user
  * interface. Due to GTFS feeds having varying levels of data quality, a multi-
