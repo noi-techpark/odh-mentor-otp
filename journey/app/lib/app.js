@@ -27,9 +27,6 @@ const {getItineraryFooter, LegIcon, ModeIcon} = jsConfig
 if (!LegIcon || !ModeIcon) {
   throw new Error('LegIcon and ModeIcon must be defined in config.js')
 }
-const itineraryFooter = typeof getItineraryFooter === 'function'
-  ? getItineraryFooter()
-  : null
 
 class TrimetWebapp extends Component {
   render () {
@@ -39,9 +36,8 @@ class TrimetWebapp extends Component {
     /** desktop view **/
     const desktopView = (
       <div className='otp'>
-        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 9999, background: 'red', padding: 15, opacity: .8}}>
-          <p>react-i18next Test</p>
-          <p>{t('disclaimer')}</p>
+        <div style={{ position: 'fixed', top: 0, right: 0, zIndex: 9999, background: 'red', padding: 10, opacity: 1}}>
+          <span>{t('my_preferences')}</span>
           <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('it')} }>IT</button>
           <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('en')} }>EN</button>
           <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('de')} }>DE</button>
@@ -67,7 +63,7 @@ class TrimetWebapp extends Component {
               <main>
                 <DefaultMainPanel
                   itineraryClass={LineItinerary}
-                  itineraryFooter={itineraryFooter}
+                  itineraryFooter={getItineraryFooter(t)}
                   LegIcon={LegIcon}
                   ModeIcon={ModeIcon}
                 />
@@ -88,7 +84,7 @@ class TrimetWebapp extends Component {
         <MobileMain
           map={(<Map />)}
           itineraryClass={LineItinerary}
-          itineraryFooter={itineraryFooter}
+          itineraryFooter={getItineraryFooter(t)}
           LegIcon={LegIcon}
           ModeIcon={ModeIcon}
           title={(<div className={`icon-${branding}`} />)}

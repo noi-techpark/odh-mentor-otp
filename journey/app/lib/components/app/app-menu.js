@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { DropdownButton, MenuItem } from 'react-bootstrap'
+import { withNamespaces } from "react-i18next";
 
 import Icon from '../narrative/icon'
 
@@ -28,7 +29,7 @@ class AppMenu extends Component {
   }
 
   render () {
-    const { languageConfig } = this.props
+    const { languageConfig, t } = this.props
 
     return (
       <div className='app-menu'>
@@ -39,10 +40,10 @@ class AppMenu extends Component {
           className='app-menu-button'
           id='app-menu'>
           <MenuItem onClick={this._showRouteViewer}>
-            <Icon type='bus' /> {languageConfig.routeViewer || 'Visualizza Linee'}
+            <Icon type='bus' /> {t('route_viewer')}
           </MenuItem>
           <MenuItem onClick={this._startOver}>
-            <Icon type='undo' /> $_restart_$
+            <Icon type='undo' /> {t('restart')}
           </MenuItem>
         </DropdownButton>
       </div>
@@ -62,4 +63,4 @@ const mapDispatchToProps = {
   setMainPanelContent
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppMenu)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(AppMenu))
