@@ -1,5 +1,6 @@
 // import React/Redux libraries
 import React, { Component } from 'react'
+import { withNamespaces } from "react-i18next";
 // import Bootstrap Grid components for layout
 import { Navbar, Grid, Row, Col } from 'react-bootstrap'
 // import OTP-RR components
@@ -10,6 +11,7 @@ import MobileMain from './components/mobile/main'
 import ResponsiveWebapp from './components/app/responsive-webapp'
 import AppMenu from './components/app/app-menu'
 
+import i18n from './i18n'
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.yml
@@ -29,12 +31,21 @@ const itineraryFooter = typeof getItineraryFooter === 'function'
   ? getItineraryFooter()
   : null
 
-export default class TrimetWebapp extends Component {
+class TrimetWebapp extends Component {
   render () {
+    const { t } = this.props
     const {branding} = otpConfig
+
     /** desktop view **/
     const desktopView = (
       <div className='otp'>
+        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 9999, background: 'red', padding: 15, opacity: .8}}>
+          <p>react-i18next Test</p>
+          <p>{t('disclaimer')}</p>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('it')} }>IT</button>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('en')} }>EN</button>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('de')} }>DE</button>
+        </div>
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
@@ -96,3 +107,5 @@ export default class TrimetWebapp extends Component {
     )
   }
 }
+
+export default withNamespaces()(TrimetWebapp);
