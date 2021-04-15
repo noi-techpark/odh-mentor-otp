@@ -2,9 +2,9 @@ import i18n from "i18next";
 import { reactI18nextModule } from "react-i18next";
 import detector from "i18next-browser-languagedetector";
 
-import { TRANSLATIONS_EN } from "./en/translations";
-import { TRANSLATIONS_IT } from "./it/translations";
-import { TRANSLATIONS_DE } from "./de/translations";
+import { TRANSLATIONS_EN } from "./en";
+import { TRANSLATIONS_IT } from "./it";
+import { TRANSLATIONS_DE } from "./de";
 
 const resources = {
   en: {
