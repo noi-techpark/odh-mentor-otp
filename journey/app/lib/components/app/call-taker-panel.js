@@ -12,6 +12,7 @@ import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import Select from 'react-select'
 import styled from 'styled-components'
+import { withNamespaces } from "react-i18next";
 
 import * as apiActions from '../../actions/api'
 import * as formActions from '../../actions/form'
@@ -54,15 +55,15 @@ const departureOptions = [
   {
     // Default option.
     value: 'NOW',
-    children: '$_now_$'
+    label: 'now'
   },
   {
     value: 'DEPART',
-    children: '$_depart_at_$'
+    label: 'depart_at'
   },
   {
     value: 'ARRIVE',
-    children: '$_arrive_at_$'
+    label: 'arrive_at'
   }
 ]
 
@@ -70,19 +71,19 @@ const modeOptions = [
   {
     // Default option.
     value: 'TRANSIT',
-    children: '$_tpl_$'
+    label: 'tpl'
   },
   {
     value: 'WALK',
-    children: '$_by_walk_$'
+    label: 'by_walk'
   },
   {
     value: 'BICYCLE',
-    children: 'Solo Bicicletta'
+    label: 'only_bike'
   },
   {
     value: 'BICYCLE,TRANSIT',
-    children: 'Bike & Ride'
+    label: 'bike_ride'
   }
 ]
 
@@ -209,7 +210,8 @@ class CallTakerPanel extends Component {
       ModeIcon,
       routes,
       setQueryParam,
-      showUserSettings
+      showUserSettings,
+      t
     } = this.props
     // FIXME: Remove showPlanTripButton
     const showPlanTripButton = mainPanelContent === 'EDIT_DATETIME' ||
@@ -225,7 +227,7 @@ class CallTakerPanel extends Component {
       time,
       to
     } = currentQuery
-    const actionText = mobile ? "$_tap_$" : "$_click_$"
+    const actionText = t(mobile ? 'tap' : 'click')
     const {expandAdvanced} = this.state
     const advancedSearchStyle = {
       zIndex: 99999,
@@ -254,7 +256,7 @@ class CallTakerPanel extends Component {
         }}>
           <div className='form'>
             <LocationField
-              inputPlaceholder={`Inserisci partenza o ${actionText} su mappa...`}
+              inputPlaceholder={t('insert_departure_action', { actionText })}
               locationType='from'
               showClearButton
             />
@@ -269,13 +271,13 @@ class CallTakerPanel extends Component {
                   onLocationSelected={result => this._addPlace(result, i)}
                   // FIXME: allow intermediate location type.
                   locationType='to'
-                  inputPlaceholder={`Enter intermediate destination`}
+                  inputPlaceholder={t('enter_intermediate_destination')}
                   showClearButton={!mobile}
                 />
               )
             })}
             <LocationField
-              inputPlaceholder={`Inserisci destinazione o ${actionText} su mappa...`}
+              inputPlaceholder={t('insert_arrival_action', { actionText })}
               locationType='to'
               showClearButton={!mobile}
             />
@@ -294,10 +296,10 @@ class CallTakerPanel extends Component {
               onClick={this._addPlace}>
               <i className='fa fa-plus-circle' />{' '}
               {maxPlacesDefined
-                ? 'Maximum intermediate places reached'
+                ? t('maximum_intermediate_places_reached')
                 : addIntermediateDisabled
-                  ? 'Define origin/destination to add intermediate places'
-                  : 'Add place'
+                  ? t('define_origin_destination_to_add_intermediate_places')
+                  : t('add_place')
               }
             </button>
             <div className='search-options' style={{height: '30px'}}>
@@ -306,7 +308,8 @@ class CallTakerPanel extends Component {
                 onKeyDown={this._handleFormKeyDown}
                 departArrive={departArrive}
                 setQueryParam={setQueryParam}
-                time={time} />
+                time={time}
+                t={t} />
               <select
                 onBlur={this._setMode}
                 onKeyDown={this._handleFormKeyDown}
@@ -314,7 +317,7 @@ class CallTakerPanel extends Component {
                 style={{position: 'absolute', right: '50px'}}
                 onChange={this._setMode}>
                 {modeOptions.map(o => (
-                  <option key={o.value} {...o} />
+                  <option key={o.value}>{t(o.label)}</option>
                 ))}
               </select>
               <Button
@@ -325,14 +328,14 @@ class CallTakerPanel extends Component {
                   position: 'absolute',
                   right: '0px'
                 }} >
-                Plan
+                {t('plan')}
               </Button>
             </div>
             <div className='advanced-search-options-container'>
               <Button
                 className='hide-button clear-button-formatting'
                 onClick={this._onHideAdvancedClick}>
-                <i className={`fa fa-caret-${expandAdvanced ? 'up' : 'down'}`} /> Advanced options
+                <i className={`fa fa-caret-${expandAdvanced ? 'up' : 'down'}`} /> {t('advanced_options')}
               </Button>
               <div className='advanced-search-options' style={advancedSearchStyle}>
                 <CallTakerAdvancedOptions
@@ -341,7 +344,8 @@ class CallTakerPanel extends Component {
                   routes={routes}
                   findRoutes={this.props.findRoutes}
                   setQueryParam={setQueryParam}
-                  currentQuery={currentQuery} />
+                  currentQuery={currentQuery}
+                  t={t} />
               </div>
             </div>
           </div>
@@ -477,7 +481,7 @@ class CallTakerAdvancedOptions extends Component {
   }
 
   render () {
-    const {currentQuery, modes, ModeIcon} = this.props
+    const {currentQuery, modes, ModeIcon, t} = this.props
     const {maxBikeDistance, maxWalkDistance, mode} = currentQuery
     const bannedRoutes = this.getRouteList('bannedRoutes')
     const preferredRoutes = this.getRouteList('preferredRoutes')
@@ -500,7 +504,7 @@ class CallTakerAdvancedOptions extends Component {
       <div>
         <div style={{alignItems: 'center', display: 'flex', justifyContent: 'space-between'}}>
           <label style={{fontWeight: '400'}}>
-            Max walk {unitsString}
+            {t('max_walk')} {unitsString}
             <input
               onChange={this._setMaxWalkDistance}
               onKeyDown={this._handleFormKeyDown}
@@ -512,7 +516,7 @@ class CallTakerAdvancedOptions extends Component {
           </label>
           {hasBike(mode)
             ? <label style={{fontWeight: '400'}}>
-              Max bike {unitsString}
+              {t('max_bike')} {unitsString}
               <input
                 onChange={this._setMaxBikeDistance}
                 onKeyDown={this._handleFormKeyDown}
@@ -539,7 +543,7 @@ class CallTakerAdvancedOptions extends Component {
           isOptionDisabled={this._isPreferredRouteOptionDisabled}
           options={this.state.routeOptions}
           onChange={this._setPreferredRoutes}
-          placeholder='Select preferred routes...' />
+          placeholder={`${t('select_preferred_routes')}...`} />
         <Select
           value={bannedRoutes}
           id='bannedRoutes'
@@ -547,7 +551,7 @@ class CallTakerAdvancedOptions extends Component {
           isOptionDisabled={this._isBannedRouteOptionDisabled}
           options={this.state.routeOptions}
           onChange={this._setBannedRoutes}
-          placeholder='Select banned routes...' />
+          placeholder={`${t('select_banned_routes')}...`} />
       </div>
     )
   }
@@ -594,7 +598,7 @@ class DateTimeOptions extends Component {
   }
 
   render () {
-    const {date, departArrive, time} = this.props
+    const {date, departArrive, time, t} = this.props
     const leaveNow = departArrive === 'NOW' && !date && !time
     const dateTime = moment(`${date} ${time}`)
     const cleanDate = dateTime.format('YYYY-MM-DD')
@@ -607,7 +611,7 @@ class DateTimeOptions extends Component {
           value={departArrive}
           onChange={this._setDepartArrive}>
           {departureOptions.map(o => (
-            <option key={o.value} {...o} />
+            <option key={o.value}>{t(o.label)}</option>
           ))}
         </select>
         {leaveNow
@@ -666,4 +670,4 @@ const mapDispatchToProps = {
   setQueryParam: formActions.setQueryParam
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CallTakerPanel)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(CallTakerPanel))
