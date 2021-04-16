@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 
 import MobileContainer from './container'
 import LocationField from '../form/connected-location-field'
@@ -36,13 +37,13 @@ class MobileWelcomeScreen extends Component {
   }
 
   render () {
-    const { title } = this.props
+    const { title, t } = this.props
     return (
       <MobileContainer>
         <MobileNavigationBar title={title} />
         <div className='welcome-location mobile-padding'>
           <LocationField
-            inputPlaceholder='$_where_go_$'
+            inputPlaceholder={t('where_go')}
             locationType='to'
             onTextInputClick={this._toFieldClicked}
             showClearButton={false}
@@ -67,4 +68,4 @@ const mapDispatchToProps = {
   setMobileScreen
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MobileWelcomeScreen)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(MobileWelcomeScreen))

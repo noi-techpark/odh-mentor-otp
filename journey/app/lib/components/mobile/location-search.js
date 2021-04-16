@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 
 import MobileContainer from './container'
 import MobileNavigationBar from './navigation-bar'
@@ -23,21 +24,22 @@ class MobileLocationSearch extends Component {
       backScreen,
       location,
       locationType,
-      otherLocation
+      otherLocation,
+      t
     } = this.props
     const suppressNearby = otherLocation &&
       otherLocation.category === 'CURRENT_LOCATION'
     return (
       <MobileContainer>
         <MobileNavigationBar
-          headerText={`Imposta ${locationType === 'to' ? 'Destinazione' : 'Origine'}`}
+          headerText={`${t('set')} ${t(locationType === 'to' ? 'destination' : 'origin')}`}
           showBackButton
           backScreen={backScreen}
         />
         <div className='location-search mobile-padding'>
           <LocationField
             hideExistingValue
-            inputPlaceholder={location ? location.name : '$_type_location_$'}
+            inputPlaceholder={location ? location.name : t('type_location')}
             locationType={locationType}
             onLocationSelected={this._locationSelected}
             static
@@ -64,4 +66,4 @@ const mapDispatchToProps = {
   setMobileScreen
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MobileLocationSearch)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(MobileLocationSearch))

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
+import { withNamespaces } from 'react-i18next'
 
 import DateTimePreview from '../form/date-time-preview'
 import DefaultMap from '../map/default-map'
@@ -42,9 +43,10 @@ class MobileSearchScreen extends Component {
   }
 
   render () {
+    const { t } = this.props
     return (
       <MobileContainer>
-        <MobileNavigationBar headerText='$_plan_trip_$' />
+        <MobileNavigationBar headerText={t('plan_trip')} />
         <div className='search-settings mobile-padding'>
           <LocationField
             locationType='from'
@@ -96,4 +98,4 @@ const mapDispatchToProps = {
   setMobileScreen
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MobileSearchScreen)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(MobileSearchScreen))

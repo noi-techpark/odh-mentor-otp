@@ -1,3 +1,4 @@
+import React from 'react'
 import FromToLocationPicker from '../../otp-ui/from-to-location-picker'
 import styled from 'styled-components'
 
