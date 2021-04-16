@@ -169,5 +169,10 @@ export const TRANSLATIONS_EN = {
   "select_preferred_routes": "Select preferred routes",
   "select_banned_routes": "Select banned routes",
   "only_bike": "Only bike",
-  "bike_ride": "Bike & Ride"
+  "bike_ride": "Bike & Ride",
+  "could_not": "Could not {{ label }}",
+  "recent_places": "Recent places",
+  "recent_searches": "Recent searches",
+  "back_to_search": "Back to Search",
+  "report_issue": "$_report_issue"
 };
