@@ -1,6 +1,7 @@
 import coreUtils from '../../../otp-ui/core-utils'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { withNamespaces } from 'react-i18next'
 
 import Icon from '../icon'
 import ViewTripButton from '../../viewers/view-trip-button'
@@ -9,7 +10,7 @@ import ViewStopButton from '../../viewers/view-stop-button'
 const { getMapColor } = coreUtils.itinerary
 const { formatDuration, formatTime } = coreUtils.time
 
-export default class TransitLeg extends Component {
+class TransitLeg extends Component {
   static propTypes = {
     itinerary: PropTypes.object,
     LegIcon: PropTypes.elementType.isRequired
@@ -35,7 +36,7 @@ export default class TransitLeg extends Component {
   }
 
   render () {
-    const { active, index, leg, LegIcon } = this.props
+    const { active, index, leg, LegIcon, t } = this.props
     const { expanded } = this.state
     const numStops = leg.to.stopIndex - leg.from.stopIndex - 1
 
@@ -54,7 +55,7 @@ export default class TransitLeg extends Component {
               {leg.routeShortName && <span className='route-short-name'>{leg.routeShortName}</span>}
               {leg.routeLongName && <span className='route-long-name'>{leg.routeLongName}</span>}
             </div>
-            {leg.headsign && <div className='headsign'>To {leg.headsign}</div>}
+            {leg.headsign && <div className='headsign'>{t('to')} {leg.headsign}</div>}
           </div>
           {leg.realTime ? <Icon type='rss' /> : null}
         </button>
@@ -100,7 +101,7 @@ export default class TransitLeg extends Component {
                       <Icon type={`caret-${expanded ? 'down' : 'right'}`} />
                       <span className='transit-duration'>{formatDuration(leg.duration)}</span>
                       {' '}
-                      ({numStops ? `${numStops} stops` : 'non-stop'})
+                      ({numStops ? `${numStops} ${t('stops')}` : t('no_stops')})
                     </button>
                     <div style={{ clear: 'both' }} />
                   </div>
@@ -123,14 +124,14 @@ export default class TransitLeg extends Component {
                 {/* Service Alerts for Leg */}
                 {leg.alerts &&
                   <div>
-                    <div className='item'><Icon type='exclamation-circle' /> Information</div>
+                    <div className='item'><Icon type='exclamation-circle' /> {t('information')}</div>
                     {expanded &&
                       <div>
                         {leg.alerts.map((alert, i) => (
                           <div className='alert-item item' key={i}>
                             {alert.alertDescriptionText}
                             {' '}
-                            {alert.alertUrl ? <a target='_blank' href={alert.alertUrl}>more info</a> : null}
+                            {alert.alertUrl ? <a target='_blank' href={alert.alertUrl}>{t('more_info')}</a> : null}
                           </div>
                         ))}
                       </div>
@@ -140,7 +141,7 @@ export default class TransitLeg extends Component {
 
                 {/* General Info */}
                 <div className='item info-item'>
-                  <span className='agency-info'>$_service_$ <a href={leg.agencyUrl}>{leg.agencyName}</a></span>
+                  <span className='agency-info'>{t('service')} <a href={leg.agencyUrl}>{leg.agencyName}</a></span>
                   {
                     // route info included?
                     // <span className='route-info'><a target='_blank' href={leg.routeUrl}>Route information</a></span>
@@ -192,3 +193,5 @@ function formatLocation (str) {
 function capitalizeFirst (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+export default withNamespaces()(TransitLeg)

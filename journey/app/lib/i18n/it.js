@@ -151,5 +151,10 @@ export const TRANSLATIONS_IT = {
   "edit": "Modifica",
   "no_favorite_stops": "Nessuna fermata preferita",
   "remember_settings": "Ricorda opzioni di viaggio",
-  "funicular": "Funivia"
+  "funicular": "Funivia",
+  "no_stops": "$_no_stops",
+  "information": "$_information",
+  "no_stops": "$_no_stops",
+  "more_info": "$_more_info",
+  "information": "$_information"
 };
