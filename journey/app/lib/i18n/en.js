@@ -154,5 +154,20 @@ export const TRANSLATIONS_EN = {
   "funicular": "Funicular",
   "no_stops": "$_no_stops",
   "more_info": "$_more_info",
-  "information": "$_information"
+  "information": "$_information",
+  "today": "Today",
+  "insert_departure_action": "Insert departure or {{actionText}} on map",
+  "insert_arrive_action": "Insert arrival or {{actionText}} on map",
+  "enter_intermediate_destination": "Enter intermediate destination",
+  "maximum_intermediate_places_reached": "Maximum intermediate places reached",
+  "define_origin_destination_to_add_intermediate_places": "Define origin/destination to add intermediate places",
+  "add_place": "Add place",
+  "plan": "Plan",
+  "advanced_options": "Advanced options",
+  "max_walk": "Max walk",
+  "max_bike": "Max bike",
+  "select_preferred_routes": "Select preferred routes",
+  "select_banned_routes": "Select banned routes",
+  "only_bike": "Only bike",
+  "bike_ride": "Bike & Ride"
 };

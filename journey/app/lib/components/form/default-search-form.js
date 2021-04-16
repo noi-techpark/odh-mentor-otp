@@ -33,13 +33,13 @@ class DefaultSearchForm extends Component {
       <div>
         <div className='locations'>
           <LocationField
-            inputPlaceholder={`Inserisci partenza o ${actionText} su mappa...`}
+            inputPlaceholder={t('insert_departure_action', { actionText })}
             locationType='from'
             showClearButton
           />
 
           <LocationField
-            inputPlaceholder={`Inserisci destinazione o ${actionText} su mappa...`}
+            inputPlaceholder={t('insert_arrive_action', { actionText })}
             locationType='to'
             showClearButton={!mobile}
           />
