@@ -167,7 +167,7 @@ class MobileResultsScreen extends Component {
             <ErrorMessage error={error} />
             <div className='options-lower-tray mobile-padding'>
               <Button className='back-to-search-button' onClick={this._editSearchClicked} style={{ width: '100%' }}>
-                <i className='fa fa-arrow-left' /> Back to Search
+                <i className='fa fa-arrow-left' /> {t('back_to_search')}
               </Button>
             </div>
           </div>

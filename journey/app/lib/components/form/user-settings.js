@@ -85,7 +85,7 @@ class UserSettings extends Component {
         {trackRecent && recentPlaces.length > 0 &&
           <div className='recent-places-container'>
             <hr />
-            <div className='section-header'>Recent places</div>
+            <div className='section-header'>{t('recent_places')}</div>
             <ul style={{ padding: 0 }}>
               {recentPlaces.map(location => {
                 return <Place key={location.id} location={location} {...this.props} />
@@ -96,7 +96,7 @@ class UserSettings extends Component {
         {trackRecent && recentSearches.length > 0 &&
           <div className='recent-searches-container'>
             <hr />
-            <div className='section-header'>Recent searches</div>
+            <div className='section-header'>{t('recent_searches')}</div>
             <ul style={{ padding: 0 }}>
               {recentSearches
                 .sort((a, b) => b.timestamp - a.timestamp)
@@ -115,12 +115,12 @@ class UserSettings extends Component {
             onClick={this._enableTracking}
             className={trackRecent ? 'active' : ''}
             bsSize='xsmall'
-            bsStyle='link'>Yes</Button>
+            bsStyle='link'>{t('yes')}</Button>
           <Button
             onClick={this._disableTracking}
             className={!trackRecent ? 'active' : ''}
             bsSize='xsmall'
-            bsStyle='link'>No</Button>
+            bsStyle='link'>{t('no')}</Button>
         </div>
         {storageDisclaimer &&
           <div>
@@ -175,7 +175,7 @@ class Place extends Component {
     ['stop', 'home', 'work', 'recent'].indexOf(this.props.location.type) !== -1
 
   render () {
-    const { location } = this.props
+    const { location, t } = this.props
     const { blank, icon } = location
     const showView = this._isViewable()
     const showForget = this._isForgettable() && !blank
@@ -216,7 +216,7 @@ class Place extends Component {
             className='place-clear'
             bsSize='xsmall'
             style={{ width: `${BUTTON_WIDTH}px` }}
-            bsStyle='link'>Clear</Button>
+            bsStyle='link'>{t('clear')}</Button>
         }
       </li>
     )
@@ -233,7 +233,7 @@ class RecentSearch extends Component {
   _onForget = () => this.props.forgetSearch(this.props.search.id)
 
   render () {
-    const { search, user } = this.props
+    const { search, user, t } = this.props
     const { query, timestamp } = search
     const name = summarizeQuery(query, user.locations)
     return (
@@ -257,7 +257,7 @@ class RecentSearch extends Component {
           onClick={this._onForget}
           bsSize='xsmall'
           style={{ paddingTop: '6px', width: `${BUTTON_WIDTH}px` }}
-          bsStyle='link'>Clear</Button>
+          bsStyle='link'>{t('clear')}</Button>
       </li>
     )
   }
