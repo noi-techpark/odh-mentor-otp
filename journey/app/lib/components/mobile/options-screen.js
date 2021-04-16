@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 
 import MobileContainer from './container'
 import MobileNavigationBar from './navigation-bar'
@@ -19,12 +20,12 @@ class MobileOptionsScreen extends Component {
   }
 
   render () {
-    const { ModeIcon } = this.props
+    const { ModeIcon, t } = this.props
 
     return (
       <MobileContainer>
         <MobileNavigationBar
-          headerText='$_set_search_$'
+          headerText={t('set_search')}
           showBackButton
           backScreen={MobileScreens.SEARCH_FORM}
         />
@@ -51,4 +52,4 @@ const mapDispatchToProps = {
   setMobileScreen
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MobileOptionsScreen)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(MobileOptionsScreen))

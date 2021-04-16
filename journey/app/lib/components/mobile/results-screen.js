@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 import styled from 'styled-components'
 
 import DefaultMap from '../map/default-map'
@@ -104,7 +105,8 @@ class MobileResultsScreen extends Component {
       query,
       realtimeEffects,
       resultCount,
-      useRealtime
+      useRealtime,
+      t
     } = this.props
     const { expanded } = this.state
 
@@ -149,7 +151,7 @@ class MobileResultsScreen extends Component {
             <Button
               className='edit-search-button pull-right'
               onClick={this._editSearchClicked}
-            >Edit</Button>
+            >{t('edit')}</Button>
           </Col>
         </LocationsSummaryRow>
       </LocationSummaryContainer>
@@ -183,8 +185,8 @@ class MobileResultsScreen extends Component {
       <MobileContainer>
         <MobileNavigationBar
           headerText={resultCount
-            ? `$_found_$ ${resultCount} ${resultCount > 1 ? '$_options_$' : '$_option_$'}`
-            : 'Attendi...'
+            ? `${t('found')} ${resultCount} ${t(resultCount > 1 ? 'options' : 'option')}`
+            : `${t('wait')}...`
           }
           headerAction={headerAction}
         />
@@ -199,7 +201,7 @@ class MobileResultsScreen extends Component {
           style={{ bottom: expanded ? null : 100, top: expanded ? 100 : null }}
           onClick={this._optionClicked}
         >
-          Option {activeItineraryIndex + 1}
+          {t('option')} {activeItineraryIndex + 1}
           <i className={`fa fa-caret-${expanded ? 'down' : 'up'}`} style={{ marginLeft: 8 }} />
         </div>
 
@@ -258,4 +260,4 @@ const mapDispatchToProps = {
   setUseRealtimeResponse
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MobileResultsScreen)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(MobileResultsScreen))

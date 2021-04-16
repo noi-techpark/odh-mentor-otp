@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 import TripTools from '../narrative/trip-tools'
 
 import { getActiveSearch } from '../../util/state'
@@ -11,7 +12,7 @@ class ErrorMessage extends Component {
   }
 
   render () {
-    const { error, errorMessages, currentQuery } = this.props
+    const { error, errorMessages, currentQuery, t } = this.props
     if (!error) return null
 
     let message = error.msg
@@ -33,7 +34,7 @@ class ErrorMessage extends Component {
     return (
       <div className='error-message'>
         <div className='header'>
-          <i className='fa fa-exclamation-circle' /> Could Not $_plan_trip_$
+          <i className='fa fa-exclamation-circle' /> Could Not {t('plan_trip')}
         </div>
         <div className='message'>{message}</div>
         <TripTools buttonTypes={['START_OVER', 'REPORT_ISSUE']} />
@@ -57,4 +58,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ErrorMessage)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(ErrorMessage))

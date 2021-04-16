@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap'
 // import { DropdownButton, MenuItem } from 'react-bootstrap'
 import copyToClipboard from 'copy-to-clipboard'
 import bowser from 'bowser'
+import { withNamespaces } from 'react-i18next'
 
 class TripTools extends Component {
   static defaultProps = {
@@ -11,20 +12,20 @@ class TripTools extends Component {
   }
 
   render () {
-    const { buttonTypes, reportConfig, reactRouterConfig } = this.props
+    const { buttonTypes, reportConfig, reactRouterConfig, t } = this.props
 
     const buttonComponents = []
     buttonTypes.forEach((type) => {
       switch (type) {
         case 'COPY_URL':
-          buttonComponents.push(<CopyUrlButton />)
+          buttonComponents.push(<CopyUrlButton labelCopy={t('copied')} labelCopied={t('copy')} />)
           break
         case 'PRINT':
-          buttonComponents.push(<PrintButton />)
+          buttonComponents.push(<PrintButton label={t('print')} />)
           break
         case 'REPORT_ISSUE':
           if (!reportConfig || !reportConfig.mailto) break
-          buttonComponents.push(<ReportIssueButton {...reportConfig} />)
+          buttonComponents.push(<ReportIssueButton label={t('report_issue')} {...reportConfig} />)
           break
         case 'START_OVER':
           // Determine "home" URL
@@ -32,7 +33,7 @@ class TripTools extends Component {
           if (reactRouterConfig && reactRouterConfig.basename) {
             startOverUrl += reactRouterConfig.basename
           }
-          buttonComponents.push(<LinkButton icon='undo' text='$_restart_$' url={startOverUrl} />)
+          buttonComponents.push(<LinkButton icon='undo' text={t('restart')} url={startOverUrl} />)
           break
       }
     })
@@ -105,8 +106,8 @@ class CopyUrlButton extends Component {
           onClick={this._onClick}
         >
           {this.state.showCopied
-            ? <span><i className='fa fa-check' /> Copied</span>
-            : <span><i className='fa fa-clipboard' /> Copy Link</span>
+            ? <span><i className='fa fa-check' /> { this.props.labelCopy }</span>
+            : <span><i className='fa fa-clipboard' /> { this.props.labelCopied }</span>
           }
         </Button>
       </div>
@@ -130,7 +131,7 @@ class PrintButton extends Component {
           className='tool-button'
           onClick={this._onClick}
         >
-          <i className='fa fa-print' /> Print
+          <i className='fa fa-print' /> { this.props.label }
         </Button>
       </div>
     )
@@ -171,7 +172,7 @@ class ReportIssueButton extends Component {
         className='tool-button'
         onClick={this._onClick}
       >
-        <i className='fa fa-flag' /> Report Issue
+        <i className='fa fa-flag' /> { this.props.label }
       </Button>
     )
   }
@@ -209,4 +210,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(TripTools)
+export default withNamespaces()(connect(mapStateToProps)(TripTools))

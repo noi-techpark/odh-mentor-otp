@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 
 import { mergeMessages } from '../../util/messages'
 
@@ -22,15 +23,16 @@ class SettingsPreview extends Component {
   }
 
   static defaultProps = {
-    editButtonText: <i className='fa fa-pencil' />,
-    messages: {
-      label: '$_settings_$'
-    }
+    editButtonText: <i className='fa fa-pencil' />
   }
 
   render () {
-    const { caret, config, query, editButtonText } = this.props
-    const messages = mergeMessages(SettingsPreview.defaultProps, this.props)
+    const { caret, config, query, editButtonText, t } = this.props
+    const messages = mergeMessages({
+      messages: {
+        label: t('settings')
+      }
+    }, this.props)
     // Show dot indicator if the current query differs from the default query.
     let showDot = coreUtils.query.isNotDefaultQuery(query, config)
     const button = (
@@ -69,4 +71,4 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = { }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsPreview)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(SettingsPreview))

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 
 import DateTimePreview from './date-time-preview'
 import SettingsPreview from './settings-preview'
@@ -28,7 +29,7 @@ class TabbedFormPanel extends Component {
   _onHideClick = () => this.props.setMainPanelContent(null)
 
   render () {
-    const { ModeIcon, mainPanelContent } = this.props
+    const { ModeIcon, mainPanelContent, t } = this.props
 
     return (
       <div className='tabbed-form-panel'>
@@ -52,7 +53,7 @@ class TabbedFormPanel extends Component {
             {mainPanelContent === 'EDIT_SETTINGS' && (<ConnectedSettingsSelectorPanel ModeIcon={ModeIcon} />)}
             <div className='hide-button-row'>
               <Button className='hide-button clear-button-formatting' onClick={this._onHideClick}>
-                <i className='fa fa-caret-up' /> "$_hide_settings_$"
+                <i className='fa fa-caret-up' /> "{t('hide_settings')}"
               </Button>
             </div>
           </div>
@@ -74,4 +75,4 @@ const mapDispatchToProps = {
   setMainPanelContent
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TabbedFormPanel)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(TabbedFormPanel))

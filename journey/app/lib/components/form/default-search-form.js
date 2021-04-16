@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { withNamespaces } from "react-i18next";
 
 import LocationField from './connected-location-field'
 import TabbedFormPanel from './tabbed-form-panel'
 import SwitchButton from './switch-button'
 
-export default class DefaultSearchForm extends Component {
+class DefaultSearchForm extends Component {
   static propTypes = {
     mobile: PropTypes.bool,
     ModeIcon: PropTypes.elementType.isRequired
@@ -25,8 +26,8 @@ export default class DefaultSearchForm extends Component {
   }
 
   render () {
-    const { mobile, ModeIcon } = this.props
-    const actionText = mobile ? "$_tap_$" : "$_click_$"
+    const { mobile, ModeIcon, t } = this.props
+    const actionText = t(mobile ? 'tap' : 'click')
 
     return (
       <div>
@@ -53,3 +54,5 @@ export default class DefaultSearchForm extends Component {
     )
   }
 }
+
+export default withNamespaces()(DefaultSearchForm)
