@@ -90,6 +90,4 @@ const mapDispatchToProps = {
   setLegDiagram
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  ConnectedItineraryBody
-)
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedItineraryBody)
