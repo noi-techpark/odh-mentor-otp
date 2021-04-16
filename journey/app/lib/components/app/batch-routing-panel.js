@@ -42,12 +42,12 @@ class BatchRoutingPanel extends Component {
     return (
       <ViewerContainer>
         <LocationField
-          inputPlaceholder={`Inserisci partenza o ${actionText} su mappa...`}
+          inputPlaceholder={t('insert_departure_action', { actionText })}
           locationType='from'
           showClearButton
         />
         <LocationField
-          inputPlaceholder={`Inserisci destinazione o ${actionText} su mappa...`}
+          inputPlaceholder={t('insert_arrival_action', { actionText })}
           locationType='to'
           showClearButton={!mobile}
         />
@@ -76,8 +76,8 @@ class BatchRoutingPanel extends Component {
               textAlign: 'left'
             }}
           >
-            <Icon type='calendar' /> Today<br />
-            <Icon type='clock-o' /> Now<br />
+            <Icon type='calendar' /> {t('today')}<br />
+            <Icon type='clock-o' /> {t('now')}<br />
           </button>
           <Button
             bsStyle='default'
