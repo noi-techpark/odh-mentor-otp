@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next"
 
 const {
   OTP_API_DATE_FORMAT,
@@ -39,7 +40,8 @@ class DateTimePreview extends Component {
       startTime,
       endTime,
       timeFormat,
-      dateFormat
+      dateFormat,
+      t
     } = this.props
 
     let timeStr
@@ -47,9 +49,9 @@ class DateTimePreview extends Component {
     var separator = getUserLang() === "it" ? "a" : "um";
     const formattedTime = moment.utc(time, OTP_API_TIME_FORMAT).format(timeFormat)
     if (routingType === 'ITINERARY') {
-      if (departArrive === 'NOW') timeStr = '$_now_$'
-      else if (departArrive === 'ARRIVE') timeStr = '$_arrive_$ ' + formattedTime
-      else if (departArrive === 'DEPART') timeStr = '$_departure_$ ' + formattedTime
+      if (departArrive === 'NOW') timeStr = t('now')
+      else if (departArrive === 'ARRIVE') timeStr = `${t('arrive')} ${formattedTime}`
+      else if (departArrive === 'DEPART') timeStr = `${t('departure')} ${formattedTime}`
     } else if (routingType === 'PROFILE') {
       timeStr = startTime + " "+separator+" " + endTime
     }
@@ -68,7 +70,6 @@ class DateTimePreview extends Component {
     const button = (
       <div className='button-container'>
         <Button
-          aria-label='Edit departure or arrival time'
           onClick={this.props.onClick}
         >
           {editButtonText}{caret && <span> <i className={`fa fa-caret-${caret}`} /></span>}
@@ -105,4 +106,4 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DateTimePreview)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(DateTimePreview))

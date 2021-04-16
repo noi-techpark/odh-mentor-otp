@@ -3,6 +3,7 @@ import coreUtils from '../../otp-ui/core-utils'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 
 import Icon from '../narrative/icon'
 import { forgetSearch, toggleTracking } from '../../actions/api'
@@ -32,13 +33,14 @@ class UserSettings extends Component {
   _enableTracking = () => !this.props.user.trackRecent && this.props.toggleTracking(true)
 
   _getLocations = (user) => {
+    const { t } = this.props
     const locations = [...user.locations]
     if (!locations.find(l => l.type === 'work')) {
       locations.push({
         id: 'work',
         type: 'work',
         icon: 'briefcase',
-        name: '$_add_$',
+        name: t('add'),
         blank: true
       })
     }
@@ -47,7 +49,7 @@ class UserSettings extends Component {
         id: 'home',
         type: 'home',
         icon: 'home',
-        name: '$_add_$',
+        name: t('add'),
         blank: true
       })
     }
@@ -55,7 +57,7 @@ class UserSettings extends Component {
   }
 
   render () {
-    const { storageDisclaimer, user } = this.props
+    const { storageDisclaimer, user, t } = this.props
     const { favoriteStops, trackRecent, recentPlaces, recentSearches } = user
     // Clone locations in order to prevent blank locations from seeping into the
     // app state/store.
@@ -71,13 +73,13 @@ class UserSettings extends Component {
           })}
         </ul>
         <hr />
-        <div className='section-header'>$_favorite_stops_$</div>
+        <div className='section-header'>{t('favorite_stops')}</div>
         <ul style={{ padding: 0 }}>
           {favoriteStops.length > 0
             ? favoriteStops.map(location => {
               return <Place key={location.id} location={location} {...this.props} />
             })
-            : <small>$_no_favorite_stops_$ </small>
+            : <small>{t('no_favorite_stops')} </small>
           }
         </ul>
         {trackRecent && recentPlaces.length > 0 &&
@@ -107,8 +109,8 @@ class UserSettings extends Component {
         }
         <hr />
         <div className='remember-settings'>
-          <div className='section-header'>$_my_preferences_$</div>
-          <small>$_save_researches_$</small>
+          <div className='section-header'>{t('my_preferences')}</div>
+          <small>{t('save_researches')}</small>
           <Button
             onClick={this._enableTracking}
             className={trackRecent ? 'active' : ''}
@@ -286,4 +288,4 @@ const mapDispatchToProps = {
   toggleTracking
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserSettings)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(UserSettings))

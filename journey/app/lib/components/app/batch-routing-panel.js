@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next";
 
 import * as apiActions from '../../actions/api'
 import LocationField from '../form/connected-location-field'
@@ -22,7 +23,7 @@ class BatchRoutingPanel extends Component {
     if (!hasValidLocation(currentQuery, 'to')) issues.push('to')
     if (issues.length > 0) {
       // TODO: replace with less obtrusive validation.
-      window.alert(`Please define the following fields to $_travel_$ ${issues.join(', ')}`)
+      window.alert(`Please define the following fields to ${t('travel')} ${issues.join(', ')}`)
       return
     }
     routingQuery()
@@ -34,9 +35,10 @@ class BatchRoutingPanel extends Component {
       itineraryFooter,
       LegIcon,
       mobile,
-      showUserSettings
+      showUserSettings,
+      t
     } = this.props
-    const actionText = mobile ? "$_tap_$" : "$_click_$"
+    const actionText = t(mobile ? 'tap' : 'click')
     return (
       <ViewerContainer>
         <LocationField
@@ -129,4 +131,4 @@ const mapDispatchToProps = {
   routingQuery: apiActions.routingQuery
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BatchRoutingPanel)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(BatchRoutingPanel))
