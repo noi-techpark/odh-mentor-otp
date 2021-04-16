@@ -151,5 +151,8 @@ export const TRANSLATIONS_DE = {
   "edit": "Bearbeiten",
   "no_favorite_stops": "Keine Lieblingshaltestellen",
   "remember_settings": "Reiseoptionen merken",
-  "funicular": "Seilbahn"
+  "funicular": "Seilbahn",
+  "no_stops": "$_no_stops",
+  "more_info": "$_more_info",
+  "information": "$_information"
 };

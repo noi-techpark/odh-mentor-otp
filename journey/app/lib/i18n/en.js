@@ -151,5 +151,8 @@ export const TRANSLATIONS_EN = {
   "edit": "Edit",
   "no_favorite_stops": "No favorite stops",
   "remember_settings": "Remember travel options",
-  "funicular": "Funicular"
+  "funicular": "Funicular",
+  "no_stops": "$_no_stops",
+  "more_info": "$_more_info",
+  "information": "$_information"
 };
