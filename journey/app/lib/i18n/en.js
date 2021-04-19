@@ -184,5 +184,9 @@ export const TRANSLATIONS_EN = {
   "call_history": "Call history",
   "no_calls_in_history": "No calls in history",
   "query": "Query",
-  "toggle_map": "Toggle Map"
+  "toggle_map": "Toggle Map",
+  "switch_locations": "Switch locations",
+  "restore_defaults": "Restore {{ label }} defaults",
+  "forget_settings": "Forget settings",
+  "remember_trip_settings": "Remember trip settings"
 };
