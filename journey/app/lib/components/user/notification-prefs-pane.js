@@ -2,19 +2,20 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { ButtonToolbar, ControlLabel, FormControl, FormGroup, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import styled from 'styled-components'
+import { withNamespaces } from "react-i18next"
 
 const allowedNotificationChannels = [
   {
     type: 'email',
-    text: 'Email'
+    text: 'email'
   },
   {
     type: 'sms',
-    text: 'SMS'
+    text: 'sms'
   },
   {
     type: 'none',
-    text: 'Don\'t notify me'
+    text: 'dont_notify_me'
   }
 ]
 
@@ -44,7 +45,7 @@ class NotificationPrefsPane extends Component {
   }
 
   render () {
-    const { userData } = this.props
+    const { userData, t } = this.props
     const {
       email,
       notificationChannel,
@@ -53,11 +54,9 @@ class NotificationPrefsPane extends Component {
 
     return (
       <div>
-        <p>
-          You can receive notifications about trips you frequently take.
-        </p>
+        <p>{t('you_can_receive_notifications_about_trips_you_frequently_take')}</p>
         <FormGroup>
-          <ControlLabel>How would you like to receive notifications?</ControlLabel>
+          <ControlLabel>{t('how_would_you_like_to_receive_notifications')}</ControlLabel>
           <ButtonToolbar>
             <ToggleButtonGroup
               name='notificationChannels'
@@ -71,7 +70,7 @@ class NotificationPrefsPane extends Component {
                   key={index}
                   value={type}
                 >
-                  {text}
+                  {t(text)}
                 </ToggleButton>
               ))}
             </ToggleButtonGroup>
@@ -80,13 +79,13 @@ class NotificationPrefsPane extends Component {
         <Details>
           {notificationChannel === 'email' && (
             <FormGroup>
-              <ControlLabel>Notification emails will be sent out to:</ControlLabel>
+              <ControlLabel>{t('notification_emails_will_be_sent_out_to')}</ControlLabel>
               <FormControl disabled type='text' value={email} />
             </FormGroup>
           )}
           {notificationChannel === 'sms' && (
             <FormGroup>
-              <ControlLabel>Enter your phone number for SMS notifications:</ControlLabel>
+              <ControlLabel>{t('enter_your_phone_number_for_sms_notifications')}</ControlLabel>
               {/* TODO: Add field validation. */}
               <FormControl onChange={this._handlePhoneNumberChange} type='tel' value={phoneNumber} />
             </FormGroup>
@@ -97,4 +96,4 @@ class NotificationPrefsPane extends Component {
   }
 }
 
-export default NotificationPrefsPane
+export default withNamespaces()(NotificationPrefsPane)

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withNamespaces } from "react-i18next"
 
 import LinkButton from './link-button'
 import StackedPaneDisplay from './stacked-pane-display'
@@ -8,24 +9,24 @@ import StackedPaneDisplay from './stacked-pane-display'
  */
 class ExistingAccountDisplay extends Component {
   render () {
-    const { onCancel, onComplete, panes } = this.props
+    const { onCancel, onComplete, panes, t } = this.props
     const paneSequence = [
       {
-        pane: () => <p><LinkButton to='/savedtrips'>Edit my trips</LinkButton></p>,
-        title: 'My trips'
+        pane: () => <p><LinkButton to='/savedtrips'>{t('edit_my_trips')}</LinkButton></p>,
+        title: t('my_trips')
       },
       {
         pane: panes.terms,
         props: { disableCheckTerms: true },
-        title: 'Terms'
+        title: t('terms')
       },
       {
         pane: panes.notifications,
-        title: 'Notifications'
+        title: t('notifications')
       },
       {
         pane: panes.locations,
-        title: 'My locations'
+        title: t('my_locations')
       }
     ]
 
@@ -34,10 +35,10 @@ class ExistingAccountDisplay extends Component {
         onCancel={onCancel}
         onComplete={onComplete}
         paneSequence={paneSequence}
-        title='My Account'
+        title={t('my_account')}
       />
     )
   }
 }
 
-export default ExistingAccountDisplay
+export default withNamespaces()(ExistingAccountDisplay)

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { MenuItem, NavDropdown, NavItem } from 'react-bootstrap'
 import styled from 'styled-components'
+import { withNamespaces } from "react-i18next"
 
 import { routeTo } from '../../actions/ui'
 
@@ -47,7 +48,8 @@ class NavLoginButton extends Component {
       onSignInClick,
       onSignOutClick,
       profile,
-      style
+      style,
+      t
     } = this.props
 
     const commonProps = {
@@ -77,7 +79,7 @@ class NavLoginButton extends Component {
 
           <MenuItem divider />
 
-          <MenuItem onSelect={onSignOutClick}>Sign out</MenuItem>
+          <MenuItem onSelect={onSignOutClick}>{t('sign_out')}</MenuItem>
         </NavDropdown>
       )
     }
@@ -85,7 +87,7 @@ class NavLoginButton extends Component {
     // Display the sign-in link if no profile is passed (user is not logged in).
     return (
       <NavItem {...commonProps} onClick={onSignInClick}>
-        Sign in
+        {t('sign_in')}
       </NavItem>
     )
   }
@@ -101,4 +103,4 @@ const mapDispatchToProps = {
   routeTo
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavLoginButton)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(NavLoginButton))

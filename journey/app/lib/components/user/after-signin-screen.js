@@ -2,6 +2,7 @@ import * as routerActions from 'connected-react-router'
 import React, { Component } from 'react'
 import FontAwesome from 'react-fontawesome'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next"
 
 import * as uiActions from '../../actions/ui'
 import { isNewUser } from '../../util/user'
@@ -33,10 +34,11 @@ class AfterSignInScreen extends Component {
   }
 
   render () {
+    const { t } = this.props
     // TODO: Improve the visuals.
     return (
       <div>
-        <h1>Signed In...
+        <h1>{t('signed_in')}...
           <br />
           <FontAwesome
             name='hourglass-half'
@@ -63,6 +65,6 @@ const mapDispatchToProps = {
   routeTo: uiActions.routeTo
 }
 
-export default withLoggedInUserSupport(
+export default withNamespaces()(withLoggedInUserSupport(
   connect(mapStateToProps, mapDispatchToProps)(AfterSignInScreen)
-)
+))

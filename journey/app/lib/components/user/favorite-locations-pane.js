@@ -2,6 +2,7 @@ import clone from 'lodash/cloneDeep'
 import memoize from 'lodash.memoize'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { withNamespaces } from "react-i18next"
 import {
   ControlLabel,
   FormControl,
@@ -109,7 +110,7 @@ class FavoriteLocationsPane extends Component {
   )
 
   render () {
-    const { userData } = this.props
+    const { userData, t } = this.props
     // FIXME: remove assigning [] when null.
     const { savedLocations = [] } = userData
 
@@ -136,7 +137,7 @@ class FavoriteLocationsPane extends Component {
 
     return (
       <div>
-        <ControlLabel>Add the places you frequent often to save time planning trips:</ControlLabel>
+        <ControlLabel>{t('add_the_places_you_frequent_often_to_save_time_planning_trips')}</ControlLabel>
 
         {effectiveLocations.map((loc, index) => (
           <FormGroup key={index}>
@@ -146,7 +147,7 @@ class FavoriteLocationsPane extends Component {
               </StyledAddon>
               <FormControl
                 onChange={this._handleAddressChange(loc)}
-                placeholder={`Add ${loc.type}`}
+                placeholder={t('add_location', { location: loc.type })}
                 type='text'
                 value={loc.address} />
             </InputGroup>
@@ -161,7 +162,7 @@ class FavoriteLocationsPane extends Component {
             </NewLocationAddon>
             <NewLocationFormControl
               onBlur={this._handleAddNewLocation}
-              placeholder='Add another place'
+              placeholder={t('add_another_place')}
               type='text'
             />
           </InputGroup>
@@ -171,4 +172,4 @@ class FavoriteLocationsPane extends Component {
   }
 }
 
-export default FavoriteLocationsPane
+export default withNamespaces()(FavoriteLocationsPane)
