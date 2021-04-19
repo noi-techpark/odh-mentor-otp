@@ -7,6 +7,7 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from 'react-bootstrap'
+import { withNamespaces } from "react-i18next"
 
 import { arrayToDayFields, dayFieldsToArray } from '../../util/monitored-trip'
 import TripSummary from './trip-summary'
@@ -27,19 +28,19 @@ class TripBasicsPane extends Component {
   }
 
   render () {
-    const { monitoredTrip } = this.props
+    const { monitoredTrip, t } = this.props
     const { itinerary } = monitoredTrip
 
     if (!itinerary) {
-      return <div>No itinerary to display.</div>
+      return <div>{t('no_itinerary_to_display')}</div>
     } else {
       return (
         <div>
-          <ControlLabel>Selected itinerary:</ControlLabel>
+          <ControlLabel>{t('selected_itinerary')}</ControlLabel>
           <TripSummary monitoredTrip={monitoredTrip} />
 
           <FormGroup>
-            <ControlLabel>Please provide a name for this trip:</ControlLabel>
+            <ControlLabel>{t('please_provide_a_name_for_this_trip')}</ControlLabel>
             <FormControl
               onChange={this._handleTripNameChange}
               type='text'
@@ -48,20 +49,20 @@ class TripBasicsPane extends Component {
           </FormGroup>
 
           <FormGroup>
-            <ControlLabel>What days to you take this trip?</ControlLabel>
+            <ControlLabel>{t('what_days_to_you_take_this_trip')}</ControlLabel>
             <ButtonToolbar>
               <ToggleButtonGroup
                 onChange={this._handleTripDaysChange}
                 type='checkbox'
                 value={dayFieldsToArray(monitoredTrip)}
               >
-                <ToggleButton value={'monday'}>Monday</ToggleButton>
-                <ToggleButton value={'tuesday'}>Tuesday</ToggleButton>
-                <ToggleButton value={'wednesday'}>Wednesday</ToggleButton>
-                <ToggleButton value={'thursday'}>Thursday</ToggleButton>
-                <ToggleButton value={'friday'}>Friday</ToggleButton>
-                <ToggleButton value={'saturday'}>Saturday</ToggleButton>
-                <ToggleButton value={'sunday'}>Sunday</ToggleButton>
+                <ToggleButton value={'monday'}>{t('monday')}</ToggleButton>
+                <ToggleButton value={'tuesday'}>{t('tuesday')}</ToggleButton>
+                <ToggleButton value={'wednesday'}>{t('wednesday')}</ToggleButton>
+                <ToggleButton value={'thursday'}>{t('thursday')}</ToggleButton>
+                <ToggleButton value={'friday'}>{t('friday')}</ToggleButton>
+                <ToggleButton value={'saturday'}>{t('saturday')}</ToggleButton>
+                <ToggleButton value={'sunday'}>{t('sunday')}</ToggleButton>
               </ToggleButtonGroup>
             </ButtonToolbar>
           </FormGroup>
@@ -72,4 +73,4 @@ class TripBasicsPane extends Component {
   }
 }
 
-export default TripBasicsPane
+export default withNamespaces()(TripBasicsPane)

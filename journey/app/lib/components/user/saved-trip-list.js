@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Button, ButtonGroup, Glyphicon, Panel } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withLoginRequired } from 'use-auth0-hooks'
+import { withNamespaces } from "react-i18next"
 
 import * as uiActions from '../../actions/ui'
 import * as userActions from '../../actions/user'
@@ -14,17 +15,17 @@ import withLoggedInUserSupport from './with-logged-in-user-support'
 /**
  * This component displays the list of saved trips for the logged-in user.
  */
-const SavedTripList = ({ trips }) => {
+const SavedTripList = ({ trips, t }) => {
   // TODO: Improve navigation.
-  const accountLink = <p><LinkButton to='/account'>Back to My Account</LinkButton></p>
+  const accountLink = <p><LinkButton to='/account'>{t('back_to_my_account')}</LinkButton></p>
   let content
 
   if (!trips || trips.length === 0) {
     content = (
       <>
         {accountLink}
-        <h1>You have no saved trips</h1>
-        <p>Perform a trip search from the map first.</p>
+        <h1>{t('you_have_no_saved_trips')}</h1>
+        <p>{t('perform_a_trip_search_from_the_map_first')}</p>
       </>
     )
   } else {
@@ -32,7 +33,7 @@ const SavedTripList = ({ trips }) => {
     content = (
       <>
         {accountLink}
-        <h1>My saved trips</h1>
+        <h1>{t('my_saved_trips')}</h1>
         {trips.map((trip, index) => <ConnectedTripListItem key={index} trip={trip} />)}
       </>
     )
@@ -59,10 +60,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {}
 
-export default withLoggedInUserSupport(
+export default withNamespaces()(withLoggedInUserSupport(
   withLoginRequired(connect(mapStateToProps, mapDispatchToProps)(SavedTripList)),
   true
-)
+))
 
 /**
  * This class manages events and rendering for one item in the saved trip list.
@@ -101,7 +102,7 @@ class TripListItem extends Component {
   }
 
   render () {
-    const { trip } = this.props
+    const { trip, t } = this.props
     return (
       <Panel>
         <Panel.Heading>
@@ -112,15 +113,15 @@ class TripListItem extends Component {
           <ButtonGroup>
             <Button bsSize='small' onClick={this._handlePauseOrResumeMonitoring}>
               {trip.isActive
-                ? <><Glyphicon glyph='pause' /> Pause</>
-                : <><Glyphicon glyph='play' /> Resume</>
+                ? <><Glyphicon glyph='pause' /> {t('pause')}</>
+                : <><Glyphicon glyph='play' /> {t('resume')}</>
               }
             </Button>
             <Button bsSize='small' onClick={this._handleEditTrip}>
-              <Glyphicon glyph='pencil' /> Edit
+              <Glyphicon glyph='pencil' /> {t('edit')}
             </Button>
             <Button bsSize='small' onClick={this._handleDeleteTrip}>
-              <Glyphicon glyph='trash' /> Delete
+              <Glyphicon glyph='trash' /> {t('delete')}
             </Button>
           </ButtonGroup>
         </Panel.Body>
@@ -138,4 +139,4 @@ const itemMapDispatchToProps = {
   routeTo: uiActions.routeTo
 }
 
-const ConnectedTripListItem = connect(itemMapStateToProps, itemMapDispatchToProps)(TripListItem)
+const ConnectedTripListItem = withNamespaces()(connect(itemMapStateToProps, itemMapDispatchToProps)(TripListItem))
