@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next"
 
 import * as narrativeActions from '../../actions/narrative'
 import DefaultItinerary from './default/default-itinerary'
@@ -42,6 +43,7 @@ class TabbedItineraries extends Component {
       setActiveItinerary,
       timeFormat,
       useRealtime,
+      t,
       ...itineraryClassProps
     } = this.props
     if (!itineraries) return null
@@ -64,6 +66,7 @@ class TabbedItineraries extends Component {
                 itinerary={itinerary}
                 onClick={setActiveItinerary}
                 timeFormat={timeFormat}
+                t={t}
               />
             )
           })}
@@ -126,7 +129,7 @@ class TabButton extends Component {
   }
 
   render () {
-    const {index, isActive, itinerary, timeFormat} = this.props
+    const {index, isActive, itinerary, timeFormat, t} = this.props
     const timeOptions = {
       format: timeFormat,
       offset: getTimeZoneOffset(itinerary)
@@ -149,7 +152,7 @@ class TabButton extends Component {
         className={classNames.join(' ')}
         onClick={this._onClick}
       >
-        <div className='title'><span>Option {index + 1}</span></div>
+        <div className='title'><span>{t('option')} {index + 1}</span></div>
         <div className='details'>
           {/* The itinerary duration in hrs/mins */}
           {formatDuration(itinerary.duration)}
@@ -164,14 +167,14 @@ class TabButton extends Component {
           <span>
             <br />
             {minTotalFare ? <span>{`${centsToString(minTotalFare)}${plus}`} &bull; </span> : ''}
-            {Math.round(caloriesBurned)} Cal
+            {Math.round(caloriesBurned)} {t('cals')}
           </span>
 
           {/* The 'X tranfers' line, if applicable */}
           {itinerary.transfers > 0 && (
             <span>
               <br />
-              {itinerary.transfers} cambi{itinerary.transfers > 1 ? '' : 'o'}
+              {itinerary.transfers} {t(itinerary.transfers > 1 ? 'changes' : 'change')}
             </span>
           )}
         </div>
@@ -202,6 +205,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  TabbedItineraries
-)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(TabbedItineraries))

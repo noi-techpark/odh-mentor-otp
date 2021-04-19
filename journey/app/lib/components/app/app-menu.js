@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { DropdownButton, MenuItem } from 'react-bootstrap'
-import { withNamespaces } from "react-i18next";
+import { withNamespaces } from "react-i18next"
 
 import Icon from '../narrative/icon'
 

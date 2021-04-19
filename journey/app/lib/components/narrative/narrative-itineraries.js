@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next"
 
 import {
   setActiveItinerary,
@@ -59,7 +60,7 @@ class NarrativeItineraries extends Component {
 
   _saveTrip = () => {
     // FIXME: Replace with new save-trip functionality.
-    window.confirm('Are you sure you want to save this trip?')
+    window.confirm(this.props.t('are_you_sure_you_want_to_save_this_trip'))
   }
 
   _onFilterChange = evt => {
@@ -116,7 +117,8 @@ class NarrativeItineraries extends Component {
       persistence,
       realtimeEffects,
       sort,
-      useRealtime
+      useRealtime,
+      t
     } = this.props
     if (!activeSearch) return null
     const itineraryIsExpanded = activeItinerary !== undefined && activeItinerary !== null && this.state.showDetails
@@ -126,8 +128,8 @@ class NarrativeItineraries extends Component {
       !useRealtime
     )
     const resultText = pending
-      ? 'Finding your options...'
-      : `${itineraries.length} itineraries found.`
+      ? `${t('finding_your_options')}...`
+      : t('itineraries_found', { number: itineraries.length })
     return (
       <div className='options itinerary' style={containerStyle}>
         <div
@@ -143,7 +145,7 @@ class NarrativeItineraries extends Component {
               <button
                 className='clear-button-formatting'
                 onClick={this._toggleDetailedItinerary}>
-                <i className='fa fa-arrow-left' /> View all options
+                <i className='fa fa-arrow-left' /> {t('view_all_options')}
               </button>
               {/* FIXME: only save if meets requirements (e.g., is transit + non-realtime mode) */}
               {persistence && persistence.enabled
@@ -152,7 +154,7 @@ class NarrativeItineraries extends Component {
                   className='clear-button-formatting'
                   to='/savetrip'
                 >
-                  <i className='fa fa-plus-circle' /> Save trip
+                  <i className='fa fa-plus-circle' /> {t('save_trip')}
                 </LinkButton>
                 : null
               }
@@ -172,10 +174,10 @@ class NarrativeItineraries extends Component {
                   onChange={this._onFilterChange}
                   value={filter}
                 >
-                  <option value='ALL'>All modes</option>
-                  <option value='TRANSIT'>Transit only</option>
-                  <option value='ACTIVE'>Active only</option>
-                  <option value='CAR'>Uses car</option>
+                  <option value='ALL'>{t('all_modes')}</option>
+                  <option value='TRANSIT'>{t('transit_only')}</option>
+                  <option value='ACTIVE'>{t('active_only')}</option>
+                  <option value='CAR'>{t('uses_car')}</option>
                 </select>
               }
               <div style={{display: 'inherit'}} className='sort-options'>
@@ -185,12 +187,12 @@ class NarrativeItineraries extends Component {
                   <i className={`fa fa-sort-amount-${sort.direction.toLowerCase()}`} />
                 </button>
                 <select onChange={this._onSortChange} value={sort.value}>
-                  <option value='BEST'>Best option</option>
-                  <option value='DURATION'>Duration</option>
-                  <option value='ARRIVALTIME'>Arrival time</option>
-                  <option value='DEPARTURETIME'>Departure time</option>
-                  <option value='WALKTIME'>Walk time</option>
-                  <option value='COST'>Cost</option>
+                  <option value='BEST'>{t('best_option')}</option>
+                  <option value='DURATION'>{t('duration')}</option>
+                  <option value='ARRIVALTIME'>{t('arrival_time')}</option>
+                  <option value='DEPARTURETIME'>{t('departure_time')}</option>
+                  <option value='WALKTIME'>{t('walk_time')}</option>
+                  <option value='COST'>{t('cost')}</option>
                 </select>
               </div>
             </>
@@ -228,7 +230,7 @@ class NarrativeItineraries extends Component {
               <div key={i} className='option default-itin'>
                 <h4>
                   <Icon className='text-warning' type='exclamation-triangle' />{' '}
-                  No trip found for {mode}
+                  {t('no_trip_found_for', { mode })}
                 </h4>
                 <div>{e.error.msg}</div>
               </div>
@@ -292,6 +294,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  NarrativeItineraries
-)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(NarrativeItineraries))

@@ -1,5 +1,6 @@
 import coreUtils from '../../../otp-ui/core-utils'
 import React from 'react'
+import { withNamespaces } from "react-i18next";
 
 import NarrativeItinerary from '../narrative-itinerary'
 import ItineraryBody from '../line-itin/connected-itinerary-body'
@@ -11,7 +12,7 @@ const { isBicycle, isTransit } = coreUtils.itinerary
 const { formatDuration, formatTime } = coreUtils.time
 
 // FIXME move to core utils
-function getItineraryDescription (itinerary) {
+function getItineraryDescription (itinerary, t) {
   let primaryTransitDuration = 0
   let mainMode = 'Walk'
   let transitMode
@@ -27,7 +28,7 @@ function getItineraryDescription (itinerary) {
     if (mode === 'CAR') mainMode = 'Drive'
   })
   let description = mainMode
-  if (transitMode) description += ` $_to_$ ${transitMode}`
+  if (transitMode) description += ` ${t('to')} ${transitMode}`
   return description
 }
 
@@ -86,7 +87,7 @@ const ITINERARY_ATTRIBUTES = [
   }
 ]
 
-export default class DefaultItinerary extends NarrativeItinerary {
+class DefaultItinerary extends NarrativeItinerary {
   _onMouseEnter = () => {
     const {active, index, setVisibleItinerary, visibleItinerary} = this.props
     // Set this itinerary as visible if not already visible.
@@ -122,7 +123,8 @@ export default class DefaultItinerary extends NarrativeItinerary {
       itinerary,
       LegIcon,
       showRealtimeAnnotation,
-      timeFormat
+      timeFormat,
+      t
     } = this.props
     const timeOptions = {
       format: timeFormat,
@@ -147,7 +149,7 @@ export default class DefaultItinerary extends NarrativeItinerary {
         >
           <div
             className='title'>
-            {getItineraryDescription(itinerary)}
+            {getItineraryDescription(itinerary, t)}
           </div>
           <ul className='list-unstyled itinerary-attributes'>
             {ITINERARY_ATTRIBUTES
@@ -177,7 +179,7 @@ export default class DefaultItinerary extends NarrativeItinerary {
           <ItinerarySummary itinerary={itinerary} LegIcon={LegIcon} />
           {(active && !expanded) &&
             <small style={{clear: 'both', textAlign: 'center', display: 'block', color: 'grey'}}>
-              click to view details
+              {t('click_to_view_details')}
             </small>
           }
         </button>
@@ -191,3 +193,5 @@ export default class DefaultItinerary extends NarrativeItinerary {
     )
   }
 }
+
+export default withNamespaces()(DefaultItinerary)
