@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button, Label } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next"
 
 import Icon from '../narrative/icon'
 import ViewStopButton from './view-stop-button'
@@ -34,7 +35,8 @@ class TripViewer extends Component {
       languageConfig,
       timeFormat,
       tripData,
-      viewedTrip
+      viewedTrip,
+      t
     } = this.props
 
     return (
@@ -47,13 +49,13 @@ class TripViewer extends Component {
               <Button
                 bsSize='small'
                 onClick={this._backClicked}
-              ><Icon type='arrow-left' />Back</Button>
+              ><Icon type='arrow-left' />{t('back')}</Button>
             </div>
           )}
 
           {/* Header Text */}
           <div className='header-text'>
-            {languageConfig.tripViewer || 'Trip Viewer'}
+            {languageConfig.tripViewer || t('trip_viewer')}
           </div>
           <div style={{ clear: 'both' }} />
         </div>
@@ -63,19 +65,19 @@ class TripViewer extends Component {
           {tripData && (
             <div>
               {/* Route name */}
-              <div>Route: <b>{tripData.route.shortName}</b> {tripData.route.longName}</div>
+              <div>{t('route')}: <b>{tripData.route.shortName}</b> {tripData.route.longName}</div>
 
               {/* Wheelchair/bike accessibility badges, if applicable */}
               <h4>
                 {tripData.wheelchairAccessible === 1 &&
                   <Label bsStyle='primary'>
-                    <Icon type='wheelchair-alt' /> Accessible
+                    <Icon type='wheelchair-alt' /> {t('available')}
                   </Label>
                 }
                 {' '}
                 {tripData.bikesAllowed === 1 &&
                   <Label bsStyle='success'>
-                    <Icon type='bicycle' /> Allowed
+                    <Icon type='bicycle' /> {t('allowed')}
                   </Label>
                 }
               </h4>
@@ -148,4 +150,4 @@ const mapDispatchToProps = {
   setLocation
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TripViewer)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(TripViewer))
