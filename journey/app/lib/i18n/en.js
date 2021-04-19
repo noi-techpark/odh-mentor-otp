@@ -174,5 +174,14 @@ export const TRANSLATIONS_EN = {
   "recent_places": "Recent places",
   "recent_searches": "Recent searches",
   "back_to_search": "Back to Search",
-  "report_issue": "$_report_issue"
+  "report_issue": "$_report_issue",
+  "active_call": "Active call",
+  "searches": "Searches",
+  "call": "Call",
+  "no_queries_recorded": "No queries recorded",
+  "in_progress": "In progress",
+  "to_save": "to save",
+  "call_history": "Call history",
+  "no_calls_in_history": "No calls in history",
+  "query": "Query"
 };
