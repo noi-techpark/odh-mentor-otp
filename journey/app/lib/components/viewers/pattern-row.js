@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { VelocityTransitionGroup } from 'velocity-react'
+import { withNamespaces } from "react-i18next"
 
 import Icon from '../narrative/icon'
 import { getFormattedStopTime, getStatusLabel } from '../../util/viewer'
@@ -8,7 +9,7 @@ import { getFormattedStopTime, getStatusLabel } from '../../util/viewer'
  * Represents a single pattern row for displaying arrival times in the stop
  * viewer.
  */
-export default class PatternRow extends Component {
+class PatternRow extends Component {
   constructor () {
     super()
     this.state = { expanded: false }
@@ -26,7 +27,8 @@ export default class PatternRow extends Component {
       homeTimezone,
       stopViewerArriving,
       stopViewerConfig,
-      timeFormat
+      timeFormat,
+      t
     } = this.props
     // sort stop times by next departure
     let sortedStopTimes = []
@@ -83,8 +85,8 @@ export default class PatternRow extends Component {
                 {/* trips table header row */}
                 <div className='header'>
                   <div className='cell' />
-                  <div className='cell time-column'>DEPARTURE</div>
-                  <div className='cell status-column'>STATUS</div>
+                  <div className='cell time-column'>{t('departure_cap')}</div>
+                  <div className='cell status-column'>{t('status_cap')}</div>
                 </div>
 
                 {/* list of upcoming trips */}
@@ -96,7 +98,7 @@ export default class PatternRow extends Component {
                         style={{ display: 'table-row', marginTop: 6, fontSize: 14 }}
                         key={i}>
                         <div className='cell'>
-                          To {stopTime.headsign}
+                          {t('direction')} {stopTime.headsign}
                         </div>
                         <div className='cell time-column'>
                           {getFormattedStopTime(stopTime, homeTimezone, stopViewerArriving, timeFormat)}
@@ -107,7 +109,7 @@ export default class PatternRow extends Component {
                             : <div
                               className='status-label'
                               style={{ backgroundColor: '#bbb' }}>
-                              Scheduled
+                              {t('scheduled')}
                             </div>
                           }
                         </div>
@@ -160,7 +162,7 @@ export default class PatternRow extends Component {
         <div className='header'>
           {/* route name */}
           <div className='route-name'>
-            <b>{routeName}</b> To {pattern.headsign}
+            <b>{routeName}</b> {t('direction')} {pattern.headsign}
           </div>
         </div>
         <div>
@@ -168,8 +170,8 @@ export default class PatternRow extends Component {
             {/* trips table header row */}
             <div className='header'>
               <div className='cell' />
-              <div className='cell'>BLOCK</div>
-              <div className='cell time-column'>DEPARTURE</div>
+              <div className='cell'>{t('mean_cap')}</div>
+              <div className='cell time-column'>{t('departure_cap')}</div>
             </div>
 
             {/* list of upcoming trips */}
@@ -183,7 +185,7 @@ export default class PatternRow extends Component {
                     style={{ display: 'table-row', marginTop: 6, fontSize: 14 }}
                     key={i}>
                     <div className='cell'>
-                      To {stopTime.headsign}
+                      {t('direction')} {stopTime.headsign}
                     </div>
                     <div className='cell' style={{textAlign: 'center'}}>
                       {stopTime.blockId}
@@ -212,3 +214,5 @@ export default class PatternRow extends Component {
     )
   }
 }
+
+export default withNamespaces()(PatternRow)

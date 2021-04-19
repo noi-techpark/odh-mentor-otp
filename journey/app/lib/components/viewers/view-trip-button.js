@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next"
 
 import { setMainPanelContent, setViewedTrip } from '../../actions/ui'
 
@@ -23,12 +24,14 @@ class ViewTripButton extends Component {
   }
 
   render () {
+    const { t } = this.props
+
     return (
       <Button
         bsSize='xsmall'
         className='view-trip-button'
         onClick={this._onClick}
-      >{this.props.text || (this.props.languageConfig.tripViewer || 'Trip Viewer')}</Button>
+      >{this.props.text || (this.props.languageConfig.tripViewer || t('trip_viewer'))}</Button>
     )
   }
 }
@@ -44,4 +47,4 @@ const mapDispatchToProps = {
   setViewedTrip
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewTripButton)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(ViewTripButton))

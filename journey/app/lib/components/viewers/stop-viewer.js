@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next"
 
 import Icon from '../narrative/icon'
 import { setMainPanelContent, toggleAutoRefresh } from '../../actions/ui'
@@ -159,7 +160,7 @@ class StopViewer extends Component {
   }
 
   _renderHeader = () => {
-    const {hideBackButton, showUserSettings, stopData} = this.props
+    const {hideBackButton, showUserSettings, stopData, t} = this.props
     return (
       <div className='stop-viewer-header'>
         {/* Back button */}
@@ -168,7 +169,7 @@ class StopViewer extends Component {
             <Button
               bsSize='small'
               onClick={this._backClicked}
-            ><Icon type='arrow-left' />Back</Button>
+            ><Icon type='arrow-left' />{t('back')}</Button>
           </div>
         )}
 
@@ -176,7 +177,7 @@ class StopViewer extends Component {
         <div className='header-text'>
           {stopData
             ? <span>{stopData.name}</span>
-            : <span>Loading Stop...</span>
+            : <span>{t('loading_stop')}...</span>
           }
           {showUserSettings
             ? <Button
@@ -203,7 +204,7 @@ class StopViewer extends Component {
    * TODO: Can this use SetFromToButtons?
    */
   _renderControls = () => {
-    const {stopData} = this.props
+    const {stopData, t} = this.props
     const {scheduleView} = this.state
     // Rewrite stop ID to not include Agency prefix, if present
     // TODO: make this functionality configurable?
@@ -220,10 +221,10 @@ class StopViewer extends Component {
             style={{ fontSize: 'small' }}
             onClick={this._toggleScheduleView}>
             <Icon type={scheduleView ? 'clock-o' : 'calendar'} />{' '}
-            View {scheduleView ? 'next arrivals' : 'schedule'}
+            {t('view')} {scheduleView ? 'next arrivals' : 'schedule'}
           </button>
         </div>
-        <b>Plan a trip:</b>
+        <b>{t('plan_a_trip')}</b>
         <FromToLocationPicker
           onFromClick={this._onClickPlanFrom}
           onToClick={this._onClickPlanTo} />
@@ -251,7 +252,8 @@ class StopViewer extends Component {
       stopViewerArriving,
       stopViewerConfig,
       timeFormat,
-      transitOperators
+      transitOperators,
+      t
     } = this.props
     const { scheduleView, spin } = this.state
     const hasStopTimesAndRoutes = !!(stopData && stopData.stopTimes && stopData.stopTimes.length > 0 && stopData.routes)
@@ -322,7 +324,7 @@ class StopViewer extends Component {
                         type='checkbox'
                         checked={this.props.autoRefreshStopTimes}
                         onChange={this._onToggleAutoRefresh} />{' '}
-                      Auto-refresh arrivals?
+                      {t('refresh_arrival')}
                     </label>
                     <button
                       className='link-button pull-right'
@@ -339,7 +341,7 @@ class StopViewer extends Component {
                   : null
                 }
               </>
-              : <div>No stop times found for date.</div>
+              : <div>{t('no_stop_times_found_for_date')}</div>
             }
             {/* Future: add stop details */}
           </div>
@@ -378,4 +380,4 @@ const mapDispatchToProps = {
   toggleAutoRefresh
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StopViewer)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(StopViewer))
