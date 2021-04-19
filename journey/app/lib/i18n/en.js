@@ -188,5 +188,8 @@ export const TRANSLATIONS_EN = {
   "switch_locations": "Switch locations",
   "restore_defaults": "Restore {{ label }} defaults",
   "forget_settings": "Forget settings",
-  "remember_trip_settings": "Remember trip settings"
+  "remember_trip_settings": "Remember trip settings",
+  "parking": "Parking",
+  "vehicles": "Vehicles",
+  "zipcar_location": "Zipcar Location"
 };

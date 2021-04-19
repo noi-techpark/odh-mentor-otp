@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
 import { divIcon } from 'leaflet'
+import { withNamespaces } from "react-i18next";
 
 import SetFromToButtons from './set-from-to'
 import { setLocation } from '../../actions/map'
@@ -61,7 +62,7 @@ class ZipcarOverlay extends MapLayer {
   updateLeafletElement () {}
 
   render () {
-    const { locations } = this.props
+    const { locations, t } = this.props
     if (!locations || locations.length === 0) return <FeatureGroup />
 
     const markerIcon = divIcon({
@@ -90,7 +91,7 @@ class ZipcarOverlay extends MapLayer {
                 <div className='map-overlay-popup'>
                   {/* Popup title */}
                   <div className='popup-title'>
-                    Zipcar Location
+                    {t('zipcar_location')}
                   </div>
 
                   {/* Location info bullet */}
@@ -100,7 +101,7 @@ class ZipcarOverlay extends MapLayer {
 
                   {/* Vehicle-count bullet */}
                   <div className='popup-row'>
-                    <i className='fa fa-car' style={bulletIconStyle} /> {location.num_vehicles} Vehicles
+                    <i className='fa fa-car' style={bulletIconStyle} /> {location.num_vehicles} {t('vehicles')}
                   </div>
 
                   {/* Set as from/to toolbar */}
@@ -138,4 +139,4 @@ const mapDispatchToProps = {
   zipcarLocationsQuery
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withLeaflet(ZipcarOverlay))
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(withLeaflet(ZipcarOverlay)))
