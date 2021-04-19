@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { withNamespaces } from "react-i18next"
 
 import FormNavigationButtons from './form-navigation-buttons'
 
@@ -51,7 +52,7 @@ class SequentialPaneDisplay extends Component {
   }
 
   render () {
-    const { paneSequence } = this.props
+    const { paneSequence, t } = this.props
     const { activePaneId } = this.state
     const activePane = paneSequence[activePaneId]
     const { disableNext, nextId, pane: Pane, prevId, props, title } = activePane
@@ -66,12 +67,12 @@ class SequentialPaneDisplay extends Component {
         <FormNavigationButtons
           backButton={prevId && {
             onClick: this._handleToPrevPane,
-            text: 'Back'
+            text: t('back')
           }}
           okayButton={{
             disabled: disableNext,
             onClick: this._handleToNextPane,
-            text: nextId ? 'Next' : 'Finish'
+            text: t(nextId ? 'next_next' : 'finish')
           }}
         />
       </>
@@ -79,4 +80,4 @@ class SequentialPaneDisplay extends Component {
   }
 }
 
-export default SequentialPaneDisplay
+export default withNamespaces()(SequentialPaneDisplay)

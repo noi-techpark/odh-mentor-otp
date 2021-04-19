@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
+import { withNamespaces } from "react-i18next"
 
 import FormNavigationButtons from './form-navigation-buttons'
 
@@ -19,7 +20,7 @@ const PaneContainer = styled.div`
 /**
  * This component handles the flow between screens for new OTP user accounts.
  */
-const StackedPaneDisplay = ({ onCancel, onComplete, paneSequence, title }) => (
+const StackedPaneDisplay = ({ onCancel, onComplete, paneSequence, title, t }) => (
   <>
     {title && <h1>{title}</h1>}
     {
@@ -34,11 +35,11 @@ const StackedPaneDisplay = ({ onCancel, onComplete, paneSequence, title }) => (
     <FormNavigationButtons
       backButton={{
         onClick: onCancel,
-        text: 'Cancel'
+        text: t('cancel')
       }}
       okayButton={{
         onClick: onComplete,
-        text: 'Save Preferences'
+        text: t('save_preferences')
       }}
     />
   </>
@@ -50,4 +51,4 @@ StackedPaneDisplay.propTypes = {
   paneSequence: PropTypes.array.isRequired
 }
 
-export default StackedPaneDisplay
+export default withNamespaces()(StackedPaneDisplay)
