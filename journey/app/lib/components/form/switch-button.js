@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next";
 
 import { switchLocations } from '../../actions/map'
 
@@ -20,10 +21,10 @@ class SwitchButton extends Component {
   }
 
   render () {
-    const { content } = this.props
+    const { content, t } = this.props
     return (
       <Button className='switch-button'
-        title='Switch locations'
+        title={t('switch_locations')}
         onClick={this._onClick || this.props.onClick}
       >{content}</Button>
     )
@@ -40,4 +41,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SwitchButton)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(SwitchButton))

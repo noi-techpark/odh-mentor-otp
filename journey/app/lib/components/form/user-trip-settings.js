@@ -2,6 +2,7 @@ import coreUtils from '../../otp-ui/core-utils'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next";
 
 import Icon from '../narrative/icon'
 import {
@@ -29,7 +30,8 @@ class UserTripSettings extends Component {
       config,
       defaults,
       query,
-      resetForm
+      resetForm,
+      t
     } = this.props
 
     // Do not permit remembering trip options if they do not differ from the
@@ -45,8 +47,8 @@ class UserTripSettings extends Component {
           disabled={rememberIsDisabled}
           onClick={this._toggleStoredSettings}
         >{defaults
-            ? <span><Icon type='times' /> Dimentica Impostazioni</span>
-            : <span><Icon type='lock' /> Ricorda impostazioni di viaggio</span>
+            ? <span><Icon type='times' /> {t('forget_settings')}</span>
+            : <span><Icon type='lock' /> {t('remember_trip_settings')}</span>
           }</Button>
         <Button
           bsStyle='link'
@@ -55,7 +57,7 @@ class UserTripSettings extends Component {
           onClick={resetForm}
         >
           <Icon type='undo' />{' '}
-          Restore{defaults ? ' my' : ''} defaults
+          {t('restore_defaults'), {label: defaults ? ' my' : ''}}
         </Button>
       </div>
     )
@@ -81,4 +83,4 @@ const mapDispatchToProps = {
   storeDefaultSettings
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserTripSettings)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(UserTripSettings))
