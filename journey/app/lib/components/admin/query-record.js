@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next";
 
 import * as formActions from '../../actions/form'
 import Icon from '../narrative/icon'
@@ -9,7 +10,7 @@ import Icon from '../narrative/icon'
  */
 class QueryRecordLayout extends Component {
   _viewQuery = () => {
-    const {parseUrlQueryString, query} = this.props
+    const {parseUrlQueryString, query, t} = this.props
     const params = JSON.parse(query.queryParams)
     if ('arriveBy' in params) {
       params.departArrive = params.arriveBy ? 'ARRIVE' : 'DEPART'
@@ -24,7 +25,7 @@ class QueryRecordLayout extends Component {
         <button onClick={this._viewQuery} className='clear-button-formatting'>
           <Icon type='search' />
         </button>{' '}
-        Query {index + 1}
+        {t('query')} {index + 1}
       </li>
     )
   }
@@ -38,5 +39,5 @@ const {parseUrlQueryString} = formActions
 
 const mapDispatchToProps = { parseUrlQueryString }
 
-const QueryRecord = connect(mapStateToProps, mapDispatchToProps)(QueryRecordLayout)
+const QueryRecord = withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(QueryRecordLayout))
 export default QueryRecord
