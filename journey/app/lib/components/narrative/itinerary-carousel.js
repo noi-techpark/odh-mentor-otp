@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import SwipeableViews from 'react-swipeable-views'
+import { withNamespaces } from "react-i18next"
 
 import { setActiveItinerary, setActiveLeg, setActiveStep } from '../../actions/narrative'
 import Icon from './icon'
@@ -50,7 +51,7 @@ class ItineraryCarousel extends Component {
   }
 
   render () {
-    const { activeItinerary, itineraries, itineraryClass, hideHeader, pending, user } = this.props
+    const { activeItinerary, itineraries, itineraryClass, hideHeader, pending, user, t } = this.props
     if (pending) return <Loading small />
     if (!itineraries) return null
 
@@ -79,7 +80,10 @@ class ItineraryCarousel extends Component {
             </Button>
             <div
               className='text-center carousel-header-text'>
-              {activeItinerary + 1} of {itineraries.length}
+              {t('current_of_total', {
+                current: activeItinerary + 1,
+                total: itineraries.length
+              })}
             </div>
             <Button
               disabled={activeItinerary === itineraries.length - 1}
@@ -124,4 +128,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItineraryCarousel)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(ItineraryCarousel))

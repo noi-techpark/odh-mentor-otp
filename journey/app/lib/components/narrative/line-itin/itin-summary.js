@@ -1,6 +1,7 @@
 import coreUtils from '../../../otp-ui/core-utils'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { withNamespaces } from 'react-i18next'
 import styled from 'styled-components'
 
 // TODO: make this a prop
@@ -68,8 +69,34 @@ const ShortName = styled.div`
   white-space: nowrap;
   width: 30px;
 `
+// Helper functions
 
-export default class ItinerarySummary extends Component {
+function getRouteLongName (leg) {
+  return leg.routes && leg.routes.length > 0
+    ? leg.routes[0].longName
+    : leg.routeLongName
+}
+
+function getRouteNameForBadge (leg) {
+  const shortName = leg.routes && leg.routes.length > 0
+    ? leg.routes[0].shortName : leg.routeShortName
+
+  const longName = getRouteLongName(leg)
+
+  // check for max
+  if (longName && longName.toLowerCase().startsWith('max')) return null
+
+  // check for streetcar
+  if (longName && longName.startsWith('Portland Streetcar')) return longName.split('-')[1].trim().split(' ')[0]
+
+  return shortName || longName
+}
+
+function getRouteColorForBadge (leg) {
+  return leg.routeColor ? '#' + leg.routeColor : defaultRouteColor
+}
+
+class ItinerarySummary extends Component {
   static propTypes = {
     itinerary: PropTypes.object,
     LegIcon: PropTypes.elementType.isRequired
@@ -80,7 +107,7 @@ export default class ItinerarySummary extends Component {
   }
 
   render () {
-    const { itinerary, LegIcon, timeOptions } = this.props
+    const { itinerary, LegIcon, timeOptions, t } = this.props
     const {
       centsToString,
       maxTNCFare,
@@ -111,13 +138,13 @@ export default class ItinerarySummary extends Component {
               {minTotalFare !== maxTotalFare && <span> - {centsToString(maxTotalFare)}</span>}
               <span> &bull; </span>
             </span>}
-            {Math.round(caloriesBurned)} Cals
+            {Math.round(caloriesBurned)} {t('cals')}
           </Detail>
 
           {/* Number of transfers, if applicable */}
           {itinerary.transfers > 0 && (
             <Detail>
-              {itinerary.transfers} cambi{itinerary.transfers > 1 ? '' : 'o'}
+              {itinerary.transfers} {t('changes')}{itinerary.transfers > 1 ? '' : 'o'}
             </Detail>
           )}
 
@@ -146,29 +173,4 @@ export default class ItinerarySummary extends Component {
   }
 }
 
-// Helper functions
-
-function getRouteLongName (leg) {
-  return leg.routes && leg.routes.length > 0
-    ? leg.routes[0].longName
-    : leg.routeLongName
-}
-
-function getRouteNameForBadge (leg) {
-  const shortName = leg.routes && leg.routes.length > 0
-    ? leg.routes[0].shortName : leg.routeShortName
-
-  const longName = getRouteLongName(leg)
-
-  // check for max
-  if (longName && longName.toLowerCase().startsWith('max')) return null
-
-  // check for streetcar
-  if (longName && longName.startsWith('Portland Streetcar')) return longName.split('-')[1].trim().split(' ')[0]
-
-  return shortName || longName
-}
-
-function getRouteColorForBadge (leg) {
-  return leg.routeColor ? '#' + leg.routeColor : defaultRouteColor
-}
+export default withNamespaces()(ItinerarySummary)
