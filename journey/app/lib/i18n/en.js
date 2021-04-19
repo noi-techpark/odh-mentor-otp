@@ -183,5 +183,6 @@ export const TRANSLATIONS_EN = {
   "to_save": "to save",
   "call_history": "Call history",
   "no_calls_in_history": "No calls in history",
-  "query": "Query"
+  "query": "Query",
+  "toggle_map": "Toggle Map"
 };

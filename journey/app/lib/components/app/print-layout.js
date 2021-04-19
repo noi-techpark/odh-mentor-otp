@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next";
 
 import { parseUrlQueryString } from '../../actions/form'
 import { routingQuery } from '../../actions/api'
@@ -53,21 +54,21 @@ class PrintLayout extends Component {
   }
 
   render () {
-    const { config, itinerary, LegIcon } = this.props
+    const { config, itinerary, LegIcon, t } = this.props
     return (
       <div className='otp print-layout'>
         {/* The header bar, including the Toggle Map and Print buttons */}
         <div className='header'>
           <div style={{ float: 'right' }}>
             <Button bsSize='small' onClick={this._toggleMap}>
-              <i className='fa fa-map' /> Toggle Map
+              <i className='fa fa-map' /> {t('toggle_map')}
             </Button>
             {' '}
             <Button bsSize='small' onClick={this._print}>
-              <i className='fa fa-print' /> Print
+              <i className='fa fa-print' /> {t('print')}
             </Button>
           </div>
-          Itinerary
+          {t('itinerary')}
         </div>
 
         {/* The map, if visible */}
@@ -107,4 +108,4 @@ const mapDispatchToProps = {
   routingQuery
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrintLayout)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(PrintLayout))
