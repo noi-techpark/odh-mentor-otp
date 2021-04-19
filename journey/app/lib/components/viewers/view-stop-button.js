@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next"
 
 import { setMainPanelContent, setViewedStop } from '../../actions/ui'
 
@@ -17,12 +18,14 @@ class ViewStopButton extends Component {
   }
 
   render () {
+    const { t } = this.props
+
     return (
       <Button
         bsSize='xsmall'
         className='view-stop-button'
         onClick={this._onClick}
-      >{this.props.text || (this.props.languageConfig.stopViewer || 'Fermata')}</Button>
+      >{this.props.text || (this.props.languageConfig.stopViewer || t('stop'))}</Button>
     )
   }
 }
@@ -38,4 +41,4 @@ const mapDispatchToProps = {
   setViewedStop
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewStopButton)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(ViewStopButton))

@@ -282,5 +282,13 @@ export const TRANSLATIONS_EN = {
   "thursday": "Thursday",
   "friday": "Friday",
   "saturday": "Saturday",
-  "sunday": "Sunday"
+  "sunday": "Sunday",
+  "route_details": "Route Details",
+  "no_route_url_provided": "No route URL provided.",
+  "loading_stop": "Loading Stop",
+  "view": "View",
+  "plan_a_trip": "Plan a trip:",
+  "no_stop_times_found_for_date": "No stop times found for date",
+  "trip_viewer": "Trip Viewer",
+  "route": "Route"
 };

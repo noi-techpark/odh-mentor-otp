@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Label, Button } from 'react-bootstrap'
 import { VelocityTransitionGroup } from 'velocity-react'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next"
 
 import Icon from '../narrative/icon'
 
@@ -55,7 +56,8 @@ class RouteViewer extends Component {
       transitOperators,
       routes,
       setViewedRoute,
-      viewedRoute
+      viewedRoute,
+      t
     } = this.props
     const sortedRoutes = routes
       ? Object.values(routes).sort(coreUtils.route.routeComparator)
@@ -75,13 +77,13 @@ class RouteViewer extends Component {
               <Button
                 bsSize='small'
                 onClick={this._backClicked}
-              ><Icon type='arrow-left' />Back</Button>
+              ><Icon type='arrow-left' />{t('back')}</Button>
             </div>
           )}
 
           {/* Header Text */}
           <div className='header-text'>
-            {languageConfig.routeViewer || 'Visualizza Linee'}
+            {languageConfig.routeViewer || t('route_viewer')}
           </div>
           <div className=''>
             {languageConfig.routeViewerDetails}
@@ -103,6 +105,7 @@ class RouteViewer extends Component {
                   // operator={operator}
                   route={route}
                   setViewedRoute={setViewedRoute}
+                  t={t}
                 />
               )
             })
@@ -127,7 +130,7 @@ class RouteRow extends PureComponent {
   }
 
   render () {
-    const {isActive, route, operator} = this.props
+    const {isActive, route, operator, t} = this.props
     const {defaultRouteColor, defaultRouteTextColor, longNameSplitter} = operator || {}
     const backgroundColor = `#${defaultRouteColor || route.color || 'ffffff'}`
     // NOTE: text color is not a part of short response route object, so there
@@ -182,8 +185,8 @@ class RouteRow extends PureComponent {
           {isActive && (
             <div style={{ padding: 8 }}>
               {route.url
-                ? <a href={route.url} target='_blank'>Route Details</a>
-                : 'No route URL provided.'
+                ? <a href={route.url} target='_blank'>{t('route_details')}</a>
+                : t('no_route_url_provided')
               }
             </div>
           )}
@@ -210,4 +213,4 @@ const mapDispatchToProps = {
   setViewedRoute
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RouteViewer)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(RouteViewer))
