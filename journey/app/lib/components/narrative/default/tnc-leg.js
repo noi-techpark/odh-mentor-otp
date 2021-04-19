@@ -3,6 +3,7 @@ import coreUtils from '../../../otp-ui/core-utils'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 
 import {
   getTransportationNetworkCompanyEtaEstimate,
@@ -22,7 +23,7 @@ class TransportationNetworkCompanyLeg extends Component {
   state = {}
 
   render () {
-    const { leg, legMode, LYFT_CLIENT_ID, UBER_CLIENT_ID } = this.props
+    const { leg, legMode, LYFT_CLIENT_ID, UBER_CLIENT_ID, t } = this.props
     const universalLinks = {
       'UBER': `https://m.uber.com/${isMobile() ? 'ul/' : ''}?client_id=${UBER_CLIENT_ID}&action=setPickup&pickup[latitude]=${leg.from.lat}&pickup[longitude]=${leg.from.lon}&pickup[nickname]=${encodeURI(leg.from.name)}&dropoff[latitude]=${leg.to.lat}&dropoff[longitude]=${leg.to.lon}&dropoff[nickname]=${encodeURI(leg.to.name)}`,
       'LYFT': `https://lyft.com/ride?id=${defaultTncRideTypes['LYFT']}&partner=${LYFT_CLIENT_ID}&pickup[latitude]=${leg.from.lat}&pickup[longitude]=${leg.from.lon}&destination[latitude]=${leg.to.lat}&destination[longitude]=${leg.to.lon}`
@@ -30,25 +31,25 @@ class TransportationNetworkCompanyLeg extends Component {
     const { tncData } = leg
     return (
       <div>
-        <p>* estimated travel time does not account for traffic.</p>
+        <p>* {t('estimated_travel_time_does_not_account_for_traffic')}</p>
         <a
           className='btn btn-default'
           href={universalLinks[legMode.label.toUpperCase()]}
           style={{ marginBottom: 15 }}
           target={isMobile() ? '_self' : '_blank'}>
-          Book Ride
+          {t('book_ride')}
         </a>
         {tncData && tncData.estimatedArrival
-          ? <p>ETA for a driver: {formatDuration(tncData.estimatedArrival)}</p>
-          : <p>Could not obtain eta estimate from {toSentenceCase(legMode.label)}!</p>
+          ? <p>{t('ETA_for_a_driver')}: {formatDuration(tncData.estimatedArrival)}</p>
+          : <p>{t('could_not_obtain_eta_estimate_from', { label: toSentenceCase(legMode.label) })}</p>
         }
         {/* tncData && tncData.travelDuration &&
           <p>Estimated drive time: {formatDuration(tncData.travelDuration)}</p> */}
         {tncData && tncData.minCost
-          ? <p>Estimated cost: {
+          ? <p>{t('estimated_cost')}: {
             `${currencyFormatter.format(tncData.minCost, { code: tncData.currency })} - ${currencyFormatter.format(tncData.maxCost, { code: tncData.currency })}`
           }</p>
-          : <p>Could not obtain ride estimate from {toSentenceCase(legMode.label)}!</p>}
+          : <p>{t('could_not_obtain_ride_estimate_from', { label: toSentenceCase(legMode.label) })}</p>}
         }
       </div>
     )
@@ -75,4 +76,4 @@ const mapDispatchToProps = {
   getTransportationNetworkCompanyRideEstimate
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransportationNetworkCompanyLeg)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(TransportationNetworkCompanyLeg))

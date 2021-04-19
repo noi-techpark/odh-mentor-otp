@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { withNamespaces } from 'react-i18next'
 
 const TimeText = styled.div``
 
@@ -57,7 +58,8 @@ const TimeColumnLate = styled(TimeColumnBase)`
 function RealtimeTimeColumn ({
   isDestination,
   leg,
-  timeOptions
+  timeOptions,
+  t
 }) {
   const time = isDestination ? leg.endTime : leg.startTime
   const formattedTime = time && formatTime(time, timeOptions)
@@ -69,7 +71,7 @@ function RealtimeTimeColumn ({
     return (
       <>
         <TimeText>{formattedTime}</TimeText>
-        {isTransitLeg && <StatusText>$_schedule2_$</StatusText>}
+        {isTransitLeg && <StatusText>{t('schedule_2')}</StatusText>}
       </>
     )
   }
@@ -88,13 +90,13 @@ function RealtimeTimeColumn ({
   let statusText
   let TimeColumn = TimeColumnBase
   if (isOnTime) {
-    statusText = 'on time'
+    statusText = t('on_time')
     TimeColumn = TimeColumnOnTime
   } else if (delay < 0) {
-    statusText = 'early'
+    statusText = t('early')
     TimeColumn = TimeColumnEarly
   } else if (delay > 0) {
-    statusText = 'late'
+    statusText = t('late')
     TimeColumn = TimeColumnLate
   }
 
@@ -138,7 +140,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(RealtimeTimeColumn)
+export default withNamespaces()(connect(mapStateToProps)(RealtimeTimeColumn))
 
 RealtimeTimeColumn.propTypes = {
   isDestination: PropTypes.bool.isRequired,

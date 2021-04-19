@@ -1,6 +1,7 @@
 import coreUtils from '../../../otp-ui/core-utils'
 import React from 'react'
 import styled from 'styled-components'
+import { withNamespaces } from 'react-i18next'
 
 import ItineraryBody from './connected-itinerary-body'
 import ItinerarySummary from './itin-summary'
@@ -14,7 +15,7 @@ export const LineItineraryContainer = styled.div`
   margin-bottom: 20px;
 `
 
-export default class LineItinerary extends NarrativeItinerary {
+class LineItinerary extends NarrativeItinerary {
   _headerText () {
     const { itinerary } = this.props
     return itinerary.summary || this._getSummary(itinerary)
@@ -55,11 +56,12 @@ export default class LineItinerary extends NarrativeItinerary {
       setActiveLeg,
       showRealtimeAnnotation,
       timeFormat,
-      user
+      user,
+      t
     } = this.props
 
     if (!itinerary) {
-      return <div>No Itinerary!</div>
+      return <div>{t('no_itinerary')}</div>
     }
 
     const timeOptions = {
@@ -78,7 +80,7 @@ export default class LineItinerary extends NarrativeItinerary {
         />
 
         {user &&
-          <span className='pull-right'><LinkButton to='/savetrip'>Save this option</LinkButton></span>
+          <span className='pull-right'><LinkButton to='/savetrip'>{t('save_this_option')}</LinkButton></span>
         }
 
         {showRealtimeAnnotation && <SimpleRealtimeAnnotation />}
@@ -99,3 +101,5 @@ export default class LineItinerary extends NarrativeItinerary {
     )
   }
 }
+
+export default withNamespaces()(LineItinerary)
