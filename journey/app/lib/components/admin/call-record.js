@@ -1,5 +1,6 @@
 import moment from 'moment'
 import React, { Component } from 'react'
+import { withNamespaces } from "react-i18next";
 
 import CallTimeCounter from './call-time-counter'
 import Icon from '../narrative/icon'
@@ -9,7 +10,7 @@ import {searchToQuery} from '../../util/call-taker'
 /**
  * Displays information for a particular call record in the Call Taker window.
  */
-export default class CallRecord extends Component {
+class CallRecord extends Component {
   state = {
     expanded: false
   }
@@ -24,7 +25,7 @@ export default class CallRecord extends Component {
   render () {
     // FIXME: consolidate red color with call taker controls
     const RED = '#C35134'
-    const {call, index, inProgress, searches} = this.props
+    const {call, index, inProgress, searches, t} = this.props
     const {expanded} = this.state
     if (!call) return null
     if (inProgress) {
@@ -41,18 +42,18 @@ export default class CallRecord extends Component {
             <CallTimeCounter style={{display: 'inline'}} />
           </div>
           <Icon type='phone' className='fa-flip-horizontal' />{' '}
-          [Active call]
+          [{t('active_call')}]
           <br />
           <small style={{marginLeft: '20px'}}>
-            In progress... click <Icon type='stop' /> to save{' '}
-            ({call.searches.length} searches)
+            {t('in_progress')}... {t('click')} <Icon type='stop' /> {t('to_save')}{' '}
+            ({call.searches.length} {t('searches')})
           </small>
           <div>
             {activeQueries.length > 0
               ? activeQueries.map((query, i) => (
                 <QueryRecord key={i} query={query} index={i} />
               ))
-              : 'No queries recorded.'
+              : t('no_queries_recorded')
             }
           </div>
         </div>
@@ -66,7 +67,7 @@ export default class CallRecord extends Component {
           onClick={this._toggleExpanded}
         >
           <Icon type='phone' className='fa-flip-horizontal' />
-          Call {index} ({moment(call.endTime).fromNow()})
+          {t('call')} {index} ({moment(call.endTime).fromNow()})
         </button>
         {expanded
           ? <ul className='list-unstyled'>
@@ -74,7 +75,7 @@ export default class CallRecord extends Component {
               ? call.queries.map((query, i) => (
                 <QueryRecord key={i} query={query} index={i} />
               ))
-              : 'No queries recorded.'
+              : t('no_queries_recorded')
             }
           </ul>
           : null
@@ -83,3 +84,5 @@ export default class CallRecord extends Component {
     )
   }
 }
+
+export default withNamespaces()(CallRecord)

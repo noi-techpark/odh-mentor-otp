@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withNamespaces } from "react-i18next";
 
 import * as callTakerActions from '../../actions/call-taker'
 import CallRecord from './call-record'
@@ -12,7 +13,7 @@ import Icon from '../narrative/icon'
  */
 class CallTakerWindows extends Component {
   render () {
-    const {callTaker, fetchQueries, searches} = this.props
+    const {callTaker, fetchQueries, searches, t} = this.props
     const {activeCall, callHistory} = callTaker
     return (
       <>
@@ -22,7 +23,7 @@ class CallTakerWindows extends Component {
             draggableProps={{
               defaultPosition: callHistory.position
             }}
-            header={<span><Icon type='history' /> Call history</span>}
+            header={<span><Icon type='history' /> {t('call_history')}</span>}
             onClickClose={this.props.toggleCallHistory}
           >
             {activeCall
@@ -40,7 +41,7 @@ class CallTakerWindows extends Component {
                   call={call}
                   fetchQueries={fetchQueries} />
               ))
-              : <div>No calls in history</div>
+              : <div>{t('no_calls_in_history')}</div>
             }
           </DraggableWindow>
           : null
@@ -65,4 +66,4 @@ const {
 
 const mapDispatchToProps = { fetchQueries, toggleCallHistory }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CallTakerWindows)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(CallTakerWindows))
