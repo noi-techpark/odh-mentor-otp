@@ -5,16 +5,18 @@ import {
 import { configType, legType } from "../../core-utils/types";
 import { humanizeDistanceString } from "../../humanize-distance";
 import React from "react";
+import { withNamespaces } from 'react-i18next'
 import PropTypes from "prop-types";
 
 import * as Styled from "../styled";
 
-export default function AccessLegSummary({
+function AccessLegSummary({
   config,
   leg,
   LegIcon,
   onSummaryClick,
-  showLegIcon
+  showLegIcon,
+  t
 }) {
   return (
     <Styled.LegClickable onClick={onSummaryClick}>
@@ -26,11 +28,11 @@ export default function AccessLegSummary({
 
       {/* Leg description, e.g. "Walk 0.5 mi to..." */}
       <Styled.LegDescription>
-        {getLegModeLabel(leg)}{" "}
+        {t(getLegModeLabel(leg))}{" "}
         {leg.distance > 0 && (
           <span> {humanizeDistanceString(leg.distance)}</span>
         )}
-        {` $_to_$ ${getPlaceName(leg.to, config.companies)}`}
+        {` ${t('to')} ${getPlaceName(leg.to, config.companies)}`}
       </Styled.LegDescription>
     </Styled.LegClickable>
   );
@@ -43,3 +45,5 @@ AccessLegSummary.propTypes = {
   onSummaryClick: PropTypes.func.isRequired,
   showLegIcon: PropTypes.bool.isRequired
 };
+
+export default withNamespaces()(AccessLegSummary)

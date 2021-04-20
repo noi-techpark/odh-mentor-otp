@@ -131,21 +131,21 @@ export function getMapColor(mode) {
 export function convertAbsoluteDirection(direction){
     switch(direction){
         case "NORTH":
-            return "$_north_$";
+            return "north";
         case "SOUTH":
-            return "$_south_$";
+            return "south";
         case "EAST":
-            return "$_east_$";
+            return "east";
         case "WEST":
-            return "$_west_$";
+            return "west";
         case "NORTHWEST":
-            return "$_north_west_$"
+            return "north_west"
         case "NORTHEAST":
-            return "$_north_east_$"
+            return "north_east"
         case "SOUTHWEST":
-            return "$_south_west_$";
+            return "south_west";
         case "SOUTHEAST":
-            return "$_south_east_$";
+            return "south_east";
         default:
             return direction;
     }
@@ -154,43 +154,43 @@ export function convertAbsoluteDirection(direction){
 export function getStepDirection(step) {
   switch (step.relativeDirection) {
     case "DEPART":
-      return `$_go_to_$ ${convertAbsoluteDirection(step.absoluteDirection).toLowerCase()}`;
+      return `go_to_${convertAbsoluteDirection(step.absoluteDirection)}`
 
     case "LEFT":
-      return "$_left_$";
+      return "left";
 
     case "HARD_LEFT":
-      return "$_hard_left_$ ";
+      return "hard_left";
 
     case "SLIGHTLY_LEFT":
-      return "$_slighly_left_$ ";
+      return "slighly_left";
 
     case "CONTINUE":
-      return "$_continue_$";
+      return "continue";
 
     case "SLIGHTLY_RIGHT":
-      return "$_slighly_right_$ ";
+      return "slighly_right";
 
     case "RIGHT":
-      return "$_right_$";
+      return "right";
 
     case "HARD_RIGHT":
-      return "$_hard_right_$ ";
+      return "hard_right";
 
     case "CIRCLE_CLOCKWISE":
-      return "$_circle_clock_$";
+      return "circle_clock";
 
     case "CIRCLE_COUNTERCLOCKWISE":
-      return "$_circle_counterclock_$";
+      return "circle_counterclock";
 
     case "ELEVATOR":
-      return "$_elevator_$";
+      return "elevator";
 
     case "UTURN_LEFT":
-      return "$_left_uturn_$";
+      return "left_uturn";
 
     case "UTURN_RIGHT":
-      return "$_right_uturn_$";
+      return "right_uturn";
 
     default:
       return step.relativeDirection;
@@ -199,16 +199,22 @@ export function getStepDirection(step) {
 
 export function getStepInstructions(step) {
   const conjunction = step.relativeDirection === "ELEVATOR" ? "su" : "su";
-  return `${getStepDirection(step)} ${conjunction} ${step.streetName}`;
+  const stepDirection = getStepDirection(step)
+
+  return {
+    stepDirection,
+    conjunction,
+    streetName: step.streetName
+  }
 }
 
 export function getStepStreetName(step) {
-  if (step.streetName === "road") return "$_road_$";
-  if (step.streetName === "path") return "$_path_$";
-  if (step.streetName === "sidewalk") return "$_sidewalk_$";
-  if (step.streetName === "steps") return "$_steps_$";
-  if (step.streetName === "bike path") return "$_bike_path_$";
-  if (step.streetName === "track") return "$_track_$";
+  if (step.streetName === "road") return "road";
+  if (step.streetName === "path") return "path";
+  if (step.streetName === "sidewalk") return "sidewalk";
+  if (step.streetName === "steps") return "steps";
+  if (step.streetName === "bike path") return "bike_path";
+  if (step.streetName === "track") return "track";
   return step.streetName;
 }
 
@@ -224,24 +230,24 @@ export function toSentenceCase(str) {
 export function getLegModeLabel(leg) {
   switch (leg.mode) {
       case "BICYCLE_RENT":
-        return "$_ride_for_$";
+        return "ride_for";
       case "WALK":
-          return "$_walk_for_$";
+          return "walk_for";
       case "BICYCLE":
-        return "$_ride_for_$";
+        return "ride_for";
 
     case "CAR":
-      return leg.hailedCar ? "$_drive_for_$" : "$_drive_$";
+      return leg.hailedCar ? "drive_for" : "drive";
 
     case "GONDOLA":
-      return "Aerial Tram";
+      return "aerial_tram";
 
     case "TRAM":
-      if (leg.routeLongName.toLowerCase().indexOf("streetcar") !== -1) return "Streetcar";
-      return "Light Rail";
+      if (leg.routeLongName.toLowerCase().indexOf("streetcar") !== -1) return "streetcar";
+      return "light_rail";
 
     case "MICROMOBILITY":
-      return "$_drive_for_$";
+      return "drive_for";
 
     default:
       return toSentenceCase(leg.mode);
