@@ -13,6 +13,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Ban, Bus, LocationArrow, Search, Times } from "@styled-icons/fa-solid";
 import { debounce } from "throttle-debounce";
+import { withNamespaces } from 'react-i18next'
 
 import {
   GeocodedOptionIcon,
@@ -310,7 +311,8 @@ class LocationField extends Component {
       suppressNearby,
       userLocationsAndRecentPlaces,
       UserLocationIconComponent,
-      nearbyStops
+      nearbyStops,
+      t
     } = this.props;
     const { menuVisible, value } = this.state;
     const { activeIndex } = this.state;
@@ -375,7 +377,7 @@ class LocationField extends Component {
       // Add the menu sub-heading (not a selectable item)
       menuItems.push(
         <Styled.MenuItem header key="ns-header">
-          Nearby Stops
+          {t('nearby_stops')}
         </Styled.MenuItem>
       );
 
@@ -420,7 +422,7 @@ class LocationField extends Component {
       // Add the menu sub-heading (not a selectable item)
       menuItems.push(
         <Styled.MenuItem header key="ss-header">
-          Recently Searched
+          {t('recently_searched')}
         </Styled.MenuItem>
       );
 
@@ -456,7 +458,7 @@ class LocationField extends Component {
       // Add the menu sub-heading (not a selectable item)
       menuItems.push(
         <Styled.MenuItem header key="mp-header">
-          My Places
+          {t('my_places')}
         </Styled.MenuItem>
       );
 
@@ -476,7 +478,10 @@ class LocationField extends Component {
             <Option
               icon={<UserLocationIconComponent userLocation={userLocation} />}
               key={optionKey++}
-              title={formatStoredPlaceName(userLocation)}
+              title={(() => {
+                const { displayName, detailText } = formatStoredPlaceName(location)
+                return `${t(displayName)} ${detailText ? `(${detailText})` : ''}`;
+              })()}
               onClick={locationSelected}
               isActive={itemIndex === activeIndex}
             />
@@ -497,13 +502,13 @@ class LocationField extends Component {
       // current position detected successfully
       locationSelected = this.useCurrentLocation;
       optionIcon = currentPositionIcon;
-      optionTitle = "$_use_current_position_$";
+      optionTitle = t("use_current_position");
       positionUnavailable = false;
     } else {
       // error detecting current position
       locationSelected = this.geolocationAlert;
       optionIcon = currentPositionUnavailableIcon;
-      optionTitle = "Current location not available";
+      optionTitle = t("current_location_not_available");
       positionUnavailable = true;
     }
 
@@ -534,7 +539,7 @@ class LocationField extends Component {
     const defaultPlaceholder = inputPlaceholder || locationType;
     const placeholder =
       currentPosition && currentPosition.fetching
-        ? "Fetching location..."
+        ? `${t('fetching_location')}...`
         : defaultPlaceholder;
     const textControl = (
       <Styled.Input
@@ -558,7 +563,7 @@ class LocationField extends Component {
       showClearButton && location ? (
         <Styled.InputGroupAddon>
           <Styled.Button
-            aria-label="Clear location"
+            aria-label={t('clear_location')}
             onClick={this.onClearButtonClick}
           >
             <Times size={13} />
@@ -583,7 +588,7 @@ class LocationField extends Component {
               menuItems
             ) : (
               <Styled.MenuItem header centeredText>
-                Begin typing to search for locations
+                {t('begin_typing_to_search_for_locations')}
               </Styled.MenuItem>
             )}
           </Styled.StaticMenuItemList>
@@ -854,4 +859,4 @@ LocationField.defaultProps = {
   UserLocationIconComponent: UserLocationIcon
 };
 
-export default LocationField;
+export default withNamespaces()(LocationField);

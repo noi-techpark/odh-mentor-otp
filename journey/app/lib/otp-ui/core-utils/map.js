@@ -54,13 +54,19 @@ export function getDetailText(location) {
 }
 
 export function formatStoredPlaceName(location, withDetails = true) {
-    var displayName = location.type === "home" || location.type === "work" ? (0, toSentenceCase)(location.type) : location.name;
-    displayName = location.type === "home" ? "$_home_$" : (location.type === "work" ? "$_work_$": location.name);
+  let results = {}
+  let displayName = location.type === "home" || location.type === "work" ? (0, toSentenceCase)(location.type) : location.name;
+
+  displayName = location.type === "home" ? "home" : (location.type === "work" ? "work": location.name);
+
+  results.displayName = displayName
+
   if (withDetails) {
     const detailText = getDetailText(location);
-    if (detailText) displayName += ` (${detailText})`;
+    if (detailText) results.detailText = detailText;
   }
-  return displayName;
+
+  return results;
 }
 
 export function matchLatLon(location1, location2) {

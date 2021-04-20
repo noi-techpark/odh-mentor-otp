@@ -57,7 +57,7 @@ class UserTripSettings extends Component {
           onClick={resetForm}
         >
           <Icon type='undo' />{' '}
-          {t('restore_defaults'), {label: defaults ? ' my' : ''}}
+          {t('restore_defaults', {label: defaults ? ' my' : ''})}
         </Button>
       </div>
     )
