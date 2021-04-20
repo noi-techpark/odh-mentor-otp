@@ -126,7 +126,7 @@ class UserSettings extends Component {
           <div>
             <hr />
             <div className='disclaimer'>
-              {storageDisclaimer}
+              {t(storageDisclaimer)}
             </div>
           </div>
         }

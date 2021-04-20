@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withNamespaces } from 'react-i18next'
 
 import * as Styled from "../styled";
 
@@ -10,9 +11,11 @@ class ViewTripButton extends Component {
   };
 
   render() {
+    const { t } = this.props
+
     return (
       <Styled.ViewerButton onClick={this.onClick} type="button">
-        Trip Viewer
+        {t('trip_viewer')}
       </Styled.ViewerButton>
     );
   }
@@ -25,4 +28,4 @@ ViewTripButton.propTypes = {
   toIndex: PropTypes.number.isRequired
 };
 
-export default ViewTripButton;
+export default withNamespaces()(ViewTripButton);

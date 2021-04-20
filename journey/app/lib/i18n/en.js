@@ -205,7 +205,6 @@ export const TRANSLATIONS_EN = {
   "cals": "Cals",
   "no_itinerary": "No Itinerary!",
   "save_this_option": "Save this option",
-  "schedule_2": "$_schedule_2",
   "on_time": "On time",
   "early": "early",
   "late": "late",
