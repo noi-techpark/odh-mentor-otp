@@ -5,10 +5,11 @@ import {
 import { stepsType } from "../../core-utils/types";
 import { DirectionIcon } from "../../icons/directions";
 import React from "react";
+import { withNamespaces } from "react-i18next"
 
 import * as Styled from "../styled";
 
-export default function AccessLegSteps({ steps }) {
+function AccessLegSteps({ steps, t }) {
   return (
     <Styled.Steps>
       {steps.map((step, k) => {
@@ -19,12 +20,12 @@ export default function AccessLegSteps({ steps }) {
             </Styled.StepIconContainer>
 
             <Styled.StepDescriptionContainer>
-              {getStepDirection(step)}
+              {t(getStepDirection(step))}
               <span>
-                {step.relativeDirection === "ELEVATOR" ? " $_to_$ " : " $_on_$ "}
+                {` ${t(step.relativeDirection === "ELEVATOR" ? "to" : "on")} `}
               </span>
               <Styled.StepStreetName>
-                {getStepStreetName(step)}
+                {t(getStepStreetName(step))}
               </Styled.StepStreetName>
             </Styled.StepDescriptionContainer>
           </Styled.StepRow>
@@ -37,3 +38,5 @@ export default function AccessLegSteps({ steps }) {
 AccessLegSteps.propTypes = {
   steps: stepsType.isRequired
 };
+
+export default withNamespaces()(AccessLegSteps)

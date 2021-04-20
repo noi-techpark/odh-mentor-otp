@@ -22,23 +22,24 @@ class LineItinerary extends NarrativeItinerary {
   }
 
   _getSummary (itinerary) {
+    const { t } = this.props
     let summary = ''
     let transitModes = []
     itinerary.legs.forEach((leg, index) => {
       if (isTransit(leg.mode)) {
-        const modeStr = getLegModeLabel(leg)
+        const modeStr = t(getLegModeLabel(leg))
         if (transitModes.indexOf(modeStr) === -1) transitModes.push(modeStr)
       }
     })
 
     // check for access mode
     if (!isTransit(itinerary.legs[0].mode)) {
-      summary += getLegModeLabel(itinerary.legs[0])
+      summary += t(getLegModeLabel(itinerary.legs[0]))
     }
 
     // append transit modes, if applicable
     if (transitModes.length > 0) {
-      summary += ' to ' + transitModes.join(', ')
+      summary += ` ${t(to)} ` + transitModes.join(', ')
     }
 
     return summary
