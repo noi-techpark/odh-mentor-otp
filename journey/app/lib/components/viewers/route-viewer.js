@@ -83,10 +83,10 @@ class RouteViewer extends Component {
 
           {/* Header Text */}
           <div className='header-text'>
-            {languageConfig.routeViewer || t('route_viewer')}
+            {t(languageConfig.routeViewer || 'route_viewer')}
           </div>
           <div className=''>
-            {languageConfig.routeViewerDetails}
+            {t(languageConfig.routeViewerDetails)}
           </div>
           <div style={{ clear: 'both' }} />
         </div>
