@@ -174,6 +174,18 @@ class Place extends Component {
   _isForgettable = () =>
     ['stop', 'home', 'work', 'recent'].indexOf(this.props.location.type) !== -1
 
+  _getButtonTitle = () => {
+    const { location, t } = this.props
+    const { displayName, detailText } = formatStoredPlaceName(location)
+    return `${t(displayName)} ${detailText ? `(${detailText})` : ''}`;
+  }
+
+  _getButtonLabel = () => {
+    const { location, t } = this.props
+    const { displayName } = formatStoredPlaceName(location, false)
+    return t(displayName);
+  }
+
   render () {
     const { location, t } = this.props
     const { blank, icon } = location
@@ -188,13 +200,13 @@ class Place extends Component {
       <li className='place-item'>
         <Button
           bsStyle='link'
-          title={formatStoredPlaceName(location)}
+          title={this._getButtonTitle()}
           className='place-button'
           style={{ width: `calc(100% - ${offset}px)` }}
           onClick={this._onSelect}>
           <span
             className='place-text'>
-            <Icon type={icon} /> {formatStoredPlaceName(location, false)}
+            <Icon type={icon} /> {this._getButtonLabel()}
           </span>
           <span
             className='place-detail'>
