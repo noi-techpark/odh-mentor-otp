@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 
 import MobileContainer from './container'
 import MobileNavigationBar from './navigation-bar'
@@ -16,10 +17,12 @@ class MobileStopViewer extends Component {
   }
 
   render () {
+    const { t } = this.props
+
     return (
       <MobileContainer>
         <MobileNavigationBar
-          headerText={this.props.languageConfig.stopViewer || 'Fermata'}
+          headerText={t(this.props.languageConfig.stopViewer || 'stop')}
           showBackButton
           onBackClicked={() => { this.props.setViewedStop(null) }}
         />
@@ -50,4 +53,4 @@ const mapDispatchToProps = {
   setViewedStop
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MobileStopViewer)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(MobileStopViewer))
