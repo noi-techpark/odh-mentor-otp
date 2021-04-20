@@ -308,5 +308,15 @@ export const TRANSLATIONS_EN = {
   "current_location_not_available": "Current location not available",
   "fetching_location": "Fetching location",
   "clear_location": "Clear location",
-  "begin_typing_to_search_for_locations": "Begin typing to search for locations"
+  "begin_typing_to_search_for_locations": "Begin typing to search for locations",
+  "remove_as_location": "Remove as {{ label }} location",
+  "change_in_location": "Change in {{ label }} location",
+  "toggle_elevation_chart": "Toggle elevation chart",
+  "ride": "Ride",
+  "fare": "Fare",
+  "transit_fare": "Transit Fare",
+  "typical_wait": "Typical Wait",
+  "use_companies": "Use companies",
+  "available_bikes": "Available bikes",
+  "available_docks": "Available docks"
 };

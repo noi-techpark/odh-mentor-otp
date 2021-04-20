@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { ExclamationTriangle } from "@styled-icons/fa-solid";
 import { VelocityTransitionGroup } from "velocity-react";
+import { withNamespaces } from "react-i18next"
 
 import AlertsBody from "./alerts-body";
 import IntermediateStops from "./intermediate-stops";
@@ -21,7 +22,7 @@ function pluralize(str, list) {
   return `${str}${list.length > 1 ? "s" : ""}`;
 }
 
-export default class TransitLegBody extends Component {
+class TransitLegBody extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,7 +72,8 @@ export default class TransitLegBody extends Component {
       timeFormat,
       TransitLegSubheader,
       TransitLegSummary,
-      transitOperator
+      transitOperator,
+      t
     } = this.props;
     const { language: languageConfig } = config;
     const { agencyBrandingUrl, agencyName, agencyUrl, alerts } = leg;
@@ -105,7 +107,7 @@ export default class TransitLegBody extends Component {
           {/* Agency information */}
           {showAgencyInfo && (
             <Styled.AgencyInfo>
-              $_service_${" "}
+              {t('service')}{" "}
               <a href={agencyUrl} rel="noopener noreferrer" target="_blank">
                 {agencyName}
                 {logoUrl && (
@@ -167,7 +169,7 @@ export default class TransitLegBody extends Component {
                     <IntermediateStops stops={leg.intermediateStops} />
                     {fareForLeg && (
                       <Styled.TransitLegFare>
-                        Fare: {fareForLeg.centsToString(fareForLeg.transitFare)}
+                        {t('fare')}: {fareForLeg.centsToString(fareForLeg.transitFare)}
                       </Styled.TransitLegFare>
                     )}
                   </Styled.TransitLegExpandedBody>
@@ -176,7 +178,7 @@ export default class TransitLegBody extends Component {
 
               {/* Average wait details, if present */}
               {leg.averageWait && (
-                <span>Typical Wait: {formatDuration(leg.averageWait)}</span>
+                <span>{t('typical_wait')}: {formatDuration(leg.averageWait)}</span>
               )}
             </Styled.TransitLegDetails>
           )}
@@ -209,3 +211,5 @@ TransitLegBody.defaultProps = {
   TransitLegSubheader: undefined,
   transitOperator: null
 };
+
+export default withNamespaces()(TransitLegBody)

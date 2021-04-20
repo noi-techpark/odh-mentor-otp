@@ -1,9 +1,10 @@
 import { legType } from "../../core-utils/types";
 import React from "react";
+import { withNamespaces } from "react-i18next"
 
 import * as Styled from "../styled";
 
-export default function RouteDescription({ leg }) {
+function RouteDescription({ leg, t }) {
   const { headsign, routeLongName, routeShortName } = leg;
   return (
     <Styled.LegDescriptionForTransit>
@@ -19,7 +20,7 @@ export default function RouteDescription({ leg }) {
         {headsign && (
           <span>
             <Styled.LegDescriptionHeadsignPrefix>
-              {" $_to_$ "}
+              {` ${t('to')} `}
             </Styled.LegDescriptionHeadsignPrefix>
             {headsign}
           </span>
@@ -32,3 +33,5 @@ export default function RouteDescription({ leg }) {
 RouteDescription.propTypes = {
   leg: legType.isRequired
 };
+
+export default withNamespaces()(RouteDescription)

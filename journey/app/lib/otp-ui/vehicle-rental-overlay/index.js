@@ -88,7 +88,7 @@ class VehicleRentalOverlay extends MapLayer {
    * applicable to other regions.
    */
   renderPopupForStation = (station, stationIsHub = false) => {
-    const { configCompanies, getStationName, setLocation } = this.props;
+    const { configCompanies, getStationName, setLocation, t } = this.props;
     const stationName = getStationName(configCompanies, station);
     const location = {
       lat: station.y,
@@ -103,14 +103,14 @@ class VehicleRentalOverlay extends MapLayer {
           {/* render dock info if it is available */}
           {stationIsHub && (
             <BaseMapStyled.PopupRow>
-              <div>Available bikes: {station.bikesAvailable}</div>
-              <div>Available docks: {station.spacesAvailable}</div>
+              <div>{t('available_bikes')}: {station.bikesAvailable}</div>
+              <div>{t('available_docks')}: {station.spacesAvailable}</div>
             </BaseMapStyled.PopupRow>
           )}
 
           {/* Set as from/to toolbar */}
           <BaseMapStyled.PopupRow>
-            <b>$_travel_$</b>
+            <b>{t('travel')}</b>
             <FromToLocationPicker
               location={location}
               setLocation={setLocation}
