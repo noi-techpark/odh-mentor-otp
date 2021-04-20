@@ -332,5 +332,10 @@ export const TRANSLATIONS_EN = {
   "20_minutes": "20 Minutes",
   "30_minutes": "30 Minutes",
   "45_minutes": "45 Minutes",
-  "1_hour": "1 Hour"
+  "1_hour": "1 Hour",
+  "bikesharing_ride": "Bikesharing & Ride",
+  "park_ride": "Park & Ride",
+  "carsharing_ride": "Carsharing & Ride",
+  "bikesharing": "Bikesharing",
+  "bike_ride": "Bike & Ride"
 };

@@ -55,7 +55,7 @@ class TripViewer extends Component {
 
           {/* Header Text */}
           <div className='header-text'>
-            {languageConfig.tripViewer || t('trip_viewer')}
+            {t(languageConfig.tripViewer || 'trip_viewer')}
           </div>
           <div style={{ clear: 'both' }} />
         </div>

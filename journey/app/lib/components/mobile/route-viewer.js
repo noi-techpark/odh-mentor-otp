@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 
 import MobileContainer from './container'
 import MobileNavigationBar from './navigation-bar'
@@ -22,10 +23,12 @@ class MobileRouteViewer extends Component {
   }
 
   render () {
+    const { t } = this.props
+
     return (
       <MobileContainer>
         <MobileNavigationBar
-          headerText={this.props.languageConfig.routeViewer || 'Visualizza Linee'}
+          headerText={t(this.props.languageConfig.routeViewer || 'route_viewer')}
           showBackButton
           onBackClicked={this._backClicked}
         />
@@ -54,4 +57,4 @@ const mapDispatchToProps = {
   setMainPanelContent
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MobileRouteViewer)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(MobileRouteViewer))
