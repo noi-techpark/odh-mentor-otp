@@ -318,5 +318,19 @@ export const TRANSLATIONS_EN = {
   "typical_wait": "Typical Wait",
   "use_companies": "Use companies",
   "available_bikes": "Available bikes",
-  "available_docks": "Available docks"
+  "available_docks": "Available docks",
+  "time_max_walk": "Time max walk",
+  "time_max_bike": "Time max bike",
+  "distance_max_escooter": "Maximum E-scooter Distance",
+  "power_escooter": "E-scooter Power",
+  "250_meters": "250 Meters",
+  "500_meters": "500 Meters",
+  "750_meters": "750 Meters",
+  "5_minutes": "5 Minutes",
+  "10_minutes": "10 Minutes",
+  "15_minutes": "15 Minutes",
+  "20_minutes": "20 Minutes",
+  "30_minutes": "30 Minutes",
+  "45_minutes": "45 Minutes",
+  "1_hour": "1 Hour"
 };

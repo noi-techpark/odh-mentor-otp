@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withNamespaces } from "react-i18next"
 import queryParams from "../../core-utils/query-params";
 import {
   defaultParams,
@@ -24,7 +25,7 @@ class GeneralSettingsPanel extends Component {
   };
 
   render() {
-    const { className, paramNames, query, style, supportedModes } = this.props;
+    const { className, paramNames, query, style, supportedModes, t } = this.props;
     const configWrapper = { modes: supportedModes };
 
     return (
@@ -50,8 +51,22 @@ class GeneralSettingsPanel extends Component {
                   key={paramInfo.name}
                   name={paramInfo.name}
                   value={query[paramInfo.name] || paramInfo.default}
-                  label={getQueryParamProperty(paramInfo, "label", query)}
-                  options={getQueryParamProperty(paramInfo, "options", query)}
+                  label={t(getQueryParamProperty(paramInfo, "label", query))}
+                  options={(() => {
+                    const queryOptions = getQueryParamProperty(paramInfo, "options", query)
+                    const options = []
+
+                    queryOptions.map(item => {
+                      const { text, value } = item
+
+                      options.push({
+                        text: t(text),
+                        value
+                      })
+                    })
+
+                    return options
+                  })()}
                   onChange={this.handleChange}
                 />
               );
@@ -61,7 +76,7 @@ class GeneralSettingsPanel extends Component {
                   key={paramInfo.label}
                   name={paramInfo.name}
                   value={query[paramInfo.name]}
-                  label={getQueryParamProperty(paramInfo, "label", query)}
+                  label={t(getQueryParamProperty(paramInfo, "label", query))}
                   onChange={this.handleChange}
                 />
               );
@@ -111,4 +126,4 @@ GeneralSettingsPanel.defaultProps = {
   onQueryParamChange: null
 };
 
-export default GeneralSettingsPanel;
+export default withNamespaces()(GeneralSettingsPanel);
