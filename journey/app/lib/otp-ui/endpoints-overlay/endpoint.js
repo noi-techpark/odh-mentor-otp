@@ -15,6 +15,7 @@ import {
   Sync,
   Times
 } from "@styled-icons/fa-solid";
+import { withNamespaces } from "react-i18next"
 
 import * as Styled from "./styled";
 
@@ -43,7 +44,7 @@ UserLocationIcon.propTypes = {
   type: PropTypes.string.isRequired
 };
 
-export default class Endpoint extends Component {
+class Endpoint extends Component {
   rememberAsHome = () => {
     const { location: propsLocation, rememberPlace } = this.props;
     const location = { ...propsLocation };
@@ -78,9 +79,9 @@ export default class Endpoint extends Component {
   };
 
   swapLocation = () => {
-    const { location, setLocation, type } = this.props;
+    const { location, setLocation, type, t } = this.props;
     this.clearLocation();
-    const otherType = type === "from" ? "$_destination_$" : "$_origin_$";
+    const otherType = t(type === "from" ? "destination" : "origin");
     setLocation({ type: otherType, location });
   };
 
@@ -96,7 +97,8 @@ export default class Endpoint extends Component {
       locations,
       MapMarkerIcon,
       showUserSettings,
-      type
+      type,
+      t
     } = this.props;
     const position =
       location && location.lat && location.lon
@@ -109,7 +111,7 @@ export default class Endpoint extends Component {
     const iconHtml = ReactDOMServer.renderToStaticMarkup(
       <MapMarkerIcon location={location} type={type} />
     );
-    const otherType = type === "from" ? "$_destination_$" : "$_origin_$";
+    const otherType = t(type === "from" ? "destination" : "origin");
     const icon = isWork ? "briefcase" : isHome ? "home" : "map-marker";
     return (
       <Marker
@@ -131,11 +133,11 @@ export default class Endpoint extends Component {
                 >
                   {isHome ? (
                     <span>
-                      <UserLocationIcon type="times" /> $_forget_home_$
+                      <UserLocationIcon type="times" /> {t('forget_home')}
                     </span>
                   ) : (
                     <span>
-                      <UserLocationIcon type="home" /> $_save_as_home_$
+                      <UserLocationIcon type="home" /> {t('save_as_home')}
                     </span>
                   )}
                 </Styled.Button>
@@ -147,24 +149,24 @@ export default class Endpoint extends Component {
                 >
                   {isWork ? (
                     <span>
-                      <UserLocationIcon type="times" /> $_forget_work_$
+                      <UserLocationIcon type="times" /> {t('forget_work')}
                     </span>
                   ) : (
                     <span>
-                      <UserLocationIcon type="briefcase" /> $_save_as_work_$
+                      <UserLocationIcon type="briefcase" /> {t('save_as_work')}
                     </span>
                   )}
                 </Styled.Button>
               </div>
               <div>
                 <Styled.Button onClick={this.clearLocation}>
-                  <UserLocationIcon type="times" /> $_remove_as_$ {type} location
+                  <UserLocationIcon type="times" /> {t('remove_as_location', { label: type })}
                 </Styled.Button>
               </div>
               <div>
                 <Styled.Button onClick={this.swapLocation}>
-                  <UserLocationIcon type="refresh" /> Cambia in {otherType}{" "}
-                  location
+                  <UserLocationIcon type="refresh" />
+                  {t('change_in_location', { label: otherType })}
                 </Styled.Button>
               </div>
             </div>
@@ -191,3 +193,5 @@ Endpoint.propTypes = {
 Endpoint.defaultProps = {
   location: undefined
 };
+
+export default withNamespaces()(Endpoint)

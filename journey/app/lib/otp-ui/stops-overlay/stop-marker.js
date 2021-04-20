@@ -8,10 +8,11 @@ import FromToLocationPicker from "../from-to-location-picker";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { CircleMarker, Popup } from "react-leaflet";
+import { withNamespaces } from "react-i18next"
 
 import * as Styled from "./styled";
 
-export default class StopMarker extends Component {
+class StopMarker extends Component {
   onClickView = () => {
     const { setViewedStop, stop } = this.props;
     setViewedStop({ stopId: stop.id });
@@ -32,7 +33,7 @@ export default class StopMarker extends Component {
   }
 
   render() {
-    const { languageConfig, leafletPath, radius, stop } = this.props;
+    const { languageConfig, leafletPath, radius, stop, t } = this.props;
     const { id, name, lat, lon } = stop;
     const idArr = id.split(":");
     const agency = idArr[0];
@@ -56,13 +57,13 @@ export default class StopMarker extends Component {
                 <b>Stop ID:</b> {stopId}
               </span>
               <Styled.ViewStopButton onClick={this.onClickView}>
-                {languageConfig.stopViewer || "Fermata"}
+                {t(languageConfig.stopViewer || 'stop')}
               </Styled.ViewStopButton>
             </BaseMapStyled.PopupRow>
 
             {/* The "Set as [from/to]" ButtonGroup */}
             <BaseMapStyled.PopupRow>
-              <b>$_travel_$</b>
+              <b>{t('travel')}</b>
               <FromToLocationPicker
                 onFromClick={this.onFromClick}
                 onToClick={this.onToClick}
@@ -93,3 +94,5 @@ StopMarker.defaultProps = {
   },
   radius: 5
 };
+
+export default withNamespaces()(StopMarker)

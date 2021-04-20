@@ -2,6 +2,7 @@ import { locationType } from "../core-utils/types";
 import LocationIcon from "../location-icon";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import { withNamespaces } from "react-i18next"
 
 import { LocationPickerSpan, Button, FromToPickerSpan } from "./styled";
 
@@ -35,16 +36,16 @@ class FromToLocationPicker extends Component {
   };
 
   render() {
-    const { fromText, showIcons, toText } = this.props;
+    const { fromText, showIcons, toText, t } = this.props;
     return (
       <FromToPickerSpan>
         <LocationPickerSpan>
           {showIcons && <LocationIcon type="from" size={iconSize} />}
-          <Button onClick={this.onFromClick}>{fromText}</Button>
+          <Button onClick={this.onFromClick}>{t(fromText)}</Button>
         </LocationPickerSpan>
         <LocationPickerSpan>
           {showIcons && <LocationIcon type="to" size={iconSize} />}
-          <Button onClick={this.onToClick}>{toText}</Button>
+          <Button onClick={this.onToClick}>{t(toText)}</Button>
         </LocationPickerSpan>
       </FromToPickerSpan>
     );
@@ -88,13 +89,13 @@ FromToLocationPicker.propTypes = {
 };
 
 FromToLocationPicker.defaultProps = {
-  fromText: "$_from_here_$",
+  fromText: "from_here",
   location: null,
   onFromClick: null,
   onToClick: null,
   setLocation: null,
   showIcons: true,
-  toText: "$_to_here_$"
+  toText: "to_here"
 };
 
-export default FromToLocationPicker;
+export default withNamespaces()(FromToLocationPicker);

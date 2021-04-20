@@ -12,17 +12,19 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import React from "react";
 import { CalendarAlt, Heartbeat, MoneyBillAlt } from "@styled-icons/fa-solid";
+import { withNamespaces } from "react-i18next"
 
 import * as Styled from "./styled";
 import TripDetail from "./trip-detail";
 
-export default function TripDetails({
+function TripDetails({
   className,
   itinerary,
   longDateFormat,
   messages,
   routingType,
-  timeOptions
+  timeOptions,
+  t
 }) {
   const date = moment(itinerary.startTime);
   messages = mergeMessages(TripDetails.defaultProps.messages, messages);
@@ -47,7 +49,7 @@ export default function TripDetails({
       <Styled.Fare>
         {transitFare && (
           <Styled.TransitFare>
-            {messages.transitFare}: <b>{centsToString(transitFare)}</b>
+            {t(messages.transitFare)}: <b>{centsToString(transitFare)}</b>
           </Styled.TransitFare>
         )}
         {minTNCFare !== 0 && (
@@ -56,7 +58,7 @@ export default function TripDetails({
             <Styled.TNCFareCompanies>
               {companies.toLowerCase()}
             </Styled.TNCFareCompanies>{" "}
-            {messages.fare}:{" "}
+            {t(messages.fare)}:{" "}
             <b>
               {dollarsToString(minTNCFare)} - {dollarsToString(maxTNCFare)}
             </b>
@@ -75,20 +77,20 @@ export default function TripDetails({
 
   return (
     <Styled.TripDetails className={className}>
-      <Styled.TripDetailsHeader>{messages.title}</Styled.TripDetailsHeader>
+      <Styled.TripDetailsHeader>{t(messages.title)}</Styled.TripDetailsHeader>
       <Styled.TripDetailsBody>
         <TripDetail
-          description={messages.departDescription}
+          description={messages.departDescription ? t(messages.departDescription) : ''}
           icon={<CalendarAlt size={17} />}
           summary={
             <Styled.Timing>
               <span>
-                {messages.depart} <b>{date.format(longDateFormat)}</b>
+                {t(messages.depart)} <b>{date.format(longDateFormat)}</b>
               </span>
               {routingType === "ITINERARY" && (
                 <span>
                   {" "}
-                  {messages.at}{" "}
+                  {t(messages.at)}{" "}
                   <b>{formatTime(itinerary.startTime, timeOptions)}</b>
                 </span>
               )}
@@ -97,7 +99,7 @@ export default function TripDetails({
         />
         {fare && (
           <TripDetail
-            description={messages.transitFareDescription}
+            description={messages.transitFareDescription ? t(messages.transitFareDescription) : ''}
             icon={<MoneyBillAlt size={17} />}
             summary={fare}
           />
@@ -107,12 +109,12 @@ export default function TripDetails({
             icon={<Heartbeat size={17} />}
             summary={
               <Styled.CaloriesSummary>
-                {messages.caloriesBurned}: <b>{Math.round(caloriesBurned)}</b>
+                {t(messages.caloriesBurned)}: <b>{Math.round(caloriesBurned)}</b>
               </Styled.CaloriesSummary>
             }
             description={
               <Styled.CaloriesDescription>
-                $_calories_info_1_${" "}
+                {t('calories_info_1')}{" "}
                 <b>{Math.round(walkDuration / 60)} minute(s)</b> spent walking
                 and <b>{Math.round(bikeDuration / 60)} minute(s)</b> spent
                 biking during this trip. Adapted from{" "}
@@ -169,17 +171,19 @@ TripDetails.defaultProps = {
   className: null,
   longDateFormat: null,
   messages: {
-    at: "$_at_time_$",
-    caloriesBurned: "$_calories_$",
+    at: "at_time",
+    caloriesBurned: "calories",
     // FIXME: Add templated string description.
     caloriesBurnedDescription: null,
-    depart: "$_departure_$",
+    depart: "departure",
     departDescription: null,
-    title: "$_details_trip_$",
-    fare: "Fare",
-    transitFare: "Transit Fare",
+    title: "details_trip",
+    fare: "fare",
+    transitFare: "transit_fare",
     transitFareDescription: null
   },
   routingType: "ITINERARY",
   timeOptions: null
 };
+
+export default withNamespaces()(TripDetails)

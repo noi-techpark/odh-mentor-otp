@@ -1,6 +1,8 @@
 import { TriMetModeIcon } from "../../icons";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withNamespaces } from "react-i18next"
+
 import {
   isMicromobility,
   isTransit
@@ -27,7 +29,8 @@ import {
  * The Settings Selector Panel allows the user to set trip search preferences,
  * such as modes, providers, and speed preferences.
  */
-export default class SettingsSelectorPanel extends Component {
+
+class SettingsSelectorPanel extends Component {
   constructor() {
     super();
 
@@ -155,7 +158,8 @@ export default class SettingsSelectorPanel extends Component {
       queryParams,
       supportedModes,
       supportedCompanies,
-      style
+      style,
+      t
     } = this.props;
     const { defaultAccessModeCompany } = this.state;
     const selectedModes = this.getSelectedModes();
@@ -200,11 +204,11 @@ export default class SettingsSelectorPanel extends Component {
           style={{ margin: "0px -5px", paddingBottom: "8px" }}
         />
 
-        <Styled.SettingsHeader>$_preferences_$</Styled.SettingsHeader>
+        <Styled.SettingsHeader>{t('preferences')}</Styled.SettingsHeader>
 
         {selectedModes.some(isTransit) && transitModes.length >= 2 && (
           <SubmodeSelector
-            label="$_mode_$"
+            label={t("mode")}
             modes={transitModes}
             onChange={this.handleTransitModeChange}
           />
@@ -214,7 +218,7 @@ export default class SettingsSelectorPanel extends Component {
         {/* TODO: Handle different bikeshare networks */}
         {selectedModes.some(isBike) && !selectedModes.some(isTransit) && (
           <SubmodeSelector
-            label="$_mode_$"
+            label={t("mode")}
             inline
             modes={bikeModes}
             onChange={this.handleMainModeChange}
@@ -226,7 +230,7 @@ export default class SettingsSelectorPanel extends Component {
         {selectedModes.some(isMicromobility) &&
           !selectedModes.some(isTransit) && (
             <SubmodeSelector
-              label="$_mode_$"
+              label={t("mode")}
               inline
               modes={scooterModes}
               onChange={this.handleMainModeChange}
@@ -236,7 +240,7 @@ export default class SettingsSelectorPanel extends Component {
         {/* This order is probably better. */}
         {companies.length >= 2 && (
           <SubmodeSelector
-            label="Use companies"
+            label={t('use_companies')}
             modes={companies}
             onChange={this.handleCompanyChange}
           />
@@ -292,3 +296,5 @@ SettingsSelectorPanel.defaultProps = {
   queryParams: null,
   supportedCompanies: []
 };
+
+export default withNamespaces()(SettingsSelectorPanel)
