@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { modeSelectorOptionsType } from "../../core-utils/types";
+import { withNamespaces } from "react-i18next"
 
 import * as Styled from "../styled";
 import ModeButton from "../ModeButton";
@@ -10,7 +11,7 @@ import ModeButton from "../ModeButton";
  * the transportation modes for a trip query, e.g. transit+bike, walk, micromobility...
  */
 const ModeSelector = props => {
-  const { className, modes, onChange, style } = props;
+  const { className, modes, onChange, style, t } = props;
   const { primary, secondary, tertiary } = modes || {
     primary: null,
     secondary: null,
@@ -28,7 +29,7 @@ const ModeSelector = props => {
       key={option.id}
       selected={option.selected}
       showTitle={option.showTitle}
-      title={option.title}
+      title={t(option.title)}
       onClick={() => handleClick(option)}
     >
       {option.text}
@@ -79,4 +80,4 @@ ModeSelector.defaultProps = {
   onChange: null
 };
 
-export default ModeSelector;
+export default withNamespaces()(ModeSelector);
