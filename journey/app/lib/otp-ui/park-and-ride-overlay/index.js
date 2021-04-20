@@ -9,6 +9,7 @@ import {
   Popup,
   withLeaflet
 } from "react-leaflet";
+import { withNamespaces } from "react-i18next"
 
 import parkAndRideMarker from "./park-and-ride-marker";
 
@@ -22,7 +23,7 @@ class ParkAndRideOverlay extends MapLayer {
   updateLeafletElement() {}
 
   render() {
-    const { parkAndRideLocations, setLocation } = this.props;
+    const { parkAndRideLocations, setLocation, t } = this.props;
     if (!parkAndRideLocations || parkAndRideLocations.length === 0)
       return <FeatureGroup />;
 
@@ -44,7 +45,7 @@ class ParkAndRideOverlay extends MapLayer {
 
                   {/* Set as from/to toolbar */}
                   <BaseMapStyled.PopupRow>
-                    <b>$_travel_$</b>
+                    <b>{t('travel')}</b>
                     <FromToLocationPicker
                       location={{
                         lat: location.y,
@@ -75,4 +76,4 @@ ParkAndRideOverlay.propTypes = {
   setLocation: PropTypes.func.isRequired
 };
 
-export default withLeaflet(ParkAndRideOverlay);
+export default withNamespaces()(withLeaflet(ParkAndRideOverlay));

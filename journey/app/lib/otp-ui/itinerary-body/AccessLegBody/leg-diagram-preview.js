@@ -3,6 +3,7 @@ import { legType } from "../../core-utils/types";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import ReactResizeDetector from "react-resize-detector";
+import { withNamespaces } from "react-i18next"
 
 import * as Styled from "../styled";
 
@@ -64,7 +65,7 @@ class LegDiagramPreview extends Component {
   formatElevation = elev => `${Math.round(elev)}'`;
 
   render() {
-    const { leg, showElevationProfile } = this.props;
+    const { leg, showElevationProfile, t } = this.props;
     const { width } = this.state;
     if (!showElevationProfile) return null;
     const profile = getElevationProfile(leg.steps);
@@ -77,12 +78,12 @@ class LegDiagramPreview extends Component {
         {/* eslint-disable-next-line */}
         <Styled.PreviewDiagram
           tabIndex="0"
-          title="Toggle elevation chart"
+          title={t('toggle_elevation_chart')}
           role="button"
           onClick={this.onExpandClick}
         >
           <Styled.PreviewDiagramTitle>
-            Altimetria{" "}
+            {t('altimetry')}{" "}
             <Styled.PreviewDiagramElevationGain>
               ↑{this.formatElevation(profile.gain * METERS_TO_FEET)}
               {"  "}
@@ -93,7 +94,7 @@ class LegDiagramPreview extends Component {
           </Styled.PreviewDiagramTitle>
           {profile.points.length > 0
             ? generateSvg(profile, width)
-            : "$_altimetry_unavailable_$."}
+            : t("altimetry_unavailable")}
           <ReactResizeDetector handleWidth onResize={this.onResize} />
         </Styled.PreviewDiagram>
       </Styled.PreviewContainer>
@@ -112,4 +113,4 @@ LegDiagramPreview.defaultProps = {
   diagramVisible: null
 };
 
-export default LegDiagramPreview;
+export default withNamespaces()(LegDiagramPreview);

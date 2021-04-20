@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { withNamespaces } from "react-i18next"
 
 import {
   OTP_API_DATE_FORMAT,
@@ -118,7 +119,8 @@ class DateTimeSelector extends Component {
       dateFormatLegacy = OTP_API_DATE_FORMAT,
       forceLegacy,
       timeFormatLegacy = OTP_API_TIME_FORMAT,
-      style
+      style,
+      t
     } = this.props;
     const { departArrive, date, time } = this.state;
 
@@ -126,15 +128,15 @@ class DateTimeSelector extends Component {
       {
         // Default option.
         type: "NOW",
-        text: "$_now_$"
+        text: "now"
       },
       {
         type: "DEPART",
-        text: "Depart at"
+        text: "depart_at"
       },
       {
         type: "ARRIVE",
-        text: "Arrive by"
+        text: "arrive_at"
       }
     ];
     departureOptions.forEach(opt => {
@@ -152,7 +154,7 @@ class DateTimeSelector extends Component {
               selected={opt.isSelected}
               onClick={() => this.setDepartArrive(opt)}
             >
-              {opt.text}
+              {t(opt.text)}
             </ModeButton>
           ))}
         </Styled.DateTimeSelector.DepartureRow>
@@ -256,4 +258,4 @@ DateTimeSelector.defaultProps = {
   onQueryParamChange: null
 };
 
-export default DateTimeSelector;
+export default withNamespaces()(DateTimeSelector);
