@@ -290,5 +290,16 @@ export const TRANSLATIONS_EN = {
   "plan_a_trip": "Plan a trip:",
   "no_stop_times_found_for_date": "No stop times found for date",
   "trip_viewer": "Trip Viewer",
-  "route": "Route"
+  "route": "Route",
+  "go_to_south": "Go to south",
+  "go_to_north": "Go to north",
+  "go_to_west": "Go to west",
+  "go_to_east": "Go to east",
+  "go_to_north_west": "Go to north-west",
+  "go_to_north_east": "Go to north-east",
+  "go_to_south_west": "Go to south-west",
+  "go_to_south_east": "Go to south-east",
+  "aerial_tram": "Aerial Tram",
+  "streetcar": "Streetcar",
+  "light_rail": "Light Rail"
 };

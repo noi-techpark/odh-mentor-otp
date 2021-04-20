@@ -2,6 +2,7 @@ import coreUtils from '../../../otp-ui/core-utils'
 import { humanizeDistanceString } from '../../../otp-ui/humanize-distance'
 import PropTypes from 'prop-types'
 import React, {Component} from 'react'
+import { withNamespaces } from "react-i18next"
 
 import Icon from '../icon'
 import LegDiagramPreview from '../leg-diagram-preview'
@@ -9,7 +10,7 @@ import LegDiagramPreview from '../leg-diagram-preview'
 /**
  * Default access leg component for narrative itinerary.
  */
-export default class AccessLeg extends Component {
+class AccessLeg extends Component {
   static propTypes = {
     activeStep: PropTypes.number,
     leg: PropTypes.object,
@@ -32,6 +33,13 @@ export default class AccessLeg extends Component {
     } else {
       this.props.setActiveStep(index, step)
     }
+  }
+
+  _getStepLabel (step) {
+    const { t } = this.props
+    const instructions = coreUtils.itinerary.getStepInstructions(step)
+
+    return `${t(instructions.stepDirection)} ${t(instructions.conjuction)} ${instructions.streetName}`
   }
 
   render () {
@@ -61,7 +69,7 @@ export default class AccessLeg extends Component {
                     className={`step ${stepIsActive ? 'active' : ''}`}
                     onClick={(e) => this._onStepClick(e, step, stepIndex)}>
                     <span className='step-distance'>{humanizeDistanceString(step.distance)}</span>
-                    <span className='step-text'>{coreUtils.itinerary.getStepInstructions(step)}</span>
+                    <span className='step-text'>{_getStepLabel(step)}</span>
                   </button>
                 )
               })}
@@ -73,3 +81,5 @@ export default class AccessLeg extends Component {
     )
   }
 }
+
+export default withNamespaces()(AccessLeg)
