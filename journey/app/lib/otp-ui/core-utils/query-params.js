@@ -159,15 +159,15 @@ const queryParams = [
       default: 1000,
       // 1Km
       selector: "DROPDOWN",
-      label: "$_by_walk_$",
+      label: "by_walk",
       options: [{
-        text: "250 $_meter_$",
+        text: "250_meters",
         value: 250
       }, {
-        text: "500 $_meter_$",
+        text: "500_meters",
         value: 500
       }, {
-        text: "750 $_meter_$",
+        text: "750_meters",
         value: 750
       }, {
         text: "1 Km",
@@ -194,12 +194,12 @@ const queryParams = [
       default: 5000,
       // 5Km
       selector: "DROPDOWN",
-      label: "$_by_bike_$",
+      label: "by_bike",
       options: [{
-        text: "500 $_meter_$",
+        text: "500_meters",
         value: 500
       }, {
-        text: "750 $_meter_$",
+        text: "750_meters",
         value: 750
       }, {
         text: "1 Km",
@@ -238,12 +238,12 @@ const queryParams = [
       routingTypes: ["ITINERARY"],
       default: "QUICK",
       selector: "DROPDOWN",
-      label: "$_optimizer_$",
+      label: "optimizer",
       options: [{
-        text: "$_speed_$",
+        text: "speed",
         value: "QUICK"
       }, {
-        text: "$_less_transfers_$",
+        text: "less_transfers",
         value: "TRANSFERS"
       }]
     }, {
@@ -253,22 +253,22 @@ const queryParams = [
       routingTypes: ["ITINERARY"],
       default: "SAFE",
       selector: "DROPDOWN",
-      label: "$_optimizer_$",
+      label: "optimizer",
       options: query => {
         const opts = [{
-          text: "$_speed_$",
+          text: "speed",
           value: "QUICK"
         }, {
-          text: "$_security_$",
+          text: "security",
           value: "SAFE"
         }, {
-          text: "$_flat_$",
+          text: "flat",
           value: "FLAT"
         }]; // Include transit-specific option, if applicable
 
         if ((0, hasTransit)(query.mode)) {
           opts.splice(1, 0, {
-            text: "$_less_transfers_$",
+            text: "less_transfers",
             value: "TRANSFERS"
           });
         }
@@ -284,28 +284,28 @@ const queryParams = [
       routingTypes: ["PROFILE"],
       default: 15,
       selector: "DROPDOWN",
-      label: "Tempo massimo di cammino",
+      label: "time_max_walk",
       applicable: query => query.mode && (0, hasTransit)(query.mode) && query.mode.indexOf("WALK") !== -1,
       options: [{
-        text: "5 minuti",
+        text: "5_minutes",
         value: 5
       }, {
-        text: "10 minuti",
+        text: "10_minutes",
         value: 10
       }, {
-        text: "15 minuti",
+        text: "15_minutes",
         value: 15
       }, {
-        text: "20 minuti",
+        text: "20_minutes",
         value: 20
       }, {
-        text: "30 minuti",
+        text: "30_minutes",
         value: 30
       }, {
-        text: "45 minuti",
+        text: "45_minutes",
         value: 45
       }, {
-        text: "1 ora",
+        text: "1_hour",
         value: 60
       }]
     }, {
@@ -314,7 +314,7 @@ const queryParams = [
       routingTypes: ["ITINERARY", "PROFILE"],
       default: 1.11,
       selector: "DROPDOWN",
-      label: "$_walk_speed_$",
+      label: "walk_speed",
       applicable: query => query.mode && query.mode.indexOf("WALK") !== -1,
       options: [{
         text: "3 Km/h",
@@ -332,28 +332,28 @@ const queryParams = [
       routingTypes: ["PROFILE"],
       default: 20,
       selector: "DROPDOWN",
-      label: "Tempo massimo in bici",
+      label: "time_max_bike",
       applicable: query => query.mode && (0, hasTransit)(query.mode) && query.mode.indexOf("BICYCLE") !== -1,
       options: [{
-        text: "5 minuti",
+        text: "5_minutes",
         value: 5
       }, {
-        text: "10 minuti",
+        text: "10_minutes",
         value: 10
       }, {
-        text: "15 minuti",
+        text: "15_minutes",
         value: 15
       }, {
-        text: "20 minuti",
+        text: "20_minutes",
         value: 20
       }, {
-        text: "30 minuti",
+        text: "30_minutes",
         value: 30
       }, {
-        text: "45 minuti",
+        text: "45_minutes",
         value: 45
       }, {
-        text: "1 ora",
+        text: "1_hour",
         value: 60
       }]
     }, {
@@ -362,7 +362,7 @@ const queryParams = [
       routingTypes: ["ITINERARY", "PROFILE"],
       default: 3.33,
       selector: "DROPDOWN",
-      label: "$_ride_speed_$",
+      label: "ride_speed",
       applicable: query => query.mode && query.mode.indexOf("BICYCLE") !== -1,
       options: [{
         text: "10 Km/h",
@@ -393,7 +393,7 @@ const queryParams = [
       query.mode && hasTransit(query.mode) && hasMicromobility(query.mode),
     default: 4828, // 3 mi.
     selector: "DROPDOWN",
-    label: "Maximum E-scooter Distance",
+    label: "distance_max_escooter",
     options: [
       {
         text: "1/4 mile",
@@ -449,7 +449,7 @@ const queryParams = [
     routingTypes: ["ITINERARY", "PROFILE"],
     default: 250,
     selector: "DROPDOWN",
-    label: "E-scooter Power",
+    label: "power_escooter",
     // this configuration should only be allowed for personal E-scooters as these
     // settings will be defined by the vehicle type of an E-scooter being rented
     applicable: query =>
@@ -533,7 +533,7 @@ const queryParams = [
     routingTypes: ["ITINERARY"],
     default: false,
     selector: "CHECKBOX",
-    label: "$_available_wheelchair_$",
+    label: "available_wheelchair",
     applicable: (query, config) => {
       if (!query.mode || !config.modes) return false;
       const configModes = (config.modes.accessModes || []).concat(
