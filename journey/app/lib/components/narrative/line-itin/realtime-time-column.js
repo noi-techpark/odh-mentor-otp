@@ -71,7 +71,7 @@ function RealtimeTimeColumn ({
     return (
       <>
         <TimeText>{formattedTime}</TimeText>
-        {isTransitLeg && <StatusText>{t('schedule_2')}</StatusText>}
+        {isTransitLeg && <StatusText>{t('schedule2')}</StatusText>}
       </>
     )
   }
