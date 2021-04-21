@@ -61,6 +61,7 @@ class TabbedItineraries extends Component {
           {itineraries.map((itinerary, index) => {
             return (
               <TabButton
+                key={index}
                 index={index}
                 isActive={index === activeItinerary}
                 itinerary={itinerary}
