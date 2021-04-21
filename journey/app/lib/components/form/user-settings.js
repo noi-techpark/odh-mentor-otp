@@ -218,7 +218,7 @@ class Place extends Component {
             onClick={this._onView}
             className='place-view'
             bsSize='xsmall'
-            title='View stop'
+            title={t('view_stop')}
             style={{ width: `${BUTTON_WIDTH}px` }}
             bsStyle='link'><Icon type='search' /></Button>
         }
