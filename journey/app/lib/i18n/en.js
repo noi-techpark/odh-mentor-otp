@@ -337,5 +337,5 @@ export const TRANSLATIONS_EN = {
   "carsharing_ride": "Carsharing & Ride",
   "bikesharing": "Bikesharing",
   "bike_ride": "Bike & Ride",
-  "view_stop": "View stop",
+  "view_stop": "View stop"
 };
