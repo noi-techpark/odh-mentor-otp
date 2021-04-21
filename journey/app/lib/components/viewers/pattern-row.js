@@ -133,7 +133,8 @@ class PatternRow extends Component {
       homeTimezone,
       stopViewerArriving,
       stopViewerConfig,
-      timeFormat
+      timeFormat,
+      t
     } = this.props
     // sort stop times by next departure
     let sortedStopTimes = []
