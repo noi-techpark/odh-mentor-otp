@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withNamespaces } from "react-i18next"
 import { modeOptionType } from "../../core-utils/types";
 
 import ModeButton from "../ModeButton";
@@ -10,7 +11,7 @@ import * as Styled from "../styled";
  * the submodes (e.g. train, bus) for transit, or the providers for TNC and rental companies.
  */
 const SubmodeSelector = props => {
-  const { className, inline, label, modes, onChange, style } = props;
+  const { className, inline, label, modes, onChange, style, t } = props;
   const LabelType = inline ? Styled.FloatingSettingLabel : Styled.SettingLabel;
   const RowType = inline
     ? Styled.SubmodeSelector.InlineRow
@@ -29,7 +30,10 @@ const SubmodeSelector = props => {
               title={option.title}
               onClick={() => onChange(option.id)}
             >
-              {option.text}
+              <span>
+                { option.icon || ''}
+                {t(option.label)}
+              </span>
             </ModeButton>
           ))}
       </RowType>
@@ -69,4 +73,4 @@ SubmodeSelector.defaultProps = {
   onChange: null
 };
 
-export default SubmodeSelector;
+export default withNamespaces()(SubmodeSelector);
