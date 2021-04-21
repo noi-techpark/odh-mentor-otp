@@ -80,6 +80,11 @@ class TrimetWebapp extends Component {
     const mobileView = (
       // <main> is needed for accessibility checks.
       <main>
+        <div style={{ position: 'fixed', top: 0, right: 0, zIndex: 9999, padding: 12, paddingRight: 4}}>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('it')} }>IT</button>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('en')} }>EN</button>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('de')} }>DE</button>
+        </div>
         <MobileMain
           map={(<Map />)}
           itineraryClass={LineItinerary}
