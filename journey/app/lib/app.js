@@ -36,8 +36,7 @@ class TrimetWebapp extends Component {
     /** desktop view **/
     const desktopView = (
       <div className='otp'>
-        <div style={{ position: 'fixed', top: 0, right: 0, zIndex: 9999, background: 'red', padding: 10, opacity: 1}}>
-          <span>{t('my_preferences')}</span>
+        <div style={{ position: 'fixed', top: 0, right: 0, zIndex: 9999, padding: 12}}>
           <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('it')} }>IT</button>
           <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('en')} }>EN</button>
           <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('de')} }>DE</button>
