@@ -10,6 +10,7 @@ import {
 import FromToLocationPicker from "../from-to-location-picker";
 import PropTypes from "prop-types";
 import React from "react";
+import { withNamespaces } from "react-i18next"
 import ReactDOMServer from "react-dom/server";
 import {
   CircleMarker,
@@ -304,4 +305,4 @@ VehicleRentalOverlay.defaultProps = {
   visible: false
 };
 
-export default withLeaflet(VehicleRentalOverlay);
+export default withNamespaces()(withLeaflet(VehicleRentalOverlay));
