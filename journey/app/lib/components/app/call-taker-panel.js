@@ -489,7 +489,7 @@ class CallTakerAdvancedOptions extends Component {
       const modeStr = modeObj.mode || modeObj
       return {
         id: modeStr,
-        selected: this.state.conf.transitModes.indexOf(modeStr) !== -1,
+        selected: this.state.transitModes.indexOf(modeStr) !== -1,
         text: (
           <span>
             <ModeIcon mode={modeStr} />
