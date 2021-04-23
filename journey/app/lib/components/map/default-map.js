@@ -45,6 +45,13 @@ const MapContainer = styled.div`
 `
 
 class DefaultMap extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      forceRefresh: false
+    }
+  }
   /**
    * Checks whether the modes have changed between old and new queries and
    * whether to update the map overlays accordingly (e.g., to show rental vehicle
@@ -113,6 +120,13 @@ class DefaultMap extends Component {
   componentDidUpdate (prevProps) {
     // Check if any overlays should be toggled due to mode change
     this._handleQueryChange(prevProps.query, this.props.query)
+
+    if (this.props.lng!== prevProps.lng) {
+      this.setState({ forceRefresh: true })
+      setTimeout(() => {
+        this.setState({ forceRefresh: false })
+      }, 50)
+    }
   }
 
   render () {
@@ -143,66 +157,70 @@ class DefaultMap extends Component {
     }
 
     return (
-      <MapContainer>
-        <BaseMap
-          baseLayers={mapConfig.baseLayers}
-          center={center}
-          maxZoom={mapConfig.maxZoom}
-          onClick={this.onMapClick}
-          popup={popup}
-          onPopupClosed={this.onPopupClosed}
-          zoom={mapConfig.initZoom || 13}
-        >
-          {/* The default overlays */}
-          <BoundsUpdatingOverlay />
-          <EndpointsOverlay />
-          <RouteViewerOverlay />
-          <StopViewerOverlay />
-          <TransitiveOverlay />
-          <TripViewerOverlay />
-          <ElevationPointMarker />
+      <>
+        { !this.state.forceRefresh &&
+            <MapContainer>
+              <BaseMap
+                baseLayers={mapConfig.baseLayers}
+                center={center}
+                maxZoom={mapConfig.maxZoom}
+                onClick={this.onMapClick}
+                popup={popup}
+                onPopupClosed={this.onPopupClosed}
+                zoom={mapConfig.initZoom || 13}
+              >
+                {/* The default overlays */}
+                <BoundsUpdatingOverlay />
+                <EndpointsOverlay />
+                <RouteViewerOverlay />
+                <StopViewerOverlay />
+                <TransitiveOverlay />
+                <TripViewerOverlay />
+                <ElevationPointMarker />
 
-          {/* The configurable overlays */}
-          {mapConfig.overlays && mapConfig.overlays.map((overlayConfig, k) => {
-            switch (overlayConfig.type) {
-              case 'bike-rental': return (
-                <VehicleRentalOverlay
-                  key={k}
-                  {...overlayConfig}
-                  name={t(overlayConfig.name)}
-                  refreshVehicles={bikeRentalQuery}
-                  stations={bikeRentalStations}
-                />
-              )
-              case 'car-rental': return (
-                <VehicleRentalOverlay
-                  key={k}
-                  {...overlayConfig}
-                  name={t(overlayConfig.name)}
-                  refreshVehicles={carRentalQuery}
-                  stations={carRentalStations}
-                />
-              )
-              case 'park-and-ride':
-                return <ParkAndRideOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)} />
-              case 'stops': return <StopsOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
-              case 'tile': return <TileOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
-              case 'micromobility-rental': return (
-                <VehicleRentalOverlay
-                  key={k}
-                  {...overlayConfig}
-                  name={t(overlayConfig.name)}
-                  refreshVehicles={vehicleRentalQuery}
-                  stations={vehicleRentalStations}
-                />
-              )
-              case 'zipcar': return <ZipcarOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
-              case 'parking': return <ParkingOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
-              default: return null
-            }
-          })}
-        </BaseMap>
-      </MapContainer>
+                {/* The configurable overlays */}
+                {mapConfig.overlays && mapConfig.overlays.map((overlayConfig, k) => {
+                  switch (overlayConfig.type) {
+                    case 'bike-rental': return (
+                      <VehicleRentalOverlay
+                        key={k}
+                        {...overlayConfig}
+                        name={t(overlayConfig.name)}
+                        refreshVehicles={bikeRentalQuery}
+                        stations={bikeRentalStations}
+                      />
+                    )
+                    case 'car-rental': return (
+                      <VehicleRentalOverlay
+                        key={k}
+                        {...overlayConfig}
+                        name={t(overlayConfig.name)}
+                        refreshVehicles={carRentalQuery}
+                        stations={carRentalStations}
+                      />
+                    )
+                    case 'park-and-ride':
+                      return <ParkAndRideOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)} />
+                    case 'stops': return <StopsOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
+                    case 'tile': return <TileOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
+                    case 'micromobility-rental': return (
+                      <VehicleRentalOverlay
+                        key={k}
+                        {...overlayConfig}
+                        name={t(overlayConfig.name)}
+                        refreshVehicles={vehicleRentalQuery}
+                        stations={vehicleRentalStations}
+                      />
+                    )
+                    case 'zipcar': return <ZipcarOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
+                    case 'parking': return <ParkingOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
+                    default: return null
+                  }
+                })}
+              </BaseMap>
+            </MapContainer>
+        }
+      </>
     )
   }
 }
