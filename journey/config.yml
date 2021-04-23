@@ -165,7 +165,7 @@ map:
           dockStrokeColor: "#000000"
           type: circle
     - type: bike-rental
-      name: Bikesharing
+      name: bikesharing
       modes:
         - BICYCLE_RENT
       companies:

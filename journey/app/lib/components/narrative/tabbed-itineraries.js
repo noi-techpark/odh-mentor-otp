@@ -16,7 +16,7 @@ class TabbedItineraries extends Component {
   static propTypes = {
     itineraries: PropTypes.array,
     itineraryClass: PropTypes.func,
-    pending: PropTypes.number,
+    pending: PropTypes.bool,
     activeItinerary: PropTypes.number,
     setActiveItinerary: PropTypes.func,
     setActiveLeg: PropTypes.func,
