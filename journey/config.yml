@@ -141,12 +141,12 @@ map:
     #
     #
     - type: parking
-      name: Parcheggi
+      name: parking
       api: http://localhost:8092/parking/stations.json
     #
     #
     - type: car-rental
-      name: Carsharing
+      name: carsharing
       modes:
         - CAR_RENT
       companies:

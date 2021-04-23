@@ -335,6 +335,7 @@ export const TRANSLATIONS_DE = {
   "bikesharing_ride": "$_bikesharing_ride",
   "park_ride": "$_park_ride",
   "carsharing_ride": "$_carsharing_ride",
+  "carsharing": "$_carsharing",
   "bikesharing": "$_bikesharing",
   "bike_ride": "$_bike_ride",
   "view_stop": "$_view_stop"
