@@ -291,20 +291,20 @@ map:
     #     - CAR_PARK
 
     - type: stops
-      name: $_stops_$
+      name: stops
       visible: true
 
 # Mode selector configuration
 modes:
   transitModes:
     - mode: BUS
-      label: $_bus_$
+      label: bus
     # - mode: TRAM
     #   label: MAX & Streetcar
     - mode: RAIL
-      label: $_train_$
+      label: train
     - mode: GONDOLA
-      label: $_funicular_$
+      label: funicular
     #   showWheelchairSetting: true
 
   accessModes:
@@ -332,7 +332,7 @@ modes:
 
   bicycleModes:
     - mode: BICYCLE
-      label: $_my_bike_$
+      label: my_bike
       iconWidth: 18
     - mode: BICYCLE_RENT
       label: Bikesharing
@@ -384,11 +384,11 @@ reportIssue:
 #     globalSiteTag: UA-133677388-1
 
 language:
-    storageDisclaimer: $_storage_disclaimer_$
-    routeViewer: $_route_viewer_$
-    routeViewerDetails: $_route_view_details_$
-    tripViewer: $_trip_$
-    stopViewer: $_stop_$
+    storageDisclaimer: storage_disclaimer
+    routeViewer: route_viewer
+    routeViewerDetails: route_view_details
+    tripViewer: trip
+    stopViewer: stop
 
 dateTime:
   timeFormat: HH:mm
