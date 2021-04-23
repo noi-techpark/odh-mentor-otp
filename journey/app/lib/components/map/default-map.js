@@ -2,6 +2,7 @@ import BaseMap from '../../otp-ui/base-map'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { withNamespaces } from "react-i18next";
 
 import {
   bikeRentalQuery,
@@ -123,7 +124,8 @@ class DefaultMap extends Component {
       mapConfig,
       mapPopupLocation,
       vehicleRentalQuery,
-      vehicleRentalStations
+      vehicleRentalStations,
+      t
     } = this.props
 
     const center = mapConfig && mapConfig.initLat && mapConfig.initLon
@@ -167,6 +169,7 @@ class DefaultMap extends Component {
                 <VehicleRentalOverlay
                   key={k}
                   {...overlayConfig}
+                  name={t(overlayConfig.name)}
                   refreshVehicles={bikeRentalQuery}
                   stations={bikeRentalStations}
                 />
@@ -175,24 +178,26 @@ class DefaultMap extends Component {
                 <VehicleRentalOverlay
                   key={k}
                   {...overlayConfig}
+                  name={t(overlayConfig.name)}
                   refreshVehicles={carRentalQuery}
                   stations={carRentalStations}
                 />
               )
               case 'park-and-ride':
-                return <ParkAndRideOverlay key={k} {...overlayConfig} />
-              case 'stops': return <StopsOverlay key={k} {...overlayConfig} />
-              case 'tile': return <TileOverlay key={k} {...overlayConfig} />
+                return <ParkAndRideOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)} />
+              case 'stops': return <StopsOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
+              case 'tile': return <TileOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
               case 'micromobility-rental': return (
                 <VehicleRentalOverlay
                   key={k}
                   {...overlayConfig}
+                  name={t(overlayConfig.name)}
                   refreshVehicles={vehicleRentalQuery}
                   stations={vehicleRentalStations}
                 />
               )
-              case 'zipcar': return <ZipcarOverlay key={k} {...overlayConfig} />
-              case 'parking': return <ParkingOverlay key={k} {...overlayConfig} />
+              case 'zipcar': return <ZipcarOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
+              case 'parking': return <ParkingOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
               default: return null
             }
           })}
@@ -229,4 +234,4 @@ const mapDispatchToProps = {
   vehicleRentalQuery
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultMap)
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(DefaultMap))
