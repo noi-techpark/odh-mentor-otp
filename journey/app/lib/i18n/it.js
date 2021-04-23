@@ -189,7 +189,7 @@ export const TRANSLATIONS_IT = {
   "restore_defaults": "$_restore_defaults",
   "forget_settings": "$_forget_settings",
   "remember_trip_settings": "$_remember_trip_settings",
-  "parking": "$_parking",
+  "parking": "Parcheggi",
   "vehicles": "$_vehicles",
   "zipcar_location": "$_zipcar_location",
   "invalid_mobile_screen": "$_invalid_mobile_screen",
@@ -335,7 +335,8 @@ export const TRANSLATIONS_IT = {
   "bikesharing_ride": "$_bikesharing_ride",
   "park_ride": "$_park_ride",
   "carsharing_ride": "$_carsharing_ride",
-  "bikesharing": "$_bikesharing",
+  "carsharing": "Carsharing",
+  "bikesharing": "Bikesharing",
   "bike_ride": "$_bike_ride",
   "view_stop": "$_view_stop"
 }
