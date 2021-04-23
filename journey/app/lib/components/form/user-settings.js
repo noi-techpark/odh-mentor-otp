@@ -286,7 +286,7 @@ const mapStateToProps = (state, ownProps) => {
     query: state.otp.currentQuery,
     sessionSearches: state.otp.location.sessionSearches,
     stopsIndex: state.otp.transitIndex.stops,
-    storageDisclaimer: t(state.otp.config.language.storageDisclaimer),
+    storageDisclaimer: state.otp.config.language.storageDisclaimer,
     user: state.otp.user
   }
 }
