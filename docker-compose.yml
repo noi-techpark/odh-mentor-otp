@@ -9,7 +9,7 @@ services:
   journey:
     container_name: openmove-journey
     ports: ["80:80"]
-    image: openmove_journey:latest
+    image: openmove_journey:fornace
     build:
       context: ./
       dockerfile: infrastructure/docker/journey/Dockerfile

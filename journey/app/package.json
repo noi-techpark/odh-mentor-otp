@@ -9,6 +9,8 @@
     "start": "webpack-dev-server --hot --mode=development --port 8081 --host 0.0.0.0 --disableHostCheck=true",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "openmove.com",
+  "license": "MIT",
   "standard": {
     "parser": "babel-eslint"
   },
