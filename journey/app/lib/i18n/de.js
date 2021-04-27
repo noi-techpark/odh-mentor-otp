@@ -174,7 +174,7 @@ export const TRANSLATIONS_DE = {
   "recent_places": "$_recent_places",
   "recent_searches": "$_recent_searches",
   "back_to_search": "$_back_to_search",
-  "report_issue": "$_report_issue",
+  "report_issue": "Melde Probleme",
   "active_call": "$_active_call",
   "searches": "$_searches",
   "call": "$_call",
