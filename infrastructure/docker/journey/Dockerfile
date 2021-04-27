@@ -26,22 +26,11 @@ WORKDIR /journey
 RUN npm install
 RUN npm run genconfig
 
-RUN cd ./app && yarn install
+WORKDIR /journey/app
 
-RUN	cd ./app && yarn build
+RUN yarn install
 
-RUN	cd ./app && mv dist /var/www/html/
-
-RUN	cd /var/www/html/ && \
-	cp ./dist/* ./ && \
-	cp -r ./dist ./it && \
-	cp -r ./dist ./en && \
-	cp -r ./dist ./de
-
-RUN cp /journey/language_it.js /var/www/html/language.js && \
-	cp /journey/language_it.js /var/www/html/it/language.js && \
-	cp /journey/language_en.js /var/www/html/en/language.js && \
-	cp /journey/language_de.js /var/www/html/de/language.js
+RUN	yarn build && mv dist/* /var/www/html/
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 
