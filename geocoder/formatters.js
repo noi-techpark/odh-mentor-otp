@@ -3,8 +3,6 @@ const _ = require('lodash');
 
 const config = require('./config');
 
-const lang = config.server.default_lang || 'en';
-
 //an elasticsearch hit result
 //in Pelias 'venue' is a Point Of Interest
 //
@@ -71,7 +69,9 @@ module.exports = {
   ##(there must be a property with the same name as the endpoint key)
 */
 
-	'opentripplanner': function(data) {
+	'opentripplanner': function(data, lang) {
+
+		lang = lang || config.server.default_lang;
 
 		//hack to limit otp geocode results
 		let datal = _.slice(data, 0, config.endpoints.opentripplanner.size);
@@ -95,7 +95,9 @@ module.exports = {
 	},
 
 	//example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
-	'accommodations': function(data) {
+	'accommodations': function(data, lang) {
+		lang = lang || config.server.default_lang;
+
 		return _.compact(_.map(data.Items, (item)=> {
 
 			let lat = _.get(item,"Latitude"),
@@ -115,7 +117,9 @@ module.exports = {
 	},
 	
 	//example: http://tourism.opendatahub.bz.it/api/Poi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=der
-	'pois': function(data) {
+	'pois': function(data, lang) {
+		lang = lang || config.server.default_lang;
+
 		return _.compact(_.map(data.Items, (item)=> {
 
 			let lat = _.get(item,"GpsInfo[0].Latitude"),
@@ -135,7 +139,9 @@ module.exports = {
 	},
 
 	//example: http://tourism.opendatahub.bz.it/api/ODHActivityPoi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=magic
-	'ODHActivityPoi': function(data) {
+	'ODHActivityPoi': function(data, lang) {
+		lang = lang || config.server.default_lang;
+		
 		return _.compact(_.map(data.Items, (item)=> {
 
 			let lat = _.get(item,"GpsInfo[0].Latitude"),
