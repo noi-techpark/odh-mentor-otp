@@ -1,7 +1,13 @@
 const express = require('express');
 const https = require('https');
 const _ = require('lodash');
+const cors = require('cors')
 const config = require('./config');
+
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 var app = express();
 
@@ -28,7 +34,6 @@ setInterval(getData, config.server.polling_interval * 60 * 1000);
 
 function getStations(){
     const req = https.request(config.endpoints.stations, res => {
-            //console.log(`STATIONS: statusCode: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
@@ -50,7 +55,6 @@ function getStations(){
 
 function getPlugs(){
     const req = https.request(config.endpoints.plugs, res => {
-            //console.log(`BIKES: statusCode: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
@@ -70,12 +74,41 @@ function getPlugs(){
     req.end()
 }
 
-app.get('/charger/stations.json', function (req, res) {
+function isInBbox(bb, p){
+    //ix, iy are the bottom left coordinates
+    //ax, ay are the top right coordinates
+    if(!bb){
+        return true;
+    }
+    if( bb.ix <= p.x && p.x <= bb.ax && bb.iy <= p.y && p.y <= bb.ay ) {
+     return true;
+    }
+    return false;
+}
+
+app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
     var chargeStations = [];
+    let bbox = null;
+    if(req.query && req.query.bbox){
+
+        let mbbox = req.query.bbox.split(",");
+        if(mbbox.length === 4){
+            bbox = {
+                ix: mbbox[0],
+                iy: mbbox[1],
+                ax: mbbox[2],
+                ay: mbbox[3]
+            }
+        }else{
+            res.status(403).send("bbox parameter not valid.");
+            return;
+        }
+    }
+
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
-            if(station.sactive && station.scoordinate && station.smetadata){
+            if(station.sactive && station.scoordinate && station.smetadata && isInBbox(bbox, station.scoordinate)){
                 var plugs = [];
                 for(var j = 0; j < plugsReceived.length; j++){
                     var plug = plugsReceived[j];

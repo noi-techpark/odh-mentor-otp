@@ -1,17 +1,17 @@
 // import React/Redux libraries
 import React, { Component } from 'react'
+import { withNamespaces } from "react-i18next";
 // import Bootstrap Grid components for layout
 import { Navbar, Grid, Row, Col } from 'react-bootstrap'
 // import OTP-RR components
-import {
-  DefaultMainPanel,
-  LineItinerary,
-  Map,
-  MobileMain,
-  ResponsiveWebapp,
-  AppMenu
-} from 'otp-react-redux'
+import DefaultMainPanel from './components/app/default-main-panel'
+import LineItinerary from './components/narrative/line-itin/line-itinerary'
+import Map from './components/map/map'
+import MobileMain from './components/mobile/main'
+import ResponsiveWebapp from './components/app/responsive-webapp'
+import AppMenu from './components/app/app-menu'
 
+import i18n from './i18n'
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.yml
@@ -27,16 +27,20 @@ const {getItineraryFooter, LegIcon, ModeIcon} = jsConfig
 if (!LegIcon || !ModeIcon) {
   throw new Error('LegIcon and ModeIcon must be defined in config.js')
 }
-const itineraryFooter = typeof getItineraryFooter === 'function'
-  ? getItineraryFooter()
-  : null
 
-export default class TrimetWebapp extends Component {
+class TrimetWebapp extends Component {
   render () {
+    const { t } = this.props
     const {branding} = otpConfig
+
     /** desktop view **/
     const desktopView = (
       <div className='otp'>
+        <div style={{ position: 'fixed', top: 0, right: 0, zIndex: 9999, padding: 12}}>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('it')} }>IT</button>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('en')} }>EN</button>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('de')} }>DE</button>
+        </div>
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
@@ -58,7 +62,7 @@ export default class TrimetWebapp extends Component {
               <main>
                 <DefaultMainPanel
                   itineraryClass={LineItinerary}
-                  itineraryFooter={itineraryFooter}
+                  itineraryFooter={getItineraryFooter(t)}
                   LegIcon={LegIcon}
                   ModeIcon={ModeIcon}
                 />
@@ -76,10 +80,15 @@ export default class TrimetWebapp extends Component {
     const mobileView = (
       // <main> is needed for accessibility checks.
       <main>
+        <div style={{ position: 'fixed', top: 0, right: 0, zIndex: 9999, padding: 12, paddingRight: 4}}>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('it')} }>IT</button>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('en')} }>EN</button>
+          <button onClick={ (e) => {e.preventDefault(); i18n.changeLanguage('de')} }>DE</button>
+        </div>
         <MobileMain
           map={(<Map />)}
           itineraryClass={LineItinerary}
-          itineraryFooter={itineraryFooter}
+          itineraryFooter={getItineraryFooter(t)}
           LegIcon={LegIcon}
           ModeIcon={ModeIcon}
           title={(<div className={`icon-${branding}`} />)}
@@ -98,3 +107,5 @@ export default class TrimetWebapp extends Component {
     )
   }
 }
+
+export default withNamespaces()(TrimetWebapp);
