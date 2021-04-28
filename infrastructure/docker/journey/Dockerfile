@@ -22,17 +22,24 @@ COPY ./journey /journey
 
 WORKDIR /journey
 
-#valorize env vars inside app/config.yml
+RUN rm -fr node_modules
+
 RUN npm install
 RUN npm run genconfig
 
 WORKDIR /journey/app
+
+RUN rm -fr node_modules
 
 RUN yarn install
 
 RUN	yarn build && mv dist/* /var/www/html/
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
+
+# debug
+#EXPOSE 8081
+#CMD ["yarn","start"]
 
 EXPOSE 80
 ENTRYPOINT ["/bin/bash"]

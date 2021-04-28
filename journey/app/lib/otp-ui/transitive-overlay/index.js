@@ -91,6 +91,7 @@ class TransitiveCanvasOverlay extends MapLayer {
     const mapBounds = map.getBounds();
     this.transitive = new Transitive({
       data: transitiveData,
+      //labeledModes: [],
       initialBounds: [
         [mapBounds.getWest(), mapBounds.getSouth()],
         [mapBounds.getEast(), mapBounds.getNorth()]

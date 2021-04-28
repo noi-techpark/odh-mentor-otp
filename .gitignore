@@ -1,9 +1,6 @@
 .env
 data/*
 **node_modules
-journey/package-lock.json
-journey/app/package-lock.json
-journey/app/yarn.lock
 journey/app/yarn-error.log
 journey/app/lib/config.yml
 journey/.env

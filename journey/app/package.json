@@ -65,7 +65,7 @@
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.2",
     "throttle-debounce": "^2.1.0",
-    "transitive-js": "^0.13.3",
+    "transitive-js": "0.13.6",
     "tslib": "^2.2.0",
     "use-auth0-hooks": "^0.7.0",
     "velocity-react": "^1.4.3"
