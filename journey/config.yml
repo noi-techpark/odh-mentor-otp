@@ -299,12 +299,13 @@ modes:
   transitModes:
     - mode: BUS
       label: bus
-    # - mode: TRAM
-    #   label: MAX & Streetcar
     - mode: RAIL
       label: train
     - mode: GONDOLA
       label: funicular
+
+    # - mode: TRAM
+    #   label: MAX & Streetcar      
     #   showWheelchairSetting: true
 
   accessModes:
@@ -312,14 +313,14 @@ modes:
       label: Bike & Ride
     - mode: BICYCLE_RENT
       label: Bikesharing & Ride
-    #  company: Bikesharing
-    # - mode: MICROMOBILITY_RENT
-    #   label: Transit + E-scooter
     - mode: CAR_PARK
       label: Park & Ride
     - mode: CAR_RENT
       label: Carsharing & Ride
       company: CAR2GO
+    #  company: Bikesharing
+    # - mode: MICROMOBILITY_RENT
+    #   label: Transit + E-scooter      
     #   showWheelchairSetting: false
 
   # which exclusive modes to show. This involves using a single mode and no
