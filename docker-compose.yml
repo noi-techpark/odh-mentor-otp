@@ -9,24 +9,25 @@ services:
   journey:
     container_name: openmove-journey
     ports: ["80:80"]
-    image: openmove_journey:fornace
+    image: openmove_journey:latest
     build:
       context: ./
       dockerfile: infrastructure/docker/journey/Dockerfile
       args:
-        API_HOST: https://otp.opendatahub.testingmachine.eu
-        API_PORT: 443
+        API_HOST: http://localhost
         API_PATH: /otp/routers/openmove
-        GEOCODER_BASEURL: https://geocoder.otp.opendatahub.testingmachine.eu/v1
-        # API_HOST: http://localhost
+        API_PORT: 8080
+        GEOCODER_BASEURL: http://localhost:8088/v1
+        # debug
+        # API_HOST: https://otp.opendatahub.testingmachine.eu
+        # API_PORT: 443
         # API_PATH: /otp/routers/openmove
-        # API_PORT: 8080
-        # GEOCODER_BASEURL: http://localhost:8088/v1
-    # depends_on:
-    #  - geocoder
-    #  - otp
-    #  - parking
-    #  - charger
+        # GEOCODER_BASEURL: https://geocoder.otp.opendatahub.testingmachine.eu/v1        
+    depends_on:
+     - geocoder
+     - otp
+     - parking
+     - charger
 
   geocoder:
     container_name: openmove-geocoder
