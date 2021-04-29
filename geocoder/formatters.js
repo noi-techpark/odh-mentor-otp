@@ -30,10 +30,10 @@ function createHit(ff) {
 				"macroregion" : [ "Trentino-Alto Adige/South Tyrol" ],
 				"macroregion_id" : [ "404227499" ],
 				"macroregion_a" : [ null ],
-				"region" : [ "Bolzano" ],
+				"region" : [ "" ],
 				"region_id" : [ "85685271" ],
 				"region_a" : [ "BZ" ],
-				"localadmin" : [ "Bolzano" ],
+				"localadmin" : [ "" ],
 				"localadmin_id" : [ "404473063" ],
 				"localadmin_a" : [ null ]
 			}
