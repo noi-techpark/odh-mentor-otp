@@ -40,6 +40,7 @@ class LocationField extends Component {
       console.warn("No text entry provided for geocode autocomplete search.");
       return;
     }
+
     const { geocoderConfig } = this.props;
     getGeocoder(geocoderConfig)
       .autocomplete({ text })
