@@ -197,7 +197,7 @@ function combineResults(text, lang, cb) {
 				let response = resp[i++].body;
 				
 				let eRes = formatters[ req.id ]( response, lang );
-				
+			
 				console.log("[GEOCODER] response", req.id, "results", _.size(eRes));
 
 				results.push(eRes);
