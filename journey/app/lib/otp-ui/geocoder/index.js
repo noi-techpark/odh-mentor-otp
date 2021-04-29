@@ -1,5 +1,8 @@
+
 import * as arcgis from "@conveyal/geocoder-arcgis-geojson";
-import * as pelias from "isomorphic-mapzen-search";
+
+import * as isomorphicMapzenSearch from "./isomorphic-mapzen-search";
+
 import memoize from "lodash.memoize";
 
 import ArcGISGeocoder from "./geocoders/arcgis";
@@ -16,7 +19,7 @@ const getGeocoder = memoize(geocoderConfig => {
     case "ARCGIS":
       return new ArcGISGeocoder(arcgis, geocoderConfig);
     case "PELIAS":
-      return new PeliasGeocoder(pelias, geocoderConfig);
+      return new PeliasGeocoder(isomorphicMapzenSearch, geocoderConfig);
     default:
       console.error(`Unkown geocoder type: "${type}". Using NoApiGeocoder.`);
       return new NoApiGeocoder();
