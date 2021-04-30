@@ -141,12 +141,12 @@ map:
     #
     #
     - type: parking
-      name: Parcheggi
+      name: parking
       api: http://localhost:8092/parking/stations.json
     #
     #
     - type: car-rental
-      name: Carsharing
+      name: carsharing
       modes:
         - CAR_RENT
       companies:
@@ -165,7 +165,7 @@ map:
           dockStrokeColor: "#000000"
           type: circle
     - type: bike-rental
-      name: Bikesharing
+      name: bikesharing
       modes:
         - BICYCLE_RENT
       companies:
@@ -291,20 +291,21 @@ map:
     #     - CAR_PARK
 
     - type: stops
-      name: $_stops_$
+      name: stops
       visible: true
 
 # Mode selector configuration
 modes:
   transitModes:
     - mode: BUS
-      label: $_bus_$
-    # - mode: TRAM
-    #   label: MAX & Streetcar
+      label: bus
     - mode: RAIL
-      label: $_train_$
+      label: train
     - mode: GONDOLA
-      label: $_funicular_$
+      label: funicular
+
+    # - mode: TRAM
+    #   label: MAX & Streetcar      
     #   showWheelchairSetting: true
 
   accessModes:
@@ -312,14 +313,14 @@ modes:
       label: Bike & Ride
     - mode: BICYCLE_RENT
       label: Bikesharing & Ride
-    #  company: Bikesharing
-    # - mode: MICROMOBILITY_RENT
-    #   label: Transit + E-scooter
     - mode: CAR_PARK
       label: Park & Ride
     - mode: CAR_RENT
       label: Carsharing & Ride
       company: CAR2GO
+    #  company: Bikesharing
+    # - mode: MICROMOBILITY_RENT
+    #   label: Transit + E-scooter      
     #   showWheelchairSetting: false
 
   # which exclusive modes to show. This involves using a single mode and no
@@ -332,7 +333,7 @@ modes:
 
   bicycleModes:
     - mode: BICYCLE
-      label: $_my_bike_$
+      label: my_bike
       iconWidth: 18
     - mode: BICYCLE_RENT
       label: Bikesharing
@@ -384,11 +385,11 @@ reportIssue:
 #     globalSiteTag: UA-133677388-1
 
 language:
-    storageDisclaimer: $_storage_disclaimer_$
-    routeViewer: $_route_viewer_$
-    routeViewerDetails: $_route_view_details_$
-    tripViewer: $_trip_$
-    stopViewer: $_stop_$
+    storageDisclaimer: storage_disclaimer
+    routeViewer: route_viewer
+    routeViewerDetails: route_view_details
+    tripViewer: trip
+    stopViewer: stop
 
 dateTime:
   timeFormat: HH:mm
