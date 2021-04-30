@@ -390,6 +390,8 @@ language:
     routeViewerDetails: route_view_details
     tripViewer: trip
     stopViewer: stop
+    defaultLanguage: it
+    fallbackLanguage: en
 
 dateTime:
   timeFormat: HH:mm
