@@ -1,5 +1,15 @@
 /* application menu styling */
 
+.app-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.otp.mobile .app-menu {
+  padding-right: 15px;
+}
+
 .app-menu-button {
   border: none;
   background: none;
@@ -31,6 +41,13 @@
   color: #ddd;
 }
 
+.app-menu #app-menu-language {
+  font-size: 20px;
+}
+
+.app-menu #app-menu-language + .dropdown-menu {
+  left: -70px;
+}
 /* PrintLayout styles */
 
 .otp.print-layout {
