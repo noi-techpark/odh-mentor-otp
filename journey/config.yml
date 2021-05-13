@@ -7,6 +7,16 @@ branding: Mentor - Alto Adige/Suedtirol
 homeTimezone: Europe/Rome
 title: Mentor - Alto Adige/Suedtirol
 
+language:
+    storageDisclaimer: storage_disclaimer
+    routeViewer: route_viewer
+    routeViewerDetails: route_view_details
+    tripViewer: trip
+    stopViewer: stop
+    defaultLanguage: it
+    fallbackLanguage: en
+    #SET HERE DEFAULT FRONT-END LANGUAGE
+
 # Default OTP API
 api:
   host: ${API_HOST}
@@ -32,6 +42,11 @@ geocoder:
       minLat: 46.188280
       maxLat: 47.088780
 #Suedtirol 10.470121,46.188280,12.255011,47.088780
+
+# analytics:
+#   google:
+#     globalSiteTag: UA-133677388-1
+
 
 # Enabled multimodal routing types (e.g. interary, profile)
 routingTypes:
@@ -380,19 +395,6 @@ errorMessages:
 
 reportIssue:
   mailto: support@openmove.com
-
-# analytics:
-#   google:
-#     globalSiteTag: UA-133677388-1
-
-language:
-    storageDisclaimer: storage_disclaimer
-    routeViewer: route_viewer
-    routeViewerDetails: route_view_details
-    tripViewer: trip
-    stopViewer: stop
-    defaultLanguage: it
-    fallbackLanguage: en
 
 dateTime:
   timeFormat: HH:mm
