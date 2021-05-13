@@ -305,7 +305,7 @@ modes:
       label: funicular
 
     # - mode: TRAM
-    #   label: MAX & Streetcar      
+    #   label: MAX & Streetcar
     #   showWheelchairSetting: true
 
   accessModes:
@@ -319,8 +319,8 @@ modes:
       label: Carsharing & Ride
       company: CAR2GO
     #  company: Bikesharing
-    # - mode: MICROMOBILITY_RENT
-    #   label: Transit + E-scooter      
+    - mode: MICROMOBILITY
+      label: E-scooter & Ride
     #   showWheelchairSetting: false
 
   # which exclusive modes to show. This involves using a single mode and no
@@ -330,6 +330,7 @@ modes:
   exclusiveModes:
     - WALK
     - BICYCLE
+    - MICROMOBILITY
 
   bicycleModes:
     - mode: BICYCLE
