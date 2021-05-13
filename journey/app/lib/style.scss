@@ -91,7 +91,20 @@ $base-color: #084c8d;
 }
 
 .otp .navbar .container {
+  // margin-left: 0;
+  width: 100%;
+}
+
+.otp .navbar .container .navbar-header,
+.otp .navbar .container .navbar-brand {
+  float: none;
+}
+
+.otp .navbar .container .navbar-brand {
   margin-left: 0;
+  display: block;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .otp .navbar .mobile-header-text {
@@ -100,9 +113,9 @@ $base-color: #084c8d;
 }
 
 .otp .app-menu-container {
-  float: left;
+  // float: left;
   color: white;
-  font-size: 28;
+  font-size: 28px;
   padding-top: 4px;
 }
 
