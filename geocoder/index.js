@@ -54,20 +54,42 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 		return false;
 	}
 	//UN USEFUL let q_search = _.get(req.body, "query.bool.must[0].match['name.default'].query");
-	let texts = [];
+	let texts = [],
+		lang;
 
-	_.forEach(musts, function(v, k) {
-		let q1 = _.get(v, "constant_score.filter.multi_match.query");
-		let q2 = _.get(v, "multi_match.query");
-		texts.push(q1 || q2)
+	_.forEach(musts, function(m, k) {
+		
+		//texts search
+		let q1 = _.get(m, "constant_score.filter.multi_match.query");
+		let q2 = _.get(m, "multi_match.query");
+		texts.push(q1 || q2);
+
+		if(!lang) {
+			//word
+			let ll = _.get(m, "constant_score.filter.multi_match.fields")
+				, l1;
+			if(_.isArray(ll)) {
+				l1 = ll.pop();
+				l1 = l1.split('.').pop();
+			}
+			//phrase
+			let ll2 = _.get(m, "multi_match.fields")
+				, l2;
+			if(_.isArray(ll2)) {
+				l2 = ll2.pop();
+				l2 = l2.split('.').pop();
+			}
+			lang = l1 || l2 || config.server.default_lang;
+		}
 	});
-
 
 	//let q = _.get(req.body, "query.bool.must[0].constant_score.filter.multi_match.query");
 	//	let q2 = _.get(req.body, "query.bool.must[1].constant_score.filter.multi_match.query");
 
 	let text = texts.join(' ');
-	
+
+	console.log('[GEOCODER] Pelias Search: "', text,'" lang:',lang);//JSON.stringify(req.body,null,2))
+
 	//console.log('ELASTIC SEARCH: "'+text+'"')
 
 	if(!_.isString(text) || text.length < config.server.mintextlength) {
@@ -75,7 +97,7 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 		res.json( formatters.elasticsearch([]) )
 	}
 	else {
-		combineResults(text, jsonres => {
+		combineResults(text, lang, jsonres => {
 			
 			res.json(jsonres);
 
@@ -86,10 +108,13 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 //useful 
 servicesApp.get('/testSearch', (req,res) => {
 	
-	console.log('/testSearch',req.query)
+	console.log('/testSearch',req.query);
+
+	let lang = req.query.lang || config.server.default_lang;
 	
 	if(!_.isEmpty(req.query.text)) {
-		combineResults(req.query.text, jsonres => {
+		
+		combineResults(req.query.text, lang, jsonres => {
 			res.json(jsonres);
 		});
 	}
@@ -135,9 +160,11 @@ function makeUrl(opt, text, lang) {
 }
 
 
-function combineResults(text, cb) {
+function combineResults(text, lang, cb) {
 
 	cb = cb || _.noop;
+
+	lang = lang || config.server.default_lang
 
 	//docs https://github.com/aalfiann/parallel-http-request
 	var request = new ParallelRequest();
@@ -147,7 +174,7 @@ function combineResults(text, cb) {
 			
 			id: eKey,	//not required by ParallelRequest
 			
-			url: makeUrl(eOpt, text),
+			url: makeUrl(eOpt, text, lang),
 			method: eOpt.method,
 			headers: eOpt.headers
 		});
@@ -162,12 +189,16 @@ function combineResults(text, cb) {
 		let results = [], i = 0;
 
 		requests.forEach( req => {
+
+			console.log('[GEOCODER] request',req.url)
 			
 			if(_.isFunction(formatters[ req.id ])) {
+
+				let response = resp[i++].body;
 				
-				let eRes = formatters[ req.id ]( resp[i++].body )
-				
-				console.log("[GEOCODER] source", req.id, "results", _.size(eRes));
+				let eRes = formatters[ req.id ]( response, lang );
+			
+				console.log("[GEOCODER] response", req.id, "results", _.size(eRes));
 
 				results.push(eRes);
 			}

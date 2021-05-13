@@ -28,8 +28,16 @@ class AppMenu extends Component {
     window.location.href = startOverUrl
   }
 
+  _getLanguageLabel = () => {
+    const { lng } = this.props;
+
+    if (lng === 'it') return 'Italiano'
+    if (lng === 'en') return 'English'
+    if (lng === 'de') return 'Deutsch'
+  }
+
   render () {
-    const { languageConfig, t } = this.props
+    const { languageConfig, t, i18n } = this.props
 
     return (
       <div className='app-menu'>
@@ -44,6 +52,23 @@ class AppMenu extends Component {
           </MenuItem>
           <MenuItem onClick={this._startOver}>
             <Icon type='undo' /> {t('restart')}
+          </MenuItem>
+        </DropdownButton>
+
+        <DropdownButton
+          menuAlign="right"
+          aria-label='Choose Language'
+          title={this._getLanguageLabel()}
+          className='app-menu-button'
+          id='app-menu-language'>
+          <MenuItem onClick={() => i18n.changeLanguage('it')}>
+            Italiano
+          </MenuItem>
+          <MenuItem onClick={() => i18n.changeLanguage('en')}>
+            English
+          </MenuItem>
+          <MenuItem onClick={() => i18n.changeLanguage('de')}>
+            Deutsch
           </MenuItem>
         </DropdownButton>
       </div>

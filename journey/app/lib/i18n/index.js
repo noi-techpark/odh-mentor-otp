@@ -6,6 +6,8 @@ import { TRANSLATIONS_EN } from "./en";
 import { TRANSLATIONS_IT } from "./it";
 import { TRANSLATIONS_DE } from "./de";
 
+import config from '../config.yml';
+
 const resources = {
   en: {
     translation: TRANSLATIONS_EN
@@ -18,12 +20,16 @@ const resources = {
   }
 };
 
+if (!config.language.defaultLanguage) {
+  i18n.use(detector)
+}
+
 i18n
-  .use(detector)
   .use(reactI18nextModule)
   .init({
     resources,
-    fallbackLng: "en",
+    lng: config.language.defaultLanguage,
+    fallbackLng: config.language.fallbackLanguage || "en",
     debug: false,
   });
 

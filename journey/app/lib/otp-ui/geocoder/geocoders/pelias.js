@@ -12,6 +12,14 @@ export default class PeliasGeocoder extends Geocoder {
    * `sources` parameter is a Pelias-specific option.
    */
   getAutocompleteQuery(query) {
+
+    const defaultLang = 'en' 
+      , store = window.localStorage.getItem('i18nextLng')
+      , code = store ? store.replace(/[-_][a-z]+$/i,'') : defaultLang
+      , lang =  code || defaultLang;
+
+    query.lang = lang;
+
     const {
       apiKey,
       baseUrl,
@@ -20,6 +28,7 @@ export default class PeliasGeocoder extends Geocoder {
       options,
       sources
     } = this.geocoderConfig;
+
     return {
       apiKey,
       boundary,
@@ -39,6 +48,14 @@ export default class PeliasGeocoder extends Geocoder {
    * `sources` parameter is a Pelias-specific option.
    */
   getSearchQuery(query) {
+
+    const defaultLang = 'en' 
+      , store = window.localStorage.getItem('i18nextLng')
+      , code = store ? store.replace(/[-_][a-z]+$/i,'') : defaultLang
+      , lang =  code || defaultLang;
+
+    query.lang = lang;
+
     const {
       apiKey,
       baseUrl,
