@@ -24,7 +24,7 @@ api:
   port: ${API_PORT}
 # Alternate TransitIndex API
 # alternateTransitIndex:
-#  apiRoot: https://newplanner.trimet.org/ws/ti/v0/
+#  apiRoot: https://otp.openmove.com
 #  services:
 #     - stops
 #     - stops/routes
@@ -57,7 +57,7 @@ routingTypes:
   #- key: PROFILE
   #  text: Time Window
   #  api: # Specifies a different API endpoint for profile routing
-  #    host: https://trimet-modeify.conveyal.com
+  #    host: https://otp.openmove.com
   #    path: /api
 
 # Show/hide elevation profile chart for walk/bike legs
@@ -137,13 +137,6 @@ map:
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
       attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
       maxZoom: 16
-
-
-
-    # - name: Aerials
-    #   url: //tile{s}.trimet.org/tilecache/tilecache.py/1.0.0/hybridOSM/{z}/{x}/{y}
-    #   attribution: 'Map tiles: <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
-    #   maxZoom: 20
 
   overlays:
     # real-time vehicles config
