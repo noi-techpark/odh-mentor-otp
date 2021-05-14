@@ -1,4 +1,4 @@
-# trimet-mod-otp
+# openmove otp ui
 
 TriMet-specific implementation of the [otp-react-redux](https://github.com/opentripplanner/otp-react-redux) library, managed using Yarn and Webpack 4.
 
@@ -9,7 +9,7 @@ TriMet-specific implementation of the [otp-react-redux](https://github.com/opent
 2. Clone the trimet-mod-otp repository:
 
 ```bash
-git clone https://github.com/conveyal/trimet-mod-otp.git
+git clone https://github.com/openmove/odh-mentor-otp.git
 ```
 
 3. Install dependencies using Yarn:
@@ -27,7 +27,7 @@ yarn install
 - enabled travel modes, and
 - other settings.
 
-See [`config.yml`](https://github.com/ibi-group/trimet-mod-otp/blob/master/lib/config.yml) comments for details.
+See [`config.yml`](https://github.com/openmove/odh-mentor-otp/blob/master/journey/config.yml) comments for details.
 
 ## Development/Deployment:
 
@@ -62,7 +62,7 @@ sed 's/base-color: #084c8d/base-color: pink/' lib/style.scss > lib/branding.scss
 # Kick off dev server with custom items (only specify items you want to override).
 yarn start \
   # This is the CSS we just created above ^^
-  --env.CUSTOM_CSS=/Users/$USER/git/trimet-mod-otp/lib/branding.scss \
+  --env.CUSTOM_CSS=/Users/$USER/git/odh-mentor-otp/lib/branding.scss \
   --env.YAML_CONFIG=/absolute/path/to/config.yml \
   --env.HTML_FILE=/path/to/index.html \
   --env.JS_CONFIG=/path/to/my-config.js

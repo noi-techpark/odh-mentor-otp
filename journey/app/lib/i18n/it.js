@@ -332,11 +332,11 @@ export const TRANSLATIONS_IT = {
   "30_minutes": "$_30_minutes",
   "45_minutes": "$_45_minutes",
   "1_hour": "$_1_hour",
-  "bikesharing_ride": "$_bikesharing_ride",
-  "park_ride": "$_park_ride",
-  "carsharing_ride": "$_carsharing_ride",
+  "bikesharing_ride": "Bikesharing & Ride",
+  "park_ride": "Park & Ride",
+  "carsharing_ride": "Carsharing & Ride",
   "carsharing": "Carsharing",
   "bikesharing": "Bikesharing",
-  "bike_ride": "$_bike_ride",
-  "view_stop": "$_view_stop"
+  "bike_ride": "Bike & Ride",
+  "view_stop": "Vedi stop"
 }

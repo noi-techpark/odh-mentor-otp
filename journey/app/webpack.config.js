@@ -66,6 +66,7 @@ module.exports = async env => {
       extensions: ['*', '.js', '.jsx']
     },
     output: {
+      auxiliaryComment: 'version',
       path: path.join(__dirname, '/dist'),
       publicPath: '',
       filename: 'bundle.js'

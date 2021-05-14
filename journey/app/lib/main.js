@@ -85,7 +85,6 @@ const render = App => ReactDOM.render(
 // There have been some issues noticed with changing font-awesome icons while
 // react-hot-loader is enabled. A refresh of the page/build script may be
 // necessary in rare occasions.
-// See https://github.com/ibi-group/trimet-mod-otp/pull/207
 hot(
   render(TrimetWebapp)
 )

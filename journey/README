@@ -1,6 +1,5 @@
 
-original: https://github.com/ibi-group/trimet-mod-otp
-
+# openmove otp ui
 
 ## requirements
 
@@ -37,3 +36,7 @@ yarn start
 
 browse http://0.0.0.0:8081/
 
+
+# original project
+
+https://github.com/ibi-group/trimet-mod-otp
