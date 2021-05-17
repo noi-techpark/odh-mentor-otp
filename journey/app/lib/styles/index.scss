@@ -1,19 +1,21 @@
 @import 'variables';
 
 @import '../../node_modules/leaflet/dist/leaflet.css';
+// TODO fix icon layer
+@import url(https://unpkg.com/leaflet@1.0.3/dist/leaflet.css);
 @import '../../node_modules/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css';
-@import '../../node_modules/transitive-js/lib/transitive.css';
+// @import '../../node_modules/transitive-js/lib/transitive.css';
 
 // MAIN LAYOUT AND COMPONENTS WITH BOOTSTRAP
 @import '../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap';
 
-$fa-font-path:        "../fonts/font-awesome" !default;
 @import '../../node_modules/font-awesome/scss/font-awesome';
 // TODO: fix icon import froms font folder
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
 @import '../../node_modules/react-dates/css/styles';
 
 
+// Project components
 
 @import '../components/admin/call-taker';
 @import '../components/app/app';
@@ -27,15 +29,9 @@ $fa-font-path:        "../fonts/font-awesome" !default;
 
 @import 'bike-rental';
 
-
+// Project Sass
 
 // Variables
-
-// This is the color for the nav bar and various row bars throughout the app.
-// Override this value for a quick "re-branding".
-// TODO specify this color using a separate configurable variables file?
-$base-color: #084c8d;
-// $base-color: black;
 
 /* mixins */
 @mixin link-button {
