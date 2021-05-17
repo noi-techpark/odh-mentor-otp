@@ -1,10 +1,15 @@
-@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css);
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap';
 
-@import url(https://unpkg.com/leaflet@1.0.3/dist/leaflet.css);
+$fa-font-path:        "../fonts/font-awesome" !default;
+@import '../../node_modules/font-awesome/scss/font-awesome';
+// TODO: fix icon import froms font folder
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
-@import url(https://cdnjs.cloudflare.com/ajax/libs/react-dates/21.8.0/css/_datepicker.min.css);
-@import url(https://cdn.jsdelivr.net/npm/transitive-js@0.13.3/lib/transitive.css);
+
+
+@import '../../node_modules/leaflet/dist/leaflet.css';
 @import '../../node_modules/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css';
+@import '../../node_modules/react-dates/css/styles';
+@import '../../node_modules/transitive-js/lib/transitive.css';
 
 @import '../components/admin/call-taker';
 @import '../components/app/app';
