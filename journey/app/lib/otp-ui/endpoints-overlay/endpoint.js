@@ -120,7 +120,7 @@ class Endpoint extends Component {
         onDragEnd={this.onDragEnd}
       >
         {showUserSettings && (
-          <Popup className="otp-ui-enpointMarkerPopup">
+          <Popup className="otp-ui-endpointMarkerPopup">
             <ListGroup>
               <ListGroupItem>
                 <strong><UserLocationIcon type={icon} /> {location.name}</strong>
