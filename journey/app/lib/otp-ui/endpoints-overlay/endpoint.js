@@ -16,8 +16,7 @@ import {
   Times
 } from "@styled-icons/fa-solid";
 import { withNamespaces } from "react-i18next"
-
-import * as Styled from "./styled";
+import { ListGroup, ListGroupItem } from 'react-bootstrap'
 
 /**
  * These icons are used to render common icons for user locations. These will
@@ -26,15 +25,15 @@ import * as Styled from "./styled";
 function UserLocationIcon({ type }) {
   switch (type) {
     case "briefcase":
-      return <Briefcase size={12} />;
+      return <Briefcase size={16} />;
     case "home":
-      return <Home size={12} />;
+      return <Home size={16} />;
     case "map-marker":
-      return <MapMarkerAlt size={12} />;
+      return <MapMarkerAlt size={16} />;
     case "refresh":
-      return <Sync size={12} />;
+      return <Sync size={16} />;
     case "times":
-      return <Times size={12} />;
+      return <Times size={16} />;
     default:
       return null;
   }
@@ -121,55 +120,51 @@ class Endpoint extends Component {
         onDragEnd={this.onDragEnd}
       >
         {showUserSettings && (
-          <Popup>
-            <div>
-              <strong>
-                <UserLocationIcon type={icon} /> {location.name}
-              </strong>
-              <div>
-                <Styled.Button
-                  disabled={isWork}
-                  onClick={isHome ? this.forgetHome : this.rememberAsHome}
-                >
-                  {isHome ? (
-                    <span>
-                      <UserLocationIcon type="times" /> {t('forget_home')}
-                    </span>
-                  ) : (
-                    <span>
-                      <UserLocationIcon type="home" /> {t('save_as_home')}
-                    </span>
-                  )}
-                </Styled.Button>
-              </div>
-              <div>
-                <Styled.Button
-                  disabled={isHome}
-                  onClick={isWork ? this.forgetWork : this.rememberAsWork}
-                >
-                  {isWork ? (
-                    <span>
-                      <UserLocationIcon type="times" /> {t('forget_work')}
-                    </span>
-                  ) : (
-                    <span>
-                      <UserLocationIcon type="briefcase" /> {t('save_as_work')}
-                    </span>
-                  )}
-                </Styled.Button>
-              </div>
-              <div>
-                <Styled.Button onClick={this.clearLocation}>
-                  <UserLocationIcon type="times" /> {t('remove_as_location', { label: type })}
-                </Styled.Button>
-              </div>
-              <div>
-                <Styled.Button onClick={this.swapLocation}>
-                  <UserLocationIcon type="refresh" />
-                  {t('change_in_location', { label: otherType })}
-                </Styled.Button>
-              </div>
-            </div>
+          <Popup className="otp-ui-enpointMarkerPopup">
+            <ListGroup>
+              <ListGroupItem>
+                <strong><UserLocationIcon type={icon} /> {location.name}</strong>
+              </ListGroupItem>
+              <ListGroupItem
+                disabled={isWork}
+                onClick={isHome ? this.forgetHome : this.rememberAsHome}
+              >
+                {isHome ? (
+                  <>
+                    <UserLocationIcon type="times" /> {t('forget_home')}
+                  </>
+                ) : (
+                  <>
+                    <UserLocationIcon type="home" /> {t('save_as_home')}
+                  </>
+                )}
+              </ListGroupItem>
+              <ListGroupItem
+                disabled={isHome}
+                onClick={isWork ? this.forgetWork : this.rememberAsWork}
+              >
+                {isWork ? (
+                  <>
+                    <UserLocationIcon type="times" /> {t('forget_work')}
+                  </>
+                ) : (
+                  <>
+                    <UserLocationIcon type="briefcase" /> {t('save_as_work')}
+                  </>
+                )}
+              </ListGroupItem>
+              <ListGroupItem
+                onClick={this.clearLocation}
+              >
+                <UserLocationIcon type="times" /> {t('remove_as_location', { label: type })}
+              </ListGroupItem>
+              <ListGroupItem
+                bsStyle="link"
+                onClick={this.swapLocation}
+              >
+                <UserLocationIcon type="refresh" /> {t('change_in_location', { label: otherType })}
+              </ListGroupItem>
+            </ListGroup>
           </Popup>
         )}
       </Marker>
