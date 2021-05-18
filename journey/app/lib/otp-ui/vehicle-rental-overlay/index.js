@@ -1,6 +1,5 @@
 import { divIcon } from "leaflet";
 import memoize from "lodash.memoize";
-import * as BaseMapStyled from "../base-map/styled";
 import { getCompaniesLabelFromNetworks } from "../core-utils/itinerary";
 import {
   companyType,
@@ -99,26 +98,26 @@ class VehicleRentalOverlay extends MapLayer {
     };
     return (
       <Popup>
-        <BaseMapStyled.MapOverlayPopup>
-          <BaseMapStyled.PopupTitle>{stationName}</BaseMapStyled.PopupTitle>
+        <div className="otp-ui-mapOverlayPopup">
+          <div className="otp-ui-mapOverlayPopup__popupTitle">{stationName}</div>
 
           {/* render dock info if it is available */}
           {stationIsHub && (
-            <BaseMapStyled.PopupRow>
+            <div className="otp-ui-mapOverlayPopup__popupRow">
               <div>{t('available_bikes')}: {station.bikesAvailable}</div>
               <div>{t('available_docks')}: {station.spacesAvailable}</div>
-            </BaseMapStyled.PopupRow>
+            </div>
           )}
 
           {/* Set as from/to toolbar */}
-          <BaseMapStyled.PopupRow>
+          <div className="otp-ui-mapOverlayPopup__popupRow">
             <b>{t('travel')}</b>
             <FromToLocationPicker
               location={location}
               setLocation={setLocation}
             />
-          </BaseMapStyled.PopupRow>
-        </BaseMapStyled.MapOverlayPopup>
+          </div>
+        </div>
       </Popup>
     );
   };

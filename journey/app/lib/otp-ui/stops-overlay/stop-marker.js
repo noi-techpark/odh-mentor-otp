@@ -1,4 +1,3 @@
-import * as BaseMapStyled from "../base-map/styled";
 import {
   languageConfigType,
   leafletPathType,
@@ -47,29 +46,32 @@ class StopMarker extends Component {
         radius={radius}
       >
         <Popup>
-          <BaseMapStyled.MapOverlayPopup>
-            <BaseMapStyled.PopupTitle>{name}</BaseMapStyled.PopupTitle>
-            <BaseMapStyled.PopupRow>
-              {/* <b>Agency:</b> {agency} */}
-            </BaseMapStyled.PopupRow>
-            <BaseMapStyled.PopupRow>
+          <div className="otp-ui-mapOverlayPopup">
+            <div className="otp-ui-mapOverlayPopup__popupTitle">{name}</div>
+            {
+              agency &&
+                <div className="otp-ui-mapOverlayPopup__popupRow">
+                  <strong>Agency:</strong> {agency}
+                </div>
+            }
+            <div className="otp-ui-mapOverlayPopup__popupRow">
               <span>
-                <b>Stop ID:</b> {stopId}
+                <strong>Stop ID:</strong> {stopId}
               </span>
               <Styled.ViewStopButton onClick={this.onClickView}>
                 {t(languageConfig.stopViewer || 'stop')}
               </Styled.ViewStopButton>
-            </BaseMapStyled.PopupRow>
+            </div>
 
             {/* The "Set as [from/to]" ButtonGroup */}
-            <BaseMapStyled.PopupRow>
-              <b>{t('travel')}</b>
+            <div className="otp-ui-mapOverlayPopup__popupRow">
+              <strong>{t('travel')}</strong>
               <FromToLocationPicker
                 onFromClick={this.onFromClick}
                 onToClick={this.onToClick}
               />
-            </BaseMapStyled.PopupRow>
-          </BaseMapStyled.MapOverlayPopup>
+            </div>
+          </div>
         </Popup>
       </CircleMarker>
     );

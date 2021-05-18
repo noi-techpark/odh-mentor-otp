@@ -1,4 +1,3 @@
-import * as BaseMapStyled from "../base-map/styled";
 import FromToLocationPicker from "../from-to-location-picker";
 import PropTypes from "prop-types";
 import React from "react";
@@ -40,12 +39,12 @@ class ParkAndRideOverlay extends MapLayer {
               position={[location.y, location.x]}
             >
               <Popup>
-                <BaseMapStyled.MapOverlayPopup>
-                  <BaseMapStyled.PopupTitle>{name}</BaseMapStyled.PopupTitle>
+                <div className="otp-ui-mapOverlayPopup">
+                  <div className="otp-ui-mapOverlayPopup__popupRow">{name}</div>
 
                   {/* Set as from/to toolbar */}
-                  <BaseMapStyled.PopupRow>
-                    <b>{t('travel')}</b>
+                  <div className="otp-ui-mapOverlayPopup__popupTitle">
+                    <strong>{t('travel')}</strong>
                     <FromToLocationPicker
                       location={{
                         lat: location.y,
@@ -54,8 +53,8 @@ class ParkAndRideOverlay extends MapLayer {
                       }}
                       setLocation={setLocation}
                     />
-                  </BaseMapStyled.PopupRow>
-                </BaseMapStyled.MapOverlayPopup>
+                  </div>
+                </div>
               </Popup>
             </Marker>
           );
