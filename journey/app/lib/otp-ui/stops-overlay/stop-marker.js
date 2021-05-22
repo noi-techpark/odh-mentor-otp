@@ -48,12 +48,12 @@ class StopMarker extends Component {
         <Popup>
           <div className="otp-ui-mapOverlayPopup">
             <div className="otp-ui-mapOverlayPopup__popupTitle">{name}</div>
-            {
+            {/* {
               agency &&
                 <div className="otp-ui-mapOverlayPopup__popupRow">
                   <strong>Agency:</strong> {agency}
                 </div>
-            }
+            } */}
             <div className="otp-ui-mapOverlayPopup__popupRow">
               <span>
                 <strong>Stop ID:</strong> {stopId}
