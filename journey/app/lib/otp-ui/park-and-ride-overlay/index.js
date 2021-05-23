@@ -1,6 +1,8 @@
 import FromToLocationPicker from "../from-to-location-picker";
 import PropTypes from "prop-types";
 import React from "react";
+import { divIcon } from "leaflet";
+import ReactDOMServer from "react-dom/server";
 import {
   FeatureGroup,
   MapLayer,
@@ -10,7 +12,14 @@ import {
 } from "react-leaflet";
 import { withNamespaces } from "react-i18next"
 
-import parkAndRideMarker from "./park-and-ride-marker";
+const parkAndRideMarker = divIcon({
+  iconSize: [20, 20],
+  popupAnchor: [0, -10],
+  html: ReactDOMServer.renderToStaticMarkup(
+    <div className="otp-ui-parkAndRideOverlay__marker">P</div>
+  ),
+  className: ""
+});;
 
 class ParkAndRideOverlay extends MapLayer {
   componentDidMount() {}
