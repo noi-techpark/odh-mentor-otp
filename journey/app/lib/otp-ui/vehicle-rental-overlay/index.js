@@ -21,7 +21,7 @@ import {
 } from "react-leaflet";
 
 import { floatingBikeIcon, hubIcons } from "./bike-icons";
-import * as Styled from "./styled";
+import { MapMarkerAlt } from "@styled-icons/fa-solid";
 
 const getStationMarkerByColor = memoize(color =>
   divIcon({
@@ -29,7 +29,7 @@ const getStationMarkerByColor = memoize(color =>
     iconSize: [11, 16],
     popupAnchor: [0, -6],
     html: ReactDOMServer.renderToStaticMarkup(
-      <Styled.StationMarker color={color} />
+      <MapMarkerAlt color={color} />
     )
   })
 );
