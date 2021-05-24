@@ -8,8 +8,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { CircleMarker, Popup } from "react-leaflet";
 import { withNamespaces } from "react-i18next"
-
-import * as Styled from "./styled";
+import { Button } from "react-bootstrap"
 
 class StopMarker extends Component {
   onClickView = () => {
@@ -57,10 +56,10 @@ class StopMarker extends Component {
             <div className="otp-ui-mapOverlayPopup__popupRow">
               <span>
                 <strong>Stop ID:</strong> {stopId}
+                <Button bsStyle="link" onClick={this.onClickView}>
+                  {t(languageConfig.stopViewer || 'stop')}
+                </Button>
               </span>
-              <Styled.ViewStopButton onClick={this.onClickView}>
-                {t(languageConfig.stopViewer || 'stop')}
-              </Styled.ViewStopButton>
             </div>
 
             {/* The "Set as [from/to]" ButtonGroup */}

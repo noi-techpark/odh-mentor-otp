@@ -13,8 +13,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import { CalendarAlt, Heartbeat, MoneyBillAlt } from "@styled-icons/fa-solid";
 import { withNamespaces } from "react-i18next"
+import { Panel, ListGroup, ListGroupItem } from "react-bootstrap"
 
-import * as Styled from "./styled";
 import TripDetail from "./trip-detail";
 
 function TripDetails({
@@ -46,25 +46,25 @@ function TripDetails({
   let fare;
   if (transitFare || minTNCFare) {
     fare = (
-      <Styled.Fare>
+      <span>
         {transitFare && (
-          <Styled.TransitFare>
+          <span>
             {t(messages.transitFare)}: <b>{centsToString(transitFare)}</b>
-          </Styled.TransitFare>
+          </span>
         )}
         {minTNCFare !== 0 && (
-          <Styled.TNCFare>
+          <span>
             <br />
-            <Styled.TNCFareCompanies>
+            <span className="text-uppercase">
               {companies.toLowerCase()}
-            </Styled.TNCFareCompanies>{" "}
+            </span>{" "}
             {t(messages.fare)}:{" "}
-            <b>
+            <strong>
               {dollarsToString(minTNCFare)} - {dollarsToString(maxTNCFare)}
-            </b>
-          </Styled.TNCFare>
+            </strong>
+          </span>
         )}
-      </Styled.Fare>
+      </span>
     );
   }
 
@@ -76,62 +76,77 @@ function TripDetails({
   } = calculatePhysicalActivity(itinerary);
 
   return (
-    <Styled.TripDetails className={className}>
-      <Styled.TripDetailsHeader>{t(messages.title)}</Styled.TripDetailsHeader>
-      <Styled.TripDetailsBody>
-        <TripDetail
-          description={messages.departDescription ? t(messages.departDescription) : ''}
-          icon={<CalendarAlt size={17} />}
-          summary={
-            <Styled.Timing>
-              <span>
-                {t(messages.depart)} <b>{date.format(longDateFormat)}</b>
-              </span>
-              {routingType === "ITINERARY" && (
-                <span>
-                  {" "}
-                  {t(messages.at)}{" "}
-                  <b>{formatTime(itinerary.startTime, timeOptions)}</b>
-                </span>
-              )}
-            </Styled.Timing>
-          }
-        />
-        {fare && (
-          <TripDetail
-            description={messages.transitFareDescription ? t(messages.transitFareDescription) : ''}
-            icon={<MoneyBillAlt size={17} />}
-            summary={fare}
-          />
-        )}
-        {caloriesBurned > 0 && (
-          <TripDetail
-            icon={<Heartbeat size={17} />}
-            summary={
-              <Styled.CaloriesSummary>
-                {t(messages.caloriesBurned)}: <b>{Math.round(caloriesBurned)}</b>
-              </Styled.CaloriesSummary>
-            }
-            description={
-              <Styled.CaloriesDescription>
-                {t('calories_info_1')}{" "}
-                <b>{Math.round(walkDuration / 60)} minute(s)</b> spent walking
-                and <b>{Math.round(bikeDuration / 60)} minute(s)</b> spent
-                biking during this trip. Adapted from{" "}
-                <a
-                  href="https://health.gov/dietaryguidelines/dga2005/document/html/chapter3.htm#table4"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Dietary Guidelines for Americans 2005, page 16, Table 4
-                </a>
-                .
-              </Styled.CaloriesDescription>
-            }
-          />
-        )}
-      </Styled.TripDetailsBody>
-    </Styled.TripDetails>
+    <div className={className}>
+      <br/>
+      <Panel>
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">
+            {t(messages.title)}
+          </Panel.Title>
+        </Panel.Heading>
+        <ListGroup>
+          <ListGroupItem>
+            <TripDetail
+              description={messages.departDescription ? t(messages.departDescription) : ''}
+              icon={<CalendarAlt size={17} />}
+              summary={
+                <>
+                  <span>
+                    {t(messages.depart)} <b>{date.format(longDateFormat)}</b>
+                  </span>
+                  {routingType === "ITINERARY" && (
+                    <span>
+                      {" "}
+                      {t(messages.at)}{" "}
+                      <strong>{formatTime(itinerary.startTime, timeOptions)}</strong>
+                    </span>
+                  )}
+                </>
+              }
+            />
+          </ListGroupItem>
+          {
+            fare && (
+              <ListGroupItem>
+                <TripDetail
+                  description={messages.transitFareDescription ? t(messages.transitFareDescription) : ''}
+                  icon={<MoneyBillAlt size={17} />}
+                  summary={fare}
+                />
+              </ListGroupItem>
+          )}
+          {
+            caloriesBurned > 0 && (
+              <ListGroupItem>
+                <TripDetail
+                  icon={<Heartbeat size={17} />}
+                  summary={
+                    <>
+                      {t(messages.caloriesBurned)}: <b>{Math.round(caloriesBurned)}</b>
+                    </>
+                  }
+                  description={
+                    <>
+                      {t('calories_info_1')}{" "}
+                      <b>{Math.round(walkDuration / 60)} minute(s)</b> spent walking
+                      and <b>{Math.round(bikeDuration / 60)} minute(s)</b> spent
+                      biking during this trip. Adapted from{" "}
+                      <a
+                        href="https://health.gov/dietaryguidelines/dga2005/document/html/chapter3.htm#table4"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Dietary Guidelines for Americans 2005, page 16, Table 4
+                      </a>
+                      .
+                    </>
+                  }
+                />
+              </ListGroupItem>
+          )}
+        </ListGroup>
+      </Panel>
+    </div>
   );
 }
 
