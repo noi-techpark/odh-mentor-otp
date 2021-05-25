@@ -14,6 +14,7 @@ import ReactDOM from "react-dom";
 import { Ban, Bus, LocationArrow, Search, Times } from "@styled-icons/fa-solid";
 import { debounce } from "throttle-debounce";
 import { withNamespaces } from 'react-i18next'
+import { FormGroup, FormControl, DropdownButton, MenuItem, InputGroup, Button} from 'react-bootstrap'
 
 import {
   GeocodedOptionIcon,
@@ -21,7 +22,6 @@ import {
   TransitStopOption,
   UserLocationIcon
 } from "./options";
-import * as Styled from "./styled";
 
 // FIXME have a better key generator for options
 let optionKey = 0;
@@ -377,9 +377,9 @@ class LocationField extends Component {
     if (nearbyStops.length > 0 && !suppressNearby) {
       // Add the menu sub-heading (not a selectable item)
       menuItems.push(
-        <Styled.MenuItem header key="ns-header">
+        <MenuItem header key="ns-header">
           {t('nearby_stops')}
-        </Styled.MenuItem>
+        </MenuItem>
       );
 
       // Iterate through the found nearby stops
@@ -422,9 +422,9 @@ class LocationField extends Component {
     if (sessionSearches.length > 0) {
       // Add the menu sub-heading (not a selectable item)
       menuItems.push(
-        <Styled.MenuItem header key="ss-header">
+        <MenuItem header key="ss-header">
           {t('recently_searched')}
-        </Styled.MenuItem>
+        </MenuItem>
       );
 
       // Iterate through any saved locations
@@ -458,9 +458,9 @@ class LocationField extends Component {
     if (userLocationsAndRecentPlaces.length > 0 && showUserSettings) {
       // Add the menu sub-heading (not a selectable item)
       menuItems.push(
-        <Styled.MenuItem header key="mp-header">
+        <MenuItem header key="mp-header">
           {t('my_places')}
-        </Styled.MenuItem>
+        </MenuItem>
       );
 
       // Iterate through any saved locations
@@ -543,11 +543,12 @@ class LocationField extends Component {
         ? `${t('fetching_location')}...`
         : defaultPlaceholder;
     const textControl = (
-      <Styled.Input
+      <FormControl
         ref={ref => {
           this.inputRef = ref;
         }}
-        aria-label={defaultPlaceholder}
+        type="text"
+        ariaLabel={defaultPlaceholder}
         autoFocus={autoFocus}
         className={this.getFormControlClassname()}
         value={value}
@@ -562,58 +563,63 @@ class LocationField extends Component {
     // or if the input field has text.
     const clearButton =
       showClearButton && location ? (
-        <Styled.InputGroupAddon>
-          <Styled.Button
+        <InputGroup.Button>
+          <Button
             aria-label={t('clear_location')}
             onClick={this.onClearButtonClick}
           >
             <Times size={13} />
-          </Styled.Button>
-        </Styled.InputGroupAddon>
+          </Button>
+        </InputGroup.Button>
       ) : null;
+
     if (isStatic) {
       // 'static' mode (menu is displayed alongside input, e.g., for mobile view)
       return (
         <div className={className}>
-          <Styled.FormGroup>
-            <Styled.InputGroup>
-              <Styled.InputGroupAddon>
+          <FormGroup>
+            <InputGroup>
+              <InputGroup.Addon>
                 <LocationIconComponent locationType={locationType} />
-              </Styled.InputGroupAddon>
+              </InputGroup.Addon>
               {textControl}
               {clearButton}
-            </Styled.InputGroup>
-          </Styled.FormGroup>
-          <Styled.StaticMenuItemList>
+            </InputGroup>
+          </FormGroup>
+
+          <ul className="dropdown-menu open">
             {menuItems.length > 0 ? ( // Show typing prompt to avoid empty screen
               menuItems
             ) : (
-              <Styled.MenuItem header centeredText>
+              <MenuItem header centeredText>
                 {t('begin_typing_to_search_for_locations')}
-              </Styled.MenuItem>
+              </MenuItem>
             )}
-          </Styled.StaticMenuItemList>
+          </ul>
         </div>
       );
     }
 
     // default display mode with dropdown menu
     return (
-      <Styled.FormGroup onBlur={this.onBlurFormGroup} className={className}>
-        <Styled.InputGroup>
-          {/* location field icon -- also serves as dropdown anchor */}
-          <Styled.Dropdown
-            locationType={locationType}
-            open={menuVisible}
-            onToggle={this.onDropdownToggle}
-            title={<LocationIconComponent locationType={locationType} />}
-          >
-            {menuItems}
-          </Styled.Dropdown>
+      <FormGroup onBlur={this.onBlurFormGroup} className={className}>
+        <InputGroup>
+          <InputGroup.Button>
+            <DropdownButton
+              noCaret
+              ariaLabel={`List the suggested ${locationType} locations as you type`}
+              open={menuVisible}
+              onToggle={this.onDropdownToggle}
+              title={<LocationIconComponent locationType={locationType} />}
+            >
+              {menuItems}
+            </DropdownButton>
+          </InputGroup.Button>
+
           {textControl}
           {clearButton}
-        </Styled.InputGroup>
-      </Styled.FormGroup>
+        </InputGroup>
+      </FormGroup>
     );
   }
 }
