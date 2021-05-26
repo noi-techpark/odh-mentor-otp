@@ -3,6 +3,7 @@ const https = require('https');
 const _ = require('lodash');
 const cors = require('cors')
 const config = require('./config');
+const circleToPolygon = require('./circle-polygon');
 
 var corsOptions = {
   origin: '*',
@@ -102,6 +103,34 @@ app.get('/parking/stations.json', cors(corsOptions),  function (req, res) {
         data: {
             stations: parkingStations
        }
+    });
+});
+
+app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
+    var parkingStations = [];
+    if(stationsReceived){
+        for(var i = 0; i < stationsReceived.length; i++){
+            var station = stationsReceived[i];
+            if(station.sactive && station.scoordinate && station.smetadata){
+                let polygon = circleToPolygon(
+                    [station.scoordinate.x, station.scoordinate.y], 25, {}
+                    );
+
+
+                parkingStations.push({
+                    id: station.scode,
+                    name: station.sname,
+                    status: "ACTIVE",
+                    capacity: station.smetadata.capacity || 0,
+                    free: station.mvalue || 0,
+                    geometry: polygon
+
+                })
+            }
+        }
+    }
+    res.json({
+        results: parkingStations
     });
 });
 
