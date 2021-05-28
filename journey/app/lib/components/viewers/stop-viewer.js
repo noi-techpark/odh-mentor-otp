@@ -215,16 +215,16 @@ class StopViewer extends Component {
     return (
       <div>
         <div>
-          <b>Stop ID</b>: {stopId}
-          <button
-            className='link-button pull-right'
-            style={{ fontSize: 'small' }}
+          <strong>Stop ID</strong>: {stopId}
+          <Button
+            bsStyle="link"
+            className="pull-right"
             onClick={this._toggleScheduleView}>
             <Icon type={scheduleView ? 'clock-o' : 'calendar'} />{' '}
             {t('view')} {scheduleView ? 'next arrivals' : 'schedule'}
-          </button>
+          </Button>
         </div>
-        <b>{t('plan_a_trip')}</b>
+        <strong>{t('plan_a_trip')}</strong>
         <FromToLocationPicker
           onFromClick={this._onClickPlanFrom}
           onToClick={this._onClickPlanTo} />

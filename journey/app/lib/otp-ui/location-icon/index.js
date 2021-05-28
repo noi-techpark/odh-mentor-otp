@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import * as Styled from "./styled";
+import { DotCircle } from "@styled-icons/fa-regular/";
+import { MapMarkerAlt } from "@styled-icons/fa-solid";
 
 const LocationIcon = ({ className, size = 10, title, type }) => {
   switch (type) {
     case "from":
       return (
-        <Styled.FromIcon
+        <DotCircle
+          color="#333"
           className={className}
           size={size}
           title={title || "From Location Icon"}
@@ -15,7 +16,8 @@ const LocationIcon = ({ className, size = 10, title, type }) => {
       );
     case "to":
       return (
-        <Styled.ToIcon
+        <MapMarkerAlt
+          color="#f44256"
           className={className}
           size={size}
           title={title || "To Location Icon"}

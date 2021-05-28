@@ -1,0 +1,22 @@
+.otp-ui-formToLocationPicker {
+  margin-top: 1rem;
+
+  * {
+    box-sizing: border-box !important;
+  }
+
+  .btn-group {
+    display: flex;
+
+    .btn {
+      flex: 1;
+    }
+  }
+
+  svg {
+    position: relative;
+    top: -1px;
+    width: $font-size-base;
+    height: $font-size-base;
+  }
+}

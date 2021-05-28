@@ -7,8 +7,7 @@ import { humanizeDistanceStringImperial } from "../humanize-distance";
 import PropTypes from "prop-types";
 import React from "react";
 import { Briefcase, Home, MapMarker, MapPin } from "@styled-icons/fa-solid";
-
-import * as Styled from "./styled";
+import { MenuItem, Button } from 'react-bootstrap'
 
 export function GeocodedOptionIcon() {
   return <MapPin size={13} />;
@@ -16,7 +15,7 @@ export function GeocodedOptionIcon() {
 
 export function Option({ disabled, icon, isActive, onClick, title }) {
   return (
-    <Styled.MenuItem onClick={onClick} active={isActive} disabled={disabled}>
+    <MenuItem onClick={onClick} active={isActive} disabled={disabled}>
       {isIE() ? (
         // In internet explorer 11, some really weird stuff is happening where it
         // is not possible to click the text of the title, but if you click just
@@ -25,12 +24,11 @@ export function Option({ disabled, icon, isActive, onClick, title }) {
         // See https://github.com/ibi-group/trimet-mod-otp/issues/237
         title
       ) : (
-        <Styled.OptionContainer>
-          <Styled.OptionIconContainer>{icon}</Styled.OptionIconContainer>
-          <Styled.OptionContent>{title}</Styled.OptionContent>
-        </Styled.OptionContainer>
+        <>
+          {icon}{' '}{title}
+        </>
       )}
-    </Styled.MenuItem>
+    </MenuItem>
   );
 }
 
@@ -51,28 +49,24 @@ Option.defaultProps = {
 
 export function TransitStopOption({ isActive, onClick, stop, stopOptionIcon }) {
   return (
-    <Styled.MenuItem onClick={onClick} active={isActive}>
-      <Styled.StopIconAndDistanceContainer>
-        {stopOptionIcon}
-        <Styled.StopDistance>
-          {humanizeDistanceStringImperial(stop.dist, true)}
-        </Styled.StopDistance>
-      </Styled.StopIconAndDistanceContainer>
-      <Styled.StopContentContainer>
-        <Styled.StopName>
+    <>
+      <>
+        <MenuItem header>
+          {stopOptionIcon}{' '}{humanizeDistanceStringImperial(stop.dist, true)}
+        </MenuItem>
+        <MenuItem onClick={onClick} active={isActive}>
           {stop.name} ({stop.code})
-        </Styled.StopName>
-        <Styled.StopRoutes>
-          {(stop.routes || []).map(route => {
-            const name = route.shortName || route.longName;
-            return (
-              <Styled.RouteName key={`route-${name}`}>{name}</Styled.RouteName>
-            );
-          })}
-        </Styled.StopRoutes>
-      </Styled.StopContentContainer>
-      <Styled.ClearBoth />
-    </Styled.MenuItem>
+          <ul>
+            {(stop.routes || []).map(route => {
+              const name = route.shortName || route.longName;
+              return (
+                <Button bsSize="small" bsStyle="link" key={`route-${name}`}>{name}</Button>
+              );
+            })}
+          </ul>
+        </MenuItem>
+      </>
+    </>
   );
 }
 

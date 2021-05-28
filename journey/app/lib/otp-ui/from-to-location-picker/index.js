@@ -2,11 +2,8 @@ import { locationType } from "../core-utils/types";
 import LocationIcon from "../location-icon";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { withNamespaces } from "react-i18next"
-
-import { LocationPickerSpan, Button, FromToPickerSpan } from "./styled";
-
-const iconSize = "0.9em";
+import { withNamespaces } from "react-i18next";
+import { ButtonGroup, Button } from 'react-bootstrap';
 
 class FromToLocationPicker extends Component {
   onFromClick = () => {
@@ -38,16 +35,18 @@ class FromToLocationPicker extends Component {
   render() {
     const { fromText, showIcons, toText, t } = this.props;
     return (
-      <FromToPickerSpan>
-        <LocationPickerSpan>
-          {showIcons && <LocationIcon type="from" size={iconSize} />}
-          <Button onClick={this.onFromClick}>{t(fromText)}</Button>
-        </LocationPickerSpan>
-        <LocationPickerSpan>
-          {showIcons && <LocationIcon type="to" size={iconSize} />}
-          <Button onClick={this.onToClick}>{t(toText)}</Button>
-        </LocationPickerSpan>
-      </FromToPickerSpan>
+      <div className="otp-ui-formToLocationPicker">
+        <ButtonGroup>
+          <Button onClick={this.onFromClick}>
+            {showIcons && <LocationIcon type="from" />} {' '}
+            {t(fromText)}
+          </Button>
+          <Button onClick={this.onToClick}>
+            {showIcons && <LocationIcon type="to" />} {' '}
+            {t(toText)}
+          </Button>
+        </ButtonGroup>
+      </div>
     );
   }
 }

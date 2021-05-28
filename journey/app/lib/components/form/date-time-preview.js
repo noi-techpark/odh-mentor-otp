@@ -47,7 +47,12 @@ class DateTimePreview extends Component {
 
     let timeStr
     moment.locale(lng || "it");
-    var separator = lng === "it" ? "a" : "um";
+    var separator = "a";
+    switch(lng){
+        case 'it': separator = "a"; break;
+        case 'de': separator = "um"; break;
+        default: separator = "at";
+    }
     const formattedTime = moment.utc(time, OTP_API_TIME_FORMAT).format(timeFormat)
     if (routingType === 'ITINERARY') {
       if (departArrive === 'NOW') timeStr = t('now')

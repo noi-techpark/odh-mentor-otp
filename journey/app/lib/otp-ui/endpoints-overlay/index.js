@@ -1,39 +1,27 @@
 import { locationType } from "../core-utils/types";
 import PropTypes from "prop-types";
 import React from "react";
+import { DotCircle } from "@styled-icons/fa-solid";
+import LocationIcon from "../location-icon";
 
 import Endpoint from "./endpoint";
-import {
-  StackedCircle,
-  StackedIconContainer,
-  StackedLocationIcon,
-  StackedToIcon,
-  ToIcon
-} from "./styled";
 
 function DefaultMapMarkerIcon({ location, type }) {
   let inner;
+
   switch (type) {
     case "to":
-      inner = (
-        <>
-          <StackedToIcon size={24} type={type} />
-          <ToIcon size={20} type={type} />
-        </>
-      );
+      inner = <LocationIcon type={type} />;
       break;
     default:
       // Default to the location icon on top of a white background.
-      inner = (
-        <>
-          <StackedCircle size={24} />
-          <StackedLocationIcon size={24} type={type} />
-        </>
-      );
+      inner = <DotCircle />
       break;
   }
   return (
-    <StackedIconContainer title={location.name}>{inner}</StackedIconContainer>
+    <span className="otp-ui-defaultMapMarkerIcon" title={location.name}>
+      {inner}
+    </span>
   );
 }
 

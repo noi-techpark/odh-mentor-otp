@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import AccessLeg from "./access-leg";
-import * as Styled from "./styled";
 import TNCLeg from "./tnc-leg";
 import TransitLeg from "./transit-leg";
 
@@ -19,15 +18,15 @@ export default function PrintableItinerary({
   timeOptions
 }) {
   return (
-    <Styled.PrintableItinerary className={className}>
+    <div className={className}>
       {itinerary.legs.length > 0 && (
-        <Styled.CollapsedTop>
-          <Styled.LegBody>
-            <Styled.LegHeader>
+        <div className="otp-ui-printableItineraryLeg otp-ui-printableItineraryLeg--noBorder">
+          <div className="otp-ui-printableItineraryLeg__body">
+            <div className="otp-ui-printableItineraryLeg__header">
               <b>Depart</b> from <b>{itinerary.legs[0].from.name}</b>
-            </Styled.LegHeader>
-          </Styled.LegBody>
-        </Styled.CollapsedTop>
+            </div>
+          </div>
+        </div>
       )}
       {itinerary.legs.map((leg, k) =>
         leg.transitLeg ? (
@@ -58,7 +57,7 @@ export default function PrintableItinerary({
           />
         )
       )}
-    </Styled.PrintableItinerary>
+    </div>
   );
 }
 

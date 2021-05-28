@@ -10,36 +10,34 @@ import PropTypes from "prop-types";
 import React from "react";
 import { withNamespaces } from "react-i18next"
 
-import * as Styled from "./styled";
-
 function AccessLeg({ config, leg, LegIcon, t }) {
   return (
-    <Styled.Leg>
-      <Styled.ModeIcon>
+    <div className="otp-ui-printableItineraryLeg">
+      <div className="otp-ui-printableItineraryLeg__icon">
         <LegIcon leg={leg} />
-      </Styled.ModeIcon>
-      <Styled.LegBody>
-        <Styled.LegHeader>
-          <b>{t(getLegModeLabel(leg))}</b>{" "}
+      </div>
+      <div className="otp-ui-printableItineraryLeg__body">
+        <div className="otp-ui-printableItineraryLeg__header">
+          <strong>{t(getLegModeLabel(leg))}</strong>{" "}
           {leg.distance > 0 && (
             <span> {humanizeDistanceString(leg.distance)}</span>
           )}
           {` ${t('to')} `}
-          <b>{getPlaceName(leg.to, config.companies)}</b>
-        </Styled.LegHeader>
+          <strong>{getPlaceName(leg.to, config.companies)}</strong>
+        </div>
         {!leg.hailedCar && (
-          <Styled.LegDetails>
+          <div className="otp-ui-printableItineraryLeg__detail">
             {leg.steps.map((step, k) => {
               return (
-                <Styled.LegDetail key={k}>
+                <div key={k}>
                   {t(getStepDirection(step))} on <b>{t(getStepStreetName(step))}</b>
-                </Styled.LegDetail>
+                </div>
               );
             })}
-          </Styled.LegDetails>
+          </div>
         )}
-      </Styled.LegBody>
-    </Styled.Leg>
+      </div>
+    </div>
   );
 }
 

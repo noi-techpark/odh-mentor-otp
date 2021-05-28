@@ -6,8 +6,6 @@ import {
 import PropTypes from "prop-types";
 import React from "react";
 
-import * as Styled from "./styled";
-
 export default function TransitLeg({
   leg,
   LegIcon,
@@ -17,44 +15,44 @@ export default function TransitLeg({
   // Handle case of transit leg interlined w/ previous
   if (leg.interlineWithPreviousLeg) {
     return (
-      <Styled.CollapsedTop>
-        <Styled.LegBody>
-          <Styled.LegHeader>
+      <div className="otp-ui-printableItineraryLeg otp-ui-printableItineraryLeg--noBorder">
+        <div className="otp-ui-printableItineraryLeg__body">
+          <div className="otp-ui-printableItineraryLeg__header">
             Continues as{" "}
-            <b>
+            <strong>
               {leg.routeShortName} {leg.routeLongName}
-            </b>{" "}
-            to <b>{leg.to.name}</b>
-          </Styled.LegHeader>
-          <Styled.LegDetails>
-            <Styled.LegDetail>
+            </strong>{" "}
+            to <strong>{leg.to.name}</strong>
+          </div>
+          <div className="otp-ui-printableItineraryLeg__detail">
+            <div>
               Get off at <b>{leg.to.name}</b> at{" "}
               {formatTime(leg.endTime, timeOptions)}
-            </Styled.LegDetail>
-          </Styled.LegDetails>
-        </Styled.LegBody>
-      </Styled.CollapsedTop>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Styled.Leg>
-      <Styled.ModeIcon>
+    <div className="otp-ui-printableItineraryLeg">
+      <div className="otp-ui-printableItineraryLeg__icon">
         <LegIcon leg={leg} />
-      </Styled.ModeIcon>
-      <Styled.LegBody>
-        <Styled.LegHeader>
-          <b>
+      </div>
+      <div className="otp-ui-printableItineraryLeg__body">
+        <div className="otp-ui-printableItineraryLeg__header">
+          <strong>
             {leg.routeShortName} {leg.routeLongName}
-          </b>{" "}
-          to <b>{leg.to.name}</b>
-        </Styled.LegHeader>
-        <Styled.LegDetails>
-          <Styled.LegDetail>
+          </strong>{" "}
+          to <strong>{leg.to.name}</strong>
+        </div>
+        <div className="otp-ui-printableItineraryLeg__detail">
+          <div>
             Board at <b>{leg.from.name}</b> at{" "}
             {formatTime(leg.startTime, timeOptions)}
-          </Styled.LegDetail>
-          <Styled.LegDetail>
+          </div>
+          <div>
             {interlineFollows ? (
               <span>
                 Stay on board at <b>{leg.to.name}</b>
@@ -65,10 +63,10 @@ export default function TransitLeg({
                 {formatTime(leg.endTime, timeOptions)}
               </span>
             )}
-          </Styled.LegDetail>
-        </Styled.LegDetails>
-      </Styled.LegBody>
-    </Styled.Leg>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
