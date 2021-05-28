@@ -114,6 +114,8 @@ app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
             if(station.sactive && station.scoordinate && station.smetadata){
                 let polygon = circleToPolygon(
                     [station.scoordinate.x, station.scoordinate.y], 25, {}
+
+                    //TODO move radius inside confing.yml
                     );
 
 

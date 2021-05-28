@@ -35,7 +35,7 @@
 		    "vehiclesUrl": "${CARSHARING_HOST}/carsharing/vehicles.json",
 		    "regionsUrl": "${CARSHARING_HOST}/carsharing/regions.json"
 		},
-{
+        {
 			"type": "car-park",
 			"sourceType": "park-and-ride",
 			"frequencySec": 60,

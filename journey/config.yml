@@ -150,7 +150,7 @@ map:
     #
     - type: parking
       name: parking
-      api: http://localhost:8092/parking/stations.json
+      api: ${PARKING_HOST}/parking/stations.json
     #
     #
     - type: car-rental
