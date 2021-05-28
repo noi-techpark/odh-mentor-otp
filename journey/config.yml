@@ -150,7 +150,7 @@ map:
     #
     - type: parking
       name: parking
-      api: ${PARKING_HOST}/parking/stations.json
+      api: ${PARKING_BASEURL}/parking/stations.json
     #
     #
     - type: car-rental

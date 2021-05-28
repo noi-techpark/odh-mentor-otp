@@ -124,6 +124,7 @@ Below is a list of Docker args variables for each container:
 
 ```GEOCODER_BASEURL``` default pelias geoder instance http://localhost/geocoder/v1
 
+```PARKING_BASEURL``` host path to Parking service to show in map
 
 Then you can start the application using the following command:
 
