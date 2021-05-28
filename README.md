@@ -95,6 +95,8 @@ in addition to those of *otp* vars
 
 ```CARSHARING_HOST``` host path to Carsharing service
 
+```PARKING_HOST``` host path to Carsharing service
+
 **geocoder**
 
 ```API_HOST``` deployed hostname of OpenTripPlanner api default: ```localhost``` (name of deployed)

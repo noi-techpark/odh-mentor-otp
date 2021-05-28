@@ -53,7 +53,7 @@ class TabbedFormPanel extends Component {
             {mainPanelContent === 'EDIT_SETTINGS' && (<ConnectedSettingsSelectorPanel ModeIcon={ModeIcon} />)}
             <div className='hide-button-row'>
               <Button className='hide-button clear-button-formatting' onClick={this._onHideClick}>
-                <i className='fa fa-caret-up' /> "{t('hide_settings')}"
+                <i className='fa fa-caret-up' /> {t('hide_settings')}
               </Button>
             </div>
           </div>
