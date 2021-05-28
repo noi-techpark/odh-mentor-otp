@@ -1,7 +1,8 @@
-import * as BaseMapStyled from "../base-map/styled";
 import FromToLocationPicker from "../from-to-location-picker";
 import PropTypes from "prop-types";
 import React from "react";
+import { divIcon } from "leaflet";
+import ReactDOMServer from "react-dom/server";
 import {
   FeatureGroup,
   MapLayer,
@@ -11,7 +12,14 @@ import {
 } from "react-leaflet";
 import { withNamespaces } from "react-i18next"
 
-import parkAndRideMarker from "./park-and-ride-marker";
+const parkAndRideMarker = divIcon({
+  iconSize: [20, 20],
+  popupAnchor: [0, -10],
+  html: ReactDOMServer.renderToStaticMarkup(
+    <div className="otp-ui-parkAndRideOverlay__marker">P</div>
+  ),
+  className: ""
+});;
 
 class ParkAndRideOverlay extends MapLayer {
   componentDidMount() {}
@@ -40,12 +48,12 @@ class ParkAndRideOverlay extends MapLayer {
               position={[location.y, location.x]}
             >
               <Popup>
-                <BaseMapStyled.MapOverlayPopup>
-                  <BaseMapStyled.PopupTitle>{name}</BaseMapStyled.PopupTitle>
+                <div className="otp-ui-mapOverlayPopup">
+                  <div className="otp-ui-mapOverlayPopup__popupRow">{name}</div>
 
                   {/* Set as from/to toolbar */}
-                  <BaseMapStyled.PopupRow>
-                    <b>{t('travel')}</b>
+                  <div className="otp-ui-mapOverlayPopup__popupTitle">
+                    <strong>{t('travel')}</strong>
                     <FromToLocationPicker
                       location={{
                         lat: location.y,
@@ -54,8 +62,8 @@ class ParkAndRideOverlay extends MapLayer {
                       }}
                       setLocation={setLocation}
                     />
-                  </BaseMapStyled.PopupRow>
-                </BaseMapStyled.MapOverlayPopup>
+                  </div>
+                </div>
               </Popup>
             </Marker>
           );

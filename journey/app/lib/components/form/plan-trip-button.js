@@ -33,7 +33,8 @@ class PlanTripButton extends Component {
     const disabled = locationMissing || this.props.disabled
     return (
       <Button
-        className='plan-trip-button'
+        bsStyle="success"
+        block
         disabled={disabled}
         onClick={this._onClick}
       >{text || t('plan_trip')}</Button>

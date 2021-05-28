@@ -16,34 +16,34 @@ import UTurnRight from "./UTurnRight";
 /**
  * Renders the appropriate direction icon given the OTP relative turn direction
  */
-function DirectionIcon({ relativeDirection }) {
+function DirectionIcon({ relativeDirection, width = 16, height = 16 }) {
   if (!relativeDirection) return null;
   switch (relativeDirection.toUpperCase()) {
     case "DEPART":
     case "CONTINUE":
-      return <Straight />;
+      return <Straight width={width} height={height} />;
     case "LEFT":
-      return <Left />;
+      return <Left width={width} height={height} />;
     case "RIGHT":
-      return <Right />;
+      return <Right width={width} height={height} />;
     case "SLIGHTLY_LEFT":
-      return <SlightLeft />;
+      return <SlightLeft width={width} height={height} />;
     case "SLIGHTLY_RIGHT":
-      return <SlightRight />;
+      return <SlightRight width={width} height={height} />;
     case "HARD_LEFT":
-      return <HardLeft />;
+      return <HardLeft width={width} height={height} />;
     case "HARD_RIGHT":
-      return <HardRight />;
+      return <HardRight width={width} height={height} />;
     case "UTURN_LEFT":
-      return <UTurnLeft />;
+      return <UTurnLeft width={width} height={height} />;
     case "UTURN_RIGHT":
-      return <UTurnRight />;
+      return <UTurnRight width={width} height={height} />;
     case "CIRCLE_CLOCKWISE":
-      return <CircleClockwise />;
+      return <CircleClockwise width={width} height={height} />;
     case "CIRCLE_COUNTERCLOCKWISE":
-      return <CircleCounterclockwise />;
+      return <CircleCounterclockwise width={width} height={height} />;
     case "ELEVATOR":
-      return <Elevator />;
+      return <Elevator width={width} height={height} />;
     default:
       return null;
   }

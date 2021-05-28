@@ -1,0 +1,8 @@
+.leaflet-popup-content {
+  box-sizing: border-box !important;
+  font-size: $font-size-base;
+
+  * {
+    box-sizing: border-box !important;
+  }
+}

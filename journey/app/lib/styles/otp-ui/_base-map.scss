@@ -1,0 +1,14 @@
+.otp-ui-mapOverlayPopup {
+  font-size: $font-size-base;
+  min-width: 250px;
+
+  &__popupRow {
+    margin-top: 6px;
+  }
+
+  &__popupTitle {
+    font-size: $font-size-h4;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+}

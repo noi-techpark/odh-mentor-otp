@@ -23,7 +23,8 @@ class SwitchButton extends Component {
   render () {
     const { content, t } = this.props
     return (
-      <Button className='switch-button'
+      <Button
+        bsSize="small"
         title={t('switch_locations')}
         onClick={this._onClick || this.props.onClick}
       >{content}</Button>

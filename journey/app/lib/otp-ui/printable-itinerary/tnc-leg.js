@@ -3,33 +3,31 @@ import { formatDuration } from "../core-utils/time";
 import PropTypes from "prop-types";
 import React from "react";
 
-import * as Styled from "./styled";
-
 export default function TNCLeg({ leg, LegIcon }) {
   const { tncData } = leg;
   if (!tncData) return null;
 
   return (
-    <Styled.Leg>
-      <Styled.ModeIcon>
+    <div className="otp-ui-printableItineraryLeg">
+      <div className="otp-ui-printableItineraryLeg__icon">
         <LegIcon leg={leg} />
-      </Styled.ModeIcon>
-      <Styled.LegBody>
-        <Styled.LegHeader>
-          <b>Take {tncData.displayName}</b> to <b>{leg.to.name}</b>
-        </Styled.LegHeader>
-        <Styled.LegDetails>
-          <Styled.LegDetail>
+      </div>
+      <div className="otp-ui-printableItineraryLeg__body">
+        <div className="otp-ui-printableItineraryLeg__header">
+          <strong>Take {tncData.displayName}</strong> to <strong>{leg.to.name}</strong>
+        </div>
+        <div className="otp-ui-printableItineraryLeg__detail">
+          <div>
             Estimated wait time for pickup:{" "}
-            <b>{formatDuration(tncData.estimatedArrival)}</b>
-          </Styled.LegDetail>
-          <Styled.LegDetail>
+            <strong>{formatDuration(tncData.estimatedArrival)}</strong>
+          </div>
+          <div>
             Estimated travel time: <b>{formatDuration(leg.duration)}</b> (does
             not account for traffic)
-          </Styled.LegDetail>
-        </Styled.LegDetails>
-      </Styled.LegBody>
-    </Styled.Leg>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

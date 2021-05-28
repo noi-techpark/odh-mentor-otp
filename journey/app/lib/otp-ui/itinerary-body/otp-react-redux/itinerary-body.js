@@ -6,12 +6,6 @@ import * as ItineraryBodyClasses from "../styled";
 const StyledItineraryBody = styled(ItineraryBody)`
   font-size: 16px;
 
-  * {
-    box-sizing: border-box;
-    font-family: Hind, sans-serif;
-    vertical-align: middle;
-  }
-
   ${ItineraryBodyClasses.DetailsColumn} {
     border: 0;
     display: table-cell;
