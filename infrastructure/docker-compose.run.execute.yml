@@ -24,6 +24,7 @@ services:
       GBFS_HOST: ${GBFS_HOST}
       GBFS_VERSION: ${GBFS_VERSION}
       CARSHARING_HOST: ${CARSHARING_HOST}
+      PARKING_HOST: ${PARKING_HOST}
       UPDATERS: "True"
       OFFICIAL: ${OFFICIAL}
     volumes:

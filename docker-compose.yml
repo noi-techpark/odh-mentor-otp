@@ -115,6 +115,7 @@ services:
       - GTFS_RT_URL=https://efa.sta.bz.it/gtfs-r/
       - GTFS_FEED_ID=1
       - CARSHARING_HOST=http://carsharing:8091
+      - PARKING_HOST=http://carsharing:8092
     volumes:
       - /opt/odh-mentor-otp/:/data/
       #- infrastructure/docker/docker-entrypoint.sh:/docker-entrypoint.sh

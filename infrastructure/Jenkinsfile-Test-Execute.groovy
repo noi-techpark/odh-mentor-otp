@@ -34,6 +34,7 @@ pipeline {
         OFFICIAL = "False"
         GBFS_VERSION=1
         CARSHARING_HOST="https://carsharing.otp.opendatahub.testingmachine.eu/"
+        PARKING_HOST="https://parking.otp.opendatahub.testingmachine.eu/"
     }
 
     stages {
@@ -72,6 +73,7 @@ pipeline {
                     echo 'OFFICIAL=${OFFICIAL}' >> .env
                     echo 'GBFS_VERSION=${GBFS_VERSION}' >> .env
                     echo 'CARSHARING_HOST=${CARSHARING_HOST}' >> .env
+                    echo 'PARKING_HOST=${PARKING_HOST}' >> .env
                     echo 'DOCKER_CARSHARING_PORT=${DOCKER_CARSHARING_PORT}' >> .env
                     echo 'DOCKER_PARKING_PORT=${DOCKER_PARKING_PORT}' >> .env
                 """
