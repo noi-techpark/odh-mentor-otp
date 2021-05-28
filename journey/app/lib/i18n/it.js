@@ -190,7 +190,7 @@ export const TRANSLATIONS_IT = {
   "forget_settings": "$_forget_settings",
   "remember_trip_settings": "$_remember_trip_settings",
   "parking": "Parcheggi",
-  "vehicles": "$_vehicles",
+  "vehicles": "Veicoli",
   "zipcar_location": "$_zipcar_location",
   "invalid_mobile_screen": "$_invalid_mobile_screen",
   "click_to_view_details": "$_click_to_view_details",
