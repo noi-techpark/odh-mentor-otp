@@ -5,12 +5,14 @@ ARG	API_PATH=/otp/routers/default
 ARG	API_PORT=8080
 ARG FOLDER=/
 ARG GEOCODER_BASEURL=http://localhost/geocoder/v1
+ARG PARKING_BASEURL=http://localhost/parking
 
 ENV API_HOST=$API_HOST \
 	API_PATH=$API_PATH \
 	API_PORT=$API_PORT \
 	FOLDER=$FOLDER \
-	GEOCODER_BASEURL=$GEOCODER_BASEURL
+	GEOCODER_BASEURL=$GEOCODER_BASEURL \
+	PARKING_BASEURL=$PARKING_BASEURL
 
 RUN	apt-get -qq update && \
 	apt-get -y install nginx git && \

@@ -11,7 +11,7 @@ services:
         - API_PORT=${API_PORT}
         - API_PATH=${API_PATH}
         - GEOCODER_BASEURL=${GEOCODER_BASEURL}
-
+        - PARKING_BASEURL=${PARKING_BASEURL}
   otp:
     image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
     build:
