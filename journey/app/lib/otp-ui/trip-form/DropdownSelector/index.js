@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import * as Styled from "../styled";
+import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
 /**
  * A wrapper that includes a <select> dropdown control and a <label> for the dropdown control.
@@ -24,22 +24,23 @@ class DropdownSelector extends Component {
     const id = `id-query-param-${name}`;
 
     return (
-      <Styled.DropdownSelector className={className} style={style}>
-        <div>
-          <Styled.SettingLabel htmlFor={id}>{label}</Styled.SettingLabel>
-        </div>
-
-        <div>
-          <select id={id} value={value} onChange={this.handleChange}>
-            {options &&
-              options.map((o, i) => (
-                <option key={i} value={o.value}>
-                  {o.text}
-                </option>
-              ))}
-          </select>
-        </div>
-      </Styled.DropdownSelector>
+      <div className={className} style={style}>
+        <FormGroup controlId={id}>
+          <ControlLabel>{label}</ControlLabel>
+          <FormControl
+            id={id}
+            componentClass="select"
+            value={value}
+            onChange={this.handleChange}
+          >
+            {options && options.map((o, i) => (
+              <option key={i} value={o.value}>
+                {o.text}
+              </option>
+            ))}
+          </FormControl>
+        </FormGroup>
+      </div>
     );
   }
 }
