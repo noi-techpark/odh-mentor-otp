@@ -120,9 +120,10 @@ app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
                     capacity: station.smetadata.capacity || 0,
                     free: station.mvalue || 0,
                     geometry: circleToPolygon(
-                        [station.scoordinate.x, station.scoordinate.y], Number(config.server.geometryCircleRadius), {}
-                    );
-
+                        [station.scoordinate.x, station.scoordinate.y],
+                        Number(config.server.geometryCircleRadius),
+                        {}
+                    )
                 })
             }
         }
