@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { withNamespaces } from "react-i18next"
+import { ButtonGroup, FormGroup, FormControl, Grid, Row, Col } from "react-bootstrap"
 
 import {
   OTP_API_DATE_FORMAT,
@@ -9,7 +10,6 @@ import {
 } from "../../core-utils/time";
 
 import ModeButton from "../ModeButton";
-import * as Styled from "../styled";
 
 /**
  * Determines whether the browser supports a particular <input type=<type> /> control,
@@ -146,8 +146,8 @@ class DateTimeSelector extends Component {
     const isLegacy = forceLegacy || !this.supportsDateTimeInputs;
 
     return (
-      <Styled.DateTimeSelector className={className} style={style}>
-        <Styled.DateTimeSelector.DepartureRow>
+      <div className={className} style={style}>
+        <ButtonGroup justified>
           {departureOptions.map(opt => (
             <ModeButton
               key={opt.type}
@@ -157,31 +157,39 @@ class DateTimeSelector extends Component {
               {t(opt.text)}
             </ModeButton>
           ))}
-        </Styled.DateTimeSelector.DepartureRow>
+        </ButtonGroup>
+
+        <br/>
 
         {departArrive !== "NOW" && !isLegacy && (
-          <Styled.DateTimeSelector.DateTimeRow>
-            <div>
-              <input
-                type="time"
-                value={time}
-                required
-                onChange={this.handleTimeChange}
-              />
-            </div>
-            <div>
-              <input
-                type="date"
-                value={date}
-                required
-                onChange={this.handleDateChange}
-              />
-            </div>
-          </Styled.DateTimeSelector.DateTimeRow>
+          <Grid fluid>
+            <Row>
+              <Col xs={6}>
+                <FormGroup>
+                  <FormControl
+                    type="time"
+                    value={time}
+                    required
+                    onChange={this.handleTimeChange}
+                  />
+                </FormGroup>
+              </Col>
+              <Col xs={6}>
+                <FormGroup>
+                  <FormControl
+                    type="date"
+                    value={date}
+                    required
+                    onChange={this.handleDateChange}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+          </Grid>
         )}
 
         {/* Backup controls (for older browsers) */}
-        {departArrive !== "NOW" && isLegacy && (
+        {/* {departArrive !== "NOW" && isLegacy && (
           <Styled.DateTimeSelector.DateTimeRow>
             <div>
               <input
@@ -204,8 +212,8 @@ class DateTimeSelector extends Component {
               />
             </div>
           </Styled.DateTimeSelector.DateTimeRow>
-        )}
-      </Styled.DateTimeSelector>
+        )} */}
+      </div>
     );
   }
 }
