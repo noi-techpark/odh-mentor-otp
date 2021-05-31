@@ -31,9 +31,15 @@
 		{
 		    "type": "car-rental-updater",
 		    "sourceType": "car2go",
-		    "frequencySec": 10,
+		    "frequencySec": 30,
 		    "vehiclesUrl": "${CARSHARING_HOST}/carsharing/vehicles.json",
 		    "regionsUrl": "${CARSHARING_HOST}/carsharing/regions.json"
+		},
+        {
+			"type": "car-park",
+			"sourceType": "park-and-ride",
+			"frequencySec": 60,
+			"url": "${PARKING_HOST}/parking/park-ride.json"
 		}
 	]
 }

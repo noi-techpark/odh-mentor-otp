@@ -12,6 +12,7 @@ pipeline {
         BACKUP_GRAPH = "True"
         GBFS_HOST = "https://gbfs.otp.opendatahub.testingmachine.eu"
         CARSHARING_HOST = "https://carsharing.otp.opendatahub.testingmachine.eu"
+        PARKING_HOST = "https://parking.otp.opendatahub.testingmachine.eu"
         UPDATERS = "True"
         GTFS_FILE = "latestGTFS.zip"
         OFFICIAL="False"
@@ -38,6 +39,7 @@ pipeline {
                     echo 'UPDATERS=${UPDATERS}' >> .env
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
                     echo 'CARSHARING_HOST=${CARSHARING_HOST}' >> .env
+                    echo 'PARKING_HOST=${PARKING_HOST}' >> .env
                     echo 'OFFICIAL=${OFFICIAL}' >> .env
                     echo 'GBFS_VERSION="${GBFS_VERSION}"' >> .env
                     echo 'GTFS_RT_URL="${GTFS_RT_URL}"' >> .env

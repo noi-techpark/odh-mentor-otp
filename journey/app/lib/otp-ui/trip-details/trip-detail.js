@@ -1,9 +1,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { QuestionCircle, TimesCircle } from "@styled-icons/fa-solid";
-import { VelocityTransitionGroup } from "velocity-react";
-
-import * as Styled from "./styled";
+import { QuestionCircle } from "@styled-icons/fa-solid";
+import { Button, Popover, OverlayTrigger } from 'react-bootstrap'
 
 export default class TripDetail extends Component {
   constructor(props) {
@@ -31,30 +29,27 @@ export default class TripDetail extends Component {
     const { icon, summary, description } = this.props;
     const { expanded } = this.state;
     return (
-      <Styled.TripDetail>
-        <Styled.TripDetailIcon>{icon}</Styled.TripDetailIcon>
-        <Styled.TripDetailSummary>
-          {summary}
-          {description && (
-            <Styled.ExpandButton onClick={this.toggle}>
-              <QuestionCircle size="0.92em" />
-            </Styled.ExpandButton>
-          )}
-          <VelocityTransitionGroup
-            enter={{ animation: "slideDown" }}
-            leave={{ animation: "slideUp" }}
+      <div>
+        {icon} {summary}
+        {description && (
+          <OverlayTrigger
+            trigger="click"
+            placement="right"
+            rootClose
+            overlay={
+              <Popover>{description}</Popover>
+            }
           >
-            {expanded && (
-              <Styled.TripDetailDescription>
-                <Styled.HideButton onClick={this.onHideClick}>
-                  <TimesCircle size="0.92em" />
-                </Styled.HideButton>
-                {description}
-              </Styled.TripDetailDescription>
-            )}
-          </VelocityTransitionGroup>
-        </Styled.TripDetailSummary>
-      </Styled.TripDetail>
+            <Button bsStyle="link" style={{
+              paddingTop: 0,
+              paddingBottom: 0,
+              verticalAlign: 'bottom'
+            }}>
+              <QuestionCircle size="16px"/>
+            </Button>
+          </OverlayTrigger>
+        )}
+      </div>
     );
   }
 }

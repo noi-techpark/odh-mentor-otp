@@ -1,0 +1,53 @@
+@mixin link-button {
+  border: none;
+  background: none;
+  border-radius: 0;
+  color: #008;
+  outline: none;
+  height: 14px;
+  padding-top: 0px;
+  line-height: 1;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+}
+
+@mixin viewer-button {
+  @include link-button;
+  margin-left: 5px;
+}
+
+@mixin left-border {
+  border-left: 1px solid black;
+}
+
+@mixin secondary-button {
+  border: solid 1px #eee;
+  border-radius: 5px;
+  font-weight: 400;
+  color: #333;
+  background: #f6f6f6;
+}
+
+@mixin primary-button {
+  background:#62a038;
+  border-radius:5px;
+  font-weight: 400;
+  color:#fff;
+  border:solid 2px #62a038;
+  // Ensure that disabled state does not default to white background.
+  &:hover {
+    background:#62a038;
+  }
+}
+
+@mixin truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
