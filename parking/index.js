@@ -111,11 +111,7 @@ app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
-            if(station.sactive && station.scoordinate && station.smetadata){
-                let polygon = circleToPolygon(
-                    [station.scoordinate.x, station.scoordinate.y], 25, {}
-                    );
-
+            if(station.sactive && station.scoordinate && station.smetadata) {
 
                 parkingStations.push({
                     id: station.scode,
@@ -123,8 +119,11 @@ app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
                     status: "ACTIVE",
                     capacity: station.smetadata.capacity || 0,
                     free: station.mvalue || 0,
-                    geometry: polygon
-
+                    geometry: circleToPolygon(
+                        [station.scoordinate.x, station.scoordinate.y],
+                        Number(config.server.geometryCircleRadius),
+                        {}
+                    )
                 })
             }
         }
