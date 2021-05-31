@@ -10,7 +10,6 @@ import { configuredModesType } from "../../core-utils/types";
 
 import CheckboxSelector from "../CheckboxSelector";
 import DropdownSelector from "../DropdownSelector";
-import * as Styled from "../styled";
 
 /**
  * The general settings panel for setting speed and routing optimization controls.
@@ -29,7 +28,7 @@ class GeneralSettingsPanel extends Component {
     const configWrapper = { modes: supportedModes };
 
     return (
-      <Styled.GeneralSettingsPanel className={className} style={style}>
+      <div className={className} style={style}>
         {paramNames.map(param => {
           const paramInfo = queryParams.find(qp => qp.name === param);
           // Check that the parameter applies to the specified routingType
@@ -84,7 +83,7 @@ class GeneralSettingsPanel extends Component {
               return null;
           }
         })}
-      </Styled.GeneralSettingsPanel>
+      </div>
     );
   }
 }
