@@ -13,7 +13,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import AccessLegSummary from "./access-leg-summary";
-import * as Styled from "../styled";
 
 export default function TNCLeg({
   config,
