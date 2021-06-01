@@ -7,31 +7,22 @@ import { DirectionIcon } from "../../icons/directions";
 import React from "react";
 import { withNamespaces } from "react-i18next"
 
-import * as Styled from "../styled";
-
 function AccessLegSteps({ steps, t }) {
   return (
-    <Styled.Steps>
+    <ul className="list-unstyled">
       {steps.map((step, k) => {
         return (
-          <Styled.StepRow key={k}>
-            <Styled.StepIconContainer>
-              <DirectionIcon relativeDirection={step.relativeDirection} />
-            </Styled.StepIconContainer>
-
-            <Styled.StepDescriptionContainer>
-              {t(getStepDirection(step))}
-              <span>
-                {` ${t(step.relativeDirection === "ELEVATOR" ? "to" : "on")} `}
-              </span>
-              <Styled.StepStreetName>
-                {t(getStepStreetName(step))}
-              </Styled.StepStreetName>
-            </Styled.StepDescriptionContainer>
-          </Styled.StepRow>
+          <li key={k}>
+            <DirectionIcon relativeDirection={step.relativeDirection} />
+            {t(getStepDirection(step))}
+            <span>
+              {` ${t(step.relativeDirection === "ELEVATOR" ? "to" : "on")} `}
+            </span>
+            {t(getStepStreetName(step))}
+          </li>
         );
       })}
-    </Styled.Steps>
+    </ul>
   );
 }
 
