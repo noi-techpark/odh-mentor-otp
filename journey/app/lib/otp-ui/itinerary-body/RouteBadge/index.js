@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import * as Styled from "../styled";
-
 const RouteBadge = ({ color, abbreviation, name }) => {
   return (
-    <Styled.RouteBadge routeColor={color}>
-      <Styled.SRHidden>{abbreviation}</Styled.SRHidden>
-      <Styled.SROnly>{name}</Styled.SROnly>
-    </Styled.RouteBadge>
+    <div className="otp-ui-routeBadge" style={{ backgroundColor: color }}>
+      <span className="otp-ui-routeBadge__abbr">{abbreviation}</span>
+      <span>{name}</span>
+    </div>
   );
 };
 

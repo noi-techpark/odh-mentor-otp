@@ -11,6 +11,7 @@ import React, { Component } from "react";
 import { ExclamationTriangle } from "@styled-icons/fa-solid";
 import { VelocityTransitionGroup } from "velocity-react";
 import { withNamespaces } from "react-i18next"
+import { Button } from 'react-bootstrap'
 
 import AlertsBody from "./alerts-body";
 import IntermediateStops from "./intermediate-stops";
@@ -94,36 +95,37 @@ class TransitLegBody extends Component {
         {TransitLegSubheader && (
           <TransitLegSubheader languageConfig={languageConfig} leg={leg} />
         )}
-        <Styled.LegBody>
+        <div className="otp-ui-transitLegBody">
           {/* The Route Icon/Name Bar; clickable to set as active leg */}
-          <Styled.LegClickable onClick={this.onSummaryClick}>
+          <Button bsStyle="link" onClick={this.onSummaryClick}>
             <RouteDescription
               leg={leg}
               LegIcon={LegIcon}
               transitOperator={transitOperator}
             />
-          </Styled.LegClickable>
+          </Button>
 
           {/* Agency information */}
           {showAgencyInfo && (
-            <Styled.AgencyInfo>
-              {t('service')}{" "}
-              <a href={agencyUrl} rel="noopener noreferrer" target="_blank">
+            <div>
+              {t('service')}
+              <br/>
+              <Button bsSize="small" bsStyle="link" href={agencyUrl} rel="noopener noreferrer" target="_blank">
                 {agencyName}
                 {logoUrl && (
-                  <img alt={`${agencyName} logo`} src={logoUrl} height={25} />
+                  <img alt={`${agencyName} logo`} src={logoUrl} height={20} style={{marginLeft: 8}}/>
                 )}
-              </a>
-            </Styled.AgencyInfo>
+              </Button>
+            </div>
           )}
 
           {/* Alerts toggle */}
           {alerts && alerts.length > 2 && (
-            <Styled.TransitAlertToggle onClick={this.onToggleAlertsClick}>
+            <Button bsSize="small" bsStyle="link" onClick={this.onToggleAlertsClick}>
               <ExclamationTriangle size={15} /> {alerts.length}{" "}
               {pluralize("alert", alerts)}{" "}
-              <Styled.CaretToggle expanded={alertsExpanded} />
-            </Styled.TransitAlertToggle>
+              {alertsExpanded ? <CaretUp size={15} /> : <CaretDown size={15} />}
+            </Button>
           )}
 
           {/* The Alerts body, if visible */}
@@ -141,9 +143,9 @@ class TransitLegBody extends Component {
           </VelocityTransitionGroup>
           {/* The "Ride X Min / X Stops" Row, including IntermediateStops body */}
           {leg.intermediateStops && leg.intermediateStops.length > 0 && (
-            <Styled.TransitLegDetails>
+            <div className="otp-ui-transitLegBody__details">
               {/* The header summary row, clickable to expand intermediate stops */}
-              <Styled.TransitLegDetailsHeader>
+              <div className="otp-ui-transitLegBody__detailsHeader">
                 <TransitLegSummary
                   leg={leg}
                   onClick={this.onToggleStopsClick}
@@ -158,21 +160,21 @@ class TransitLegBody extends Component {
                     toIndex={leg.to.stopIndex}
                   />
                 )}
-              </Styled.TransitLegDetailsHeader>
+              </div>
               {/* IntermediateStops expanded body */}
               <VelocityTransitionGroup
                 enter={{ animation: "slideDown" }}
                 leave={{ animation: "slideUp" }}
               >
                 {stopsExpanded ? (
-                  <Styled.TransitLegExpandedBody>
+                  <div>
                     <IntermediateStops stops={leg.intermediateStops} />
                     {fareForLeg && (
-                      <Styled.TransitLegFare>
+                      <div>
                         {t('fare')}: {fareForLeg.centsToString(fareForLeg.transitFare)}
-                      </Styled.TransitLegFare>
+                      </div>
                     )}
-                  </Styled.TransitLegExpandedBody>
+                  </div>
                 ) : null}
               </VelocityTransitionGroup>
 
@@ -180,9 +182,9 @@ class TransitLegBody extends Component {
               {leg.averageWait && (
                 <span>{t('typical_wait')}: {formatDuration(leg.averageWait)}</span>
               )}
-            </Styled.TransitLegDetails>
+            </div>
           )}
-        </Styled.LegBody>
+        </div>
       </>
     );
   }
