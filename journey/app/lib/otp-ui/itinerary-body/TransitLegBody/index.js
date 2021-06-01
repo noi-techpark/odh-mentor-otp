@@ -11,6 +11,7 @@ import React, { Component } from "react";
 import { ExclamationTriangle } from "@styled-icons/fa-solid";
 import { VelocityTransitionGroup } from "velocity-react";
 import { withNamespaces } from "react-i18next"
+import { CaretDown, CaretUp } from "@styled-icons/fa-solid";
 import { Button } from 'react-bootstrap'
 
 import AlertsBody from "./alerts-body";

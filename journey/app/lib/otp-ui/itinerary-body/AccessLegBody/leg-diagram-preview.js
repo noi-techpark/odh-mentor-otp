@@ -5,8 +5,6 @@ import React, { Component } from "react";
 import ReactResizeDetector from "react-resize-detector";
 import { withNamespaces } from "react-i18next"
 
-import * as Styled from "../styled";
-
 const METERS_TO_FEET = 1;
 
 function generateSvg(profile, width) {
@@ -73,31 +71,32 @@ class LegDiagramPreview extends Component {
     if (leg.distance < 500 || leg.mode === "CAR") return null;
 
     return (
-      <Styled.PreviewContainer active={this.isActive()}>
+      <div className={`otp-ui-chartPreview ${this.isActive() ? 'is-active' : ''}`}>
         {/* The preview elevation SVG */}
         {/* eslint-disable-next-line */}
-        <Styled.PreviewDiagram
+        <button
+          className="otp-ui-chartPreview__diagram"
           tabIndex="0"
           title={t('toggle_elevation_chart')}
           role="button"
           onClick={this.onExpandClick}
         >
-          <Styled.PreviewDiagramTitle>
+          <div className="otp-ui-chartPreview__diagramTitle">
             {t('altimetry')}{" "}
-            <Styled.PreviewDiagramElevationGain>
+            <span className="otp-ui-chartPreview__diagramElevationGain">
               ↑{this.formatElevation(profile.gain * METERS_TO_FEET)}
               {"  "}
-            </Styled.PreviewDiagramElevationGain>
-            <Styled.PreviewDiagramElevationLoss>
+            </span>
+            <span className="otp-ui-chartPreview__diagramElevationLoss">
               ↓{this.formatElevation(-profile.loss * METERS_TO_FEET)}
-            </Styled.PreviewDiagramElevationLoss>
-          </Styled.PreviewDiagramTitle>
+            </span>
+          </div>
           {profile.points.length > 0
             ? generateSvg(profile, width)
             : t("altimetry_unavailable")}
           <ReactResizeDetector handleWidth onResize={this.onResize} />
-        </Styled.PreviewDiagram>
-      </Styled.PreviewContainer>
+        </button>
+      </div>
     );
   }
 }

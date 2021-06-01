@@ -18,7 +18,7 @@ function AccessLegSummary({
   t
 }) {
   return (
-    <Button bsStyle="link" bsSize="small" onClick={onSummaryClick} style={{ whiteSpace: 'inherit' }}>
+    <Button bsStyle="link" bsSize="small" onClick={onSummaryClick} style={{ whiteSpace: 'inherit', textAlign: 'left' }}>
       {showLegIcon && (
         <LegIcon leg={leg} width={24} height={24} />
       )}

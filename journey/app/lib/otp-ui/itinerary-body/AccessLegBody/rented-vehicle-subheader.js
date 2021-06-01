@@ -5,8 +5,6 @@ import {
 } from "../../core-utils/itinerary";
 import React from "react";
 
-import * as Styled from "../styled";
-
 /**
  * A component to display vehicle rental data. The word "Vehicle" has been used
  * because a future refactor is intended to combine car rental, bike rental
@@ -21,9 +19,11 @@ export default function RentedVehicleSubheader({ config, leg }) {
   // ways that forbid the main mode of travel.
   if (leg.mode === "WALK") {
     return (
-      <Styled.PlaceSubheader>
-        <span>Walk vehicle along {leg.from.name}</span>
-      </Styled.PlaceSubheader>
+      <div>
+        <small>
+          <strong>Walk vehicle along {leg.from.name}</strong>
+        </small>
+      </div>
     );
   }
 
@@ -66,7 +66,7 @@ export default function RentedVehicleSubheader({ config, leg }) {
   // e.g., Pick up REACHNOW rented car XYZNDB OR
   //       Pick up SPIN E-scooter
   //       Pick up shared bike
-  return <Styled.PlaceSubheader>{rentalDescription}</Styled.PlaceSubheader>;
+  return <small><strong>{rentalDescription}</strong></small>;
 }
 
 RentedVehicleSubheader.propTypes = {
