@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { withNamespaces } from "react-i18next";
 // import Bootstrap Grid components for layout
-import { Navbar, Grid, Row, Col } from 'react-bootstrap'
+import { Navbar, Grid, Row, Col, Nav } from 'react-bootstrap'
 // import OTP-RR components
 import DefaultMainPanel from './components/app/default-main-panel'
 import LineItinerary from './components/narrative/line-itin/line-itinerary'
@@ -36,20 +36,18 @@ class TrimetWebapp extends Component {
     /** desktop view **/
     const desktopView = (
       <div className='otp'>
-        <Navbar>
+        <Navbar fluid collapseOnSelect>
           <Navbar.Header>
-            <Navbar.Brand>
-              <div className='app-menu-container'>
-                <AppMenu />
-              </div>
-              <div
-                className={`icon-${branding}`}
-                // This style is applied here because it is only intended for
-                // desktop view.
-                style={{ marginLeft: 50 }} />
-            </Navbar.Brand>
+            <Navbar.Brand>Journey</Navbar.Brand>
+            <Navbar.Toggle />
           </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav pullRight>
+              <AppMenu />
+            </Nav>
+          </Navbar.Collapse>
         </Navbar>
+
         <Grid>
           <Row className='main-row'>
             <Col sm={6} md={4} className='sidebar'>

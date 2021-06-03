@@ -13,35 +13,6 @@
   overflow-y: auto;
 }
 
-/* navigation bar styling */
-
-.otp .navbar {
-  background-color: $base-color;
-  border-radius: 0;
-}
-
-.otp .navbar .container {
-  // margin-left: 0;
-  width: 100%;
-}
-
-.otp .navbar .container .navbar-header,
-.otp .navbar .container .navbar-brand {
-  float: none;
-}
-
-.otp .navbar .container .navbar-brand {
-  margin-left: 0;
-  display: block;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.otp .navbar .mobile-header-text {
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
 .otp .app-menu-container {
   // float: left;
   color: white;

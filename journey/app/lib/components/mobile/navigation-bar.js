@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Navbar } from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 import { connect } from 'react-redux'
 
@@ -35,29 +35,27 @@ class MobileNavigationBar extends Component {
     } = this.props
 
     return (
-      <Navbar fluid fixedTop>
+      <Navbar fluid fixedTop collapseOnSelect>
 
         <Navbar.Header>
           <Navbar.Brand>
-            {showBackButton
-              ? <div className='mobile-back'><FontAwesome name='arrow-left' onClick={this._backButtonPressed} /></div>
-              : <AppMenu />
+            {
+              showBackButton &&
+                <div className='mobile-back'><FontAwesome name='arrow-left' onClick={this._backButtonPressed} /></div>
             }
+            Journey
           </Navbar.Brand>
+          <Navbar.Toggle />
         </Navbar.Header>
 
-        <div className='mobile-header'>
-          {headerText
-            ? <div className='mobile-header-text'>{headerText}</div>
-            : <div>{title}</div>
-          }
-        </div>
-
-        {headerAction && (
-          <div className='mobile-close'>
-            <div className='mobile-header-action'>{headerAction}</div>
-          </div>
-        )}
+        <Navbar.Collapse>
+          <Navbar.Text>
+            { headerText || title }
+          </Navbar.Text>
+          <Nav pullRight>
+            <AppMenu />
+          </Nav>
+        </Navbar.Collapse>
 
         {/**
           * HACK: Normally, NavLoginButtonAuth0 should be inside a <Nav> element,
