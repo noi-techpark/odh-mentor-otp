@@ -314,3 +314,82 @@
   }
 }
 
+.otp-ui-legLine {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+
+  &__innerLine {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__badgeContainer {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-51%, -10%);
+  }
+
+  &__badgeAccess {
+    color: black;
+    border: 2px solid #bbb;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    font-size: 1.2em;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1px;
+  }
+}
+
+.otp-ui-stopIdSpan {
+  font-weight: 200;
+  font-size: 0.9em;
+  margin-left: 10px;
+}
+
+.otp-ui-legDescForTransit {
+  color: rgb(153, 153, 153);
+  margin-top: 5px;
+  display: table;
+
+  > div {
+    display: table-cell;
+  }
+
+  &__shortName {
+    font-weight: 800;
+    margin-right: 6px;
+  }
+
+  &__longName {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+  }
+
+  &__headSignPrefix {
+    font-weight: 200;
+  }
+}
+
+.otp-ui-transitLegSummary {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font-size: inherit;
+  text-decoration: none;
+}

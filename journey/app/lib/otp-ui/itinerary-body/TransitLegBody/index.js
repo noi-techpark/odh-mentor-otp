@@ -16,7 +16,6 @@ import { Button } from 'react-bootstrap'
 
 import AlertsBody from "./alerts-body";
 import IntermediateStops from "./intermediate-stops";
-import * as Styled from "../styled";
 import ViewTripButton from "./view-trip-button";
 
 // TODO use pluralize that for internationalization (and complex plurals, i.e., not just adding 's')

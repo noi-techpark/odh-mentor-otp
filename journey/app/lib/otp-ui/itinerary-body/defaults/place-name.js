@@ -3,8 +3,6 @@ import { getPlaceName } from "../../core-utils/itinerary";
 import PropTypes from "prop-types";
 import React from "react";
 
-import * as Styled from "../styled";
-
 export default function PlaceName({ config, interline, place }) {
   return (
     <>
@@ -18,7 +16,7 @@ export default function PlaceName({ config, interline, place }) {
       {/* TODO: take another pass on this when working the Transit Leg */}
       {/* Place subheading: Transit stop */}
       {place.stopId && !interline && (
-        <Styled.StopIdSpan>ID {place.stopId.split(":")[1]}</Styled.StopIdSpan>
+        <span className="otp-ui-stopIdSpan">ID {place.stopId.split(":")[1]}</span>
         /*
         TODO: There is no explicit stop button on the mocks.
         Have a question out to marketing as to whether the above StopID
