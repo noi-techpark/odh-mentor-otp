@@ -18,16 +18,6 @@ import TripTools from '../trip-tools'
 
 const noop = () => {}
 
-const ItineraryBodyContainer = styled.div`
-  padding: 0px 0px;
-`
-
-const StyledItineraryBody = styled(ItineraryBody)`
-  ${PlaceNameWrapper} {
-    font-weight: inherit;
-  }
-`
-
 class ConnectedItineraryBody extends Component {
   /** avoid rerendering if the itinerary to display hasn't changed */
   shouldComponentUpdate (nextProps, nextState) {
@@ -47,8 +37,8 @@ class ConnectedItineraryBody extends Component {
     } = this.props
 
     return (
-      <ItineraryBodyContainer>
-        <StyledItineraryBody
+      <>
+        <ItineraryBody
           config={config}
           diagramVisible={diagramVisible}
           itinerary={itinerary}
@@ -73,7 +63,7 @@ class ConnectedItineraryBody extends Component {
         />
         <TripDetails itinerary={itinerary} />
         <TripTools itinerary={itinerary} />
-      </ItineraryBodyContainer>
+      </>
     )
   }
 }

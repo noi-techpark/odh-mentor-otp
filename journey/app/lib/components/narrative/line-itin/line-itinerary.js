@@ -71,7 +71,7 @@ class LineItinerary extends NarrativeItinerary {
     }
 
     return (
-      <LineItineraryContainer className='line-itin'>
+      <div className='line-itin'>
         <ItinerarySummary
           companies={companies}
           itinerary={itinerary}
@@ -98,7 +98,7 @@ class LineItinerary extends NarrativeItinerary {
           />
           : null}
         {itineraryFooter}
-      </LineItineraryContainer>
+      </div>
     )
   }
 }
