@@ -1,6 +1,5 @@
 import coreUtils from '../../../otp-ui/core-utils'
 import React from 'react'
-import styled from 'styled-components'
 import { withNamespaces } from 'react-i18next'
 
 import ItineraryBody from './connected-itinerary-body'
@@ -10,10 +9,6 @@ import SimpleRealtimeAnnotation from '../simple-realtime-annotation'
 import LinkButton from '../../user/link-button'
 
 const { getLegModeLabel, getTimeZoneOffset, isTransit } = coreUtils.itinerary
-
-export const LineItineraryContainer = styled.div`
-  margin-bottom: 20px;
-`
 
 class LineItinerary extends NarrativeItinerary {
   _headerText () {

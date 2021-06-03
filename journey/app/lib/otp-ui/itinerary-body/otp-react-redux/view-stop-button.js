@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import * as Styled from "../styled";
-
 export default class ViewStopButton extends Component {
   onClick = () => {
     const { onStopClick, stopId } = this.props;
