@@ -226,9 +226,21 @@ class BaseMap extends Component {
           </a>
         )}
 
+        <LayersControl position="topright">
+        {/* user-controlled overlay layers (e.g., vehicle locations, stops) */}
+          {userControlledOverlays.map((child, i) => (
+            <LayersControl.Overlay
+              key={i}
+              name={child.props.name}
+              checked={child.props.visible}
+            >
+              {child}
+            </LayersControl.Overlay>
+          ))}
+        </LayersControl>
         {/* Create the layers control, including base map layers and any
          * user-controlled overlays. */}
-        <LayersControl position="topright">
+        <LayersControl position="bottomright">
           {/* base layers */}
           {baseLayers &&
             baseLayers.map((layer, i) => {
@@ -265,17 +277,6 @@ class BaseMap extends Component {
                 </LayersControl.BaseLayer>
               );
             })}
-
-          {/* user-controlled overlay layers (e.g., vehicle locations, stops) */}
-          {userControlledOverlays.map((child, i) => (
-            <LayersControl.Overlay
-              key={i}
-              name={child.props.name}
-              checked={child.props.visible}
-            >
-              {child}
-            </LayersControl.Overlay>
-          ))}
         </LayersControl>
 
         {/* Add the fixed, i.e. non-user-controllable, overlays (e.g., itinerary overlay) */}
