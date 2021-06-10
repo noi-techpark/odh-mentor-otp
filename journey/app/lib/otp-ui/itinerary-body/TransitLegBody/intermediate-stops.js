@@ -1,20 +1,18 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import * as Styled from "../styled";
-
 export default function IntermediateStops({ stops }) {
   return (
-    <Styled.IntermediateStops>
+    <>
       {stops.map((stop, k) => {
         return (
-          <Styled.StopRow key={k}>
-            <Styled.StopMarker>&bull;</Styled.StopMarker>
-            <Styled.StopName>{stop.name}</Styled.StopName>
-          </Styled.StopRow>
+          <div className="otp-ui-stopRow" key={k}>
+            <div className="otp-ui-stopRow__marker">&bull;</div>
+            <div className="otp-ui-stopRow__name">{stop.name}</div>
+          </div>
         );
       })}
-    </Styled.IntermediateStops>
+    </>
   );
 }
 

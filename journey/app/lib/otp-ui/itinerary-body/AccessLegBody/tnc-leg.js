@@ -13,7 +13,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import AccessLegSummary from "./access-leg-summary";
-import * as Styled from "../styled";
 
 export default function TNCLeg({
   config,
@@ -43,15 +42,17 @@ export default function TNCLeg({
   if (!tncData || !tncData.estimatedArrival) return null;
   return (
     <div>
-      <Styled.PlaceSubheader>
+      <div>
+        <small><strong>
         Wait{" "}
         {!followsTransit && (
           <span>{Math.round(tncData.estimatedArrival / 60)} minutes </span>
         )}
         for {tncData.displayName} pickup
-      </Styled.PlaceSubheader>
+        </strong></small>
+      </div>
 
-      <Styled.LegBody>
+      <div className="otp-ui-legBody">
         {/* The icon/summary row */}
         <AccessLegSummary
           config={config}
@@ -62,48 +63,48 @@ export default function TNCLeg({
         />
 
         {/* The "Book Ride" button */}
-        <Styled.BookTNCRideButtonContainer>
-          <Styled.BookTNCRideButton
+        <div className="otp-ui-bookTNCRideBtnContainer">
+          <a className="otp-ui-TNCBookRideBtn"
             href={universalLinks[tncData.company]}
             target={isMobile() ? "_self" : "_blank"}
           >
             Book Ride
-          </Styled.BookTNCRideButton>
-          {followsTransit && <Styled.BookLaterPointer />}
+          </a>
+          {followsTransit && <div className="otp-ui-bookLaterPointer"></div>}
           {followsTransit && (
-            <Styled.BookLaterContainer>
-              <Styled.BookLaterInnerContainer>
-                <Styled.BookLaterText>
+            <div className="otp-ui-bookLaterContainer">
+              <div className="otp-ui-bookLaterContainer__innerContainer">
+                <div className="otp-ui-bookLaterContainer__text">
                   Wait until{" "}
                   {formatTime(
                     leg.startTime - tncData.estimatedArrival * 1000,
                     timeOptions
                   )}{" "}
                   to book
-                </Styled.BookLaterText>
-              </Styled.BookLaterInnerContainer>
-            </Styled.BookLaterContainer>
+                </div>
+              </div>
+            </div>
           )}
-        </Styled.BookTNCRideButtonContainer>
+        </div>
 
         {/* The estimated travel time */}
-        <Styled.TNCTravelTime>
+        <div>
           Estimated travel time: {formatDuration(leg.duration)} (does not
           account for traffic)
-        </Styled.TNCTravelTime>
+        </div>
 
         {/* The estimated travel cost */}
         {tncData.minCost && (
-          <Styled.TNCCost>
+          <div>
             Estimated cost:{" "}
             {`${currencyFormatter.format(tncData.minCost, {
               code: tncData.currency
             })} - ${currencyFormatter.format(tncData.maxCost, {
               code: tncData.currency
             })}`}
-          </Styled.TNCCost>
+          </div>
         )}
-      </Styled.LegBody>
+      </div>
     </div>
   );
 }

@@ -2,33 +2,31 @@ import { legType } from "../../core-utils/types";
 import PropTypes from "prop-types";
 import React from "react";
 
-import * as Styled from "../styled";
-
 export default function RouteDescription({ leg, LegIcon }) {
   const { headsign, routeLongName, routeShortName } = leg;
   return (
-    <Styled.LegDescriptionForTransit>
-      <Styled.LegIconContainer>
+    <div className="otp-ui-legDescForTransit">
+      <div className="otp-ui-legDescForTransit__iconContainer">
         <LegIcon leg={leg} />
-      </Styled.LegIconContainer>
+      </div>
       {routeShortName && (
-        <Styled.LegDescriptionRouteShortName>
+        <div className="otp-ui-legDescForTransit__shortName">
           {routeShortName}
-        </Styled.LegDescriptionRouteShortName>
+        </div>
       )}
-      <Styled.LegDescriptionRouteLongName>
+      <div className="otp-ui-legDescForTransit__longName">
         {routeLongName}
         {headsign && (
           <span>
             {" "}
-            <Styled.LegDescriptionHeadsignPrefix>
+            <span className="otp-ui-legDescForTransit__headSignPrefix">
               to
-            </Styled.LegDescriptionHeadsignPrefix>{" "}
+            </span>{" "}
             {headsign}
           </span>
         )}
-      </Styled.LegDescriptionRouteLongName>
-    </Styled.LegDescriptionForTransit>
+      </div>
+    </div>
   );
 }
 

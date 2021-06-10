@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import PlaceRow from "./place-row";
-import * as Styled from "./styled";
 
 const ItineraryBody = ({
   LegIcon,
@@ -96,7 +95,7 @@ const ItineraryBody = ({
     lastLeg = leg;
   });
   return (
-    <Styled.ItineraryBody className={className}>{rows}</Styled.ItineraryBody>
+    <div className={className}>{rows}</div>
   );
 };
 

@@ -326,17 +326,16 @@ class StopViewer extends Component {
                         onChange={this._onToggleAutoRefresh} />{' '}
                       {t('refresh_arrival')}
                     </label>
-                    <button
-                      className='link-button pull-right'
-                      style={{ fontSize: 'small' }}
-                      onClick={this._refreshStopTimes}>
-                      <Icon
-                        className={spin ? 'fa-spin' : ''}
-                        type='refresh' />{' '}
-                      {moment(stopData.stopTimesLastUpdated)
-                        .tz(getUserTimezone())
-                        .format(timeFormat)}
-                    </button>
+                    <span className="pull-right">
+                      <Button bsSize="small" onClick={this._refreshStopTimes}>
+                        <Icon
+                          className={spin ? 'fa-spin' : ''}
+                          type='refresh' />{' '}
+                        {moment(stopData.stopTimesLastUpdated)
+                          .tz(getUserTimezone())
+                          .format(timeFormat)}
+                      </Button>
+                    </span>
                   </div>
                   : null
                 }

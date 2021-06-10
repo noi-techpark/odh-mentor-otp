@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { DropdownButton, MenuItem } from 'react-bootstrap'
+import { NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { withNamespaces } from "react-i18next"
 
 import Icon from '../narrative/icon'
@@ -40,27 +40,20 @@ class AppMenu extends Component {
     const { languageConfig, t, i18n } = this.props
 
     return (
-      <div className='app-menu'>
-        <DropdownButton
-          aria-label='Application Menu'
-          title={(<Icon type='bars' />)}
-          noCaret
-          className='app-menu-button'
-          id='app-menu'>
-          <MenuItem onClick={this._showRouteViewer}>
-            <Icon type='bus' /> {t('route_viewer')}
-          </MenuItem>
-          <MenuItem onClick={this._startOver}>
-            <Icon type='undo' /> {t('restart')}
-          </MenuItem>
-        </DropdownButton>
+      <>
+        <NavItem eventKey={1} onClick={this._showRouteViewer}>
+          <Icon type='bus' /> {t('route_viewer')}
+        </NavItem>
 
-        <DropdownButton
+        <NavItem eventKey={2} onClick={this._startOver}>
+          <Icon type='undo' /> {t('restart')}
+        </NavItem>
+
+        <NavDropdown
           menuAlign="right"
           aria-label='Choose Language'
           title={this._getLanguageLabel()}
-          className='app-menu-button'
-          id='app-menu-language'>
+        >
           <MenuItem onClick={() => i18n.changeLanguage('it')}>
             Italiano
           </MenuItem>
@@ -70,8 +63,8 @@ class AppMenu extends Component {
           <MenuItem onClick={() => i18n.changeLanguage('de')}>
             Deutsch
           </MenuItem>
-        </DropdownButton>
-      </div>
+        </NavDropdown>
+      </>
     )
   }
 }

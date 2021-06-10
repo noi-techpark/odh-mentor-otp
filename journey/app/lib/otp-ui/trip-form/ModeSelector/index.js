@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { modeSelectorOptionsType } from "../../core-utils/types";
 import { withNamespaces } from "react-i18next"
+import { ButtonGroup } from "react-bootstrap"
 
-import * as Styled from "../styled";
 import ModeButton from "../ModeButton";
 
 /**
@@ -37,24 +37,19 @@ const ModeSelector = props => {
   );
 
   return (
-    <Styled.ModeSelector className={className} style={style}>
-      {primary && (
-        <Styled.ModeSelector.MainRow>
-          {makeButton(primary)}
-        </Styled.ModeSelector.MainRow>
-      )}
+    <div className={className} style={style}>
+      <ButtonGroup vertical block>
+        {primary && makeButton(primary) }
+      </ButtonGroup>
 
-      {secondary && (
-        <Styled.ModeSelector.SecondaryRow>
-          {secondary.map(makeButton)}
-        </Styled.ModeSelector.SecondaryRow>
-      )}
-      {tertiary && (
-        <Styled.ModeSelector.TertiaryRow>
-          {tertiary.map(makeButton)}
-        </Styled.ModeSelector.TertiaryRow>
-      )}
-    </Styled.ModeSelector>
+      <br/>
+      <br/>
+
+      <ButtonGroup>
+        {secondary && secondary.map(makeButton)}
+        {tertiary && tertiary.map(makeButton)}
+      </ButtonGroup>
+    </div>
   );
 };
 

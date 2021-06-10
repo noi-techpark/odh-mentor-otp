@@ -2,116 +2,24 @@ import coreUtils from "../../core-utils";
 import LocationIcon from "../../location-icon";
 import PropTypes from "prop-types";
 import React from "react";
-import styled, { css } from "styled-components";
 import { Circle } from "@styled-icons/fa-solid";
 
-const cssWalk = css`
-  background: radial-gradient(ellipse at center, #87cefa 40%, transparent 10%);
-  background-position: center -5px;
-  background-repeat: repeat-y;
-  background-size: 12px 12px;
-  left: 6px;
-  right: 6px;
-`;
-
-const cssBicycle = css`
-  background: repeating-linear-gradient(
-    0deg,
-    red,
-    red 8px,
-    white 8px,
-    white 12.5px
-  );
-  left: 7.5px;
-  right: 7.5px;
-`;
-
-const cssCar = css`
-  background: repeating-linear-gradient(
-    0deg,
-    grey,
-    grey 8px,
-    white 8px,
-    white 12.5px
-  );
-  left: 7.5px;
-  right: 7.5px;
-`;
-
-const cssMicromobility = css`
-  background: repeating-linear-gradient(
-    0deg,
-    #f5a729,
-    #f5a729 8px,
-    white 8px,
-    white 12.5px
-  );
-  left: 7.5px;
-  right: 7.5px;
-`;
-
-const cssTransit = css`
-  background-color: gray;
-  left: 5px;
-  right: 5px;
-`;
-
-function getLegCSS(mode) {
+function getLegCSSClass(mode) {
   switch (mode) {
     case "WALK":
-      return cssWalk;
+      return 'is-walk';
     case "BICYCLE":
     case "BICYCLE_RENT":
-      return cssBicycle;
+      return 'is-bicycle';
     case "CAR":
-      return cssCar;
+      return 'is-car';
     case "MICROMOBILITY":
     case "MICROMOBILITY_RENT":
-      return cssMicromobility;
+      return 'is-micromobility';
     default:
-      return cssTransit;
+      return 'is-transit';
   }
 }
-
-const IconStacker = styled.span`
-  position: absolute;
-  width: 100%;
-  top: 3px;
-  z-index: 20;
-`;
-
-const LegLine = styled.div`
-  ${props => getLegCSS(props.mode)}
-  background-color: ${props =>
-    coreUtils.itinerary.isTransit(props.mode)
-      ? props.routeColor
-        ? `#${props.routeColor}`
-        : "#008"
-      : undefined};
-  bottom: -11px;
-  position: absolute;
-  top: 11px;
-  z-index: 10;
-`;
-
-const StackedCircle = styled(Circle)`
-  left: 0;
-  line-height: inherit;
-  position: absolute;
-  text-align: center;
-  width: 100%;
-`;
-
-const StackedCircleInner = styled(StackedCircle)`
-  top: 3px;
-`;
-
-const StyledLocationIcon = styled(LocationIcon)`
-  left: 0;
-  position: absolute;
-  text-align: center;
-  width: 100%;
-`;
 
 export default function LineColumnContent({
   interline,
@@ -128,16 +36,16 @@ export default function LineColumnContent({
     // Desitination
     legBadge = (
       <>
-        <StackedCircleInner size={14} color="white" />
-        <StyledLocationIcon size={20} type="to" />
+        <Circle size={14} color="white" className="otp-ui-lineColumnContent__iconCircle is-inner" />
+        <LocationIcon size={20} type="to" className="otp-ui-lineColumnContent__iconLocation" />
       </>
     );
   } else if (legIndex === 0) {
     // Origin
     legBadge = (
       <>
-        <StackedCircleInner size={14} color="white" />
-        <StyledLocationIcon size={20} type="from" />
+        <Circle size={14} color="white" className="otp-ui-lineColumnContent__iconCircle is-inner" />
+        <LocationIcon size={20} type="from" className="otp-ui-lineColumnContent__iconLocation" />
       </>
     );
   } else if (
@@ -146,37 +54,49 @@ export default function LineColumnContent({
   ) {
     // start or end of a bike rental leg (not including origin or
     // destination)
-    legBadge = <StackedCircle size={17} color="red" />;
+    legBadge = <Circle size={17} color="red" className="otp-ui-lineColumnContent__iconCircle"/>;
   } else if (
     leg.from.vertexType === "VEHICLERENTAL" ||
     (lastLeg.from.vertexType === "VEHICLERENTAL" && leg.mode === "WALK")
   ) {
     // start or end of a vehicle rental leg (not including origin or
     // destination)
-    legBadge = <StackedCircle size={17} color="#f5a729" />;
+    legBadge = <Circle size={17} color="#f5a729" className="otp-ui-lineColumnContent__iconCircle"/>;
   } else if (
     (leg.mode === "CAR" && lastLeg.mode === "WALK") ||
     (lastLeg.mode === "CAR" && leg.mode === "WALK")
   ) {
     // start or end of a car rental/TNC/P&R leg (not including origin or
     // destination)
-    legBadge = <StackedCircle size={17} color="#888" />;
+    legBadge = <Circle size={17} color="#888" className="otp-ui-lineColumnContent__iconCircle"/>;
   } else {
     legBadge = (
       <>
-        <StackedCircle size={20} color="black" />
-        <StackedCircleInner size={14} color="white" />
+        <Circle size={20} color="black" className="otp-ui-lineColumnContent__iconCircle" />
+        <Circle size={14} color="white" className="otp-ui-lineColumnContent__iconCircle is-inner" />
       </>
     );
   }
 
   return (
-    <>
+    <span className="otp-ui-lineColumnContent">
       {!isDestination && (
-        <LegLine mode={leg.mode} routeColor={leg.routeColor} />
+        <>
+          <div
+            className={`otp-ui-lineColumnContent__line ${getLegCSSClass(leg.mode)}`}
+            style={{
+              backgroundColor: coreUtils.itinerary.isTransit(leg.mode)
+                  ? leg.routeColor
+                    ? `#${leg.routeColor}`
+                    : "#008"
+                  : 'inherit'
+            }}
+          >
+          </div>
+        </>
       )}
-      <IconStacker>{legBadge}</IconStacker>
-    </>
+      <span className="otp-ui-lineColumnContent__icon">{legBadge}</span>
+    </span>
   );
 }
 

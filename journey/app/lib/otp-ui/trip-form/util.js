@@ -107,11 +107,12 @@ export function getTransitSubmodeOptions(ModeIcon, modes, selectedModes) {
     return {
       id: modeStr,
       selected: selectedModes.includes(modeStr),
-      icon: (<ModeIcon mode={modeStr} />),
+      icon: (<ModeIcon mode={modeStr} width={28} height={28} />),
       label: modeObj.label,
       text: (
         <span>
-          <ModeIcon mode={modeStr} />
+          <ModeIcon mode={modeStr} width={28} height={28} />
+          <br/>
           {modeObj.label}
         </span>
       ),
@@ -130,11 +131,12 @@ function getPrimaryModeOption(ModeIcon, selectedModes) {
     id: "TRANSIT",
     selected: selectedModes.some(isTransit) && selectedModes.includes("WALK"),
     showTitle: false,
-    icon: (<ModeIcon mode="TRANSIT" />),
+    icon: (<ModeIcon mode="TRANSIT" width={28} height={28} />),
     label: 'take_transit',
     text: (
       <span>
-        <ModeIcon mode="TRANSIT" />
+        <ModeIcon mode="TRANSIT" width={28} height={28}  />
+        <br/>
         Take Transit
       </span>
     ),
@@ -188,9 +190,9 @@ function getTransitCombinedModeOptions(
        * - Icons for common companies (defined in the icons package) don't need to be specified in `icons`.
        */
       const FinalIcon =
-        ModeIcon({ mode: modeStr }) ||
-        ModeIcon({ mode: `${modeStr}_${modeCompany}` }) ||
-        (CompanyIcon && <CompanyIcon />);
+        ModeIcon({ mode: modeStr, width: 28, height: 28 }) ||
+        ModeIcon({ mode: `${modeStr}_${modeCompany}`, width: 28, height: 28 }) ||
+        (CompanyIcon && <CompanyIcon width={28} height={28} />);
 
       return {
         id,
@@ -202,10 +204,12 @@ function getTransitCombinedModeOptions(
             selectedCompanies.includes(modeCompany)),
         text: (
           <span>
-            <ModeIcon mode="TRANSIT" />+{FinalIcon}
+            <ModeIcon mode="TRANSIT" width={28} height={28}/> + {FinalIcon}
           </span>
         ),
-        icon: (<><ModeIcon mode="TRANSIT" />+{FinalIcon}</>),
+        icon: (<>
+          <ModeIcon mode="TRANSIT" width={28} height={28} /> + {FinalIcon}
+        </>),
         label: modeObj.label,
         title: modeObj.label
       };
@@ -228,11 +232,11 @@ function getExclusiveModeOptions(ModeIcon, modes, selectedModes) {
       id: mode,
       selected: !selectedModes.some(isTransit) && selectedModes.some(isActive),
       showTitle: false,
-      icon: (<ModeIcon mode={mode} />),
+      icon: (<ModeIcon mode={mode} width={28} height={28} />),
       label,
       text: (
         <span>
-          <ModeIcon mode={mode} /> {label}
+          <ModeIcon mode={mode} width={28} height={28} /><br/> {label}
         </span>
       ),
       title: label
@@ -281,11 +285,11 @@ export function getCompaniesOptions(companies, modes, selectedCompanies) {
     return {
       id: comp.id,
       selected: selectedCompanies.includes(comp.id),
-      icon: (CompanyIcon ? <CompanyIcon /> : ''),
+      icon: (CompanyIcon ? <CompanyIcon width={28} height={28} /> : ''),
       label: comp.label,
       text: (
         <span>
-          {CompanyIcon && <CompanyIcon />} {comp.label}
+          {CompanyIcon && <CompanyIcon width={28} height={28} />} <br/>{comp.label}
         </span>
       ),
       title: comp.label
@@ -310,11 +314,12 @@ export function getBicycleOrMicromobilityModeOptions(
     modes.map(({ label, mode }) => ({
       id: mode,
       selected: selectedModes.includes(mode),
-      icon: (<ModeIcon mode={mode} />),
+      icon: (<ModeIcon mode={mode} width={28} height={28} />),
       label,
       text: (
         <span>
-          <ModeIcon mode={mode} />
+          <ModeIcon mode={mode} width={28} height={28} />
+          <br/>
           {label}
         </span>
       ),

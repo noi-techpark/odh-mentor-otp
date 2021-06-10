@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import * as Styled from "../styled";
+import { Button } from 'react-bootstrap'
 
 /**
  * ModeButton lets the user pick a travel mode.
@@ -21,29 +20,17 @@ const ModeButton = props => {
     style
   } = props;
 
-  const activeClassName = selected ? "active" : "";
-  const disabledClassName = enabled ? "" : "disabled";
-
   return (
-    <Styled.ModeButton className={className} style={style}>
-      <Styled.ModeButton.Button
-        className={`${activeClassName} ${disabledClassName}`}
-        onClick={onClick}
-        title={title}
-        disabled={!enabled}
-      >
-        {children}
-      </Styled.ModeButton.Button>
-
-      {title && showTitle && (
-        <Styled.ModeButton.Title
-          className={`${activeClassName} ${disabledClassName}`}
-          title={title}
-        >
-          {title}
-        </Styled.ModeButton.Title>
-      )}
-    </Styled.ModeButton>
+    <Button
+      href="#"
+      onClick={onClick}
+      title={title}
+      disabled={!enabled}
+      active={selected}
+    >
+      {children}
+      {title && showTitle && <><br/>{title}</>}
+    </Button>
   );
 };
 

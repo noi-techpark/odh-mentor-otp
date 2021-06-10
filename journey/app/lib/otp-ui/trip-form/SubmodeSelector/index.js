@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { withNamespaces } from "react-i18next"
 import { modeOptionType } from "../../core-utils/types";
 
+import { FormGroup, ControlLabel, ButtonGroup } from 'react-bootstrap'
 import ModeButton from "../ModeButton";
-import * as Styled from "../styled";
 
 /**
  * SubmodeSelector is the control container where the OTP user selects
@@ -12,32 +12,32 @@ import * as Styled from "../styled";
  */
 const SubmodeSelector = props => {
   const { className, inline, label, modes, onChange, style, t } = props;
-  const LabelType = inline ? Styled.FloatingSettingLabel : Styled.SettingLabel;
-  const RowType = inline
-    ? Styled.SubmodeSelector.InlineRow
-    : Styled.SubmodeSelector.Row;
 
   return (
-    <Styled.SubmodeSelector className={className} style={style}>
-      {label && <LabelType>{label}</LabelType>}
-      <RowType>
+    <div className={className} style={style}>
+      <FormGroup>
+        {label && <ControlLabel>{label}</ControlLabel>}
         {modes &&
-          modes.map(option => (
-            <ModeButton
-              key={option.id}
-              selected={option.selected}
-              showTitle={false}
-              title={option.title}
-              onClick={() => onChange(option.id)}
-            >
-              <span>
-                { option.icon || ''}
-                {t(option.label)}
-              </span>
-            </ModeButton>
-          ))}
-      </RowType>
-    </Styled.SubmodeSelector>
+          <ButtonGroup justified>
+            {  modes.map(option => (
+              <ModeButton
+                key={option.id}
+                selected={option.selected}
+                showTitle={false}
+                title={option.title}
+                onClick={() => onChange(option.id)}
+              >
+                <span>
+                  { option.icon || ''}
+                  {option.icon && <br/>}
+                  {t(option.label)}
+                </span>
+              </ModeButton>)
+              )}
+            </ButtonGroup>
+          }
+      </FormGroup>
+    </div>
   );
 };
 
