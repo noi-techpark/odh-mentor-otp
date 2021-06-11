@@ -139,7 +139,7 @@ class ParkingOverlay extends MapLayer {
 
                   {/* Vehicle-count bullet */}
                   <div className='popup-row'>
-                    <i className='fa fa-car' style={bulletIconStyle} /> {location.free} {t('vehicles')}
+                    <i className='fa fa-car' style={bulletIconStyle} /> {location.free} {t('vehicles')} Capacity: {location.capacity} 
                   </div>
 
                   {/* Set as from/to toolbar */}
