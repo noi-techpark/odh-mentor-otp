@@ -309,7 +309,7 @@ modes:
       label: bus
     - mode: RAIL
       label: train
-    - mode: GONDOLA
+    - mode: FUNICULAR
       label: funicular
 
     # - mode: TRAM
