@@ -69,3 +69,13 @@
 @import 'otp-ui/itinerary-body';
 @import 'otp-ui/park-and-ride-overlay';
 @import 'otp-ui/printable-itinerary';
+
+
+
+.navbar-brand span {
+	background:#FF7F50;
+	color:white;
+	border-radius:5px;
+	padding: 2px 4px;
+	font-size:14px;
+}

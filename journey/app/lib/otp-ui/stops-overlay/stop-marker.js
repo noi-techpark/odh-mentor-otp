@@ -6,9 +6,22 @@ import {
 import FromToLocationPicker from "../from-to-location-picker";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { CircleMarker, Popup } from "react-leaflet";
+import { divIcon } from "leaflet";
+import { CircleMarker, Popup, Marker } from "react-leaflet";
 import { withNamespaces } from "react-i18next"
 import { Button } from "react-bootstrap"
+import MarkerStopStation from "../icons/modern/MarkerStopStation";
+import ReactDOMServer from "react-dom/server";
+
+const stopMarkerIcon = divIcon({
+  iconSize: [20, 20],
+  popupAnchor: [0, -10],
+  html: ReactDOMServer.renderToStaticMarkup(
+    <MarkerStopStation width={15} height={15} />
+  ),
+  className: ""
+});;
+
 
 class StopMarker extends Component {
   onClickView = () => {
@@ -38,11 +51,11 @@ class StopMarker extends Component {
     const stopId = idArr.pop();
 
     return (
-      <CircleMarker
+      <Marker
         /* eslint-disable-next-line react/jsx-props-no-spreading */
         {...leafletPath}
-        center={[lat, lon]}
-        radius={radius}
+        position={[lat, lon]}
+        icon={stopMarkerIcon}
       >
         <Popup>
           <div className="otp-ui-mapOverlayPopup">
@@ -72,7 +85,7 @@ class StopMarker extends Component {
             </div>
           </div>
         </Popup>
-      </CircleMarker>
+      </Marker>
     );
   }
 }
@@ -88,12 +101,12 @@ StopMarker.propTypes = {
 
 StopMarker.defaultProps = {
   leafletPath: {
-    color: "#000",
+    color: "#095980",
     fillColor: "#FFF",
     fillOpacity: 1,
     weight: 1
   },
-  radius: 5
+  radius: 8
 };
 
 export default withNamespaces()(StopMarker)

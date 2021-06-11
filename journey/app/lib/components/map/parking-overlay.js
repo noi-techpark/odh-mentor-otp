@@ -9,7 +9,9 @@ import SetFromToButtons from './set-from-to'
 import { setLocation } from '../../actions/map'
 import { parkingLocationsQuery } from '../../actions/parking'
 
-const parkingIcon = '<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120.09 120.1"><defs><style>.cls-1{fill:#59ad46;}.cls-2{fill:#fff;}.cls-3{fill:#5c5d5f;}</style></defs><title>zipcar-icon</title><path class="cls-1" d="M246.37,396.78a60,60,0,1,1,60,60,60.05,60.05,0,0,1-60-60" transform="translate(-246.37 -336.74)"/><path class="cls-2" d="M363.6,418.66q0.47-1.28.9-2.58H314.16l2.46-3.15h34.87a1.27,1.27,0,1,0,0-2.53H318.6l2.42-3.09h17.74a1.31,1.31,0,0,0,0-2.58H291.69l28.85-37.59H273.06v10.27h25.28l-26.48,34.34-5.45,6.9h21a12,12,0,0,1,22.29,0H363.6" transform="translate(-246.37 -336.74)"/><path class="cls-3" d="M307.84,423.3a9.27,9.27,0,1,1-9.27-9.27,9.27,9.27,0,0,1,9.27,9.27" transform="translate(-246.37 -336.74)"/></svg>'
+import MarkerParking from "../../otp-ui/icons/modern/MarkerParking";
+import ReactDOMServer from "react-dom/server";
+
 
 class ParkingOverlay extends MapLayer {
   static propTypes = {
@@ -65,12 +67,49 @@ class ParkingOverlay extends MapLayer {
     const { locations, t } = this.props
     if (!locations || locations.length === 0) return <FeatureGroup />
 
-    const markerIcon = divIcon({
-      iconSize: [24, 24],
-      popupAnchor: [0, -12],
-      html: parkingIcon,
-      className: ''
-    })
+    const markerIcon = (data) => {
+
+      console.log(data)
+
+      let bgColor, text = '';
+
+      if( data.capacity === data.free ) {
+        bgColor = 'green';
+      }
+      else if( data.free < data.capacity) {
+        bgColor = 'grey';
+        text += `${data.free}`;
+      }
+      if(data.free === 0 ) {
+        bgColor = 'red';
+        text = '';
+      }
+//TODO refact
+      const style = {
+        backgroundColor: bgColor,
+        display:'block',
+        position:'absolute',
+        top:'-5px',
+        right:'-10px',
+        float:'right',
+        minWidth:12,
+        height:12,
+        textAlign:'center',
+        borderRadius:'100%',
+        color:'white',
+        fontSize:9,
+        fontWeight:'bold'
+      };
+      return divIcon({
+        iconSize: [20, 20],
+        popupAnchor: [0, -10],
+        html: ReactDOMServer.renderToStaticMarkup(
+          <div><span style={style}>{text}</span><MarkerParking width={28} height={28} /></div>
+        ),
+        className: ""
+      });;
+    }
+
 
     const bulletIconStyle = {
       color: 'gray',
@@ -83,7 +122,7 @@ class ParkingOverlay extends MapLayer {
         {locations.map((location) => {
           return (
             <Marker
-              icon={markerIcon}
+              icon={markerIcon(location)}
               key={location.name}
               position={[location.lat, location.lon]}
             >
@@ -101,7 +140,7 @@ class ParkingOverlay extends MapLayer {
 
                   {/* Vehicle-count bullet */}
                   <div className='popup-row'>
-                    <i className='fa fa-car' style={bulletIconStyle} /> {location.free} {t('vehicles')}
+                    <i className='fa fa-car' style={bulletIconStyle} /> {location.free} {t('vehicles')} Capacity: {location.capacity} 
                   </div>
 
                   {/* Set as from/to toolbar */}

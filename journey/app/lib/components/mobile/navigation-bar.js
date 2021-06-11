@@ -36,7 +36,6 @@ class MobileNavigationBar extends Component {
 
     return (
       <Navbar fluid fixedTop collapseOnSelect>
-
         <Navbar.Header>
           <Navbar.Brand>
             {

@@ -40,7 +40,7 @@ const DesktopNav = ({ otpConfig }) => {
   }
 
   return (
-    <Navbar fluid inverse>
+    <Navbar fluid inverse fixedTop>
       <Navbar.Header>
         <Navbar.Brand>
           {/* TODO: Reconcile CSS class and inline style. */}
