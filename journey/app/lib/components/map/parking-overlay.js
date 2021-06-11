@@ -80,8 +80,9 @@ class ParkingOverlay extends MapLayer {
         bgColor = 'grey';
         text += `${data.free}`;
       }
-      else if(free ===0 ) {
-        bgColor = 'red'
+      if(data.free === 0 ) {
+        bgColor = 'red';
+        text = '';
       }
 //TODO refact
       const style = {
