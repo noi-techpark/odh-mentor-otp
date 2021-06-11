@@ -36,7 +36,7 @@ class TrimetWebapp extends Component {
     /** desktop view **/
     const desktopView = (
       <div className='otp'>
-        <Navbar fluid collapseOnSelect>
+        <Navbar fluid collapseOnSelect fixedTop>
           <Navbar.Header>
             <Navbar.Brand>Journey</Navbar.Brand>
             <Navbar.Toggle />
