@@ -162,7 +162,7 @@ map:
       mapSymbols:
         - maxZoom: 15
           minZoom: 10
-          type: circle
+          type: marker
           pixels: 5
           fillColor: "#1D6802"
           dockStrokeColor: "#000000"
@@ -171,7 +171,7 @@ map:
           pixels: 5
           fillColor: "#1D6802"
           dockStrokeColor: "#000000"
-          type: circle
+          type: marker
     - type: bike-rental
       name: bikesharing
       modes:
@@ -183,7 +183,7 @@ map:
       mapSymbols:
         - maxZoom: 15
           minZoom: 10
-          type: circle
+          type: marker
           pixels: 5
           fillColor: "#FF2E28"
           dockStrokeColor: "#000000"
@@ -191,7 +191,7 @@ map:
           minZoom: 16
           fillColor: "#FF2E28"
           dockStrokeColor: "#000000"
-          type: circle
+          type: marker
     #
     # - type: micromobility-rental
     #   name: Bird E-scooter Locations
