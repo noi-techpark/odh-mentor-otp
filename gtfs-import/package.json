@@ -9,8 +9,9 @@
   "author": "Stefano Cudini stefano.cudini@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "jsftp-checksum": "^1.1.6",
     "dotenv": "^8.2.0",
-    "js-yaml": "^3.14.0"
+    "js-yaml": "^3.14.0",
+    "jsftp": "^2.1.3",
+    "jsftp-checksum": "^1.1.6"
   }
 }

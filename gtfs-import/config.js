@@ -4,7 +4,6 @@ const url = require('url');
 const fs = require('fs');
 
 const dotenv = require('dotenv');
-const _ = require('lodash');
 const yaml = require('js-yaml');
 
 //TODO use for debug const dotenv = require('dotenv');
@@ -38,45 +37,5 @@ catch (e) {
   console.log('Error: ',e.message);
   process.exit(1)
 }
-
-const defaultConfig = {
-	server: {
-		port: 8088,
-		default_lang: 'en',
-		mintextlength: 3
-	},
-	endpoints: {
-		default: {
-			//hostname: 'localhost',
-			port: 80,
-			size: 10,
-			method: 'GET',
-			headers: {
-				'User-Agent': "OpenMove-Geocoder-Client"
-			}
-		}
-	}
-};
-
-var configYml = _.defaultsDeep(configYml, defaultConfig)
-
-if(process.env.PORT)
-	configYml.server.port = process.env.PORT;
-
-//normalize defaults
-configYml.endpoints = _.mapValues(configYml.endpoints, (c) => {
-	
-	let val = _.defaults(c, configYml.endpoints.default);
-
-	let u = url.parse(""+val.hostname);
-
-	val.hostname = u.hostname || val.hostname;
-
-	return val;
-});
-
-delete configYml.endpoints.default;
-
-console.log('GEOCODER CONFIG',configYml)
 
 module.exports = configYml;
