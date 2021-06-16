@@ -75,8 +75,6 @@ in addition to those of *otp* vars
 
 ```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm. Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
 
-```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
-
 ```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
 
 ```BACKUP_GRAPH``` if *True* create also a backup copy for each new graph in path */opt/odh-mentor-otp/Graph.obj.%y-%m-%d.tgz*
@@ -86,6 +84,12 @@ in addition to those of *otp* vars
 ```GBFS_HOST``` host path to GBFS service
 
 ```GBFS_VERSION``` gbfs version 1 or 2.1 (rebuild graph is required)
+
+```GTFS_URL``` gtfs source ftp uri of gtfs .zip file to download
+
+```GTFS_URL_UPDATE``` gtfs source time interval (default:"daily" possible values: 15min|daily|hourly|monthly|weekly)
+
+```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
 
 ```GTFS_RT_URL``` gtfs-realtime url with trip updates (rebuild graph is required)
 

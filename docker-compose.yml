@@ -107,6 +107,9 @@ services:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
       - OFFICIAL=False
+      - GTFS_FILE=latestGTFS.zip
+      - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
+      - GTFS_URL_UPDATE=daily
     volumes:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
