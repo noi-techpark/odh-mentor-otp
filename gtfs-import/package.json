@@ -1,0 +1,16 @@
+{
+  "name": "gtfs-import",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stefano Cudini stefano.cudini@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "jsftp-checksum": "^1.1.6",
+    "dotenv": "^8.2.0",
+    "js-yaml": "^3.14.0"
+  }
+}

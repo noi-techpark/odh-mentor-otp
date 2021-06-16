@@ -1,0 +1,11 @@
+polling_interval: 1800
+#30 minutes
+
+endpoints:
+  default:
+    hostname: tourism.opendatahub.bz.it
+    port: 443
+    path: 5
+    #method: 'GET'
+    #headers:
+    # User-Agent: OpenMove-Geocoder-Client
