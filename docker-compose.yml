@@ -111,6 +111,8 @@ services:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
       - gbfs
+      - parking
+      - carsharing
 
   build:
     container_name: openmove-build
