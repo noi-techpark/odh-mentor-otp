@@ -7,14 +7,14 @@ curl -s "${GTFS_URL}" -o /tmp/gtfs_$NEW_UUID.zip
 
 SHA=$(sha256sum /tmp/gtfs_$NEW_UUID.zip | cut -d " " -f 1)
 OLD=""
-if [ -f "$HOME/current.txt" ]; then
-  OLD=$(cat $HOME/current.txt)
+if [ -f "$HOME/gtfs_hash.txt" ]; then
+  OLD=$(cat $HOME/gtfs_hash.txt)
 fi
 if [ "${SHA}" = "${OLD}" ]; then
   #no need to update, remove tmp file
   rm /tmp/gtfs_$NEW_UUID.zip
 else
-  echo $SHA > $HOME/current.txt
+  echo $SHA > $HOME/gtfs_hash.txt
 
   #TODO
   #mv /tmp/gtfs_$NEW_UUID.zip /data/$GTFS_FILE.zip
