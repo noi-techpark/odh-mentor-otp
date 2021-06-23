@@ -16,10 +16,7 @@ if [ "${SHA}" = "${OLD}" ]; then
 else
   echo $SHA > $HOME/gtfs_hash.txt
 
-  #TODO
   #mv /tmp/gtfs_$NEW_UUID.zip /data/$GTFS_FILE.zip
   
-  #TODO
-  #launch build container via aws hook
-  # curl -s https://aws.launch.otp.builder/token=123456abcdef
+  #curl -s $GTFS_URL_REBUILD
 fi

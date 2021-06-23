@@ -89,6 +89,8 @@ in addition to those of *otp* vars
 
 ```GTFS_URL_UPDATE``` gtfs source time interval (default:"daily" possible values: 15min|daily|hourly|monthly|weekly)
 
+```GTFS_URL_REBUILD``` internal url to restart build service
+
 ```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
 
 ```GTFS_RT_URL``` gtfs-realtime url with trip updates (rebuild graph is required)
