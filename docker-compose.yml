@@ -98,7 +98,7 @@ services:
   otp:
     container_name: openmove-otp
     ports:
-      - "8090:8080"
+      - "8080:8080"
     image: openmove_otp:latest
     build:
       context: ./
