@@ -87,9 +87,9 @@ in addition to those of *otp* vars
 
 ```GTFS_URL``` gtfs source ftp uri of gtfs .zip file to download
 
-```GTFS_URL_UPDATE``` gtfs source time interval (default:"daily" possible values: 15min|daily|hourly|monthly|weekly)
+```GTFS_URL_UPDATETIME``` gtfs source time interval (default:"daily" possible values: 15min|daily|hourly|monthly|weekly)
 
-```GTFS_URL_REBUILD``` internal url to restart build service
+```GTFS_URL_UPDATEHOOK``` url hook to restart build service
 
 ```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
 

@@ -5,7 +5,8 @@ ARG OTP_VERSION=1.4.0
 ENV JAVA_MX=4G \
     GBFS_VERSION=1 \
     GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip \
-    GTFS_URL_UPDATE=daily
+    GTFS_URL_UPDATETIME=daily \
+    GTFS_URL_UPDATEHOOK=''
 
 RUN apk add --no-cache \
     openjdk8-jre \
@@ -33,8 +34,8 @@ COPY envconfig.js /conf/
 COPY ./gtfs2bbox /gtfs2bbox
 COPY ./gtfs-import /gtfs-import
 
-RUN cp /gtfs-import/gtfs-download.sh /etc/periodic/$GTFS_URL_UPDATE/gtfs-download.sh
-RUN chmod 755 /etc/periodic/$GTFS_URL_UPDATE/gtfs-download.sh
+RUN cp /gtfs-import/gtfs-download.sh /etc/periodic/$GTFS_URL_UPDATETIME/gtfsdownload
+RUN chmod 755 /etc/periodic/$GTFS_URL_UPDATETIME/gtfsdownload
 
 RUN cd /gtfs2bbox && \
 	npm install
