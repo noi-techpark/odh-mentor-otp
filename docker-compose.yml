@@ -98,7 +98,7 @@ services:
   otp:
     container_name: openmove-otp
     ports:
-      - "8080:8080"
+      - "8090:8080"
     image: openmove_otp:latest
     build:
       context: ./
@@ -107,6 +107,10 @@ services:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
       - OFFICIAL=False
+      - GTFS_FILE=latestGTFS.zip
+      - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
+      - GTFS_URL_UPDATETIME=daily
+      - GTFS_URL_UPDATEHOOK=''
     volumes:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
