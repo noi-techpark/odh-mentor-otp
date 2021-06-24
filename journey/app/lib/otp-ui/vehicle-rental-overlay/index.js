@@ -22,14 +22,40 @@ import {
 
 import { floatingBikeIcon, hubIcons } from "./bike-icons";
 import { MapMarkerAlt } from "@styled-icons/fa-solid";
+import MarkerCarSharing from "../icons/modern/MarkerCarSharing";
+import MarkerBikeSharing from "../icons/modern/MarkerBikeSharing";
+import MarkerStopStation from "../icons/modern/MarkerStopStation";
+
+
+const getMarkerCarSharing = memoize(color =>
+  divIcon({
+    className: "",
+    iconSize: [38, 42],
+    popupAnchor: [0, -21],
+    html: ReactDOMServer.renderToStaticMarkup(
+      <MarkerCarSharing width={38} height={42} />
+    )
+  })
+);
+
+const getMarkerBikeSharing = memoize(color =>
+  divIcon({
+    className: "",
+    iconSize: [38, 42],
+    popupAnchor: [0, -21],
+    html: ReactDOMServer.renderToStaticMarkup(
+      <MarkerBikeSharing width={38} height={42} markerColor={color} />
+    )
+  })
+);
 
 const getStationMarkerByColor = memoize(color =>
   divIcon({
     className: "",
-    iconSize: [11, 16],
-    popupAnchor: [0, -6],
+    iconSize: [20, 20],
+    popupAnchor: [0, -10],
     html: ReactDOMServer.renderToStaticMarkup(
-      <MapMarkerAlt color={color} />
+      <MarkerStopStation width={15} height={15} />
     )
   })
 );
@@ -123,22 +149,18 @@ class VehicleRentalOverlay extends MapLayer {
   };
 
   renderStationAsCircle = (station, symbolDef) => {
-    let strokeColor = symbolDef.strokeColor || symbolDef.fillColor;
-    if (!station.isFloatingBike) {
-      strokeColor = symbolDef.dockStrokeColor || strokeColor;
+    let icon = null
+
+    if (!station.isFloatingCar) {
+      icon = getMarkerBikeSharing(station.isFloatingBike ? '#d9bd48' : "#ead896")
+    } else {
+      icon = getMarkerCarSharing()
     }
+
     return (
-      <CircleMarker
-        key={station.id}
-        center={[station.y, station.x]}
-        color={strokeColor}
-        fillColor={symbolDef.fillColor}
-        fillOpacity={1}
-        radius={symbolDef.pixels - (station.isFloatingBike ? 1 : 0)}
-        weight={1}
-      >
+      <Marker icon={icon} key={station.id} position={[station.y, station.x]}>
         {this.renderPopupForStation(station)}
-      </CircleMarker>
+      </Marker>
     );
   };
 
