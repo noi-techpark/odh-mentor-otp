@@ -19,6 +19,7 @@ pipeline {
         GBFS_VERSION=1
         GTFS_RT_URL="https://efa.sta.bz.it/gtfs-r/"
         GTFS_FEED_ID=1
+
     }
 
     stages {
