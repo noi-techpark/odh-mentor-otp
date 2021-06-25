@@ -14,10 +14,10 @@ import MarkerStopStation from "../icons/modern/MarkerStopStation";
 import ReactDOMServer from "react-dom/server";
 
 const stopMarkerIcon = divIcon({
-  iconSize: [20, 20],
-  popupAnchor: [0, -10],
+  iconSize: [19, 19],
+  popupAnchor: [0, -9.5],
   html: ReactDOMServer.renderToStaticMarkup(
-    <MarkerStopStation width={15} height={15} />
+    <MarkerStopStation width={19} height={19} />
   ),
   className: ""
 });;
