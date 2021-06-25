@@ -2,6 +2,7 @@
   $badge-size: 21px;
 
   position: relative;
+  box-sizing: border-box !important;
 
   &__badge {
     position: absolute;
@@ -26,6 +27,14 @@
 
     &--success {
       background-color: $brand-success;
+    }
+
+    &--danger,
+    &--success {
+      width: $badge-size / 1.5;
+      height: $badge-size / 1.5;
+      top: -($badge-size / 1.5) / 3 ;
+      right: -($badge-size / 1.5) / 3;
     }
   }
 }
