@@ -27,11 +27,11 @@ import BadgeIcon from "../icons/badge-icon";
 const getMarkerCarSharing = memoize(badgeCounter =>
   divIcon({
     className: "",
-    iconSize: [54, 62],
-    popupAnchor: [0, -31],
+    iconSize: [42, 50],
+    popupAnchor: [0, -25],
     html: ReactDOMServer.renderToStaticMarkup(
       <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
-        <MarkerCarSharing width={54} height={62} />
+        <MarkerCarSharing width={42} height={50} />
       </BadgeIcon>
     )
   })
@@ -40,11 +40,11 @@ const getMarkerCarSharing = memoize(badgeCounter =>
 const getMarkerBikeSharing = memoize(badgeCounter =>
   divIcon({
     className: "",
-    iconSize: [54, 62],
-    popupAnchor: [0, -31],
+    iconSize: [42, 50],
+    popupAnchor: [0, -25],
     html: ReactDOMServer.renderToStaticMarkup(
       <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
-        <MarkerBikeSharing width={54} height={62} />
+        <MarkerBikeSharing width={42} height={50} />
       </BadgeIcon>
     )
   })
@@ -209,31 +209,7 @@ class VehicleRentalOverlay extends MapLayer {
   };
 
   renderStation = station => {
-    // render the station according to any map symbol configuration
-    const { mapSymbols } = this.props;
-
-    // no config set, just render a default marker
-    if (!mapSymbols) return this.renderStationAsMarker(station);
-
-    // get zoom to check which symbol to render
-    const zoom = this.props.leaflet.map.getZoom();
-
-    for (let i = 0; i < mapSymbols.length; i++) {
-      const symbolDef = mapSymbols[i];
-      if (symbolDef.minZoom <= zoom && symbolDef.maxZoom >= zoom) {
-        switch (symbolDef.type) {
-          case "circle":
-            return this.renderStationAsMarkerIcon(station);
-          case "hubAndFloatingBike":
-            return this.renderStationAsHubAndFloatingBike(station);
-          default:
-            return this.renderStationAsMarker(station, symbolDef);
-        }
-      }
-    }
-
-    // no matching symbol definition, render default marker
-    return this.renderStationAsMarker(station);
+    return this.renderStationAsMarkerIcon(station);
   };
 
   render() {

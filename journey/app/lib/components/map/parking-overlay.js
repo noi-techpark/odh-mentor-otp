@@ -89,11 +89,11 @@ class ParkingOverlay extends MapLayer {
 
       return divIcon({
         className: "",
-        iconSize: [54, 62],
-        popupAnchor: [0, -31],
+        iconSize: [42, 50],
+        popupAnchor: [0, -25],
         html: ReactDOMServer.renderToStaticMarkup(
-          <BadgeIcon counter={badgeCounter} type={badgeType} width={54}>
-            <MarkerParking width={54} height={62} />
+          <BadgeIcon counter={badgeCounter} type={badgeType} width={42}>
+            <MarkerParking width={42} height={50} />
           </BadgeIcon>
         )
       });;
