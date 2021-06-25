@@ -1,7 +1,11 @@
 .env
 data/*
 **node_modules
-journey/app/yarn-error.log
 journey/app/lib/config.yml
+journey/app/yarn-error.log
+journey/app/node_modules
+journey/app/dist
+journey/node_modules
 journey/.env
+journey/tmp
 geocoder/.env

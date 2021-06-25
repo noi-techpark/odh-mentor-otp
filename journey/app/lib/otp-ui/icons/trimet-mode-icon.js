@@ -39,6 +39,7 @@ function TriMetModeIcon({ mode, ...props }) {
     case "ferry":
       return <Ferry {...props} />;
     case "gondola":
+    case "funicular":
       return <AerialTram {...props} />;
     case "micromobility":
     case "micromobility_rent":

@@ -9,6 +9,7 @@ import SetFromToButtons from './set-from-to'
 import { setLocation } from '../../actions/map'
 import { parkingLocationsQuery } from '../../actions/parking'
 
+import BadgeIcon from "../../otp-ui/icons/badge-icon";
 import MarkerParking from "../../otp-ui/icons/modern/MarkerParking";
 import ReactDOMServer from "react-dom/server";
 
@@ -71,42 +72,30 @@ class ParkingOverlay extends MapLayer {
 
       console.log(data)
 
-      let bgColor, text = '';
+      let badgeType = 'default';
+      let badgeCounter = null;
 
-      if( data.capacity === data.free ) {
-        bgColor = 'green';
+      if (data.capacity === data.free) {
+        badgeType = 'success';
+      } else if (data.free < data.capacity) {
+        badgeType = 'default';
+        badgeCounter = data.free
       }
-      else if( data.free < data.capacity) {
-        bgColor = 'grey';
-        text += `${data.free}`;
+
+      if (data.free === 0 ) {
+        badgeType = 'danger';
+        badgeCounter = null;
       }
-      if(data.free === 0 ) {
-        bgColor = 'red';
-        text = '';
-      }
-//TODO refact
-      const style = {
-        backgroundColor: bgColor,
-        display:'block',
-        position:'absolute',
-        top:'-5px',
-        right:'-10px',
-        float:'right',
-        minWidth:12,
-        height:12,
-        textAlign:'center',
-        borderRadius:'100%',
-        color:'white',
-        fontSize:9,
-        fontWeight:'bold'
-      };
+
       return divIcon({
-        iconSize: [20, 20],
-        popupAnchor: [0, -10],
+        className: "",
+        iconSize: [42, 50],
+        popupAnchor: [0, -25],
         html: ReactDOMServer.renderToStaticMarkup(
-          <div><span style={style}>{text}</span><MarkerParking width={28} height={28} /></div>
-        ),
-        className: ""
+          <BadgeIcon counter={badgeCounter} type={badgeType} width={42}>
+            <MarkerParking width={42} height={50} />
+          </BadgeIcon>
+        )
       });;
     }
 
@@ -140,7 +129,7 @@ class ParkingOverlay extends MapLayer {
 
                   {/* Vehicle-count bullet */}
                   <div className='popup-row'>
-                    <i className='fa fa-car' style={bulletIconStyle} /> {location.free} {t('vehicles')} Capacity: {location.capacity} 
+                    <i className='fa fa-car' style={bulletIconStyle} /> {location.free} {t('vehicles')} Capacity: {location.capacity}
                   </div>
 
                   {/* Set as from/to toolbar */}

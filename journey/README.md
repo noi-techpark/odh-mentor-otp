@@ -1,6 +1,9 @@
+
 # openmove otp ui
 
 TriMet-specific implementation of the [otp-react-redux](https://github.com/opentripplanner/otp-react-redux) library, managed using Yarn and Webpack 4.
+
+original project: https://github.com/ibi-group/trimet-mod-otp
 
 ## Setup and Configuration Instructions
 
@@ -12,9 +15,38 @@ TriMet-specific implementation of the [otp-react-redux](https://github.com/opent
 git clone https://github.com/openmove/odh-mentor-otp.git
 ```
 
+```bash
+docker-compose up -d otp
+cp env.example .env
+```
+
+edit .env file if needed
+```
+API_HOST=http://localhost
+API_PATH=/otp/routers/openmove
+API_PORT=8080
+GEOCODER_BASEURL=http://localhost:8088/v1
+```
+
+```bash
+npm install
+
+npm run genconfig
+
+cd ./app
+
+yarn install 
+
+yarn start
+```
+
+browse http://0.0.0.0:8081/
+
+
 3. Install dependencies using Yarn:
 
 ```bash
+cd app
 yarn install
 ```
 
@@ -36,6 +68,7 @@ See [`config.yml`](https://github.com/openmove/odh-mentor-otp/blob/master/journe
 Run the `start` command with Yarn to deploy the application locally for testing. This command uses [webpack-dev-server](https://github.com/webpack/webpack-dev-server) and deploys to `http://localhost:8080`:
 
 ```bash
+cd app
 yarn start
 ```
 
@@ -44,6 +77,7 @@ yarn start
 Run the `build` command with Yarn to bundle the application for production deployment. This command uses webpack running in production mode and produces minified/optimized code:
 
 ```bash
+cd app
 yarn build
 ```
 
@@ -67,3 +101,4 @@ yarn start \
   --env.HTML_FILE=/path/to/index.html \
   --env.JS_CONFIG=/path/to/my-config.js
 ```
+

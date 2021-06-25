@@ -8,7 +8,8 @@ export const transitModes = [
   "SUBWAY",
   "FERRY",
   "RAIL",
-  "GONDOLA"
+  "GONDOLA",
+  "FUNICULAR"
 ];
 
 /**
@@ -240,6 +241,7 @@ export function getLegModeLabel(leg) {
       return leg.hailedCar ? "drive_for" : "drive";
 
     case "GONDOLA":
+    case "FUNICULAR":
       return "aerial_tram";
 
     case "TRAM":

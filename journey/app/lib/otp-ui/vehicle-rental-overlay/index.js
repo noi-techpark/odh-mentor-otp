@@ -12,7 +12,6 @@ import React from "react";
 import { withNamespaces } from "react-i18next"
 import ReactDOMServer from "react-dom/server";
 import {
-  CircleMarker,
   FeatureGroup,
   Marker,
   MapLayer,
@@ -20,16 +19,44 @@ import {
   withLeaflet
 } from "react-leaflet";
 
-import { floatingBikeIcon, hubIcons } from "./bike-icons";
 import { MapMarkerAlt } from "@styled-icons/fa-solid";
+import MarkerCarSharing from "../icons/modern/MarkerCarSharing";
+import MarkerBikeSharing from "../icons/modern/MarkerBikeSharing";
+import BadgeIcon from "../icons/badge-icon";
 
-const getStationMarkerByColor = memoize(color =>
+const getMarkerCarSharing = memoize(badgeCounter =>
   divIcon({
     className: "",
-    iconSize: [11, 16],
-    popupAnchor: [0, -6],
+    iconSize: [42, 50],
+    popupAnchor: [0, -25],
     html: ReactDOMServer.renderToStaticMarkup(
-      <MapMarkerAlt color={color} />
+      <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
+        <MarkerCarSharing width={42} height={50} />
+      </BadgeIcon>
+    )
+  })
+);
+
+const getMarkerBikeSharing = memoize(badgeCounter =>
+  divIcon({
+    className: "",
+    iconSize: [42, 50],
+    popupAnchor: [0, -25],
+    html: ReactDOMServer.renderToStaticMarkup(
+      <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
+        <MarkerBikeSharing width={42} height={50} />
+      </BadgeIcon>
+    )
+  })
+);
+
+const getStationMarkerByColor = memoize(() =>
+  divIcon({
+    className: "",
+    iconSize: [20, 20],
+    popupAnchor: [0, -10],
+    html: ReactDOMServer.renderToStaticMarkup(
+      <MapMarkerAlt width={20} height={20} />
     )
   })
 );
@@ -122,37 +149,42 @@ class VehicleRentalOverlay extends MapLayer {
     );
   };
 
-  renderStationAsCircle = (station, symbolDef) => {
-    let strokeColor = symbolDef.strokeColor || symbolDef.fillColor;
-    if (!station.isFloatingBike) {
-      strokeColor = symbolDef.dockStrokeColor || strokeColor;
+  renderStationAsMarkerIcon = station => {
+    if (station.isFloatingBike)
+      return null
+
+    let icon = null
+
+    console.log(station)
+
+    if (typeof station.isCarStation === 'boolean' && !station.isCarStation) {
+      icon = getMarkerBikeSharing(station.bikesAvailable)
+    } else if (typeof station.isFloatingCar === 'boolean') {
+      icon = getMarkerCarSharing(station.carsAvailable)
+    } else {
+      icon = getStationMarkerByColor()
     }
+
     return (
-      <CircleMarker
-        key={station.id}
-        center={[station.y, station.x]}
-        color={strokeColor}
-        fillColor={symbolDef.fillColor}
-        fillOpacity={1}
-        radius={symbolDef.pixels - (station.isFloatingBike ? 1 : 0)}
-        weight={1}
-      >
+      <Marker icon={icon} key={station.id} position={[station.y, station.x]}>
         {this.renderPopupForStation(station)}
-      </CircleMarker>
+      </Marker>
     );
   };
 
   renderStationAsHubAndFloatingBike = station => {
-    let icon;
-    if (station.isFloatingBike) {
-      icon = floatingBikeIcon;
-    } else {
-      const pctFull =
-        station.bikesAvailable /
-        (station.bikesAvailable + station.spacesAvailable);
-      const i = Math.round(pctFull * 9);
-      icon = hubIcons[i];
-    }
+    if (station.isFloatingBike)
+      return null
+
+    // const pctFull =
+    //   station.bikesAvailable /
+    //   (station.bikesAvailable + station.spacesAvailable);
+
+    // const i = Math.round(pctFull * 9);
+    // const icon = hubIcons[i];
+
+    const icon = getMarkerBikeSharing(station.bikesAvailable)
+
     return (
       <Marker icon={icon} key={station.id} position={[station.y, station.x]}>
         {this.renderPopupForStation(station, !station.isFloatingBike)}
@@ -177,31 +209,7 @@ class VehicleRentalOverlay extends MapLayer {
   };
 
   renderStation = station => {
-    // render the station according to any map symbol configuration
-    const { mapSymbols } = this.props;
-
-    // no config set, just render a default marker
-    if (!mapSymbols) return this.renderStationAsMarker(station);
-
-    // get zoom to check which symbol to render
-    const zoom = this.props.leaflet.map.getZoom();
-
-    for (let i = 0; i < mapSymbols.length; i++) {
-      const symbolDef = mapSymbols[i];
-      if (symbolDef.minZoom <= zoom && symbolDef.maxZoom >= zoom) {
-        switch (symbolDef.type) {
-          case "circle":
-            return this.renderStationAsCircle(station, symbolDef);
-          case "hubAndFloatingBike":
-            return this.renderStationAsHubAndFloatingBike(station);
-          default:
-            return this.renderStationAsMarker(station, symbolDef);
-        }
-      }
-    }
-
-    // no matching symbol definition, render default marker
-    return this.renderStationAsMarker(station);
+    return this.renderStationAsMarkerIcon(station);
   };
 
   render() {
