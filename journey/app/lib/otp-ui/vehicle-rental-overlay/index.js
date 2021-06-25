@@ -30,7 +30,7 @@ const getMarkerCarSharing = memoize(badgeCounter =>
     iconSize: [54, 62],
     popupAnchor: [0, -31],
     html: ReactDOMServer.renderToStaticMarkup(
-      <BadgeIcon counter={badgeCounter}>
+      <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
         <MarkerCarSharing width={54} height={62} />
       </BadgeIcon>
     )
@@ -43,7 +43,7 @@ const getMarkerBikeSharing = memoize(badgeCounter =>
     iconSize: [54, 62],
     popupAnchor: [0, -31],
     html: ReactDOMServer.renderToStaticMarkup(
-      <BadgeIcon counter={badgeCounter}>
+      <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
         <MarkerBikeSharing width={54} height={62} />
       </BadgeIcon>
     )
