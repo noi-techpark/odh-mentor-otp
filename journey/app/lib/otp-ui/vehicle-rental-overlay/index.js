@@ -12,7 +12,6 @@ import React from "react";
 import { withNamespaces } from "react-i18next"
 import ReactDOMServer from "react-dom/server";
 import {
-  CircleMarker,
   FeatureGroup,
   Marker,
   MapLayer,
@@ -20,42 +19,44 @@ import {
   withLeaflet
 } from "react-leaflet";
 
-import { floatingBikeIcon, hubIcons } from "./bike-icons";
 import { MapMarkerAlt } from "@styled-icons/fa-solid";
 import MarkerCarSharing from "../icons/modern/MarkerCarSharing";
 import MarkerBikeSharing from "../icons/modern/MarkerBikeSharing";
-import MarkerStopStation from "../icons/modern/MarkerStopStation";
+import BadgeIcon from "../icons/badge-icon";
 
-
-const getMarkerCarSharing = memoize(color =>
+const getMarkerCarSharing = memoize(badgeCounter =>
   divIcon({
     className: "",
-    iconSize: [38, 42],
-    popupAnchor: [0, -21],
+    iconSize: [54, 62],
+    popupAnchor: [0, -31],
     html: ReactDOMServer.renderToStaticMarkup(
-      <MarkerCarSharing width={38} height={42} />
+      <BadgeIcon counter={badgeCounter}>
+        <MarkerCarSharing width={54} height={62} />
+      </BadgeIcon>
     )
   })
 );
 
-const getMarkerBikeSharing = memoize(color =>
+const getMarkerBikeSharing = memoize(badgeCounter =>
   divIcon({
     className: "",
-    iconSize: [38, 42],
-    popupAnchor: [0, -21],
+    iconSize: [54, 62],
+    popupAnchor: [0, -31],
     html: ReactDOMServer.renderToStaticMarkup(
-      <MarkerBikeSharing width={38} height={42} markerColor={color} />
+      <BadgeIcon counter={badgeCounter}>
+        <MarkerBikeSharing width={54} height={62} />
+      </BadgeIcon>
     )
   })
 );
 
-const getStationMarkerByColor = memoize(color =>
+const getStationMarkerByColor = memoize(() =>
   divIcon({
     className: "",
     iconSize: [20, 20],
     popupAnchor: [0, -10],
     html: ReactDOMServer.renderToStaticMarkup(
-      <MarkerStopStation width={15} height={15} />
+      <MapMarkerAlt width={20} height={20} />
     )
   })
 );
@@ -148,13 +149,20 @@ class VehicleRentalOverlay extends MapLayer {
     );
   };
 
-  renderStationAsCircle = (station, symbolDef) => {
+  renderStationAsMarkerIcon = station => {
+    if (station.isFloatingBike)
+      return null
+
     let icon = null
 
-    if (!station.isFloatingCar) {
-      icon = getMarkerBikeSharing(station.isFloatingBike ? '#d9bd48' : "#ead896")
+    console.log(station)
+
+    if (typeof station.isCarStation === 'boolean' && !station.isCarStation) {
+      icon = getMarkerBikeSharing(station.bikesAvailable)
+    } else if (typeof station.isFloatingCar === 'boolean') {
+      icon = getMarkerCarSharing(station.carsAvailable)
     } else {
-      icon = getMarkerCarSharing()
+      icon = getStationMarkerByColor()
     }
 
     return (
@@ -165,16 +173,18 @@ class VehicleRentalOverlay extends MapLayer {
   };
 
   renderStationAsHubAndFloatingBike = station => {
-    let icon;
-    if (station.isFloatingBike) {
-      icon = floatingBikeIcon;
-    } else {
-      const pctFull =
-        station.bikesAvailable /
-        (station.bikesAvailable + station.spacesAvailable);
-      const i = Math.round(pctFull * 9);
-      icon = hubIcons[i];
-    }
+    if (station.isFloatingBike)
+      return null
+
+    // const pctFull =
+    //   station.bikesAvailable /
+    //   (station.bikesAvailable + station.spacesAvailable);
+
+    // const i = Math.round(pctFull * 9);
+    // const icon = hubIcons[i];
+
+    const icon = getMarkerBikeSharing(station.bikesAvailable)
+
     return (
       <Marker icon={icon} key={station.id} position={[station.y, station.x]}>
         {this.renderPopupForStation(station, !station.isFloatingBike)}
@@ -213,7 +223,7 @@ class VehicleRentalOverlay extends MapLayer {
       if (symbolDef.minZoom <= zoom && symbolDef.maxZoom >= zoom) {
         switch (symbolDef.type) {
           case "circle":
-            return this.renderStationAsCircle(station, symbolDef);
+            return this.renderStationAsMarkerIcon(station);
           case "hubAndFloatingBike":
             return this.renderStationAsHubAndFloatingBike(station);
           default:
