@@ -4,6 +4,11 @@ NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
 HASH_FILE=$HOME/gtfs_hash.txt
 
+if [ -z "${GTFS_URL}" ]; then
+  echo "env variable GTFS_URL is empty"
+  exit 0
+fi
+
 #curl -s 'ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip' -o /tmp/gtfs_$NEW_UUID.zip
 curl -s "${GTFS_URL}" -o /tmp/gtfs_$NEW_UUID.zip
 
