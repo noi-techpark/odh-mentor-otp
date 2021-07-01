@@ -23,15 +23,24 @@ import { MapMarkerAlt } from "@styled-icons/fa-solid";
 import MarkerCarSharing from "../icons/modern/MarkerCarSharing";
 import MarkerBikeSharing from "../icons/modern/MarkerBikeSharing";
 import BadgeIcon from "../icons/badge-icon";
+import config from '../../config.yml';
+
+const overlayCarSharingConf = config.map.overlays.filter(item => item.type === 'car-rental')[0]
+const overlayBikeSharingConf = config.map.overlays.filter(item => item.type === 'bike-rental')[0]
 
 const getMarkerCarSharing = memoize(badgeCounter =>
   divIcon({
     className: "",
-    iconSize: [42, 50],
-    popupAnchor: [0, -25],
+    iconSize: [overlayCarSharingConf.iconWidth, overlayCarSharingConf.iconHeight],
+    popupAnchor: [0, -overlayCarSharingConf.iconHeight / 2],
     html: ReactDOMServer.renderToStaticMarkup(
       <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
-        <MarkerCarSharing width={42} height={50} />
+        <MarkerCarSharing
+          width={overlayCarSharingConf.iconWidth}
+          height={overlayCarSharingConf.iconHeight}
+          iconColor={overlayCarSharingConf.iconColor}
+          markerColor={overlayCarSharingConf.iconMarkerColor}
+        />
       </BadgeIcon>
     )
   })
@@ -40,11 +49,16 @@ const getMarkerCarSharing = memoize(badgeCounter =>
 const getMarkerBikeSharing = memoize(badgeCounter =>
   divIcon({
     className: "",
-    iconSize: [42, 50],
-    popupAnchor: [0, -25],
+    iconSize: [overlayBikeSharingConf.iconWidth, overlayBikeSharingConf.iconHeight],
+    popupAnchor: [0, -overlayBikeSharingConf.iconHeight / 2],
     html: ReactDOMServer.renderToStaticMarkup(
       <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
-        <MarkerBikeSharing width={42} height={50} />
+        <MarkerBikeSharing
+          width={overlayBikeSharingConf.iconWidth}
+          height={overlayBikeSharingConf.iconHeight}
+          iconColor={overlayBikeSharingConf.iconColor}
+          markerColor={overlayBikeSharingConf.iconMarkerColor}
+        />
       </BadgeIcon>
     )
   })
