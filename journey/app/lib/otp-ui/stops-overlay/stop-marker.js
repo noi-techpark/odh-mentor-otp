@@ -12,12 +12,20 @@ import { withNamespaces } from "react-i18next"
 import { Button } from "react-bootstrap"
 import MarkerStopStation from "../icons/modern/MarkerStopStation";
 import ReactDOMServer from "react-dom/server";
+import config from '../../config.yml';
+
+const overlayStopConf = config.map.overlays.filter(item => item.type === 'stops')[0]
 
 const stopMarkerIcon = divIcon({
-  iconSize: [15, 15],
-  popupAnchor: [0, -7.5],
+  iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
+  popupAnchor: [0, -overlayStopConf.iconHeight / 2],
   html: ReactDOMServer.renderToStaticMarkup(
-    <MarkerStopStation width={15} height={15} />
+    <MarkerStopStation
+      width={overlayStopConf.iconWidth}
+      height={overlayStopConf.iconHeight}
+      iconColor={overlayStopConf.iconColor}
+      markerColor={overlayStopConf.iconMarkerColor}
+    />
   ),
   className: ""
 });;
@@ -49,6 +57,8 @@ class StopMarker extends Component {
     const idArr = id.split(":");
     const agency = idArr[0];
     const stopId = idArr.pop();
+
+    console.log(overlayStopConf)
 
     return (
       <Marker
