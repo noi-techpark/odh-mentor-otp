@@ -58,8 +58,6 @@ class StopMarker extends Component {
     const agency = idArr[0];
     const stopId = idArr.pop();
 
-    console.log(overlayStopConf)
-
     return (
       <Marker
         /* eslint-disable-next-line react/jsx-props-no-spreading */

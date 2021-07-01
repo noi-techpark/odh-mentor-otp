@@ -13,6 +13,9 @@ import BadgeIcon from "../../otp-ui/icons/badge-icon";
 import MarkerParking from "../../otp-ui/icons/modern/MarkerParking";
 import ReactDOMServer from "react-dom/server";
 
+import config from '../../config.yml';
+
+const overlayParkingConf = config.map.overlays.filter(item => item.type === 'parking')[0]
 
 class ParkingOverlay extends MapLayer {
   static propTypes = {
@@ -89,11 +92,16 @@ class ParkingOverlay extends MapLayer {
 
       return divIcon({
         className: "",
-        iconSize: [42, 50],
-        popupAnchor: [0, -25],
+        iconSize: [overlayParkingConf.iconWidth, overlayParkingConf.iconHeight],
+        popupAnchor: [0, -overlayParkingConf.iconHeight / 2],
         html: ReactDOMServer.renderToStaticMarkup(
-          <BadgeIcon counter={badgeCounter} type={badgeType} width={42}>
-            <MarkerParking width={42} height={50} />
+          <BadgeIcon counter={badgeCounter} type={badgeType} width={overlayParkingConf.iconWidth}>
+            <MarkerParking
+              width={overlayParkingConf.iconWidth}
+              height={overlayParkingConf.iconHeight}
+              iconColor={overlayParkingConf.iconColor}
+              markerColor={overlayParkingConf.iconMarkerColor}
+            />
           </BadgeIcon>
         )
       });;

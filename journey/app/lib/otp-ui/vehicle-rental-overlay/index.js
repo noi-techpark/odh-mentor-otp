@@ -34,7 +34,7 @@ const getMarkerCarSharing = memoize(badgeCounter =>
     iconSize: [overlayCarSharingConf.iconWidth, overlayCarSharingConf.iconHeight],
     popupAnchor: [0, -overlayCarSharingConf.iconHeight / 2],
     html: ReactDOMServer.renderToStaticMarkup(
-      <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
+      <BadgeIcon width={overlayCarSharingConf.iconWidth} counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
         <MarkerCarSharing
           width={overlayCarSharingConf.iconWidth}
           height={overlayCarSharingConf.iconHeight}
@@ -52,7 +52,7 @@ const getMarkerBikeSharing = memoize(badgeCounter =>
     iconSize: [overlayBikeSharingConf.iconWidth, overlayBikeSharingConf.iconHeight],
     popupAnchor: [0, -overlayBikeSharingConf.iconHeight / 2],
     html: ReactDOMServer.renderToStaticMarkup(
-      <BadgeIcon counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
+      <BadgeIcon width={overlayBikeSharingConf.iconWidth} counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
         <MarkerBikeSharing
           width={overlayBikeSharingConf.iconWidth}
           height={overlayBikeSharingConf.iconHeight}
