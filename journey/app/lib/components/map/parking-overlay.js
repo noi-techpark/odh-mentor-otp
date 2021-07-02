@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
 import { divIcon } from 'leaflet'
 import { withNamespaces } from "react-i18next";
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 import SetFromToButtons from './set-from-to'
 import { setLocation } from '../../actions/map'
@@ -12,6 +14,7 @@ import { parkingLocationsQuery } from '../../actions/parking'
 import BadgeIcon from "../../otp-ui/icons/badge-icon";
 import MarkerParking from "../../otp-ui/icons/modern/MarkerParking";
 import ReactDOMServer from "react-dom/server";
+import Parking from "../../otp-ui/icons/modern/Parking";
 
 import config from '../../config.yml';
 
@@ -124,23 +127,24 @@ class ParkingOverlay extends MapLayer {
               position={[location.lat, location.lon]}
             >
               <Popup>
-                <div className='map-overlay-popup'>
-                  {/* Popup title */}
-                  <div className='popup-title'>
-                    {t('parking')}
+                <div className="otp-ui-mapOverlayPopup">
+                  <div className="otp-ui-mapOverlayPopup__popupHeader">
+                    <Parking width={24} height={20} />&nbsp;{t('parking')}
                   </div>
 
-                  {/* Location info bullet */}
-                  <div className='popup-row'>
-                    <i className='fa fa-map-marker' style={bulletIconStyle} /> {location.name}
+                  <div className="otp-ui-mapOverlayPopup__popupTitle">{location.name}</div>
+
+                  <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                    <CircularProgressbar
+                      value={location.free}
+                      minValue={0}
+                      maxValue={location.capacity}
+                      text={location.free}
+                      className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
+                    />
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('capacity')}: {location.capacity}</div>
                   </div>
 
-                  {/* Vehicle-count bullet */}
-                  <div className='popup-row'>
-                    <i className='fa fa-car' style={bulletIconStyle} /> {location.free} {t('vehicles')} Capacity: {location.capacity}
-                  </div>
-
-                  {/* Set as from/to toolbar */}
                   <div className='popup-row'>
                     <SetFromToButtons
                       map={this.props.leaflet.map}

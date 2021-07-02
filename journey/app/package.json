@@ -47,6 +47,7 @@
     "prop-types": "^15.7.2",
     "qs": "^6.3.0",
     "react-bootstrap": "^0.32.1",
+    "react-circular-progressbar": "^2.0.4",
     "react-dates": "^6.0.2",
     "react-draggable": "^4.4.3",
     "react-fontawesome": "^1.5.0",

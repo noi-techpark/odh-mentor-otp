@@ -340,4 +340,5 @@ export const TRANSLATIONS_IT = {
   "bike_ride": "Bike & Ride",
   "view_stop": "Vedi stop",
   "available_cars": "Auto disponibili",
+  "capacity": "Capienza"
 }

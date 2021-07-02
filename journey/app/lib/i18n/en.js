@@ -340,4 +340,5 @@ export const TRANSLATIONS_EN = {
   "bike_ride": "Bike & Ride",
   "view_stop": "View stop",
   "available_cars": "$_available_cars",
+  "capacity": "$_capacity"
 };

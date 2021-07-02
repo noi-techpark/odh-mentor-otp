@@ -146,7 +146,7 @@ class VehicleRentalOverlay extends MapLayer {
             typeof station.isCarStation === 'boolean' && !station.isCarStation &&
               <>
                 <div className="otp-ui-mapOverlayPopup__popupHeader">
-                  <BikeSharing width={26} height={22} />&nbsp;&nbsp;Bikesharing
+                  <BikeSharing width={26} height={22} />&nbsp;&nbsp;{t('bikesharing')}
                 </div>
 
                 <div className="otp-ui-mapOverlayPopup__popupTitle">{stationName}</div>
@@ -165,7 +165,7 @@ class VehicleRentalOverlay extends MapLayer {
             typeof station.isFloatingCar === 'boolean' &&
               <>
                 <div className="otp-ui-mapOverlayPopup__popupHeader">
-                  <CarSharing width={26} height={22} />&nbsp;&nbsp;Carsharing
+                  <CarSharing width={26} height={22} />&nbsp;&nbsp;{t('carsharing')}
                 </div>
 
                 <div className="otp-ui-mapOverlayPopup__popupTitle">{stationName}</div>
@@ -197,8 +197,6 @@ class VehicleRentalOverlay extends MapLayer {
       return null
 
     let icon = null
-
-    console.log(station)
 
     if (typeof station.isCarStation === 'boolean' && !station.isCarStation) {
       icon = getMarkerBikeSharing(station.bikesAvailable)
