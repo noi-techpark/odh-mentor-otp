@@ -22,6 +22,8 @@ import {
 import { MapMarkerAlt } from "@styled-icons/fa-solid";
 import MarkerCarSharing from "../icons/modern/MarkerCarSharing";
 import MarkerBikeSharing from "../icons/modern/MarkerBikeSharing";
+import BikeSharing from "../icons/modern/BikeSharing";
+import CarSharing from "../icons/modern/CarSharing";
 import BadgeIcon from "../icons/badge-icon";
 import config from '../../config.yml';
 
@@ -140,19 +142,46 @@ class VehicleRentalOverlay extends MapLayer {
     return (
       <Popup>
         <div className="otp-ui-mapOverlayPopup">
-          <div className="otp-ui-mapOverlayPopup__popupTitle">{stationName}</div>
+          {
+            typeof station.isCarStation === 'boolean' && !station.isCarStation &&
+              <>
+                <div className="otp-ui-mapOverlayPopup__popupHeader">
+                  <BikeSharing width={26} height={22} />&nbsp;&nbsp;Bikesharing
+                </div>
 
-          {/* render dock info if it is available */}
-          {stationIsHub && (
-            <div className="otp-ui-mapOverlayPopup__popupRow">
-              <div>{t('available_bikes')}: {station.bikesAvailable}</div>
-              <div>{t('available_docks')}: {station.spacesAvailable}</div>
-            </div>
-          )}
+                <div className="otp-ui-mapOverlayPopup__popupTitle">{stationName}</div>
+
+                {
+                  station.bikesAvailable !== null &&
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.bikesAvailable}</div>
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_bikes')}</div>
+                    </div>
+                }
+              </>
+          }
+
+          {
+            typeof station.isFloatingCar === 'boolean' &&
+              <>
+                <div className="otp-ui-mapOverlayPopup__popupHeader">
+                  <CarSharing width={26} height={22} />&nbsp;&nbsp;Carsharing
+                </div>
+
+                <div className="otp-ui-mapOverlayPopup__popupTitle">{stationName}</div>
+
+                {
+                  station.carsAvailable !== null &&
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.carsAvailable}</div>
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_cars')}</div>
+                    </div>
+                }
+              </>
+          }
 
           {/* Set as from/to toolbar */}
           <div className="otp-ui-mapOverlayPopup__popupRow">
-            <b>{t('travel')}</b>
             <FromToLocationPicker
               location={location}
               setLocation={setLocation}
@@ -163,7 +192,7 @@ class VehicleRentalOverlay extends MapLayer {
     );
   };
 
-  renderStationAsMarkerIcon = station => {
+  renderStation = station => {
     if (station.isFloatingBike)
       return null
 
@@ -184,46 +213,6 @@ class VehicleRentalOverlay extends MapLayer {
         {this.renderPopupForStation(station)}
       </Marker>
     );
-  };
-
-  renderStationAsHubAndFloatingBike = station => {
-    if (station.isFloatingBike)
-      return null
-
-    // const pctFull =
-    //   station.bikesAvailable /
-    //   (station.bikesAvailable + station.spacesAvailable);
-
-    // const i = Math.round(pctFull * 9);
-    // const icon = hubIcons[i];
-
-    const icon = getMarkerBikeSharing(station.bikesAvailable)
-
-    return (
-      <Marker icon={icon} key={station.id} position={[station.y, station.x]}>
-        {this.renderPopupForStation(station, !station.isFloatingBike)}
-      </Marker>
-    );
-  };
-
-  renderStationAsMarker = (station, symbolDef) => {
-    const color =
-      symbolDef && symbolDef.fillColor ? symbolDef.fillColor : "gray";
-    const markerIcon = getStationMarkerByColor(color);
-
-    return (
-      <Marker
-        icon={markerIcon}
-        key={station.id}
-        position={[station.y, station.x]}
-      >
-        {this.renderPopupForStation(station)}
-      </Marker>
-    );
-  };
-
-  renderStation = station => {
-    return this.renderStationAsMarkerIcon(station);
   };
 
   render() {

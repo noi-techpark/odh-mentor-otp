@@ -9,7 +9,7 @@
     justify-content: center;
     margin-bottom: .5rem;
 
-    svg path {
+    svg path:not([fill="#fff"]) {
       fill: $text-color;
     }
   }
@@ -18,9 +18,16 @@
     font-size: $font-size-h4;
     font-weight: 500;
     margin-bottom: 6px;
+    color: $brand-primary;
   }
 
   &__popupRow {
     margin-top: .5rem;
+  }
+
+  &__popupAvailableInfoValue {
+    color: $brand-primary;
+    font-size: $font-size-h1;
+    font-weight: $headings-font-weight;
   }
 }

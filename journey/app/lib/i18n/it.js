@@ -316,7 +316,7 @@ export const TRANSLATIONS_IT = {
   "transit_fare": "tariffa di transito",
   "typical_wait": "attesa tipica",
   "use_companies": "usa compagnie",
-  "available_bikes": "bici disponibili",
+  "available_bikes": "Bici disponibili",
   "available_docks": "banchine disponibili",
   "time_max_walk": "tempo massimo a piedi",
   "time_max_bike": "tempo massimo in bici",
@@ -338,5 +338,6 @@ export const TRANSLATIONS_IT = {
   "carsharing": "Carsharing",
   "bikesharing": "Bikesharing",
   "bike_ride": "Bike & Ride",
-  "view_stop": "Vedi stop"
+  "view_stop": "Vedi stop",
+  "available_cars": "Auto disponibili",
 }

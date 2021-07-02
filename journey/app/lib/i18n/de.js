@@ -338,5 +338,6 @@ export const TRANSLATIONS_DE = {
   "carsharing": "Carsharing",
   "bikesharing": "Bikesharing",
   "bike_ride": "Bike & Ride",
-  "view_stop": "Show stop"
+  "view_stop": "Show stop",
+  "available_cars": "$_available_cars",
 }
