@@ -1,30 +1,10 @@
-# react-router config, for URL routing (not to be confused with multimodal/OTP routing)
-#reactRouter:
-#   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
-#  basename: ${FOLDER}
-
-branding: Mentor - Alto Adige/Suedtirol
-homeTimezone: Europe/Rome
-title: Mentor - Alto Adige/Suedtirol
-
-language:
-    storageDisclaimer: storage_disclaimer
-    routeViewer: route_viewer
-    routeViewerDetails: route_view_details
-    tripViewer: trip
-    stopViewer: stop
-    defaultLanguage: it
-    fallbackLanguage: en
-    #SET HERE DEFAULT FRONT-END LANGUAGE
-
 # Default OTP API
 api:
   host: ${API_HOST}
   path: ${API_PATH}
   port: ${API_PORT}
-# Alternate TransitIndex API
 # alternateTransitIndex:
-#  apiRoot: https://otp.openmove.com
+#  apiRoot: https://newplanner.trimet.org/ws/ti/v0/
 #  services:
 #     - stops
 #     - stops/routes
@@ -43,10 +23,28 @@ geocoder:
       maxLat: 47.088780
 #Suedtirol 10.470121,46.188280,12.255011,47.088780
 
+branding: Mentor - Alto Adige/Suedtirol
+homeTimezone: Europe/Rome
+title: Mentor - Alto Adige/Suedtirol
+
+language:
+    storageDisclaimer: storage_disclaimer
+    routeViewer: route_viewer
+    routeViewerDetails: route_view_details
+    tripViewer: trip
+    stopViewer: stop
+    defaultLanguage: it
+    fallbackLanguage: en
+    #SET HERE DEFAULT FRONT-END LANGUAGE
+
+# react-router config, for URL routing (not to be confused with multimodal/OTP routing)
+#reactRouter:
+#   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
+#  basename: ${FOLDER}
+#
 # analytics:
 #   google:
 #     globalSiteTag: UA-133677388-1
-
 
 # Enabled multimodal routing types (e.g. interary, profile)
 routingTypes:
@@ -57,7 +55,7 @@ routingTypes:
   #- key: PROFILE
   #  text: Time Window
   #  api: # Specifies a different API endpoint for profile routing
-  #    host: https://otp.openmove.com
+  #    host: https://trimet-modeify.conveyal.com
   #    path: /api
 
 # Show/hide elevation profile chart for walk/bike legs
@@ -138,6 +136,13 @@ map:
       attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
       maxZoom: 16
 
+
+
+    # - name: Aerials
+    #   url: //tile{s}.trimet.org/tilecache/tilecache.py/1.0.0/hybridOSM/{z}/{x}/{y}
+    #   attribution: 'Map tiles: <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+    #   maxZoom: 20
+
   overlays:
     # real-time vehicles config
     # - type: vehicles
@@ -151,6 +156,10 @@ map:
     - type: parking
       name: parking
       api: ${PARKING_BASEURL}/parking/stations.json
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#b0d1ef"
+      iconColor: "#5d5d5d"
     #
     #
     - type: car-rental
@@ -159,19 +168,10 @@ map:
         - CAR_RENT
       companies:
         - CAR2GO
-      mapSymbols:
-        - maxZoom: 15
-          minZoom: 10
-          type: marker
-          pixels: 5
-          fillColor: "#1D6802"
-          dockStrokeColor: "#000000"
-        - maxZoom: 20
-          minZoom: 16
-          pixels: 5
-          fillColor: "#1D6802"
-          dockStrokeColor: "#000000"
-          type: marker
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#d9bd48"
+      iconColor: "#5d5d5d"
     - type: bike-rental
       name: bikesharing
       modes:
@@ -180,18 +180,10 @@ map:
         - BZ
         - ME
         - PAPIN
-      mapSymbols:
-        - maxZoom: 15
-          minZoom: 10
-          type: marker
-          pixels: 5
-          fillColor: "#FF2E28"
-          dockStrokeColor: "#000000"
-        - maxZoom: 20
-          minZoom: 16
-          fillColor: "#FF2E28"
-          dockStrokeColor: "#000000"
-          type: marker
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#ead896"
+      iconColor: "#5d5d5d"
     #
     # - type: micromobility-rental
     #   name: Bird E-scooter Locations
@@ -301,34 +293,37 @@ map:
     - type: stops
       name: stops
       visible: true
+      iconWidth: 15
+      iconHeight: 15
+      iconMarkerColor: "#095980"
+      iconColor: "#fff"
 
 # Mode selector configuration
 modes:
   transitModes:
     - mode: BUS
       label: bus
-    - mode: RAIL
-      label: train
-    - mode: FUNICULAR
-      label: funicular
-
     # - mode: TRAM
     #   label: MAX & Streetcar
+    - mode: RAIL
+      label: train
+    - mode: GONDOLA
+      label: funicular
     #   showWheelchairSetting: true
 
   accessModes:
     - mode: BICYCLE
-      label: Bike & Ride
+      label: bike_ride
     - mode: BICYCLE_RENT
-      label: Bikesharing & Ride
-    - mode: CAR_PARK
-      label: Park & Ride
-    - mode: CAR_RENT
-      label: Carsharing & Ride
-      company: CAR2GO
+      label: bikesharing_ride
     #  company: Bikesharing
-    - mode: MICROMOBILITY
-      label: E-scooter & Ride
+    # - mode: MICROMOBILITY_RENT
+    #   label: Transit + E-scooter
+    - mode: CAR_PARK
+      label: park_ride
+    - mode: CAR_RENT
+      label: carsharing_ride
+      company: CAR2GO
     #   showWheelchairSetting: false
 
   # which exclusive modes to show. This involves using a single mode and no
@@ -338,14 +333,13 @@ modes:
   exclusiveModes:
     - WALK
     - BICYCLE
-    - MICROMOBILITY
 
   bicycleModes:
     - mode: BICYCLE
       label: my_bike
       iconWidth: 18
     - mode: BICYCLE_RENT
-      label: Bikesharing
+      label: bikesharing
       iconWidth: 36
 
 # A list of private transportation operators. These are either companies that
