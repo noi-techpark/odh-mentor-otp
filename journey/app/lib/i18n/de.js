@@ -340,5 +340,9 @@ export const TRANSLATIONS_DE = {
   "bike_ride": "Bike & Ride",
   "view_stop": "Show stop",
   "available_cars": "$_available_cars",
-  "capacity": "$_capacity"
+  "capacity": "$_capacity",
+  "credits": "$_credits",
+  "credits_title": "$_credits_title",
+  "credits_text": "$_credits_text",
+  "close": "Schließen"
 }

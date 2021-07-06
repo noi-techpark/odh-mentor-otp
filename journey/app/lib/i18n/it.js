@@ -340,5 +340,9 @@ export const TRANSLATIONS_IT = {
   "bike_ride": "Bike & Ride",
   "view_stop": "Vedi stop",
   "available_cars": "Auto disponibili",
-  "capacity": "Capienza"
+  "capacity": "Capienza",
+  "credits": "Credits",
+  "credits_title": "$_credits_title",
+  "credits_text": "$_credits_text",
+  "close": "Chiudi"
 }
