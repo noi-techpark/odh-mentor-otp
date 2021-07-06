@@ -75,14 +75,12 @@ class ParkingOverlay extends MapLayer {
     if (!locations || locations.length === 0) return <FeatureGroup />
 
     const markerIcon = (data) => {
-
-      console.log(data)
-
       let badgeType = 'default';
-      let badgeCounter = null;
+      let badgeCounter = data.free || 0;
 
       if (data.capacity === data.free) {
         badgeType = 'success';
+        badgeCounter = null;
       } else if (data.free < data.capacity) {
         badgeType = 'default';
         badgeCounter = data.free
