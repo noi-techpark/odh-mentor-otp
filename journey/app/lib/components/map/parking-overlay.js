@@ -7,7 +7,6 @@ import { withNamespaces } from "react-i18next";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-import SetFromToButtons from './set-from-to'
 import { setLocation } from '../../actions/map'
 import { parkingLocationsQuery } from '../../actions/parking'
 
@@ -15,6 +14,7 @@ import BadgeIcon from "../../otp-ui/icons/badge-icon";
 import MarkerParking from "../../otp-ui/icons/modern/MarkerParking";
 import ReactDOMServer from "react-dom/server";
 import Parking from "../../otp-ui/icons/modern/Parking";
+import FromToLocationPicker from '../../otp-ui/from-to-location-picker'
 
 import config from '../../config.yml';
 
@@ -144,13 +144,8 @@ class ParkingOverlay extends MapLayer {
                   </div>
 
                   <div className='popup-row'>
-                    <SetFromToButtons
-                      map={this.props.leaflet.map}
-                      location={{
-                        lat: location.lat,
-                        lon: location.lon,
-                        name: location.name
-                      }}
+                    <FromToLocationPicker
+                      location={location}
                       setLocation={this.props.setLocation}
                     />
                   </div>
