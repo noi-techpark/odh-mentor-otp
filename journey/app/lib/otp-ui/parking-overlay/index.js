@@ -10,11 +10,11 @@ import 'react-circular-progressbar/dist/styles.css';
 import { setLocation } from '../../actions/map'
 import { parkingLocationsQuery } from '../../actions/parking'
 
-import BadgeIcon from "../../otp-ui/icons/badge-icon";
-import MarkerParking from "../../otp-ui/icons/modern/MarkerParking";
+import BadgeIcon from "../icons/badge-icon";
+import MarkerParking from "../icons/modern/MarkerParking";
 import ReactDOMServer from "react-dom/server";
-import Parking from "../../otp-ui/icons/modern/Parking";
-import FromToLocationPicker from '../../otp-ui/from-to-location-picker'
+import Parking from "../icons/modern/Parking";
+import FromToLocationPicker from '../from-to-location-picker'
 
 import config from '../../config.yml';
 
