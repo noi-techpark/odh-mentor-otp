@@ -27,15 +27,7 @@ class DefaultMainPanel extends Component {
     const planDisabled = isEqual(currentQuery, mostRecentQuery)
     return (
       <ViewerContainer>
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: showPlanTripButton ? 55 : 0,
-          paddingBottom: 15,
-          overflow: 'auto'
-        }}>
+        <div>
           <DefaultSearchForm ModeIcon={ModeIcon} />
           {!activeSearch && !showPlanTripButton && showUserSettings &&
             <UserSettings />

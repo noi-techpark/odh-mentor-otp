@@ -209,7 +209,7 @@ class RouterWrapperWithAuth0 extends Component {
       <ConnectedRouter
         basename={routerConfig && routerConfig.basename}
         history={history}>
-        <div>
+        <>
           <Switch>
             <Route
               exact
@@ -284,7 +284,7 @@ class RouterWrapperWithAuth0 extends Component {
               render={() => <WebappWithRouter {...this.props} />}
             />
           </Switch>
-        </div>
+        </>
       </ConnectedRouter>
     )
 
