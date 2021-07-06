@@ -53,14 +53,15 @@
 @import 'mixins';
 @import 'utils';
 @import 'otp';
-@import 'bike-rental';
 @import 'leaflet';
 
+@import 'components/bike-rental';
 @import 'components/map';
 @import 'components/form';
 @import 'components/narrative';
 @import 'components/itinerary';
 @import 'components/mobile';
+@import 'components/navbar';
 @import 'components/viewers';
 
 @import 'otp-ui/badge-icon';
@@ -70,13 +71,3 @@
 @import 'otp-ui/itinerary-body';
 @import 'otp-ui/park-and-ride-overlay';
 @import 'otp-ui/printable-itinerary';
-
-
-
-.navbar-brand span {
-	background:#FF7F50;
-	color:white;
-	border-radius:5px;
-	padding: 2px 4px;
-	font-size:14px;
-}
