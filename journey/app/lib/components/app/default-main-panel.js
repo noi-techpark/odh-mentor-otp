@@ -28,6 +28,9 @@ class DefaultMainPanel extends Component {
     return (
       <ViewerContainer>
         <DefaultSearchForm ModeIcon={ModeIcon} />
+        <br/>
+        <PlanTripButton disabled={planDisabled} />
+        <br/>
 
         {
           !activeSearch && !showPlanTripButton && showUserSettings &&
@@ -44,20 +47,15 @@ class DefaultMainPanel extends Component {
 
         {
           showPlanTripButton &&
-            <>
-              <div
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 10,
-                  bottom: 55,
-                  height: 15
-                }}
-                className='white-fade' />
-              <div className='bottom-fixed'>
-                <PlanTripButton disabled={planDisabled} />
-              </div>
-            </>
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 10,
+                bottom: 55,
+                height: 15
+              }}
+              className='white-fade' />
         }
       </ViewerContainer>
     )
