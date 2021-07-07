@@ -33,9 +33,9 @@ class ViewerContainer extends Component {
 
     // otherwise, return default content
     return (
-      <div>
+      <>
         {this.props.children}
-      </div>
+      </>
     )
   }
 }
