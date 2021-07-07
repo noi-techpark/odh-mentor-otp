@@ -67,14 +67,14 @@ class UserSettings extends Component {
       .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
     return (
       <div className='user-settings'>
-        <ul style={{ padding: 0 }}>
+        <ul>
           {sortedLocations.map(location => {
             return <Place key={location.id} location={location} {...this.props} />
           })}
         </ul>
         <hr />
         <div className='section-header'>{t('favorite_stops')}</div>
-        <ul style={{ padding: 0 }}>
+        <ul>
           {favoriteStops.length > 0
             ? favoriteStops.map(location => {
               return <Place key={location.id} location={location} {...this.props} />
@@ -86,7 +86,7 @@ class UserSettings extends Component {
           <div className='recent-places-container'>
             <hr />
             <div className='section-header'>{t('recent_places')}</div>
-            <ul style={{ padding: 0 }}>
+            <ul>
               {recentPlaces.map(location => {
                 return <Place key={location.id} location={location} {...this.props} />
               })}

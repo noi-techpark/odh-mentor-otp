@@ -18,53 +18,6 @@
   box-sizing: border-box;
 }
 
-// APP LAYOUT
-.otp {
-  .main-container {
-    position: fixed;
-    top: $navbar-height;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-  }
-
-  .sidebar {
-    position: absolute;
-    width: 512px;
-    top: $grid-gutter-width;
-    left: $grid-gutter-width;
-    bottom: $grid-gutter-width;
-    padding: $grid-gutter-width;
-    z-index: 2;
-    overflow-y: auto;
-    background-color: $body-bg;
-    border-radius: $border-radius-large;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  }
-
-  .map-container {
-    position: relative;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    z-index: 1;
-  }
-
-  .locations {
-    padding: 10px;
-    position: relative;
-
-    .switch-button-container {
-      position: absolute;
-      top: 36px;
-      right: 20px;
-      z-index: 2;
-    }
-  }
-}
-
-
-
 .otp .app-menu-container {
   // float: left;
   color: white;

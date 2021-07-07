@@ -1,0 +1,13 @@
+.otp {
+  .locations {
+    padding: 10px;
+    position: relative;
+
+    .switch-button-container {
+      position: absolute;
+      top: 36px;
+      right: 20px;
+      z-index: 2;
+    }
+  }
+}
