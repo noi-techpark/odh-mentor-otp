@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: .5rem;
+    margin-bottom: 5px;
 
     svg path:not([fill="#fff"]) {
       fill: $text-color;
@@ -22,7 +22,7 @@
   }
 
   &__popupRow {
-    margin-top: .5rem;
+    margin-top: 5px;
   }
 
   &__popupAvailableInfoValue {
@@ -38,7 +38,7 @@
   &__popupAvailableInfoProgress {
     width: 110px;
     height: 110px;
-    margin: 1rem 0;
+    margin: 10px 0;
 
     .CircularProgressbar-path {
       stroke: $brand-primary !important;

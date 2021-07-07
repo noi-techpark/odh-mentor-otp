@@ -1,12 +1,13 @@
 .otp {
   .locations {
-    padding: 10px;
     position: relative;
+    margin-bottom: $font-size-base * 1.5;
 
     .switch-button-container {
       position: absolute;
-      top: 36px;
-      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      right: $font-size-base;
       z-index: 2;
     }
   }

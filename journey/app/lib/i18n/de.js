@@ -84,6 +84,7 @@ export const TRANSLATIONS_DE = {
   "my_bike": "Persönliches Fahrrad",
   "add": "hinfügen",
   "favorite_stops": "Beliebte Haltestellen",
+  "favorite_places": "$_favorite_places",
   "my_preferences": "Meine Präferenzen",
   "save_researches": "An die letzten Suchen und Orte erinnern?",
   "clear": "Löschen",

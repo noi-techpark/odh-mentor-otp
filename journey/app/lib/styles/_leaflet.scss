@@ -92,7 +92,7 @@
     }
 
     .leaflet-control-layers-base {
-      padding: 1rem 1rem;
+      padding: 10px;
       display: flex;
       align-items: flex-start;
 
@@ -179,7 +179,7 @@
     cursor: pointer;
 
     &:not(:last-child) {
-      margin-bottom: 4rem;
+      margin-bottom: 40px;
     }
 
     input[type="checkbox"] {
