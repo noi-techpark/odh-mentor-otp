@@ -107,9 +107,9 @@ class AppMenu extends Component {
           <Modal.Body>
             <p>{t('credits_text')}</p>
           </Modal.Body>
-          <Modal.Footer>
+          {/*<Modal.Footer>
             <Button onClick={ () => this.setState({ showCredits: false }) }>{t('close')}</Button>
-          </Modal.Footer>
+          </Modal.Footer>*/}
         </Modal>
       </>
     )
