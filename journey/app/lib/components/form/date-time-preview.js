@@ -2,7 +2,7 @@ import moment from 'moment'
 import coreUtils from '../../otp-ui/core-utils'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, DropdownButton, MenuItem } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withNamespaces } from "react-i18next"
 
@@ -63,32 +63,23 @@ class DateTimePreview extends Component {
     }
 
     const summary = (
-      <div className='summary'>
-        <i className='fa fa-calendar' /> {
+      <span>
+        <i className='fa fa-clock-o' /> {
           moment(date, OTP_API_DATE_FORMAT)
             .calendar(null, { sameElse: dateFormat })
-            .split(" "+separator)[0]}
-        <br />
-        <i className='fa fa-clock-o' /> {timeStr}
-      </div>
-    )
-
-    const button = (
-      <div className='button-container'>
-        <Button
-          onClick={this.props.onClick}
-        >
-          {editButtonText}{caret && <span> <i className={`fa fa-caret-${caret}`} /></span>}
-        </Button>
-      </div>
+            .split(" "+separator)[0]} - {timeStr}
+      </span>
     )
 
     return (
-      <div className='settings-preview' onClick={this.props.onClick}>
-        {summary}
-        {button}
-        <div style={{ clear: 'both' }} />
-      </div>
+      <DropdownButton
+        title={summary}
+        id={`dropdown-date-time-preview`}
+      >
+        <MenuItem onClick={this.props.onClick}>Parti adesso</MenuItem>
+        <MenuItem onClick={this.props.onClick}>Pianifica partenza</MenuItem>
+        <MenuItem onClick={this.props.onClick}>Pianifica arrivo</MenuItem>
+      </DropdownButton>
     )
   }
 }

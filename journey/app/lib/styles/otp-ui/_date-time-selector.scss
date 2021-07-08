@@ -1,0 +1,15 @@
+.otp-ui-dateTimeSelector {
+
+  .dropdown.btn-group {
+    margin-bottom: $font-size-base;
+    width: 100%;
+
+    #date-time-selector {
+      width: inherit;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}

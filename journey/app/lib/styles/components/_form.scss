@@ -101,7 +101,7 @@
 }
 
 .otp.mobile .settings-preview {
-  text-align: center;
+  // text-align: center;
 }
 
 .otp .settings-preview .summary {
@@ -266,51 +266,3 @@
 }
 
 /* Tabbed Panel */
-
-.otp .tabbed-form-panel {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.otp .tabbed-form-panel .tab-row {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
-
-.otp .tabbed-form-panel .tab {
-  display: table-cell;
-  width: 50%;
-  vertical-align: top;
-}
-
-.otp .tabbed-form-panel .tab.left {
-  padding-right: 5px;
-}
-
-.otp .tabbed-form-panel .tab.right {
-  padding-left: 5px;
-}
-
-.otp .tabbed-form-panel .tab .tab-content {
-  padding: 10px 15px;
-  font-size: 13px;
-  background: #f0f0f0;
-}
-
-.otp .tabbed-form-panel .tab.selected .tab-content {
-  padding-bottom: 20px;
-}
-
-.otp .tabbed-form-panel .active-panel {
-  padding: 10px 15px 5px 15px;
-  background: #f0f0f0;
-}
-
-.otp .tabbed-form-panel .hide-button-row {
-  text-align: center;
-}
-
-.otp .tabbed-form-panel .hide-button {
-  font-size: 14px;
-}

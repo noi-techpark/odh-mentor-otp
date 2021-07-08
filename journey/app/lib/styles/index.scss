@@ -67,6 +67,7 @@
 @import 'otp-ui/badge-icon';
 @import 'otp-ui/base-map';
 @import 'otp-ui/endpoints-overlay';
+@import 'otp-ui/date-time-selector';
 @import 'otp-ui/form-to-location-pickers';
 @import 'otp-ui/itinerary-body';
 @import 'otp-ui/park-and-ride-overlay';
@@ -74,4 +75,6 @@
 
 @import 'otp/layout';
 @import 'otp/locations';
+@import 'otp/print';
+@import 'otp/tabbed-form-panel';
 @import 'otp/user-settings';

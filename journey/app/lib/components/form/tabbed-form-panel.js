@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'react-bootstrap'
+import { Button, Grid, Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withNamespaces } from 'react-i18next'
 
@@ -16,63 +16,56 @@ class TabbedFormPanel extends Component {
     ModeIcon: PropTypes.elementType.isRequired
   }
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      selectedPanel: null
+    }
+  }
+
   _onEditDateTimeClick = () => {
-    const { mainPanelContent, setMainPanelContent } = this.props
-    setMainPanelContent(mainPanelContent === 'EDIT_DATETIME' ? null : 'EDIT_DATETIME')
+    this.setState({ selectedPanel: 'EDIT_DATETIME' })
   }
 
   _onEditSettingsClick = () => {
-    const { mainPanelContent, setMainPanelContent } = this.props
-    setMainPanelContent(mainPanelContent === 'EDIT_SETTINGS' ? null : 'EDIT_SETTINGS')
+    this.setState({ selectedPanel: 'EDIT_SETTINGS' })
   }
 
-  _onHideClick = () => this.props.setMainPanelContent(null)
+  _onHideClick = () => this.setState({ selectedPanel: null })
 
   render () {
     const { ModeIcon, mainPanelContent, t } = this.props
 
     return (
       <div className='tabbed-form-panel'>
-        <div className='tab-row'>
-          <div className={`tab left ${mainPanelContent === 'EDIT_DATETIME' ? ' selected' : ''}`}>
-            <div className='tab-content'>
-              <DateTimePreview
-                onClick={this._onEditDateTimeClick}
-              />
+        <Row>
+          <Col xs={12}>
+            <DateTimeModal />
+          </Col>
+          <Col xs={12}>
+            <SettingsPreview onClick={this._onEditSettingsClick} />
+          </Col>
+        </Row>
+
+        {
+          this.state.selectedPanel &&
+            <div className='active-panel'>
+              {
+                this.state.selectedPanel === 'EDIT_SETTINGS' &&
+                  <ConnectedSettingsSelectorPanel ModeIcon={ModeIcon} />
+              }
+
+              <div className='text-center'>
+                <Button bsStyle="link" bsSize="small" onClick={this._onHideClick}>
+                  {t('hide_settings')}
+                </Button>
+              </div>
             </div>
-          </div>
-          <div className={`tab right ${mainPanelContent === 'EDIT_SETTINGS' ? ' selected' : ''}`}>
-            <div className='tab-content'>
-              <SettingsPreview onClick={this._onEditSettingsClick} />
-            </div>
-          </div>
-        </div>
-        {(mainPanelContent === 'EDIT_DATETIME' || mainPanelContent === 'EDIT_SETTINGS') && (
-          <div className='active-panel'>
-            {mainPanelContent === 'EDIT_DATETIME' && (<DateTimeModal />)}
-            {mainPanelContent === 'EDIT_SETTINGS' && (<ConnectedSettingsSelectorPanel ModeIcon={ModeIcon} />)}
-            <div className='hide-button-row'>
-              <Button className='hide-button clear-button-formatting' onClick={this._onHideClick}>
-                <i className='fa fa-caret-up' /> {t('hide_settings')}
-              </Button>
-            </div>
-          </div>
-        )}
+        }
       </div>
     )
   }
 }
 
-// connect to redux store
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    mainPanelContent: state.otp.ui.mainPanelContent
-  }
-}
-
-const mapDispatchToProps = {
-  setMainPanelContent
-}
-
-export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(TabbedFormPanel))
+export default withNamespaces()(TabbedFormPanel)

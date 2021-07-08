@@ -1,48 +1,10 @@
-// PRINT LAYOUT
-.otp.print-layout {
-  max-width: 640px;
-  margin: 30px auto;
-}
 
-.otp.print-layout > .header {
-  margin-bottom: 30px;
-  border-bottom: 4px solid black;
-  font-size: 36px;
-  font-weight: 600;
-}
-
-.otp.print-layout > .map-container {
-  border: 2px solid black;
-  height: 400px;
-  margin-bottom: 30px;
-  box-sizing: border-box;
-}
 
 .otp .app-menu-container {
   // float: left;
   color: white;
   font-size: 28px;
   padding-top: 4px;
-}
-
-@mixin nav-icon {
-  background-size: 100%;
-  background-repeat: no-repeat;
-  margin: auto;
-}
-
-.icon-trimet {
-  @include nav-icon;
-  width: 160px;
-  height: 40px;
-  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='no'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg width='100%25' height='100%25' viewBox='0 0 800 800' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xml:space='preserve' xmlns:serif='http://www.serif.com/' style='fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;'%3E%3Cpath d='M689.402,254.048l-41.43,0l0,291.89l41.43,0l0,-291.89Zm-536.529,291.898l0,-291.89l-41.431,0l0,291.882l41.431,0.008Zm311.445,-84.442c0,25.812 -17.225,44.651 -47.953,44.651l-69.692,0l0,-88.937l69.692,0c30.728,0 47.953,18.42 47.953,44.286m-4.5,-125.87c0,27.056 -19.247,41.803 -47.544,41.803l-65.601,0l0,-83.633l65.601,0c28.297,0 47.544,14.772 47.544,41.83m48.792,127.887c0,-36.886 -21.319,-58.614 -43.872,-67.617c19.658,-7.811 39.361,-30.344 39.361,-61.917c0,-49.178 -34.033,-79.939 -88.159,-79.939l-113.55,0l0,291.89l118.059,0c51.68,0 88.161,-28.717 88.161,-82.417m255.634,-320.184l35.756,0l0,-143.34l-799.997,0l0,143.342l35.761,0l0,-107.583l728.486,0l-0.006,107.581Zm-728.486,620.902l728.486,0l0,-107.589l35.756,0l0,143.35l-799.997,0l0,-143.35l35.755,0.008l0,107.581Z' style='fill:%23fff;fill-rule:nonzero;'/%3E%3C/svg%3E%0A");
-}
-
-.icon-ibi {
-  @include nav-icon;
-  width: 38px;
-  height: 38px;
-  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='no'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg width='100%25' height='100%25' viewBox='0 0 800 800' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xml:space='preserve' xmlns:serif='http://www.serif.com/' style='fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;'%3E%3Cpath d='M689.402,254.048l-41.43,0l0,291.89l41.43,0l0,-291.89Zm-536.529,291.898l0,-291.89l-41.431,0l0,291.882l41.431,0.008Zm311.445,-84.442c0,25.812 -17.225,44.651 -47.953,44.651l-69.692,0l0,-88.937l69.692,0c30.728,0 47.953,18.42 47.953,44.286m-4.5,-125.87c0,27.056 -19.247,41.803 -47.544,41.803l-65.601,0l0,-83.633l65.601,0c28.297,0 47.544,14.772 47.544,41.83m48.792,127.887c0,-36.886 -21.319,-58.614 -43.872,-67.617c19.658,-7.811 39.361,-30.344 39.361,-61.917c0,-49.178 -34.033,-79.939 -88.159,-79.939l-113.55,0l0,291.89l118.059,0c51.68,0 88.161,-28.717 88.161,-82.417m255.634,-320.184l35.756,0l0,-143.34l-799.997,0l0,143.342l35.761,0l0,-107.583l728.486,0l-0.006,107.581Zm-728.486,620.902l728.486,0l0,-107.589l35.756,0l0,143.35l-799.997,0l0,-143.35l35.755,0.008l0,107.581Z' style='fill:%23fff;fill-rule:nonzero;'/%3E%3C/svg%3E%0A");
 }
 
 /* form styling */
@@ -104,25 +66,6 @@
   border-radius: 0px;
   border: 0px;
   border-bottom: 1px solid black;
-}
-
-.otp .date-time-modal {
-  padding: 10px 15px;
-}
-
-.otp .date-time-modal .button-row .btn {
-  background-color: #ccc;
-  border: 0px;
-  padding-top: 8px;
-}
-
-.otp .date-time-modal .button-row .selected {
-  background-color: black;
-  color: white;
-}
-
-.otp .date-time-modal .main-panel {
-  margin-top: 30px;
 }
 
 /* Date/Time Preview Bar */
@@ -338,12 +281,7 @@
 /* switch button */
 
 
-.switch-button-container-mobile {
-  position: absolute;
-  top: 78px;
-  right: 45px;
-  z-index: 100000;
-}
+
 
 /* clear button */
 
@@ -432,16 +370,3 @@
   margin-top: 10px;
   text-align: center;
 }
-
-/** Vehicle rental icon styling **/
-
-.otp .car-rental-icon {
-  font-size: 24px;
-}
-
-.otp .micromobility-rental-icon {
-  font-size: 24px;
-}
-
-
-

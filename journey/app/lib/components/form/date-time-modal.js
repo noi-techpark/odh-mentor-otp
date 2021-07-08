@@ -4,8 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { setQueryParam } from '../../actions/form'
-
-import { StyledDateTimeSelector } from './styled'
+import { DateTimeSelector } from '../../otp-ui/trip-form'
 
 class DateTimeModal extends Component {
   static propTypes = {
@@ -13,27 +12,30 @@ class DateTimeModal extends Component {
   }
 
   render () {
-    const { date, dateFormatLegacy, departArrive, setQueryParam, time, timeFormatLegacy } = this.props
+    const {
+      date,
+      dateFormatLegacy,
+      departArrive,
+      setQueryParam,
+      time,
+      timeFormatLegacy
+    } = this.props
 
     return (
-      <div className='date-time-modal'>
-        <div className='main-panel'>
-          <StyledDateTimeSelector
-            className='date-time-selector'
-            date={date}
-            departArrive={departArrive}
-            onQueryParamChange={setQueryParam}
-            time={time}
-            // These props below are for Safari on MacOS, and legacy browsers
-            // that don't support `<input type="time|date">`.
-            // These props are not relevant in modern browsers,
-            // where `<input type="time|date">` already
-            // formats the time|date according to the OS settings.
-            dateFormatLegacy={dateFormatLegacy}
-            timeFormatLegacy={timeFormatLegacy}
-          />
-        </div>
-      </div>
+      <DateTimeSelector
+        className='date-time-selector'
+        date={date}
+        departArrive={departArrive}
+        onQueryParamChange={setQueryParam}
+        time={time}
+        // These props below are for Safari on MacOS, and legacy browsers
+        // that don't support `<input type="time|date">`.
+        // These props are not relevant in modern browsers,
+        // where `<input type="time|date">` already
+        // formats the time|date according to the OS settings.
+        dateFormatLegacy={dateFormatLegacy}
+        timeFormatLegacy={timeFormatLegacy}
+      />
     )
   }
 }

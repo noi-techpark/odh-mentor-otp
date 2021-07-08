@@ -345,5 +345,8 @@ export const TRANSLATIONS_IT = {
   "credits": "Credits",
   "credits_title": "$_credits_title",
   "credits_text": "$_credits_text",
-  "close": "Chiudi"
+  "close": "Chiudi",
+  "plan_now": "Parti adesso",
+  "plan_depart_at": "Pianifica partenza",
+  "plan_arrive_at": "Pianifica arrivo",
 }
