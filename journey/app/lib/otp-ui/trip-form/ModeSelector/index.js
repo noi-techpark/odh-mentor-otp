@@ -32,20 +32,14 @@ const ModeSelector = props => {
       title={t(option.title)}
       onClick={() => handleClick(option)}
     >
-      {option.text}
+      {option.icon}
     </ModeButton>
   );
 
   return (
-    <div className={className} style={style}>
-      <ButtonGroup vertical block>
-        {primary && makeButton(primary) }
-      </ButtonGroup>
-
-      <br/>
-      <br/>
-
+    <div className={`otp-ui-modeSelector ${className || ''}`} style={style}>
       <ButtonGroup>
+        {primary && makeButton(primary) }
         {secondary && secondary.map(makeButton)}
         {tertiary && tertiary.map(makeButton)}
       </ButtonGroup>

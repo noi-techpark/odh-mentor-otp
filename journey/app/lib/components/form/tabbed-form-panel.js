@@ -23,19 +23,12 @@ class TabbedFormPanel extends Component {
       <div className='tabbed-form-panel'>
         <Row>
           <Col xs={12}>
-            <ConnectedSettingsSelectorPanel ModeIcon={ModeIcon} />
-
-            <div className='text-center'>
-              <Button bsStyle="link" bsSize="small">
-                {t('hide_settings')}
-              </Button>
-            </div>
-          </Col>
-          <Col xs={12}>
             <DateTimeModal />
           </Col>
+          <Col xs={12}>
+            <ConnectedSettingsSelectorPanel ModeIcon={ModeIcon} />
+          </Col>
         </Row>
-
       </div>
     )
   }

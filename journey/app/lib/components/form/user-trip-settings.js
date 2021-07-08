@@ -40,7 +40,7 @@ class UserTripSettings extends Component {
     const rememberIsDisabled = queryIsDefault && !defaults
 
     return (
-      <div style={{ marginBottom: '5px' }} className='store-settings pull-right'>
+      <div className='store-settings'>
         <Button
           bsStyle='link'
           bsSize='xsmall'
