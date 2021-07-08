@@ -1,12 +1,3 @@
-
-
-.otp .app-menu-container {
-  // float: left;
-  color: white;
-  font-size: 28px;
-  padding-top: 4px;
-}
-
 /* form styling */
 
 .Select-control {
@@ -15,89 +6,6 @@
   border-bottom: 1px solid black;
 }
 
-
-
-.otp .dropdown-selector {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: none;
-  border-radius: 3px;
-}
-
-.otp .dropdown-selector-container {
-  position: relative;
-}
-
-.otp .dropdown-selector-container:after {
-  content: '\25bc';
-  font-size: 11px;
-  color: #000;
-  right: 8px;
-  top: 10px;
-  position: absolute;
-  pointer-events: none;
-}
-
-.otp .select-button {
-  vertical-align: middle;
-  border: 1px solid rgb(187, 187, 187);
-  border-radius: 3px;
-  color: #000;
-  height: 35px;
-  background-color: transparent;
-  margin-left: 5px;
-  font-size: 12px;
-}
-
-.otp .select-button.active {
-  border: 2px solid #000;
-  font-weight: 500;
-  background-color: rgb(173, 216, 230);
-}
-
-.otp .date-time-selector .date-selector {
-  border-radius: 0px;
-  border: 0px;
-  border-bottom: 1px solid black;
-}
-
-.otp .date-time-selector .time-selector {
-  border-radius: 0px;
-  border: 0px;
-  border-bottom: 1px solid black;
-}
-
-/* Date/Time Preview Bar */
-
-/*.otp .date-time-preview.wide {
-  background-color: #222;
-}*/
-
-.otp .date-time-preview .change-button {
-  @include secondary-button;
-  margin-top: 8px;
-  line-height: 14px;
-  padding-top: 8px;
-  font-size: 13px;
-  outline: none;
-}
-
-.otp .date-time-preview.compressed {
-  text-align: center;
-}
-
-/* Settings (Modes/etc.) Preview Bar */
-
-/*.otp .settings-preview.wide {
-  background-color: #222;
-  text-transform: uppercase;
-}
-
-.otp .date-time-preview .details {
-  text-transform: uppercase;
-}*/
-
 .otp .settings-preview .settings-button {
   @include secondary-button;
   margin-top: 8px;
@@ -105,81 +13,6 @@
   /*padding-top: 8px;*/
   font-size: 13px;
   outline: none;
-}
-
-/* Settings Selector (Modes vs. General) */
-
-.otp .settings-selector-panel {
-  padding: 12px;
-}
-
-.otp .settings-selector-panel .button-row .btn {
-  background-color: #ccc;
-  border: 0px;
-  padding-top: 8px;
-}
-
-.otp .settings-selector-panel .button-row .selected {
-  background-color: $base-color;
-  color: white;
-}
-
-/* Modes Panel */
-
-.otp .modes-panel .mode-group-row {
-  font-size: 16px;
-}
-
-.otp .modes-panel .mode-group-row .group-icons {
-  margin-left: 10px;
-}
-
-/* General Settings Panel */
-
-.otp .general-settings-panel .setting-label {
-  color: gray;
-  text-transform: uppercase;
-  padding-top: 8px;
-  letter-spacing: 1px;
-  font-weight: 100;
-  font-size: 14px;
-}
-
-.otp .location-field .input-group {
-  border-bottom: 1px solid black;
-}
-
-.otp .location-field .input-group-btn button {
-  border: none;
-  width: 30px;
-  background: none;
-}
-
-.otp .location-field .input-group input {
-  border: none;
-  box-shadow: none;
-  font-size: 17px;
-}
-
-.otp .location-field .input-group-addon {
-  border: none;
-  background: none;
-  color: #888;
-  cursor: pointer;
-}
-
-.otp .location-field .clear-button {
-  border: none;
-  background: none;
-  color: #888;
-  margin: 0;
-  padding: 2px 5px;
-}
-
-.otp .location-field .dropdown-header {
-  color: navy;
-  font-weight: 600;
-  font-size: 14px;
 }
 
 .otp .mobile-bottom-button-container .btn {
@@ -278,33 +111,6 @@
   // display: inline-block;
 }
 
-/* switch button */
-
-
-
-
-/* clear button */
-
-.clear-button {
-  @include secondary-button;
-  padding: 5px 10px 2px 10px;
-  font-size: 12px;
-  outline: none;
-}
-
-/* spinner */
-
-.spinner-overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  text-align: center;
-  padding-top: 280px;
-  z-index: 10000;
-}
-
 /* real-time alerts */
 
 .otp .realtime-alert > .content > .toggle-realtime {
@@ -321,26 +127,6 @@
   background-color: #eee;
   padding: 10px 16px;
   margin-bottom: 15px;
-}
-
-/* Overlay popup */
-
-.otp .map-overlay-popup {
-  font-family: "Hind";
-}
-
-.otp .map-overlay-popup .view-stop-button {
-  @include viewer-button;
-  @include left-border;
-}
-
-.otp .set-from-button {
-  @include link-button;
-}
-
-.otp .set-to-button {
-  @include link-button;
-  @include left-border
 }
 
 /* Mobile layout */

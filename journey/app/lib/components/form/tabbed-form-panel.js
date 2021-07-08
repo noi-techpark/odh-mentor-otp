@@ -16,53 +16,26 @@ class TabbedFormPanel extends Component {
     ModeIcon: PropTypes.elementType.isRequired
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      selectedPanel: null
-    }
-  }
-
-  _onEditDateTimeClick = () => {
-    this.setState({ selectedPanel: 'EDIT_DATETIME' })
-  }
-
-  _onEditSettingsClick = () => {
-    this.setState({ selectedPanel: 'EDIT_SETTINGS' })
-  }
-
-  _onHideClick = () => this.setState({ selectedPanel: null })
-
   render () {
-    const { ModeIcon, mainPanelContent, t } = this.props
+    const { ModeIcon, t } = this.props
 
     return (
       <div className='tabbed-form-panel'>
         <Row>
           <Col xs={12}>
-            <DateTimeModal />
+            <ConnectedSettingsSelectorPanel ModeIcon={ModeIcon} />
+
+            <div className='text-center'>
+              <Button bsStyle="link" bsSize="small">
+                {t('hide_settings')}
+              </Button>
+            </div>
           </Col>
           <Col xs={12}>
-            <SettingsPreview onClick={this._onEditSettingsClick} />
+            <DateTimeModal />
           </Col>
         </Row>
 
-        {
-          this.state.selectedPanel &&
-            <div className='active-panel'>
-              {
-                this.state.selectedPanel === 'EDIT_SETTINGS' &&
-                  <ConnectedSettingsSelectorPanel ModeIcon={ModeIcon} />
-              }
-
-              <div className='text-center'>
-                <Button bsStyle="link" bsSize="small" onClick={this._onHideClick}>
-                  {t('hide_settings')}
-                </Button>
-              </div>
-            </div>
-        }
       </div>
     )
   }

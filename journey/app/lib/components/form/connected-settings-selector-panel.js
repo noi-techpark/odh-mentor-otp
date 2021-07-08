@@ -24,18 +24,16 @@ class ConnectedSettingsSelectorPanel extends Component {
       showUserSettings
     } = this.props
     return (
-      <div className='settings-selector-panel'>
-        <div className='modes-panel'>
-          {showUserSettings && <UserTripSettings />}
+      <div>
+        {showUserSettings && <UserTripSettings />}
 
-          <StyledSettingsSelectorPanel
-            ModeIcon={ModeIcon}
-            queryParams={query}
-            supportedModes={config.modes}
-            supportedCompanies={config.companies}
-            onQueryParamChange={setQueryParam}
-          />
-        </div>
+        <StyledSettingsSelectorPanel
+          ModeIcon={ModeIcon}
+          queryParams={query}
+          supportedModes={config.modes}
+          supportedCompanies={config.companies}
+          onQueryParamChange={setQueryParam}
+        />
       </div>
     )
   }
