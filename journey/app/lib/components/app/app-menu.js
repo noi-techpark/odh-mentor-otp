@@ -63,7 +63,7 @@ class AppMenu extends Component {
     window.addEventListener('popstate', this._hideCredits)
   }
 
-  componentDidUnmount = () => {
+  componentWillUnmount = () => {
     window.removeEventListener('popstate', this._hideCredits)
   }
 

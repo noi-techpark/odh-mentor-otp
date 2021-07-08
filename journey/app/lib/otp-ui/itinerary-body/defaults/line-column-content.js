@@ -30,7 +30,7 @@ export default function LineColumnContent({
           />
         )}
         {!interline && !isDestination && !leg.transitLeg && (
-          <div className="otp-ui-legLine__badgeAccess" style={{ backgroundColor: toModeColor(leg.mode, leg.routeColor) }} ariaLabel={`Travel by ${leg.mode}`}>
+          <div className="otp-ui-legLine__badgeAccess" style={{ backgroundColor: toModeColor(leg.mode, leg.routeColor) }} aria-label={`Travel by ${leg.mode}`}>
             {<LegIcon leg={leg} title={`Travel by ${leg.mode}`} width="66%" />}
           </div>
         )}
