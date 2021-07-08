@@ -166,6 +166,8 @@ class DefaultMap extends Component {
                 maxZoom={mapConfig.maxZoom}
                 onClick={this.onMapClick}
                 popup={popup}
+                zoomControl={false}
+                //TODO zoomControl from config
                 onPopupClosed={this.onPopupClosed}
                 zoom={mapConfig.initZoom || 13}
               >

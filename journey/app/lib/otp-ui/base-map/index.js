@@ -175,6 +175,7 @@ class BaseMap extends Component {
       center,
       children,
       maxZoom,
+      zoomControl,
       popup,
       onContextMenu,
       onPopupClosed,
@@ -204,6 +205,7 @@ class BaseMap extends Component {
         center={center}
         zoom={zoom}
         maxZoom={maxZoom}
+        zoomControl={zoomControl}
         // onClick={this.onLeftClick}
         // Note: Map-click is handled via single-click plugin, set up in componentDidMount()
         onContextMenu={onContextMenu}
