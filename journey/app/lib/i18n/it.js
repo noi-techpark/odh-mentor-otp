@@ -317,7 +317,7 @@ export const TRANSLATIONS_IT = {
   "fare": "tariffa",
   "transit_fare": "tariffa di transito",
   "typical_wait": "attesa tipica",
-  "use_companies": "usa compagnie",
+  "use_companies": "Usa compagnie",
   "available_bikes": "Bici disponibili",
   "available_docks": "banchine disponibili",
   "time_max_walk": "tempo massimo a piedi",

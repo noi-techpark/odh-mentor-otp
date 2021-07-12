@@ -34,7 +34,7 @@
       top: $navbar-height + $grid-gutter-width + 130px;
       left: $grid-gutter-width + $sidebar-width;
       padding: $grid-gutter-width / 2 $grid-gutter-width;
-      width: 512px;
+      width: $option-panel-width;
       background-color: lighten($brand-primary, 40%);
       z-index: 1;
       border-top-right-radius: $border-radius-large;
@@ -43,6 +43,11 @@
       overflow-y: auto;
       min-height: 30vh;
       max-height: 60vh;
+
+      .btn-group .btn {
+        white-space: normal;
+        font-size: $font-size-xsmall;
+      }
     }
   }
 
