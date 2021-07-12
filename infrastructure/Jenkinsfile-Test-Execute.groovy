@@ -36,6 +36,11 @@ pipeline {
         GBFS_VERSION=1
         CARSHARING_HOST="https://carsharing.otp.opendatahub.testingmachine.eu/"
         PARKING_HOST="https://parking.otp.opendatahub.testingmachine.eu/"
+        
+        GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
+        GTFS_URL_UPDATETIME="daily"
+        GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.test-deploy.trigger/build?token="
+        JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
     }
 
     stages {
@@ -78,6 +83,10 @@ pipeline {
                     echo 'PARKING_HOST=${PARKING_HOST}' >> .env
                     echo 'DOCKER_CARSHARING_PORT=${DOCKER_CARSHARING_PORT}' >> .env
                     echo 'DOCKER_PARKING_PORT=${DOCKER_PARKING_PORT}' >> .env
+                    
+                    echo 'GTFS_URL="${GTFS_URL}"' >> .env
+                    echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env
+                    echo 'GTFS_URL_UPDATEHOOK="${GTFS_URL_UPDATEHOOK}${JENKINSURL_TOKEN}"' >> .env
                 """
             }
         }
