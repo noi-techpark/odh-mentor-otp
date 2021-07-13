@@ -5,30 +5,28 @@ import { FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leafle
 import { divIcon } from 'leaflet'
 import { withNamespaces } from "react-i18next";
 
-import SetFromToButtons from './set-from-to'
 import { setLocation } from '../../actions/map'
-import { parkingLocationsQuery } from '../../actions/parking'
+import { zipcarLocationsQuery } from '../../actions/zipcar'
 
-import BadgeIcon from "../../otp-ui/icons/badge-icon";
-import MarkerParking from "../../otp-ui/icons/modern/MarkerParking";
-import ReactDOMServer from "react-dom/server";
+import FromToLocationPicker from '../from-to-location-picker'
 
+const zipcarIcon = '<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120.09 120.1"><defs><style>.cls-1{fill:#59ad46;}.cls-2{fill:#fff;}.cls-3{fill:#5c5d5f;}</style></defs><title>zipcar-icon</title><path class="cls-1" d="M246.37,396.78a60,60,0,1,1,60,60,60.05,60.05,0,0,1-60-60" transform="translate(-246.37 -336.74)"/><path class="cls-2" d="M363.6,418.66q0.47-1.28.9-2.58H314.16l2.46-3.15h34.87a1.27,1.27,0,1,0,0-2.53H318.6l2.42-3.09h17.74a1.31,1.31,0,0,0,0-2.58H291.69l28.85-37.59H273.06v10.27h25.28l-26.48,34.34-5.45,6.9h21a12,12,0,0,1,22.29,0H363.6" transform="translate(-246.37 -336.74)"/><path class="cls-3" d="M307.84,423.3a9.27,9.27,0,1,1-9.27-9.27,9.27,9.27,0,0,1,9.27,9.27" transform="translate(-246.37 -336.74)"/></svg>'
 
-class ParkingOverlay extends MapLayer {
+class ZipcarOverlay extends MapLayer {
   static propTypes = {
     api: PropTypes.string,
     locations: PropTypes.array,
-    parkingLocationsQuery: PropTypes.func,
+    zipcarLocationsQuery: PropTypes.func,
     setLocation: PropTypes.func
   }
 
   _startRefreshing () {
     // ititial station retrieval
-    this.props.parkingLocationsQuery(this.props.api)
+    this.props.zipcarLocationsQuery(this.props.api)
 
     // set up timer to refresh stations periodically
     this._refreshTimer = setInterval(() => {
-      this.props.parkingLocationsQuery(this.props.api)
+      this.props.zipcarLocationsQuery(this.props.api)
     }, 30000) // defaults to every 30 sec. TODO: make this configurable?*/
   }
 
@@ -68,37 +66,12 @@ class ParkingOverlay extends MapLayer {
     const { locations, t } = this.props
     if (!locations || locations.length === 0) return <FeatureGroup />
 
-    const markerIcon = (data) => {
-
-      console.log(data)
-
-      let badgeType = 'default';
-      let badgeCounter = null;
-
-      if (data.capacity === data.free) {
-        badgeType = 'success';
-      } else if (data.free < data.capacity) {
-        badgeType = 'default';
-        badgeCounter = data.free
-      }
-
-      if (data.free === 0 ) {
-        badgeType = 'danger';
-        badgeCounter = null;
-      }
-
-      return divIcon({
-        className: "",
-        iconSize: [42, 50],
-        popupAnchor: [0, -25],
-        html: ReactDOMServer.renderToStaticMarkup(
-          <BadgeIcon counter={badgeCounter} type={badgeType} width={42}>
-            <MarkerParking width={42} height={50} />
-          </BadgeIcon>
-        )
-      });;
-    }
-
+    const markerIcon = divIcon({
+      iconSize: [24, 24],
+      popupAnchor: [0, -12],
+      html: zipcarIcon,
+      className: ''
+    })
 
     const bulletIconStyle = {
       color: 'gray',
@@ -111,36 +84,31 @@ class ParkingOverlay extends MapLayer {
         {locations.map((location) => {
           return (
             <Marker
-              icon={markerIcon(location)}
-              key={location.name}
-              position={[location.lat, location.lon]}
+              icon={markerIcon}
+              key={location.location_id}
+              position={[location.coordinates.lat, location.coordinates.lng]}
             >
               <Popup>
                 <div className='map-overlay-popup'>
                   {/* Popup title */}
                   <div className='popup-title'>
-                    {t('parking')}
+                    {t('zipcar_location')}
                   </div>
 
                   {/* Location info bullet */}
                   <div className='popup-row'>
-                    <i className='fa fa-map-marker' style={bulletIconStyle} /> {location.name}
+                    <i className='fa fa-map-marker' style={bulletIconStyle} /> {location.display_name}
                   </div>
 
                   {/* Vehicle-count bullet */}
                   <div className='popup-row'>
-                    <i className='fa fa-car' style={bulletIconStyle} /> {location.free} {t('vehicles')} Capacity: {location.capacity}
+                    <i className='fa fa-car' style={bulletIconStyle} /> {location.num_vehicles} {t('vehicles')}
                   </div>
 
                   {/* Set as from/to toolbar */}
                   <div className='popup-row'>
-                    <SetFromToButtons
-                      map={this.props.leaflet.map}
-                      location={{
-                        lat: location.lat,
-                        lon: location.lon,
-                        name: location.name
-                      }}
+                    <FromToLocationPicker
+                      location={location}
                       setLocation={this.props.setLocation}
                     />
                   </div>
@@ -158,13 +126,13 @@ class ParkingOverlay extends MapLayer {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    locations: state.otp.overlay.parking && state.otp.overlay.parking.locations
+    locations: state.otp.overlay.zipcar && state.otp.overlay.zipcar.locations
   }
 }
 
 const mapDispatchToProps = {
   setLocation,
-  parkingLocationsQuery
+  zipcarLocationsQuery
 }
 
-export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(withLeaflet(ParkingOverlay)))
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(withLeaflet(ZipcarOverlay)))

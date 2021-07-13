@@ -1,14 +1,53 @@
 .otp-ui-mapOverlayPopup {
   font-size: $font-size-base;
   min-width: 250px;
+  text-align: center;
 
-  &__popupRow {
-    margin-top: 6px;
+  &__popupHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+
+    svg path:not([fill="#fff"]) {
+      fill: $text-color;
+    }
   }
 
   &__popupTitle {
     font-size: $font-size-h4;
     font-weight: 500;
     margin-bottom: 6px;
+    color: $brand-primary;
+  }
+
+  &__popupRow {
+    margin-top: 5px;
+  }
+
+  &__popupAvailableInfoValue {
+    color: $brand-primary;
+    font-size: $font-size-h1;
+    font-weight: $headings-font-weight;
+  }
+
+  &__popupAvailableInfoTitle {
+    font-weight: $headings-font-weight;
+  }
+
+  &__popupAvailableInfoProgress {
+    width: 110px;
+    height: 110px;
+    margin: 10px 0;
+
+    .CircularProgressbar-path {
+      stroke: $brand-primary !important;
+    }
+
+    .CircularProgressbar-text {
+      font-size: $font-size-h2 !important;
+      font-weight: $headings-font-weight !important;
+      fill: $brand-primary !important;
+    }
   }
 }

@@ -27,8 +27,8 @@ import VehicleRentalOverlay from './connected-vehicle-rental-overlay'
 import ElevationPointMarker from './elevation-point-marker'
 import PointPopup from './point-popup'
 import TileOverlay from './tile-overlay'
-import ZipcarOverlay from './zipcar-overlay'
-import ParkingOverlay from './parking-overlay'
+import ZipcarOverlay from '../../otp-ui/zipcar-overlay'
+import ParkingOverlay from '../../otp-ui/parking-overlay'
 
 const MapContainer = styled.div`
   height: 100%;
@@ -166,6 +166,8 @@ class DefaultMap extends Component {
                 maxZoom={mapConfig.maxZoom}
                 onClick={this.onMapClick}
                 popup={popup}
+                zoomControl={false}
+                //TODO zoomControl from config
                 onPopupClosed={this.onPopupClosed}
                 zoom={mapConfig.initZoom || 13}
               >

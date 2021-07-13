@@ -38,15 +38,6 @@
   width: 100%;
 }
 
-.otp .bottom-fixed {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 10px;
-  height: 55px;
-}
-
 .otp .white-fade {
   background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
   z-index: 100;
@@ -101,22 +92,6 @@
   padding-bottom: 10px;
 }
 
-/* switch button */
-
-.otp .switch-button-container {
-  position: absolute;
-  top: 32px;
-  right: 45px;
-  z-index: 100000;
-}
-
-.otp .switch-button-container-mobile {
-  position: absolute;
-  top: 32px;
-  right: 45px;
-  z-index: 100000;
-}
-
 /* Settings Preview */
 
 .otp .settings-preview {
@@ -126,7 +101,7 @@
 }
 
 .otp.mobile .settings-preview {
-  text-align: center;
+  // text-align: center;
 }
 
 .otp .settings-preview .summary {
@@ -291,142 +266,3 @@
 }
 
 /* Tabbed Panel */
-
-.otp .tabbed-form-panel {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.otp .tabbed-form-panel .tab-row {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
-
-.otp .tabbed-form-panel .tab {
-  display: table-cell;
-  width: 50%;
-  vertical-align: top;
-}
-
-.otp .tabbed-form-panel .tab.left {
-  padding-right: 5px;
-}
-
-.otp .tabbed-form-panel .tab.right {
-  padding-left: 5px;
-}
-
-.otp .tabbed-form-panel .tab .tab-content {
-  padding: 10px 15px;
-  font-size: 13px;
-  background: #f0f0f0;
-}
-
-.otp .tabbed-form-panel .tab.selected .tab-content {
-  padding-bottom: 20px;
-}
-
-.otp .tabbed-form-panel .active-panel {
-  padding: 10px 15px 5px 15px;
-  background: #f0f0f0;
-}
-
-.otp .tabbed-form-panel .hide-button-row {
-  text-align: center;
-}
-
-.otp .tabbed-form-panel .hide-button {
-  font-size: 14px;
-}
-
-/* User settings */
-
-.otp .user-settings {
-  padding-top: 10px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-bottom: 20px;
-  margin: 10px 10px 0 10px;
-  min-height: 150px;
-  background-color: #f0f0f0;
-}
-
-.otp .place-button {
-  padding: 5px 0 0 0;
-  text-align: left;
-}
-
-.otp .user-settings .section-header {
-  font-size: small;
-  color: #555;
-}
-
-.otp .place-item {
-  height: 45px;
-  list-style: none;
-}
-
-.otp .user-settings .place-view, .otp .user-settings .place-view {
-  padding-top: 4px;
-}
-
-.otp .place-item .place-text {
-  display: block;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.otp .place-item .place-detail {
-  display: block;
-  font-size: smaller;
-  padding-left: 22px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.otp .user-settings hr {
-  border-top: 1px solid #ccc;
-  margin: 5px;
-}
-
-.otp .user-settings .btn-link {
-  height: 100%;
-  padding: 2px;
-  border-radius: 3px;
-  color: #333;
-}
-
-.otp .user-settings .btn-link:hover {
-  background-color: #f5f5f5;
-  border: 1px solid lightgrey;
-  text-decoration: none;
-}
-
-.otp .user-settings .remember-settings .btn-link {
-  margin: 0 3px;
-  width: 25px;
-}
-
-.otp .user-settings .remember-settings .btn-link.active {
-  background-color: #084c8d;
-  color: #ffffff;
-}
-
-.otp .user-settings .remember-settings .btn-link.active:hover {
-  border: 1px solid grey;
-}
-
-.otp .user-settings .btn-link:focus {
-  background-color: #ddd;
-  border: 1px solid grey;
-  outline: none;
-  text-decoration: none;
-}
-
-.otp .user-settings .disclaimer {
-  font-size: x-small;
-}

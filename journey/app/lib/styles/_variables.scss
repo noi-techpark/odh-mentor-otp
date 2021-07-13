@@ -3,6 +3,8 @@ $fa-font-path: "../fonts/font-awesome" !default;
 
 // Project vars
 $base-color: #084c8d;
+$sidebar-width: 512px;
+$option-panel-width: 400px;
 
 
 // Bootstrap vars override (to make THEME customizable)
@@ -35,6 +37,7 @@ $font-family-base:        $font-family-sans-serif !default;
 $font-size-base:          16px !default;
 $font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
 $font-size-small:         ceil(($font-size-base * .85)) !default; // ~12px
+$font-size-xsmall:        ceil(($font-size-base * .7)) !default; // ~12px
 
 $font-size-h1:            floor(($font-size-base * 2.6)) !default; // ~36px
 $font-size-h2:            floor(($font-size-base * 2.15)) !default; // ~30px
@@ -204,7 +207,7 @@ $container-lg:                 $container-large-desktop !default;
 
 
 $navbar-height:                    50px !default;
-$navbar-margin-bottom:             $line-height-computed !default;
+$navbar-margin-bottom:             0 !default;
 $navbar-border-radius:             0;
 $navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) !default;
 $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;

@@ -48,24 +48,22 @@ class TrimetWebapp extends Component {
           </Navbar.Collapse>
         </Navbar>
 
-        <Grid>
-          <Row className='main-row'>
-            <Col sm={6} md={4} className='sidebar'>
-              {/* <main> is needed for accessibility checks. */}
-              <main>
-                <DefaultMainPanel
-                  itineraryClass={LineItinerary}
-                  itineraryFooter={getItineraryFooter(t)}
-                  LegIcon={LegIcon}
-                  ModeIcon={ModeIcon}
-                />
-              </main>
-            </Col>
-            <Col sm={6} md={8} className='map-container'>
-              <Map />
-            </Col>
-          </Row>
-        </Grid>
+        <div className='main-container'>
+          <div className='sidebar'>
+            {/* <main> is needed for accessibility checks. */}
+            <main>
+              <DefaultMainPanel
+                itineraryClass={LineItinerary}
+                itineraryFooter={getItineraryFooter(t)}
+                LegIcon={LegIcon}
+                ModeIcon={ModeIcon}
+              />
+            </main>
+          </div>
+          <div className='map-container'>
+            <Map />
+          </div>
+        </div>
       </div>
     )
 

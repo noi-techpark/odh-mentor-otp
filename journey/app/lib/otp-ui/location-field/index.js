@@ -548,7 +548,7 @@ class LocationField extends Component {
           this.inputRef = ref;
         }}
         type="text"
-        ariaLabel={defaultPlaceholder}
+        aria-label={defaultPlaceholder}
         autoFocus={autoFocus}
         className={this.getFormControlClassname()}
         value={value}
@@ -607,7 +607,7 @@ class LocationField extends Component {
           <InputGroup.Button>
             <DropdownButton
               noCaret
-              ariaLabel={`List the suggested ${locationType} locations as you type`}
+              aria-label={`List the suggested ${locationType} locations as you type`}
               open={menuVisible}
               onToggle={this.onDropdownToggle}
               title={<LocationIconComponent locationType={locationType} />}

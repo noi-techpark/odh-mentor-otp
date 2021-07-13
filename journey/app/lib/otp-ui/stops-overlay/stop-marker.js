@@ -12,12 +12,21 @@ import { withNamespaces } from "react-i18next"
 import { Button } from "react-bootstrap"
 import MarkerStopStation from "../icons/modern/MarkerStopStation";
 import ReactDOMServer from "react-dom/server";
+import Bus from "../icons/modern/Bus";
+import config from '../../config.yml';
+
+const overlayStopConf = config.map.overlays.filter(item => item.type === 'stops')[0]
 
 const stopMarkerIcon = divIcon({
-  iconSize: [15, 15],
-  popupAnchor: [0, -7.5],
+  iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
+  popupAnchor: [0, -overlayStopConf.iconHeight / 2],
   html: ReactDOMServer.renderToStaticMarkup(
-    <MarkerStopStation width={15} height={15} />
+    <MarkerStopStation
+      width={overlayStopConf.iconWidth}
+      height={overlayStopConf.iconHeight}
+      iconColor={overlayStopConf.iconColor}
+      markerColor={overlayStopConf.iconMarkerColor}
+    />
   ),
   className: ""
 });;
@@ -59,6 +68,14 @@ class StopMarker extends Component {
       >
         <Popup>
           <div className="otp-ui-mapOverlayPopup">
+            <div className="otp-ui-mapOverlayPopup__popupHeader">
+              <Bus />
+
+              <Button bsStyle="link" onClick={this.onClickView} title={`Stop ID: ${stopId}`}>
+                {t(languageConfig.stopViewer || 'stop')}
+              </Button>
+            </div>
+
             <div className="otp-ui-mapOverlayPopup__popupTitle">{name}</div>
             {/* {
               agency &&
@@ -66,18 +83,9 @@ class StopMarker extends Component {
                   <strong>Agency:</strong> {agency}
                 </div>
             } */}
-            <div className="otp-ui-mapOverlayPopup__popupRow">
-              <span>
-                <strong>Stop ID:</strong> {stopId}
-                <Button bsStyle="link" onClick={this.onClickView}>
-                  {t(languageConfig.stopViewer || 'stop')}
-                </Button>
-              </span>
-            </div>
 
             {/* The "Set as [from/to]" ButtonGroup */}
             <div className="otp-ui-mapOverlayPopup__popupRow">
-              <strong>{t('travel')}</strong>
               <FromToLocationPicker
                 onFromClick={this.onFromClick}
                 onToClick={this.onToClick}

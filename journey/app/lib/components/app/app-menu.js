@@ -1,18 +1,27 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
+import { NavItem, NavDropdown, MenuItem, Modal, Button } from 'react-bootstrap'
 import { withNamespaces } from "react-i18next"
 
 import Icon from '../narrative/icon'
 
-import { MainPanelContent, setMainPanelContent } from '../../actions/ui'
+import { MainPanelContent, setMainPanelContent, routeTo } from '../../actions/ui'
 
 // TODO: make menu items configurable via props/config
 
 class AppMenu extends Component {
   static propTypes = {
-    setMainPanelContent: PropTypes.func
+    setMainPanelContent: PropTypes.func,
+    routeTo: PropTypes.func
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      showCredits: false
+    }
   }
 
   _showRouteViewer = () => {
@@ -36,6 +45,28 @@ class AppMenu extends Component {
     if (lng === 'de') return 'Deutsch'
   }
 
+  _showCredits = () => {
+    // this.props.setMainPanelContent(MainPanelContent.CREDITS_VIEWER);
+    // this.props.routeTo('/credits', '');
+    this.setState({ showCredits: true });
+  }
+
+  _hideCredits = () => {
+    this.setState({ showCredits: false });
+  }
+
+  componentDidMount = () => {
+    if (this.props.currentLocation.pathname === '/credits') {
+      this.setState({ showCredits: true });
+    }
+
+    window.addEventListener('popstate', this._hideCredits)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('popstate', this._hideCredits)
+  }
+
   render () {
     const { languageConfig, t, i18n } = this.props
 
@@ -47,6 +78,10 @@ class AppMenu extends Component {
 
         <NavItem eventKey={2} onClick={this._startOver}>
           <Icon type='undo' /> {t('restart')}
+        </NavItem>
+
+        <NavItem eventKey={3} onClick={this._showCredits}>
+          <Icon type='info-circle' /> {t('credits')}
         </NavItem>
 
         <NavDropdown
@@ -64,6 +99,18 @@ class AppMenu extends Component {
             Deutsch
           </MenuItem>
         </NavDropdown>
+
+        <Modal show={this.state.showCredits} onHide={ () => this.setState({ showCredits: false }) }>
+          <Modal.Header closeButton>
+            <Modal.Title>{t('credits_title')}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>{t('credits_text')}</p>
+          </Modal.Body>
+          {/*<Modal.Footer>
+            <Button onClick={ () => this.setState({ showCredits: false }) }>{t('close')}</Button>
+          </Modal.Footer>*/}
+        </Modal>
       </>
     )
   }
@@ -73,12 +120,14 @@ class AppMenu extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    languageConfig: state.otp.config.language
+    languageConfig: state.otp.config.language,
+    currentLocation: state.router.location
   }
 }
 
 const mapDispatchToProps = {
-  setMainPanelContent
+  setMainPanelContent,
+  routeTo
 }
 
 export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(AppMenu))

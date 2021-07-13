@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { setQueryParam } from '../../actions/form'
 import { getShowUserSettings } from '../../util/state'
 
-import { StyledSettingsSelectorPanel } from './styled'
+import { SettingsSelectorPanel } from '../../otp-ui/trip-form'
 import UserTripSettings from './user-trip-settings'
 
 // TODO: Button title should be bold when button is selected.
@@ -24,18 +24,17 @@ class ConnectedSettingsSelectorPanel extends Component {
       showUserSettings
     } = this.props
     return (
-      <div className='settings-selector-panel'>
-        <div className='modes-panel'>
-          {showUserSettings && <UserTripSettings />}
+      <div>
+        <SettingsSelectorPanel
+          className="transport-selector"
+          ModeIcon={ModeIcon}
+          queryParams={query}
+          supportedModes={config.modes}
+          supportedCompanies={config.companies}
+          onQueryParamChange={setQueryParam}
+        />
 
-          <StyledSettingsSelectorPanel
-            ModeIcon={ModeIcon}
-            queryParams={query}
-            supportedModes={config.modes}
-            supportedCompanies={config.companies}
-            onQueryParamChange={setQueryParam}
-          />
-        </div>
+        {/* {showUserSettings && <UserTripSettings />} */}
       </div>
     )
   }

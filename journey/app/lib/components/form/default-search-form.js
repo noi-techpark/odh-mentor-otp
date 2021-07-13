@@ -30,7 +30,7 @@ class DefaultSearchForm extends Component {
     const actionText = t(mobile ? 'tap' : 'click')
 
     return (
-      <div>
+      <>
         <div className='locations'>
           <LocationField
             inputPlaceholder={t('insert_departure_action', { actionText })}
@@ -50,7 +50,7 @@ class DefaultSearchForm extends Component {
         </div>
 
         <TabbedFormPanel ModeIcon={ModeIcon} />
-      </div>
+      </>
     )
   }
 }

@@ -2,6 +2,7 @@ import { TriMetModeIcon } from "../../icons";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withNamespaces } from "react-i18next"
+import { Button } from "react-bootstrap"
 
 import {
   isMicromobility,
@@ -36,7 +37,8 @@ class SettingsSelectorPanel extends Component {
 
     this.state = {
       defaultAccessModeCompany: null,
-      lastTransitModes: []
+      lastTransitModes: [],
+      showPanel: false
     };
   }
 
@@ -201,56 +203,70 @@ class SettingsSelectorPanel extends Component {
         <ModeSelector
           modes={modeOptions}
           onChange={this.handleMainModeChange}
-          style={{ margin: "0px -5px", paddingBottom: "8px" }}
         />
 
-        <h4>{t('preferences')}</h4>
+        <div className='text-center'>
+          <Button bsStyle="link" bsSize="small" onClick={() => this.setState({ showPanel: !this.state.showPanel })}>
+            {t(this.state.showPanel ? 'hide_settings' : 'show_settings')}
+          </Button>
+        </div>
 
-        {selectedModes.some(isTransit) && transitModes.length >= 2 && (
-          <SubmodeSelector
-            label={t("mode")}
-            modes={transitModes}
-            onChange={this.handleTransitModeChange}
-          />
-        )}
+        {
+          this.state.showPanel &&
+            <div className="otp-ui-settingsSelectorPanel">
+              <div className='text-right'>
+                <Button bsStyle="link" bsSize="small" onClick={() => this.setState({ showPanel: false })}>
+                  {t('close')}
+                </Button>
+              </div>
 
-        {/* The bike trip type selector */}
-        {/* TODO: Handle different bikeshare networks */}
-        {selectedModes.some(isBike) && !selectedModes.some(isTransit) && (
-          <SubmodeSelector
-            label={t("mode")}
-            inline
-            modes={bikeModes}
-            onChange={this.handleMainModeChange}
-          />
-        )}
+              {selectedModes.some(isTransit) && transitModes.length >= 2 && (
+                <SubmodeSelector
+                  label={t("mode")}
+                  modes={transitModes}
+                  onChange={this.handleTransitModeChange}
+                />
+              )}
 
-        {/* The micromobility trip type selector */}
-        {/* TODO: Handle different micromobility networks */}
-        {selectedModes.some(isMicromobility) &&
-          !selectedModes.some(isTransit) && (
-            <SubmodeSelector
-              label={t("mode")}
-              inline
-              modes={scooterModes}
-              onChange={this.handleMainModeChange}
-            />
-          )}
+              {/* The bike trip type selector */}
+              {/* TODO: Handle different bikeshare networks */}
+              {selectedModes.some(isBike) && !selectedModes.some(isTransit) && (
+                <SubmodeSelector
+                  label={t("mode")}
+                  inline
+                  modes={bikeModes}
+                  onChange={this.handleMainModeChange}
+                />
+              )}
 
-        {/* This order is probably better. */}
-        {companies.length >= 2 && (
-          <SubmodeSelector
-            label={t('use_companies')}
-            modes={companies}
-            onChange={this.handleCompanyChange}
-          />
-        )}
+              {/* The micromobility trip type selector */}
+              {/* TODO: Handle different micromobility networks */}
+              {selectedModes.some(isMicromobility) &&
+                !selectedModes.some(isTransit) && (
+                  <SubmodeSelector
+                    label={t("mode")}
+                    inline
+                    modes={scooterModes}
+                    onChange={this.handleMainModeChange}
+                  />
+                )}
 
-        <GeneralSettingsPanel
-          query={queryParams}
-          supportedModes={supportedModes}
-          onQueryParamChange={this.handleQueryParamChange}
-        />
+              {/* This order is probably better. */}
+              {companies.length >= 2 && (
+                <SubmodeSelector
+                  label={t('use_companies')}
+                  modes={companies}
+                  onChange={this.handleCompanyChange}
+                />
+              )}
+
+              <GeneralSettingsPanel
+                query={queryParams}
+                supportedModes={supportedModes}
+                onQueryParamChange={this.handleQueryParamChange}
+              />
+            </div>
+        }
       </div>
     );
   }

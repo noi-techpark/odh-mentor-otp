@@ -17,12 +17,12 @@ export function isBike(mode) {
 const supportedExclusiveModes = [
   {
     mode: "WALK",
-    label: "Walk Only",
+    label: "Walk",
     isActive: isWalk
   },
   {
     mode: "BICYCLE",
-    label: "Bike Only",
+    label: "Bike",
     isActive: isBike
   },
   {
@@ -109,13 +109,7 @@ export function getTransitSubmodeOptions(ModeIcon, modes, selectedModes) {
       selected: selectedModes.includes(modeStr),
       icon: (<ModeIcon mode={modeStr} width={28} height={28} />),
       label: modeObj.label,
-      text: (
-        <span>
-          <ModeIcon mode={modeStr} width={28} height={28} />
-          <br/>
-          {modeObj.label}
-        </span>
-      ),
+      showTitle: true,
       title: modeObj.label
     };
   });
@@ -130,17 +124,10 @@ function getPrimaryModeOption(ModeIcon, selectedModes) {
   return {
     id: "TRANSIT",
     selected: selectedModes.some(isTransit) && selectedModes.includes("WALK"),
-    showTitle: false,
+    showTitle: true,
     icon: (<ModeIcon mode="TRANSIT" width={28} height={28} />),
     label: 'take_transit',
-    text: (
-      <span>
-        <ModeIcon mode="TRANSIT" width={28} height={28}  />
-        <br/>
-        Take Transit
-      </span>
-    ),
-    title: "Take Transit"
+    title: "Bus"
   };
 }
 
@@ -202,13 +189,9 @@ function getTransitCombinedModeOptions(
           (!selectedCompanies.length ||
             !modeCompany ||
             selectedCompanies.includes(modeCompany)),
-        text: (
-          <span>
-            <ModeIcon mode="TRANSIT" width={28} height={28}/> + {FinalIcon}
-          </span>
-        ),
+        showTitle: true,
         icon: (<>
-          <ModeIcon mode="TRANSIT" width={28} height={28} /> + {FinalIcon}
+          {FinalIcon}
         </>),
         label: modeObj.label,
         title: modeObj.label
@@ -231,14 +214,9 @@ function getExclusiveModeOptions(ModeIcon, modes, selectedModes) {
     .map(({ isActive, label, mode }) => ({
       id: mode,
       selected: !selectedModes.some(isTransit) && selectedModes.some(isActive),
-      showTitle: false,
+      showTitle: true,
       icon: (<ModeIcon mode={mode} width={28} height={28} />),
       label,
-      text: (
-        <span>
-          <ModeIcon mode={mode} width={28} height={28} /><br/> {label}
-        </span>
-      ),
       title: label
     }));
 }
@@ -286,12 +264,8 @@ export function getCompaniesOptions(companies, modes, selectedCompanies) {
       id: comp.id,
       selected: selectedCompanies.includes(comp.id),
       icon: (CompanyIcon ? <CompanyIcon width={28} height={28} /> : ''),
+      showTitle: true,
       label: comp.label,
-      text: (
-        <span>
-          {CompanyIcon && <CompanyIcon width={28} height={28} />} <br/>{comp.label}
-        </span>
-      ),
       title: comp.label
     };
   });
@@ -315,14 +289,8 @@ export function getBicycleOrMicromobilityModeOptions(
       id: mode,
       selected: selectedModes.includes(mode),
       icon: (<ModeIcon mode={mode} width={28} height={28} />),
+      showTitle: true,
       label,
-      text: (
-        <span>
-          <ModeIcon mode={mode} width={28} height={28} />
-          <br/>
-          {label}
-        </span>
-      ),
       title: label
     }))
   );

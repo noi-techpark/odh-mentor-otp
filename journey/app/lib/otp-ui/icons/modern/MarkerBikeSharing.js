@@ -1,6 +1,6 @@
 import React from "react";
 
-const MarkerBikeSharing = ({ title, width = 55, height = 63.48, markerColor = '#ead896', iconColor = '#5d5d5d', ...props }) => (
+const MarkerBikeSharing = ({ title, width = 55, height = 63.48, markerColor = '#000', iconColor = '#fff', ...props }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} {...props} viewBox="0 0 55 63.48">
     <g id="Group_165" data-name="Group 165" transform="translate(-1368 -379.734)">
       <g id="Group_141" data-name="Group 141" transform="translate(863 -454.266)">

@@ -1,5 +1,5 @@
 .otp-ui-formToLocationPicker {
-  margin-top: 1rem;
+  margin-top: 10px;
 
   * {
     box-sizing: border-box !important;
@@ -10,6 +10,7 @@
 
     .btn {
       flex: 1;
+      border-color: transparent;
     }
   }
 

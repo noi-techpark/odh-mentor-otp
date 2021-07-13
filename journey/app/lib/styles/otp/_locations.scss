@@ -1,0 +1,15 @@
+.otp {
+  .locations {
+    position: relative;
+    padding-right: 50px;
+
+    .switch-button-container,
+    .switch-button-container-mobile {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0;
+      z-index: 2;
+    }
+  }
+}
