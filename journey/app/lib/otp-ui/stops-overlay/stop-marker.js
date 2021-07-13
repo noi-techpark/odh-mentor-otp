@@ -98,6 +98,8 @@ class StopMarker extends Component {
   }
 }
 
+//TODO may be unuseful
+
 StopMarker.propTypes = {
   languageConfig: languageConfigType.isRequired,
   leafletPath: leafletPathType,

@@ -120,40 +120,16 @@ map:
       maxZoom: 20
       hasRetinaSupport: true
 
-    # - name: Streets Dark
-    #   url: //cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}@2x.png
-    #   subdomains: 'abcd'
-    #   attribution: 'Map tiles: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-    #   maxZoom: 20
-    #   hasRetinaSupport: true
-
-    - name: Stamen Toner Lite
-      url: http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+    - name: Printer
+      url: //tile.stamen.com/toner-lite/{z}/{x}/{y}.png
+      attribution: 'Map tiles by <a href="http://stamen.com">Printer</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
 
     - name: OpenStreetMaps
-      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+      url: //{s}.tile.osm.org/{z}/{x}/{y}.png
       attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
       maxZoom: 16
 
-
-
-    # - name: Aerials
-    #   url: //tile{s}.trimet.org/tilecache/tilecache.py/1.0.0/hybridOSM/{z}/{x}/{y}
-    #   attribution: 'Map tiles: <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
-    #   maxZoom: 20
-
   overlays:
-    # real-time vehicles config
-    # - type: vehicles
-    #   name: Real-Time Buses and Trains
-    #   api: https://maps.trimet.org/gtfs/rt/vehicles
-    #   #pauseAnimationOnZoom: false # note: when true, MOD+vehicles has issues with multiple (additive) ws calls
-    #   refresh: 5
-    #   default: 'all'
-    #
-    #
-
     - type: stops
       name: stops
       visible: true
@@ -169,8 +145,7 @@ map:
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
       iconColor: "#5d5d5d"
-    #
-    #
+
     - type: car-rental
       name: carsharing
       modes:
@@ -181,6 +156,7 @@ map:
       iconHeight: 50
       iconMarkerColor: "#d9bd48"
       iconColor: "#5d5d5d"
+
     - type: bike-rental
       name: bikesharing
       modes:
@@ -193,6 +169,14 @@ map:
       iconHeight: 50
       iconMarkerColor: "#ead896"
       iconColor: "#5d5d5d"
+
+    # real-time vehicles config
+    # - type: vehicles
+    #   name: Real-Time Buses and Trains
+    #   api: https://maps.trimet.org/gtfs/rt/vehicles
+    #   #pauseAnimationOnZoom: false # note: when true, MOD+vehicles has issues with multiple (additive) ws calls
+    #   refresh: 5
+    #   default: 'all'
     #
     # - type: micromobility-rental
     #   name: Bird E-scooter Locations
