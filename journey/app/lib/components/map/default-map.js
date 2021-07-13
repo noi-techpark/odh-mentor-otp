@@ -170,6 +170,11 @@ class DefaultMap extends Component {
                 //TODO zoomControl from config
                 onPopupClosed={this.onPopupClosed}
                 zoom={mapConfig.initZoom || 13}
+                onLoad={() => {
+                  document.querySelectorAll('.leaflet-control-layers-base label span').forEach(item => {
+                    item.setAttribute('id', `${item.textContent.toLowerCase().trim().split(' ').join('-')}-layer-image`);
+                  })
+                }}
               >
                 {/* The default overlays */}
                 <BoundsUpdatingOverlay />
