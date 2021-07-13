@@ -8,8 +8,8 @@
 .otp .leg-diagram {
   position: absolute;
   right: 12px;
-  bottom: 12px;
-  left: 12px;
+  bottom: $grid-gutter-width;
+  left: $sidebar-width + $grid-gutter-width + 12px;
   height: 180px;
   z-index: 1000;
   background-color: white;
