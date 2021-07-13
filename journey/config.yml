@@ -153,6 +153,15 @@ map:
     #   default: 'all'
     #
     #
+
+    - type: stops
+      name: stops
+      visible: true
+      iconWidth: 15
+      iconHeight: 15
+      iconMarkerColor: "#337ab7"
+      iconColor: "#fff"
+
     - type: parking
       name: parking
       api: ${PARKING_BASEURL}/parking/stations.json
@@ -289,14 +298,6 @@ map:
     #   maxTransitDistance: 1000
     #   modes:
     #     - CAR_PARK
-
-    - type: stops
-      name: stops
-      visible: true
-      iconWidth: 15
-      iconHeight: 15
-      iconMarkerColor: "#095980"
-      iconColor: "#fff"
 
 # Mode selector configuration
 modes:
