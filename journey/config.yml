@@ -325,6 +325,8 @@ modes:
       label: carsharing_ride
       company: CAR2GO
     #   showWheelchairSetting: false
+    - mode: MICROMOBILITY
+      label: E-scooter & Ride
 
   # which exclusive modes to show. This involves using a single mode and no
   # transit for the duration of the trip. Further configurations of
@@ -333,6 +335,7 @@ modes:
   exclusiveModes:
     - WALK
     - BICYCLE
+    - MICROMOBILITY
 
   bicycleModes:
     - mode: BICYCLE
