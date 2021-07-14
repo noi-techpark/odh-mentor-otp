@@ -1,10 +1,16 @@
 /* shared stop/trip viewer styles */
 
-.otp .stop-viewer-header, .otp .trip-viewer-header, .otp .route-viewer-header {
-  background-color: #ddd;
-  padding: 12px;
+.otp .stop-viewer-header,
+.otp .trip-viewer-header,
+.otp .route-viewer-header {
+  background-color: $gray-lighter;
+  padding: $grid-gutter-width / 2 $grid-gutter-width;
+  margin-left: -$grid-gutter-width;
+  margin-right: -$grid-gutter-width;
+  margin-bottom: -$grid-gutter-width;
   position: sticky; /* Ensure header bar sticks to top of scrolling div */
-  top: 0px;
+  top: 0;
+  transform: translateY(-$grid-gutter-width);
   z-index: 1; /* Ensure sticky header stays on top of viewer body */
 }
 
@@ -13,18 +19,41 @@
   -webkit-appearance: none;
 }
 
-.otp .stop-viewer-body, .otp .trip-viewer-body {
+.otp .stop-viewer-body,
+.otp .trip-viewer-body {
   padding: 12px;
 }
 
-.otp .stop-viewer .back-button-container, .otp .trip-viewer .back-button-container, .otp .route-viewer .back-button-container {
+.otp .stop-viewer .back-button-container,
+.otp .trip-viewer .back-button-container,
+.otp .route-viewer .back-button-container {
   float: left;
   margin-right: 10px;
 }
 
-.otp .stop-viewer .header-text, .otp .trip-viewer .header-text, .otp .route-viewer .header-text {
+.otp .stop-viewer .header-text,
+.otp .trip-viewer .header-text,
+.otp .route-viewer .header-text {
   font-weight: 700;
   font-size: 24px;
+}
+
+.otp .route-viewer .route-row {
+  .btn {
+    text-align: left;
+    border-bottom: 0;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  &__inner {
+    padding: $padding-base-vertical $padding-base-horizontal;
+  }
+
+  &:first-child .btn {
+    border-top: 0;
+  }
 }
 
 /* stop viewer styles */
