@@ -11,5 +11,9 @@
       right: 0;
       z-index: 2;
     }
+
+    .dropdown-toggle svg {
+      transform: scale(1.5);
+    }
   }
 }
