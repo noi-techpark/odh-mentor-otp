@@ -41,10 +41,7 @@ const ModeSelector = props => {
       <ButtonGroup>
         {primary && makeButton(primary) }
         {secondary && secondary.map(makeButton)}
-        
-      </ButtonGroup>
-      <ButtonGroup>
-      {tertiary && tertiary.map(makeButton)}
+        {tertiary && tertiary.map(makeButton)}
       </ButtonGroup>
     </div>
   );

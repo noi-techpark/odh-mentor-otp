@@ -9,14 +9,18 @@
           flex: 1;
           flex-grow: 1;
           flex-basis: 0;
+          width: 0;
           display: block;
           white-space: normal;
-          font-size: $font-size-xsmall;
+          font-size: $font-size-xxsmall;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: start;
-          padding: 10px;
+          padding: 5px 6px;
+          text-transform: uppercase;
+          word-break: break-word;
+
 
           svg {
             margin-bottom: 8px;
