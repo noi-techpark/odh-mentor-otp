@@ -1,39 +1,3 @@
-/* Hide IE/Edge clear button in text input fields. */
-input[type=text]::-ms-clear {
-  display: none;
-}
-
-/* Buttons */
-
-button.header, button.step, .clear-button-formatting  {
-  background: transparent;
-  color: inherit;
-  border: 0;
-  text-align: inherit;
-  text-decoration: none;
-  padding: 0;
-  outline: 0;
-  margin: 0;
-}
-
-.clear-button-formatting:active {
-  background: none;
-  box-shadow: none;
-}
-
-.clear-button-formatting:focus {
-  background: none;
-}
-
-.clear-button-formatting:hover {
-  background: none;
-}
-
-button.header,
-button.step {
-  width: 100%;
-}
-
 // Spacing
 
 .pb-1 { padding-bottom: $font-size-base / 2; }

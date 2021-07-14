@@ -52,17 +52,9 @@
 // PROJECT COMPONENTS AND MIXINS
 @import 'mixins';
 @import 'utils';
-@import 'otp';
 @import 'leaflet';
 
-@import 'components/bike-rental';
-@import 'components/map';
-@import 'components/form';
-@import 'components/narrative';
-@import 'components/itinerary';
-@import 'components/mobile';
 @import 'components/navbar';
-@import 'components/viewers';
 
 @import 'otp-ui/badge-icon';
 @import 'otp-ui/base-map';
@@ -73,8 +65,16 @@
 @import 'otp-ui/park-and-ride-overlay';
 @import 'otp-ui/printable-itinerary';
 
+@import 'otp/bike-rental';
+@import 'otp/form';
+@import 'otp/itinerary';
 @import 'otp/layout';
 @import 'otp/locations';
+@import 'otp/map';
+@import 'otp/mobile';
+@import 'otp/narrative';
 @import 'otp/print';
 @import 'otp/tabbed-form-panel';
 @import 'otp/user-settings';
+@import 'otp/various';
+@import 'otp/viewers';

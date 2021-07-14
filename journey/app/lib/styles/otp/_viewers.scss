@@ -21,7 +21,7 @@
 
 .otp .stop-viewer-body,
 .otp .trip-viewer-body {
-  padding: 12px;
+  padding: $grid-gutter-width / 2 0;
 }
 
 .otp .stop-viewer .back-button-container,
