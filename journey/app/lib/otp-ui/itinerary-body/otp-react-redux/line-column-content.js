@@ -35,18 +35,12 @@ export default function LineColumnContent({
   } else if (isDestination) {
     // Desitination
     legBadge = (
-      <>
-        <Circle size={14} color="white" className="otp-ui-lineColumnContent__iconCircle is-inner" />
-        <LocationIcon size={20} type="to" className="otp-ui-lineColumnContent__iconLocation" />
-      </>
+      <LocationIcon size={20} type="to" className="otp-ui-lineColumnContent__iconLocation" />
     );
   } else if (legIndex === 0) {
     // Origin
     legBadge = (
-      <>
-        <Circle size={14} color="white" className="otp-ui-lineColumnContent__iconCircle is-inner" />
-        <LocationIcon size={20} type="from" className="otp-ui-lineColumnContent__iconLocation" />
-      </>
+      <LocationIcon size={20} type="from" className="otp-ui-lineColumnContent__iconLocation" />
     );
   } else if (
     leg.from.bikeShareId ||
