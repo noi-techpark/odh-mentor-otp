@@ -37,13 +37,11 @@ class DefaultMainPanel extends Component {
             <UserSettings />
         }
 
-        <div className='desktop-narrative-container'>
-          <NarrativeRoutingResults
-            itineraryClass={itineraryClass}
-            itineraryFooter={itineraryFooter}
-            LegIcon={LegIcon}
-          />
-        </div>
+        <NarrativeRoutingResults
+          itineraryClass={itineraryClass}
+          itineraryFooter={itineraryFooter}
+          LegIcon={LegIcon}
+        />
 
         {
           showPlanTripButton &&

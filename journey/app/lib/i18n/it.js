@@ -221,7 +221,7 @@ export const TRANSLATIONS_IT = {
   "active_only": "solo attivi",
   "uses_car": "$_uses_car",
   "best_option": "$_best_option",
-  "duration": "$_duration",
+  "duration": "durata",
   "arrival_time": "$_arrival_time",
   "departure_time": "$_departure_time",
   "walk_time": "$_walk_time",

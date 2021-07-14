@@ -59,7 +59,6 @@ class ConnectedItineraryBody extends Component {
           TransitLegSummary={TransitLegSummary}
           TimeColumnContent={RealtimeTimeColumn}
         />
-        <TripDetails itinerary={itinerary} />
         <TripTools itinerary={itinerary} />
       </>
     )

@@ -137,72 +137,40 @@
 
 /* TRIP TOOLS ROW */
 .otp .trip-tools {
-  margin-top: 10px;
+  margin-top: $font-size-base * 2;
   text-align: center;
+
+  .tool-button {
+    font-size: $font-size-xsmall;
+  }
 }
 
-.otp .trip-tools .button-container {
-  display: inline-block;
-  padding: 3px;
-}
-
-.otp .trip-tools .tool-button {
-  font-size: 12px;
-  width: 110px;
-  padding: 4px;
-}
-
-.otp .trip-tools .dropdown-menu {
-  font-size: 12px;
-  text-align: left;
-  padding: 4px;
-}
-
-.otp .trip-tools .dropdown-menu > li > a {
-  padding: 3px 5px;
-}
 
 /* TABBED ITINERARIES */
 
 .otp .tabbed-itineraries {
-  margin-top: 10px;
-}
+  .panel {
+    cursor: pointer;
 
-.otp .tabbed-itineraries .tab-row {
-  text-align: center;
-  margin-bottom: 10px;
-}
+    .title {
+      font-weight: $headings-font-weight;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-.otp .tabbed-itineraries .tab-button {
-  width: 100px;
-  margin: 5px;
-  padding: 2px;
-  border-radius: 0;
-  outline: none;
-  vertical-align: top;
-}
+    .details {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-.otp .tabbed-itineraries .tab-button:active {
-  background-color: #f8f8f8;
-}
+      small {
+        text-transform: capitalize;
+      }
+    }
 
-.otp .tabbed-itineraries .tab-button .title {
-  display: inline-block;
-  padding-bottom: 1px;
-  border-bottom: 3px solid transparent;
-  margin-bottom: 3px;
-}
-
-.otp .tabbed-itineraries .tab-button .details {
-  font-size: 12px;
-  color: gray;
-}
-
-.otp .tabbed-itineraries .tab-button:hover .title {
-  border-bottom: 3px solid #ddd;
-}
-
-.otp .tabbed-itineraries .tab-button.selected .title {
-  border-bottom: 3px solid gray;
-  font-weight: bold;
+    .itinerary {
+      margin-top: $font-size-base * 2;
+    }
+  }
 }

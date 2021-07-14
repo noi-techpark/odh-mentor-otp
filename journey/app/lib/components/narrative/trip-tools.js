@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import { Button } from 'react-bootstrap'
+import { Button, ButtonGroup } from 'react-bootstrap'
 // import { DropdownButton, MenuItem } from 'react-bootstrap'
 import copyToClipboard from 'copy-to-clipboard'
 import bowser from 'bowser'
@@ -40,7 +40,9 @@ class TripTools extends Component {
 
     return (
       <div className='trip-tools'>
-        {buttonComponents.map((btn, i) => <div key={i} className='button-container'>{btn}</div>)}
+        <ButtonGroup>
+          {buttonComponents.map(btn => <>{btn}</>)}
+        </ButtonGroup>
       </div>
     )
   }
@@ -100,17 +102,15 @@ class CopyUrlButton extends Component {
 
   render () {
     return (
-      <div>
-        <Button
-          className='tool-button'
-          onClick={this._onClick}
-        >
-          {this.state.showCopied
-            ? <span><i className='fa fa-check' /> { this.props.labelCopy }</span>
-            : <span><i className='fa fa-clipboard' /> { this.props.labelCopied }</span>
-          }
-        </Button>
-      </div>
+      <Button
+        className='tool-button'
+        onClick={this._onClick}
+      >
+        {this.state.showCopied
+          ? <span><i className='fa fa-check' /> { this.props.labelCopy }</span>
+          : <span><i className='fa fa-clipboard' /> { this.props.labelCopied }</span>
+        }
+      </Button>
     )
   }
 }
@@ -126,14 +126,12 @@ class PrintButton extends Component {
 
   render () {
     return (
-      <div>
-        <Button
-          className='tool-button'
-          onClick={this._onClick}
-        >
-          <i className='fa fa-print' /> { this.props.label }
-        </Button>
-      </div>
+      <Button
+        className='tool-button'
+        onClick={this._onClick}
+      >
+        <i className='fa fa-print' /> { this.props.label }
+      </Button>
     )
   }
 }
@@ -188,15 +186,13 @@ class LinkButton extends Component {
   render () {
     const { icon, text } = this.props
     return (
-      <div>
-        <Button
-          className='tool-button'
-          onClick={this._onClick}
-        >
-          {icon && <span><i className={`fa fa-${icon}`} /> </span>}
-          {text}
-        </Button>
-      </div>
+      <Button
+        className='tool-button'
+        onClick={this._onClick}
+      >
+        {icon && <span><i className={`fa fa-${icon}`} /> </span>}
+        {text}
+      </Button>
     )
   }
 }
