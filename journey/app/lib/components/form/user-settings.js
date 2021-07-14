@@ -86,17 +86,15 @@ class UserSettings extends Component {
           <Panel.Heading>
             <Panel.Title componentClass="h3">{t('favorite_stops')}</Panel.Title>
           </Panel.Heading>
-          <Panel.Body>
-            <ul className="list-unstyled">
-              {
-                favoriteStops.length > 0
-                  ? favoriteStops.map(location => {
-                    return <Place key={location.id} location={location} {...this.props} />
-                  })
-                  : <li>{t('no_favorite_stops')} </li>
-              }
-            </ul>
-          </Panel.Body>
+          <ListGroup>
+            {
+              favoriteStops.length > 0
+                ? favoriteStops.map(location => {
+                  return <Place key={location.id} location={location} {...this.props} />
+                })
+                : <li>{t('no_favorite_stops')} </li>
+            }
+          </ListGroup>
         </Panel>
 
         {/* TODO: fix local storage issue first */}
