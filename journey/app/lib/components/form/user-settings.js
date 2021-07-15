@@ -79,12 +79,12 @@ class UserSettings extends Component {
                 })
               }
             </ListGroup>
-        </Panel>
+{/* TRY SAME LIST      </Panel>
 
         <Panel>
           <Panel.Heading>
             <Panel.Title componentClass="h3">{t('favorite_stops')}</Panel.Title>
-          </Panel.Heading>
+          </Panel.Heading>*/}
           <ListGroup>
             {
               favoriteStops.length > 0
