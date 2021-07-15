@@ -81,7 +81,6 @@ class UserSettings extends Component {
             </ListGroup>
         </Panel>
 
-        {/* TODO: fix local storage issue first */}
         <Panel>
           <Panel.Heading>
             <Panel.Title componentClass="h3">{t('favorite_stops')}</Panel.Title>
@@ -92,12 +91,11 @@ class UserSettings extends Component {
                 ? favoriteStops.map(location => {
                   return <Place key={location.id} location={location} {...this.props} />
                 })
-                : <li>{t('no_favorite_stops')} </li>
+                : <ListGroupItem>{t('no_favorite_stops')} </ListGroupItem>
             }
           </ListGroup>
         </Panel>
 
-        {/* TODO: fix local storage issue first */}
         {
           trackRecent && recentPlaces.length > 0 &&
             <div className='recent-places-container'>
@@ -105,18 +103,15 @@ class UserSettings extends Component {
                 <Panel.Heading>
                   <Panel.Title componentClass="h3">{t('recent_places')}</Panel.Title>
                 </Panel.Heading>
-                <Panel.Body>
-                  <ul className="list-unstyled">
-                    {recentPlaces.map(location => {
-                      return <Place key={location.id} location={location} {...this.props} />
-                    })}
-                  </ul>
-                </Panel.Body>
+                <ListGroup>
+                  {recentPlaces.map(location => {
+                    return <Place key={location.id} location={location} {...this.props} />
+                  })}
+                </ListGroup>
               </Panel>
             </div>
         }
 
-        {/* TODO: fix local storage issue first */}
         {
           trackRecent && recentSearches.length > 0 &&
             <div className='recent-searches-container'>
@@ -124,22 +119,19 @@ class UserSettings extends Component {
                 <Panel.Heading>
                   <Panel.Title componentClass="h3">{t('recent_searches')}</Panel.Title>
                 </Panel.Heading>
-                <Panel.Body>
-                  <ul className="list-unstyled">
-                    {
-                      recentSearches
-                        .sort((a, b) => b.timestamp - a.timestamp)
-                        .map(search => {
-                          return <RecentSearch key={search.id} search={search} {...this.props} />
-                        })
-                    }
-                  </ul>
-                </Panel.Body>
+                <ListGroup>
+                  {
+                    recentSearches
+                      .sort((a, b) => b.timestamp - a.timestamp)
+                      .map(search => {
+                        return <RecentSearch key={search.id} search={search} {...this.props} />
+                      })
+                  }
+                </ListGroup>
               </Panel>
             </div>
         }
 
-        {/* TODO: fix local storage issue first */}
         <Panel>
           <Panel.Heading>
             <Panel.Title componentClass="h3">{t('my_preferences')}</Panel.Title>
@@ -174,7 +166,6 @@ class UserSettings extends Component {
   }
 }
 
-{/* TODO: fix local storage issue first */}
 
 class Place extends Component {
   _onSelect = () => {
@@ -249,26 +240,30 @@ class Place extends Component {
           header={this._getButtonLabel(icon)}
           onClick={this._onSelect}
         >
-          <Icon type='plus' />
-          <small>{getDetailText(location)}</small>
+          <div className="place-list-inner">
+            <div className="place-list-inner__title">
+              <Icon type='plus' />
+              <small>{getDetailText(location)}</small>
+            </div>
 
-          {showView &&
-            <Button
-              onClick={this._onView}
-              className='place-view'
-              bsSize='xsmall'
-              title={t('view_stop')}
-              style={{ width: `${BUTTON_WIDTH}px` }}
-              bsStyle='link'><Icon type='search' /></Button>
-          }
-          {showForget &&
-            <Button
-              onClick={this._onForget}
-              className='place-clear'
-              bsSize='xsmall'
-              style={{ width: `${BUTTON_WIDTH}px` }}
-              bsStyle='link'>{t('clear')}</Button>
-          }
+            <div className="place-list-inner__cta">
+              {showView &&
+                <Button
+                  onClick={this._onView}
+                  bsSize='xsmall'
+                  title={t('view_stop')}
+                  bsStyle='link'><Icon type='eye' /></Button>
+              }
+              {showForget &&
+                <Button
+                  onClick={this._onForget}
+                  bsSize='xsmall'
+                  bsStyle='link'>
+                    <Icon type='times' className='text-danger' />
+                  </Button>
+              }
+            </div>
+          </div>
         </ListGroupItem>
       </div>
     )
@@ -289,28 +284,29 @@ class RecentSearch extends Component {
     const { query, timestamp } = search
     const name = summarizeQuery(query, user.locations)
     return (
-      <li className='place-item'>
-        <Button
-          bsStyle='link'
-          title={`${name} (${moment(timestamp).fromNow()})`}
-          style={{
-            padding: '5px 0 0 0',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            textAlign: 'left',
-            width: `calc(100% - ${BUTTON_WIDTH}px)`
-          }}
-          onClick={this._onSelect}>
-          <span className='place-text'><Icon type='clock-o' /> {name} </span>
-          <span className='place-detail'>{moment(timestamp).fromNow()}</span>
-        </Button>
-        <Button
-          onClick={this._onForget}
-          bsSize='xsmall'
-          style={{ paddingTop: '6px', width: `${BUTTON_WIDTH}px` }}
-          bsStyle='link'>{t('clear')}</Button>
-      </li>
+      <div className="place-list-group">
+        <ListGroupItem
+          href="#"
+          header={<>{name}</>}
+          onClick={this._onSelect}
+        >
+          <div className="place-list-inner">
+            <div className="place-list-inner__title">
+              <Icon type='clock-o' />
+              <small>{moment(timestamp).fromNow()}</small>
+            </div>
+
+            <div className="place-list-inner__cta">
+              <Button
+                onClick={this._onForget}
+                bsSize='xsmall'
+                bsStyle='link'>
+                  <Icon type='times' className='text-danger' />
+              </Button>
+            </div>
+          </div>
+        </ListGroupItem>
+      </div>
     )
   }
 }

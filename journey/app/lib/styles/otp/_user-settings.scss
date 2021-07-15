@@ -12,4 +12,14 @@
   .disclaimer {
     font-size: $font-size-xsmall;
   }
+
+  .place-list-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__cta {
+      transform: translateY(-50%);
+    }
+  }
 }

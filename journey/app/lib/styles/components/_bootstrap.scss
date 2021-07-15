@@ -1,0 +1,25 @@
+.form-control {
+  box-shadow: none;
+}
+
+.input-group {
+  .input-group-btn .btn {
+    height: $input-height-base;
+    outline: 0;
+    background-color: $input-bg;
+    border-color: $input-border;
+  }
+}
+
+.dropdown {
+  .dropdown-menu {
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+
+    a {
+      padding-top: $padding-large-vertical;
+      padding-bottom: $padding-large-vertical;
+    }
+  }
+}

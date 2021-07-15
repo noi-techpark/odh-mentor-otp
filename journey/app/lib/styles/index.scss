@@ -53,6 +53,7 @@
 @import 'mixins';
 @import 'utils';
 
+@import 'components/bootstrap';
 @import 'components/leaflet';
 @import 'components/navbar';
 
@@ -64,7 +65,6 @@
 @import 'otp/print';
 @import 'otp/tabbed-form-panel';
 @import 'otp/user-settings';
-@import 'otp/various';
 @import 'otp/viewers';
 
 @import 'otp-ui/badge-icon';
