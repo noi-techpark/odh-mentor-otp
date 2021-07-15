@@ -91,7 +91,7 @@ class UserSettings extends Component {
                 ? favoriteStops.map(location => {
                   return <Place key={location.id} location={location} {...this.props} />
                 })
-                : <li>{t('no_favorite_stops')} </li>
+                : <ListGroupItem>{t('no_favorite_stops')} </ListGroupItem>
             }
           </ListGroup>
         </Panel>
