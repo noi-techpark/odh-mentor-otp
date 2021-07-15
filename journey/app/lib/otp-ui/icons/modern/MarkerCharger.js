@@ -2,11 +2,11 @@ import React from "react";
 
 const MarkerCharger = ({ title, width = 54, height = 62, markerColor = '#000', iconColor = '#fff', ...props }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} {...props} viewBox="0 0 54 61.96">
-    <g id="Group_165" data-name="Group 165" transform="translate(-1312 -301.52)">
-      <g id="Group_29" data-name="Group 29" transform="translate(529 -212.48)">
-        <rect id="Rectangle_35" data-name="Rectangle 35" width="54" height="51" rx="10" transform="translate(783 514)"fill={markerColor}/>
-        <path id="Path_111" data-name="Path 111" d="M-3.978-13.986V-21.9H.536a12.166,12.166,0,0,1,1.924.148,4.477,4.477,0,0,1,1.628.574,3.124,3.124,0,0,1,1.128,1.2,4.227,4.227,0,0,1,.426,2.035,4.227,4.227,0,0,1-.426,2.035,3.124,3.124,0,0,1-1.128,1.2,4.477,4.477,0,0,1-1.628.574,12.166,12.166,0,0,1-1.924.148ZM-9.787-26.418V0h5.809V-9.472H2.127a11,11,0,0,0,4.218-.721A7.892,7.892,0,0,0,9.176-12.1a7.3,7.3,0,0,0,1.591-2.719,10.047,10.047,0,0,0,.5-3.127,9.991,9.991,0,0,0-.5-3.145,7.32,7.32,0,0,0-1.591-2.7A7.892,7.892,0,0,0,6.345-25.7a11,11,0,0,0-4.218-.721Z" transform="translate(811 554)" fill={iconColor}/>
-        <path id="Path_19" data-name="Path 19" d="M798.4,1802.6l10.96,10.96,10.96-10.96Z" transform="translate(0 -1237.602)"fill={markerColor}/>
+    <g id="Group_165" data-name="Group 165" transform="translate(-1323.585 -290.965)">
+      <g id="noun_Charging_Station_976545" data-name="noun_Charging Station_976545" transform="translate(1329.162 295.042)">
+        <rect id="Rectangle_38" data-name="Rectangle 38" width="54" height="51" rx="10" transform="translate(-5.577 -4.077)" fill={markerColor}/>
+        <path id="Path_21" data-name="Path 21" d="M798.4,1802.6l10.96,10.96,10.96-10.96Z" transform="translate(-787.942 -1755.678)" fill={markerColor}/>
+        <path id="Path_20" data-name="Path 20" d="M36.256,45.06V39.3h-.778a4.031,4.031,0,0,1-3.363-6.217l.961-1.489-7.389.019,2.537-5.765H36.78L39.268,22H26.95a1.922,1.922,0,0,0-1.744,1.163l-2.815,6.524H19.922a1.922,1.922,0,0,0,0,3.843h.822l-.822,1.922v5.765a3.843,3.843,0,0,0,1.922,3.31v2.455A1.922,1.922,0,0,0,23.765,48.9h1.922a1.922,1.922,0,0,0,1.922-1.922V45.06ZM25.687,37.374A1.922,1.922,0,1,1,23.765,39.3,1.922,1.922,0,0,1,25.687,37.374Zm22.878-1.115-7.893,12.2a.831.831,0,0,1-1.533-.452V36.413H35.478a1.148,1.148,0,0,1-.961-1.768l7.893-12.2a.831.831,0,0,1,1.533.452V34.491H47.6a1.148,1.148,0,0,1,.966,1.768Z" transform="translate(-11.95 -14.029)" fill="#5d5d5d"/>
       </g>
     </g>
   </svg>
