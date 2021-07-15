@@ -125,7 +125,7 @@ class ChargerOverlay extends MapLayer {
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{location.name}</div>
 
-                  {/* <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                  <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
                     <CircularProgressbar
                       value={location.free}
                       minValue={0}
@@ -134,7 +134,7 @@ class ChargerOverlay extends MapLayer {
                       className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
                     />
                     <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('capacity')}: {location.capacity}</div>
-                  </div> */}
+                  </div>
 
                   <div className='popup-row'>
                     <FromToLocationPicker
