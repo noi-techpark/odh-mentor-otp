@@ -1,7 +1,7 @@
 /* route viewer styles */
 .otp {
   .route-viewer-header {
-    background-color: lighten($brand-primary, 50%);
+    background-color: lighten($brand-primary, 20%);
     padding: $grid-gutter-width / 2 $grid-gutter-width;
     margin-left: -$grid-gutter-width;
     margin-right: -$grid-gutter-width;
@@ -46,7 +46,7 @@
 /* stop viewer styles */
 .otp {
   .stop-viewer-header {
-    background-color: lighten($brand-primary, 50%);
+    background-color: lighten($brand-primary, 20%);
     padding: $grid-gutter-width / 2 $grid-gutter-width;
     margin-left: -$grid-gutter-width;
     margin-right: -$grid-gutter-width;
@@ -174,7 +174,7 @@
 /* trip viewer styles */
 .otp {
   .trip-viewer-header {
-    background-color: lighten($brand-primary, 50%);
+    background-color: lighten($brand-primary, 20%);
     padding: $grid-gutter-width / 2 $grid-gutter-width;
     margin-left: -$grid-gutter-width;
     margin-right: -$grid-gutter-width;

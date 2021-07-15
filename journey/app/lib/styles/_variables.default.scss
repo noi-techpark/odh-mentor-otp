@@ -11,8 +11,8 @@ $gray:                   lighten($gray-base, 33.5%) !default; // #555
 $gray-light:             lighten($gray-base, 66.7%) !default; // #777
 $gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
 
-$brand-primary:         #A4D1B5;
-$brand-primary-dark:    #75ac8a;
+$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
+$brand-primary-dark:    #095980;
 $brand-success:         #5cb85c !default;
 $brand-info:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
@@ -20,7 +20,7 @@ $brand-danger:          #d9534f !default;
 
 $body-bg:               #fff !default;
 $text-color:            $gray-dark !default;
-$link-color:            $brand-primary-dark !default;
+$link-color:            $brand-primary !default;
 $link-hover-color:      darken($link-color, 15%) !default;
 $link-hover-decoration: underline !default;
 
@@ -74,7 +74,7 @@ $border-radius-base:        8px !default;
 $border-radius-large:       12px !default;
 $border-radius-small:       6px !default;
 
-$component-active-color:    $text-color !default;
+$component-active-color:    #fff !default;
 $component-active-bg:       $brand-primary !default;
 $caret-width-base:          4px !default;
 $caret-width-large:         5px !default;
@@ -93,7 +93,7 @@ $btn-default-color:              #333 !default;
 $btn-default-bg:                 #fff !default;
 $btn-default-border:             #ccc !default;
 
-$btn-primary-color:              $text-color !default;
+$btn-primary-color:              #fff !default;
 $btn-primary-bg:                 $brand-primary !default;
 $btn-primary-border:             darken($btn-primary-bg, 5%) !default;
 
@@ -119,7 +119,7 @@ $btn-border-radius-base:         $border-radius-base !default;
 $btn-border-radius-large:        $border-radius-large !default;
 $btn-border-radius-small:        $border-radius-small !default;
 
-$input-bg:                       lighten($brand-primary, 20%) !default;
+$input-bg:                       lighten($brand-primary, 50%) !default;
 $input-bg-disabled:              $gray-lighter !default;
 $input-color:                    $gray !default;
 $input-border:                   $input-bg !default;
@@ -128,7 +128,7 @@ $input-border-radius:            $border-radius-base !default;
 $input-border-radius-large:      $border-radius-large !default;
 $input-border-radius-small:      $border-radius-small !default;
 
-$input-border-focus:             lighten($brand-primary, 15%) !default;
+$input-border-focus:             lighten($brand-primary, 35%) !default;
 $input-color-placeholder:        $gray-light !default;
 
 $input-height-base:              ($line-height-computed + ($padding-base-vertical * 3) + 2) !default;
@@ -210,11 +210,11 @@ $navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) !default;
 $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;
 $navbar-collapse-max-height:       340px !default;
 
-$navbar-default-color:             $text-color !default;
+$navbar-default-color:             #fff !default;
 $navbar-default-bg:                $brand-primary !default;
 $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
-$navbar-default-link-color:                $text-color !default;
+$navbar-default-link-color:                #fff !default;
 $navbar-default-link-hover-color:          lighten($navbar-default-bg, 40%) !default;
 $navbar-default-link-hover-bg:             transparent !default;
 $navbar-default-link-active-color:         lighten($navbar-default-bg, 40%) !default;
@@ -286,7 +286,7 @@ $panel-footer-bg:             #f5f5f5 !default;
 
 $panel-default-text:          $gray-dark !default;
 $panel-default-border:        #ddd !default;
-$panel-default-heading-bg:    lighten($brand-primary, 20%) !default;
+$panel-default-heading-bg:    lighten($brand-primary, 50%) !default;
 
 $panel-primary-text:          #fff !default;
 $panel-primary-border:        $brand-primary !default;
@@ -297,5 +297,5 @@ $panel-primary-heading-bg:    $brand-primary !default;
 $base-color: $brand-primary;
 $sidebar-width: 512px;
 $option-panel-width: 400px;
-$settings-selector-panel-color: $text-color;
+$settings-selector-panel-color: #fff;
 $settings-selector-panel-bg: $brand-primary;

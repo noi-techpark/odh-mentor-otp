@@ -26,7 +26,12 @@
             border: 0;
 
             &.active {
-              background-color: darken($input-bg, 7%);
+              background-color: $brand-primary;
+              color: #fff;
+
+              svg path {
+                fill: currentColor;
+              }
             }
 
             svg {
@@ -46,8 +51,8 @@
         left: $grid-gutter-width + $sidebar-width;
         padding: $grid-gutter-width / 2 $grid-gutter-width;
         width: $option-panel-width;
-        background-color: $brand-primary;
-        color: #fff;
+        background-color: $settings-selector-panel-bg;
+        color: $settings-selector-panel-color;
         z-index: 1;
         border-top-right-radius: $border-radius-large;
         border-bottom-right-radius: $border-radius-large;
