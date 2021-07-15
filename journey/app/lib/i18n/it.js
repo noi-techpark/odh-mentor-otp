@@ -192,6 +192,7 @@ export const TRANSLATIONS_IT = {
   "forget_settings": "Dimentica impostazioni",
   "remember_trip_settings": "Ricorda opzioni di viaggio",
   "parking": "Parcheggi",
+  "charger": "Colonnina Elettrica",
   "vehicles": "Veicoli",
   "zipcar_location": "$_zipcar_location",
   "invalid_mobile_screen": "$_invalid_mobile_screen",
