@@ -192,6 +192,7 @@ export const TRANSLATIONS_EN = {
   "forget_settings": "Forget settings",
   "remember_trip_settings": "Remember trip settings",
   "parking": "Parking",
+  "charger": "E-Charger",
   "vehicles": "Vehicles",
   "zipcar_location": "Zipcar Location",
   "invalid_mobile_screen": "Invalid mobile screen",

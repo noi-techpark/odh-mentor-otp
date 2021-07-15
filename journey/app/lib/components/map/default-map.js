@@ -29,6 +29,7 @@ import PointPopup from './point-popup'
 import TileOverlay from './tile-overlay'
 import ZipcarOverlay from '../../otp-ui/zipcar-overlay'
 import ParkingOverlay from '../../otp-ui/parking-overlay'
+import ChargerOverlay from '../../otp-ui/charger-overlay'
 
 const MapContainer = styled.div`
   height: 100%;
@@ -221,6 +222,7 @@ class DefaultMap extends Component {
                     )
                     case 'zipcar': return <ZipcarOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
                     case 'parking': return <ParkingOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
+                    case 'charger': return <ChargerOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
                     default: return null
                   }
                 })}

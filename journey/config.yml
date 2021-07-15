@@ -145,6 +145,22 @@ map:
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
       iconColor: "#5d5d5d"
+    
+    # - type: parking-sensors
+    #   name: parking-sensors
+    #   api: ${PARKING_BASEURL}/parking/sensors.json
+    #   iconWidth: 42
+    #   iconHeight: 50
+    #   iconMarkerColor: "#b0d1ef"
+    #   iconColor: "#5d5d5d"
+    
+    - type: charger
+      name: charger
+      api: ${CHARGER_BASEURL}/charger/stations.json
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#efeeb0"
+      iconColor: "#5d5d5d"
 
     - type: car-rental
       name: carsharing
