@@ -85,7 +85,7 @@ class AppMenu extends Component {
         </NavItem>
 
         <NavDropdown
-          menuAlign="right"
+          id="language-dropdown"
           aria-label='Choose Language'
           title={this._getLanguageLabel()}
         >
