@@ -20,6 +20,8 @@ docker-compose up -d otp
 cp env.example .env
 ```
 
+### generation of config.yml
+
 edit .env file if needed
 ```
 API_HOST=http://localhost
