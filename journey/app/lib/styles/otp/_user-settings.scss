@@ -1,0 +1,15 @@
+.otp .user-settings {
+  .remember-settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .btn {
+      min-width: 40px;
+    }
+  }
+
+  .disclaimer {
+    font-size: $font-size-xsmall;
+  }
+}

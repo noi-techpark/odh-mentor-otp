@@ -167,7 +167,7 @@ class UserSettings extends Component {
 
         {
           storageDisclaimer &&
-            <div className="disclaimer"><small>{t(storageDisclaimer)}</small></div>
+            <div className="disclaimer">{t(storageDisclaimer)}</div>
         }
       </div>
     )
