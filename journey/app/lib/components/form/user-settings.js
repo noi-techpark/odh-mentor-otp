@@ -245,6 +245,7 @@ class Place extends Component {
     return (
       <div className="place-list-group">
         <ListGroupItem
+          href="#"
           header={this._getButtonLabel(icon)}
           onClick={this._onSelect}
         >

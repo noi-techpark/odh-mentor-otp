@@ -606,6 +606,7 @@ class LocationField extends Component {
         <InputGroup>
           <InputGroup.Button>
             <DropdownButton
+              id="dropdown-locations"
               noCaret
               aria-label={`List the suggested ${locationType} locations as you type`}
               open={menuVisible}
