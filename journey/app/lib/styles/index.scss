@@ -52,8 +52,8 @@
 // PROJECT COMPONENTS AND MIXINS
 @import 'mixins';
 @import 'utils';
-@import 'leaflet';
 
+@import 'components/leaflet';
 @import 'components/navbar';
 
 @import 'otp/layout';
@@ -63,7 +63,6 @@
 @import 'otp/narrative';
 @import 'otp/print';
 @import 'otp/tabbed-form-panel';
-@import 'otp/user-settings';
 @import 'otp/various';
 @import 'otp/viewers';
 

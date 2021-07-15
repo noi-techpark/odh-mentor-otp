@@ -1,260 +1,307 @@
-/* shared stop/trip viewer styles */
-
-.otp .stop-viewer-header,
-.otp .trip-viewer-header,
-.otp .route-viewer-header {
-  background-color: $gray-lighter;
-  padding: $grid-gutter-width / 2 $grid-gutter-width;
-  margin-left: -$grid-gutter-width;
-  margin-right: -$grid-gutter-width;
-  margin-bottom: -$grid-gutter-width;
-  position: sticky; /* Ensure header bar sticks to top of scrolling div */
-  top: 0;
-  transform: translateY(-$grid-gutter-width);
-  z-index: 1; /* Ensure sticky header stays on top of viewer body */
-}
-
-/* Remove arrows on date input */
-.otp .stop-viewer-body input[type="date"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-
-.otp .stop-viewer-body,
-.otp .trip-viewer-body {
-  padding: $grid-gutter-width / 2 0;
-}
-
-.otp .stop-viewer .back-button-container,
-.otp .trip-viewer .back-button-container,
-.otp .route-viewer .back-button-container {
-  float: left;
-  margin-right: 10px;
-}
-
-.otp .stop-viewer .header-text,
-.otp .trip-viewer .header-text,
-.otp .route-viewer .header-text {
-  font-weight: 700;
-  font-size: 24px;
-}
-
-.otp .route-viewer .route-row {
-  .btn {
-    text-align: left;
-    border-bottom: 0;
-    border-radius: 0;
-    border-left: 0;
-    border-right: 0;
+/* route viewer styles */
+.otp {
+  .route-viewer-header {
+    background-color: $gray-lighter;
+    padding: $grid-gutter-width / 2 $grid-gutter-width;
+    margin-left: -$grid-gutter-width;
+    margin-right: -$grid-gutter-width;
+    margin-bottom: -$grid-gutter-width;
+    position: sticky; /* Ensure header bar sticks to top of scrolling div */
+    top: 0;
+    transform: translateY(-$grid-gutter-width);
+    z-index: 1; /* Ensure sticky header stays on top of viewer body */
   }
 
-  &__inner {
-    padding: $padding-base-vertical $padding-base-horizontal;
-  }
+  .route-viewer {
+    .back-button-container {
+      float: left;
+      margin-right: 10px;
+    }
 
-  &:first-child .btn {
-    border-top: 0;
+    .header-text {
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    .route-row {
+      .btn {
+        text-align: left;
+        border-bottom: 0;
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      &__inner {
+        padding: $padding-base-vertical $padding-base-horizontal;
+      }
+
+      &:first-child .btn {
+        border-top: 0;
+      }
+    }
   }
 }
 
 /* stop viewer styles */
+.otp {
+  .stop-viewer-header {
+    background-color: $gray-lighter;
+    padding: $grid-gutter-width / 2 $grid-gutter-width;
+    margin-left: -$grid-gutter-width;
+    margin-right: -$grid-gutter-width;
+    margin-bottom: -$grid-gutter-width;
+    position: sticky; /* Ensure header bar sticks to top of scrolling div */
+    top: 0;
+    transform: translateY(-$grid-gutter-width);
+    z-index: 1; /* Ensure sticky header stays on top of viewer body */
+  }
 
-.otp .stop-viewer .route-row {
-  border: 1px solid $btn-default-border;
-  margin-top: 10px;
-  border-radius: 5px;
+  .stop-viewer-body {
+    padding: $grid-gutter-width / 2 0;
+  }
+
+  .stop-viewer {
+    .back-button-container {
+      float: left;
+      margin-right: 10px;
+    }
+
+    .header-text {
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    .route-row {
+      border: 1px solid $btn-default-border;
+      margin-top: 10px;
+      border-radius: 5px;
+
+      .header {
+        display: table;
+        width: 100%;
+
+        .route-name {
+          display: table-cell;
+          padding: 8px;
+          vertical-align: middle;
+        }
+
+        .next-trip-preview {
+          display: table-cell;
+          width: 100px;
+          border-left: 1px solid $btn-default-border;
+          padding: 9px 6px;
+          font-size: 14px;
+        }
+
+        .expansion-button-container {
+          display: table-cell;
+          width: 36px;
+          border-left: 1px solid $btn-default-border;
+          padding: 0px;
+          cursor: pointer;
+          vertical-align: middle;
+        }
+
+        .expansion-button {
+          background: none;
+          border: none;
+          padding: 8px;
+        }
+
+        .expansion-button:hover {
+          color: $btn-default-border;
+        }
+
+        .expansion-button:focus {
+          outline: 0px;
+        }
+      }
+    }
+
+    .trip-table {
+      display: table;
+      width: 100%;
+      padding: 8px;
+      border-top: 1px solid $btn-default-border;
+
+      .header {
+        display: table-row;
+        font-size: $font-size-xsmall;
+        color: gray;
+        text-align: center;
+      }
+
+      .cell {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      .trip-row {
+        display: table-row;
+
+        .cell {
+          padding-top: $padding-base-vertical;
+          padding-bottom: $padding-base-vertical;
+        }
+      }
+
+      .time-column {
+        text-align: left;
+        width: 90px;
+      }
+
+      .status-column {
+        width: 80px;
+      }
+
+      .status-label {
+        width: 100%;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: $font-size-xsmall;
+        color: white;
+        padding: $padding-small-vertical $padding-small-horizontal;
+        border-radius: $border-radius-base;
+      }
+    }
+  }
 }
 
-.otp .stop-viewer .route-row .header {
-  display: table;
-  width: 100%;
-}
-.otp .stop-viewer .route-row .header .route-name {
-  display: table-cell;
-  padding: 8px;
-  vertical-align: middle;
-}
-
-.otp .stop-viewer .route-row .header .next-trip-preview {
-  display: table-cell;
-  width: 100px;
-  border-left: 1px solid $btn-default-border;
-  padding: 9px 6px;
-  font-size: 14px;
-}
-
-.otp .stop-viewer .route-row .header .expansion-button-container {
-  display: table-cell;
-  width: 36px;
-  border-left: 1px solid $btn-default-border;
-  padding: 0px;
-  cursor: pointer;
-  vertical-align: middle;
-}
-
-.otp .stop-viewer .route-row .header .expansion-button {
-  background: none;
-  border: none;
-  padding: 8px;
-}
-
-.otp .stop-viewer .route-row .header .expansion-button:hover {
-  color: $btn-default-border;
-}
-
-.otp .stop-viewer .route-row .header .expansion-button:focus {
-  outline: 0px;
-}
-
-.otp .stop-viewer .trip-table {
-  display: table;
-  width: 100%;
-  padding: 8px;
-  border-top: 1px solid $btn-default-border;
-}
-
-.otp .stop-viewer .trip-table .header {
-  display: table-row;
-  font-size: $font-size-xsmall;
-  color: gray;
-  text-align: center;
-}
-
-.otp .stop-viewer .trip-table .trip-row {
-  display: table-row;
-}
-
-.otp .stop-viewer .trip-table .cell {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.otp .stop-viewer .trip-table .trip-row .cell {
-  padding-top: $padding-base-vertical;
-  padding-bottom: $padding-base-vertical;
-}
-
-.otp .stop-viewer .trip-table .time-column {
-  text-align: left;
-  width: 90px;
-}
-
-.otp .stop-viewer .trip-table .status-column {
-  width: 80px;
-}
-
-.otp .stop-viewer .trip-table .status-label {
-  width: 100%;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: 500;
-  font-size: $font-size-xsmall;
-  color: white;
-  padding: $padding-small-vertical $padding-small-horizontal;
-  border-radius: $border-radius-base;
-}
 
 /* trip viewer styles */
+.otp {
+  .trip-viewer-header {
+    background-color: $gray-lighter;
+    padding: $grid-gutter-width / 2 $grid-gutter-width;
+    margin-left: -$grid-gutter-width;
+    margin-right: -$grid-gutter-width;
+    margin-bottom: -$grid-gutter-width;
+    position: sticky; /* Ensure header bar sticks to top of scrolling div */
+    top: 0;
+    transform: translateY(-$grid-gutter-width);
+    z-index: 1; /* Ensure sticky header stays on top of viewer body */
+  }
 
-.otp .trip-viewer .stop-time {
-  float: left;
-  width: 55px;
-  font-size: $font-size-xsmall;
-  padding-top: 9px;
-  padding-right: 5px;
-  text-align: right;
-}
+  .trip-viewer-body {
+    padding: $grid-gutter-width / 2 0;
+  }
 
-.otp .trip-viewer .strip-map-container {
-  position: relative;
-  float: left;
-  width: 20px;
-  height: 40px;
-}
+  .trip-viewer {
+    .back-button-container {
+      float: left;
+      margin-right: 10px;
+    }
 
-.otp .trip-viewer .strip-map-highlight {
-  position: absolute;
-  background-color: cyan;
-  width: 20px;
-  height: 40px;
-}
+    .header-text {
+      font-weight: 700;
+      font-size: 24px;
+    }
 
-.otp .trip-viewer .strip-map-highlight-first {
-  position: absolute;
-  background-color: cyan;
-  top: 2px;
-  width: 20px;
-  height: 40px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
+    .stop-time {
+      float: left;
+      width: 55px;
+      font-size: $font-size-xsmall;
+      padding-top: 9px;
+      padding-right: 5px;
+      text-align: right;
+    }
 
-.otp .trip-viewer .strip-map-highlight-last {
-  position: absolute;
-  background-color: cyan;
-  top: 0px;
-  width: 20px;
-  height: 32px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
+    .strip-map-container {
+      position: relative;
+      float: left;
+      width: 20px;
+      height: 40px;
+    }
 
-.otp .trip-viewer .strip-map-line {
-  position: absolute;
-  left: 8px;
-  width: 4px;
-  background-color: #000;
-  height: 40px;
-}
+    .strip-map-highlight {
+      position: absolute;
+      background-color: cyan;
+      width: 20px;
+      height: 40px;
+    }
 
-.otp .trip-viewer .strip-map-line-first {
-  position: absolute;
-  top: 15px;
-  left: 8px;
-  width: 4px;
-  background-color: #000;
-  height: 30px;
-}
+    .strip-map-highlight-first {
+      position: absolute;
+      background-color: cyan;
+      top: 2px;
+      width: 20px;
+      height: 40px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
 
-.otp .trip-viewer .strip-map-line-last {
-  position: absolute;
-  top: 0;
-  left: 8px;
-  width: 4px;
-  background-color: #000;
-  height: 15px;
-}
+    .strip-map-highlight-last {
+      position: absolute;
+      background-color: cyan;
+      top: 0px;
+      width: 20px;
+      height: 32px;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
 
-.otp .trip-viewer .strip-map-icon {
-  position: absolute;
-  left: 2px;
-  top: 8px;
-  font-size: 12.5px;
-  color: #000;
-}
+    .strip-map-line {
+      position: absolute;
+      left: 8px;
+      width: 4px;
+      background-color: #000;
+      height: 40px;
+    }
 
-.otp .trip-viewer .stop-name {
-  font-size: $font-size-base;
-  margin-left: 80px;
-  margin-right: 55px;
-  padding-top: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    .strip-map-line-first {
+      position: absolute;
+      top: 15px;
+      left: 8px;
+      width: 4px;
+      background-color: #000;
+      height: 30px;
+    }
 
-.otp .trip-viewer .stop-button-container {
-  float: right;
-  width: 50px;
-  text-align: right;
-  margin-top: 6px;
-}
+    .strip-map-line-last {
+      position: absolute;
+      top: 0;
+      left: 8px;
+      width: 4px;
+      background-color: #000;
+      height: 15px;
+    }
 
-.otp .trip-viewer .label {
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: 500;
-  font-size: $font-size-xsmall;
-  color: white;
-  padding: $padding-small-vertical $padding-small-horizontal;
-  border-radius: $border-radius-base;
+    .strip-map-icon {
+      position: absolute;
+      left: 2px;
+      top: 8px;
+      font-size: 12.5px;
+      color: #000;
+    }
+
+    .stop-name {
+      font-size: $font-size-base;
+      margin-left: 80px;
+      margin-right: 55px;
+      padding-top: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .stop-button-container {
+      float: right;
+      width: 50px;
+      text-align: right;
+      margin-top: 6px;
+    }
+
+    .label {
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: $font-size-xsmall;
+      color: white;
+      padding: $padding-small-vertical $padding-small-horizontal;
+      border-radius: $border-radius-base;
+    }
+  }
 }

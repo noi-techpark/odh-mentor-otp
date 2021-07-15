@@ -1,77 +1,80 @@
-:root {
-  --hover-color: #ffe;
-}
 
-.otp .options > .header {
-  margin: 20px 10px 12px;
-  font-size: 16px;
-}
-
-/* Options scroll bar  */
-.otp .options > .list::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-.otp .options > .list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-.otp .options > .list::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-.otp .options > .list::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* CAROUSEL HEADER */
-
-.otp .options > .carousel-header > .carousel-button {
-  width: 12.5%;
-}
-
-.otp .options > .carousel-header > .carousel-header-text {
-  display: inline-block;
-  width: 75%;
-}
-
-/* TRIP TOOLS ROW */
-.otp .trip-tools {
-  margin-top: $font-size-base * 2;
-  text-align: center;
-
-  .tool-button {
-    font-size: $font-size-xsmall;
-  }
-}
-
-/* TABBED ITINERARIES */
-.otp .tabbed-itineraries {
-  .panel {
-    cursor: pointer;
-
-    .title {
-      font-weight: $headings-font-weight;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+.otp {
+  .options {
+    > .header {
+      margin: 20px 10px 12px;
+      font-size: $font-size-base;
     }
 
-    .details {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    > .list {
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
 
-      small {
-        text-transform: capitalize;
+      &::-webkit-scrollbar-track {
+        background: $gray-lighter;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: $gray-light;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: $gray;
       }
     }
 
-    .itinerary {
-      margin-top: $font-size-base * 2;
+    > .carousel-header {
+      .carousel-header-text {
+        display: inline-block;
+        width: 75%;
+      }
+
+      .carousel-button {
+        width: 12.5%;
+      }
+    }
+  }
+
+  .trip-tools {
+    margin-top: $font-size-base * 2;
+    text-align: center;
+
+    .tool-button {
+      font-size: $font-size-xsmall;
+    }
+  }
+
+  .tabbed-itineraries {
+    .panel {
+      cursor: pointer;
+
+      .title {
+        font-weight: $headings-font-weight;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .details {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        small {
+          text-transform: capitalize;
+        }
+      }
+
+      .itinerary {
+        margin-top: $font-size-base * 2;
+      }
+
+      .disclaimer {
+        margin-top: $font-size-base * 2;
+        font-size: $font-size-xsmall;
+        text-align: center;
+      }
     }
   }
 }

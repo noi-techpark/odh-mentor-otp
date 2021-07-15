@@ -1,184 +1,188 @@
-/* form styling */
+// /* form styling */
 
-.Select-control {
-  border-radius: 0px;
-  border: 0px;
-  border-bottom: 1px solid black;
-}
+// .Select-control {
+//   border-radius: 0px;
+//   border: 0px;
+//   border-bottom: 1px solid black;
+// }
 
-.otp .settings-preview .settings-button {
-  @include secondary-button;
-  margin-top: 8px;
-  line-height: 14px;
-  /*padding-top: 8px;*/
-  font-size: 13px;
-  outline: none;
-}
+// .otp .settings-preview .settings-button {
+//   @include secondary-button;
+//   margin-top: 8px;
+//   line-height: 14px;
+//   /*padding-top: 8px;*/
+//   font-size: 13px;
+//   outline: none;
+// }
 
-.otp .mobile-bottom-button-container .btn {
-  height: 100%;
-  text-transform: uppercase;
-}
+// .otp .mobile-bottom-button-container .btn {
+//   height: 100%;
+//   text-transform: uppercase;
+// }
 
-/* locations summary */
+// /* locations summary */
 
-.otp .locations-summary .location {
-  @include truncate;
-  font-weight: 300;
-}
+// .otp .locations-summary .location {
+//   @include truncate;
+//   font-weight: 300;
+// }
 
-.otp .locations-summary .fa {
-  width: 16px;
-  text-align: center;
-  margin-right: 2px;
-}
+// .otp .locations-summary .fa {
+//   width: 16px;
+//   text-align: center;
+//   margin-right: 2px;
+// }
 
-.otp .edit-search-button {
-  @include secondary-button;
-  margin-top: 4px;
-  width: 80px;
-  line-height: 15px;
-  padding-top: 8px;
-  font-size: 16px;
-  outline: none;
-}
+// .otp .edit-search-button {
+//   @include secondary-button;
+//   margin-top: 4px;
+//   width: 80px;
+//   line-height: 15px;
+//   padding-top: 8px;
+//   font-size: 16px;
+//   outline: none;
+// }
 
-.otp .back-to-search-button {
-  @include primary-button;
-  padding-top: 8px;
-  line-height: 15px;
-  font-size: 16px;
-  outline: none;
-}
+// .otp .back-to-search-button {
+//   @include primary-button;
+//   padding-top: 8px;
+//   line-height: 15px;
+//   font-size: 16px;
+//   outline: none;
+// }
 
-/* map styling */
-
-
-
-.otp .mobile-map-container {
-  position: fixed;
-  top: 60px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.otp .plan-trip-button-panel {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-}
-
-.otp .plan-trip-button-container {
-  padding: 10px 10px;
-}
-
-/* narrative styling */
-
-.otp .options > .header {
-  text-align: center;
-  color: gray;
-  text-transform: uppercase;
-  font-size: 15px;
-  letter-spacing: 1px;
-  font-weight: 100;
-}
-
-.otp .from-stop {
-  margin-top: 12px;
-}
-
-.otp .label {
-  padding: 0.2em 0.5em 0em;
-}
-
-.half-width-tab {
-  width: 48%;
-  text-align: center;
-  // display: inline-block;
-}
-
-/* real-time alerts */
-
-.otp .realtime-alert > .content > .toggle-realtime {
-  @include secondary-button;
-  // TODO: align with TriMet style guide
-  // background-color: #fdf8d6
-}
-
-/* Trip Details box */
-
-.otp .trip-details {
-  border-radius: 6px;
-  border: none;
-  background-color: #eee;
-  padding: 10px 16px;
-  margin-bottom: 15px;
-}
-
-/* Mobile layout */
-
-.otp.mobile .mobile-narrative-header {
-  background-color: $base-color;
-}
-
-/* Line Itinerary styling */
-
-.otp .line-itin .view-stop-button {
-  @include viewer-button;
-  @include left-border;
-}
-
-.otp .line-itin .view-trip-button {
-  @include viewer-button;
-  @include left-border;
-}
-
-.otp .line-itin .disclaimer {
-  font-size: 12px;
-  padding: 15px;
-}
-
-.otp .line-itin .disclaimer .link-row {
-  margin-top: 10px;
-  text-align: center;
-}
+// /* map styling */
 
 
-/* Hide IE/Edge clear button in text input fields. */
-input[type=text]::-ms-clear {
-  display: none;
-}
 
-/* Buttons */
+// .otp .mobile-map-container {
+//   position: fixed;
+//   top: 60px;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+// }
 
-button.header, button.step, .clear-button-formatting  {
-  background: transparent;
-  color: inherit;
-  border: 0;
-  text-align: inherit;
-  text-decoration: none;
-  padding: 0;
-  outline: 0;
-  margin: 0;
-}
+// .otp .plan-trip-button-panel {
+//   position: fixed;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   z-index: 100;
+// }
 
-.clear-button-formatting:active {
-  background: none;
-  box-shadow: none;
-}
+// .otp .plan-trip-button-container {
+//   padding: 10px 10px;
+// }
 
-.clear-button-formatting:focus {
-  background: none;
-}
+// /* narrative styling */
 
-.clear-button-formatting:hover {
-  background: none;
-}
+// .otp .options > .header {
+//   text-align: center;
+//   color: gray;
+//   text-transform: uppercase;
+//   font-size: 15px;
+//   letter-spacing: 1px;
+//   font-weight: 100;
+// }
 
-button.header,
-button.step {
-  width: 100%;
-}
+// .otp .from-stop {
+//   margin-top: 12px;
+// }
+
+// .otp .label {
+//   padding: 0.2em 0.5em 0em;
+// }
+
+// .half-width-tab {
+//   width: 48%;
+//   text-align: center;
+//   // display: inline-block;
+// }
+
+// /* real-time alerts */
+
+// .otp .realtime-alert > .content > .toggle-realtime {
+//   @include secondary-button;
+//   // TODO: align with TriMet style guide
+//   // background-color: #fdf8d6
+// }
+
+// /* Trip Details box */
+
+// .otp .trip-details {
+//   border-radius: 6px;
+//   border: none;
+//   background-color: #eee;
+//   padding: 10px 16px;
+//   margin-bottom: 15px;
+// }
+
+// /* Mobile layout */
+
+// .otp.mobile .mobile-narrative-header {
+//   background-color: $base-color;
+// }
+
+// /* Line Itinerary styling */
+
+// .otp .line-itin .view-stop-button {
+//   @include viewer-button;
+//   @include left-border;
+// }
+
+// .otp .line-itin .view-trip-button {
+//   @include viewer-button;
+//   @include left-border;
+// }
+
+// .otp .line-itin .disclaimer {
+//   font-size: 12px;
+//   padding: 15px;
+// }
+
+// .otp .line-itin .disclaimer .link-row {
+//   margin-top: 10px;
+//   text-align: center;
+// }
+
+
+// /* Hide IE/Edge clear button in text input fields. */
+// input[type=text]::-ms-clear {
+//   display: none;
+// }
+
+// /* Buttons */
+
+// button.header, button.step, .clear-button-formatting  {
+//   background: transparent;
+//   color: inherit;
+//   border: 0;
+//   text-align: inherit;
+//   text-decoration: none;
+//   padding: 0;
+//   outline: 0;
+//   margin: 0;
+// }
+
+// .clear-button-formatting:active {
+//   background: none;
+//   box-shadow: none;
+// }
+
+// .clear-button-formatting:focus {
+//   background: none;
+// }
+
+// .clear-button-formatting:hover {
+//   background: none;
+// }
+
+// button.header,
+// button.step {
+//   width: 100%;
+// }
+
+// input[type="date"]::-webkit-inner-spin-button {
+//   -webkit-appearance: none;
+// }
