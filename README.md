@@ -105,7 +105,6 @@ in addition to those of *otp* vars
 
 ```CHARGER_HOST``` host path to charger service
 
-```
 
 **geocoder**
 
