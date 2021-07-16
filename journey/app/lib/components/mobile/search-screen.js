@@ -63,20 +63,20 @@ class MobileSearchScreen extends Component {
             <SwitchButton content={<i className='fa fa-exchange fa-rotate-90' />} />
           </div>
 
-          <Row style={{ marginBottom: 12 }}>
-            <Col xs={6} style={{ borderRight: '2px solid #ccc' }}>
-              <DateTimePreview
-                onClick={this._expandDateTimeClicked}
-                compressed
-              />
-            </Col>
-            <Col xs={6}>
-              <SettingsPreview
-                onClick={this._expandOptionsClicked}
-                compressed
-              />
-            </Col>
-          </Row>
+          <div className="search-settings-options">
+            <Row>
+              <Col xs={6}>
+                <DateTimePreview
+                  onClick={this._expandDateTimeClicked}                
+                />
+              </Col>
+              <Col xs={6}>
+                <SettingsPreview
+                  onClick={this._expandOptionsClicked}                
+                />
+              </Col>
+            </Row>
+          </div>
 
           <PlanTripButton onClick={this._planTripClicked} />
         </div>

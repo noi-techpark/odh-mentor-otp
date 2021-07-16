@@ -14,7 +14,7 @@ import ReactDOM from "react-dom";
 import { Ban, Bus, LocationArrow, Search, Times } from "@styled-icons/fa-solid";
 import { debounce } from "throttle-debounce";
 import { withNamespaces } from 'react-i18next'
-import { FormGroup, FormControl, DropdownButton, MenuItem, InputGroup, Button} from 'react-bootstrap'
+import { Clearfix, FormGroup, FormControl, DropdownButton, MenuItem, InputGroup, Button} from 'react-bootstrap'
 
 import {
   GeocodedOptionIcon,
@@ -587,15 +587,17 @@ class LocationField extends Component {
             </InputGroup>
           </FormGroup>
 
-          <ul className="dropdown-menu open">
-            {menuItems.length > 0 ? ( // Show typing prompt to avoid empty screen
-              menuItems
-            ) : (
-              <MenuItem header centeredText>
-                {t('begin_typing_to_search_for_locations')}
-              </MenuItem>
-            )}
-          </ul>
+          <Clearfix>
+            <ul className="dropdown-menu open">
+              {menuItems.length > 0 ? ( // Show typing prompt to avoid empty screen
+                menuItems
+              ) : (
+                <MenuItem header centeredText>
+                  {t('begin_typing_to_search_for_locations')}
+                </MenuItem>
+              )}
+            </ul>
+          </Clearfix>
         </div>
       );
     }
