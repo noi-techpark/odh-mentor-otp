@@ -63,13 +63,13 @@ cd odh-mentor-otp
 In each service directory the file `.env.example` list the default env vars by service.
 Below is a list of env variables for each container:
 
-**otp**
+##### otp
 
 ```JAVA_MX``` the amount of heap space available to OpenTripPlanner. (The `otp.sh` script adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
 
 ```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
 
-**build**
+##### build
 
 in addition to those of *otp* vars
 
@@ -106,7 +106,7 @@ in addition to those of *otp* vars
 ```CHARGER_HOST``` host path to charger service
 
 
-**geocoder**
+#### geocoder
 
 ```API_HOST``` deployed hostname of OpenTripPlanner api default: ```localhost``` (name of deployed)
 
@@ -119,11 +119,11 @@ in addition to those of *otp* vars
 
 Below is a list of Docker args variables for each container:
 
-**otp**, **builder**
+#### otp, builder
 
 ```OTP_VERSION``` version of OpenTripPlanner binary downloaded from official repos, default is 1.4.0
 
-**journey**
+#### journey
 
 ```API_HOST``` deployed hostname of OpenTripPlanner api default: ```localhost``` (name of deployed)
 
