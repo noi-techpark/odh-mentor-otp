@@ -1,6 +1,6 @@
 import React from "react";
 
-const MarkerStopStation = ({ title, iconColor = '#fff', markerColor = '#000', ...props }) => (
+const MarkerStopStation = ({ title, iconColor = '#fff', markerColor = '#fff', ...props }) => (
   <svg xmlns="http://www.w3.org/2000/svg" {...props} viewBox="0 0 19 19">
     {title ? <title>{title}</title> : null}
     <g fill={ iconColor } stroke={markerColor} strokeWidth="4">

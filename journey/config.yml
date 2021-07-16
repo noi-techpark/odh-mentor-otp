@@ -88,10 +88,6 @@ transitOperators:
 #     lon: -122.71607145667079
 #     name: Oregon Zoo, Portland, OR
 
-### The persistence setting is used to enable the storage of places (home, work),
-### recent searches/places, user overrides, and favorite stops. Currently the
-### only strategy is localStorage (which is used by default)
-### TODO: add another server-based strategy
 persistence:
   enabled: true
   strategy: localStorage
