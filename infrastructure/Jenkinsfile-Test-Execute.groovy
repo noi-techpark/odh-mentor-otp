@@ -32,6 +32,7 @@ pipeline {
 
         GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
         PARKING_BASEURL = "https://parking.otp.opendatahub.testingmachine.eu"
+        CHARGER_BASEURL = "https://charger.otp.opendatahub.testingmachine.eu"
         OFFICIAL = "False"
         GBFS_VERSION=1
         CARSHARING_HOST="https://carsharing.otp.opendatahub.testingmachine.eu/"
@@ -76,6 +77,7 @@ pipeline {
                     echo 'DOCKER_GBFS_PORT="${DOCKER_GBFS_PORT}"' >> .env
                     echo 'GEOCODER_BASEURL="${GEOCODER_BASEURL}"' >> .env
                     echo 'PARKING_BASEURL="${PARKING_BASEURL}"' >> .env
+                    echo 'CHARGER_BASEURL="${CHARGER_BASEURL}"' >> .env
                     echo 'DOCKER_GEOCODER_PORT=${DOCKER_GEOCODER_PORT}' >> .env
                     echo 'OFFICIAL=${OFFICIAL}' >> .env
                     echo 'GBFS_VERSION=${GBFS_VERSION}' >> .env
