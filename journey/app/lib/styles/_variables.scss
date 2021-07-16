@@ -227,7 +227,7 @@ $navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 1
 $navbar-default-brand-hover-bg:            transparent !default;
 
 $navbar-default-toggle-hover-bg:           transparent !default;
-$navbar-default-toggle-icon-bar-bg:        #fff !default;
+$navbar-default-toggle-icon-bar-bg:        $text-color !default;
 $navbar-default-toggle-border-color:       transparent !default;
 
 $nav-link-padding:                          10px 15px !default;
@@ -299,3 +299,7 @@ $sidebar-width: 512px;
 $option-panel-width: 400px;
 $settings-selector-panel-color: $text-color;
 $settings-selector-panel-bg: $brand-primary;
+
+$mobile-welcome-location-top: $navbar-height;
+$mobile-welcome-location-height: 57px;
+$mobile-welcome-map-top: $mobile-welcome-location-top + $mobile-welcome-location-height;

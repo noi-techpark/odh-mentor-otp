@@ -47,7 +47,7 @@ class MobileSearchScreen extends Component {
     return (
       <MobileContainer>
         <MobileNavigationBar headerText={t('plan_trip')} />
-        <div className='search-settings mobile-padding'>
+        <div className='search-settings p-1'>
           <LocationField
             locationType='from'
             onTextInputClick={this._fromFieldClicked}

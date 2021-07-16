@@ -165,7 +165,7 @@ class MobileResultsScreen extends Component {
           <div className='results-error-map'><DefaultMap /></div>
           <div className='results-error-message'>
             <ErrorMessage error={error} />
-            <div className='options-lower-tray mobile-padding'>
+            <div className='options-lower-tray p-1'>
               <Button className='back-to-search-button' onClick={this._editSearchClicked} style={{ width: '100%' }}>
                 <i className='fa fa-arrow-left' /> {t('back_to_search')}
               </Button>
