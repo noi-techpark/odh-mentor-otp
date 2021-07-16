@@ -162,7 +162,7 @@ map:
       api: ${CHARGER_BASEURL}/charger/stations.json
       iconWidth: 42
       iconHeight: 50
-      iconMarkerColor: "#efeeb0"
+      iconMarkerColor: "#FAA61F"
       iconColor: "#5d5d5d"
 
     - type: car-rental
