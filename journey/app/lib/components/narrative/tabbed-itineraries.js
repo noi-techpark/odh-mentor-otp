@@ -1,7 +1,7 @@
 import coreUtils from '../../otp-ui/core-utils'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Panel } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withNamespaces } from "react-i18next"
 
@@ -56,44 +56,40 @@ class TabbedItineraries extends Component {
         !useRealtime
       )
     return (
-      <div className='options itinerary tabbed-itineraries'>
-        <div className='tab-row'>
-          {itineraries.map((itinerary, index) => {
-            return (
-              <TabButton
-                key={index}
-                index={index}
-                isActive={index === activeItinerary}
-                itinerary={itinerary}
-                onClick={setActiveItinerary}
-                timeFormat={timeFormat}
-                t={t}
-              />
-            )
-          })}
-        </div>
+      <div className='tabbed-itineraries'>
+        {itineraries.map((itinerary, index) => {
+          return (
+            <TabButton
+              key={index}
+              index={index}
+              isActive={index === activeItinerary}
+              itinerary={itinerary}
+              onClick={setActiveItinerary}
+              timeFormat={timeFormat}
+              t={t}>
+                {/* <RealtimeAnnotation
+                  realtimeEffects={realtimeEffects}
+                  toggleRealtime={this._toggleRealtimeItineraryClick}
+                  useRealtime={useRealtime} />
+                */}
 
-        {/* <RealtimeAnnotation
-          realtimeEffects={realtimeEffects}
-          toggleRealtime={this._toggleRealtimeItineraryClick}
-          useRealtime={useRealtime} />
-        */}
-
-        {/* Show active itin if itineraries exist and active itin is defined. */}
-        {(itineraries.length > 0 && activeItinerary >= 0)
-          ? React.createElement(itineraryClass, {
-            itinerary: itineraries[activeItinerary],
-            index: activeItinerary,
-            key: activeItinerary,
-            active: true,
-            expanded: true,
-            routingType: 'ITINERARY',
-            showRealtimeAnnotation,
-            ...itineraryClassProps
-          })
-          : null
+                {/* Show active itin if itineraries exist and active itin is defined. */}
+                {(itineraries.length > 0 && activeItinerary === index)
+                  ? React.createElement(itineraryClass, {
+                    itinerary: itineraries[activeItinerary],
+                    index: activeItinerary,
+                    key: activeItinerary,
+                    active: true,
+                    expanded: true,
+                    routingType: 'ITINERARY',
+                    showRealtimeAnnotation,
+                    ...itineraryClassProps
+                  })
+                  : null
+                }
+            </TabButton>
+          )})
         }
-
       </div>
     )
   }
@@ -130,12 +126,12 @@ class TabButton extends Component {
   }
 
   render () {
-    const {index, isActive, itinerary, timeFormat, t} = this.props
+    const {index, isActive, itinerary, timeFormat, t, children} = this.props
     const timeOptions = {
       format: timeFormat,
       offset: getTimeZoneOffset(itinerary)
     }
-    const classNames = ['tab-button', 'clear-button-formatting']
+    const classNames = []
     const { caloriesBurned } = calculatePhysicalActivity(itinerary)
     const {
       centsToString,
@@ -148,38 +144,50 @@ class TabButton extends Component {
     const plus = maxTNCFare && maxTNCFare > minTNCFare ? '+' : ''
     if (isActive) classNames.push('selected')
     return (
-      <Button
+      <Panel
         key={`tab-button-${index}`}
         className={classNames.join(' ')}
         onClick={this._onClick}
       >
-        <div className='title'><span>{t('option')} {index + 1}</span></div>
-        <div className='details'>
-          {/* The itinerary duration in hrs/mins */}
-          {formatDuration(itinerary.duration)}
-
-          {/* The duration as a time range */}
-          <span>
-            <br />
-            {formatTime(itinerary.startTime, timeOptions)} - {formatTime(itinerary.endTime, timeOptions)}
-          </span>
-
-          {/* the fare / calories summary line */}
-          <span>
-            <br />
-            {minTotalFare ? <span>{`${centsToString(minTotalFare)}${plus}`} &bull; </span> : ''}
-            {Math.round(caloriesBurned)} {t('cals')}
-          </span>
-
-          {/* The 'X tranfers' line, if applicable */}
-          {itinerary.transfers > 0 && (
-            <span>
-              <br />
-              {itinerary.transfers} {t(itinerary.transfers > 1 ? 'changes' : 'change')}
+        <Panel.Heading>
+          <div className="title">
+            <span>{t('option')} {index + 1}</span>
+            {/* The duration as a time range */}
+            <span>{formatTime(itinerary.startTime, timeOptions)} - {formatTime(itinerary.endTime, timeOptions)}</span>
+          </div>
+        </Panel.Heading>
+        <Panel.Body>
+          <div className='details'>
+            {/* The itinerary duration in hrs/mins */}
+            <span className="text-center">
+              <small><strong>{t('duration')}</strong></small><br/>
+              {formatDuration(itinerary.duration)}
             </span>
-          )}
-        </div>
-      </Button>
+
+            {/* the fare / calories summary line */}
+            <span className="text-center">
+              <small><strong>{t('cals')}</strong></small><br/>
+              {minTotalFare ? <span>{`${centsToString(minTotalFare)}${plus}`} &bull; </span> : ''}
+              {Math.round(caloriesBurned)}
+            </span>
+
+            {/* The 'X tranfers' line, if applicable */}
+            {itinerary.transfers > 0 && (
+              <span className="text-center">
+                <small><strong>{t(itinerary.transfers > 1 ? 'changes' : 'change')}</strong></small><br/>
+                {itinerary.transfers}
+              </span>
+            )}
+          </div>
+
+          {
+            children &&
+              <div className="itinerary">
+                {children}
+              </div>
+          }
+        </Panel.Body>
+      </Panel>
     )
   }
 }

@@ -98,6 +98,8 @@ class StopMarker extends Component {
   }
 }
 
+//TODO may be unuseful
+
 StopMarker.propTypes = {
   languageConfig: languageConfigType.isRequired,
   leafletPath: leafletPathType,
@@ -109,8 +111,8 @@ StopMarker.propTypes = {
 
 StopMarker.defaultProps = {
   leafletPath: {
-    color: "#095980",
-    fillColor: "#FFF",
+    color: "#337ab7",
+    fillColor: "#fff",
     fillOpacity: 1,
     weight: 1
   },

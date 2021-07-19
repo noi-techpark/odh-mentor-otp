@@ -96,21 +96,19 @@ class BatchRoutingPanel extends Component {
         {!activeSearch && showUserSettings &&
           <UserSettings />
         }
-        <div className='desktop-narrative-container'>
-          <NarrativeItineraries
-            containerStyle={{
-              display: 'flex',
-              flexDirection: 'column',
-              position: 'absolute',
-              top: '218px', // This is variable dependent on height of the form above.
-              right: '0',
-              left: '0',
-              bottom: '0'
-            }}
-            itineraryFooter={itineraryFooter}
-            LegIcon={LegIcon}
-          />
-        </div>
+        <NarrativeItineraries
+          containerStyle={{
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'absolute',
+            top: '218px', // This is variable dependent on height of the form above.
+            right: '0',
+            left: '0',
+            bottom: '0'
+          }}
+          itineraryFooter={itineraryFooter}
+          LegIcon={LegIcon}
+        />
       </ViewerContainer>
     )
   }

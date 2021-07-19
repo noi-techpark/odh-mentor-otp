@@ -38,9 +38,7 @@ export function configure (otpConfig) {
           <a href='https://openmove.com' target='_blank'>
             {t('tnc')}
           </a> •{' '}
-          <a href='https://openmove.com' target='_blank'>
-            {t('privacy_policy')}
-          </a>
+          <a href='https://openmove.com' target='_blank'>{t('privacy_policy')}</a>
         </div>
       </div>
       ),

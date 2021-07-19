@@ -497,9 +497,9 @@ export const modeOptionType = PropTypes.shape({
 });
 
 export const modeSelectorOptionsType = PropTypes.shape({
-  primary: modeOptionType,
-  secondary: PropTypes.arrayOf(modeOptionType),
-  tertiary: PropTypes.arrayOf(modeOptionType)
+  primary: PropTypes.oneOf(modeOptionType, undefined),
+  secondary: PropTypes.oneOf(modeOptionType, [], undefined),
+  tertiary: PropTypes.oneOf(modeOptionType, [], undefined)
 });
 
 export const configuredModeType = PropTypes.oneOfType([

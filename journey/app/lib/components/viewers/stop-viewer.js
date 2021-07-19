@@ -184,7 +184,7 @@ class StopViewer extends Component {
               onClick={this._toggleFavorite}
               bsSize='large'
               style={{
-                color: this._isFavorite() ? 'yellow' : 'black',
+                color: this._isFavorite() ? '#ffa600' : 'black',
                 padding: 0,
                 marginLeft: '5px'
               }}
@@ -318,7 +318,7 @@ class StopViewer extends Component {
                 {!scheduleView
                   // If showing next arrivals, include auto update controls.
                   ? <div style={{ marginTop: '20px' }}>
-                    <label style={{ fontWeight: 300, fontSize: 'small' }}>
+                    <label style={{ fontWeight: 'normal' }}>
                       <input
                         name='autoUpdate'
                         type='checkbox'

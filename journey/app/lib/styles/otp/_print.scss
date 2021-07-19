@@ -1,10 +1,10 @@
 .otp {
-  .print-layout {
+  &.print-layout {
     max-width: 640px;
     margin: 30px auto;
   }
 
-  .print-layout {
+  &.print-layout {
     > .header {
       margin-bottom: 30px;
       border-bottom: 4px solid black;
@@ -13,10 +13,10 @@
     }
   }
 
-  .print-layout {
+  &.print-layout {
     > .map-container {
       border: 2px solid black;
-      height: 400px;
+      height: 500px;
       margin-bottom: 30px;
       box-sizing: border-box;
     }

@@ -179,6 +179,7 @@ class BaseMap extends Component {
       popup,
       onContextMenu,
       onPopupClosed,
+      onLoad,
       zoom
     } = this.props;
     const { layerIndex } = this.state;
@@ -213,6 +214,7 @@ class BaseMap extends Component {
         onBaseLayerChange={this.handleBaseLayerChange}
         onOverlayRemove={this.handleOverlayRemoved}
         onViewportChanged={this.handleViewportChanged}
+        whenReady={onLoad}
       >
         {/* Add the mapbox wordmark if the current base layer's URL appears to
           be a Mapbox URL. The implementing application must include CSS that
@@ -406,6 +408,7 @@ BaseMap.defaultProps = {
   onOverlayRemoved: null,
   onPopupClosed: null,
   onViewportChanged: null,
+  onLoad: null,
   popup: null,
   zoom: 13
 };

@@ -1,3 +1,10 @@
+branding: Mentor - Alto Adige/Suedtirol
+homeTimezone: Europe/Rome
+title: Mentor - Alto Adige/Suedtirol
+
+reportIssue:
+  mailto: support@openmove.com
+
 # Default OTP API
 api:
   host: ${API_HOST}
@@ -22,10 +29,6 @@ geocoder:
       minLat: 46.188280
       maxLat: 47.088780
 #Suedtirol 10.470121,46.188280,12.255011,47.088780
-
-branding: Mentor - Alto Adige/Suedtirol
-homeTimezone: Europe/Rome
-title: Mentor - Alto Adige/Suedtirol
 
 language:
     storageDisclaimer: storage_disclaimer
@@ -85,10 +88,6 @@ transitOperators:
 #     lon: -122.71607145667079
 #     name: Oregon Zoo, Portland, OR
 
-### The persistence setting is used to enable the storage of places (home, work),
-### recent searches/places, user overrides, and favorite stops. Currently the
-### only strategy is localStorage (which is used by default)
-### TODO: add another server-based strategy
 persistence:
   enabled: true
   strategy: localStorage
@@ -120,39 +119,24 @@ map:
       maxZoom: 20
       hasRetinaSupport: true
 
-    - name: Streets Dark
-      url: //cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}@2x.png
-      subdomains: 'abcd'
-      attribution: 'Map tiles: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-      maxZoom: 20
-      hasRetinaSupport: true
+    - name: Printer
+      url: //tile.stamen.com/toner-lite/{z}/{x}/{y}.png
+      attribution: 'Map tiles by <a href="http://stamen.com">Printer</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
 
-    - name: Stamen Toner Lite
-      url: http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
-
-    - name: OpenStreetMaps
-      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+    - name: Openstreetmap
+      url: //{s}.tile.osm.org/{z}/{x}/{y}.png
       attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
       maxZoom: 16
 
-
-
-    # - name: Aerials
-    #   url: //tile{s}.trimet.org/tilecache/tilecache.py/1.0.0/hybridOSM/{z}/{x}/{y}
-    #   attribution: 'Map tiles: <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
-    #   maxZoom: 20
-
   overlays:
-    # real-time vehicles config
-    # - type: vehicles
-    #   name: Real-Time Buses and Trains
-    #   api: https://maps.trimet.org/gtfs/rt/vehicles
-    #   #pauseAnimationOnZoom: false # note: when true, MOD+vehicles has issues with multiple (additive) ws calls
-    #   refresh: 5
-    #   default: 'all'
-    #
-    #
+    - type: stops
+      name: stops
+      visible: true
+      iconWidth: 15
+      iconHeight: 15
+      iconMarkerColor: "#337ab7"
+      iconColor: "#fff"
+
     - type: parking
       name: parking
       api: ${PARKING_BASEURL}/parking/stations.json
@@ -160,8 +144,23 @@ map:
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
       iconColor: "#5d5d5d"
-    #
-    #
+    
+    # - type: parking-sensors
+    #   name: parking-sensors
+    #   api: ${PARKING_BASEURL}/parking/sensors.json
+    #   iconWidth: 42
+    #   iconHeight: 50
+    #   iconMarkerColor: "#b0d1ef"
+    #   iconColor: "#5d5d5d"
+    
+    - type: charger
+      name: charger
+      api: ${CHARGER_BASEURL}/charger/stations.json
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#FAA61F"
+      iconColor: "#5d5d5d"
+
     - type: car-rental
       name: carsharing
       modes:
@@ -172,6 +171,7 @@ map:
       iconHeight: 50
       iconMarkerColor: "#d9bd48"
       iconColor: "#5d5d5d"
+
     - type: bike-rental
       name: bikesharing
       modes:
@@ -184,6 +184,14 @@ map:
       iconHeight: 50
       iconMarkerColor: "#ead896"
       iconColor: "#5d5d5d"
+
+    # real-time vehicles config
+    # - type: vehicles
+    #   name: Real-Time Buses and Trains
+    #   api: https://maps.trimet.org/gtfs/rt/vehicles
+    #   #pauseAnimationOnZoom: false # note: when true, MOD+vehicles has issues with multiple (additive) ws calls
+    #   refresh: 5
+    #   default: 'all'
     #
     # - type: micromobility-rental
     #   name: Bird E-scooter Locations
@@ -290,14 +298,6 @@ map:
     #   modes:
     #     - CAR_PARK
 
-    - type: stops
-      name: stops
-      visible: true
-      iconWidth: 15
-      iconHeight: 15
-      iconMarkerColor: "#095980"
-      iconColor: "#fff"
-
 # Mode selector configuration
 modes:
   transitModes:
@@ -325,6 +325,8 @@ modes:
       label: carsharing_ride
       company: CAR2GO
     #   showWheelchairSetting: false
+    - mode: MICROMOBILITY
+      label: E-scooter & Ride
 
   # which exclusive modes to show. This involves using a single mode and no
   # transit for the duration of the trip. Further configurations of
@@ -333,6 +335,7 @@ modes:
   exclusiveModes:
     - WALK
     - BICYCLE
+    - MICROMOBILITY
 
   bicycleModes:
     - mode: BICYCLE
@@ -379,9 +382,6 @@ errorMessages:
     msg: Nessun percorso trovato. Prova a modificare le impostazioni del tuo viaggio.
   - id: 480
     msg: Nessun percorso trovato. Prova a modificare le impostazioni del tuo viaggio.
-
-reportIssue:
-  mailto: support@openmove.com
 
 dateTime:
   timeFormat: HH:mm

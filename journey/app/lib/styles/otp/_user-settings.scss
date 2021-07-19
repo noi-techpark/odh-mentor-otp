@@ -10,33 +10,16 @@
   }
 
   .disclaimer {
-    font-size: x-small;
+    font-size: $font-size-xsmall;
   }
-}
 
-.otp .user-settings .place-button {
-  padding: 5px 0 0 0;
-  text-align: left;
-}
+  .place-list-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-.otp .user-settings .place-item {
-  height: 45px;
-  list-style: none;
-}
-
-.otp .user-settings .place-item .place-text {
-  display: block;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.otp .user-settings .place-item .place-detail {
-  display: block;
-  font-size: smaller;
-  padding-left: 22px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    &__cta {
+      transform: translateY(-50%);
+    }
+  }
 }
