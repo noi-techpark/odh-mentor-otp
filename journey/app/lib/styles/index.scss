@@ -60,7 +60,6 @@
 @import 'otp/layout';
 @import 'otp/leg-diagram';
 @import 'otp/locations';
-@import 'otp/mobile';
 @import 'otp/narrative';
 @import 'otp/print';
 @import 'otp/tabbed-form-panel';
@@ -68,8 +67,13 @@
 @import 'otp/viewers';
 
 @import 'otp-mobile/leaflet';
-@import 'otp-mobile/location-search';
+@import 'otp-mobile/location';
+@import 'otp-mobile/narrative';
 @import 'otp-mobile/search-settings';
+@import 'otp-mobile/transport-selector';
+@import 'otp-mobile/user-settings';
+@import 'otp-mobile/utils';
+@import 'otp-mobile/viewers';
 @import 'otp-mobile/welcome';
 
 @import 'otp-ui/badge-icon';

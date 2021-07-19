@@ -2,7 +2,7 @@ import coreUtils from '../../otp-ui/core-utils'
 import LocationIcon from '../../otp-ui/location-icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Button, Col, Row } from 'react-bootstrap'
+import { Button, Col, Row, Grid } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withNamespaces } from 'react-i18next'
 import styled from 'styled-components'
@@ -18,35 +18,6 @@ import { MobileScreens, setMobileScreen } from '../../actions/ui'
 import { setUseRealtimeResponse } from '../../actions/narrative'
 import { clearActiveSearch } from '../../actions/form'
 import { getActiveItineraries, getActiveSearch, getRealtimeEffects } from '../../util/state'
-
-const LocationContainer = styled.div`
-  font-weight: 300;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`
-
-const LocationSummaryContainer = styled.div`
-  height: 50px;
-  left: 0;
-  padding-right: 10px;
-  position: fixed;
-  right: 0;
-  top: 50px;
-`
-
-const LocationsSummaryColFromTo = styled(Col)`
-  font-size: 1.1em;
-  line-height: 1.2em;
-`
-
-const LocationsSummaryRow = styled(Row)`
-  padding: 4px 8px;
-`
-
-const StyledLocationIcon = styled(LocationIcon)`
-  margin: 3px;
-`
 
 class MobileResultsScreen extends Component {
   static propTypes = {
@@ -137,24 +108,28 @@ class MobileResultsScreen extends Component {
     */
 
     const locationsSummary = (
-      <LocationSummaryContainer>
-        <LocationsSummaryRow className='locations-summary'>
-          <LocationsSummaryColFromTo xs={8} sm={11}>
-            <LocationContainer>
-              <StyledLocationIcon type='from' /> { query.from ? query.from.name : '' }
-            </LocationContainer>
-            <LocationContainer style={{ marginTop: 2 }}>
-              <StyledLocationIcon type='to' /> { query.to ? query.to.name : '' }
-            </LocationContainer>
-          </LocationsSummaryColFromTo>
-          <Col xs={4} sm={1}>
-            <Button
-              className='edit-search-button pull-right'
-              onClick={this._editSearchClicked}
-            >{t('edit')}</Button>
-          </Col>
-        </LocationsSummaryRow>
-      </LocationSummaryContainer>
+      <div className="location-summary-container">
+        <Grid>
+          <Row>
+            <Col xs={8} sm={11}>
+              <div className="location-summary-item">
+                <LocationIcon type='from' /> { query.from ? query.from.name : '' }
+              </div>
+              <div className="location-summary-item">
+                <LocationIcon type='to' /> { query.to ? query.to.name : '' }
+              </div>
+            </Col>
+            <Col xs={4} sm={1}>
+              <div className="text-right">
+                <Button
+                  bsStyle="link"                
+                  onClick={this._editSearchClicked}
+                >{t('edit')}</Button>
+              </div> 
+            </Col>
+          </Row>
+        </Grid>
+      </div>
     )
 
     if (error) {
