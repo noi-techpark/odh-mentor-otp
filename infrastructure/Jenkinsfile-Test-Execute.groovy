@@ -60,6 +60,7 @@ pipeline {
                     echo 'DOCKER_IMAGE_GEOCODER=${DOCKER_IMAGE_GEOCODER}' >> .env
                     echo 'DOCKER_IMAGE_CARSHARING=${DOCKER_IMAGE_CARSHARING}' >> .env
                     echo 'DOCKER_IMAGE_PARKING=${DOCKER_IMAGE_PARKING}' >> .env
+                    echo 'DOCKER_IMAGE_ECHARGING=${DOCKER_IMAGE_ECHARGING}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
 
                     echo 'SERVER_PORT_OTP=${SERVER_PORT_OTP}' >> .env
