@@ -38,3 +38,9 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/parking/Dockerfile
+  charger:
+    image: ${DOCKER_IMAGE_ECHARGING}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/charger/Dockerfile
+

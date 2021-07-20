@@ -9,6 +9,7 @@ pipeline {
         DOCKER_IMAGE_GEOCODER = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-geocoder'
         DOCKER_IMAGE_CARSHARING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-carsharing'
         DOCKER_IMAGE_PARKING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-parking'
+        DOCKER_IMAGE_ECHARGING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-echarging'
         DOCKER_TAG = "test-$BUILD_NUMBER"
 
         SERVER_PORT_OTP = "1014"
@@ -18,6 +19,7 @@ pipeline {
         DOCKER_GEOCODER_PORT = "1017"
         DOCKER_CARSHARING_PORT= "1018"
         DOCKER_PARKING_PORT= "1019"
+        DOCKER_ECHARGING_PORT= "1021"
 
         JAVA_MX = "2G"
         BUILD_GRAPH = "False"
@@ -87,6 +89,7 @@ pipeline {
                     echo 'CHARGER_HOST=${CHARGER_HOST}' >> .env
                     echo 'DOCKER_CARSHARING_PORT=${DOCKER_CARSHARING_PORT}' >> .env
                     echo 'DOCKER_PARKING_PORT=${DOCKER_PARKING_PORT}' >> .env
+                    echo 'DOCKER_ECHARGING_PORT=${DOCKER_ECHARGING_PORT}' >> .env
                     
                     echo 'GTFS_URL="${GTFS_URL}"' >> .env
                     echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env
