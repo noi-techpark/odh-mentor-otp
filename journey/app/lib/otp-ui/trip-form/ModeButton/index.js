@@ -39,7 +39,7 @@ const ModeButton = props => {
         active={selected}
       >
         {children}
-        {/* {title && showTitle && <><br/>{title}</>} */}
+        {title && showTitle && <span><br/>{title}</span>}
       </Button>
     </OverlayTrigger>
   );
