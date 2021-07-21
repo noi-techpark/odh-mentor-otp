@@ -153,6 +153,14 @@ class SettingsSelectorPanel extends Component {
     }
   };
 
+  componentDidMount() {
+    if (document.querySelector('.otp.mobile')) {
+      this.setState({
+        showPanel: true
+      })
+    }
+  }
+
   render() {
     const {
       className,
@@ -205,7 +213,7 @@ class SettingsSelectorPanel extends Component {
           onChange={this.handleMainModeChange}
         />
 
-        <div className='text-center'>
+        <div className='text-center hide-mobile'>
           <Button bsStyle="link" bsSize="small" onClick={() => this.setState({ showPanel: !this.state.showPanel })}>
             {t(this.state.showPanel ? 'hide_settings' : 'show_settings')}
           </Button>
@@ -214,7 +222,7 @@ class SettingsSelectorPanel extends Component {
         {
           this.state.showPanel &&
             <div className="otp-ui-settingsSelectorPanel">
-              <div className='text-right'>
+              <div className='text-right hide-mobile'>
                 <Button bsStyle="link" bsSize="small" onClick={() => this.setState({ showPanel: false })}>
                   {t('close')}
                 </Button>

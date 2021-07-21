@@ -88,10 +88,6 @@ transitOperators:
 #     lon: -122.71607145667079
 #     name: Oregon Zoo, Portland, OR
 
-### The persistence setting is used to enable the storage of places (home, work),
-### recent searches/places, user overrides, and favorite stops. Currently the
-### only strategy is localStorage (which is used by default)
-### TODO: add another server-based strategy
 persistence:
   enabled: true
   strategy: localStorage
@@ -127,7 +123,7 @@ map:
       url: //tile.stamen.com/toner-lite/{z}/{x}/{y}.png
       attribution: 'Map tiles by <a href="http://stamen.com">Printer</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
 
-    - name: OpenStreetMaps
+    - name: Openstreetmap
       url: //{s}.tile.osm.org/{z}/{x}/{y}.png
       attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
       maxZoom: 16

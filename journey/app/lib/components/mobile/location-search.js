@@ -36,7 +36,7 @@ class MobileLocationSearch extends Component {
           showBackButton
           backScreen={backScreen}
         />
-        <div className='location-search mobile-padding'>
+        <div className='location-search p-1'>
           <LocationField
             hideExistingValue
             inputPlaceholder={location ? location.name : t('type_location')}

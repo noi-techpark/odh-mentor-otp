@@ -164,7 +164,7 @@ class DateTimeSelector extends Component {
 
         {departArrive !== "NOW" && !isLegacy && (
           <Row>
-            <Col xs={6}>
+            <Col xs={12} sm={6}>
               <FormGroup>
                 <FormControl
                   type="time"
@@ -174,7 +174,7 @@ class DateTimeSelector extends Component {
                 />
               </FormGroup>
             </Col>
-            <Col xs={6}>
+            <Col xs={12} sm={6}>
               <FormGroup>
                 <FormControl
                   type="date"

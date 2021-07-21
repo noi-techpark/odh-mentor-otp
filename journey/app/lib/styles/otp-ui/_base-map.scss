@@ -23,6 +23,23 @@
 
   &__popupRow {
     margin-top: 5px;
+    clear:both;
+  }
+
+  &__popupSlot {
+    float: left;
+    background: $gray-lighter;
+    margin: 2px;
+    padding: 2px;
+    border-radius: $border-radius-small;
+  }
+
+  &__popupAva {
+    color: green;
+  }
+
+  &__popupNoAva {
+    color: red;
   }
 
   &__popupAvailableInfoValue {

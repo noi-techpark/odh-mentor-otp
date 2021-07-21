@@ -35,27 +35,16 @@ class SettingsPreview extends Component {
     }, this.props)
     // Show dot indicator if the current query differs from the default query.
     let showDot = coreUtils.query.isNotDefaultQuery(query, config)
-    const button = (
+    return (
       <div className='button-container'>
         <Button
           aria-label={messages.label.replace('\n', ' ')}
           onClick={this.props.onClick}
+          block
         >
-          {editButtonText}{caret && <span> <i className={`fa fa-caret-${caret}`} /></span>}
+          {editButtonText} {messages.label} {caret && <span> <i className={`fa fa-caret-${caret}`} /></span>}
         </Button>
         {showDot && <div className='dot' />}
-      </div>
-    )
-    // Add tall class to account for vertical centering if there is only
-    // one line in the label (default is 2).
-    const addClass = messages.label.match(/\n/) ? '' : ' tall'
-    return (
-      <div className='settings-preview' onClick={this.props.onClick}>
-        <div className={`summary${addClass}`}>
-          {messages.label}
-        </div>
-        {button}
-        <div style={{ clear: 'both' }} />
       </div>
     )
   }
