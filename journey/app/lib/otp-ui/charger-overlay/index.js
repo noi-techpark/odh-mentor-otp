@@ -130,23 +130,30 @@ class ChargerOverlay extends MapLayer {
                     <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_slots')}</div>
                   </div>
 
-                  <div className='popup-row'>
-                    {station.plugs.map( (plug, key) => {
-                      const ava = 'otp-ui-mapOverlayPopup' +(plug.available ? '__popupAva': '__popupNoAva');
-                      plug.maxPower = Math.round(plug.maxPower);
-                      return (
-                        <div className="otp-ui-mapOverlayPopup__popupSlot">
-                          <span className={ava}>
-                          &bull; SLOT<small>{key}</small></span> <br />
-                          {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
-                        </div>
-                      );
-                    })}
+                  <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
+                    {
+                      station.plugs.map((plug, key) => {
+                        const ava = plug.available ? 'bg-success': 'bg-danger';
+                        
+                        plug.maxPower = Math.round(plug.maxPower);
+
+                        return (
+                          <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                            <div>
+                              <span className={ava}></span>
+                              <strong>SLOT {key}</strong>
+                              <br />
+                              {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
+                            </div>
+                          </div>
+                        );
+                      })
+                    }
                   </div>
                   
                   <br />
 
-                  <div className='popup-row'>
+                  <div className="otp-ui-mapOverlayPopup__popupRow">
                     <FromToLocationPicker
                       station={station}
                       setLocation={this.props.setLocation}
