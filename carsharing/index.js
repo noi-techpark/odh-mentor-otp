@@ -2,9 +2,15 @@ const express = require('express');
 const https = require('https');
 const _ = require('lodash');
 const fs = require('fs');
+const cors = require('cors');
 const config = require('./config');
 
 var app = express();
+
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
@@ -71,18 +77,42 @@ function getCars(){
     req.end()
 }
 
-app.get('/carsharing/stations.json', function (req, res) {
+app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
     var carStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata){
+                var carVehicles = [];
+                if(carReceived){
+                    for(var j = 0; j < carReceived.length; j++){
+                        var car = carReceived[j];
+                        if(car.sactive && car.smetadata && car.pcoordinate && car.pcode === station.scode){
+                            carVehicles.push({
+                                id: car.scode,
+                                name: car.sname,
+                                model: car.sname ? car.sname.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").replace(/ /g, "-") : 'unknown',
+                                plate: car.smetadata.licensePlate,
+                                geoCoordinate: {
+                                    latitude: car.pcoordinate.y,
+                                    longitude: car.pcoordinate.x,
+                                },
+                                freeForRental: car.savailable,
+                                fuelType: "unknown",
+                                address: car.pname
+                            })
+                        }
+                    }
+                }
                 carStations.push({
                     station_id: station.scode,
                     name: station.sname,
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
-                    free: station.smetadata.availableVehicles || 0
+                    free: station.smetadata.availableVehicles || 0,
+                    type: 'carsharing-hub',
+                    networks: ['SUEDTIROL'],
+                    vehicles: carVehicles
                 })
             }
         }
@@ -101,7 +131,6 @@ app.get('/carsharing/vehicles.json', function (req, res) {
     if(carReceived){
         for(var i = 0; i < carReceived.length; i++){
             var car = carReceived[i];
-            console.log(car);
             if(car.sactive && car.smetadata && car.pcoordinate){
                 carVehicles.push({
                     id: car.scode,

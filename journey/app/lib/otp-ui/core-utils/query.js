@@ -380,14 +380,14 @@ export function getRoutingParams(config, currentQuery, ignoreRealtimeUpdates) {
       params.mode &&
       (params.mode.includes("CAR_HAIL") || params.mode.includes("CAR_RENT"))
     ) {
-      params.minTransitDistance = "50%";
+      params.minTransitDistance = "20%";
       // increase search timeout because these queries can take a while
       params.searchTimeout = 10000;
     }
 
     // set onlyTransitTrips for car rental searches
     if (params.mode && params.mode.includes("CAR_RENT")) {
-      params.onlyTransitTrips = true;
+      params.onlyTransitTrips = false;
     }
 
     // Additional processing specific to PROFILE mode
