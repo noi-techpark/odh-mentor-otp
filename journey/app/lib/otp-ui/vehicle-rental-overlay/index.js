@@ -93,7 +93,7 @@ class VehicleRentalOverlay extends MapLayer {
     // Create the timer only if refreshVehicles is a valid function.
     if (typeof refreshVehicles === "function") {
       // initial station retrieval
-      refreshVehicles();
+      refreshVehicles(this.props.api);
 
       // set up timer to refresh stations periodically
       this.refreshTimer = setInterval(() => {
@@ -135,8 +135,8 @@ class VehicleRentalOverlay extends MapLayer {
     const { configCompanies, getStationName, setLocation, t } = this.props;
     const stationName = getStationName(configCompanies, station);
     const location = {
-      lat: station.y,
-      lon: station.x,
+      lat: station.y || station.lat,
+      lon: station.x || station.lon,
       name: stationName
     };
     return (
@@ -180,6 +180,27 @@ class VehicleRentalOverlay extends MapLayer {
               </>
           }
 
+          
+          {
+            //TODO: popolate this
+            station.type === 'carsharing-hub' &&
+              <>
+                <div className="otp-ui-mapOverlayPopup__popupHeader">
+                  <CarSharing width={26} height={22} />&nbsp;&nbsp;{t('carsharing')}
+                </div>
+
+                <div className="otp-ui-mapOverlayPopup__popupTitle">{stationName}</div>
+
+                {
+                  station.free !== null &&
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_cars')}</div>
+                    </div>
+                }
+              </>
+          }
+
           {/* Set as from/to toolbar */}
           <div className="otp-ui-mapOverlayPopup__popupRow">
             <FromToLocationPicker
@@ -200,14 +221,14 @@ class VehicleRentalOverlay extends MapLayer {
 
     if (typeof station.isCarStation === 'boolean' && !station.isCarStation) {
       icon = getMarkerBikeSharing(station.bikesAvailable)
-    } else if (typeof station.isFloatingCar === 'boolean') {
-      icon = getMarkerCarSharing(station.carsAvailable)
+    } else if (typeof station.isFloatingCar === 'boolean' || station.type === "carsharing-hub") {
+      icon = getMarkerCarSharing(station.carsAvailable || station.free)
     } else {
       icon = getStationMarkerByColor()
     }
 
     return (
-      <Marker icon={icon} key={station.id} position={[station.y, station.x]}>
+      <Marker icon={icon} key={station.id} position={[station.y || station.lat, station.x || station.lon]}>
         {this.renderPopupForStation(station)}
       </Marker>
     );

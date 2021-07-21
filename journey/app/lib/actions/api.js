@@ -287,14 +287,14 @@ export function getRoutingParams (query, config, ignoreRealtimeUpdates) {
       params.mode &&
       (params.mode.includes('CAR_HAIL') || params.mode.includes('CAR_RENT'))
     ) {
-      params.minTransitDistance = '50%'
+      params.minTransitDistance = '20%'
       // increase search timeout because these queries can take a while
       params.searchTimeout = 10000
     }
 
     // set onlyTransitTrips for car rental searches
     if (params.mode && params.mode.includes('CAR_RENT')) {
-      params.onlyTransitTrips = true
+      params.onlyTransitTrips = false
     }
 
   // Additional processing specific to PROFILE mode
@@ -347,7 +347,7 @@ export const carRentalResponse = createAction('CAR_RENTAL_RESPONSE')
 export const carRentalError = createAction('CAR_RENTAL_ERROR')
 
 export function carRentalQuery (params) {
-  return createQueryAction('car_rental', carRentalResponse, carRentalError)
+  return createQueryAction(params, carRentalResponse, carRentalError, {customUrl: true})
 }
 
 // Vehicle rental locations lookup query. For now, there are 3 seperate
@@ -930,6 +930,8 @@ function createQueryAction (endpoint, responseAction, errorAction, options = {})
     ) {
       console.log('Using alt service for ' + options.serviceId)
       url = otpState.config.alternateTransitIndex.apiRoot + endpoint
+    } else if (options.customUrl == true){
+      url = endpoint;
     } else {
       const api = otpState.config.api
       url = `${api.host}${api.port ? ':' + api.port : ''}${api.path}/${endpoint}`
