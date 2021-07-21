@@ -1,7 +1,7 @@
 const express = require('express');
 const https = require('https');
 const _ = require('lodash');
-const cors = require('cors')
+const cors = require('cors');
 const config = require('./config');
 const circleToPolygon = require('./circle-polygon');
 
@@ -124,6 +124,49 @@ app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
                         Number(config.server.geometryCircleRadius),
                         {}
                     )
+                })
+            }
+        }
+    }
+    res.json({
+        results: parkingStations
+    });
+});
+
+app.get('/parking/all.json', cors(corsOptions),  function (req, res) {
+    var parkingStations = [];
+    if(stationsReceived){
+        for(var i = 0; i < stationsReceived.length; i++){
+            var station = stationsReceived[i];
+            if(station.sactive && station.scoordinate && station.smetadata) {
+
+                parkingStations.push({
+                    id: station.scode,
+                    name: station.sname,
+                    status: "ACTIVE",
+                    capacity: station.smetadata.capacity || 0,
+                    free: station.mvalue || 0,
+                    geometry: circleToPolygon(
+                        [station.scoordinate.x, station.scoordinate.y],
+                        Number(config.server.geometryCircleRadius),
+                        {}
+                    )
+                })
+            }
+        }
+    }
+    if(sensorsReceived){
+        for(var i = 0; i < sensorsReceived.length; i++){
+            var sensor = sensorsReceived[i];
+            if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
+                parkingStations.push({
+                    id: sensor.scode,
+                    name: sensor.sname,
+                    lat: sensor.scoordinate.y,
+                    lon: sensor.scoordinate.x,
+                    address: sensor.smetadata.group,
+                    city: sensor.smetadata.municipality,
+                    free: sensor.mvalue === 1 ? false : true
                 })
             }
         }

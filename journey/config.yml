@@ -166,7 +166,8 @@ map:
       modes:
         - CAR_RENT
       companies:
-        - CAR2GO
+        - SUEDTIROL
+      api: ${CARSHARING_BASEURL}/carsharing/stations.json
       iconWidth: 42
       iconHeight: 50
       iconMarkerColor: "#d9bd48"
