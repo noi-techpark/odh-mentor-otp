@@ -41,7 +41,7 @@ class MobileWelcomeScreen extends Component {
     return (
       <MobileContainer>
         <MobileNavigationBar title={title} />
-        <div className='welcome-location mobile-padding'>
+        <div className='welcome-location p-1'>
           <LocationField
             inputPlaceholder={t('where_go')}
             locationType='to'

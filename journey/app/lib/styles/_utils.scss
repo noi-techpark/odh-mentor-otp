@@ -1,5 +1,11 @@
 // Spacing
 
+.p-1 { padding: $font-size-base / 2; }
+.p-2 { padding: $font-size-base; }
+.p-3 { padding: $font-size-base * 1.5; }
+.p-4 { padding: $font-size-base * 2; }
+.p-5 { padding: $font-size-base * 2.5; }
+
 .pb-1 { padding-bottom: $font-size-base / 2; }
 .pt-1 { padding-top: $font-size-base / 2; }
 .pl-1 { padding-left: $font-size-base / 2; }
@@ -24,6 +30,12 @@
 .pt-5 { padding-top: $font-size-base * 2.5; }
 .pl-5 { padding-left: $font-size-base * 2.5; }
 .pr-5 { padding-right: $font-size-base * 2.5; }
+
+.m-1 { margin: $font-size-base / 2; }
+.m-2 { margin: $font-size-base; }
+.m-3 { margin: $font-size-base * 1.5; }
+.m-4 { margin: $font-size-base * 2; }
+.m-5 { margin: $font-size-base * 2.5; }
 
 .mb-1 { margin-bottom: $font-size-base / 2; }
 .mt-1 { margin-top: $font-size-base / 2; }

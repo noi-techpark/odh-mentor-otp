@@ -139,7 +139,8 @@ map:
 
     - type: parking
       name: parking
-      api: ${PARKING_BASEURL}/parking/stations.json
+      #api: ${PARKING_BASEURL}/parking/stations.json
+      api: ${PARKING_BASEURL}/parking/all.json
       iconWidth: 42
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
@@ -166,7 +167,8 @@ map:
       modes:
         - CAR_RENT
       companies:
-        - CAR2GO
+        - SUEDTIROL
+      api: ${CARSHARING_BASEURL}/carsharing/stations.json
       iconWidth: 42
       iconHeight: 50
       iconMarkerColor: "#d9bd48"

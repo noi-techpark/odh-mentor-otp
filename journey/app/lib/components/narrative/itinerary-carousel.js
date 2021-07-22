@@ -94,6 +94,7 @@ class ItineraryCarousel extends Component {
           </div>
         }
         <SwipeableViews
+          axis="x"
           index={activeItinerary}
           onChangeIndex={this._onSwipe}
         >{views}</SwipeableViews>

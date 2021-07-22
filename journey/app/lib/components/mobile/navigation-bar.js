@@ -42,12 +42,12 @@ class MobileNavigationBar extends Component {
               showBackButton &&
                 <>
                   <Navbar.Link href="#" onClick={this._backButtonPressed}>
-                    <FontAwesome name='arrow-left' />
+                    <FontAwesome name='arrow-left' tag="i" />
                   </Navbar.Link>
                   {' '}
                 </>
             }
-            Journey
+            Journey <span>BETA</span>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

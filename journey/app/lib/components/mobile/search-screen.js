@@ -47,7 +47,7 @@ class MobileSearchScreen extends Component {
     return (
       <MobileContainer>
         <MobileNavigationBar headerText={t('plan_trip')} />
-        <div className='search-settings mobile-padding'>
+        <div className='search-settings p-1'>
           <LocationField
             locationType='from'
             onTextInputClick={this._fromFieldClicked}
@@ -63,20 +63,20 @@ class MobileSearchScreen extends Component {
             <SwitchButton content={<i className='fa fa-exchange fa-rotate-90' />} />
           </div>
 
-          <Row style={{ marginBottom: 12 }}>
-            <Col xs={6} style={{ borderRight: '2px solid #ccc' }}>
-              <DateTimePreview
-                onClick={this._expandDateTimeClicked}
-                compressed
-              />
-            </Col>
-            <Col xs={6}>
-              <SettingsPreview
-                onClick={this._expandOptionsClicked}
-                compressed
-              />
-            </Col>
-          </Row>
+          <div className="search-settings-options">
+            <Row>
+              <Col xs={6}>
+                <DateTimePreview
+                  onClick={this._expandDateTimeClicked}                
+                />
+              </Col>
+              <Col xs={6}>
+                <SettingsPreview
+                  onClick={this._expandOptionsClicked}                
+                />
+              </Col>
+            </Row>
+          </div>
 
           <PlanTripButton onClick={this._planTripClicked} />
         </div>

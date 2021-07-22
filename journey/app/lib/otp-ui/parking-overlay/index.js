@@ -12,6 +12,7 @@ import { parkingLocationsQuery } from '../../actions/parking'
 
 import BadgeIcon from "../icons/badge-icon";
 import MarkerParking from "../icons/modern/MarkerParking";
+import MarkerParkingSensor from "../icons/modern/MarkerParkingSensor";
 import ReactDOMServer from "react-dom/server";
 import Parking from "../icons/modern/Parking";
 import FromToLocationPicker from '../from-to-location-picker'
@@ -77,32 +78,61 @@ class ParkingOverlay extends MapLayer {
     const markerIcon = (data) => {
       let badgeType = 'default';
       let badgeCounter = data.free || 0;
+      let iconWidth, iconHeight;
 
-      if (data.capacity === data.free) {
-        badgeType = 'success';
-        badgeCounter = null;
-      } else if (data.free < data.capacity) {
-        badgeType = 'default';
-        badgeCounter = data.free
+      if( data.type === 'station') {
+
+        if (data.capacity === data.free) {
+          badgeType = 'success';
+          badgeCounter = null;
+        } else if (data.free < data.capacity) {
+          badgeType = 'default';
+          badgeCounter = data.free
+        }
+
+        if (data.free === 0 ) {
+          badgeType = 'danger';
+          badgeCounter = null;
+        }
+        
+        iconWidth = overlayParkingConf.iconWidth;
+        iconHeight = overlayParkingConf.iconHeight;
       }
+      else if (data.type === 'sensor') {
 
-      if (data.free === 0 ) {
-        badgeType = 'danger';
+        if (data.free === true ) {
+          badgeType = 'success';
+        } else if (data.free === false) {
+          badgeType = 'danger';
+        }
+
         badgeCounter = null;
+        iconWidth = parseInt(overlayParkingConf.iconWidth*0.7);
+        iconHeight = parseInt(overlayParkingConf.iconHeight*0.7);
       }
 
       return divIcon({
         className: "",
-        iconSize: [overlayParkingConf.iconWidth, overlayParkingConf.iconHeight],
-        popupAnchor: [0, -overlayParkingConf.iconHeight / 2],
+        iconSize: [iconWidth, iconHeight],
+        popupAnchor: [0, -iconHeight / 2],
         html: ReactDOMServer.renderToStaticMarkup(
-          <BadgeIcon counter={badgeCounter} type={badgeType} width={overlayParkingConf.iconWidth}>
+          <BadgeIcon counter={badgeCounter} type={badgeType} width={iconWidth}>
+          { data.type === 'station' && 
             <MarkerParking
-              width={overlayParkingConf.iconWidth}
-              height={overlayParkingConf.iconHeight}
+              width={iconWidth}
+              height={iconHeight}
               iconColor={overlayParkingConf.iconColor}
               markerColor={overlayParkingConf.iconMarkerColor}
             />
+          }
+          { data.type === 'sensor' && 
+            <MarkerParkingSensor
+              width={iconWidth}
+              height={iconHeight}
+              iconColor={overlayParkingConf.iconColor}
+              markerColor={overlayParkingConf.iconMarkerColor}
+            />
+          }
           </BadgeIcon>
         )
       });;
@@ -117,12 +147,12 @@ class ParkingOverlay extends MapLayer {
 
     return (
       <FeatureGroup>
-        {locations.map((location) => {
+        {locations.map((station) => {
           return (
             <Marker
-              icon={markerIcon(location)}
-              key={location.name}
-              position={[location.lat, location.lon]}
+              icon={markerIcon(station)}
+              key={station.name}
+              position={[station.lat, station.lon]}
             >
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
@@ -130,22 +160,25 @@ class ParkingOverlay extends MapLayer {
                     <Parking width={24} height={20} />&nbsp;{t('parking')}
                   </div>
 
-                  <div className="otp-ui-mapOverlayPopup__popupTitle">{location.name}</div>
+                  <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
 
-                  <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                    <CircularProgressbar
-                      value={location.free}
-                      minValue={0}
-                      maxValue={location.capacity}
-                      text={location.free}
-                      className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
-                    />
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('capacity')}: {location.capacity}</div>
-                  </div>
+                  {
+                    station.type === 'station' &&
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                      <CircularProgressbar
+                        value={station.free}
+                        minValue={0}
+                        maxValue={station.capacity}
+                        text={station.free}
+                        className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
+                      />
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('capacity')}: {station.capacity}</div>
+                    </div>
+                  }
 
                   <div className='popup-row'>
                     <FromToLocationPicker
-                      location={location}
+                      location={station}
                       setLocation={this.props.setLocation}
                     />
                   </div>

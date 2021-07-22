@@ -30,11 +30,11 @@ class MobileOptionsScreen extends Component {
           backScreen={MobileScreens.SEARCH_FORM}
         />
 
-        <div className='options-main-content mobile-padding'>
+        <div className='options-main-content p-1'>
           <ConnectedSettingsSelectorPanel ModeIcon={ModeIcon} />
         </div>
 
-        <div className='options-lower-tray mobile-padding'>
+        <div className='options-lower-tray p-1'>
           <PlanTripButton onClick={this._planTripClicked} />
         </div>
       </MobileContainer>
