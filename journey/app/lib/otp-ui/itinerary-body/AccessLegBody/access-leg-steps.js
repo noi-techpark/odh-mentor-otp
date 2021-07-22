@@ -9,16 +9,18 @@ import { withNamespaces } from "react-i18next"
 
 function AccessLegSteps({ steps, t }) {
   return (
-    <ul className="list-unstyled">
+    <ul className="list-unstyled otp-ui-accessLegSteps">
       {steps.map((step, k) => {
         return (
           <li key={k}>
             <DirectionIcon relativeDirection={step.relativeDirection} />
-            {t(getStepDirection(step))}
             <span>
-              {` ${t(step.relativeDirection === "ELEVATOR" ? "to" : "on")} `}
+              {t(getStepDirection(step))}
+              <strong>
+                {` ${t(step.relativeDirection === "ELEVATOR" ? "to" : "on")} `}
+              </strong>
+              {t(getStepStreetName(step))}
             </span>
-            {t(getStepStreetName(step))}
           </li>
         );
       })}
