@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from 'react-bootstrap'
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 /**
  * ModeButton lets the user pick a travel mode.
@@ -20,17 +20,28 @@ const ModeButton = props => {
     style
   } = props;
 
+  const tooltip = text => (
+    <Tooltip id="tooltip">
+      {text}
+    </Tooltip>
+  );
+
   return (
-    <Button
-      href="#"
-      onClick={onClick}
-      title={title}
-      disabled={!enabled}
-      active={selected}
+    <OverlayTrigger
+      placement="bottom"
+      overlay={tooltip(title)}
     >
-      {children}
-      {title && showTitle && <><br/>{title}</>}
-    </Button>
+      <Button
+        href="#"
+        onClick={onClick}
+        title={title}
+        disabled={!enabled}
+        active={selected}
+      >
+        {children}
+        {title && showTitle && <span><br/>{title}</span>}
+      </Button>
+    </OverlayTrigger>
   );
 };
 
