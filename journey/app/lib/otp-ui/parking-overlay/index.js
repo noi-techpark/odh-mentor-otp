@@ -77,7 +77,7 @@ class ParkingOverlay extends MapLayer {
 
     const markerIcon = (data) => {
       let badgeType = 'default';
-      let badgeCounter = data.free || 0;
+      let badgeCounter = 0;
       let iconWidth, iconHeight;
 
       if( data.type === 'station') {
@@ -97,6 +97,12 @@ class ParkingOverlay extends MapLayer {
         
         iconWidth = overlayParkingConf.iconWidth;
         iconHeight = overlayParkingConf.iconHeight;
+      }
+      else if (data.type === 'sensorGroup') {
+
+        badgeCounter = data.capacity;
+        iconWidth = parseInt(overlayParkingConf.iconWidth*0.7);
+        iconHeight = parseInt(overlayParkingConf.iconHeight*0.7);
       }
       else if (data.type === 'sensor') {
 
@@ -133,6 +139,14 @@ class ParkingOverlay extends MapLayer {
               markerColor={overlayParkingConf.iconMarkerColor}
             />
           }
+          { data.type === 'sensorGroup' && 
+            <MarkerParkingSensor
+              width={iconWidth}
+              height={iconHeight}
+              iconColor={overlayParkingConf.iconColor}
+              markerColor={overlayParkingConf.iconMarkerColor}
+            />
+          }
           </BadgeIcon>
         )
       });;
@@ -151,7 +165,7 @@ class ParkingOverlay extends MapLayer {
           return (
             <Marker
               icon={markerIcon(station)}
-              key={station.name}
+              key={station.station_id}
               position={[station.lat, station.lon]}
             >
               <Popup>
@@ -161,7 +175,6 @@ class ParkingOverlay extends MapLayer {
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
-
                   {
                     station.type === 'station' &&
                     <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
@@ -173,6 +186,25 @@ class ParkingOverlay extends MapLayer {
                         className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
                       />
                       <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('capacity')}: {station.capacity}</div>
+                    </div>
+                  }
+
+                  {
+                    station.type === 'sensorGroup' && 
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
+                        {
+                          station.sensors.map( sensor => {
+                            const free = sensor.free ? 'bg-success': 'bg-danger';
+                            return (
+                               <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                                <div>
+                                  <span className={free}></span>
+                                  <strong>{sensor.name}</strong>
+                                </div>
+                              </div>
+                            );
+                          })
+                        }   
                     </div>
                   }
 

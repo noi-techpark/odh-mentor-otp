@@ -65,8 +65,9 @@ function getSensors(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var sensors = tmp.data;
-                sensorsReceived = sensors;
+                var sensors = _.uniqBy(tmp.data,'scode');
+                //PATCH remove duplicates
+                sensorsReceived = sensors
             });
         })
 
@@ -162,12 +163,12 @@ app.get('/parking/sensors.json', cors(corsOptions), function (req, res) {
 });
 
 app.get('/parking/all.json', cors(corsOptions), function (req, res) {
-    var parkingAll = [];
+    var parkingStationsAll = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata){
-                parkingAll.push({
+                parkingStationsAll.push({
                     type: 'station',
                     station_id: station.scode,
                     name: station.sname,
@@ -181,30 +182,63 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
             }
         }
     }
-
+    var parkingSensorsAll = [];
     if(sensorsReceived){
         for(var i = 0; i < sensorsReceived.length; i++){
             var sensor = sensorsReceived[i];
             if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
-                parkingAll.push({
+                parkingSensorsAll.push({
                     type: 'sensor',
-                    sensor_id: sensor.scode,
+                    station_id: sensor.scode+Math.random(),                    
+                    group: sensor.smetadata.group,
+                    group_id: sensor.smetadata.id2,
                     name: sensor.sname,
                     lat: sensor.scoordinate.y,
                     lon: sensor.scoordinate.x,
                     address: sensor.smetadata.group,
                     city: sensor.smetadata.municipality,
                     free: sensor.mvalue === 1 ? false : true
-                })
+                });
             }
         }
     }
+    const MAX_GROUP_SENSORS = 4;
+    const parkingSensors = [];
+    const parkingSensorsGroups = _.chain(parkingSensorsAll)
+        .groupBy('group')
+        .map((sensors, groupName)=> {
+            if(sensors.length < MAX_GROUP_SENSORS) {
+                return {
+                    type: 'sensorGroup',
+                    station_id: groupName,
+                    name: groupName,
+                    //TODO midpoint of all sensors
+                    lat: sensors[0].lat,
+                    lon: sensors[0].lon,
+                    capacity: sensors.length,
+                    sensors
+                }
+            }
+            else {
+                sensors.map( sensor => {
+                    parkingSensors.push(sensor);
+                });
+                return null;
+            }
+        })
+        .compact()
+        .value()
+
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: "1.0",
         data: {
-            stations: parkingAll
+            stations: _.concat(
+                parkingSensors,
+                parkingSensorsGroups,
+                parkingStationsAll
+                )
        }
     });
 });

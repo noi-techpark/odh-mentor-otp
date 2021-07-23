@@ -34,6 +34,30 @@ import carGolf from './cars/vw-golf.jpg';
 import carVwUp from './cars/vw-up.jpg';
 import carPlaceholder from './cars/placeholder.png';
 
+/*
+TODO mapping car image
+const mapCars = {
+//TODO rename in id-name-car
+'carNissanLeaf': carNissanLeaf
+'carVwCaddy': carVwCaddy
+'carGolfVariant': carGolfVariant
+'carGolf': carGolf
+'carVwUp': carVwUp
+}
+
+"Nissan Leaf"           .nissan-leaf
+"Renault Zoe"           .renault-zoe
+"VW Caddy Caddy 2.0 TDI"    .vw-caddy-caddy-20-tdi
+"VW e-Golf"           .vw-egolf
+"VW e-UP!"          .vw-eup
+"VW Golf Golf 1.6 TDI"      .vw-golf-golf-16-tdi
+"VW Golf"           .vw-golf
+"VW Golf VW Golf"         .vw-golf-vw-golf
+"VW up!"            .vw-up
+"VW up! VW up!"         .vw-up-vw-up
+//TODO default
+carPlaceholder*/
+
 const overlayCarSharingConf = config.map.overlays.filter(item => item.type === 'car-rental')[0]
 const overlayBikeSharingConf = config.map.overlays.filter(item => item.type === 'bike-rental')[0]
 
