@@ -27,6 +27,13 @@ import CarSharing from "../icons/modern/CarSharing";
 import BadgeIcon from "../icons/badge-icon";
 import config from '../../config.yml';
 
+import carNissanLeaf from './cars/nissan-leaf.jpg';
+import carVwCaddy from './cars/vw-caddy.jpg';
+import carGolfVariant from './cars/vw-golf-variant.jpg';
+import carGolf from './cars/vw-golf.jpg';
+import carVwUp from './cars/vw-up.jpg';
+import carPlaceholder from './cars/placeholder.png';
+
 const overlayCarSharingConf = config.map.overlays.filter(item => item.type === 'car-rental')[0]
 const overlayBikeSharingConf = config.map.overlays.filter(item => item.type === 'bike-rental')[0]
 
@@ -172,10 +179,12 @@ class VehicleRentalOverlay extends MapLayer {
 
                 {
                   station.carsAvailable !== null &&
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.carsAvailable}</div>
-                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_cars')}</div>
-                    </div>
+                    <>
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.carsAvailable}</div>
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_cars')}</div>
+                      </div>
+                    </>
                 }
               </>
           }
@@ -193,10 +202,31 @@ class VehicleRentalOverlay extends MapLayer {
 
                 {
                   station.free !== null &&
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
-                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_cars')}</div>
-                    </div>
+                    <>
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_cars')}</div>
+                      </div>
+
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                          <div>                                
+                            <strong>Car Type</strong>
+                            <br />
+                            <img src={carNissanLeaf} />
+                            <small>{t('availability')} 2</small>
+                          </div>
+                        </div>
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                          <div>                                
+                            <strong>Car Type</strong>
+                            <br />
+                            <img src={carPlaceholder} />
+                            <small>{t('availability')} 3</small>
+                          </div>
+                        </div>
+                      </div>
+                    </>
                 }
               </>
           }

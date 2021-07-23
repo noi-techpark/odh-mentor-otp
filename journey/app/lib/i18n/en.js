@@ -352,4 +352,5 @@ export const TRANSLATIONS_EN = {
   "plan_now": "$_plan_now",
   "plan_depart_at": "$_plan_depart_at",
   "plan_arrive_at": "$_plan_arrive_at",
+  "availability": "$_availability",
 };

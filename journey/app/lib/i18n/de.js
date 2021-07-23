@@ -347,5 +347,6 @@ export const TRANSLATIONS_DE = {
   "credits": "$_credits",
   "credits_title": "$_credits_title",
   "credits_text": "$_credits_text",
-  "close": "Schließen"
+  "close": "Schließen",
+  "availability": "$_availability",
 }
