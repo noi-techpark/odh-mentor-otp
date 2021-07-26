@@ -202,12 +202,12 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
             }
         }
     }
-    const MAX_GROUP_SENSORS = 4;
+    const MIN_GROUP_SENSORS = Number(config.server.min_group_sensors) || 4;
     const parkingSensors = [];
     const parkingSensorsGroups = _.chain(parkingSensorsAll)
         .groupBy('group')
         .map((sensors, groupName)=> {
-            if(sensors.length < MAX_GROUP_SENSORS) {
+            if(sensors.length < MIN_GROUP_SENSORS) {
                 return {
                     type: 'sensorGroup',
                     station_id: groupName,
