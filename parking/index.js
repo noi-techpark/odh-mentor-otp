@@ -178,7 +178,7 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
                     city: station.smetadata.municipality,
                     capacity: station.smetadata.capacity || 0,
                     free: station.mvalue || 0
-                })
+                });
             }
         }
     }
@@ -189,9 +189,9 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
             if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
                 parkingSensorsAll.push({
                     type: 'sensor',
-                    station_id: sensor.scode+Math.random(),                    
-                    group: sensor.smetadata.group,
-                    group_id: sensor.smetadata.id2,
+                    station_id: sensor.scode+'-'+Math.random(),                    
+                    group_name: sensor.smetadata.group,
+                    group_id: _.snakeCase(sensor.smetadata.group),
                     name: sensor.sname,
                     lat: sensor.scoordinate.y,
                     lon: sensor.scoordinate.x,
@@ -202,11 +202,13 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
             }
         }
     }
+    //console.log('sensors', parkingSensorsAll);
+
     const MIN_GROUP_SENSORS = Number(config.server.min_group_sensors) || 4;
     const parkingSensors = [];
     const parkingSensorsGroups = _.chain(parkingSensorsAll)
-        .groupBy('group')
-        .map((sensors, groupName)=> {
+        .groupBy('group_id')
+        /*.map((sensors, groupName)=> {
             if(sensors.length < MIN_GROUP_SENSORS) {
                 return {
                     type: 'sensorGroup',
@@ -226,8 +228,39 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
                 return null;
             }
         })
-        .compact()
+        .compact()*/
         .value()
+    const sensorGroups = [];
+    for (const groupId in parkingSensorsGroups) {
+        let group = parkingSensorsGroups[groupId];
+
+        if(group.length < MIN_GROUP_SENSORS) {
+            sensorGroups.push({
+                    type: 'sensorGroup',
+                    station_id: groupId,
+                    name: group[0].group_name,
+                    group_name: group[0].group_name,
+                    lat: group[0].lat,
+                    lon: group[0].lon,
+                    capacity: group.length,
+                    sensors: group
+                })
+        }
+        else {
+            for(const sensor of group) {
+                parkingSensors.push(sensor);
+            }
+            /*group.map( sensor => {
+                parkingSensors.push(sensor);
+            });*/
+        }
+
+    }
+//console.log(JSON.stringify(parkingSensorsGroups,null,4))
+
+/*console.log(sensorGroups);
+console.log('SENSORS:')
+console.log(parkingSensors);*/
 
     res.json({
         last_updated: lastUpdate,
@@ -235,8 +268,8 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
         version: "1.0",
         data: {
             stations: _.concat(
+                sensorGroups,
                 parkingSensors,
-                parkingSensorsGroups,
                 parkingStationsAll
                 )
        }

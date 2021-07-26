@@ -175,6 +175,7 @@ class ParkingOverlay extends MapLayer {
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
+                  <small>{station.group_name}</small>
                   {
                     station.type === 'station' &&
                     <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
