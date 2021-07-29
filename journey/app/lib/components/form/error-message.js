@@ -48,7 +48,7 @@ class ErrorMessage extends Component {
 const mapStateToProps = (state, ownProps) => {
   const activeSearch = getActiveSearch(state.otp)
   return {
-    error: activeSearch && activeSearch.response && activeSearch.response.error,
+    error: activeSearch && activeSearch.response && activeSearch.response[0] && activeSearch.response[0].error,
     currentQuery: state.otp.currentQuery,
     errorMessages: state.otp.config.errorMessages
   }
