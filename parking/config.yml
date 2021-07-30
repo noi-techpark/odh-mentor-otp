@@ -3,7 +3,8 @@ server:
   polling_interval: 10
   geometryCircleRadius: 100
   #generated circle geometry for parking in meters 
-  min_group_sensors: 4
+  returnGroupSensors: false
+  minGroupSensors: 4
   #minimum count of sensors for a group to show in same marker
 
 endpoints:

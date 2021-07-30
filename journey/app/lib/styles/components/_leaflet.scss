@@ -233,3 +233,12 @@
     }
   }
 }
+
+/* marker cluster */
+
+.marker-cluster-small {
+  background-color: $brand-primary;
+}
+.marker-cluster-small div {
+  background-color: white
+}
