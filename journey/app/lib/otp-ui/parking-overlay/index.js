@@ -186,6 +186,23 @@ class ParkingOverlay extends MapLayer {
                 key={station.station_id}
                 position={[station.lat, station.lon]}
               >
+              <Popup>
+                <div className="otp-ui-mapOverlayPopup">
+                  <div className="otp-ui-mapOverlayPopup__popupHeader">
+                    <Parking width={24} height={20} />&nbsp;{t('parking')}
+                  </div>
+
+                  <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
+                  <small>{station.group_name}</small>
+
+                  <div className='popup-row'>
+                    <FromToLocationPicker
+                      location={station}
+                      setLocation={this.props.setLocation}
+                    />
+                  </div>
+                </div>
+              </Popup>
               </Marker>
             );
           })
