@@ -158,7 +158,6 @@ class ParkingOverlay extends MapLayer {
     const clusterIcon = cluster => {
       const text = cluster.getChildCount();
       return L.divIcon({
-        //html: `<span>${text}</span>`,
         className: 'marker-cluster-svg',
         iconSize: [overlayParkingConf.iconWidth, overlayParkingConf.iconHeight],
         html: ReactDOMServer.renderToStaticMarkup(
@@ -171,48 +170,30 @@ class ParkingOverlay extends MapLayer {
       });
     }
 
-    const testpos = [
-      [46.68383412759908,11.196441650390625],
-      [46.64460455969072,11.168632507324219],
-      [46.64613657830742,11.174125671386719],
-      [46.68300977494094,11.190948486328125],
-      [46.68383412759908,11.196441650390625],
-      [46.64460455969072,11.168632507324219],
-      [46.64613657830742,11.174125671386719],
-    ];
-
-    const pos1 =  [46.66169000277129,11.201248168945312];
-
     return (
       <LayerGroup>
-      <FeatureGroup>
-        <Marker position={pos1}></Marker>
-      </FeatureGroup>
-      <MarkerClusterGroup showCoverageOnHover={false} iconCreateFunction={clusterIcon}>
+      <MarkerClusterGroup 
+        showCoverageOnHover={false}
+        maxClusterRadius={20}
+        iconCreateFunction={clusterIcon}
+      >
         {
-          testpos.map( pos  => {
-            const station = {
-              station_id: Math.random(),
-              type:'sensor',
-              free: Math.random() > 0.5
-            };
+          locations.map( station => {
+            if(station.type!=='sensor') return null;
             return (
               <Marker
                 icon={markerIcon(station)}
                 key={station.station_id}
-                position={pos}
+                position={[station.lat, station.lon]}
               >
               </Marker>
             );
           })
         }
       </MarkerClusterGroup>
-      </LayerGroup>
-    )
-
-    /*return (
       <FeatureGroup>
-        {locations.map((station) => {
+        {locations.map( station => {
+          if(station.type!=='station' && station.type!== 'sensorGroup') return null;
           return (
             <Marker
               icon={markerIcon(station)}
@@ -272,7 +253,8 @@ class ParkingOverlay extends MapLayer {
           )
         })}
       </FeatureGroup>
-    )*/
+      </LayerGroup>
+    )
   }
 }
 
