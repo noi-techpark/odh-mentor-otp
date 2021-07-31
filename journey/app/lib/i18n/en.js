@@ -347,6 +347,7 @@ export const TRANSLATIONS_EN = {
   "available_cars": "$_available_cars",
   "capacity": "$_capacity",
   "credits": "Credits",
+  "provider": "Operator",
   "credits_title": "Credits",
   "credits_title_developed": "Developed by",
   "credits_title_designed": "Designed by",

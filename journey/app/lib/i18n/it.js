@@ -348,6 +348,7 @@ export const TRANSLATIONS_IT = {
   "availability": "Disponibilità",
   "capacity": "Capienza",
   "credits": "Credits",
+  "provider": "Operatore",
   "credits_title": "Credits",
   "credits_title_developed": "Developed by",
   "credits_title_designed": "Designed by",
