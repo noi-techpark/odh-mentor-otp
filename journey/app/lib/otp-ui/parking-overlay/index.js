@@ -50,8 +50,16 @@ class ParkingOverlay extends MapLayer {
     this.props.registerOverlay(this)
   }
 
-  onOverlayAdded = () => {
-    this._startRefreshing()
+  onOverlayAdded = (e) => {   //PATCH rimuove overlayer label di troppo
+
+    this._startRefreshing();
+
+    setTimeout(() => {
+      const elems = document.querySelectorAll('.leaflet-control-layers-overlays label')
+      if(elems.length>5) {
+        document.querySelectorAll('.leaflet-control-layers-overlays label:nth-last-child(2)').forEach(e => e.parentNode.removeChild(e));
+      }
+    },10)
   }
 
   onOverlayRemoved = () => {
@@ -152,7 +160,7 @@ class ParkingOverlay extends MapLayer {
           }
           </BadgeIcon>
         )
-      });;
+      });
     }
     
     const clusterIcon = cluster => {
@@ -172,7 +180,7 @@ class ParkingOverlay extends MapLayer {
 
     return (
       <LayerGroup>
-      <MarkerClusterGroup 
+      <MarkerClusterGroup
         showCoverageOnHover={false}
         maxClusterRadius={20}
         iconCreateFunction={clusterIcon}
