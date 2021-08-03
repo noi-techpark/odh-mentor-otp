@@ -31,14 +31,14 @@ if (!LegIcon || !ModeIcon) {
 class TrimetWebapp extends Component {
   render () {
     const { t } = this.props
-    const {branding} = otpConfig
+    const {branding, brandNavbar} = otpConfig;
 
     /** desktop view **/
     const desktopView = (
       <div className='otp'>
         <Navbar fluid collapseOnSelect fixedTop>
           <Navbar.Header>
-            <Navbar.Brand>Journey <span>BETA</span></Navbar.Brand>
+            <Navbar.Brand>{brandNavbar} <span>BETA</span></Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>

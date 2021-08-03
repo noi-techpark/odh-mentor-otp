@@ -25,13 +25,13 @@ class NarrativeRoutingResults extends Component {
   }
 
   render () {
-    const { error, itineraryClass, itineraryFooter, LegIcon, pending, itineraries, mainPanelContent } = this.props
+    const { error, itineraryClass, itineraryFooter, LegIcon, pending, itineraries, mainPanelContent } = this.props    
+
     if (pending) return <Loading />
     if (error) return <ErrorMessage />
     if (mainPanelContent) return null
 
     return (
-      // TODO: If multiple routing types exist, do the check here.
       <TabbedItineraries
         itineraryClass={itineraryClass}
         itineraryFooter={itineraryFooter}
@@ -44,10 +44,11 @@ class NarrativeRoutingResults extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const activeSearch = getActiveSearch(state.otp)
-  const pending = activeSearch ? Boolean(activeSearch.pending) : false
+  const pending = activeSearch ? Boolean(activeSearch.pending) : false  
+
   return {
     mainPanelContent: state.otp.ui.mainPanelContent,
-    error: activeSearch && activeSearch.response && activeSearch.response.error,
+    error: activeSearch && activeSearch.response && activeSearch.response[0] && activeSearch.response[0].error,
     itineraries: getActiveItineraries(state.otp),
     pending,
     routingType: activeSearch && activeSearch.query.routingType

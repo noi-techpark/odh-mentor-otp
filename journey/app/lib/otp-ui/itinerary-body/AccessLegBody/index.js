@@ -90,18 +90,19 @@ export default class AccessLegBody extends Component {
             )}
           </Button>
 
-          <LegDiagramPreview
-            diagramVisible={diagramVisible}
-            leg={leg}
-            setLegDiagram={setLegDiagram}
-            showElevationProfile={showElevationProfile}
-          />
           <VelocityTransitionGroup
             enter={{ animation: "slideDown" }}
             leave={{ animation: "slideUp" }}
           >
             {expanded && <AccessLegSteps steps={leg.steps} />}
           </VelocityTransitionGroup>
+
+          <LegDiagramPreview
+            diagramVisible={diagramVisible}
+            leg={leg}
+            setLegDiagram={setLegDiagram}
+            showElevationProfile={showElevationProfile}
+          />
         </div>
       </>
     );

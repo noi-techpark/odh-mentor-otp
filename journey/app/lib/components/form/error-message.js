@@ -34,7 +34,7 @@ class ErrorMessage extends Component {
     return (
       <div className='error-message'>
         <div className='header'>
-          <i className='fa fa-exclamation-circle' /> {t('could_not', { label: t('plan_trip') })}
+          <i className='fa fa-exclamation-circle' />
         </div>
         <div className='message'>{message}</div>
         <TripTools buttonTypes={['START_OVER', 'REPORT_ISSUE']} />
@@ -48,7 +48,7 @@ class ErrorMessage extends Component {
 const mapStateToProps = (state, ownProps) => {
   const activeSearch = getActiveSearch(state.otp)
   return {
-    error: activeSearch && activeSearch.response && activeSearch.response.error,
+    error: activeSearch && activeSearch.response && activeSearch.response[0] && activeSearch.response[0].error,
     currentQuery: state.otp.currentQuery,
     errorMessages: state.otp.config.errorMessages
   }

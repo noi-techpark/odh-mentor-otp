@@ -5,6 +5,7 @@
 // TODO: fix icon layer
 @import url(https://unpkg.com/leaflet@1.0.3/dist/leaflet.css);
 @import '../../node_modules/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css';
+@import '../../node_modules/react-leaflet-markercluster/dist/styles.min.css';
 @import '../../node_modules/transitive-js/lib/transitive.css';
 
 // MAIN LAYOUT AND COMPONENTS WITH BOOTSTRAP
@@ -54,6 +55,7 @@
 @import 'utils';
 
 @import 'components/bootstrap';
+@import 'components/credits';
 @import 'components/leaflet';
 @import 'components/navbar';
 

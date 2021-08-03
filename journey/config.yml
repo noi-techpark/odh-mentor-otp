@@ -1,6 +1,7 @@
 branding: Mentor - Alto Adige/Suedtirol
 homeTimezone: Europe/Rome
 title: Mentor - Alto Adige/Suedtirol
+brandNavbar: Mentor
 
 reportIssue:
   mailto: support@openmove.com
@@ -120,7 +121,7 @@ map:
       hasRetinaSupport: true
 
     - name: Printer
-      url: //tile.stamen.com/toner-lite/{z}/{x}/{y}.png
+      url: //stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png
       attribution: 'Map tiles by <a href="http://stamen.com">Printer</a>'
 
     - name: Openstreetmap
@@ -139,6 +140,8 @@ map:
 
     - type: parking
       name: parking
+      #visible: true
+      #TODO cluster: true      
       #api: ${PARKING_BASEURL}/parking/stations.json
       api: ${PARKING_BASEURL}/parking/all.json
       iconWidth: 42

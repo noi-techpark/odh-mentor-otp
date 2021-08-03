@@ -124,6 +124,8 @@ class ChargerOverlay extends MapLayer {
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
+                  
+                  <div>{t('provider')}: {station.provider}</div>
 
                   <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
                     <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.capacity}</div>

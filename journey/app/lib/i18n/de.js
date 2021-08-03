@@ -345,7 +345,11 @@ export const TRANSLATIONS_DE = {
   "available_cars": "$_available_cars",
   "capacity": "$_capacity",
   "credits": "$_credits",
+  "provider": "$_provider",
   "credits_title": "$_credits_title",
-  "credits_text": "$_credits_text",
-  "close": "Schließen"
+  "credits_title_developed": "$_credits_title_developed",
+  "credits_title_designed": "$_credits_title_designed",
+  "credits_title_data_provided": "$_credits_title_data_provided", 
+  "close": "Schließen",
+  "availability": "$_availability",
 }

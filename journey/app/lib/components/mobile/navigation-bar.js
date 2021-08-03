@@ -27,6 +27,7 @@ class MobileNavigationBar extends Component {
 
   render () {
     const {
+      config,
       auth0Config,
       headerAction,
       headerText,
@@ -47,7 +48,7 @@ class MobileNavigationBar extends Component {
                   {' '}
                 </>
             }
-            Journey <span>BETA</span>
+            {config.brandNavbar} <span>BETA</span>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -82,7 +83,8 @@ class MobileNavigationBar extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    auth0Config: getAuth0Config(state.otp.config.persistence)
+    auth0Config: getAuth0Config(state.otp.config.persistence),
+    config: state.otp.config
   }
 }
 

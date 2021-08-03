@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
+import { LayerGroup, FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
 import { divIcon } from 'leaflet'
 import { withNamespaces } from "react-i18next";
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -11,15 +11,18 @@ import { setLocation } from '../../actions/map'
 import { parkingLocationsQuery } from '../../actions/parking'
 
 import BadgeIcon from "../icons/badge-icon";
+import MarkerCluster from "../icons/modern/MarkerCluster";
 import MarkerParking from "../icons/modern/MarkerParking";
 import MarkerParkingSensor from "../icons/modern/MarkerParkingSensor";
 import ReactDOMServer from "react-dom/server";
 import Parking from "../icons/modern/Parking";
 import FromToLocationPicker from '../from-to-location-picker'
 
+import MarkerClusterGroup from 'react-leaflet-markercluster';
+
 import config from '../../config.yml';
 
-const overlayParkingConf = config.map.overlays.filter(item => item.type === 'parking')[0]
+const overlayParkingConf = config.map.overlays.filter(item => item.type === 'parking')[0];
 
 class ParkingOverlay extends MapLayer {
   static propTypes = {
@@ -47,8 +50,16 @@ class ParkingOverlay extends MapLayer {
     this.props.registerOverlay(this)
   }
 
-  onOverlayAdded = () => {
-    this._startRefreshing()
+  onOverlayAdded = (e) => {   //PATCH rimuove overlayer label di troppo
+
+    this._startRefreshing();
+
+    setTimeout(() => {
+      const elems = document.querySelectorAll('.leaflet-control-layers-overlays label')
+      if(elems.length>5) {
+        document.querySelectorAll('.leaflet-control-layers-overlays label:nth-last-child(2)').forEach(e => e.parentNode.removeChild(e));
+      }
+    },10)
   }
 
   onOverlayRemoved = () => {
@@ -77,7 +88,7 @@ class ParkingOverlay extends MapLayer {
 
     const markerIcon = (data) => {
       let badgeType = 'default';
-      let badgeCounter = data.free || 0;
+      let badgeCounter = 0;
       let iconWidth, iconHeight;
 
       if( data.type === 'station') {
@@ -97,6 +108,12 @@ class ParkingOverlay extends MapLayer {
         
         iconWidth = overlayParkingConf.iconWidth;
         iconHeight = overlayParkingConf.iconHeight;
+      }
+      else if (data.type === 'sensorGroup') {
+
+        badgeCounter = data.capacity;
+        iconWidth = parseInt(overlayParkingConf.iconWidth*0.7);
+        iconHeight = parseInt(overlayParkingConf.iconHeight*0.7);
       }
       else if (data.type === 'sensor') {
 
@@ -133,25 +150,79 @@ class ParkingOverlay extends MapLayer {
               markerColor={overlayParkingConf.iconMarkerColor}
             />
           }
+          { data.type === 'sensorGroup' && 
+            <MarkerParkingSensor
+              width={iconWidth}
+              height={iconHeight}
+              iconColor={overlayParkingConf.iconColor}
+              markerColor={overlayParkingConf.iconMarkerColor}
+            />
+          }
           </BadgeIcon>
         )
-      });;
+      });
     }
-
-
-    const bulletIconStyle = {
-      color: 'gray',
-      fontSize: 12,
-      width: 15
+    
+    const clusterIcon = cluster => {
+      const text = cluster.getChildCount();
+      return L.divIcon({
+        className: 'marker-cluster-svg',
+        iconSize: [overlayParkingConf.iconWidth, overlayParkingConf.iconHeight],
+        html: ReactDOMServer.renderToStaticMarkup(
+          <MarkerCluster
+              text={text}
+              textColor={overlayParkingConf.iconColor}
+              markerColor={overlayParkingConf.iconMarkerColor}
+            />
+          )
+      });
     }
 
     return (
+      <LayerGroup>
+      <MarkerClusterGroup
+        showCoverageOnHover={false}
+        maxClusterRadius={20}
+        iconCreateFunction={clusterIcon}
+      >
+        {
+          locations.map( station => {
+            if(station.type!=='sensor') return null;
+            return (
+              <Marker
+                icon={markerIcon(station)}
+                key={station.station_id}
+                position={[station.lat, station.lon]}
+              >
+              <Popup>
+                <div className="otp-ui-mapOverlayPopup">
+                  <div className="otp-ui-mapOverlayPopup__popupHeader">
+                    <Parking width={24} height={20} />&nbsp;{t('parking')}
+                  </div>
+
+                  <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
+                  <small>{station.group_name}</small>
+
+                  <div className='popup-row'>
+                    <FromToLocationPicker
+                      location={station}
+                      setLocation={this.props.setLocation}
+                    />
+                  </div>
+                </div>
+              </Popup>
+              </Marker>
+            );
+          })
+        }
+      </MarkerClusterGroup>
       <FeatureGroup>
-        {locations.map((station) => {
+        {locations.map( station => {
+          if(station.type!=='station' && station.type!== 'sensorGroup') return null;
           return (
             <Marker
               icon={markerIcon(station)}
-              key={station.name}
+              key={station.station_id}
               position={[station.lat, station.lon]}
             >
               <Popup>
@@ -161,7 +232,7 @@ class ParkingOverlay extends MapLayer {
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
-
+                  <small>{station.group_name}</small>
                   {
                     station.type === 'station' &&
                     <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
@@ -173,6 +244,25 @@ class ParkingOverlay extends MapLayer {
                         className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
                       />
                       <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('capacity')}: {station.capacity}</div>
+                    </div>
+                  }
+
+                  {
+                    station.type === 'sensorGroup' && 
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
+                        {
+                          station.sensors.map( sensor => {
+                            const free = sensor.free ? 'bg-success': 'bg-danger';
+                            return (
+                               <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                                <div>
+                                  <span className={free}></span>
+                                  <strong>{sensor.name}</strong>
+                                </div>
+                              </div>
+                            );
+                          })
+                        }   
                     </div>
                   }
 
@@ -188,6 +278,7 @@ class ParkingOverlay extends MapLayer {
           )
         })}
       </FeatureGroup>
+      </LayerGroup>
     )
   }
 }
