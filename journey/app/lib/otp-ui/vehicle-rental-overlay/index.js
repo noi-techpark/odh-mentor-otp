@@ -27,12 +27,12 @@ import CarSharing from "../icons/modern/CarSharing";
 import BadgeIcon from "../icons/badge-icon";
 import config from '../../config.yml';
 
-import carNissanLeaf from './cars/nissan-leaf.jpg';
-import carVwCaddy from './cars/vw-caddy.jpg';
-import carGolfVariant from './cars/vw-golf-variant.jpg';
-import carGolf from './cars/vw-golf.jpg';
-import carVwUp from './cars/vw-up.jpg';
-import carPlaceholder from './cars/placeholder.png';
+import carNissanLeaf from '../../images/cars/nissan-leaf.jpg';
+import carVwCaddy from '../../images/cars/vw-caddy.jpg';
+import carGolfVariant from '../../images/cars/vw-golf-variant.jpg';
+import carGolf from '../../images/cars/vw-golf.jpg';
+import carVwUp from '../../images/cars/vw-up.jpg';
+import carPlaceholder from '../../images/cars/placeholder.png';
 
 
 const carModels = {
@@ -230,14 +230,14 @@ class VehicleRentalOverlay extends MapLayer {
 
                       <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
                       {
-                        station.vehicles.map( vehicle => {
-                          if(!vehicle.freeForRental) return null;
+                        station.groupVehicles.map( groupVehicle => {
                           return (
                           <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
-                            <div>                               
-                              <strong>{vehicle.name}</strong>
+                            <div>
+                              <strong><small>{groupVehicle.modelName}</small></strong>
                               <br />
-                              <img src={getCarModel(vehicle.model)} />
+                              <img src={getCarModel(groupVehicle.modelId)} />
+                              <small>{t('availability')} {groupVehicle.free}</small>
                             </div>
                           </div>
                           )
@@ -252,7 +252,7 @@ class VehicleRentalOverlay extends MapLayer {
           {/* Set as from/to toolbar */}
           <div className="otp-ui-mapOverlayPopup__popupRow">
             <div className="otp-ui-mapOverlayPopup__popupRow">
-              <a className="btn btn-default btn-small" href="https://www.carsharing.bz.it">{t('book')}</a>
+              <a className="btn btn-link btn-small" href="https://www.carsharing.bz.it">{t('book')}</a>
             </div>
             <FromToLocationPicker
               location={location}

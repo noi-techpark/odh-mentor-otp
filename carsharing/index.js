@@ -104,6 +104,20 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                         }
                     }
                 }
+
+                const groupVehicles = []
+                    , groups = _.groupBy(carVehicles, 'model');
+
+                for (const model in groups) {
+                    let group = groups[model];
+                    groupVehicles.push({
+                        modelId: model,
+                        modelName: group[0].name,
+                        free: groups[model].filter(car => car.freeForRental).length,
+                        count: groups[model].length
+                    })
+                }
+
                 carStations.push({
                     station_id: station.scode,
                     name: station.sname,
@@ -112,7 +126,8 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                     free: station.smetadata.availableVehicles || 0,
                     type: 'carsharing-hub',
                     networks: ['SUEDTIROL'],
-                    vehicles: carVehicles
+                    vehicles: carVehicles,
+                    groupVehicles
                 })
             }
         }
