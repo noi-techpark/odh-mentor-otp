@@ -52,20 +52,25 @@ const carModels = {
 };
 
 const getCarModel = model => {
-  console.log('getCarModel', model)
     return carModels[model] || carModels.defaultCar;
 };
 
 const overlayCarSharingConf = config.map.overlays.filter(item => item.type === 'car-rental')[0]
 const overlayBikeSharingConf = config.map.overlays.filter(item => item.type === 'bike-rental')[0]
 
-const getMarkerCarSharing = memoize(badgeCounter =>
-  divIcon({
+const getMarkerCarSharing = memoize(badgeCounter => {
+
+  let badgeType = (badgeCounter === 0) ? 'danger' : 'warning';
+
+  if (badgeCounter > 1)
+    badgeType = 'success';
+
+  return divIcon({
     className: "",
     iconSize: [overlayCarSharingConf.iconWidth, overlayCarSharingConf.iconHeight],
     popupAnchor: [0, -overlayCarSharingConf.iconHeight / 2],
     html: ReactDOMServer.renderToStaticMarkup(
-      <BadgeIcon width={overlayCarSharingConf.iconWidth} counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
+      <BadgeIcon width={overlayCarSharingConf.iconWidth} type={badgeType}>
         <MarkerCarSharing
           width={overlayCarSharingConf.iconWidth}
           height={overlayCarSharingConf.iconHeight}
@@ -75,15 +80,20 @@ const getMarkerCarSharing = memoize(badgeCounter =>
       </BadgeIcon>
     )
   })
-);
+});
 
-const getMarkerBikeSharing = memoize(badgeCounter =>
-  divIcon({
+const getMarkerBikeSharing = memoize(badgeCounter => {
+  let badgeType = (badgeCounter === 0) ? 'danger' : 'warning';
+
+  if (badgeCounter > 1)
+    badgeType = 'success';
+
+  return divIcon({
     className: "",
     iconSize: [overlayBikeSharingConf.iconWidth, overlayBikeSharingConf.iconHeight],
     popupAnchor: [0, -overlayBikeSharingConf.iconHeight / 2],
     html: ReactDOMServer.renderToStaticMarkup(
-      <BadgeIcon width={overlayBikeSharingConf.iconWidth} counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
+      <BadgeIcon width={overlayBikeSharingConf.iconWidth} type={badgeType}>
         <MarkerBikeSharing
           width={overlayBikeSharingConf.iconWidth}
           height={overlayBikeSharingConf.iconHeight}
@@ -93,7 +103,7 @@ const getMarkerBikeSharing = memoize(badgeCounter =>
       </BadgeIcon>
     )
   })
-);
+});
 
 const getStationMarkerByColor = memoize(() =>
   divIcon({
@@ -230,19 +240,25 @@ class VehicleRentalOverlay extends MapLayer {
 
                       <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
                       {
-                        station.groupVehicles.map( groupVehicle => {
-                          return (
-                          <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
-                            <div>
-                              <strong><small>{groupVehicle.modelName}</small></strong>
-                              <br />
-                              <img src={getCarModel(groupVehicle.modelId)} />
-                              <small>{t('availability')} {groupVehicle.free}</small>
+                        station.groupVehicles && station.groupVehicles.map( groupVehicle => {
+                          if (groupVehicle.modelId) {
+                            return (
+                            <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                              <div>
+                                <strong><small>{groupVehicle.modelName}</small></strong>
+                                <br />
+                                <img src={getCarModel(groupVehicle.modelId)} />
+                                <small>{t('availability')} {groupVehicle.free}</small>
+                              </div>
                             </div>
-                          </div>
-                          )
+                            )
+                          }
                         })
                       }
+                      </div>
+
+                      <div className="otp-ui-mapOverlayPopup__popupRow">
+                        <a className="btn btn-link btn-small" href="https://www.carsharing.bz.it">{t('book')}</a>
                       </div>
                     </>
                 }
@@ -251,9 +267,6 @@ class VehicleRentalOverlay extends MapLayer {
 
           {/* Set as from/to toolbar */}
           <div className="otp-ui-mapOverlayPopup__popupRow">
-            <div className="otp-ui-mapOverlayPopup__popupRow">
-              <a className="btn btn-link btn-small" href="https://www.carsharing.bz.it">{t('book')}</a>
-            </div>
             <FromToLocationPicker
               location={location}
               setLocation={setLocation}
@@ -273,7 +286,7 @@ class VehicleRentalOverlay extends MapLayer {
     if (typeof station.isCarStation === 'boolean' && !station.isCarStation) {
       icon = getMarkerBikeSharing(station.bikesAvailable)
     } else if (typeof station.isFloatingCar === 'boolean' || station.type === "carsharing-hub") {
-      icon = getMarkerCarSharing(station.carsAvailable || station.free)
+      icon = getMarkerCarSharing(station.free)
     } else {
       icon = getStationMarkerByColor()
     }

@@ -28,9 +28,6 @@ import {
  */
 function TriMetModeIcon({ mode, ...props }) {
   if (!mode) return null;
-
-  console.log('TriMetModeIcon', mode);
-
   switch (mode.toLowerCase()) {
     case "bicycle":
       // case "bicycle_rent": // Commented means using the company logo instead.

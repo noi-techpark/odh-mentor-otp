@@ -27,7 +27,6 @@ import CarSharing from "./modern/CarSharing";
  */
 function ClassicModeIcon({ mode, ...props }) {
   if (!mode) return null;
-  console.log(mode)
   switch (mode.toLowerCase()) {
     case "bicycle":
       return <ClassicBike {...props} />;

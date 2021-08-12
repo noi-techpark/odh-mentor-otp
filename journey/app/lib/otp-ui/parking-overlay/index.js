@@ -11,6 +11,7 @@ import { setLocation } from '../../actions/map'
 import { parkingLocationsQuery } from '../../actions/parking'
 
 import BadgeIcon from "../icons/badge-icon";
+
 import MarkerCluster from "../icons/modern/MarkerCluster";
 import MarkerParking from "../icons/modern/MarkerParking";
 import MarkerParkingSensor from "../icons/modern/MarkerParkingSensor";
@@ -57,9 +58,13 @@ class ParkingOverlay extends MapLayer {
     setTimeout(() => {
       const elems = document.querySelectorAll('.leaflet-control-layers-overlays label')
       if(elems.length>5) {
-        document.querySelectorAll('.leaflet-control-layers-overlays label:nth-last-child(2)').forEach(e => e.parentNode.removeChild(e));
+        //document.querySelectorAll('.leaflet-control-layers-overlays label:nth-last-child(2)').forEach(e => e.parentNode.removeChild(e));
+        document.querySelectorAll('.leaflet-control-layers-overlays label').forEach(e => {
+          //e.parentNode.removeChild(e);
+          console.log(e.querySelector('span').innerHTML)
+        });
       }
-    },10)
+    },50)
   }
 
   onOverlayRemoved = () => {
