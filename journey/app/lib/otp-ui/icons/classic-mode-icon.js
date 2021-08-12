@@ -12,6 +12,7 @@ import {
 } from "./classic";
 
 import BikeSharing from "./modern/BikeSharing";
+import CarSharing from "./modern/CarSharing";
 
 /**
  * Icons for all classic OTP-react-redux modes.
@@ -26,6 +27,7 @@ import BikeSharing from "./modern/BikeSharing";
  */
 function ClassicModeIcon({ mode, ...props }) {
   if (!mode) return null;
+  console.log(mode)
   switch (mode.toLowerCase()) {
     case "bicycle":
       return <ClassicBike {...props} />;
@@ -36,6 +38,8 @@ function ClassicModeIcon({ mode, ...props }) {
     case "car":
     case "car_park":
       return <ClassicCar {...props} />;
+    case "car_rent":
+      return <CarSharing {...props} />;      
     case "ferry":
       return <ClassicFerry {...props} />;
     case "gondola":
