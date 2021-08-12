@@ -34,29 +34,27 @@ import carGolf from './cars/vw-golf.jpg';
 import carVwUp from './cars/vw-up.jpg';
 import carPlaceholder from './cars/placeholder.png';
 
-/*
-TODO mapping car image
-const mapCars = {
-//TODO rename in id-name-car
-'carNissanLeaf': carNissanLeaf
-'carVwCaddy': carVwCaddy
-'carGolfVariant': carGolfVariant
-'carGolf': carGolf
-'carVwUp': carVwUp
-}
 
-"Nissan Leaf"           .nissan-leaf
-"Renault Zoe"           .renault-zoe
-"VW Caddy Caddy 2.0 TDI"    .vw-caddy-caddy-20-tdi
-"VW e-Golf"           .vw-egolf
-"VW e-UP!"          .vw-eup
-"VW Golf Golf 1.6 TDI"      .vw-golf-golf-16-tdi
-"VW Golf"           .vw-golf
-"VW Golf VW Golf"         .vw-golf-vw-golf
-"VW up!"            .vw-up
-"VW up! VW up!"         .vw-up-vw-up
-//TODO default
-carPlaceholder*/
+const carModels = {
+'defaultCar': carPlaceholder,
+'renault-zoe': carPlaceholder,
+//
+'nissan-leaf': carNissanLeaf,
+'vw-caddy-caddy-20-tdi': carVwCaddy,
+'vw-egolf': carGolf,
+'vw-eup': carVwUp,
+'vw-golf': carGolf,
+'vw-golf-golf-16-tdi': carGolf,
+'vw-golf-vw-golf': carGolf,
+'vw-up': carVwUp,
+'vw-up-vw-up': carVwUp,
+'vw-golf-variant-16-tdi-comf-8mt': carGolfVariant
+};
+
+const getCarModel = model => {
+  console.log('getCarModel', model)
+    return carModels[model] || carModels.defaultCar;
+};
 
 const overlayCarSharingConf = config.map.overlays.filter(item => item.type === 'car-rental')[0]
 const overlayBikeSharingConf = config.map.overlays.filter(item => item.type === 'bike-rental')[0]
@@ -213,9 +211,7 @@ class VehicleRentalOverlay extends MapLayer {
               </>
           }
 
-          
           {
-            //TODO: popolate this
             station.type === 'carsharing-hub' &&
               <>
                 <div className="otp-ui-mapOverlayPopup__popupHeader">
@@ -233,22 +229,20 @@ class VehicleRentalOverlay extends MapLayer {
                       </div>
 
                       <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
-                        <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
-                          <div>                                
-                            <strong>Car Type</strong>
-                            <br />
-                            <img src={carNissanLeaf} />
-                            <small>{t('availability')} 2</small>
+                      {
+                        station.vehicles.map( vehicle => {
+                          if(!vehicle.freeForRental) return null;
+                          return (
+                          <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                            <div>                               
+                              <strong>{vehicle.name}</strong>
+                              <br />
+                              <img src={getCarModel(vehicle.model)} />
+                            </div>
                           </div>
-                        </div>
-                        <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
-                          <div>                                
-                            <strong>Car Type</strong>
-                            <br />
-                            <img src={carPlaceholder} />
-                            <small>{t('availability')} 3</small>
-                          </div>
-                        </div>
+                          )
+                        })
+                      }
                       </div>
                     </>
                 }
@@ -257,6 +251,9 @@ class VehicleRentalOverlay extends MapLayer {
 
           {/* Set as from/to toolbar */}
           <div className="otp-ui-mapOverlayPopup__popupRow">
+            <div className="otp-ui-mapOverlayPopup__popupRow">
+              <a className="btn btn-default btn-small" href="https://www.carsharing.bz.it">{t('book')}</a>
+            </div>
             <FromToLocationPicker
               location={location}
               setLocation={setLocation}
