@@ -7,7 +7,8 @@ import { withNamespaces } from "react-i18next"
 import Icon from '../narrative/icon'
 
 import { MainPanelContent, setMainPanelContent, routeTo } from '../../actions/ui'
-import logoPlaceholder from '../../images/logo-placeholder.png'
+
+import logoPlaceholder from '../../images/credits/logo-placeholder.png'
 
 // TODO: make menu items configurable via props/config
 
