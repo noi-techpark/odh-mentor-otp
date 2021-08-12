@@ -11,6 +11,8 @@ import {
   ClassicWalk
 } from "./classic";
 
+import BikeSharing from "./modern/BikeSharing";
+
 /**
  * Icons for all classic OTP-react-redux modes.
  * Any hail and rental modes managed by one or multiple companies
@@ -26,8 +28,9 @@ function ClassicModeIcon({ mode, ...props }) {
   if (!mode) return null;
   switch (mode.toLowerCase()) {
     case "bicycle":
-    case "bicycle_rent":
       return <ClassicBike {...props} />;
+    case "bicycle_rent":
+      return <BikeSharing {...props} />;
     case "bus":
       return <ClassicBus {...props} />;
     case "car":
