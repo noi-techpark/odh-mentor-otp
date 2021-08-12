@@ -8,6 +8,8 @@ import Icon from '../narrative/icon'
 
 import { MainPanelContent, setMainPanelContent, routeTo } from '../../actions/ui'
 
+import logoPlaceholder from '../../images/credits/logo-placeholder.png'
+
 // TODO: make menu items configurable via props/config
 
 class AppMenu extends Component {
@@ -100,16 +102,101 @@ class AppMenu extends Component {
           </MenuItem>
         </NavDropdown>
 
-        <Modal show={this.state.showCredits} onHide={ () => this.setState({ showCredits: false }) }>
+        <Modal bsSize="large" show={this.state.showCredits} onHide={ () => this.setState({ showCredits: false }) }>
           <Modal.Header closeButton>
             <Modal.Title>{t('credits_title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>{t('credits_text')}</p>
+            <h6 className="credits-title">{t('credits_title_developed')}</h6>
+
+            <ul className="credits-list">
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+            </ul>
+
+            <h6 className="credits-title">{t('credits_title_designed')}</h6>
+
+            <ul className="credits-list">
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+            </ul>
+
+            <h6 className="credits-title">{t('credits_title_data_provided')}</h6>
+
+            <ul className="credits-list">
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank">
+                  <img src={logoPlaceholder} alt="Company Name"/>
+                </a>
+              </li>
+            </ul>
           </Modal.Body>
-          {/*<Modal.Footer>
-            <Button onClick={ () => this.setState({ showCredits: false }) }>{t('close')}</Button>
-          </Modal.Footer>*/}
         </Modal>
       </>
     )

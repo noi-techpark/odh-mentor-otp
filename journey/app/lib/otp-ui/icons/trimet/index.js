@@ -9,6 +9,7 @@ import BikeAndRide from "./BikeAndRide";
 import BikeLocker from "./BikeLocker";
 import BikeParking from "./BikeParking";
 import BikeStaple from "./BikeStaple";
+import BikeSharing from "./BikeSharing";
 import Bus from "./Bus";
 import BusCircle from "./BusCircle";
 import Car from "./Car";
@@ -57,6 +58,7 @@ export {
   BikeLocker,
   BikeParking,
   BikeStaple,
+  BikeSharing,
   Bus,
   BusCircle,
   Car,

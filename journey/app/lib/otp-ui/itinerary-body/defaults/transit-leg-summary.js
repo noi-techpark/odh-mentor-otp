@@ -1,6 +1,7 @@
 import { legType } from "../../core-utils/types";
 import PropTypes from "prop-types";
 import React from "react";
+import { Button } from "react-bootstrap";
 import { withNamespaces } from "react-i18next"
 import { CaretDown, CaretUp } from "@styled-icons/fa-solid";
 
@@ -12,7 +13,7 @@ import { formatDuration } from "../../core-utils/time";
  */
 function TransitLegSummary({ leg, onClick, stopsExpanded, t }) {
   return (
-    <button className="otp-ui-transitLegSummary" onClick={onClick}>
+    <Button bsStyle="link" bsSize="small" onClick={onClick}>
       {leg.duration && <span>{t('ride')} {formatDuration(leg.duration)}</span>}
       {leg.intermediateStops && (
         <span>
@@ -22,7 +23,7 @@ function TransitLegSummary({ leg, onClick, stopsExpanded, t }) {
           {stopsExpanded ? <CaretUp size={15} /> : <CaretDown size={15} />}
         </span>
       )}
-    </button>
+    </Button>
   );
 }
 

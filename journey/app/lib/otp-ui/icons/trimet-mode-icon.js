@@ -3,6 +3,7 @@ import React from "react";
 import {
   AerialTram,
   Bicycle,
+  BikeSharing,
   Bus,
   Car,
   Ferry,
@@ -27,10 +28,15 @@ import {
  */
 function TriMetModeIcon({ mode, ...props }) {
   if (!mode) return null;
+
+  console.log('TriMetModeIcon', mode);
+
   switch (mode.toLowerCase()) {
     case "bicycle":
       // case "bicycle_rent": // Commented means using the company logo instead.
       return <Bicycle {...props} />;
+    case "bicycle_rent":
+      return <BikeSharing {...props} />;
     case "bus":
       return <Bus {...props} />;
     case "car":

@@ -480,7 +480,7 @@ class LocationField extends Component {
               icon={<UserLocationIconComponent userLocation={userLocation} />}
               key={optionKey++}
               title={(() => {
-                const { displayName, detailText } = formatStoredPlaceName(location)
+                const { displayName, detailText } = formatStoredPlaceName(userLocation)
                 return `${t(displayName)} ${detailText ? `(${detailText})` : ''}`;
               })()}
               onClick={locationSelected}

@@ -1,3 +1,41 @@
+
+.otp-ui-settingsSelectorPanel {
+    margin-bottom: $font-size-base;
+    overflow-x: auto;
+
+    .btn-group {
+      display: flex;
+
+      .btn {
+        float: none;
+        min-width: 90px;
+        flex: 1;
+        flex-grow: 1;
+        flex-basis: 0;                
+        display: block;
+        white-space: normal;
+        align-items: center;
+        justify-content: start;
+        padding: 12px 6px;
+        text-transform: uppercase;                
+        background-color: $brand-primary-light;
+        box-shadow: none;
+        border: 0;
+        opacity:.3;
+
+        &.active {
+            opacity: 1;
+            background-color: $brand-primary-dark;
+            color: #fff;
+
+            svg path {
+            fill: currentColor;
+            }
+        }  
+      }
+    }
+}
+
 .otp.mobile {
     .options-main-content {
         position: fixed;
@@ -27,16 +65,17 @@
         .otp-ui-settingsSelectorPanel,
         .otp-ui-modeSelector {
             margin-bottom: $font-size-base;
+            overflow-x: auto;
 
             .btn-group {
               display: flex;
     
               .btn {
                 float: none;
+                min-width: 90px;
                 flex: 1;
                 flex-grow: 1;
-                flex-basis: 0;
-                width: 0;
+                flex-basis: 0;                
                 display: block;
                 white-space: normal;
                 font-size: $font-size-xxsmall;
@@ -45,8 +84,7 @@
                 align-items: center;
                 justify-content: start;
                 padding: 12px 6px;
-                text-transform: uppercase;
-                word-break: break-word;
+                text-transform: uppercase;                
                 background-color: $input-bg;
                 box-shadow: none;
                 border: 0;

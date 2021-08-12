@@ -110,12 +110,12 @@ class ChargerOverlay extends MapLayer {
 
     return (
       <FeatureGroup>
-        {locations.map((location) => {
+        {locations.map((station) => {
           return (
             <Marker
-              icon={markerIcon(location)}
-              key={location.name}
-              position={[location.lat, location.lon]}
+              icon={markerIcon(station)}
+              key={station.name}
+              position={[station.lat, station.lon]}
             >
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
@@ -123,22 +123,41 @@ class ChargerOverlay extends MapLayer {
                     <Charger width={24} height={20} />&nbsp;{t('charger')}
                   </div>
 
-                  <div className="otp-ui-mapOverlayPopup__popupTitle">{location.name}</div>
+                  <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
+                  
+                  <div>{t('provider')}: {station.provider}</div>
 
                   <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                    <CircularProgressbar
-                      value={location.free}
-                      minValue={0}
-                      maxValue={location.capacity}
-                      text={location.free}
-                      className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
-                    />
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('capacity')}: {location.capacity}</div>
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.capacity}</div>
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_slots')}</div>
                   </div>
 
-                  <div className='popup-row'>
+                  <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
+                    {
+                      station.plugs.map((plug, key) => {
+                        const ava = plug.available ? 'bg-success': 'bg-danger';
+                        
+                        plug.maxPower = Math.round(plug.maxPower);
+
+                        return (
+                          <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                            <div>
+                              <span className={ava}></span>
+                              <strong>SLOT {key}</strong>
+                              <br />
+                              {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
+                            </div>
+                          </div>
+                        );
+                      })
+                    }
+                  </div>
+                  
+                  <br />
+
+                  <div className="otp-ui-mapOverlayPopup__popupRow">
                     <FromToLocationPicker
-                      location={location}
+                      station={station}
                       setLocation={this.props.setLocation}
                     />
                   </div>

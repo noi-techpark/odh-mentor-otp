@@ -23,6 +23,10 @@
     padding-top: 10px;
     padding-bottom: 0;
     margin-top: -10px;
+    flex: 0 0 300px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 0;
 
     &.has-hidden-border {
       border-top-width: 0;
@@ -62,24 +66,32 @@
 .otp-ui-transitLegBody {
   color: #999;
   font-size: $font-size-small;
-  padding: 12px 0 18px 4px;
+  padding: 12px 0 18px 0;
+
+  .btn-link {
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   &__details {
     margin-top: 5px;
-
-    &Header {
-      color: #999999;
-    }
   }
+}
+
+.otp-ui-transitLegBody__detailsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .otp-ui-stopRow {
   z-index: 30;
   position: relative;
+  font-size: $font-size-xsmall;
 
   &__marker {
     float: left;
-    margin-left: -32px;
+    margin-left: -27px;
     color: #fff;
   }
 
@@ -173,7 +185,39 @@
 .otp-ui-legBody {
   color: #999;
   font-size: 13px;
-  padding: 12px 0 18px 4px;
+  padding: 12px 0 8px;
+
+  .otp-ui-legSummaryButton {
+    display: flex;
+    align-items: center;
+    white-space: normal;
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+    
+    svg {
+      width: 34px;
+      height: 34px;
+      margin-right: 6px;
+    }
+  }
+}
+
+.otp-ui-accessLegSteps {
+  font-size: $font-size-xsmall;
+
+  li {
+    display:flex;
+    margin-bottom: $font-size-xxsmall;
+    align-items: center;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      margin-right: 6px;
+    }
+  }
 }
 
 .otp-ui-chartPreview {
@@ -189,7 +233,7 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-  width: 75%;
+  width: 100%;
 
   &.is-active {
     background-color: #eee;
@@ -362,32 +406,35 @@
 .otp-ui-legDescForTransit {
   color: rgb(153, 153, 153);
   margin-top: 5px;
-  display: table;
-
-  > div {
-    display: table-cell;
-  }
+  display: flex;
+  align-items: center;
 
   &__iconContainer {
-    height: 24px;
-    width: 24px;
-    float: left;
+    height: 34px;
+    width: 34px;    
     margin-right: 6px;
   }
 
-  &__shortName {
-    font-weight: 800;
+  &__shortName {    
+    background-color: #008;
+    border-radius: 30px;
+    border: 2px solid white;
+    box-shadow: 0 0 0.5em #000;
+    color: white;    
+    font-weight: 500;
+    height: 30px;
+    width: 30px;
+    font-size: $font-size-xxsmall;
+    line-height: 250%;
     margin-right: 6px;
+    overflow: hidden;    
+    text-align: center;    
+    white-space: nowrap;
   }
 
   &__longName {
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 13px;    
     line-height: 16px;
-  }
-
-  &__headSignPrefix {
-    font-weight: 200;
   }
 }
 
@@ -399,13 +446,6 @@
   cursor: pointer;
   font-size: inherit;
   text-decoration: none;
-}
-
-.otp-ui-placeSubheader {
-  color: grey;
-  font-weight: 300;
-  padding-left: 4px;
-  padding-top: 1px;
 }
 
 .otp-ui-viewerButton {

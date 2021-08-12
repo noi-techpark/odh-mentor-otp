@@ -18,16 +18,18 @@ function AccessLegSummary({
   t
 }) {
   return (
-    <Button bsStyle="link" bsSize="small" onClick={onSummaryClick} style={{ whiteSpace: 'inherit', textAlign: 'left' }}>
+    <Button bsStyle="link" bsSize="small" onClick={onSummaryClick} className="otp-ui-legSummaryButton">
       {showLegIcon && (
         <LegIcon leg={leg} width={24} height={24} />
       )}
 
-      {t(getLegModeLabel(leg))}{" "}
-      {leg.distance > 0 && (
-        <span> {humanizeDistanceString(leg.distance)}</span>
-      )}
-      {` ${t('to')} ${getPlaceName(leg.to, config.companies)}`}
+      <span>
+        {t(getLegModeLabel(leg))}{" "}
+        {leg.distance > 0 && (
+          <strong> {humanizeDistanceString(leg.distance)}</strong>
+        )}
+        {` ${t('to')} ${getPlaceName(leg.to, config.companies)}`}
+      </span>
     </Button>
   );
 }

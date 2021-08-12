@@ -22,17 +22,21 @@ services:
         GEOCODER_BASEURL: http://localhost:8088/v1
         PARKING_BASEURL: http://localhost:8092
         CHARGER_BASEURL: http://localhost:8093
+        CARSHARING_BASEURL: http://localhost:8091
         # debug
         #API_HOST: https://otp.opendatahub.testingmachine.eu
         #API_PORT: 443
         #API_PATH: /otp/routers/openmove
         #GEOCODER_BASEURL: https://geocoder.otp.opendatahub.testingmachine.eu/v1
         #PARKING_BASEURL: https://parking.otp.opendatahub.testingmachine.eu
+        #CHARGER_BASEURL: https://charger.otp.opendatahub.testingmachine.eu
+        #CARSHARING_BASEURL: https://carsharing.otp.opendatahub.testingmachine.eu
     depends_on:
      - geocoder
      - otp
      - parking
      - charger
+     - carsharing
 
   geocoder:
     container_name: openmove-geocoder

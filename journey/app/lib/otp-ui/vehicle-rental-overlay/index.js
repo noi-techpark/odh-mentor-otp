@@ -27,6 +27,37 @@ import CarSharing from "../icons/modern/CarSharing";
 import BadgeIcon from "../icons/badge-icon";
 import config from '../../config.yml';
 
+import carNissanLeaf from './cars/nissan-leaf.jpg';
+import carVwCaddy from './cars/vw-caddy.jpg';
+import carGolfVariant from './cars/vw-golf-variant.jpg';
+import carGolf from './cars/vw-golf.jpg';
+import carVwUp from './cars/vw-up.jpg';
+import carPlaceholder from './cars/placeholder.png';
+
+/*
+TODO mapping car image
+const mapCars = {
+//TODO rename in id-name-car
+'carNissanLeaf': carNissanLeaf
+'carVwCaddy': carVwCaddy
+'carGolfVariant': carGolfVariant
+'carGolf': carGolf
+'carVwUp': carVwUp
+}
+
+"Nissan Leaf"           .nissan-leaf
+"Renault Zoe"           .renault-zoe
+"VW Caddy Caddy 2.0 TDI"    .vw-caddy-caddy-20-tdi
+"VW e-Golf"           .vw-egolf
+"VW e-UP!"          .vw-eup
+"VW Golf Golf 1.6 TDI"      .vw-golf-golf-16-tdi
+"VW Golf"           .vw-golf
+"VW Golf VW Golf"         .vw-golf-vw-golf
+"VW up!"            .vw-up
+"VW up! VW up!"         .vw-up-vw-up
+//TODO default
+carPlaceholder*/
+
 const overlayCarSharingConf = config.map.overlays.filter(item => item.type === 'car-rental')[0]
 const overlayBikeSharingConf = config.map.overlays.filter(item => item.type === 'bike-rental')[0]
 
@@ -93,7 +124,7 @@ class VehicleRentalOverlay extends MapLayer {
     // Create the timer only if refreshVehicles is a valid function.
     if (typeof refreshVehicles === "function") {
       // initial station retrieval
-      refreshVehicles();
+      refreshVehicles(this.props.api);
 
       // set up timer to refresh stations periodically
       this.refreshTimer = setInterval(() => {
@@ -135,8 +166,8 @@ class VehicleRentalOverlay extends MapLayer {
     const { configCompanies, getStationName, setLocation, t } = this.props;
     const stationName = getStationName(configCompanies, station);
     const location = {
-      lat: station.y,
-      lon: station.x,
+      lat: station.y || station.lat,
+      lon: station.x || station.lon,
       name: stationName
     };
     return (
@@ -172,10 +203,54 @@ class VehicleRentalOverlay extends MapLayer {
 
                 {
                   station.carsAvailable !== null &&
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.carsAvailable}</div>
-                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_cars')}</div>
-                    </div>
+                    <>
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.carsAvailable}</div>
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_cars')}</div>
+                      </div>
+                    </>
+                }
+              </>
+          }
+
+          
+          {
+            //TODO: popolate this
+            station.type === 'carsharing-hub' &&
+              <>
+                <div className="otp-ui-mapOverlayPopup__popupHeader">
+                  <CarSharing width={26} height={22} />&nbsp;&nbsp;{t('carsharing')}
+                </div>
+
+                <div className="otp-ui-mapOverlayPopup__popupTitle">{stationName}</div>
+
+                {
+                  station.free !== null &&
+                    <>
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_cars')}</div>
+                      </div>
+
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                          <div>                                
+                            <strong>Car Type</strong>
+                            <br />
+                            <img src={carNissanLeaf} />
+                            <small>{t('availability')} 2</small>
+                          </div>
+                        </div>
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                          <div>                                
+                            <strong>Car Type</strong>
+                            <br />
+                            <img src={carPlaceholder} />
+                            <small>{t('availability')} 3</small>
+                          </div>
+                        </div>
+                      </div>
+                    </>
                 }
               </>
           }
@@ -200,14 +275,14 @@ class VehicleRentalOverlay extends MapLayer {
 
     if (typeof station.isCarStation === 'boolean' && !station.isCarStation) {
       icon = getMarkerBikeSharing(station.bikesAvailable)
-    } else if (typeof station.isFloatingCar === 'boolean') {
-      icon = getMarkerCarSharing(station.carsAvailable)
+    } else if (typeof station.isFloatingCar === 'boolean' || station.type === "carsharing-hub") {
+      icon = getMarkerCarSharing(station.carsAvailable || station.free)
     } else {
       icon = getStationMarkerByColor()
     }
 
     return (
-      <Marker icon={icon} key={station.id} position={[station.y, station.x]}>
+      <Marker icon={icon} key={station.id} position={[station.y || station.lat, station.x || station.lon]}>
         {this.renderPopupForStation(station)}
       </Marker>
     );
@@ -225,6 +300,48 @@ class VehicleRentalOverlay extends MapLayer {
 
     if (!filteredStations || filteredStations.length === 0) {
       return <FeatureGroup />;
+    }
+
+    const deg2rad = (deg) => {
+      return deg * (Math.PI/180)
+    }
+    const getDistanceFromLatLonInMeters = (lat1, lon1, lat2, lon2) => {
+      
+      var R = 6371 * 1000; // Radius of the earth in meters
+      var dLat = deg2rad(lat2-lat1);  // deg2rad below
+      var dLon = deg2rad(lon2-lon1); 
+      var a = 
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+        Math.sin(dLon/2) * Math.sin(dLon/2)
+        ; 
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = R * c; // Distance in meters
+      return d;
+    }
+
+    for(var station of filteredStations){
+      if(station.isFloatingBike){
+        let nearest = null;
+        let lastDistance = null;
+        for(var i = 0; i <  filteredStations.length; i++){
+          const mstation = filteredStations[i];          
+          if(mstation.isFloatingBike === false 
+            && mstation.networks[0] == station.networks[0]
+            ){
+              const distance = getDistanceFromLatLonInMeters(station.y, station.x, mstation.y, mstation.x);
+              if (lastDistance == null || distance < lastDistance){
+                nearest = i;
+                lastDistance = distance;        
+              }
+                  
+          }
+        }
+        if(nearest){
+          filteredStations[nearest].bikesAvailable += 1;
+        }
+
+      }
     }
 
     return (

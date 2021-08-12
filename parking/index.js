@@ -1,7 +1,7 @@
 const express = require('express');
 const https = require('https');
 const _ = require('lodash');
-const cors = require('cors')
+const cors = require('cors');
 const config = require('./config');
 const circleToPolygon = require('./circle-polygon');
 
@@ -65,8 +65,9 @@ function getSensors(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var sensors = tmp.data;
-                sensorsReceived = sensors;
+                var sensors = _.uniqBy(tmp.data,'scode');
+                //PATCH remove duplicates
+                sensorsReceived = sensors
             });
         })
 
@@ -157,6 +158,95 @@ app.get('/parking/sensors.json', cors(corsOptions), function (req, res) {
         version: "1.0",
         data: {
             sensors: parkingSensors
+       }
+    });
+});
+
+app.get('/parking/all.json', cors(corsOptions), function (req, res) {
+    var parkingStationsAll = [];
+    if(stationsReceived){
+        for(var i = 0; i < stationsReceived.length; i++){
+            var station = stationsReceived[i];
+            if(station.sactive && station.scoordinate && station.smetadata){
+                parkingStationsAll.push({
+                    type: 'station',
+                    station_id: station.scode,
+                    name: station.sname,
+                    lat: station.scoordinate.y,
+                    lon: station.scoordinate.x,
+                    address: station.smetadata.mainaddress,
+                    city: station.smetadata.municipality,
+                    capacity: station.smetadata.capacity || 0,
+                    free: station.mvalue || 0
+                });
+            }
+        }
+    }
+    var parkingSensorsAll = [];
+    if(sensorsReceived){
+        for(var i = 0; i < sensorsReceived.length; i++){
+            var sensor = sensorsReceived[i];
+            if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
+                parkingSensorsAll.push({
+                    type: 'sensor',
+                    station_id: sensor.scode+'-'+Math.random(),                    
+                    group_name: sensor.smetadata.group,
+                    group_id: _.snakeCase(sensor.smetadata.group),
+                    name: sensor.sname,
+                    lat: sensor.scoordinate.y,
+                    lon: sensor.scoordinate.x,
+                    address: sensor.smetadata.group,
+                    city: sensor.smetadata.municipality,
+                    free: sensor.mvalue === 1 ? false : true
+                });
+            }
+        }
+    }
+
+    let parkingSensors = [];
+    let sensorGroups = [];
+
+    if (config.server.returnGroupSensors) {
+        const MIN_GROUP_SENSORS = Number(config.server.minGroupSensors) || 4;
+        const parkingSensorsGroups = _.chain(parkingSensorsAll)
+            .groupBy('group_id')
+            .value();
+        for (const groupId in parkingSensorsGroups) {
+            let group = parkingSensorsGroups[groupId];
+
+            if(group.length < MIN_GROUP_SENSORS) {
+                sensorGroups.push({
+                        type: 'sensorGroup',
+                        station_id: groupId,
+                        name: group[0].group_name,
+                        group_name: group[0].group_name,
+                        lat: group[0].lat,
+                        lon: group[0].lon,
+                        capacity: group.length,
+                        sensors: group
+                    })
+            }
+            else {
+                for(const sensor of group) {
+                    parkingSensors.push(sensor);
+                }
+            }
+        }
+    }
+    else {
+        parkingSensors = parkingSensorsAll;
+    }
+
+    res.json({
+        last_updated: lastUpdate,
+        ttl: 0,
+        version: "1.0",
+        data: {
+            stations: _.concat(
+                parkingStationsAll,
+                parkingSensors,
+                sensorGroups
+            )
        }
     });
 });

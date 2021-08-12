@@ -39,8 +39,8 @@ const ModeSelector = props => {
   return (
     <div className={`otp-ui-modeSelector ${className || ''}`} style={style}>
       <ButtonGroup>
-        {primary && makeButton(primary) }
-        {secondary && secondary.map(makeButton)}
+        {primary && makeButton(primary) } &nbsp; 
+        {secondary && secondary.map(makeButton)} &nbsp;
         {tertiary && tertiary.map(makeButton)}
       </ButtonGroup>
     </div>

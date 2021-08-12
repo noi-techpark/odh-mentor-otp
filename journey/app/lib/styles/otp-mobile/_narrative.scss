@@ -18,6 +18,21 @@
         right: 0;
         left: 0;
         padding: 8px 12px;
+
+        .trip-tools {
+            .btn {
+                width: 100%;
+                float: none;
+                margin-bottom: 6px;
+                border-radius: $border-radius-base;
+            }
+        }
+
+        .disclaimer {
+            font-size: $font-size-xsmall;
+            text-align: center;
+            margin-top: $font-size-base;
+        }
     }
     
     .dots-container {
