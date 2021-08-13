@@ -135,6 +135,7 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
                     city: (station.smetadata.municipality || station.smetadata.city).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' '),
                     accessType: station.smetadata.accessType,
                     capacity: station.smetadata.capacity || plugs.length,
+                    free: plugs.filter(p => p.available).length,
                     reservable: station.smetadata.reservable,
                     state: station.smetadata.state,
                     plugs: plugs
