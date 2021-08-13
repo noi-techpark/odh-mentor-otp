@@ -34,6 +34,9 @@ L.Evented.addInitHook(function() {
   if (this) this.singleClickTimeout = null;
   this.on("click", this.scheduleSingleClick, this);
   this.on("dblclick dragstart zoomstart", this.cancelSingleClick, this);
+  this.on("zoomend", e => {
+        console.log('zoom',this.getZoom())
+  })
 });
 
 L.Evented.include({

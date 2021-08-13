@@ -64,7 +64,7 @@ class ParkingOverlay extends MapLayer {
           console.log(e.querySelector('span').innerHTML)
         });
       }
-    },50)
+    }, 50);
   }
 
   onOverlayRemoved = () => {
@@ -92,17 +92,19 @@ class ParkingOverlay extends MapLayer {
     if (!locations || locations.length === 0) return <FeatureGroup />
 
     const markerIcon = (data) => {
-      let badgeType = 'default';
+      let badgeType = 'success';
       let badgeCounter = 0;
       let iconWidth, iconHeight;
 
       if( data.type === 'station') {
 
-        if (data.capacity === data.free) {
+        /*if (data.capacity === data.free) {
           badgeType = 'success';
           badgeCounter = null;
-        } else if (data.free < data.capacity) {
-          badgeType = 'default';
+        } 
+        else*/
+         if (data.free === 1) {
+          badgeType = 'warning';
           badgeCounter = data.free
         }
 
@@ -138,7 +140,7 @@ class ParkingOverlay extends MapLayer {
         iconSize: [iconWidth, iconHeight],
         popupAnchor: [0, -iconHeight / 2],
         html: ReactDOMServer.renderToStaticMarkup(
-          <BadgeIcon counter={badgeCounter} type={badgeType} width={iconWidth}>
+          <BadgeIcon type={badgeType} width={iconWidth}>
           { data.type === 'station' && 
             <MarkerParking
               width={iconWidth}
@@ -187,7 +189,8 @@ class ParkingOverlay extends MapLayer {
       <LayerGroup>
       <MarkerClusterGroup
         showCoverageOnHover={false}
-        maxClusterRadius={20}
+        maxClusterRadius={40}
+        disableClusteringAtZoom={16}
         iconCreateFunction={clusterIcon}
       >
         {
@@ -245,7 +248,7 @@ class ParkingOverlay extends MapLayer {
                         value={station.free}
                         minValue={0}
                         maxValue={station.capacity}
-                        text={station.free}
+                        text={station.free+''}
                         className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
                       />
                       <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('capacity')}: {station.capacity}</div>

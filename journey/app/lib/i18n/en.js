@@ -195,6 +195,7 @@ export const TRANSLATIONS_EN = {
   "parking": "Parking",
   "charger": "E-Charger",
   "vehicles": "Vehicles",
+  "free_slots": "free slots",
   "zipcar_location": "Zipcar Location",
   "invalid_mobile_screen": "Invalid mobile screen",
   "click_to_view_details": "Click to view details",
