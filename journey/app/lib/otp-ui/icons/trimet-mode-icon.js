@@ -15,6 +15,10 @@ import {
   Wes
 } from "./trimet";
 
+//import BikeSharing from "./modern/BikeSharing";
+//import CarSharing from "./modern/CarSharing";
+import MicromobilitySharing from "./modern/MicromobilitySharing";
+
 /**
  * Icons for all TriMet modes.
  * Any hail and rental modes managed by one or multiple companies
@@ -28,6 +32,7 @@ import {
  */
 function TriMetModeIcon({ mode, ...props }) {
   if (!mode) return null;
+  console.log('timet-mode',mode.toLowerCase());
   switch (mode.toLowerCase()) {
     case "bicycle":
       // case "bicycle_rent": // Commented means using the company logo instead.
@@ -45,8 +50,9 @@ function TriMetModeIcon({ mode, ...props }) {
     case "funicular":
       return <AerialTram {...props} />;
     case "micromobility":
-    case "micromobility_rent":
       return <Micromobility {...props} />;
+    case "micromobility_rent":
+      return <MicromobilitySharing {...props} />;
     case "rail":
       return <Wes {...props} />;
     case "streetcar":

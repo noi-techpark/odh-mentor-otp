@@ -9,6 +9,10 @@ import {
   StandardWalk
 } from "./standard";
 
+//import BikeSharing from "./modern/BikeSharing";
+//import CarSharing from "./modern/CarSharing";
+import MicromobilitySharing from "./modern/MicromobilitySharing"
+
 /**
  * Icons for all standard MOD-UI modes.
  * Any hail and rental modes managed by one or multiple companies
@@ -22,6 +26,7 @@ import {
  */
 function StandardModeIcon({ mode, ...props }) {
   if (!mode) return null;
+  console.log('standard-mode',mode.toLowerCase());
   switch (mode.toLowerCase()) {
     case "bicycle":
     case "bicycle_rent":
@@ -37,8 +42,9 @@ function StandardModeIcon({ mode, ...props }) {
     case "funicular":
       return <StandardGondola {...props} />;
     case "micromobility":
-    case "micromobility_rent":
       return <ClassicMicromobility {...props} />;
+    case "micromobility_rent":
+      return <MicromobilitySharing {...props} />;
     case "rail":
     case "subway":
     case "tram":
