@@ -196,6 +196,7 @@ export const TRANSLATIONS_IT = {
   "charger": "E-Charger",
   "vehicles": "Veicoli",
   "free_slots": "posti liberi",
+  "free_sockets": "prese libere",
   "zipcar_location": "$_zipcar_location",
   "invalid_mobile_screen": "$_invalid_mobile_screen",
   "click_to_view_details": "$_click_to_view_details",

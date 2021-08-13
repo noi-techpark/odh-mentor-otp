@@ -133,7 +133,7 @@ class ChargerOverlay extends MapLayer {
 
                   <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
                     <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_slots')}</div>
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('free_sockets')}</div>
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
