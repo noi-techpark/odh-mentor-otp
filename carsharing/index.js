@@ -87,17 +87,20 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                 if(carReceived){
                     for(var j = 0; j < carReceived.length; j++){
                         var car = carReceived[j];
-                        if(car.sactive && car.smetadata && car.pcoordinate && car.pcode === station.scode){
+                        if(car.smetadata && car.pcoordinate && car.pcode === station.scode) {
+
+                            const modelName = car.sname ? car.sname.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+
                             carVehicles.push({
                                 id: car.scode,
                                 name: car.sname,
-                                model: car.sname ? car.sname.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").replace(/ /g, "-") : 'unknown',
+                                model: modelName,
                                 plate: car.smetadata.licensePlate,
                                 geoCoordinate: {
                                     latitude: car.pcoordinate.y,
                                     longitude: car.pcoordinate.x,
                                 },
-                                freeForRental: car.savailable,
+                                freeForRental: car.sactive && car.savailable,
                                 fuelType: "unknown",
                                 address: car.pname
                             })
@@ -127,7 +130,7 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                     type: 'carsharing-hub',
                     networks: ['SUEDTIROL'],
                     vehicles: carVehicles,
-                    groupVehicles
+                    groupVehicles: _.reverse(_.sortBy(groupVehicles, 'free'))
                 })
             }
         }
@@ -146,7 +149,7 @@ app.get('/carsharing/vehicles.json', function (req, res) {
     if(carReceived){
         for(var i = 0; i < carReceived.length; i++){
             var car = carReceived[i];
-            if(car.sactive && car.smetadata && car.pcoordinate){
+            if(car.smetadata && car.pcoordinate){
                 carVehicles.push({
                     id: car.scode,
                     name: car.sname,
@@ -155,7 +158,7 @@ app.get('/carsharing/vehicles.json', function (req, res) {
                         latitude: car.pcoordinate.y,
                         longitude: car.pcoordinate.x,
                     },
-                    freeForRental: car.savailable,
+                    freeForRental: car.sactive && car.savailable,
                     fuelType: "unknown",
                     address: car.pname
                 })

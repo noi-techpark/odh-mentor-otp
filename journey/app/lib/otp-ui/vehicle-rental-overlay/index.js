@@ -242,10 +242,14 @@ class VehicleRentalOverlay extends MapLayer {
                       {
                         station.groupVehicles && station.groupVehicles.map( groupVehicle => {
                           if (groupVehicle.modelId) {
+                            
+                            const ava = groupVehicle.free > 0 ? 'bg-success': 'bg-danger';
+
                             return (
                             <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
                               <div>
-                                <strong><small>{groupVehicle.modelName}</small></strong>
+                                <span className={ava}></span>
+                                <strong>{groupVehicle.modelName}</strong>
                                 <br />
                                 <img src={getCarModel(groupVehicle.modelId)} />
                                 <small>{t('availability')} {groupVehicle.free}</small>
@@ -317,24 +321,24 @@ class VehicleRentalOverlay extends MapLayer {
     }
     const getDistanceFromLatLonInMeters = (lat1, lon1, lat2, lon2) => {
       
-      var R = 6371 * 1000; // Radius of the earth in meters
-      var dLat = deg2rad(lat2-lat1);  // deg2rad below
-      var dLon = deg2rad(lon2-lon1); 
-      var a = 
+      let R = 6371 * 1000; // Radius of the earth in meters
+      let dLat = deg2rad(lat2-lat1);  // deg2rad below
+      let dLon = deg2rad(lon2-lon1); 
+      let a = 
         Math.sin(dLat/2) * Math.sin(dLat/2) +
         Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
         Math.sin(dLon/2) * Math.sin(dLon/2)
         ; 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      var d = R * c; // Distance in meters
+      let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      let d = R * c; // Distance in meters
       return d;
     }
 
-    for(var station of filteredStations){
+    for(let station of filteredStations){
       if(station.isFloatingBike){
         let nearest = null;
         let lastDistance = null;
-        for(var i = 0; i <  filteredStations.length; i++){
+        for(let i = 0; i <  filteredStations.length; i++){
           const mstation = filteredStations[i];          
           if(mstation.isFloatingBike === false 
             && mstation.networks[0] == station.networks[0]
