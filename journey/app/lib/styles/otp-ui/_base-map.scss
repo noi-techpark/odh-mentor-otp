@@ -75,8 +75,7 @@
     justify-content: center;
     margin-left: -$grid-gutter-width / 6;
     margin-right: -$grid-gutter-width / 6;
-    overflow-x:auto;
-    padding-left: 0 40px
+    overflow-x:scroll;
   }
 
   &__popupAvailableSlotItem {
