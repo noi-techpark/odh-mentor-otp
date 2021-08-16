@@ -51,20 +51,8 @@ class ParkingOverlay extends MapLayer {
     this.props.registerOverlay(this)
   }
 
-  onOverlayAdded = (e) => {   //PATCH rimuove overlayer label di troppo
-
+  onOverlayAdded = (e) => {
     this._startRefreshing();
-
-    setTimeout(() => {
-      const elems = document.querySelectorAll('.leaflet-control-layers-overlays label')
-      if(elems.length>5) {
-        //document.querySelectorAll('.leaflet-control-layers-overlays label:nth-last-child(2)').forEach(e => e.parentNode.removeChild(e));
-        document.querySelectorAll('.leaflet-control-layers-overlays label').forEach(e => {
-          //e.parentNode.removeChild(e);
-          console.log(e.querySelector('span').innerHTML)
-        });
-      }
-    }, 50);
   }
 
   onOverlayRemoved = () => {
@@ -89,7 +77,7 @@ class ParkingOverlay extends MapLayer {
 
   render () {
     const { locations, t } = this.props
-    if (!locations || locations.length === 0) return <FeatureGroup />
+    if (!locations || locations.length === 0) return <LayerGroup />
 
     const markerIcon = (data) => {
       let badgeType = 'success';
@@ -98,11 +86,6 @@ class ParkingOverlay extends MapLayer {
 
       if( data.type === 'station') {
 
-        /*if (data.capacity === data.free) {
-          badgeType = 'success';
-          badgeCounter = null;
-        } 
-        else*/
          if (data.free === 1) {
           badgeType = 'warning';
           badgeCounter = data.free
@@ -194,7 +177,7 @@ class ParkingOverlay extends MapLayer {
         iconCreateFunction={clusterIcon}
       >
         {
-          locations.map( station => {
+         locations.map( station => {
             if(station.type!=='sensor') return null;
             return (
               <Marker
@@ -225,7 +208,8 @@ class ParkingOverlay extends MapLayer {
         }
       </MarkerClusterGroup>
       <FeatureGroup>
-        {locations.map( station => {
+        {
+          locations.map( station => {
           if(station.type!=='station' && station.type!== 'sensorGroup') return null;
           return (
             <Marker

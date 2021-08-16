@@ -26,7 +26,7 @@ import MicromobilitySharing from "./modern/MicromobilitySharing"
  */
 function StandardModeIcon({ mode, ...props }) {
   if (!mode) return null;
-  console.log('standard-mode',mode.toLowerCase());
+  //console.log('standard-mode',mode.toLowerCase());
   switch (mode.toLowerCase()) {
     case "bicycle":
     case "bicycle_rent":

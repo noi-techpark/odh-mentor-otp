@@ -32,7 +32,7 @@ import MicromobilitySharing from "./modern/MicromobilitySharing";
  */
 function TriMetModeIcon({ mode, ...props }) {
   if (!mode) return null;
-  console.log('timet-mode',mode.toLowerCase());
+  //console.log('timet-mode',mode.toLowerCase());
   switch (mode.toLowerCase()) {
     case "bicycle":
       // case "bicycle_rent": // Commented means using the company logo instead.
