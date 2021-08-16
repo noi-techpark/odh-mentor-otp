@@ -71,8 +71,8 @@
   &__popupAvailableSlots {
     margin-top: $font-size-base;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: left;
+    justify-content: left;
     margin-left: -$grid-gutter-width / 6;
     margin-right: -$grid-gutter-width / 6;
     overflow-x:auto;
