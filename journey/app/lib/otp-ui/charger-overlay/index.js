@@ -147,7 +147,7 @@ class ChargerOverlay extends MapLayer {
                           <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
                             <div>
                               <span className={ava}></span>
-                              <strong>SLOT {key}</strong>
+                              <strong>{t('socket')} {key+1}</strong>
                               <br />
                               {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
                             </div>

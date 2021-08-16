@@ -197,6 +197,7 @@ export const TRANSLATIONS_EN = {
   "vehicles": "Vehicles",
   "free_slots": "free slots",
   "free_sockets": "free sockets",
+  "socket": "Socket",
   "zipcar_location": "Zipcar Location",
   "invalid_mobile_screen": "Invalid mobile screen",
   "click_to_view_details": "Click to view details",
