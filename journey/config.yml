@@ -138,25 +138,6 @@ map:
       iconMarkerColor: "#337ab7"
       iconColor: "#fff"
 
-    - type: parking
-      name: parking
-      #visible: true
-      #TODO cluster: true      
-      #api: ${PARKING_BASEURL}/parking/stations.json
-      api: ${PARKING_BASEURL}/parking/all.json
-      iconWidth: 42
-      iconHeight: 50
-      iconMarkerColor: "#b0d1ef"
-      iconColor: "#5d5d5d"
-    
-    # - type: parking-sensors
-    #   name: parking-sensors
-    #   api: ${PARKING_BASEURL}/parking/sensors.json
-    #   iconWidth: 42
-    #   iconHeight: 50
-    #   iconMarkerColor: "#b0d1ef"
-    #   iconColor: "#5d5d5d"
-    
     - type: charger
       name: charger
       api: ${CHARGER_BASEURL}/charger/stations.json
@@ -190,6 +171,24 @@ map:
       iconMarkerColor: "#ead896"
       iconColor: "#5d5d5d"
 
+    - type: parking
+      name: parking
+      #visible: true
+      #TODO cluster: true      
+      #api: ${PARKING_BASEURL}/parking/stations.json
+      api: ${PARKING_BASEURL}/parking/all.json
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#b0d1ef"
+      iconColor: "#5d5d5d"
+    
+    # - type: parking-sensors
+    #   name: parking-sensors
+    #   api: ${PARKING_BASEURL}/parking/sensors.json
+    #   iconWidth: 42
+    #   iconHeight: 50
+    #   iconMarkerColor: "#b0d1ef"
+    #   iconColor: "#5d5d5d"
     # real-time vehicles config
     # - type: vehicles
     #   name: Real-Time Buses and Trains
@@ -330,8 +329,8 @@ modes:
       label: carsharing_ride
       company: CAR2GO
     #   showWheelchairSetting: false
-    - mode: MICROMOBILITY
-      label: E-scooter & Ride
+    - mode: MICROMOBILITY_RENT
+      label: micromobility_ride
 
   # which exclusive modes to show. This involves using a single mode and no
   # transit for the duration of the trip. Further configurations of
