@@ -75,7 +75,7 @@ class ChargerOverlay extends MapLayer {
 
   render () {
     const { locations, t } = this.props
-    if (!locations || locations.length === 0) return <MarkerClusterGroup />
+    if (!locations || locations.length === 0) return <FeatureGroup />
 
     const markerIcon = (data) => {
       let badgeType = 'success';
@@ -110,7 +110,7 @@ class ChargerOverlay extends MapLayer {
 
     const clusterIcon = cluster => {
       const text = cluster.getChildCount();
-console.log('clusterIcon', cluster)
+
       return L.divIcon({
         className: 'marker-cluster-svg',
         iconSize: [overlayChargerConf.iconWidth, overlayChargerConf.iconHeight],
@@ -125,12 +125,7 @@ console.log('clusterIcon', cluster)
     }
 
     return (
-      <MarkerClusterGroup
-        showCoverageOnHover={false}
-        maxClusterRadius={40}
-        disableClusteringAtZoom={16}
-        iconCreateFunction={clusterIcon}
-      >
+      <FeatureGroup>
         {locations.map((station) => {
           return (
             <Marker
@@ -185,7 +180,7 @@ console.log('clusterIcon', cluster)
             </Marker>
           )
         })}
-      </MarkerClusterGroup>
+      </FeatureGroup>
     )
   }
 }
