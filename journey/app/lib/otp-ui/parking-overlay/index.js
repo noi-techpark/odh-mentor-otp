@@ -11,6 +11,7 @@ import { setLocation } from '../../actions/map'
 import { parkingLocationsQuery } from '../../actions/parking'
 
 import BadgeIcon from "../icons/badge-icon";
+
 import MarkerCluster from "../icons/modern/MarkerCluster";
 import MarkerParking from "../icons/modern/MarkerParking";
 import MarkerParkingSensor from "../icons/modern/MarkerParkingSensor";
@@ -50,16 +51,8 @@ class ParkingOverlay extends MapLayer {
     this.props.registerOverlay(this)
   }
 
-  onOverlayAdded = (e) => {   //PATCH rimuove overlayer label di troppo
-
+  onOverlayAdded = (e) => {
     this._startRefreshing();
-
-    setTimeout(() => {
-      const elems = document.querySelectorAll('.leaflet-control-layers-overlays label')
-      if(elems.length>5) {
-        document.querySelectorAll('.leaflet-control-layers-overlays label:nth-last-child(2)').forEach(e => e.parentNode.removeChild(e));
-      }
-    },10)
   }
 
   onOverlayRemoved = () => {
@@ -84,20 +77,17 @@ class ParkingOverlay extends MapLayer {
 
   render () {
     const { locations, t } = this.props
-    if (!locations || locations.length === 0) return <FeatureGroup />
+    if (!locations || locations.length === 0) return <LayerGroup />
 
     const markerIcon = (data) => {
-      let badgeType = 'default';
+      let badgeType = 'success';
       let badgeCounter = 0;
       let iconWidth, iconHeight;
 
       if( data.type === 'station') {
 
-        if (data.capacity === data.free) {
-          badgeType = 'success';
-          badgeCounter = null;
-        } else if (data.free < data.capacity) {
-          badgeType = 'default';
+         if (data.free === 1) {
+          badgeType = 'warning';
           badgeCounter = data.free
         }
 
@@ -133,7 +123,7 @@ class ParkingOverlay extends MapLayer {
         iconSize: [iconWidth, iconHeight],
         popupAnchor: [0, -iconHeight / 2],
         html: ReactDOMServer.renderToStaticMarkup(
-          <BadgeIcon counter={badgeCounter} type={badgeType} width={iconWidth}>
+          <BadgeIcon type={badgeType} width={iconWidth}>
           { data.type === 'station' && 
             <MarkerParking
               width={iconWidth}
@@ -182,11 +172,12 @@ class ParkingOverlay extends MapLayer {
       <LayerGroup>
       <MarkerClusterGroup
         showCoverageOnHover={false}
-        maxClusterRadius={20}
+        maxClusterRadius={40}
+        disableClusteringAtZoom={16}
         iconCreateFunction={clusterIcon}
       >
         {
-          locations.map( station => {
+         locations.map( station => {
             if(station.type!=='sensor') return null;
             return (
               <Marker
@@ -217,7 +208,8 @@ class ParkingOverlay extends MapLayer {
         }
       </MarkerClusterGroup>
       <FeatureGroup>
-        {locations.map( station => {
+        {
+          locations.map( station => {
           if(station.type!=='station' && station.type!== 'sensorGroup') return null;
           return (
             <Marker
@@ -240,7 +232,7 @@ class ParkingOverlay extends MapLayer {
                         value={station.free}
                         minValue={0}
                         maxValue={station.capacity}
-                        text={station.free}
+                        text={station.free+''}
                         className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
                       />
                       <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('capacity')}: {station.capacity}</div>

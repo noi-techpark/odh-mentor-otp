@@ -75,21 +75,25 @@ class ChargerOverlay extends MapLayer {
     if (!locations || locations.length === 0) return <FeatureGroup />
 
     const markerIcon = (data) => {
-      let badgeType = 'default';
+      let badgeType = 'success';
       let badgeCounter = data.capacity || 0;
 
-      if (data.state === "AVAILABLE" || data.state === "ACTIVE") {
-        badgeType = 'default';
-      } else {
-        badgeType = 'danger';
-        badgeCounter = null;
+      if(data.free > 0) {
+        badgeType = 'warning';
+        if (data.free === data.capacity) {
+          badgeType = 'success';
+        }
       }
+      else {
+        badgeType = 'danger';
+      }
+
       return divIcon({
         className: "",
         iconSize: [overlayChargerConf.iconWidth, overlayChargerConf.iconHeight],
         popupAnchor: [0, -overlayChargerConf.iconHeight / 2],
         html: ReactDOMServer.renderToStaticMarkup(
-          <BadgeIcon counter={badgeCounter} type={badgeType} width={overlayChargerConf.iconWidth}>
+          <BadgeIcon type={badgeType} width={overlayChargerConf.iconWidth}>
             <MarkerCharger
               width={overlayChargerConf.iconWidth}
               height={overlayChargerConf.iconHeight}
@@ -128,8 +132,8 @@ class ChargerOverlay extends MapLayer {
                   <div>{t('provider')}: {station.provider}</div>
 
                   <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.capacity}</div>
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_slots')}</div>
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('free_sockets')}</div>
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
@@ -143,7 +147,7 @@ class ChargerOverlay extends MapLayer {
                           <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
                             <div>
                               <span className={ava}></span>
-                              <strong>SLOT {key}</strong>
+                              <strong>{t('socket')} {key+1}</strong>
                               <br />
                               {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
                             </div>
@@ -152,8 +156,6 @@ class ChargerOverlay extends MapLayer {
                       })
                     }
                   </div>
-                  
-                  <br />
 
                   <div className="otp-ui-mapOverlayPopup__popupRow">
                     <FromToLocationPicker

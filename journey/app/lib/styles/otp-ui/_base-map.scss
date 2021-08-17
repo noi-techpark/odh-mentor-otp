@@ -71,10 +71,11 @@
   &__popupAvailableSlots {
     margin-top: $font-size-base;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: left;
+    justify-content: left;
     margin-left: -$grid-gutter-width / 6;
     margin-right: -$grid-gutter-width / 6;
+    overflow-x:auto;
   }
 
   &__popupAvailableSlotItem {
@@ -87,7 +88,13 @@
       padding: $padding-base-vertical $padding-base-horizontal;
       border-radius: $border-radius-base;
       font-size: $font-size-small;
-    } 
+      line-height: $font-size-small;
+    }
+
+    strong {
+      font-size: $font-size-xxsmall;
+      line-height: $font-size-xxsmall;
+    }
 
     span {
       display: inline-block;

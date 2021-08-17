@@ -3,6 +3,7 @@ import React from "react";
 import {
   AerialTram,
   Bicycle,
+  BikeSharing,
   Bus,
   Car,
   Ferry,
@@ -13,6 +14,10 @@ import {
   Walk,
   Wes
 } from "./trimet";
+
+//import BikeSharing from "./modern/BikeSharing";
+//import CarSharing from "./modern/CarSharing";
+import MicromobilitySharing from "./modern/MicromobilitySharing";
 
 /**
  * Icons for all TriMet modes.
@@ -27,10 +32,13 @@ import {
  */
 function TriMetModeIcon({ mode, ...props }) {
   if (!mode) return null;
+  //console.log('timet-mode',mode.toLowerCase());
   switch (mode.toLowerCase()) {
     case "bicycle":
       // case "bicycle_rent": // Commented means using the company logo instead.
       return <Bicycle {...props} />;
+    case "bicycle_rent":
+      return <BikeSharing {...props} />;
     case "bus":
       return <Bus {...props} />;
     case "car":
@@ -42,8 +50,9 @@ function TriMetModeIcon({ mode, ...props }) {
     case "funicular":
       return <AerialTram {...props} />;
     case "micromobility":
-    case "micromobility_rent":
       return <Micromobility {...props} />;
+    case "micromobility_rent":
+      return <MicromobilitySharing {...props} />;
     case "rail":
       return <Wes {...props} />;
     case "streetcar":

@@ -276,8 +276,6 @@ export function itineraryToTransitive(itin, companies) {
 
   // add the journey to the tdata journeys array
   tdata.journeys.push(journey);
-
-  // console.log('derived tdata', tdata);
   return tdata;
 }
 
