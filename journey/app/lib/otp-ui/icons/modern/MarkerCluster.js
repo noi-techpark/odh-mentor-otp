@@ -7,13 +7,13 @@ const MarkerCluster = ({ text, width = 50, height = 50, textColor = '#fff', mark
   <circle
      fill={markerColor}
      style={{opacity:0.3}}
+     r="24"
      cx="27"
-     cy="30"
-     r="30" />
+     cy="30" />
   <circle
      fill={markerColor}
-     style={{opacity:1}}
-     r="20"
+     style={{opacity:0.8}}
+     r="16"
      cy="30"
      cx="27" />
   <text

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
+import { LayerGroup, FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
 import { divIcon } from 'leaflet'
 import { withNamespaces } from "react-i18next";
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -75,15 +75,15 @@ class ChargerOverlay extends MapLayer {
 
   render () {
     const { locations, t } = this.props
-    if (!locations || locations.length === 0) return <MarkerClusterGroup />
+    if (!locations || locations.length === 0) return <LayerGroup />
 
-    const markerIcon = (data) => {
+    const markerIcon = station => {
       let badgeType = 'success';
-      let badgeCounter = data.capacity || 0;
+      let badgeCounter = station.capacity || 0;
 
-      if(data.free > 0) {
+      if(station.free > 0) {
         badgeType = 'warning';
-        if (data.free === data.capacity) {
+        if (station.free === station.capacity) {
           badgeType = 'success';
         }
       }
@@ -108,9 +108,8 @@ class ChargerOverlay extends MapLayer {
       });
     }
 
-    const clusterIcon = cluster => {
-      const text = cluster.getChildCount();
-console.log('clusterIcon', cluster)
+    const markerClusterIcon = cluster => {
+      const text = cluster.getChildCount();    
       return L.divIcon({
         className: 'marker-cluster-svg',
         iconSize: [overlayChargerConf.iconWidth, overlayChargerConf.iconHeight],
@@ -125,13 +124,15 @@ console.log('clusterIcon', cluster)
     }
 
     return (
+      <LayerGroup>
       <MarkerClusterGroup
         showCoverageOnHover={false}
         maxClusterRadius={40}
         disableClusteringAtZoom={16}
-        iconCreateFunction={clusterIcon}
+        iconCreateFunction={markerClusterIcon}
       >
-        {locations.map((station) => {
+        {
+          locations.map( station => {
           return (
             <Marker
               icon={markerIcon(station)}
@@ -186,6 +187,7 @@ console.log('clusterIcon', cluster)
           )
         })}
       </MarkerClusterGroup>
+      </LayerGroup>
     )
   }
 }

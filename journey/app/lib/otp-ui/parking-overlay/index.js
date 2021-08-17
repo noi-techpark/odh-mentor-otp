@@ -155,6 +155,7 @@ class ParkingOverlay extends MapLayer {
     
     const clusterIcon = cluster => {
       const text = cluster.getChildCount();
+     
       return L.divIcon({
         className: 'marker-cluster-svg',
         iconSize: [overlayParkingConf.iconWidth, overlayParkingConf.iconHeight],
