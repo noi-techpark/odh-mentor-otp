@@ -16,6 +16,9 @@ import ReactDOMServer from "react-dom/server";
 import Charger from "../icons/modern/Charger";
 import FromToLocationPicker from '../from-to-location-picker'
 
+import MarkerClusterGroup from 'react-leaflet-markercluster';
+import MarkerCluster from "../icons/modern/MarkerCluster";
+
 import config from '../../config.yml';
 
 const overlayChargerConf = config.map.overlays.filter(item => item.type === 'charger')[0]
@@ -72,7 +75,7 @@ class ChargerOverlay extends MapLayer {
 
   render () {
     const { locations, t } = this.props
-    if (!locations || locations.length === 0) return <FeatureGroup />
+    if (!locations || locations.length === 0) return <MarkerClusterGroup />
 
     const markerIcon = (data) => {
       let badgeType = 'success';
@@ -102,23 +105,37 @@ class ChargerOverlay extends MapLayer {
             />
           </BadgeIcon>
         )
-      });;
+      });
     }
 
-
-    const bulletIconStyle = {
-      color: 'gray',
-      fontSize: 12,
-      width: 15
+    const clusterIcon = cluster => {
+      const text = cluster.getChildCount();
+console.log('clusterIcon', cluster)
+      return L.divIcon({
+        className: 'marker-cluster-svg',
+        iconSize: [overlayChargerConf.iconWidth, overlayChargerConf.iconHeight],
+        html: ReactDOMServer.renderToStaticMarkup(
+          <MarkerCluster
+              text={text}
+              textColor={'white'}
+              markerColor={overlayChargerConf.iconMarkerColor}
+            />
+          )
+      });
     }
 
     return (
-      <FeatureGroup>
+      <MarkerClusterGroup
+        showCoverageOnHover={false}
+        maxClusterRadius={40}
+        disableClusteringAtZoom={16}
+        iconCreateFunction={clusterIcon}
+      >
         {locations.map((station) => {
           return (
             <Marker
               icon={markerIcon(station)}
-              key={station.name}
+              key={station.station_id}
               position={[station.lat, station.lon]}
             >
               <Popup>
@@ -168,7 +185,7 @@ class ChargerOverlay extends MapLayer {
             </Marker>
           )
         })}
-      </FeatureGroup>
+      </MarkerClusterGroup>
     )
   }
 }
