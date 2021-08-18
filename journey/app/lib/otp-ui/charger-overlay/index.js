@@ -177,7 +177,7 @@ class ChargerOverlay extends MapLayer {
 
                   <div className="otp-ui-mapOverlayPopup__popupRow">
                     <FromToLocationPicker
-                      station={station}
+                      location={station}
                       setLocation={this.props.setLocation}
                     />
                   </div>

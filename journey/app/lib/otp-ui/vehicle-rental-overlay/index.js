@@ -268,8 +268,6 @@ class VehicleRentalOverlay extends MapLayer {
                 }
               </>
           }
-
-          {/* Set as from/to toolbar */}
           <div className="otp-ui-mapOverlayPopup__popupRow">
             <FromToLocationPicker
               location={location}
