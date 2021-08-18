@@ -7,7 +7,24 @@
   "devDependencies": {
     "dotenv": "^8.2.0"
   },
-  "author": "openmove.com",
+  "author": "OpenMove <info@openmove.com>",
+  "contributors": [
+    {
+      "name" : "Stefano Cudini",
+      "email" : "stefano.cudini@gmail.com",
+      "url" : "https://github.com/stefanocudini"
+    },
+    {
+      "name" : "Federico Bertolini",
+      "email" : "federico.bertolini@openmove.com",
+      "url" : "https://github.com/zabuTNT"
+    },
+    {
+      "name" : "Valerio Capogna",
+      "email" : "capogna.valerio@gmail.com",
+      "url": "https://github.com/capognavalerio"
+    }
+  ],  
   "license": "MIT",
   "scripts": {
     "genconfig": "node env2config.js config.yml > app/lib/config.yml ",

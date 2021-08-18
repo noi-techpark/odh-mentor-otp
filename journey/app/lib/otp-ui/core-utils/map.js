@@ -55,15 +55,18 @@ export function getDetailText(location) {
 
 export function formatStoredPlaceName(location, withDetails = true) {
   let results = {}
-  let displayName = location.type === "home" || location.type === "work" ? (0, toSentenceCase)(location.type) : location.name;
 
-  displayName = location.type === "home" ? "home" : (location.type === "work" ? "work": location.name);
+  if (location) {
+    let displayName = location.type === "home" || location.type === "work" ? (0, toSentenceCase)(location.type) : location.name;
 
-  results.displayName = displayName
+    displayName = location.type === "home" ? "home" : (location.type === "work" ? "work": location.name);
 
-  if (withDetails) {
-    const detailText = getDetailText(location);
-    if (detailText) results.detailText = detailText;
+    results.displayName = displayName
+
+    if (withDetails) {
+      const detailText = getDetailText(location);
+      if (detailText) results.detailText = detailText;
+    }
   }
 
   return results;
@@ -273,8 +276,6 @@ export function itineraryToTransitive(itin, companies) {
 
   // add the journey to the tdata journeys array
   tdata.journeys.push(journey);
-
-  // console.log('derived tdata', tdata);
   return tdata;
 }
 

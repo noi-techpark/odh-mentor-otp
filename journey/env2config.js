@@ -20,7 +20,6 @@ function addHttp(url) {
     	let prot = 'http'+(ENV.API_PORT===443?'s':'');
 		return prot+'://' + url;
     }
-    
 }
 
 function tmpl(str, data) {

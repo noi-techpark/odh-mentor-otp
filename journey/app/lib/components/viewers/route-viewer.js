@@ -153,37 +153,25 @@ class RouteRow extends PureComponent {
       if (longName === route.shortName) longName = ''
     }
     return (
-      <div
-        style={{
-          borderBottom: '1px solid gray',
-          backgroundColor: isActive ? '#f6f8fa' : 'white'
-        }}>
-        <Button className='clear-button-formatting' style={{ padding: 8, width: '100%' }}
-          onClick={this._onClick}
-        >
-          <div style={{display: 'inline-block'}}>
-            {// TODO: re-implement multi-agency logos for route viewer.
+      <div className="route-row">
+        <Button onClick={this._onClick} block>
+          {/* <div style={{display: 'inline-block'}}>
+            // TODO: re-implement multi-agency logos for route viewer.
               // Currently, the agency object is not nested within the get all
               // routes endpoint and causing this to only display transitOperators for
               // the selected route.
               // operator && <img src={operator.logo} style={{marginRight: '5px'}} height={25} />
-            }
-          </div>
-          <div style={{display: 'inline-block', marginTop: '2px'}}>
-            <Label
-              style={{
-                backgroundColor: backgroundColor === '#ffffff' ? 'rgba(0,0,0,0)' : backgroundColor,
-                fontSize: 'medium',
-                fontWeight: 400,
-                color
-              }}>
-              <b>{route.shortName}</b> {longName}
-            </Label>
-          </div>
+
+          </div> */}
+          <strong>{route.shortName}</strong> {longName}
         </Button>
-        <VelocityTransitionGroup enter={{animation: 'slideDown'}} leave={{animation: 'slideUp'}}>
+
+        <VelocityTransitionGroup
+          enter={{animation: 'slideDown'}}
+          leave={{animation: 'slideUp'}}
+        >
           {isActive && (
-            <div style={{ padding: 8 }}>
+            <div className="route-row__inner">
               {route.url
                 ? <a href={route.url} target='_blank'>{t('route_details')}</a>
                 : t('no_route_url_provided')

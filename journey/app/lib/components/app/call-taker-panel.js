@@ -352,23 +352,22 @@ class CallTakerPanel extends Component {
           {!activeSearch && !showPlanTripButton && showUserSettings &&
             <UserSettings />
           }
-          <div className='desktop-narrative-container'>
-            <NarrativeItineraries
-              containerStyle={{
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'absolute',
-                // FIXME: This top pixel value can be variable dependent on
-                // height of the form above. It may need to be specified differently
-                top: 193 + intermediatePlaces.length * 45,
-                right: '0',
-                left: '0',
-                bottom: '0'
-              }}
-              itineraryFooter={itineraryFooter}
-              LegIcon={LegIcon}
-            />
-          </div>
+
+          <NarrativeItineraries
+            containerStyle={{
+              display: 'flex',
+              flexDirection: 'column',
+              position: 'absolute',
+              // FIXME: This top pixel value can be variable dependent on
+              // height of the form above. It may need to be specified differently
+              top: 193 + intermediatePlaces.length * 45,
+              right: '0',
+              left: '0',
+              bottom: '0'
+            }}
+            itineraryFooter={itineraryFooter}
+            LegIcon={LegIcon}
+          />
         </div>
       </ViewerContainer>
     )

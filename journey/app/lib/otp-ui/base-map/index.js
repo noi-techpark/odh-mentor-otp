@@ -34,6 +34,9 @@ L.Evented.addInitHook(function() {
   if (this) this.singleClickTimeout = null;
   this.on("click", this.scheduleSingleClick, this);
   this.on("dblclick dragstart zoomstart", this.cancelSingleClick, this);
+  this.on("zoomend", e => {
+        console.log('zoom',this.getZoom())
+  })
 });
 
 L.Evented.include({
@@ -175,9 +178,11 @@ class BaseMap extends Component {
       center,
       children,
       maxZoom,
+      zoomControl,
       popup,
       onContextMenu,
       onPopupClosed,
+      onLoad,
       zoom
     } = this.props;
     const { layerIndex } = this.state;
@@ -204,6 +209,7 @@ class BaseMap extends Component {
         center={center}
         zoom={zoom}
         maxZoom={maxZoom}
+        zoomControl={zoomControl}
         // onClick={this.onLeftClick}
         // Note: Map-click is handled via single-click plugin, set up in componentDidMount()
         onContextMenu={onContextMenu}
@@ -211,6 +217,7 @@ class BaseMap extends Component {
         onBaseLayerChange={this.handleBaseLayerChange}
         onOverlayRemove={this.handleOverlayRemoved}
         onViewportChanged={this.handleViewportChanged}
+        whenReady={onLoad}
       >
         {/* Add the mapbox wordmark if the current base layer's URL appears to
           be a Mapbox URL. The implementing application must include CSS that
@@ -226,9 +233,23 @@ class BaseMap extends Component {
           </a>
         )}
 
-        {/* Create the layers control, including base map layers and any
-         * user-controlled overlays. */}
         <LayersControl position="topright">
+          {
+            userControlledOverlays.map((child, i) => {
+              return (
+                <LayersControl.Overlay
+                  key={i}
+                  name={child.props.name}
+                  checked={child.props.visible}
+                >
+                  {child}
+                </LayersControl.Overlay>
+              );
+            })
+          }
+        </LayersControl>
+
+        <LayersControl position="bottomright">
           {/* base layers */}
           {baseLayers &&
             baseLayers.map((layer, i) => {
@@ -265,17 +286,6 @@ class BaseMap extends Component {
                 </LayersControl.BaseLayer>
               );
             })}
-
-          {/* user-controlled overlay layers (e.g., vehicle locations, stops) */}
-          {userControlledOverlays.map((child, i) => (
-            <LayersControl.Overlay
-              key={i}
-              name={child.props.name}
-              checked={child.props.visible}
-            >
-              {child}
-            </LayersControl.Overlay>
-          ))}
         </LayersControl>
 
         {/* Add the fixed, i.e. non-user-controllable, overlays (e.g., itinerary overlay) */}
@@ -403,6 +413,7 @@ BaseMap.defaultProps = {
   onOverlayRemoved: null,
   onPopupClosed: null,
   onViewportChanged: null,
+  onLoad: null,
   popup: null,
   zoom: 13
 };

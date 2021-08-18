@@ -86,6 +86,9 @@ export function matchContentToUrl (location) {
         dispatch(setMainPanelContent(null))
         break
       // For any other route path, just revert to default panel.
+      case 'credits':
+        dispatch(setMainPanelContent(MainPanelContent.CREDITS_VIEWER))
+        break;
       default:
         dispatch(setMainPanelContent(null))
         break
@@ -169,6 +172,9 @@ export function setMainPanelContent (payload) {
       case MainPanelContent.STOP_VIEWER:
         dispatch(routeTo('/stop'))
         break
+      case MainPanelContent.CREDITS_VIEWER:
+        dispatch(routeTo('/credits'))
+        break
       default:
         // Clear route, stop, and trip viewer focus and route to root
         dispatch(viewRoute(null))
@@ -217,7 +223,8 @@ export const toggleAutoRefresh = createAction('TOGGLE_AUTO_REFRESH')
 
 export const MainPanelContent = {
   ROUTE_VIEWER: 1,
-  STOP_VIEWER: 2
+  STOP_VIEWER: 2,
+  CREDITS_VIEWER: 3
 }
 
 export const MobileScreens = {

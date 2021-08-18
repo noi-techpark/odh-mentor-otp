@@ -1,13 +1,11 @@
 import isEqual from 'lodash.isequal'
 import TransitLegSummary from '../../../otp-ui/itinerary-body/defaults/transit-leg-summary'
-import ItineraryBody from '../../../otp-ui/itinerary-body/otp-react-redux/itinerary-body'
+import ItineraryBody from '../../../otp-ui/itinerary-body'
 import LineColumnContent from '../../../otp-ui/itinerary-body/otp-react-redux/line-column-content'
 import PlaceName from '../../../otp-ui/itinerary-body/otp-react-redux/place-name'
-import { PlaceName as PlaceNameWrapper } from '../../../otp-ui/itinerary-body/styled'
 import RouteDescription from '../../../otp-ui/itinerary-body/otp-react-redux/route-description'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 
 import { setLegDiagram } from '../../../actions/map'
 import { setViewedTrip } from '../../../actions/ui'
@@ -17,16 +15,6 @@ import TripDetails from '../connected-trip-details'
 import TripTools from '../trip-tools'
 
 const noop = () => {}
-
-const ItineraryBodyContainer = styled.div`
-  padding: 0px 0px;
-`
-
-const StyledItineraryBody = styled(ItineraryBody)`
-  ${PlaceNameWrapper} {
-    font-weight: inherit;
-  }
-`
 
 class ConnectedItineraryBody extends Component {
   /** avoid rerendering if the itinerary to display hasn't changed */
@@ -47,8 +35,8 @@ class ConnectedItineraryBody extends Component {
     } = this.props
 
     return (
-      <ItineraryBodyContainer>
-        <StyledItineraryBody
+      <>
+        <ItineraryBody
           config={config}
           diagramVisible={diagramVisible}
           itinerary={itinerary}
@@ -71,9 +59,8 @@ class ConnectedItineraryBody extends Component {
           TransitLegSummary={TransitLegSummary}
           TimeColumnContent={RealtimeTimeColumn}
         />
-        <TripDetails itinerary={itinerary} />
         <TripTools itinerary={itinerary} />
-      </ItineraryBodyContainer>
+      </>
     )
   }
 }

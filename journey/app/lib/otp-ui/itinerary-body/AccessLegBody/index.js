@@ -7,12 +7,13 @@ import {
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { VelocityTransitionGroup } from "velocity-react";
+import { Button } from 'react-bootstrap'
+import { CaretDown, CaretUp } from "@styled-icons/fa-solid";
 
 import AccessLegSteps from "./access-leg-steps";
 import AccessLegSummary from "./access-leg-summary";
 import LegDiagramPreview from "./leg-diagram-preview";
 import RentedVehicleSubheader from "./rented-vehicle-subheader";
-import * as Styled from "../styled";
 import TNCLeg from "./tnc-leg";
 
 /**
@@ -71,7 +72,7 @@ export default class AccessLegBody extends Component {
         {leg && (leg.rentedVehicle || leg.rentedBike || leg.rentedCar) && (
           <RentedVehicleSubheader config={config} leg={leg} />
         )}
-        <Styled.LegBody>
+        <div className="otp-ui-legBody">
           <AccessLegSummary
             config={config}
             leg={leg}
@@ -79,15 +80,22 @@ export default class AccessLegBody extends Component {
             onSummaryClick={this.onSummaryClick}
             showLegIcon={showLegIcon}
           />
-          <Styled.StepsHeader onClick={this.onStepsHeaderClick}>
+          <Button bsStyle="link" bsSize="small" onClick={this.onStepsHeaderClick}>
             {formatDuration(leg.duration)}
             {leg.steps && (
               <span>
                 {" "}
-                <Styled.CaretToggle expanded={expanded} />
+                {expanded ? <CaretUp size={15} /> : <CaretDown size={15} />}
               </span>
             )}
-          </Styled.StepsHeader>
+          </Button>
+
+          <VelocityTransitionGroup
+            enter={{ animation: "slideDown" }}
+            leave={{ animation: "slideUp" }}
+          >
+            {expanded && <AccessLegSteps steps={leg.steps} />}
+          </VelocityTransitionGroup>
 
           <LegDiagramPreview
             diagramVisible={diagramVisible}
@@ -95,13 +103,7 @@ export default class AccessLegBody extends Component {
             setLegDiagram={setLegDiagram}
             showElevationProfile={showElevationProfile}
           />
-          <VelocityTransitionGroup
-            enter={{ animation: "slideDown" }}
-            leave={{ animation: "slideUp" }}
-          >
-            {expanded && <AccessLegSteps steps={leg.steps} />}
-          </VelocityTransitionGroup>
-        </Styled.LegBody>
+        </div>
       </>
     );
   }

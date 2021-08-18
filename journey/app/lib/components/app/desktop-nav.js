@@ -40,16 +40,11 @@ const DesktopNav = ({ otpConfig }) => {
   }
 
   return (
-    <Navbar fluid inverse>
+    <Navbar fluid inverse fixedTop>
       <Navbar.Header>
         <Navbar.Brand>
-          {/* TODO: Reconcile CSS class and inline style. */}
-          <div className='app-menu-container' style={{ float: 'left', color: 'white', fontSize: 28 }}>
-            <AppMenu />
-          </div>
-
+          <AppMenu />
           {brandingOrTitle}
-
         </Navbar.Brand>
       </Navbar.Header>
 

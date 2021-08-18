@@ -6,13 +6,17 @@ ARG	API_PORT=8080
 ARG FOLDER=/
 ARG GEOCODER_BASEURL=http://localhost/geocoder/v1
 ARG PARKING_BASEURL=http://localhost/parking
+ARG CHARGER_BASEURL=http://localhost/charger
+ARG CARSHARING_BASEURL=http://localhost/carsharing
 
 ENV API_HOST=$API_HOST \
 	API_PATH=$API_PATH \
 	API_PORT=$API_PORT \
 	FOLDER=$FOLDER \
 	GEOCODER_BASEURL=$GEOCODER_BASEURL \
-	PARKING_BASEURL=$PARKING_BASEURL
+	PARKING_BASEURL=$PARKING_BASEURL \
+	CHARGER_BASEURL=$CHARGER_BASEURL \
+	CARSHARING_BASEURL=$CARSHARING_BASEURL
 
 RUN	apt-get -qq update && \
 	apt-get -y install nginx git && \
@@ -38,10 +42,6 @@ RUN yarn install
 RUN	yarn build && mv dist/* /var/www/html/
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
-
-# debug
-#EXPOSE 8081
-#CMD ["yarn","start"]
 
 EXPOSE 80
 ENTRYPOINT ["/bin/bash"]

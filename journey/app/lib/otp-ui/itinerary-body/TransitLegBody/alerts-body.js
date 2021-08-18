@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import { ExclamationTriangle } from "@styled-icons/fa-solid";
 
-import * as Styled from "../styled";
-
 export default function AlertsBody({ alerts, longDateFormat, timeFormat }) {
   return (
-    <Styled.TransitAlerts>
+    <div className="otp-ui-transitAlerts">
       {alerts
         .sort((a, b) => b.effectiveStartDate - a.effectiveStartDate)
         .map((alert, i) => {
@@ -25,25 +23,25 @@ export default function AlertsBody({ alerts, longDateFormat, timeFormat }) {
           );
           const effectiveDateString = `Effective as of ${dateTimeString}`;
           return (
-            <Styled.TransitAlert key={i} href={alert.alertUrl}>
-              <Styled.TransitAlertIconContainer>
+            <a className="otp-ui-transitAlert" key={i} href={alert.alertUrl}>
+              <div className="otp-ui-transitAlert__iconContainer">
                 <ExclamationTriangle size={18} />
-              </Styled.TransitAlertIconContainer>
+              </div>
               {alert.alertHeaderText ? (
-                <Styled.TransitAlertHeader>
+                <div className="otp-ui-transitAlert__header">
                   {alert.alertHeaderText}
-                </Styled.TransitAlertHeader>
+                </div>
               ) : null}
-              <Styled.TransitAlertBody>
+              <div className="otp-ui-transitAlert__body">
                 {alert.alertDescriptionText}
-              </Styled.TransitAlertBody>
-              <Styled.TransitAlertEffectiveDate>
+              </div>
+              <div className="otp-ui-transitAlert__effectiveDate">
                 {effectiveDateString}
-              </Styled.TransitAlertEffectiveDate>
-            </Styled.TransitAlert>
+              </div>
+            </a>
           );
         })}
-    </Styled.TransitAlerts>
+    </div>
   );
 }
 

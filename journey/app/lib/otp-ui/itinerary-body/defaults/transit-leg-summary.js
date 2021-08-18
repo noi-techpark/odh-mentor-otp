@@ -1,11 +1,11 @@
 import { legType } from "../../core-utils/types";
 import PropTypes from "prop-types";
 import React from "react";
+import { Button } from "react-bootstrap";
 import { withNamespaces } from "react-i18next"
+import { CaretDown, CaretUp } from "@styled-icons/fa-solid";
 
 import { formatDuration } from "../../core-utils/time";
-
-import * as Styled from "../styled";
 
 /**
  * This is a clickable component that summarizes the leg (travel time, stops
@@ -13,17 +13,17 @@ import * as Styled from "../styled";
  */
 function TransitLegSummary({ leg, onClick, stopsExpanded, t }) {
   return (
-    <Styled.TransitLegSummary onClick={onClick}>
+    <Button bsStyle="link" bsSize="small" onClick={onClick}>
       {leg.duration && <span>{t('ride')} {formatDuration(leg.duration)}</span>}
       {leg.intermediateStops && (
         <span>
           {" / "}
           {leg.intermediateStops.length + 1}
           {` ${t('stops')} `}
-          <Styled.CaretToggle expanded={stopsExpanded} />
+          {stopsExpanded ? <CaretUp size={15} /> : <CaretDown size={15} />}
         </span>
       )}
-    </Styled.TransitLegSummary>
+    </Button>
   );
 }
 

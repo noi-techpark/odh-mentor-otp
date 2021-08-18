@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { withNamespaces } from "react-i18next"
+import { ButtonGroup, FormGroup, FormControl, Grid, Row, Col, DropdownButton, MenuItem } from "react-bootstrap"
 
 import {
   OTP_API_DATE_FORMAT,
@@ -9,7 +10,6 @@ import {
 } from "../../core-utils/time";
 
 import ModeButton from "../ModeButton";
-import * as Styled from "../styled";
 
 /**
  * Determines whether the browser supports a particular <input type=<type> /> control,
@@ -112,8 +112,6 @@ class DateTimeSelector extends Component {
   };
 
   render() {
-    // console.log(`supports date time: ${this.supportsDateTimeInputs}`);
-
     const {
       className,
       dateFormatLegacy = OTP_API_DATE_FORMAT,
@@ -128,15 +126,15 @@ class DateTimeSelector extends Component {
       {
         // Default option.
         type: "NOW",
-        text: "now"
+        text: "plan_now"
       },
       {
         type: "DEPART",
-        text: "depart_at"
+        text: "plan_depart_at"
       },
       {
         type: "ARRIVE",
-        text: "arrive_at"
+        text: "plan_arrive_at"
       }
     ];
     departureOptions.forEach(opt => {
@@ -146,66 +144,47 @@ class DateTimeSelector extends Component {
     const isLegacy = forceLegacy || !this.supportsDateTimeInputs;
 
     return (
-      <Styled.DateTimeSelector className={className} style={style}>
-        <Styled.DateTimeSelector.DepartureRow>
+      <div className="otp-ui-dateTimeSelector">
+        <DropdownButton
+          title={<span><i className='fa fa-clock-o' /> {t(departureOptions.filter(opt => opt.isSelected)[0].text)}</span>}
+          id={`date-time-selector`}
+        >
           {departureOptions.map(opt => (
-            <ModeButton
+            <MenuItem
               key={opt.type}
-              selected={opt.isSelected}
+              active={opt.isSelected}
               onClick={() => this.setDepartArrive(opt)}
             >
               {t(opt.text)}
-            </ModeButton>
+            </MenuItem>
           ))}
-        </Styled.DateTimeSelector.DepartureRow>
+        </DropdownButton>
 
         {departArrive !== "NOW" && !isLegacy && (
-          <Styled.DateTimeSelector.DateTimeRow>
-            <div>
-              <input
-                type="time"
-                value={time}
-                required
-                onChange={this.handleTimeChange}
-              />
-            </div>
-            <div>
-              <input
-                type="date"
-                value={date}
-                required
-                onChange={this.handleDateChange}
-              />
-            </div>
-          </Styled.DateTimeSelector.DateTimeRow>
+          <Row>
+            <Col xs={12} sm={6}>
+              <FormGroup>
+                <FormControl
+                  type="time"
+                  value={time}
+                  required
+                  onChange={this.handleTimeChange}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs={12} sm={6}>
+              <FormGroup>
+                <FormControl
+                  type="date"
+                  value={date}
+                  required
+                  onChange={this.handleDateChange}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
         )}
-
-        {/* Backup controls (for older browsers) */}
-        {departArrive !== "NOW" && isLegacy && (
-          <Styled.DateTimeSelector.DateTimeRow>
-            <div>
-              <input
-                type="text"
-                defaultValue={moment(time, OTP_API_TIME_FORMAT).format(
-                  timeFormatLegacy
-                )}
-                required
-                onChange={this.handleTimeTimeChangeLegacy}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                defaultValue={moment(date, OTP_API_DATE_FORMAT).format(
-                  dateFormatLegacy
-                )}
-                required
-                onChange={this.handleDateChangeLegacy}
-              />
-            </div>
-          </Styled.DateTimeSelector.DateTimeRow>
-        )}
-      </Styled.DateTimeSelector>
+      </div>
     );
   }
 }

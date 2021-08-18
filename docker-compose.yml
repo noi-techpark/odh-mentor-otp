@@ -8,32 +8,40 @@ services:
 
   journey:
     container_name: openmove-journey
-    ports: ["80:80"]
+    ports:
+      - "80:80"
     image: openmove_journey:latest
     build:
       context: ./
       dockerfile: infrastructure/docker/journey/Dockerfile
       args:
+        #hostnames from browser point of view
         API_HOST: http://localhost
         API_PATH: /otp/routers/openmove
         API_PORT: 8080
         GEOCODER_BASEURL: http://localhost:8088/v1
         PARKING_BASEURL: http://localhost:8092
+        CHARGER_BASEURL: http://localhost:8093
+        CARSHARING_BASEURL: http://localhost:8091
         # debug
         #API_HOST: https://otp.opendatahub.testingmachine.eu
         #API_PORT: 443
         #API_PATH: /otp/routers/openmove
         #GEOCODER_BASEURL: https://geocoder.otp.opendatahub.testingmachine.eu/v1
         #PARKING_BASEURL: https://parking.otp.opendatahub.testingmachine.eu
+        #CHARGER_BASEURL: https://charger.otp.opendatahub.testingmachine.eu
+        #CARSHARING_BASEURL: https://carsharing.otp.opendatahub.testingmachine.eu
     depends_on:
      - geocoder
      - otp
      - parking
      - charger
+     - carsharing
 
   geocoder:
     container_name: openmove-geocoder
-    ports: ["8088:8088"]
+    ports:
+      - "8088:8088"
     image: openmove_geocoder:latest
     build:
       context: ./
@@ -49,7 +57,8 @@ services:
 
   gbfs:
     container_name: openmove-gbfs
-    ports: ["8089:8089"]
+    ports:
+      - "8089:8089"
     image: openmove_gbfs:latest
     build:
       context: ./
@@ -57,7 +66,8 @@ services:
 
   carsharing:
     container_name: openmove-carsharing
-    ports: ["8091:8091"]
+    ports:
+      - "8091:8091"
     image: openmove_carsharing:latest
     build:
       context: ./
@@ -65,7 +75,8 @@ services:
 
   parking:
     container_name: openmove-parking
-    ports: ["8092:8092"]
+    ports:
+      - "8092:8092"
     image: openmove_parking:latest
     build:
       context: ./
@@ -73,7 +84,8 @@ services:
 
   charger:
     container_name: openmove-charger
-    ports: ["8093:8093"]
+    ports:
+      - "8093:8093"
     image: openmove_charger:latest
     build:
       context: ./
@@ -81,7 +93,8 @@ services:
 
   traffic:
     container_name: openmove-traffic
-    ports: ["8094:8094"]
+    ports:
+      - "8094:8094"
     image: openmove_traffic:latest
     build:
       context: ./
@@ -89,7 +102,8 @@ services:
 
   otp:
     container_name: openmove-otp
-    ports: ["8080:8080"]
+    ports:
+      - "8080:8080"
     image: openmove_otp:latest
     build:
       context: ./
@@ -98,14 +112,21 @@ services:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
       - OFFICIAL=False
+      - GTFS_FILE=latestGTFS.zip
+      - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
+      - GTFS_URL_UPDATETIME=daily
+      - GTFS_URL_UPDATEHOOK=''
     volumes:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
       - gbfs
+      - parking
+      - carsharing
 
   build:
     container_name: openmove-build
-    ports: ["8090:8080"]
+    ports:
+      - "8090:8080"
     restart: "no"
     image: openmove_otp:latest
     build:

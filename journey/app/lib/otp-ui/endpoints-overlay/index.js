@@ -1,26 +1,14 @@
 import { locationType } from "../core-utils/types";
 import PropTypes from "prop-types";
 import React from "react";
-import { DotCircle } from "@styled-icons/fa-solid";
 import LocationIcon from "../location-icon";
 
 import Endpoint from "./endpoint";
 
 function DefaultMapMarkerIcon({ location, type }) {
-  let inner;
-
-  switch (type) {
-    case "to":
-      inner = <LocationIcon type={type} />;
-      break;
-    default:
-      // Default to the location icon on top of a white background.
-      inner = <DotCircle />
-      break;
-  }
   return (
     <span className="otp-ui-defaultMapMarkerIcon" title={location.name}>
-      {inner}
+      <LocationIcon type={type} />
     </span>
   );
 }

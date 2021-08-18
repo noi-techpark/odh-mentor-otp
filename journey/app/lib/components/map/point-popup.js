@@ -15,7 +15,6 @@ class MapPopup extends Component {
           }
         </div>
         <div className="otp-ui-mapOverlayPopup__popupRow">
-          <strong>{t('travel')}</strong>
           <FromToLocationPicker
             location={mapPopupLocation}
             setLocation={onSetLocationFromPopup}

@@ -2,31 +2,29 @@ import { legType } from "../../core-utils/types";
 import React from "react";
 import { withNamespaces } from "react-i18next"
 
-import * as Styled from "../styled";
-
 function RouteDescription({ leg, t }) {
   const { headsign, routeLongName, routeShortName } = leg;
   return (
-    <Styled.LegDescriptionForTransit>
+    <div className="otp-ui-legDescForTransit">
       {routeShortName && (
         <div>
-          <Styled.LegDescriptionRouteShortName>
+          <div className="otp-ui-legDescForTransit__shortName">
             {routeShortName}
-          </Styled.LegDescriptionRouteShortName>
+          </div>
         </div>
       )}
-      <Styled.LegDescriptionRouteLongName>
+      <div className="otp-ui-legDescForTransit__longName">
         {routeLongName}
         {headsign && (
           <span>
-            <Styled.LegDescriptionHeadsignPrefix>
+            <span className="otp-ui-legDescForTransit__headSignPrefix">
               {` ${t('to')} `}
-            </Styled.LegDescriptionHeadsignPrefix>
+            </span>
             {headsign}
           </span>
         )}
-      </Styled.LegDescriptionRouteLongName>
-    </Styled.LegDescriptionForTransit>
+      </div>
+    </div>
   );
 }
 

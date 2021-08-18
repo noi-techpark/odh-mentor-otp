@@ -63,19 +63,17 @@ cd odh-mentor-otp
 In each service directory the file `.env.example` list the default env vars by service.
 Below is a list of env variables for each container:
 
-**otp**
+##### otp
 
 ```JAVA_MX``` the amount of heap space available to OpenTripPlanner. (The `otp.sh` script adds `-Xmx$JAVA_MX` to the `java` command.) Default: 2G
 
 ```OFFICIAL``` if *True* will use the OpenTripPlanner Official Version, otherwise the IBI-Group Version [(see Compatibility)](#compatibility)
 
-**build**
+##### build
 
 in addition to those of *otp* vars
 
 ```BUILD_GRAPH``` if *True* force the re/construction of the roads graph starting from the data: osm, gtfs, srtm. Generate a new *Graph.obj* file in the path ```/opt/odh-mentor-otp/openmove/Graph.obj```
-
-```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
 
 ```DOWNLOAD_DATA``` if *True* download openstreetmap and terrain model data around the gtfs file
 
@@ -87,6 +85,14 @@ in addition to those of *otp* vars
 
 ```GBFS_VERSION``` gbfs version 1 or 2.1 (rebuild graph is required)
 
+```GTFS_URL``` gtfs source ftp uri of gtfs .zip file to download
+
+```GTFS_URL_UPDATETIME``` gtfs source time interval (default:"daily" possible values: 15min|daily|hourly|monthly|weekly)
+
+```GTFS_URL_UPDATEHOOK``` url hook to restart build service
+
+```GTFS_FILE``` the name of gtfs zip file to auto download Openstreetmap data
+
 ```GTFS_RT_URL``` gtfs-realtime url with trip updates (rebuild graph is required)
 
 ```GTFS_FEED_ID``` gtfs feed id which the gtfs-rt refers to. This is the defined by the  'feed_id' value (unofficial) inside feed_info.txt, if not defined this should be "1" (rebuild graph is required)
@@ -97,7 +103,10 @@ in addition to those of *otp* vars
 
 ```PARKING_HOST``` host path to parking service
 
-**geocoder**
+```CHARGER_HOST``` host path to charger service
+
+
+#### geocoder
 
 ```API_HOST``` deployed hostname of OpenTripPlanner api default: ```localhost``` (name of deployed)
 
@@ -110,11 +119,11 @@ in addition to those of *otp* vars
 
 Below is a list of Docker args variables for each container:
 
-**otp**, **builder**
+#### otp, builder
 
 ```OTP_VERSION``` version of OpenTripPlanner binary downloaded from official repos, default is 1.4.0
 
-**journey**
+#### journey
 
 ```API_HOST``` deployed hostname of OpenTripPlanner api default: ```localhost``` (name of deployed)
 
@@ -124,7 +133,9 @@ Below is a list of Docker args variables for each container:
 
 ```GEOCODER_BASEURL``` default pelias geoder instance http://localhost/geocoder/v1
 
-```PARKING_BASEURL``` host path to Parking service to show in map
+```PARKING_BASEURL``` host path to Parking to show in map
+
+```CHARGER_BASEURL``` host path to Charger stationsto show in map
 
 Then you can start the application using the following command:
 

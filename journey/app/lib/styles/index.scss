@@ -5,6 +5,7 @@
 // TODO: fix icon layer
 @import url(https://unpkg.com/leaflet@1.0.3/dist/leaflet.css);
 @import '../../node_modules/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css';
+@import '../../node_modules/react-leaflet-markercluster/dist/styles.min.css';
 @import '../../node_modules/transitive-js/lib/transitive.css';
 
 // MAIN LAYOUT AND COMPONENTS WITH BOOTSTRAP
@@ -52,22 +53,37 @@
 // PROJECT COMPONENTS AND MIXINS
 @import 'mixins';
 @import 'utils';
-@import 'otp';
-@import 'bike-rental';
-@import 'leaflet';
 
-@import '../components/admin/call-taker';
-@import '../components/app/app';
-@import '../components/map/map';
-@import '../components/form/form';
-@import '../components/narrative/narrative';
-@import '../components/narrative/default/itinerary';
-@import '../components/mobile/mobile';
-@import '../components/user/nav-login-button';
-@import '../components/viewers/viewers';
+@import 'components/bootstrap';
+@import 'components/credits';
+@import 'components/leaflet';
+@import 'components/navbar';
 
+@import 'otp/layout';
+@import 'otp/leg-diagram';
+@import 'otp/locations';
+@import 'otp/narrative';
+@import 'otp/print';
+@import 'otp/tabbed-form-panel';
+@import 'otp/user-settings';
+@import 'otp/viewers';
+
+@import 'otp-mobile/leaflet';
+@import 'otp-mobile/location';
+@import 'otp-mobile/narrative';
+@import 'otp-mobile/search-settings';
+@import 'otp-mobile/transport-selector';
+@import 'otp-mobile/user-settings';
+@import 'otp-mobile/utils';
+@import 'otp-mobile/viewers';
+@import 'otp-mobile/welcome';
+
+@import 'otp-ui/badge-icon';
 @import 'otp-ui/base-map';
 @import 'otp-ui/endpoints-overlay';
+@import 'otp-ui/date-time-selector';
 @import 'otp-ui/form-to-location-pickers';
+@import 'otp-ui/itinerary-body';
 @import 'otp-ui/park-and-ride-overlay';
 @import 'otp-ui/printable-itinerary';
+

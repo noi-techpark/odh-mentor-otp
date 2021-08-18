@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import * as Styled from "../styled";
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 /**
  * ModeButton lets the user pick a travel mode.
@@ -21,29 +20,28 @@ const ModeButton = props => {
     style
   } = props;
 
-  const activeClassName = selected ? "active" : "";
-  const disabledClassName = enabled ? "" : "disabled";
+  const tooltip = text => (
+    <Tooltip id="tooltip">
+      {text}
+    </Tooltip>
+  );
 
   return (
-    <Styled.ModeButton className={className} style={style}>
-      <Styled.ModeButton.Button
-        className={`${activeClassName} ${disabledClassName}`}
+    <OverlayTrigger
+      placement="bottom"
+      overlay={tooltip(title)}
+    >
+      <Button
+        href="#"
         onClick={onClick}
         title={title}
         disabled={!enabled}
+        active={selected}
       >
         {children}
-      </Styled.ModeButton.Button>
-
-      {title && showTitle && (
-        <Styled.ModeButton.Title
-          className={`${activeClassName} ${disabledClassName}`}
-          title={title}
-        >
-          {title}
-        </Styled.ModeButton.Title>
-      )}
-    </Styled.ModeButton>
+        {title && showTitle && <span><br/>{title}</span>}
+      </Button>
+    </OverlayTrigger>
   );
 };
 

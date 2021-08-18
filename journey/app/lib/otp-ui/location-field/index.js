@@ -14,7 +14,7 @@ import ReactDOM from "react-dom";
 import { Ban, Bus, LocationArrow, Search, Times } from "@styled-icons/fa-solid";
 import { debounce } from "throttle-debounce";
 import { withNamespaces } from 'react-i18next'
-import { FormGroup, FormControl, DropdownButton, MenuItem, InputGroup, Button} from 'react-bootstrap'
+import { Clearfix, FormGroup, FormControl, DropdownButton, MenuItem, InputGroup, Button} from 'react-bootstrap'
 
 import {
   GeocodedOptionIcon,
@@ -480,7 +480,7 @@ class LocationField extends Component {
               icon={<UserLocationIconComponent userLocation={userLocation} />}
               key={optionKey++}
               title={(() => {
-                const { displayName, detailText } = formatStoredPlaceName(location)
+                const { displayName, detailText } = formatStoredPlaceName(userLocation)
                 return `${t(displayName)} ${detailText ? `(${detailText})` : ''}`;
               })()}
               onClick={locationSelected}
@@ -548,7 +548,7 @@ class LocationField extends Component {
           this.inputRef = ref;
         }}
         type="text"
-        ariaLabel={defaultPlaceholder}
+        aria-label={defaultPlaceholder}
         autoFocus={autoFocus}
         className={this.getFormControlClassname()}
         value={value}
@@ -587,15 +587,17 @@ class LocationField extends Component {
             </InputGroup>
           </FormGroup>
 
-          <ul className="dropdown-menu open">
-            {menuItems.length > 0 ? ( // Show typing prompt to avoid empty screen
-              menuItems
-            ) : (
-              <MenuItem header centeredText>
-                {t('begin_typing_to_search_for_locations')}
-              </MenuItem>
-            )}
-          </ul>
+          <Clearfix>
+            <ul className="dropdown-menu open">
+              {menuItems.length > 0 ? ( // Show typing prompt to avoid empty screen
+                menuItems
+              ) : (
+                <MenuItem header centeredText>
+                  {t('begin_typing_to_search_for_locations')}
+                </MenuItem>
+              )}
+            </ul>
+          </Clearfix>
         </div>
       );
     }
@@ -606,8 +608,9 @@ class LocationField extends Component {
         <InputGroup>
           <InputGroup.Button>
             <DropdownButton
+              id="dropdown-locations"
               noCaret
-              ariaLabel={`List the suggested ${locationType} locations as you type`}
+              aria-label={`List the suggested ${locationType} locations as you type`}
               open={menuVisible}
               onToggle={this.onDropdownToggle}
               title={<LocationIconComponent locationType={locationType} />}

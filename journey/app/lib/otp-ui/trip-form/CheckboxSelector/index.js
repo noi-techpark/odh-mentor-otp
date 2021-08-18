@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
-import * as Styled from "../styled";
+import { Checkbox } from 'react-bootstrap';
 
 /**
  * A wrapper that includes an <input type="select" /> control and a <label> for the input control.
@@ -24,15 +23,14 @@ class CheckboxSelector extends Component {
     if (typeof value === "string") value = value === "true";
 
     return (
-      <div className={className} style={style}>
-        <input
-          id={id}
-          type="checkbox"
-          checked={value}
-          onChange={this.handleChange}
-        />
-        <Styled.SettingLabel htmlFor={id}>{label}</Styled.SettingLabel>
-      </div>
+      <Checkbox
+        id={id}
+        className={className}
+        checked={value}
+        onChange={this.handleChange}
+      >
+        {label}
+      </Checkbox>
     );
   }
 }

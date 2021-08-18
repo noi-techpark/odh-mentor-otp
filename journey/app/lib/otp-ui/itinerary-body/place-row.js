@@ -6,11 +6,13 @@ import {
 } from "../core-utils/types";
 import PropTypes from "prop-types";
 import React from "react";
+import { Button } from "react-bootstrap";
 
 import DefaultTimeColumnContent from "./defaults/time-column-content";
 import AccessLegBody from "./AccessLegBody";
-import * as Styled from "./styled";
 import TransitLegBody from "./TransitLegBody";
+
+import BaseMapIcon from "../icons/trimet/Map";
 
 /** Looks up an operator from the provided configuration */
 const getTransitOperatorFromConfig = (id, config) =>
@@ -60,16 +62,16 @@ const PlaceRow = ({
 
   const { longDateFormat, timeFormat } = config.dateTime;
   return (
-    <Styled.PlaceRowWrapper key={legIndex || "destination-place"}>
-      <Styled.TimeColumn>
+    <div className="otp-ui-placeRowWrapper" key={legIndex || "destination-place"}>
+      <div className="otp-ui-placeRowWrapper__timeColumn">
         {/* Custom rendering of the departure/arrival time of the specified leg. */}
         <TimeColumnContent
           isDestination={isDestination}
           leg={leg}
           timeOptions={timeOptions}
         />
-      </Styled.TimeColumn>
-      <Styled.LineColumn>
+      </div>
+      <div className="otp-ui-placeRowWrapper__lineColumn">
         <LineColumnContent
           interline={interline}
           isDestination={isDestination}
@@ -79,73 +81,71 @@ const PlaceRow = ({
           legIndex={legIndex}
           toRouteAbbreviation={toRouteAbbreviation}
         />
-      </Styled.LineColumn>
-      <Styled.DetailsColumn hideBorder={hideBorder.toString()}>
-        <Styled.PlaceDetails>
-          {/* Dot separating interlined segments, if applicable */}
-          <Styled.PlaceHeader>
-            {/*
-              TODO: Need to rework this -- Need to display a marker
-              for an interline place
-            */}
-            {interline && <Styled.InterlineDot>&bull;</Styled.InterlineDot>}
-            <Styled.PlaceName>
-              <PlaceName config={config} interline={interline} place={place} />
-            </Styled.PlaceName>
-          </Styled.PlaceHeader>
+      </div>
+      <div className={`otp-ui-placeRowWrapper__detailsColumn ${hideBorder.toString() === 'true' ? 'has-hidden-border' : ''} `}>
+        {/* Dot separating interlined segments, if applicable */}
+        <div className="otp-ui-placeRowWrapper__placeHeader">
+          {/*
+            TODO: Need to rework this -- Need to display a marker
+            for an interline place
+          */}
+          {interline && <div className="otp-ui-placeRowWrapper__interlineDot">&bull;</div>}
+          <div className="otp-ui-placeRowWrapper__placeName">
+            <PlaceName config={config} interline={interline} place={place} />
+          </div>
+        </div>
 
-          {/* Show the leg, if not rendering the destination */}
-          {!isDestination &&
-            (leg.transitLeg ? (
-              /* This is a transit leg */
-              <TransitLegBody
-                config={config}
-                fare={fare}
-                leg={leg}
-                LegIcon={LegIcon}
-                legIndex={legIndex}
-                setActiveLeg={setActiveLeg}
-                longDateFormat={longDateFormat}
-                RouteDescription={RouteDescription}
-                setViewedTrip={setViewedTrip}
-                showAgencyInfo={showAgencyInfo}
-                showViewTripButton={showViewTripButton}
-                timeFormat={timeFormat}
-                TransitLegSubheader={TransitLegSubheader}
-                TransitLegSummary={TransitLegSummary}
-                transitOperator={
-                  leg.agencyId &&
-                  getTransitOperatorFromConfig(leg.agencyId, config)
-                }
-              />
-            ) : (
-              /* This is an access (e.g. walk/bike/etc.) leg */
-              <AccessLegBody
-                config={config}
-                diagramVisible={diagramVisible}
-                followsTransit={followsTransit}
-                leg={leg}
-                LegIcon={LegIcon}
-                legIndex={legIndex}
-                setActiveLeg={setActiveLeg}
-                setLegDiagram={setLegDiagram}
-                showElevationProfile={showElevationProfile}
-                showLegIcon={showLegIcon}
-                timeOptions={timeOptions}
-              />
-            ))}
-        </Styled.PlaceDetails>
-      </Styled.DetailsColumn>
+        {/* Show the leg, if not rendering the destination */}
+        {!isDestination &&
+          (leg.transitLeg ? (
+            /* This is a transit leg */
+            <TransitLegBody
+              config={config}
+              fare={fare}
+              leg={leg}
+              LegIcon={LegIcon}
+              legIndex={legIndex}
+              setActiveLeg={setActiveLeg}
+              longDateFormat={longDateFormat}
+              RouteDescription={RouteDescription}
+              setViewedTrip={setViewedTrip}
+              showAgencyInfo={showAgencyInfo}
+              showViewTripButton={showViewTripButton}
+              timeFormat={timeFormat}
+              TransitLegSubheader={TransitLegSubheader}
+              TransitLegSummary={TransitLegSummary}
+              transitOperator={
+                leg.agencyId &&
+                getTransitOperatorFromConfig(leg.agencyId, config)
+              }
+            />
+          ) : (
+            /* This is an access (e.g. walk/bike/etc.) leg */
+            <AccessLegBody
+              config={config}
+              diagramVisible={diagramVisible}
+              followsTransit={followsTransit}
+              leg={leg}
+              LegIcon={LegIcon}
+              legIndex={legIndex}
+              setActiveLeg={setActiveLeg}
+              setLegDiagram={setLegDiagram}
+              showElevationProfile={showElevationProfile}
+              showLegIcon={showLegIcon}
+              timeOptions={timeOptions}
+            />
+          ))}
+      </div>
       {showMapButtonColumn && (
-        <Styled.MapButtonColumn hideBorder={hideBorder.toString()}>
-          <Styled.MapButton
+        <div className={`otp-ui-placeRowWrapper__mapColumn ${hideBorder.toString() === 'true' ? 'has-hidden-border' : ''}`}>
+          <Button bsStyle="link"
             onClick={() => frameLeg({ isDestination, leg, legIndex, place })}
           >
-            <Styled.MapIcon />
-          </Styled.MapButton>
-        </Styled.MapButtonColumn>
+            <BaseMapIcon width={15} height={15} fill="00FFFF" />
+          </Button>
+        </div>
       )}
-    </Styled.PlaceRowWrapper>
+    </div>
   );
 };
 

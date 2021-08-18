@@ -184,7 +184,7 @@ class StopViewer extends Component {
               onClick={this._toggleFavorite}
               bsSize='large'
               style={{
-                color: this._isFavorite() ? 'yellow' : 'black',
+                color: this._isFavorite() ? '#ffa600' : 'black',
                 padding: 0,
                 marginLeft: '5px'
               }}
@@ -318,7 +318,7 @@ class StopViewer extends Component {
                 {!scheduleView
                   // If showing next arrivals, include auto update controls.
                   ? <div style={{ marginTop: '20px' }}>
-                    <label style={{ fontWeight: 300, fontSize: 'small' }}>
+                    <label style={{ fontWeight: 'normal' }}>
                       <input
                         name='autoUpdate'
                         type='checkbox'
@@ -326,17 +326,16 @@ class StopViewer extends Component {
                         onChange={this._onToggleAutoRefresh} />{' '}
                       {t('refresh_arrival')}
                     </label>
-                    <button
-                      className='link-button pull-right'
-                      style={{ fontSize: 'small' }}
-                      onClick={this._refreshStopTimes}>
-                      <Icon
-                        className={spin ? 'fa-spin' : ''}
-                        type='refresh' />{' '}
-                      {moment(stopData.stopTimesLastUpdated)
-                        .tz(getUserTimezone())
-                        .format(timeFormat)}
-                    </button>
+                    <span className="pull-right">
+                      <Button bsSize="small" onClick={this._refreshStopTimes}>
+                        <Icon
+                          className={spin ? 'fa-spin' : ''}
+                          type='refresh' />{' '}
+                        {moment(stopData.stopTimesLastUpdated)
+                          .tz(getUserTimezone())
+                          .format(timeFormat)}
+                      </Button>
+                    </span>
                   </div>
                   : null
                 }

@@ -1,0 +1,75 @@
+.otp {
+  .tabbed-form-panel {
+    .transport-selector {
+      .otp-ui-modeSelector {
+        .btn-group {
+          display: flex;
+
+          .btn {
+            float: none;
+            flex: 1;
+            flex-grow: 1;
+            flex-basis: 0;
+            width: 0;
+            display: block;
+            white-space: normal;
+            font-size: $font-size-xxsmall;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            padding: 12px 6px;
+            text-transform: uppercase;
+            word-break: break-word;
+            background-color: $input-bg;
+            box-shadow: none;
+            border: 0;
+
+            &.active {
+              background-color: $brand-primary;
+              color: #fff;
+
+              svg path {
+                fill: currentColor;
+              }
+            }           
+
+            span {
+              display: none;
+            }
+          }
+        }
+      }
+
+      .otp-ui-settingsSelectorPanel {
+        position: fixed;
+        top: $navbar-height + $grid-gutter-width + 130px;
+        left: $grid-gutter-width + $sidebar-width;
+        padding: $grid-gutter-width / 2 $grid-gutter-width;
+        width: $option-panel-width;
+        background-color: $settings-selector-panel-bg;
+        color: $settings-selector-panel-color;
+        z-index: 1;
+        border-top-right-radius: $border-radius-large;
+        border-bottom-right-radius: $border-radius-large;
+        box-shadow: 9px 0 10px rgba(0, 0, 0, 0.15);
+        overflow-y: auto;
+        min-height: 30vh;
+        max-height: 60vh;
+
+        .btn-link {
+          color: #fff;
+        }
+
+        .btn-group .btn {
+          white-space: normal;
+          font-size: $font-size-xsmall;
+        }
+      }
+    }
+
+    .store-settings {
+      text-align: center;
+    }
+  }
+}

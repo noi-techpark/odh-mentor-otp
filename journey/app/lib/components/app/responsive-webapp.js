@@ -209,7 +209,7 @@ class RouterWrapperWithAuth0 extends Component {
       <ConnectedRouter
         basename={routerConfig && routerConfig.basename}
         history={history}>
-        <div>
+        <>
           <Switch>
             <Route
               exact
@@ -275,12 +275,16 @@ class RouterWrapperWithAuth0 extends Component {
                 return <PrintLayout {...props} />
               }}
             />
+            <Route
+              path='/credits'
+              render={() => <WebappWithRouter {...this.props} />}
+            />
             {/* For any other route, simply return the web app. */}
             <Route
               render={() => <WebappWithRouter {...this.props} />}
             />
           </Switch>
-        </div>
+        </>
       </ConnectedRouter>
     )
 

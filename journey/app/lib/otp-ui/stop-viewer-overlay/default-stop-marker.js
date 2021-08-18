@@ -30,8 +30,8 @@ DefaultStopMarker.propTypes = {
 
 DefaultStopMarker.defaultProps = {
   leafletPath: {
-    color: "#000",
-    fillColor: "cyan",
+    color: "#fff",
+    fillColor: "#337AB7",
     fillOpacity: 1,
     weight: 3
   },

@@ -3,7 +3,7 @@ import LocationIcon from "../../location-icon";
 import PropTypes from "prop-types";
 import React from "react";
 
-import * as Styled from "../styled";
+import { toModeBorder, toModeColor } from "../util";
 import RouteBadge from "../RouteBadge";
 
 export default function LineColumnContent({
@@ -14,11 +14,11 @@ export default function LineColumnContent({
   toRouteAbbreviation
 }) {
   return (
-    <Styled.LegLine>
+    <div className="otp-ui-legLine">
       {!isDestination && (
-        <Styled.InnerLine mode={leg.mode} routeColor={leg.routeColor} />
+        <div className="otp-ui-legLine__innerLine" style={{ borderLeft: toModeBorder(leg.mode, leg.routeColor) }}></div>
       )}
-      <Styled.LineBadgeContainer>
+      <div className="otp-ui-legLine__badgeContainer">
         {/* TODO: This is a placeholder for a routebadge when we create the transit leg */}
         {!interline && !isDestination && leg.transitLeg && (
           <RouteBadge
@@ -30,17 +30,17 @@ export default function LineColumnContent({
           />
         )}
         {!interline && !isDestination && !leg.transitLeg && (
-          <Styled.AccessBadge mode={leg.mode} routeColor={leg.routeColor}>
+          <div className="otp-ui-legLine__badgeAccess" style={{ backgroundColor: toModeColor(leg.mode, leg.routeColor) }} aria-label={`Travel by ${leg.mode}`}>
             {<LegIcon leg={leg} title={`Travel by ${leg.mode}`} width="66%" />}
-          </Styled.AccessBadge>
+          </div>
         )}
         {isDestination && (
-          <Styled.Destination>
+          <div className="text-center">
             <LocationIcon size={25} type="to" />
-          </Styled.Destination>
+          </div>
         )}
-      </Styled.LineBadgeContainer>
-    </Styled.LegLine>
+      </div>
+    </div>
   );
 }
 

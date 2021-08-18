@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import * as Styled from "../styled";
-
 export default class ViewStopButton extends Component {
   onClick = () => {
     const { onStopClick, stopId } = this.props;
@@ -12,7 +10,7 @@ export default class ViewStopButton extends Component {
   render() {
     const { text } = this.props;
     return (
-      <Styled.ViewerButton onClick={this.onClick}>{text}</Styled.ViewerButton>
+      <button className="otp-ui-viewerButton" onClick={this.onClick}>{text}</button>
     );
   }
 }

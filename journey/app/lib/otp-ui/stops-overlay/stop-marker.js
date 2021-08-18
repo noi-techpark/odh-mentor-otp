@@ -6,9 +6,31 @@ import {
 import FromToLocationPicker from "../from-to-location-picker";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { CircleMarker, Popup } from "react-leaflet";
+import { divIcon } from "leaflet";
+import { CircleMarker, Popup, Marker } from "react-leaflet";
 import { withNamespaces } from "react-i18next"
 import { Button } from "react-bootstrap"
+import MarkerStopStation from "../icons/modern/MarkerStopStation";
+import ReactDOMServer from "react-dom/server";
+import Bus from "../icons/modern/Bus";
+import config from '../../config.yml';
+
+const overlayStopConf = config.map.overlays.filter(item => item.type === 'stops')[0]
+
+const stopMarkerIcon = divIcon({
+  iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
+  popupAnchor: [0, -overlayStopConf.iconHeight / 2],
+  html: ReactDOMServer.renderToStaticMarkup(
+    <MarkerStopStation
+      width={overlayStopConf.iconWidth}
+      height={overlayStopConf.iconHeight}
+      iconColor={overlayStopConf.iconColor}
+      markerColor={overlayStopConf.iconMarkerColor}
+    />
+  ),
+  className: ""
+});;
+
 
 class StopMarker extends Component {
   onClickView = () => {
@@ -38,14 +60,22 @@ class StopMarker extends Component {
     const stopId = idArr.pop();
 
     return (
-      <CircleMarker
+      <Marker
         /* eslint-disable-next-line react/jsx-props-no-spreading */
         {...leafletPath}
-        center={[lat, lon]}
-        radius={radius}
+        position={[lat, lon]}
+        icon={stopMarkerIcon}
       >
         <Popup>
           <div className="otp-ui-mapOverlayPopup">
+            <div className="otp-ui-mapOverlayPopup__popupHeader">
+              <Bus />
+
+              <Button bsStyle="link" onClick={this.onClickView} title={`Stop ID: ${stopId}`}>
+                {t(languageConfig.stopViewer || 'stop')}
+              </Button>
+            </div>
+
             <div className="otp-ui-mapOverlayPopup__popupTitle">{name}</div>
             {/* {
               agency &&
@@ -53,18 +83,9 @@ class StopMarker extends Component {
                   <strong>Agency:</strong> {agency}
                 </div>
             } */}
-            <div className="otp-ui-mapOverlayPopup__popupRow">
-              <span>
-                <strong>Stop ID:</strong> {stopId}
-                <Button bsStyle="link" onClick={this.onClickView}>
-                  {t(languageConfig.stopViewer || 'stop')}
-                </Button>
-              </span>
-            </div>
 
             {/* The "Set as [from/to]" ButtonGroup */}
             <div className="otp-ui-mapOverlayPopup__popupRow">
-              <strong>{t('travel')}</strong>
               <FromToLocationPicker
                 onFromClick={this.onFromClick}
                 onToClick={this.onToClick}
@@ -72,10 +93,12 @@ class StopMarker extends Component {
             </div>
           </div>
         </Popup>
-      </CircleMarker>
+      </Marker>
     );
   }
 }
+
+//TODO may be unuseful
 
 StopMarker.propTypes = {
   languageConfig: languageConfigType.isRequired,
@@ -88,12 +111,12 @@ StopMarker.propTypes = {
 
 StopMarker.defaultProps = {
   leafletPath: {
-    color: "#000",
-    fillColor: "#FFF",
+    color: "#337ab7",
+    fillColor: "#fff",
     fillOpacity: 1,
     weight: 1
   },
-  radius: 5
+  radius: 8
 };
 
 export default withNamespaces()(StopMarker)

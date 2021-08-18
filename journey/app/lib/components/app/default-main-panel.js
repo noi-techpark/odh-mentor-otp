@@ -27,43 +27,21 @@ class DefaultMainPanel extends Component {
     const planDisabled = isEqual(currentQuery, mostRecentQuery)
     return (
       <ViewerContainer>
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: showPlanTripButton ? 55 : 0,
-          paddingBottom: 15,
-          overflow: 'auto'
-        }}>
-          <DefaultSearchForm ModeIcon={ModeIcon} />
-          {!activeSearch && !showPlanTripButton && showUserSettings &&
+        <DefaultSearchForm ModeIcon={ModeIcon} />
+        <br/>
+        <PlanTripButton disabled={planDisabled} />
+        <br/>
+
+        {
+          !activeSearch && !showPlanTripButton && showUserSettings &&
             <UserSettings />
-          }
-          <div className='desktop-narrative-container'>
-            <NarrativeRoutingResults
-              itineraryClass={itineraryClass}
-              itineraryFooter={itineraryFooter}
-              LegIcon={LegIcon}
-            />
-          </div>
-        </div>
-        {showPlanTripButton &&
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 10,
-              bottom: 55,
-              height: 15
-            }}
-            className='white-fade' />
         }
-        {showPlanTripButton &&
-          <div className='bottom-fixed'>
-            <PlanTripButton disabled={planDisabled} />
-          </div>
-        }
+
+        <NarrativeRoutingResults
+          itineraryClass={itineraryClass}
+          itineraryFooter={itineraryFooter}
+          LegIcon={LegIcon}
+        />
       </ViewerContainer>
     )
   }

@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { withNamespaces } from "react-i18next";
 // import Bootstrap Grid components for layout
-import { Navbar, Grid, Row, Col } from 'react-bootstrap'
+import { Navbar, Grid, Row, Col, Nav } from 'react-bootstrap'
 // import OTP-RR components
 import DefaultMainPanel from './components/app/default-main-panel'
 import LineItinerary from './components/narrative/line-itin/line-itinerary'
@@ -28,46 +28,42 @@ if (!LegIcon || !ModeIcon) {
   throw new Error('LegIcon and ModeIcon must be defined in config.js')
 }
 
-class TrimetWebapp extends Component {
+class JourneyWebapp extends Component {
   render () {
     const { t } = this.props
-    const {branding} = otpConfig
+    const {branding, brandNavbar} = otpConfig;
 
     /** desktop view **/
     const desktopView = (
       <div className='otp'>
-        <Navbar>
+        <Navbar fluid collapseOnSelect fixedTop>
           <Navbar.Header>
-            <Navbar.Brand>
-              <div className='app-menu-container'>
-                <AppMenu />
-              </div>
-              <div
-                className={`icon-${branding}`}
-                // This style is applied here because it is only intended for
-                // desktop view.
-                style={{ marginLeft: 50 }} />
-            </Navbar.Brand>
+            <Navbar.Brand>{brandNavbar} <span>BETA</span></Navbar.Brand>
+            <Navbar.Toggle />
           </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav pullRight>
+              <AppMenu />
+            </Nav>
+          </Navbar.Collapse>
         </Navbar>
-        <Grid>
-          <Row className='main-row'>
-            <Col sm={6} md={4} className='sidebar'>
-              {/* <main> is needed for accessibility checks. */}
-              <main>
-                <DefaultMainPanel
-                  itineraryClass={LineItinerary}
-                  itineraryFooter={getItineraryFooter(t)}
-                  LegIcon={LegIcon}
-                  ModeIcon={ModeIcon}
-                />
-              </main>
-            </Col>
-            <Col sm={6} md={8} className='map-container'>
-              <Map />
-            </Col>
-          </Row>
-        </Grid>
+
+        <div className='main-container'>
+          <div className='sidebar'>
+            {/* <main> is needed for accessibility checks. */}
+            <main>
+              <DefaultMainPanel
+                itineraryClass={LineItinerary}
+                itineraryFooter={getItineraryFooter(t)}
+                LegIcon={LegIcon}
+                ModeIcon={ModeIcon}
+              />
+            </main>
+          </div>
+          <div className='map-container'>
+            <Map />
+          </div>
+        </div>
       </div>
     )
 
@@ -98,4 +94,4 @@ class TrimetWebapp extends Component {
   }
 }
 
-export default withNamespaces()(TrimetWebapp);
+export default withNamespaces()(JourneyWebapp);

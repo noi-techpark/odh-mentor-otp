@@ -6,9 +6,8 @@ import { configType, legType } from "../../core-utils/types";
 import { humanizeDistanceString } from "../../humanize-distance";
 import React from "react";
 import { withNamespaces } from 'react-i18next'
-import PropTypes from "prop-types";
-
-import * as Styled from "../styled";
+import PropTypes from "prop-types"
+import { Button } from 'react-bootstrap'
 
 function AccessLegSummary({
   config,
@@ -19,22 +18,19 @@ function AccessLegSummary({
   t
 }) {
   return (
-    <Styled.LegClickable onClick={onSummaryClick}>
+    <Button bsStyle="link" bsSize="small" onClick={onSummaryClick} className="otp-ui-legSummaryButton">
       {showLegIcon && (
-        <Styled.LegIconContainer>
-          <LegIcon leg={leg} />
-        </Styled.LegIconContainer>
+        <LegIcon leg={leg} width={24} height={24} />
       )}
 
-      {/* Leg description, e.g. "Walk 0.5 mi to..." */}
-      <Styled.LegDescription>
+      <span>
         {t(getLegModeLabel(leg))}{" "}
         {leg.distance > 0 && (
-          <span> {humanizeDistanceString(leg.distance)}</span>
+          <strong> {humanizeDistanceString(leg.distance)}</strong>
         )}
         {` ${t('to')} ${getPlaceName(leg.to, config.companies)}`}
-      </Styled.LegDescription>
-    </Styled.LegClickable>
+      </span>
+    </Button>
   );
 }
 
