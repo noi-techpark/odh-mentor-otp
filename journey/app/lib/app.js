@@ -28,7 +28,7 @@ if (!LegIcon || !ModeIcon) {
   throw new Error('LegIcon and ModeIcon must be defined in config.js')
 }
 
-class TrimetWebapp extends Component {
+class JourneyWebapp extends Component {
   render () {
     const { t } = this.props
     const {branding, brandNavbar} = otpConfig;
@@ -94,4 +94,4 @@ class TrimetWebapp extends Component {
   }
 }
 
-export default withNamespaces()(TrimetWebapp);
+export default withNamespaces()(JourneyWebapp);

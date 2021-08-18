@@ -31,6 +31,7 @@ export const TRANSLATIONS_EN = {
   "calories_info_1": "Calories burned are based on",
   "minute": "minute(s)",
   "at_time": "at",
+  "exact_time": "Exact Time",
   "pass_walked": "spent walking and",
   "pass_rided": "spent riding on this trip. Adapted from",
   "drive_for": "Drive for",

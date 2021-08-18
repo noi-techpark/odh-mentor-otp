@@ -53,13 +53,13 @@ language:
 # Enabled multimodal routing types (e.g. interary, profile)
 routingTypes:
   - key: ITINERARY
-    text: Tempo esatto
+    text: exact_time
 
   # Delete/uncomment the following block to disable profile routing
   #- key: PROFILE
   #  text: Time Window
   #  api: # Specifies a different API endpoint for profile routing
-  #    host: https://trimet-modeify.conveyal.com
+  #    host: https://otp.openmove.com/router/car
   #    path: /api
 
 # Show/hide elevation profile chart for walk/bike legs
@@ -137,14 +137,6 @@ map:
       iconMarkerColor: "#337ab7"
       iconColor: "#fff"
 
-    - type: charger
-      name: charger
-      api: ${CHARGER_BASEURL}/charger/stations.json
-      iconWidth: 42
-      iconHeight: 50
-      iconMarkerColor: "#FAA61F"
-      iconColor: "#5d5d5d"
-
     - type: car-rental
       name: carsharing
       modes:
@@ -170,6 +162,14 @@ map:
       iconMarkerColor: "#ead896"
       iconColor: "#5d5d5d"
 
+    - type: charger
+      name: charger
+      api: ${CHARGER_BASEURL}/charger/stations.json
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#FAA61F"
+      iconColor: "#5d5d5d"
+      
     - type: parking
       name: parking
       #visible: true
