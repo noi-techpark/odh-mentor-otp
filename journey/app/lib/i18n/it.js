@@ -363,5 +363,5 @@ export const TRANSLATIONS_IT = {
   "close": "Chiudi",
   "plan_now": "Parti adesso",
   "plan_depart_at": "Pianifica partenza",
-  "plan_arrive_at": "Pianifica arrivo",
+  "plan_arrive_at": "Pianifica arrivo"  
 }

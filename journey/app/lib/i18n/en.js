@@ -351,8 +351,9 @@ export const TRANSLATIONS_EN = {
   "bikesharing": "Bikesharing",
   "bike_ride": "Bike & Ride",
   "view_stop": "View stop",
-  "available_cars": "$_available_cars",
-  "capacity": "$_capacity",
+  "available_cars": "available cars",
+  "availability": "availability",  
+  "capacity": "capacity",
   "credits": "Credits",
   "provider": "Operator",
   "credits_title": "Credits",
@@ -360,8 +361,7 @@ export const TRANSLATIONS_EN = {
   "credits_title_designed": "Designed by",
   "credits_title_data_provided": "Data provided by", 
   "close": "Close",
-  "plan_now": "$_plan_now",
-  "plan_depart_at": "$_plan_depart_at",
-  "plan_arrive_at": "$_plan_arrive_at",
-  "availability": "$_availability",
+  "plan_now": "Departure now",
+  "plan_depart_at": "Plan departure",
+  "plan_arrive_at": "Plan arrival"
 };
