@@ -12,7 +12,6 @@ import { parkingLocationsQuery } from '../../actions/parking'
 
 import BadgeIcon from "../icons/badge-icon";
 
-import MarkerCluster from "../icons/modern/MarkerCluster";
 import MarkerParking from "../icons/modern/MarkerParking";
 import MarkerParkingSensor from "../icons/modern/MarkerParkingSensor";
 import ReactDOMServer from "react-dom/server";
@@ -20,6 +19,7 @@ import Parking from "../icons/modern/Parking";
 import FromToLocationPicker from '../from-to-location-picker'
 
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import MarkerCluster from "../icons/modern/MarkerCluster";
 
 import config from '../../config.yml';
 
@@ -155,13 +155,14 @@ class ParkingOverlay extends MapLayer {
     
     const clusterIcon = cluster => {
       const text = cluster.getChildCount();
+     
       return L.divIcon({
         className: 'marker-cluster-svg',
         iconSize: [overlayParkingConf.iconWidth, overlayParkingConf.iconHeight],
         html: ReactDOMServer.renderToStaticMarkup(
           <MarkerCluster
               text={text}
-              textColor={overlayParkingConf.iconColor}
+              textColor={'white'}
               markerColor={overlayParkingConf.iconMarkerColor}
             />
           )
