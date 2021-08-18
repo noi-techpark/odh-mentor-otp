@@ -5,7 +5,7 @@ import { withNamespaces } from 'react-i18next'
 import styled from 'styled-components'
 
 // TODO: make this a prop
-const defaultRouteColor = '#008'
+const defaultRouteColor = '#095980'
 
 const Container = styled.div`
   display: ${() => coreUtils.ui.isMobile() ? 'table' : 'none'};
