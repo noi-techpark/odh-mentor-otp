@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/openmove/odh-mentor-otp.git"
   },
+  "author": "OpenMove <info@openmove.com>",  
   "contributors": [
     {
       "name" : "Federico Bertolini",

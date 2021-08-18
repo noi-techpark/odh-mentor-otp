@@ -12,7 +12,7 @@ api:
   path: ${API_PATH}
   port: ${API_PORT}
 # alternateTransitIndex:
-#  apiRoot: https://newplanner.trimet.org/ws/ti/v0/
+#  apiRoot: https://otp.openmove.com
 #  services:
 #     - stops
 #     - stops/routes
@@ -108,7 +108,6 @@ map:
   initLon: 11.155007
 
   # closer-in zoom levels don't have any tiles that could be rendered by
-  # TriMet's tile service
   maxZoom: 20
 
   # Base layers for default map
@@ -192,7 +191,7 @@ map:
     # real-time vehicles config
     # - type: vehicles
     #   name: Real-Time Buses and Trains
-    #   api: https://maps.trimet.org/gtfs/rt/vehicles
+    #   api: https://otp.openmove.com/gtfs/rt/vehicles
     #   #pauseAnimationOnZoom: false # note: when true, MOD+vehicles has issues with multiple (additive) ws calls
     #   refresh: 5
     #   default: 'all'

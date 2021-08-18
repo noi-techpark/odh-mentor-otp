@@ -9,7 +9,24 @@
     "start": "webpack-dev-server --hot --mode=development --port 8081 --host 0.0.0.0 --disableHostCheck=true",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "openmove.com",
+  "author": "OpenMove <info@openmove.com>",
+  "contributors": [
+    {
+      "name" : "Stefano Cudini",
+      "email" : "stefano.cudini@gmail.com",
+      "url" : "https://github.com/stefanocudini"
+    },
+    {
+      "name" : "Federico Bertolini",
+      "email" : "federico.bertolini@openmove.com",
+      "url" : "https://github.com/zabuTNT"
+    },
+    {
+      "name" : "Valerio Capogna",
+      "email" : "capogna.valerio@gmail.com",
+      "url": "https://github.com/capognavalerio"
+    }
+  ],
   "license": "MIT",
   "standard": {
     "parser": "babel-eslint"
