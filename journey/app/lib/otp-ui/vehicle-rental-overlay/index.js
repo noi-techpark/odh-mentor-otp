@@ -1,23 +1,13 @@
 import { divIcon } from "leaflet";
 import memoize from "lodash.memoize";
 import { getCompaniesLabelFromNetworks } from "../core-utils/itinerary";
-import {
-  companyType,
-  vehicleRentalMapOverlaySymbolsType,
-  stationType
-} from "../core-utils/types";
+import { companyType, vehicleRentalMapOverlaySymbolsType, stationType} from "../core-utils/types";
 import FromToLocationPicker from "../from-to-location-picker";
 import PropTypes from "prop-types";
 import React from "react";
 import { withNamespaces } from "react-i18next"
 import ReactDOMServer from "react-dom/server";
-import {
-  FeatureGroup,
-  Marker,
-  MapLayer,
-  Popup,
-  withLeaflet
-} from "react-leaflet";
+import { LayerGroup, FeatureGroup, Marker, MapLayer, Popup, withLeaflet} from "react-leaflet";
 
 import { MapMarkerAlt } from "@styled-icons/fa-solid";
 import MarkerCarSharing from "../icons/modern/MarkerCarSharing";
@@ -25,6 +15,10 @@ import MarkerBikeSharing from "../icons/modern/MarkerBikeSharing";
 import BikeSharing from "../icons/modern/BikeSharing";
 import CarSharing from "../icons/modern/CarSharing";
 import BadgeIcon from "../icons/badge-icon";
+
+import MarkerClusterGroup from 'react-leaflet-markercluster';
+import MarkerCluster from "../icons/modern/MarkerCluster";
+
 import config from '../../config.yml';
 
 import carNissanLeaf from '../../images/cars/nissan-leaf.jpg';
@@ -54,6 +48,19 @@ const carModels = {
 const getCarModel = model => {
     return carModels[model] || carModels.defaultCar;
 };
+
+const getDistanceFromLatLonInMeters = (lat1, lon1, lat2, lon2) => {
+  const deg2rad = deg => deg * (Math.PI/180);
+  let R = 6371 * 1000
+    , dLat = deg2rad(lat2-lat1)
+    , dLon = deg2rad(lon2-lon1) 
+    , a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+          Math.sin(dLon/2) * Math.sin(dLon/2)
+    , c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    , d = R * c;
+  return d;
+}
 
 const overlayCarSharingConf = config.map.overlays.filter(item => item.type === 'car-rental')[0]
 const overlayBikeSharingConf = config.map.overlays.filter(item => item.type === 'bike-rental')[0]
@@ -310,27 +317,7 @@ class VehicleRentalOverlay extends MapLayer {
       );
     }
 
-    if (!filteredStations || filteredStations.length === 0) {
-      return <FeatureGroup />;
-    }
-
-    const deg2rad = (deg) => {
-      return deg * (Math.PI/180)
-    }
-    const getDistanceFromLatLonInMeters = (lat1, lon1, lat2, lon2) => {
-      
-      let R = 6371 * 1000; // Radius of the earth in meters
-      let dLat = deg2rad(lat2-lat1);  // deg2rad below
-      let dLon = deg2rad(lon2-lon1); 
-      let a = 
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-        Math.sin(dLon/2) * Math.sin(dLon/2)
-        ; 
-      let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      let d = R * c; // Distance in meters
-      return d;
-    }
+    if (!filteredStations || filteredStations.length === 0) return <LayerGroup />;
 
     for(let station of filteredStations){
       if(station.isFloatingBike){
@@ -356,8 +343,34 @@ class VehicleRentalOverlay extends MapLayer {
       }
     }
 
+    const markerClusterIcon = cluster => {
+      const text = cluster.getChildCount();    
+      return L.divIcon({
+        className: 'marker-cluster-svg',
+        iconSize: [overlayCarSharingConf.iconWidth, overlayCarSharingConf.iconHeight],
+        html: ReactDOMServer.renderToStaticMarkup(
+          <MarkerCluster
+              text={text}
+              textColor={'white'}
+              markerColor={overlayCarSharingConf.iconMarkerColor}
+            />
+          )
+      });
+    }
+    
     return (
-      <FeatureGroup>{filteredStations.map(this.renderStation)}</FeatureGroup>
+      <LayerGroup>
+      <MarkerClusterGroup
+        showCoverageOnHover={false}
+        maxClusterRadius={40}
+        disableClusteringAtZoom={16}
+        iconCreateFunction={markerClusterIcon}
+      >
+        {
+          filteredStations.map(this.renderStation)
+        }
+      </MarkerClusterGroup>
+      </LayerGroup>
     );
   }
 }
