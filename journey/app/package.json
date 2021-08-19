@@ -12,18 +12,18 @@
   "author": "OpenMove <info@openmove.com>",
   "contributors": [
     {
-      "name" : "Stefano Cudini",
-      "email" : "stefano.cudini@gmail.com",
-      "url" : "https://github.com/stefanocudini"
+      "name": "Stefano Cudini",
+      "email": "stefano.cudini@gmail.com",
+      "url": "https://github.com/stefanocudini"
     },
     {
-      "name" : "Federico Bertolini",
-      "email" : "federico.bertolini@openmove.com",
-      "url" : "https://github.com/zabuTNT"
+      "name": "Federico Bertolini",
+      "email": "federico.bertolini@openmove.com",
+      "url": "https://github.com/zabuTNT"
     },
     {
-      "name" : "Valerio Capogna",
-      "email" : "capogna.valerio@gmail.com",
+      "name": "Valerio Capogna",
+      "email": "capogna.valerio@gmail.com",
       "url": "https://github.com/capognavalerio"
     }
   ],
@@ -52,6 +52,7 @@
     "history": "^4.7.2",
     "i18next": "^20.2.1",
     "i18next-browser-languagedetector": "^6.1.0",
+    "i18next-localstorage-backend": "^3.1.3",
     "immutability-helper": "^2.1.1",
     "isomorphic-fetch": "^2.2.1",
     "leaflet.polylinemeasure": "github:ppete2/Leaflet.PolylineMeasure",
@@ -115,6 +116,7 @@
     "html-webpack-plugin": "^3.2.0",
     "json-loader": "^0.5.7",
     "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
     "mastarm": "^5.1.3",
     "mini-css-extract-plugin": "^0.4.1",
     "nock": "^9.0.9",
@@ -124,7 +126,6 @@
     "react-dom": "^16.9.0",
     "react-hot-loader": "^4.13.0",
     "react-leaflet": "^2.6.1",
-    "leaflet.markercluster": "^1.4.1",
     "react-leaflet-markercluster": "2.0.0",
     "redux-mock-store": "^1.5.3",
     "resolve-url-loader": "^3.1.2",

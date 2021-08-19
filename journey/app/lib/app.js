@@ -29,6 +29,7 @@ if (!LegIcon || !ModeIcon) {
 }
 
 class JourneyWebapp extends Component {
+
   render () {
     const { t } = this.props
     const {branding, brandNavbar} = otpConfig;
