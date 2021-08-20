@@ -31,7 +31,7 @@ if [ "${SHA}" = "${OLD}" ]; then
 else
   echo $SHA > $HASH_FILE
 
-  mv /tmp/gtfs_$NEW_UUID.zip /data/$GTFS_FILE.zip
+  mv /tmp/gtfs_$NEW_UUID.zip /data/$GTFS_FILE
   
   echo "run rebuild hook ${GTFS_URL_UPDATEHOOK}"
 
