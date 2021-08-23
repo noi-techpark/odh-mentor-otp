@@ -82,7 +82,7 @@ export default function LineColumnContent({
               backgroundColor: coreUtils.itinerary.isTransit(leg.mode)
                   ? leg.routeColor
                     ? `#${leg.routeColor}`
-                    : "#008"
+                    : "#095980"
                   : 'inherit'
             }}
           >

@@ -123,7 +123,7 @@ export function getMapColor(mode) {
   if (mode === "RAIL") return "#b00";
   if (mode === "BUS") return "#080";
   if (mode === "TRAM") return "#800";
-  if (mode === "FERRY") return "#008";
+  if (mode === "FERRY") return "#095980";
   if (mode === "CAR") return "#444";
   if (mode === "MICROMOBILITY") return "#f5a729";
   return "#aaa";

@@ -64,7 +64,7 @@ TripViewerOverlay.propTypes = {
 
 TripViewerOverlay.defaultProps = {
   leafletPath: {
-    color: "#337AB7",
+    color: "#095980",
     opacity: 0.6,
     weight: 8
   }

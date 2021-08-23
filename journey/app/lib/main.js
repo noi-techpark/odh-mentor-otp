@@ -24,7 +24,7 @@ import createUserReducer from './reducers/create-user-reducer'
 import './styles/index.scss'
 
 import i18n from "./i18n";
-import TrimetWebapp from './app'
+import JourneyWebapp from './app'
 
 // load the OTP configuration
 const otpConfig = require(YAML_CONFIG)
@@ -86,7 +86,7 @@ const render = App => ReactDOM.render(
 // react-hot-loader is enabled. A refresh of the page/build script may be
 // necessary in rare occasions.
 hot(
-  render(TrimetWebapp)
+  render(JourneyWebapp)
 )
 
 // analytics

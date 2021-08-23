@@ -138,7 +138,7 @@ services:
       - OFFICIAL=False
       - DOWNLOAD_DATA=False
       - BACKUP_GRAPH=False
-      - GTFS_FILE=210126_ExportGTFS.zip
+      - GTFS_FILE=latestGTFS.zip
       - UPDATERS=True
       - GBFS_HOST=http://gbfs:8089
       - GBFS_VERSION=1

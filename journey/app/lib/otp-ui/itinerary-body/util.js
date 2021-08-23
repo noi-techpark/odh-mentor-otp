@@ -22,7 +22,7 @@ export const toModeColor = (mode, routeColor) => {
     case "MICROMOBILITY_RENT":
       return `#f5a729`;
     default:
-      return toSafeRouteColor(routeColor) || "#084c8d";
+      return toSafeRouteColor(routeColor) || "#095980";
   }
 };
 
@@ -39,7 +39,7 @@ export const toModeBorderColor = (mode, routeColor) => {
     case "MICROMOBILITY_RENT":
       return `#f5a729`;
     default:
-      return toSafeRouteColor(routeColor) || "#008ab0";
+      return toSafeRouteColor(routeColor) || "#095980";
   }
 };
 

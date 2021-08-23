@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon -e js,yml ./index.js"
   },
-  "author": "",
+  "author": "Stefano Cudini <stefano.cudini@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",

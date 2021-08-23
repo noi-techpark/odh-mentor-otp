@@ -31,6 +31,7 @@ export const TRANSLATIONS_DE = {
   "calories_info_1": "Die verbrannten Kalorien basieren auf",
   "minute": "Minute(n)",
   "at_time": "um",
+  "exact_time": "$_exact_time",
   "pass_walked": "zu Fuß verbracht und",
   "pass_rided": "auf dieser Fahrt verbracht. Angepasst von",
   "drive_for": "Fahren Sie",

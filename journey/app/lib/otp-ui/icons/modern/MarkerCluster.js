@@ -20,7 +20,7 @@ const MarkerCluster = ({ text, width = 50, height = 50, textColor = '#fff', mark
       /*transform="translate(21 36)"*/
       style={{fontSize:18}}
       fill={textColor}
-      dy=".3em" text-anchor="middle"
+      dy=".3em" textAnchor="middle"
       x="50%"
       y="50%"
       >

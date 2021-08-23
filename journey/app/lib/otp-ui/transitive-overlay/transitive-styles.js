@@ -33,7 +33,7 @@ STYLES.places = {
     if (isEScooterStation(place)) {
       return "#f5a729";
     }
-    return null;
+    return 'null';
   },
   stroke: "#fff",
   "stroke-width": 2,
@@ -47,7 +47,46 @@ STYLES.places = {
 STYLES.stops_merged = {
   r() {
     return 6;
-  }
+  },
+  stroke: function() {
+    return '#095980';
+  },  
 };
+
+const style = {
+  fill: function() {
+    return '#095980';
+  },
+  stroke: function() {
+    return '#095980';
+  },
+  background: function() {
+    return '#095980';
+  }
+}
+
+STYLES.segments = style;
+
+STYLES.segment_label_containers = style;
+
+STYLES.segment_labels = style;
+
+STYLES.labels = style;
+
+/*
+wireframe_edges: wireframeEdges,
+wireframe_vertices: wireframeVertices,
+stops_merged: stopsMerged,
+stops_pattern: stopsPattern,
+places,
+multipoints_merged: multipointsMerged,
+multipoints_pattern: multipointsPattern,
+labels,
+segments,
+segments_front: segmentsFront,
+segments_halo: segmentsHalo,
+segment_labels: segmentLabels,
+segment_label_containers: segmentLabelContainers
+*/
 
 export default STYLES;
