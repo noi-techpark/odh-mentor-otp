@@ -8,6 +8,8 @@ import { TRANSLATIONS_DE } from "./de";
 
 import config from '../config.yml';
 
+const I18N_LANGUAGE = 'i18n_otp'
+
 const resources = {
   en: {
     translation: TRANSLATIONS_EN
@@ -25,12 +27,20 @@ if (!config.language.defaultLanguage) {
 }
 
 i18n
-  .use(reactI18nextModule)
+  .use(reactI18nextModule)  
   .init({
     resources,
-    lng: config.language.defaultLanguage,
+    lng: localStorage.getItem(I18N_LANGUAGE) || config.language.defaultLanguage,
     fallbackLng: config.language.fallbackLanguage || "en",
     debug: false,
+    detection: {
+      order: ["localStorage", "navigator"],
+      lookupQuerystring: "lng",
+      lookupLocalStorage: I18N_LANGUAGE,
+      caches: ["localStorage"]
+    }
   });
+
+i18n.on('languageChanged', lng => localStorage.setItem(I18N_LANGUAGE, lng));
 
 export default i18n;
