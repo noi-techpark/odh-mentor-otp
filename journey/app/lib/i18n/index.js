@@ -7,8 +7,7 @@ import { TRANSLATIONS_IT } from "./it";
 import { TRANSLATIONS_DE } from "./de";
 
 import config from '../config.yml';
-
-const I18N_LANGUAGE = 'i18n_otp'
+import { storeItem, getItem } from '../otp-ui/core-utils/storage'
 
 const resources = {
   en: {
@@ -30,17 +29,11 @@ i18n
   .use(reactI18nextModule)  
   .init({
     resources,
-    lng: localStorage.getItem(I18N_LANGUAGE) || config.language.defaultLanguage,
+    lng: getItem('lng') || config.language.defaultLanguage,
     fallbackLng: config.language.fallbackLanguage || "en",
-    debug: false,
-    detection: {
-      order: ["localStorage", "navigator"],
-      lookupQuerystring: "lng",
-      lookupLocalStorage: I18N_LANGUAGE,
-      caches: ["localStorage"]
-    }
+    debug: false
   });
 
-i18n.on('languageChanged', lng => localStorage.setItem(I18N_LANGUAGE, lng));
+i18n.on('languageChanged', lng => storeItem('lng', lng));
 
 export default i18n;
