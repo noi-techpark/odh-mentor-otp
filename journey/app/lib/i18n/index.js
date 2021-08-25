@@ -8,6 +8,7 @@ import { TRANSLATIONS_IT } from "./it";
 import { TRANSLATIONS_DE } from "./de";
 
 import config from '../config.yml';
+import { storeItem, getItem } from '../otp-ui/core-utils/storage'
 
 const resources = {
   en: {
@@ -26,11 +27,11 @@ if (!config.language.defaultLanguage) {
 }
 
 i18n
-  .use(reactI18nextModule)
+  .use(reactI18nextModule)  
   .init({
     debug: false,
     resources,
-    lng: config.language.defaultLanguage,
+    lng: getItem('lng') || config.language.defaultLanguage,
     fallbackLng: config.language.fallbackLanguage || "en",
     backend: {
       backends: [ LocalStorageBackend ],
@@ -40,7 +41,9 @@ i18n
           store: window.localStorage
         }
       ]
-    },
+    }
   });
+
+i18n.on('languageChanged', lng => storeItem('lng', lng));
 
 export default i18n;
