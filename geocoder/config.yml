@@ -15,6 +15,14 @@ endpoints:
     #method: 'GET'
     #headers:
     # User-Agent: OpenMove-Geocoder-Client
+  
+  here:
+    hostname: 
+    path:
+    appId: ${HERE_APPID}
+    appCode: ${HERE_APPCODE}
+    apiKey: ${HERE_APIKEY}
+    size: 5
 
   opentripplanner:
     #TODO priority: 100

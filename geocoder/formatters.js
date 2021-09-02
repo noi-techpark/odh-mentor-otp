@@ -68,6 +68,29 @@ module.exports = {
   ##check in file config.yml for fields mapping
   ##(there must be a property with the same name as the endpoint key)
 */
+  'here': function(data, lang) {
+
+		lang = lang || config.server.default_lang;
+
+  	const items = data.body.Response.View[0].Result;
+
+		return _.compact(_.map(items, (item)=> {
+
+			let lat = _.get(item,"Location.DisplayPosition.Latitude"),
+				lon = _.get(item,"Location.DisplayPosition.Longitude"),
+				text = _.get(item,"Location.Address.Label");
+
+			if (lat && lon) {
+				return createHit({
+					id: _.get(item,'Location.LocationId'),
+					text: text,
+					lat: lat,
+					lon: lon,
+					source: 'here',
+				});
+			}
+		}));
+  },
 
 	'opentripplanner': function(data, lang) {
 

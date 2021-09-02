@@ -5,6 +5,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 
+const hm = require("heremap");
+
 const ParallelRequest = require('parallel-http-request');
 
 process.env.PELIAS_CONFIG='./pelias.json';
@@ -38,6 +40,20 @@ servicesApp.get('/libpostal/parse', require('pelias-parser/server/routes/parse')
 servicesApp.get(/^\/placeholder(.*)$/,  (req, res)=> {
 
 	res.json({})
+})
+
+servicesApp.get('/here', async(req, res) => {
+	
+	hm.config({
+	  app_id: config.endpoints.here.appId,
+	  app_code: config.endpoints.here.appCode
+	});
+
+	const response = await hm.geocode(req.query.text);
+	
+	console.log('HERE', req.query.text, response);
+	
+	res.json(formatters.here(response));
 })
 
 
