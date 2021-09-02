@@ -108,12 +108,15 @@ services:
     build:
       context: ./
       dockerfile: infrastructure/docker/otp/Dockerfile
+      # args:
+      #   GTFS_URL_UPDATETIME: 15min
     environment:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
       - OFFICIAL=False
       - GTFS_FILE=latestGTFS.zip
       - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
+      #debug light file - GTFS_URL=ftp://ftp.sta.bz.it/solari/StopPoints_Report.xls
       - GTFS_URL_UPDATETIME=daily
       - GTFS_URL_UPDATEHOOK=''
     volumes:

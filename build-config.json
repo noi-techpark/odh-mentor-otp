@@ -1,3 +1,6 @@
 {
-	"useTransfersTxt": false
+	"useTransfersTxt": false,
+	"embedRouterConfig": true,
+	"parentStopLinking": true,
+	"stopClusterMode": "parentStation"
 }
