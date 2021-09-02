@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-#
+
+#for auto download gtfs
+crond
+
 if [ "${DOWNLOAD_DATA}" = "True" ]; then
 	#TODO move to file download-data.sh
 
@@ -21,7 +24,6 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 	fi
 
 	if [ -f "/data/${GTFS_FILE}" ]; then
-	#if [ -f "/data/osm.url" ]; then
 
 		zipfile="/data/${GTFS_FILE}"
 		unzipdir="${zipfile%.zip}"
@@ -84,17 +86,12 @@ if [ "${DOWNLOAD_DATA}" = "True" ]; then
 fi
 
 if [ "${BUILD_GRAPH}" = "True" ]; then
-	#TODO check gtfs data
-	#TODO useTransfersTxt true if GTFS have it and we want to use it.
 
-	#echo '{"useTransfersTxt": false}' > /data/build-config.json
 	node /conf/envconfig.js /conf/build-config.json > /data/build-config.json
 
 	if [ "${UPDATERS}" = "True" ]; then
 		node /conf/envconfig.js /conf/router-config.json > /data/router-config.json
 	fi
-
-	#TODO support /data/walk-config.json
 
 	echo "Building graph file... /data/Graph.obj"
 
@@ -104,7 +101,6 @@ if [ "${BUILD_GRAPH}" = "True" ]; then
 	else
 		otp.sh --build /data
 	fi
-
 
 	mkdir -p /data/openmove
 
