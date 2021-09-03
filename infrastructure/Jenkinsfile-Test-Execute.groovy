@@ -35,7 +35,7 @@ pipeline {
         GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
         PARKING_BASEURL = "https://parking.otp.opendatahub.testingmachine.eu"
         CHARGER_BASEURL = "https://charger.otp.opendatahub.testingmachine.eu"
-        CARSHARING_BASEURL="https://carsharing.otp.opendatahub.testingmachine.eu"
+        CARSHARING_BASEURL = "https://carsharing.otp.opendatahub.testingmachine.eu"
         OFFICIAL = "False"
         GBFS_VERSION=1
         CARSHARING_HOST="https://carsharing.otp.opendatahub.testingmachine.eu/"
