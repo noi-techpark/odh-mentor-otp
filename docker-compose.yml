@@ -53,13 +53,10 @@ services:
     environment:
       API_HOST: otp
       API_PATH: /otp/routers/openmove
-      API_PORT: 8080
-      HERE_APPID: hyPFaQkGhypwU7TRwDZG
-      HERE_APPCODE: eq17M8TZvohEKBdTUJoaeg
-      HERE_APIKEY: NB4mqpiwnodCU6gbc6GdgSQihrpnjxY_nk-b5o2J9y4      
-      #HERE_APPID: hpwU7yPFaQkGhyTRwDZG
-      #HERE_APPCODE: eq17MTUJ8TZvohEKBdoaeg
-      #HERE_APIKEY: NB4dgSQihrpnjmqpiwnodCU6gbco2JY_nk-b6Gx59y4
+      API_PORT: 8080    
+      HERE_APPID: hpwU7yPFaQkGhyTRwDZG
+      HERE_APPCODE: eq17MTUJ8TZvohEKBdoaeg
+      HERE_APIKEY: NB4dgSQihrpnjmqpiwnodCU6gbco2JY_nk-b6Gx59y4
 
   gbfs:
     container_name: openmove-gbfs
