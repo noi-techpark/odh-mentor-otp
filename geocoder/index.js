@@ -5,8 +5,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 
-const heremap = require("heremap");
-
 const ParallelRequest = require('parallel-http-request');
 
 process.env.PELIAS_CONFIG='./pelias.json';
@@ -16,6 +14,8 @@ const AddressParser = require('pelias-parser/parser/AddressParser');
 
 const config = require('./config');
 const formatters = require('./formatters');
+
+const api = require('./api');
 
 const PORT_SERVICES = 8087;
 //same port in pelias.json
@@ -40,21 +40,14 @@ servicesApp.get('/libpostal/parse', require('pelias-parser/server/routes/parse')
 servicesApp.get(/^\/placeholder(.*)$/,  (req, res)=> {
 
 	res.json({})
-})
+});
 
 servicesApp.get('/here', async(req, res) => {
 	
-	heremap.config({
-	  app_id: config.endpoints.here.appId,
-	  app_code: config.endpoints.here.appCode
-	});
+	const response = await api.here(req.query.text);
 
-	const response = await heremap.geocoderAutoComplete(req.query.text, {
-		mapview bb.latM + "," + bb.lngm + ";" + bb.latm + "," + bb.lngM;
-	});
-	
-	console.log('HERE', req.query.text, response);
-	
+	console.log('HERE api equest', req.query.text, JSON.stringify(response,null,4))
+	//res.json(response);
 	res.json(formatters.here(response));
 })
 
@@ -123,10 +116,10 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	}
 });
 
-//useful 
+//DEBUG http://localhost:8087/testSearch?text=roma
 servicesApp.get('/testSearch', (req,res) => {
 	
-	console.log('/testSearch',req.query);
+	console.log('[GEOCODER] /testSearch',req.query);
 
 	let lang = req.query.lang || config.server.default_lang;
 	
@@ -188,10 +181,11 @@ function combineResults(text, lang, cb) {
 	var request = new ParallelRequest();
 
 	_.forOwn(config.endpoints, (eOpt, eKey) => {
+
+		if(eKey==='here') return;
+
 		request.add({
-			
 			id: eKey,	//not required by ParallelRequest
-			
 			url: makeUrl(eOpt, text, lang),
 			method: eOpt.method,
 			headers: eOpt.headers
@@ -221,16 +215,18 @@ function combineResults(text, lang, cb) {
 				results.push(eRes);
 			}
 		});
-
-		/*old code results.push( formatters.opentripplanner(resp[0].body) );
-		results.push( formatters.accommodations(resp[1].body) );
-		results.push( formatters.pois(resp[2].body) );*/
 		
-		let result = formatters.elasticsearch( _.flatten(results) );
+		(async (cbb, poiResults) => {
+			const hereResponse = await api.here(text);
+			const hereResults = formatters.here(hereResponse);
 
-		console.log(`[GEOCODER] search: "${text}" responses...`, result.hits.total.value);
+			//add here first
+			const returnResults = hereResults.concat(poiResults);
 
-		cb(result);
+			console.log(`[GEOCODER] search: "${text}" responses...`, returnResults.length);
 
+			cbb( formatters.elasticsearch(returnResults) );
+
+		})(cb, _.flatten(results));
 	});
 }

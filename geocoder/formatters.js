@@ -72,7 +72,7 @@ module.exports = {
 
 		lang = lang || config.server.default_lang;
 
-  	const items = data.body.Response.View[0].Result;
+  	const items = _.get(data,'body.Response.View[0].Result');
 
 		return _.compact(_.map(items, (item)=> {
 

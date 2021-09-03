@@ -32,6 +32,9 @@ pipeline {
         API_PORT = "443"
         API_PATH = "/otp/routers/openmove"
 
+        HERE_APPID = ""
+        HERE_APPCODE = ""
+
         GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
         PARKING_BASEURL = "https://parking.otp.opendatahub.testingmachine.eu"
         CHARGER_BASEURL = "https://charger.otp.opendatahub.testingmachine.eu"
@@ -75,6 +78,9 @@ pipeline {
                     echo 'API_HOST=${API_HOST}' >> .env
                     echo 'API_HOST=${API_PORT}' >> .env
                     echo 'API_HOST=${API_PATH}' >> .env
+
+                    echo 'HERE_APPID=${HERE_APPID}' >> .env
+                    echo 'HERE_APPCODE=${HERE_APPCODE}' >> .env
 
                     echo 'OTP_RR_BRANCH=${OTP_RR_BRANCH}' >> .env
                     echo 'OTP_UI_BRANCH=${OTP_UI_BRANCH}' >> .env
