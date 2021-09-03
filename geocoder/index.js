@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 
-const hm = require("heremap");
+const heremap = require("heremap");
 
 const ParallelRequest = require('parallel-http-request');
 
@@ -44,12 +44,14 @@ servicesApp.get(/^\/placeholder(.*)$/,  (req, res)=> {
 
 servicesApp.get('/here', async(req, res) => {
 	
-	hm.config({
+	heremap.config({
 	  app_id: config.endpoints.here.appId,
 	  app_code: config.endpoints.here.appCode
 	});
 
-	const response = await hm.geocode(req.query.text);
+	const response = await heremap.geocoderAutoComplete(req.query.text, {
+		mapview bb.latM + "," + bb.lngm + ";" + bb.latm + "," + bb.lngM;
+	});
 	
 	console.log('HERE', req.query.text, response);
 	
