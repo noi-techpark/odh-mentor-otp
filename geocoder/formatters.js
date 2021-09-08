@@ -22,7 +22,7 @@ function createHit(ff) {
 			},
 			"source" : ff.source,
 			"source_id" : 'osm'+ff.id,
-			"layer" : "venue",
+			"layer" : ff.layer || 'venue',
 			"parent" : {
 				"country" : [ "Italy" ],
 				"country_id" : [ "85633253" ],
@@ -80,6 +80,7 @@ module.exports = {
 				lon = _.get(item,"Location.DisplayPosition.Longitude"),
 				text = _.get(item,"Location.Address.Label");
 
+
 			if (lat && lon) {
 				return createHit({
 					id: _.get(item,'Location.LocationId'),
@@ -87,6 +88,7 @@ module.exports = {
 					lat: lat,
 					lon: lon,
 					source: 'here',
+					layer: 'street'
 				});
 			}
 		}));
