@@ -78,8 +78,8 @@ module.exports = {
 
 			let lat = _.get(item,"Location.DisplayPosition.Latitude"),
 				lon = _.get(item,"Location.DisplayPosition.Longitude"),
-				text = _.get(item,"Location.Address.Label");
-
+				a = _.get(item,"Location.Address"),
+				text = _.compact([a.Street, a.HouseNumber, a.City]).join(', ');
 
 			if (lat && lon) {
 				return createHit({
@@ -88,7 +88,7 @@ module.exports = {
 					lat: lat,
 					lon: lon,
 					source: 'here',
-					layer: 'street'
+					layer: 'address'
 				});
 			}
 		}));
@@ -114,6 +114,7 @@ module.exports = {
 					lat: lat,
 					lon: lon,
 					source: 'opentripplanner',
+					layer: 'stop'
 				});
 			}
 		}));
@@ -136,6 +137,7 @@ module.exports = {
 					lat: lat,
 					lon: lon,
 					source: 'ODH_accommodations',
+					layer: 'venue'
 				});
 			}
 		}));
@@ -158,6 +160,7 @@ module.exports = {
 					lat: lat,
 					lon: lon,
 					source: 'ODH_pois',
+					layer: 'venue'
 				});
 			}
 		}));
@@ -180,6 +183,7 @@ module.exports = {
 					lat: lat,
 					lon: lon,
 					source: 'ODH_ODHActivityPoi',
+					layer: 'venue'
 				});
 			}
 		}));

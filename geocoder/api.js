@@ -21,7 +21,7 @@ module.exports = {
 
 		return await heremap.geocode(text, {
 			//search: text,	//AUTOCOMPLETE
-			maxresults: 20,
+			maxresults: Number(config.endpoints.here.size),
 			country: 'ITA',
 			//resultType: 'street',//AUTCOMPLETE
 			language: lang || config.server.default_lang,

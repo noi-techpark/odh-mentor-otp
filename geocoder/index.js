@@ -200,7 +200,7 @@ function combineResults(text, lang, cb) {
 
 		let results = [], i = 0;
 
-		/*requests.forEach( req => {
+		requests.forEach( req => {
 
 			console.log('[GEOCODER] request',req.url)
 			
@@ -214,7 +214,7 @@ function combineResults(text, lang, cb) {
 
 				results.push(eRes);
 			}
-		});*/
+		});
 		
 		(async (cbb, poiResults) => {		//prepend here results
 			const hereResponse = await api.here(text, lang);

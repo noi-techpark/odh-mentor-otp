@@ -17,12 +17,13 @@ endpoints:
     # User-Agent: OpenMove-Geocoder-Client
   
   here:
-    hostname: 
-    path:
+    #hostname: api.here.com
+    #path: /6.2/geocode.json
+    ##provided by npm heremap
     appId: ${HERE_APPID}
     appCode: ${HERE_APPCODE}
     #apiKey: ${HERE_APIKEY}
-    size: 5
+    size: 2
 
   opentripplanner:
     #TODO priority: 100
