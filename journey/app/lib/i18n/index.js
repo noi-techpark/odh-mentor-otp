@@ -1,12 +1,14 @@
 import i18n from "i18next";
 import { reactI18nextModule } from "react-i18next";
 import detector from "i18next-browser-languagedetector";
+import LocalStorageBackend from "i18next-localstorage-backend";
 
 import { TRANSLATIONS_EN } from "./en";
 import { TRANSLATIONS_IT } from "./it";
 import { TRANSLATIONS_DE } from "./de";
 
 import config from '../config.yml';
+import { storeItem, getItem } from '../otp-ui/core-utils/storage'
 
 const resources = {
   en: {
@@ -25,12 +27,23 @@ if (!config.language.defaultLanguage) {
 }
 
 i18n
-  .use(reactI18nextModule)
+  .use(reactI18nextModule)  
   .init({
-    resources,
-    lng: config.language.defaultLanguage,
-    fallbackLng: config.language.fallbackLanguage || "en",
     debug: false,
+    resources,
+    lng: getItem('lng') || config.language.defaultLanguage,
+    fallbackLng: config.language.fallbackLanguage || "en",
+    backend: {
+      backends: [ LocalStorageBackend ],
+      backendOptions: [
+        {
+          prefix: 'otp.',
+          store: window.localStorage
+        }
+      ]
+    }
   });
+
+i18n.on('languageChanged', lng => storeItem('lng', lng));
 
 export default i18n;

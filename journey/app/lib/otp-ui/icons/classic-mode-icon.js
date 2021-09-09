@@ -13,7 +13,7 @@ import {
 
 import BikeSharing from "./modern/BikeSharing";
 import CarSharing from "./modern/CarSharing";
-
+import MicromobilitySharing from "./modern/MicromobilitySharing";
 /**
  * Icons for all classic OTP-react-redux modes.
  * Any hail and rental modes managed by one or multiple companies
@@ -27,7 +27,7 @@ import CarSharing from "./modern/CarSharing";
  */
 function ClassicModeIcon({ mode, ...props }) {
   if (!mode) return null;
-  console.log(mode)
+  //console.log('classic-mode',mode.toLowerCase());
   switch (mode.toLowerCase()) {
     case "bicycle":
       return <ClassicBike {...props} />;
@@ -46,8 +46,9 @@ function ClassicModeIcon({ mode, ...props }) {
     case "funicular":
       return <ClassicGondola {...props} />;
     case "micromobility":
-    case "micromobility_rent":
       return <ClassicMicromobility {...props} />;
+    case "micromobility_rent":
+      return <MicromobilitySharing {...props} />;
     case "rail":
     case "subway":
     case "tram":

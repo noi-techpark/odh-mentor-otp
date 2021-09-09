@@ -13,11 +13,14 @@ services:
         - GEOCODER_BASEURL=${GEOCODER_BASEURL}
         - PARKING_BASEURL=${PARKING_BASEURL}
         - CHARGER_BASEURL=${CHARGER_BASEURL}
+        - CARSHARING_BASEURL=${CARSHARING_BASEURL}
   otp:
     image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
     build:
       context: ../
       dockerfile: infrastructure/docker/otp/Dockerfile
+      args:
+        - GTFS_URL_UPDATETIME=${GTFS_URL_UPDATETIME}
   gbfs:
     image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
     build:

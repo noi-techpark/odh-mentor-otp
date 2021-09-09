@@ -1,7 +1,7 @@
 
 # openmove otp ui
 
-TriMet-specific implementation of the [otp-react-redux](https://github.com/opentripplanner/otp-react-redux) library, managed using Yarn and Webpack 4.
+Openmove specific implementation of the [otp-react-redux](https://github.com/opentripplanner/otp-react-redux) library, managed using Yarn and Webpack 4.
 
 original project: https://github.com/ibi-group/trimet-mod-otp
 
@@ -9,7 +9,7 @@ original project: https://github.com/ibi-group/trimet-mod-otp
 
 1. Ensure that [Yarn](https://yarnpkg.com/en/) (v1.9+) and [Node.js](https://nodejs.org/en/) (v8.9+) are installed locally.
 
-2. Clone the trimet-mod-otp repository:
+2. Clone the journey repository:
 
 ```bash
 git clone https://github.com/openmove/odh-mentor-otp.git

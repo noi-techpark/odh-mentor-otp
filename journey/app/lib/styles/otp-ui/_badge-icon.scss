@@ -28,9 +28,14 @@
     &--success {
       background-color: $brand-success;
     }
+    
+    &--warning {
+      background-color: $brand-warning;
+    }
 
     &--danger,
-    &--success {
+    &--success,
+    &--warning {
       width: $badge-size / 1.5;
       height: $badge-size / 1.5;
       top: -($badge-size / 1.5) / 3 ;

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
+import { LayerGroup, FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
 import { divIcon } from 'leaflet'
 import { withNamespaces } from "react-i18next";
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -15,6 +15,9 @@ import MarkerCharger from "../icons/modern/MarkerCharger";
 import ReactDOMServer from "react-dom/server";
 import Charger from "../icons/modern/Charger";
 import FromToLocationPicker from '../from-to-location-picker'
+
+import MarkerClusterGroup from 'react-leaflet-markercluster';
+import MarkerCluster from "../icons/modern/MarkerCluster";
 
 import config from '../../config.yml';
 
@@ -72,24 +75,28 @@ class ChargerOverlay extends MapLayer {
 
   render () {
     const { locations, t } = this.props
-    if (!locations || locations.length === 0) return <FeatureGroup />
+    if (!locations || locations.length === 0) return <LayerGroup />
 
-    const markerIcon = (data) => {
-      let badgeType = 'default';
-      let badgeCounter = data.capacity || 0;
+    const markerIcon = station => {
+      let badgeType = 'success';
+      let badgeCounter = station.capacity || 0;
 
-      if (data.state === "AVAILABLE" || data.state === "ACTIVE") {
-        badgeType = 'default';
-      } else {
-        badgeType = 'danger';
-        badgeCounter = null;
+      if(station.free > 0) {
+        badgeType = 'warning';
+        if (station.free === station.capacity) {
+          badgeType = 'success';
+        }
       }
+      else {
+        badgeType = 'danger';
+      }
+
       return divIcon({
         className: "",
         iconSize: [overlayChargerConf.iconWidth, overlayChargerConf.iconHeight],
         popupAnchor: [0, -overlayChargerConf.iconHeight / 2],
         html: ReactDOMServer.renderToStaticMarkup(
-          <BadgeIcon counter={badgeCounter} type={badgeType} width={overlayChargerConf.iconWidth}>
+          <BadgeIcon type={badgeType} width={overlayChargerConf.iconWidth}>
             <MarkerCharger
               width={overlayChargerConf.iconWidth}
               height={overlayChargerConf.iconHeight}
@@ -98,23 +105,38 @@ class ChargerOverlay extends MapLayer {
             />
           </BadgeIcon>
         )
-      });;
+      });
     }
 
-
-    const bulletIconStyle = {
-      color: 'gray',
-      fontSize: 12,
-      width: 15
+    const markerClusterIcon = cluster => {
+      const text = cluster.getChildCount();    
+      return L.divIcon({
+        className: 'marker-cluster-svg',
+        iconSize: [overlayChargerConf.iconWidth, overlayChargerConf.iconHeight],
+        html: ReactDOMServer.renderToStaticMarkup(
+          <MarkerCluster
+              text={text}
+              textColor={'white'}
+              markerColor={overlayChargerConf.iconMarkerColor}
+            />
+          )
+      });
     }
 
     return (
-      <FeatureGroup>
-        {locations.map((station) => {
+      <LayerGroup>
+      <MarkerClusterGroup
+        showCoverageOnHover={false}
+        maxClusterRadius={40}
+        disableClusteringAtZoom={16}
+        iconCreateFunction={markerClusterIcon}
+      >
+        {
+          locations.map( station => {
           return (
             <Marker
               icon={markerIcon(station)}
-              key={station.name}
+              key={station.station_id}
               position={[station.lat, station.lon]}
             >
               <Popup>
@@ -128,8 +150,8 @@ class ChargerOverlay extends MapLayer {
                   <div>{t('provider')}: {station.provider}</div>
 
                   <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.capacity}</div>
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('available_slots')}</div>
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('free_sockets')}</div>
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
@@ -143,7 +165,7 @@ class ChargerOverlay extends MapLayer {
                           <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
                             <div>
                               <span className={ava}></span>
-                              <strong>SLOT {key}</strong>
+                              <strong>{t('socket')} {key+1}</strong>
                               <br />
                               {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
                             </div>
@@ -152,12 +174,10 @@ class ChargerOverlay extends MapLayer {
                       })
                     }
                   </div>
-                  
-                  <br />
 
                   <div className="otp-ui-mapOverlayPopup__popupRow">
                     <FromToLocationPicker
-                      station={station}
+                      location={station}
                       setLocation={this.props.setLocation}
                     />
                   </div>
@@ -166,7 +186,8 @@ class ChargerOverlay extends MapLayer {
             </Marker>
           )
         })}
-      </FeatureGroup>
+      </MarkerClusterGroup>
+      </LayerGroup>
     )
   }
 }

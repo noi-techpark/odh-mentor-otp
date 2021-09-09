@@ -1,23 +1,13 @@
 import { divIcon } from "leaflet";
 import memoize from "lodash.memoize";
 import { getCompaniesLabelFromNetworks } from "../core-utils/itinerary";
-import {
-  companyType,
-  vehicleRentalMapOverlaySymbolsType,
-  stationType
-} from "../core-utils/types";
+import { companyType, vehicleRentalMapOverlaySymbolsType, stationType} from "../core-utils/types";
 import FromToLocationPicker from "../from-to-location-picker";
 import PropTypes from "prop-types";
 import React from "react";
 import { withNamespaces } from "react-i18next"
 import ReactDOMServer from "react-dom/server";
-import {
-  FeatureGroup,
-  Marker,
-  MapLayer,
-  Popup,
-  withLeaflet
-} from "react-leaflet";
+import { LayerGroup, FeatureGroup, Marker, MapLayer, Popup, withLeaflet} from "react-leaflet";
 
 import { MapMarkerAlt } from "@styled-icons/fa-solid";
 import MarkerCarSharing from "../icons/modern/MarkerCarSharing";
@@ -25,49 +15,69 @@ import MarkerBikeSharing from "../icons/modern/MarkerBikeSharing";
 import BikeSharing from "../icons/modern/BikeSharing";
 import CarSharing from "../icons/modern/CarSharing";
 import BadgeIcon from "../icons/badge-icon";
+
+import MarkerClusterGroup from 'react-leaflet-markercluster';
+import MarkerCluster from "../icons/modern/MarkerCluster";
+
 import config from '../../config.yml';
 
-import carNissanLeaf from './cars/nissan-leaf.jpg';
-import carVwCaddy from './cars/vw-caddy.jpg';
-import carGolfVariant from './cars/vw-golf-variant.jpg';
-import carGolf from './cars/vw-golf.jpg';
-import carVwUp from './cars/vw-up.jpg';
-import carPlaceholder from './cars/placeholder.png';
+import carNissanLeaf from '../../images/cars/nissan-leaf.jpg';
+import carVwCaddy from '../../images/cars/vw-caddy.jpg';
+import carGolfVariant from '../../images/cars/vw-golf-variant.jpg';
+import carGolf from '../../images/cars/vw-golf.jpg';
+import carVwUp from '../../images/cars/vw-up.jpg';
+import carPlaceholder from '../../images/cars/placeholder.png';
 
-/*
-TODO mapping car image
-const mapCars = {
-//TODO rename in id-name-car
-'carNissanLeaf': carNissanLeaf
-'carVwCaddy': carVwCaddy
-'carGolfVariant': carGolfVariant
-'carGolf': carGolf
-'carVwUp': carVwUp
+
+const carModels = {
+'defaultCar': carPlaceholder,
+'renault-zoe': carPlaceholder,
+//
+'nissan-leaf': carNissanLeaf,
+'vw-caddy-caddy-20-tdi': carVwCaddy,
+'vw-egolf': carGolf,
+'vw-eup': carVwUp,
+'vw-golf': carGolf,
+'vw-golf-golf-16-tdi': carGolf,
+'vw-golf-vw-golf': carGolf,
+'vw-up': carVwUp,
+'vw-up-vw-up': carVwUp,
+'vw-golf-variant-16-tdi-comf-8mt': carGolfVariant
+};
+
+const getCarModel = model => {
+    return carModels[model] || carModels.defaultCar;
+};
+
+const getDistanceFromLatLonInMeters = (lat1, lon1, lat2, lon2) => {
+  const deg2rad = deg => deg * (Math.PI/180);
+  let R = 6371 * 1000
+    , dLat = deg2rad(lat2-lat1)
+    , dLon = deg2rad(lon2-lon1) 
+    , a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+          Math.sin(dLon/2) * Math.sin(dLon/2)
+    , c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    , d = R * c;
+  return d;
 }
-
-"Nissan Leaf"           .nissan-leaf
-"Renault Zoe"           .renault-zoe
-"VW Caddy Caddy 2.0 TDI"    .vw-caddy-caddy-20-tdi
-"VW e-Golf"           .vw-egolf
-"VW e-UP!"          .vw-eup
-"VW Golf Golf 1.6 TDI"      .vw-golf-golf-16-tdi
-"VW Golf"           .vw-golf
-"VW Golf VW Golf"         .vw-golf-vw-golf
-"VW up!"            .vw-up
-"VW up! VW up!"         .vw-up-vw-up
-//TODO default
-carPlaceholder*/
 
 const overlayCarSharingConf = config.map.overlays.filter(item => item.type === 'car-rental')[0]
 const overlayBikeSharingConf = config.map.overlays.filter(item => item.type === 'bike-rental')[0]
 
-const getMarkerCarSharing = memoize(badgeCounter =>
-  divIcon({
+const getMarkerCarSharing = memoize(badgeCounter => {
+
+  let badgeType = (badgeCounter === 0) ? 'danger' : 'warning';
+
+  if (badgeCounter > 1)
+    badgeType = 'success';
+
+  return divIcon({
     className: "",
     iconSize: [overlayCarSharingConf.iconWidth, overlayCarSharingConf.iconHeight],
     popupAnchor: [0, -overlayCarSharingConf.iconHeight / 2],
     html: ReactDOMServer.renderToStaticMarkup(
-      <BadgeIcon width={overlayCarSharingConf.iconWidth} counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
+      <BadgeIcon width={overlayCarSharingConf.iconWidth} type={badgeType}>
         <MarkerCarSharing
           width={overlayCarSharingConf.iconWidth}
           height={overlayCarSharingConf.iconHeight}
@@ -77,15 +87,20 @@ const getMarkerCarSharing = memoize(badgeCounter =>
       </BadgeIcon>
     )
   })
-);
+});
 
-const getMarkerBikeSharing = memoize(badgeCounter =>
-  divIcon({
+const getMarkerBikeSharing = memoize(badgeCounter => {
+  let badgeType = (badgeCounter === 0) ? 'danger' : 'warning';
+
+  if (badgeCounter > 1)
+    badgeType = 'success';
+
+  return divIcon({
     className: "",
     iconSize: [overlayBikeSharingConf.iconWidth, overlayBikeSharingConf.iconHeight],
     popupAnchor: [0, -overlayBikeSharingConf.iconHeight / 2],
     html: ReactDOMServer.renderToStaticMarkup(
-      <BadgeIcon width={overlayBikeSharingConf.iconWidth} counter={badgeCounter !== 0 ? badgeCounter : null} type={badgeCounter === 0 ? 'danger' : 'default'}>
+      <BadgeIcon width={overlayBikeSharingConf.iconWidth} type={badgeType}>
         <MarkerBikeSharing
           width={overlayBikeSharingConf.iconWidth}
           height={overlayBikeSharingConf.iconHeight}
@@ -95,7 +110,7 @@ const getMarkerBikeSharing = memoize(badgeCounter =>
       </BadgeIcon>
     )
   })
-);
+});
 
 const getStationMarkerByColor = memoize(() =>
   divIcon({
@@ -213,9 +228,7 @@ class VehicleRentalOverlay extends MapLayer {
               </>
           }
 
-          
           {
-            //TODO: popolate this
             station.type === 'carsharing-hub' &&
               <>
                 <div className="otp-ui-mapOverlayPopup__popupHeader">
@@ -233,29 +246,35 @@ class VehicleRentalOverlay extends MapLayer {
                       </div>
 
                       <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
-                        <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
-                          <div>                                
-                            <strong>Car Type</strong>
-                            <br />
-                            <img src={carNissanLeaf} />
-                            <small>{t('availability')} 2</small>
-                          </div>
-                        </div>
-                        <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
-                          <div>                                
-                            <strong>Car Type</strong>
-                            <br />
-                            <img src={carPlaceholder} />
-                            <small>{t('availability')} 3</small>
-                          </div>
-                        </div>
+                      {
+                        station.groupVehicles && station.groupVehicles.map( groupVehicle => {
+                          if (groupVehicle.modelId) {
+                            
+                            const ava = groupVehicle.free > 0 ? 'bg-success': 'bg-danger';
+
+                            return (
+                            <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                              <div>
+                                <span className={ava}></span>
+                                <strong>{groupVehicle.modelName}</strong>
+                                <br />
+                                <img src={getCarModel(groupVehicle.modelId)} />
+                                <small>{t('availability')} {groupVehicle.free}</small>
+                              </div>
+                            </div>
+                            )
+                          }
+                        })
+                      }
+                      </div>
+
+                      <div className="otp-ui-mapOverlayPopup__popupRow">
+                        <a className="btn btn-link btn-small" href="https://www.carsharing.bz.it">{t('book')}</a>
                       </div>
                     </>
                 }
               </>
           }
-
-          {/* Set as from/to toolbar */}
           <div className="otp-ui-mapOverlayPopup__popupRow">
             <FromToLocationPicker
               location={location}
@@ -276,7 +295,7 @@ class VehicleRentalOverlay extends MapLayer {
     if (typeof station.isCarStation === 'boolean' && !station.isCarStation) {
       icon = getMarkerBikeSharing(station.bikesAvailable)
     } else if (typeof station.isFloatingCar === 'boolean' || station.type === "carsharing-hub") {
-      icon = getMarkerCarSharing(station.carsAvailable || station.free)
+      icon = getMarkerCarSharing(station.free)
     } else {
       icon = getStationMarkerByColor()
     }
@@ -298,33 +317,13 @@ class VehicleRentalOverlay extends MapLayer {
       );
     }
 
-    if (!filteredStations || filteredStations.length === 0) {
-      return <FeatureGroup />;
-    }
+    if (!filteredStations || filteredStations.length === 0) return <LayerGroup />;
 
-    const deg2rad = (deg) => {
-      return deg * (Math.PI/180)
-    }
-    const getDistanceFromLatLonInMeters = (lat1, lon1, lat2, lon2) => {
-      
-      var R = 6371 * 1000; // Radius of the earth in meters
-      var dLat = deg2rad(lat2-lat1);  // deg2rad below
-      var dLon = deg2rad(lon2-lon1); 
-      var a = 
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-        Math.sin(dLon/2) * Math.sin(dLon/2)
-        ; 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      var d = R * c; // Distance in meters
-      return d;
-    }
-
-    for(var station of filteredStations){
+    for(let station of filteredStations){
       if(station.isFloatingBike){
         let nearest = null;
         let lastDistance = null;
-        for(var i = 0; i <  filteredStations.length; i++){
+        for(let i = 0; i <  filteredStations.length; i++){
           const mstation = filteredStations[i];          
           if(mstation.isFloatingBike === false 
             && mstation.networks[0] == station.networks[0]
@@ -344,8 +343,34 @@ class VehicleRentalOverlay extends MapLayer {
       }
     }
 
+    const markerClusterIcon = cluster => {
+      const text = cluster.getChildCount();    
+      return L.divIcon({
+        className: 'marker-cluster-svg',
+        iconSize: [overlayCarSharingConf.iconWidth, overlayCarSharingConf.iconHeight],
+        html: ReactDOMServer.renderToStaticMarkup(
+          <MarkerCluster
+              text={text}
+              textColor={'white'}
+              markerColor={overlayCarSharingConf.iconMarkerColor}
+            />
+          )
+      });
+    }
+    
     return (
-      <FeatureGroup>{filteredStations.map(this.renderStation)}</FeatureGroup>
+      <LayerGroup>
+      <MarkerClusterGroup
+        showCoverageOnHover={false}
+        maxClusterRadius={40}
+        disableClusteringAtZoom={16}
+        iconCreateFunction={markerClusterIcon}
+      >
+        {
+          filteredStations.map(this.renderStation)
+        }
+      </MarkerClusterGroup>
+      </LayerGroup>
     );
   }
 }

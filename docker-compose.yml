@@ -53,7 +53,10 @@ services:
     environment:
       API_HOST: otp
       API_PATH: /otp/routers/openmove
-      API_PORT: 8080
+      API_PORT: 8080    
+      HERE_APPID: hpwU7yPFaQkGhyTRwDZG
+      HERE_APPCODE: eq17MTUJ8TZvohEKBdoaeg
+      HERE_APIKEY: NB4dgSQihrpnjmqpiwnodCU6gbco2JY_nk-b6Gx59y4
 
   gbfs:
     container_name: openmove-gbfs
@@ -108,12 +111,15 @@ services:
     build:
       context: ./
       dockerfile: infrastructure/docker/otp/Dockerfile
+      # args:
+      #   GTFS_URL_UPDATETIME: 15min
     environment:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
       - OFFICIAL=False
       - GTFS_FILE=latestGTFS.zip
       - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
+      #debug light file - GTFS_URL=ftp://ftp.sta.bz.it/solari/StopPoints_Report.xls
       - GTFS_URL_UPDATETIME=daily
       - GTFS_URL_UPDATEHOOK=''
     volumes:
@@ -121,6 +127,7 @@ services:
     depends_on:
       - gbfs
       - parking
+      - charger
       - carsharing
 
   build:
@@ -138,7 +145,7 @@ services:
       - OFFICIAL=False
       - DOWNLOAD_DATA=False
       - BACKUP_GRAPH=False
-      - GTFS_FILE=210126_ExportGTFS.zip
+      - GTFS_FILE=latestGTFS.zip
       - UPDATERS=True
       - GBFS_HOST=http://gbfs:8089
       - GBFS_VERSION=1

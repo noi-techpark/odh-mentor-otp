@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon -e js,yml ./index.js"
   },
-  "author": "",
+  "author": "Federico Bertolini <federico.bertolini@openmove.com>",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",

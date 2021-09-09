@@ -102,10 +102,14 @@
         flex-grow: 0;
         text-align: center;
         font-size: 12px;
-        padding: 0 6px;
         line-height: 1.2;
         cursor: pointer;
         min-width: 110px;
+        padding-right: 8px;
+
+        &:last-child {
+          padding-right: 0;
+        }
 
         input[type="radio"] {
           opacity: 0;
@@ -125,7 +129,7 @@
 
           &:before {
             border: 2px solid $gray-lighter;
-            border-radius: $border-radius-large;
+            border-radius: $border-radius-small;
             background-repeat: no-repeat;
             background-size: cover;
             width: 110px;
@@ -236,9 +240,13 @@
 
 /* marker cluster */
 
-.marker-cluster-small {
+/* .marker-cluster-small {
   background-color: $brand-primary;
 }
 .marker-cluster-small div {
   background-color: white
-}
+} */
+
+/* .marker-cluster-medium {
+  background-color: $brand-primary;
+} */

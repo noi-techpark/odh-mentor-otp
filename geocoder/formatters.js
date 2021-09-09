@@ -22,7 +22,7 @@ function createHit(ff) {
 			},
 			"source" : ff.source,
 			"source_id" : 'osm'+ff.id,
-			"layer" : "venue",
+			"layer" : ff.layer,
 			"parent" : {
 				"country" : [ "Italy" ],
 				"country_id" : [ "85633253" ],
@@ -68,6 +68,31 @@ module.exports = {
   ##check in file config.yml for fields mapping
   ##(there must be a property with the same name as the endpoint key)
 */
+  'here': function(data, lang) {
+
+		lang = lang || config.server.default_lang;
+
+  	const items = _.get(data,'body.Response.View[0].Result');
+
+		return _.compact(_.map(items, (item)=> {
+
+			let lat = _.get(item,"Location.DisplayPosition.Latitude"),
+				lon = _.get(item,"Location.DisplayPosition.Longitude"),
+				a = _.get(item,"Location.Address"),
+				text = _.compact([a.Street, a.HouseNumber, a.City]).join(', ');
+
+			if (lat && lon) {
+				return createHit({
+					id: _.get(item,'Location.LocationId'),
+					text: text,
+					lat: lat,
+					lon: lon,
+					source: 'here',
+					layer: config.endpoints.here.layer
+				});
+			}
+		}));
+  },
 
 	'opentripplanner': function(data, lang) {
 
@@ -89,6 +114,7 @@ module.exports = {
 					lat: lat,
 					lon: lon,
 					source: 'opentripplanner',
+					layer: config.endpoints.opentripplanner.layer
 				});
 			}
 		}));
@@ -110,7 +136,8 @@ module.exports = {
 					text: text,
 					lat: lat,
 					lon: lon,
-					source: 'ODH_accommodations',
+					source: 'accommodations',
+					layer: config.endpoints.accommodations.layer
 				});
 			}
 		}));
@@ -132,7 +159,8 @@ module.exports = {
 					text: text,
 					lat: lat,
 					lon: lon,
-					source: 'ODH_pois',
+					source: 'pois',
+					layer: config.endpoints.pois.layer
 				});
 			}
 		}));
@@ -154,7 +182,8 @@ module.exports = {
 					text: text,
 					lat: lat,
 					lon: lon,
-					source: 'ODH_ODHActivityPoi',
+					source: 'ODHActivityPoi',
+					layer: config.endpoints.ODHActivityPoi.layer
 				});
 			}
 		}));

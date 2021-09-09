@@ -6,11 +6,29 @@ import { isIE } from "../core-utils/ui";
 import { humanizeDistanceStringImperial } from "../humanize-distance";
 import PropTypes from "prop-types";
 import React from "react";
-import { Briefcase, Home, MapMarker, MapPin } from "@styled-icons/fa-solid";
 import { MenuItem, Button } from 'react-bootstrap'
 
-export function GeocodedOptionIcon() {
-  return <MapPin size={13} />;
+
+import { Briefcase, Bed, Home, Hotel, MapMarker, MapPin, Bus } from "@styled-icons/fa-solid";
+import { Address, Shop} from "@styled-icons/entypo";
+
+export function GeocodedOptionIcon({feature}) {
+   /* 
+    defined in /geocoder/config.yml endpoints
+    icons: https://styled-icons.dev/?s=hotel
+  */
+  switch (feature.properties.source) {
+    case 'here':
+      return <Address size={13} />;
+    case 'opentripplanner':
+      return <Bus size={13} />;
+    case 'accommodations':
+      return <Hotel size={13} />;
+    case 'ODHActivityPoi':
+      return <Shop size={13} />;      
+    default:
+      return <MapPin size={13} />;
+  }
 }
 
 export function Option({ disabled, icon, isActive, onClick, title }) {

@@ -112,8 +112,6 @@ class DateTimeSelector extends Component {
   };
 
   render() {
-    // console.log(`supports date time: ${this.supportsDateTimeInputs}`);
-
     const {
       className,
       dateFormatLegacy = OTP_API_DATE_FORMAT,
