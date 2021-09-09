@@ -215,20 +215,26 @@ function combineResults(text, lang, cb) {
 				results.push(eRes);
 			}
 		});
-		
-		(async (cbb, poiResults) => {		//prepend here results
-			const hereResponse = await api.here(text, lang);
-			const hereResults = formatters.here(hereResponse);
 
-			console.log(`[GEOCODER] response Endpoint: 'here' results`, _.size(hereResults));
-			//console.log(JSON.stringify(_.get(hereResponse,'body.Response.View[0].Result'),null,4));
+		results = _.flatten(results);
 
-			//add here first
-			const returnResults = hereResults.concat(poiResults);
+		if (config.endpoints.here) {
+			(async (cbb, poiResults) => {		//prepend here results
+				const hereResponse = await api.here(text, lang);
+				const hereResults = formatters.here(hereResponse);
 
+				console.log(`[GEOCODER] response Endpoint: 'here' results`, _.size(hereResults));
+				//console.log(JSON.stringify(_.get(hereResponse,'body.Response.View[0].Result'),null,4));
 
-			cbb( formatters.elasticsearch(returnResults) );
+				//add here first
+				const returnResults = hereResults.concat(poiResults);
 
-		})(cb, _.flatten(results));
+				cbb( formatters.elasticsearch(returnResults) );
+
+			})(cb, results);
+		}
+		else {
+			cb(formatters.elasticsearch(results));
+		}
 	});
 }

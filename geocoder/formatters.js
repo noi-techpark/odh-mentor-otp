@@ -22,7 +22,7 @@ function createHit(ff) {
 			},
 			"source" : ff.source,
 			"source_id" : 'osm'+ff.id,
-			"layer" : ff.layer || 'venue',
+			"layer" : ff.layer,
 			"parent" : {
 				"country" : [ "Italy" ],
 				"country_id" : [ "85633253" ],
@@ -88,7 +88,7 @@ module.exports = {
 					lat: lat,
 					lon: lon,
 					source: 'here',
-					layer: 'address'
+					layer: config.endpoints.here.layer
 				});
 			}
 		}));
@@ -114,7 +114,7 @@ module.exports = {
 					lat: lat,
 					lon: lon,
 					source: 'opentripplanner',
-					layer: 'stop'
+					layer: config.endpoints.opentripplanner.layer
 				});
 			}
 		}));
@@ -136,8 +136,8 @@ module.exports = {
 					text: text,
 					lat: lat,
 					lon: lon,
-					source: 'ODH_accommodations',
-					layer: 'venue'
+					source: 'accommodations',
+					layer: config.endpoints.accommodations.layer
 				});
 			}
 		}));
@@ -159,8 +159,8 @@ module.exports = {
 					text: text,
 					lat: lat,
 					lon: lon,
-					source: 'ODH_pois',
-					layer: 'venue'
+					source: 'pois',
+					layer: config.endpoints.pois.layer
 				});
 			}
 		}));
@@ -182,8 +182,8 @@ module.exports = {
 					text: text,
 					lat: lat,
 					lon: lon,
-					source: 'ODH_ODHActivityPoi',
-					layer: 'venue'
+					source: 'ODHActivityPoi',
+					layer: config.endpoints.ODHActivityPoi.layer
 				});
 			}
 		}));

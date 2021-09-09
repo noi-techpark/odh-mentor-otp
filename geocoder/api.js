@@ -5,7 +5,7 @@ const heremap = require("heremap");
 const config = require('./config');
 
 module.exports = {
-	'here': async(text, lang) => {
+	'here': async(text = '', lang) => {
 
 		heremap.config({
 		  app_id: config.endpoints.here.appId,
@@ -21,15 +21,18 @@ module.exports = {
 		
 		//docs AUTOCOMPLETE https://developer.here.com/documentation/geocoder-autocomplete/dev_guide/topics/resource-suggest.html
 		//docs GEOCODER https://developer.here.com/documentation/geocoder/dev_guide/topics/api-reference.html
-
-		return await heremap.geocode(text, {
-			//search: text,	//only AUTOCOMPLETE
-			maxresults: Number(config.endpoints.here.size),
-			country: 'ITA',
-			//resultType: 'street',//only AUTCOMPLETE
-			language: lang || config.server.default_lang,
-			bbox: bbox,
-			mapview: bbox
-		});
+		try {
+			return await heremap.geocode(text, {
+				//search: text,	//only AUTOCOMPLETE
+				maxresults: Number(config.endpoints.here.size),
+				country: 'ITA',
+				//resultType: 'street',//only AUTCOMPLETE
+				language: lang || config.server.default_lang,
+				bbox: bbox,
+				mapview: bbox
+			});
+		}catch(err) {
+			return []
+		}
 	}
 }

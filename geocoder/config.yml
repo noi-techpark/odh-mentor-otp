@@ -14,8 +14,9 @@ endpoints:
     size: 5
     #method: 'GET'
     #headers:
-    # User-Agent: OpenMove-Geocoder-Client     
-  
+    # User-Agent: OpenMove-Geocoder-Client
+    layer: venue
+
   here:
     #hostname: api.here.com
     #path: /6.2/geocode.json
@@ -24,6 +25,8 @@ endpoints:
     appCode: ${HERE_APPCODE}
     #apiKey: ${HERE_APIKEY}
     size: 2
+    layer: address
+    #define pelias layer in responses
     bbox:
       latM: 46.749271
       lngm: 10.991821
@@ -40,14 +43,16 @@ endpoints:
     #TODO use env var API_PATH
     port: ${API_PORT}
     size: 5
+    layer: stops
 
-  #example https://tourism.opendatahub.bz.it/api/Accommodation?language=en&poitype=447&active=true&fields=Id,AccoDetail.en.Name,Latitude,Longitude&pagesize=10&searchfilter=resort
   accommodations:
     #TODO priority: 50
     path: /api/Accommodation?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
     size: 5
-  
-  ##example: http://tourism.opendatahub.bz.it/api/ODHActivityPoi?language=en&poitype=447&active=true&fields=Id,Detail.en.Title,GpsInfo&pagesize=20&searchfilter=magic
+    layer: venue
+    #in pelias venue is a POIs
+
   ODHActivityPoi:
     path: /api/ODHActivityPoi/?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
     size: 5
+    layer: venue

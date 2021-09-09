@@ -35,6 +35,7 @@
     "@conveyal/geocoder-arcgis-geojson": "^0.0.2",
     "@conveyal/lonlat": "^1.4.0",
     "@mapbox/polyline": "^1.1.0",
+    "@styled-icons/entypo": "^10.34.0",
     "@styled-icons/fa-regular": "^10.26.0",
     "@styled-icons/fa-solid": "^10.32.0",
     "@turf/along": "^6.0.1",
