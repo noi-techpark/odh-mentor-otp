@@ -24,7 +24,7 @@ endpoints:
     appId: ${HERE_APPID}
     appCode: ${HERE_APPCODE}
     #apiKey: ${HERE_APIKEY}
-    size: 2
+    size: 5
     layer: address
     #define pelias layer in responses
     bbox:

@@ -318,12 +318,13 @@ class LocationField extends Component {
     const { menuVisible, value } = this.state;
     const { activeIndex } = this.state;
     let { geocodedFeatures } = this.state;
-    if (geocodedFeatures.length > 5)
-      geocodedFeatures = geocodedFeatures.slice(0, 5);
+    
+    if (geocodedFeatures.length > geocoderConfig.maxResults)
+      geocodedFeatures = geocodedFeatures.slice(0, geocoderConfig.maxResults);
 
     let { sessionSearches } = this.props;
-    if (sessionSearches.length > 5)
-      sessionSearches = sessionSearches.slice(0, 5);
+    if (sessionSearches.length > geocoderConfig.maxResults)
+      sessionSearches = sessionSearches.slice(0, geocoderConfig.maxResults);
 
     // Assemble menu contents, to be displayed either as dropdown or static panel.
     // Menu items are created in four phases: (1) the current location, (2) any

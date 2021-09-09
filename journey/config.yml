@@ -21,7 +21,7 @@ api:
 geocoder:
   baseUrl: ${GEOCODER_BASEURL}
   maxNearbyStops: 6
-  maxResults: 30
+  maxResults: 20
   type: PELIAS
   boundary:
     rect:

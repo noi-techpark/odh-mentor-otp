@@ -9,16 +9,15 @@ import React from "react";
 import { MenuItem, Button } from 'react-bootstrap'
 
 
-import { Briefcase, Home, Hotel, MapMarker, MapPin, Bus } from "@styled-icons/fa-solid";
+import { Briefcase, Bed, Home, Hotel, MapMarker, MapPin, Bus } from "@styled-icons/fa-solid";
 import { Address, Shop} from "@styled-icons/entypo";
 
 export function GeocodedOptionIcon({feature}) {
-  //console.log('GeocodedOptionIcon', feature.properties.layer, feature.properties)  
+   /* 
+    defined in /geocoder/config.yml endpoints
+    icons: https://styled-icons.dev/?s=hotel
+  */
   switch (feature.properties.source) {
-    /* 
-      defined in /geocoder/config.yml endpoints
-      icons: https://styled-icons.dev/?s=hotel
-    */
     case 'here':
       return <Address size={13} />;
     case 'opentripplanner':
