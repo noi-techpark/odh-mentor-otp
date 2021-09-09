@@ -202,7 +202,7 @@ function combineResults(text, lang, cb) {
 
 		requests.forEach( req => {
 
-			console.log('[GEOCODER] request',req.url)
+			//console.log('[GEOCODER] request',req.url)
 			
 			if(_.isFunction(formatters[ req.id ])) {
 
@@ -210,7 +210,7 @@ function combineResults(text, lang, cb) {
 				
 				let eRes = formatters[ req.id ]( response, lang );
 			
-				console.log("[GEOCODER] response", req.id, "results", _.size(eRes));
+				console.log(`[GEOCODER] response Endpoint: '${req.id}' results`, _.size(eRes));
 
 				results.push(eRes);
 			}
@@ -220,11 +220,12 @@ function combineResults(text, lang, cb) {
 			const hereResponse = await api.here(text, lang);
 			const hereResults = formatters.here(hereResponse);
 
+			console.log(`[GEOCODER] response Endpoint: 'here' results`, _.size(hereResults));
+			//console.log(JSON.stringify(_.get(hereResponse,'body.Response.View[0].Result'),null,4));
+
 			//add here first
 			const returnResults = hereResults.concat(poiResults);
 
-			console.log(`[GEOCODER] search: "${text}" responses...`);
-			//console.log(JSON.stringify(_.get(hereResponse,'body.Response.View[0].Result'),null,4));
 
 			cbb( formatters.elasticsearch(returnResults) );
 

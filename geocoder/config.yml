@@ -14,7 +14,7 @@ endpoints:
     size: 5
     #method: 'GET'
     #headers:
-    # User-Agent: OpenMove-Geocoder-Client
+    # User-Agent: OpenMove-Geocoder-Client     
   
   here:
     #hostname: api.here.com
@@ -24,6 +24,12 @@ endpoints:
     appCode: ${HERE_APPCODE}
     #apiKey: ${HERE_APIKEY}
     size: 2
+    bbox:
+      latM: 46.749271
+      lngm: 10.991821
+      latm: 46.431232
+      lngM: 11.475220
+      #suedtirol bbox 
 
   opentripplanner:
     #TODO priority: 100
