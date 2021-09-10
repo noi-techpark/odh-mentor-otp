@@ -27,12 +27,19 @@ endpoints:
     size: 5
     layer: address
     #define pelias layer in responses
-    bbox:
-      latM: 46.749271
-      lngm: 10.991821
-      latm: 46.431232
-      lngM: 11.475220
-      #suedtirol bbox 
+    # bbox:
+    #   latM: 46.749271
+    #   lngm: 10.991821
+    #   latm: 46.431232
+    #   lngM: 11.475220
+    #   #suedtirol bbox 
+    boundary:
+      rect:
+        minLon: 10.470121
+        maxLon: 12.255011
+        minLat: 46.188280
+        maxLat: 47.088780
+  #Suedtirol 10.470121,46.188280,12.255011,47.088780
 
   opentripplanner:
     #TODO priority: 100

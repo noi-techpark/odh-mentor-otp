@@ -1,4 +1,7 @@
 
+
+const _ = require('lodash');
+
 const heremap = require("heremap");
 //https://github.com/devbab/heremap#hm_geocode
 
@@ -7,6 +10,15 @@ const config = require('./config');
 module.exports = {
 	'here': async(text = '', lang) => {
 
+		if (!_.get(config,'endpoints.here.appId') || 
+			!_.get(config,'endpoints.here.appCode') || 
+			config.endpoints.here.appId === '${HERE_APPID}' || 
+			config.endpoints.here.appCode === '${HERE_APPCODE}'
+    	) {
+			console.warn("[GEOCODER] error in Endpoint: 'here' api appId/appCode not found");
+			return [];
+		}
+
 		heremap.config({
 		  app_id: config.endpoints.here.appId,
 		  app_code: config.endpoints.here.appCode
@@ -14,8 +26,14 @@ module.exports = {
 
 		let bbox;
 		if(config.endpoints.here.bbox) {
-			const {latM, lngm, latm, lngM} = config.endpoints.here.bbox;
-			bbox = `${latM},${lngm};${latm},${lngM}`;
+			const {maxLat, minLon, minLat, maxLon} = config.endpoints.here.boundary.rect
+				, bbox = `${maxLat},${minLon};${minLat},${maxLon}`;
+	/*boundary:
+      rect:
+        minLon: 10.470121
+        maxLon: 12.255011
+        minLat: 46.188280
+        maxLat: 47.088780*/
 			// TopLeft.Latitude,TopLeft.Longitude; BottomRight.Latitude,BottomRight.Longitude
 		}
 		
