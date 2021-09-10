@@ -1,4 +1,7 @@
 
+
+const _ = require('lodash');
+
 const heremap = require("heremap");
 //https://github.com/devbab/heremap#hm_geocode
 
@@ -6,6 +9,15 @@ const config = require('./config');
 
 module.exports = {
 	'here': async(text = '', lang) => {
+
+		if (!_.get(config,'endpoints.here.appId') || 
+			!_.get(config,'endpoints.here.appCode') || 
+			config.endpoints.here.appId === '${HERE_APPID}' || 
+			config.endpoints.here.appCode === '${HERE_APPCODE}'
+    	) {
+			console.warn("[GEOCODER] error in Endpoint: 'here' api appId/appCode not found");
+			return [];
+		}
 
 		heremap.config({
 		  app_id: config.endpoints.here.appId,
