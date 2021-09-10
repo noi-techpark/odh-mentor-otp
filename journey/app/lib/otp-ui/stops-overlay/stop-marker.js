@@ -23,19 +23,34 @@ import config from '../../config.yml';
 
 const overlayStopConf = config.map.overlays.filter(item => item.type === 'stops')[0]
 
-const stopMarkerIcon = divIcon({
-  iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
-  popupAnchor: [0, -overlayStopConf.iconHeight / 2],
-  html: ReactDOMServer.renderToStaticMarkup(
-    <MarkerStop
-      width={overlayStopConf.iconWidth}
-      height={overlayStopConf.iconHeight}
-      iconColor={overlayStopConf.iconColor}
-      markerColor={overlayStopConf.iconMarkerColor}
-    />
-  ),
-  className: ""
-});;
+const stopMarkerIcon = (stop) => {
+//console.log(stop)
+  return divIcon({
+    iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
+    popupAnchor: [0, -overlayStopConf.iconHeight / 2],
+    html: ReactDOMServer.renderToStaticMarkup(
+      <>
+      { stop.cluster && 
+        <MarkerStopChild
+          width={overlayStopConf.iconWidth}
+          height={overlayStopConf.iconHeight}
+          iconColor={overlayStopConf.iconColor}
+          markerColor={overlayStopConf.iconMarkerColor}
+        />
+      }
+      { !stop.cluster && 
+        <MarkerStop
+          width={overlayStopConf.iconWidth}
+          height={overlayStopConf.iconHeight}
+          iconColor={overlayStopConf.iconColor}
+          markerColor={overlayStopConf.iconMarkerColor}
+        />
+      }
+      </>
+    ),
+    className: ""
+  });
+}
 
 
 class StopMarker extends Component {
@@ -70,7 +85,7 @@ class StopMarker extends Component {
         /* eslint-disable-next-line react/jsx-props-no-spreading */
         {...leafletPath}
         position={[lat, lon]}
-        icon={stopMarkerIcon}
+        icon={stopMarkerIcon(stop)}
       >
         <Popup>
           <div className="otp-ui-mapOverlayPopup">

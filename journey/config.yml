@@ -106,7 +106,8 @@ map:
   # Default map center
   initLat: 46.670953
   initLon: 11.155007
-
+  initZoom: 13
+  
   # closer-in zoom levels don't have any tiles that could be rendered by
   maxZoom: 20
 

@@ -884,6 +884,25 @@ export function findStopsWithinBBox (params) {
 
 export const clearStops = createAction('CLEAR_STOPS_OVERLAY')
 
+// Clusters within Bounding Box Query
+
+const receivedClustersWithinBBoxResponse = createAction('CLUSTERS_WITHIN_BBOX_RESPONSE')
+const receivedClustersWithinBBoxError = createAction('CLUSTERS_WITHIN_BBOX_ERROR')
+
+export function findClustersWithinBBox (params) {
+  return createQueryAction(
+    `index/clusters?${qs.stringify(params)}`,
+    receivedClustersWithinBBoxResponse,
+    receivedClustersWithinBBoxError,
+    {
+      serviceId: 'clusters',
+      rewritePayload: clusters => ({clusters})
+    }
+  )
+}
+
+export const clearClusters = createAction('CLEAR_CLUSTERS_OVERLAY')
+
 const throttledUrls = {}
 
 function now () {

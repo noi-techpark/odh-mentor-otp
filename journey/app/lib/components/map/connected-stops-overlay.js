@@ -2,7 +2,7 @@ import StopsOverlay from '../../otp-ui/stops-overlay'
 import StopMarker from './connected-stop-marker'
 import { connect } from 'react-redux'
 
-import { findStopsWithinBBox } from '../../actions/api'
+import { findStopsWithinBBox, findClustersWithinBBox } from '../../actions/api'
 
 // connect to the redux store
 

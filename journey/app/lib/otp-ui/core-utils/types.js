@@ -359,7 +359,8 @@ export const stopLayerStopType = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   lat: PropTypes.number.isRequired,
-  lon: PropTypes.number.isRequired
+  lon: PropTypes.number.isRequired,
+  cluster: PropTypes.string.isRequired
 });
 
 const transitivePlaceType = PropTypes.shape({
