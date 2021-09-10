@@ -26,8 +26,14 @@ module.exports = {
 
 		let bbox;
 		if(config.endpoints.here.bbox) {
-			const {latM, lngm, latm, lngM} = config.endpoints.here.bbox;
-			bbox = `${latM},${lngm};${latm},${lngM}`;
+			const {maxLat, minLon, minLat, maxLon} = config.endpoints.here.boundary.rect
+				, bbox = `${maxLat},${minLon};${minLat},${maxLon}`;
+	/*boundary:
+      rect:
+        minLon: 10.470121
+        maxLon: 12.255011
+        minLat: 46.188280
+        maxLat: 47.088780*/
 			// TopLeft.Latitude,TopLeft.Longitude; BottomRight.Latitude,BottomRight.Longitude
 		}
 		
