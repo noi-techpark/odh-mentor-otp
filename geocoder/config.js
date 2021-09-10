@@ -60,13 +60,14 @@ const defaultConfig = {
 
 var configYml = _.defaultsDeep(configYml, defaultConfig)
 
-if(process.env.PORT)
+if(process.env.PORT) {
 	configYml.server.port = process.env.PORT;
+}
 
 //normalize defaults
-configYml.endpoints = _.mapValues(configYml.endpoints, (c) => {
+configYml.endpoints = _.mapValues(configYml.endpoints, econf => {
 	
-	let val = _.defaults(c, configYml.endpoints.default);
+	let val = _.defaults(econf, configYml.endpoints.default);
 
 	let u = url.parse(""+val.hostname);
 
