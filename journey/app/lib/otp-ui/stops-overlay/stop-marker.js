@@ -12,7 +12,9 @@ import { withNamespaces } from "react-i18next"
 import { Button } from "react-bootstrap"
 
 import MarkerStopStation from "../icons/modern/MarkerStopStation";
+
 import MarkerStop from "../icons/modern/MarkerStop";
+import MarkerStopChild from "../icons/modern/MarkerStopChild";
 import MarkerStation from "../icons/modern/MarkerStation";
 
 import ReactDOMServer from "react-dom/server";
@@ -25,7 +27,7 @@ const stopMarkerIcon = divIcon({
   iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
   popupAnchor: [0, -overlayStopConf.iconHeight / 2],
   html: ReactDOMServer.renderToStaticMarkup(
-    <MarkerStopStation
+    <MarkerStop
       width={overlayStopConf.iconWidth}
       height={overlayStopConf.iconHeight}
       iconColor={overlayStopConf.iconColor}
