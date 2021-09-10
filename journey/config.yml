@@ -137,6 +137,9 @@ map:
       iconHeight: 15
       iconMarkerColor: "#337ab7"
       iconColor: "#fff"
+      minZoom: 3
+      parentStation: true
+      minZoomStation: 17
 
     - type: car-rental
       name: carsharing

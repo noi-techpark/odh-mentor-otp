@@ -360,7 +360,7 @@ export const stopLayerStopType = PropTypes.shape({
   name: PropTypes.string.isRequired,
   lat: PropTypes.number.isRequired,
   lon: PropTypes.number.isRequired,
-  cluster: PropTypes.string.isRequired
+  //cluster: PropTypes.string.isRequired
 });
 
 const transitivePlaceType = PropTypes.shape({

@@ -10,7 +10,7 @@ import { divIcon } from "leaflet";
 import { CircleMarker, Popup, Marker } from "react-leaflet";
 import { withNamespaces } from "react-i18next"
 import { Button } from "react-bootstrap"
-
+import memoize from "lodash.memoize";
 import MarkerStopStation from "../icons/modern/MarkerStopStation";
 
 import MarkerStop from "../icons/modern/MarkerStop";
@@ -23,7 +23,7 @@ import config from '../../config.yml';
 
 const overlayStopConf = config.map.overlays.filter(item => item.type === 'stops')[0]
 
-const stopMarkerIcon = (stop) => {
+const stopMarkerIcon = memoize(stop => {
 //console.log(stop)
   return divIcon({
     iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
@@ -50,7 +50,7 @@ const stopMarkerIcon = (stop) => {
     ),
     className: ""
   });
-}
+});
 
 
 class StopMarker extends Component {
