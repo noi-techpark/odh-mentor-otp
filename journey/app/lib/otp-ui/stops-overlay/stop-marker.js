@@ -10,7 +10,11 @@ import { divIcon } from "leaflet";
 import { CircleMarker, Popup, Marker } from "react-leaflet";
 import { withNamespaces } from "react-i18next"
 import { Button } from "react-bootstrap"
+
 import MarkerStopStation from "../icons/modern/MarkerStopStation";
+import MarkerStop from "../icons/modern/MarkerStop";
+import MarkerStation from "../icons/modern/MarkerStation";
+
 import ReactDOMServer from "react-dom/server";
 import Bus from "../icons/modern/Bus";
 import config from '../../config.yml';
