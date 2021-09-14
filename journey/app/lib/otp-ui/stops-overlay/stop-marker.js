@@ -73,6 +73,18 @@ class StopMarker extends Component {
     setLocation({ location: { lat, lon, name }, locationType });
   }
 
+  onClickMarker = (evt) => {
+
+    const { stop} = this.props
+        , {lat, lon} = stop;
+        const zoom = Number(overlayStopConf.minZoomStation);
+    /*if(overlayStopConf.parentStations && !this.props.stop.cluster) {
+    }*/
+    //TODO handle map setZoom
+    console.log('CLICK', stop)
+
+  };
+
   render() {
     const { languageConfig, leafletPath, radius, stop, t } = this.props;
     const { id, name, lat, lon } = stop;
@@ -80,12 +92,14 @@ class StopMarker extends Component {
     const agency = idArr[0];
     const stopId = idArr.pop();
 
+
     return (
       <Marker
         /* eslint-disable-next-line react/jsx-props-no-spreading */
         {...leafletPath}
         position={[lat, lon]}
         icon={stopMarkerIcon(stop)}
+        onClick={this.onClickMarker}
       >
         <Popup>
           <div className="otp-ui-mapOverlayPopup">

@@ -12,6 +12,14 @@ import ResponsiveWebapp from './components/app/responsive-webapp'
 import AppMenu from './components/app/app-menu'
 
 import i18n from './i18n'
+
+import interreg from './images/interreg.png'
+import openmove from './images/openmove.png'
+
+const logos = {
+  interreg,
+  openmove
+}
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.yml
@@ -27,19 +35,33 @@ const {getItineraryFooter, LegIcon, ModeIcon} = jsConfig
 if (!LegIcon || !ModeIcon) {
   throw new Error('LegIcon and ModeIcon must be defined in config.js')
 }
-
 class JourneyWebapp extends Component {
 
   render () {
-    const { t } = this.props
-    const {branding, brandNavbar} = otpConfig;
+    const { t } = this.props;
+    const {brandByDomain} = otpConfig;
+    let {branding, brandNavbar, brandNavbarLogo} = otpConfig;
+
+    //TODO switch by domain location.hostname
+
+    let brandLogo = null;
+
+    if (brandByDomain && location.hostname in brandByDomain) {
+      branding = brandByDomain[ location.hostname ]['branding'];
+      brandNavbar = brandByDomain[ location.hostname ]['brandNavbar'];
+      brandNavbarLogo = brandByDomain[ location.hostname ]['brandNavbarLogo'];
+      brandLogo = logos[ brandNavbarLogo ] || null;
+    }
 
     /** desktop view **/
     const desktopView = (
       <div className='otp'>
         <Navbar fluid collapseOnSelect fixedTop>
           <Navbar.Header>
-            <Navbar.Brand>{brandNavbar} <span>BETA</span></Navbar.Brand>
+          { brandLogo &&
+            <img className='brandLogo' src={brandLogo} />
+          }
+            <Navbar.Brand> {brandNavbar} <span>BETA</span></Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
@@ -78,7 +100,6 @@ class JourneyWebapp extends Component {
           itineraryFooter={getItineraryFooter(t)}
           LegIcon={LegIcon}
           ModeIcon={ModeIcon}
-          title={(<div className={`icon-${branding}`} />)}
         />
       </main>
     )
