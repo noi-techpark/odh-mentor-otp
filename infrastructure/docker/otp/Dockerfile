@@ -23,10 +23,7 @@ RUN mkdir -p /conf
 #download official version
 #RUN curl -o /usr/local/share/java/otp.jar https://repo1.maven.org/maven2/org/opentripplanner/otp/$OTP_VERSION/otp-$OTP_VERSION-shaded.jar
 
-#COPY otp-unofficial.jar /usr/local/share/java/otp-unofficial.jar
-#COPY otp-parent-support.jar /usr/local/share/java/otp-unofficial.jar
 COPY otp-1.5.0-clusters-extended.jar /usr/local/share/java/otp-unofficial.jar
-
 
 COPY otp.sh /usr/local/bin/
 COPY otp-unofficial.sh /usr/local/bin/

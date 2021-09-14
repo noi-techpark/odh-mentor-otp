@@ -37,11 +37,11 @@ class StopsOverlay extends MapLayer {
   }
 
   refreshStops = () => {
-    const { leaflet, minZoom, refreshStops, parentStation, minZoomStation } = this.props;
+    const { leaflet, minZoom, refreshStops, parentStations, minZoomStation } = this.props;
 
     let useClusters = false;
 
-    if (parentStation && leaflet.map.getZoom() < minZoomStation) {
+    if (parentStations && leaflet.map.getZoom() < minZoomStation) {
       useClusters = true;
     }
     else if (leaflet.map.getZoom() < minZoom) {
@@ -72,7 +72,6 @@ class StopsOverlay extends MapLayer {
     const { leaflet, minZoom, StopMarker, 'stops': stopsAll } = this.props;
 
     const stops = uniqBy(stopsAll, 'id');
-    //WORKAROUND for OTP clusters bug
 
     // Don't render if below zoom threshold or no stops visible
     if (
