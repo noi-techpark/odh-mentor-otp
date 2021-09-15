@@ -24,7 +24,7 @@ import config from '../../config.yml';
 const overlayStopConf = config.map.overlays.filter(item => item.type === 'stops')[0]
 
 const stopMarkerIcon = memoize(stop => {
-//console.log(stop)
+
   return divIcon({
     iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
     popupAnchor: [0, -overlayStopConf.iconHeight / 2],
@@ -48,7 +48,7 @@ const stopMarkerIcon = memoize(stop => {
       }
       </>
     ),
-    className: ""
+    className: ''//TODO stop.cluster ? 'marker-stop-child': 'marker-stop-parent'
   });
 });
 
@@ -56,6 +56,7 @@ const stopMarkerIcon = memoize(stop => {
 class StopMarker extends Component {
   onClickView = () => {
     const { setViewedStop, stop } = this.props;
+    if(!stop.cluster) return
     setViewedStop({ stopId: stop.id });
   };
 
@@ -72,26 +73,13 @@ class StopMarker extends Component {
     const { lat, lon, name } = stop;
     setLocation({ location: { lat, lon, name }, locationType });
   }
-
-  onClickMarker = (evt) => {
-
-    const { stop} = this.props
-        , {lat, lon} = stop;
-        const zoom = Number(overlayStopConf.minZoomStation);
-    /*if(overlayStopConf.parentStations && !this.props.stop.cluster) {
-    }*/
-    //TODO handle map setZoom
-    console.log('CLICK', stop)
-
-  };
-
+  
   render() {
-    const { languageConfig, leafletPath, radius, stop, t } = this.props;
+    const { languageConfig, leafletPath, radius, stop, t, onClick } = this.props;
     const { id, name, lat, lon } = stop;
     const idArr = id.split(":");
     const agency = idArr[0];
     const stopId = idArr.pop();
-
 
     return (
       <Marker
@@ -99,8 +87,10 @@ class StopMarker extends Component {
         {...leafletPath}
         position={[lat, lon]}
         icon={stopMarkerIcon(stop)}
-        onClick={this.onClickMarker}
+        onClick={onClick}
       >
+      {
+        stop.cluster && 
         <Popup>
           <div className="otp-ui-mapOverlayPopup">
             <div className="otp-ui-mapOverlayPopup__popupHeader">
@@ -128,6 +118,7 @@ class StopMarker extends Component {
             </div>
           </div>
         </Popup>
+      }
       </Marker>
     );
   }
@@ -141,7 +132,8 @@ StopMarker.propTypes = {
   radius: PropTypes.number,
   setLocation: PropTypes.func.isRequired,
   setViewedStop: PropTypes.func.isRequired,
-  stop: stopLayerStopType.isRequired
+  stop: stopLayerStopType.isRequired,
+  //onClick: PropTypes.func.isRequired
 };
 
 StopMarker.defaultProps = {
@@ -151,7 +143,17 @@ StopMarker.defaultProps = {
     fillOpacity: 1,
     weight: 1
   },
-  radius: 8
+  radius: 8,
+  onClick: e => {
+    
+    //PATCH
+    //
+    //console.log('click default', e.target)
+    
+    const {leaflet, position} = e.target.options;
+
+    leaflet.map.setView(position, Number(overlayStopConf.minZoomStation));
+  }
 };
 
 export default withNamespaces()(StopMarker)
