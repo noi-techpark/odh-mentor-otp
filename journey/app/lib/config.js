@@ -7,7 +7,7 @@
 * - other files
 * - modules not installed in the node_modules of this project.
 */
-import { TriMetLegIcon, ClassicModeIcon } from './otp-ui/icons'
+import { TriMetLegIcon, ClassicModeIcon, TriMetModeIcon, OpenMoveModeIcon } from './otp-ui/icons'
 import React from 'react'
 
 /**
@@ -43,6 +43,7 @@ export function configure (otpConfig) {
       </div>
       ),
       LegIcon: TriMetLegIcon,
-      ModeIcon: ClassicModeIcon
+      ModeIcon: OpenMoveModeIcon
+      //ModeIcon: ClassicModeIcon
     }
   }
