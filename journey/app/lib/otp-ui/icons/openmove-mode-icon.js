@@ -20,7 +20,7 @@ import {
   Walk
 } from "./openmove";
 
-//secondary panel of modes contains
+//combination of secondary panel of modes
 //  bike_ride
 //  bikesharing_ride
 //  park_ride
