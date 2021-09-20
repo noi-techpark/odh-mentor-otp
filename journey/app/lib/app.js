@@ -23,12 +23,12 @@ const logos = {
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.yml
-const otpConfig = require(YAML_CONFIG)
+const otpConfig = require(YAML_CONFIG);
 
 // Loads a JavaScript file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.js
-const jsConfig = require(JS_CONFIG).configure(otpConfig)
+const jsConfig = require(JS_CONFIG).configure(otpConfig);
 
 const {getItineraryFooter, LegIcon, ModeIcon} = jsConfig
 
@@ -46,7 +46,7 @@ class JourneyWebapp extends Component {
 
     let brandLogo = null;
 
-    if (brandByDomain && location.hostname in brandByDomain) {
+    if (brandByDomain && (location.hostname in brandByDomain)) {
       branding = brandByDomain[ location.hostname ]['branding'];
       brandNavbar = brandByDomain[ location.hostname ]['brandNavbar'];
       brandNavbarLogo = brandByDomain[ location.hostname ]['brandNavbarLogo'];

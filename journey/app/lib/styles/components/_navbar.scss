@@ -24,3 +24,14 @@
     margin: 0 5px 0 -15px;
   }
 }
+
+.mobile {
+  .navbar-header {
+    .brandLogo {
+      float: left;
+      height: 40px;
+      margin: 0;
+      position: absolute;
+    }
+  }
+}
