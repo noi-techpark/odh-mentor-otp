@@ -1,7 +1,27 @@
-branding: Mentor - Alto Adige/Suedtirol
-homeTimezone: Europe/Rome
-title: Mentor - Alto Adige/Suedtirol
-brandNavbar: Mentor
+branding: Merano - Alto Adige/Suedtirol
+title: Merano - Alto Adige/Suedtirol
+brandNavbar: Merano
+brandNavbarLogo: null
+
+#overwrite default values by location.hostname
+brandByDomain:
+  localhost:
+    branding: Journey 
+    title: Journey 
+    brandNavbar: Journey
+    brandNavbarLogo: openmove
+  
+  mobility.meran.eu:
+    branding: Merano - Alto Adige/Suedtirol
+    title: Merano - Alto Adige/Suedtirol
+    brandNavbar: Merano
+    brandNavbarLogo: null
+
+  interreg:
+    branding: Mentor
+    title: Mentor
+    brandNavbar: ''
+    brandNavbarLogo: interreg
 
 reportIssue:
   mailto: support@openmove.com
