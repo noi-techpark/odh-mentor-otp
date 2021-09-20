@@ -30,7 +30,7 @@ import {
 function OpenMoveModeIcon({ mode, ...props }) {
   if (!mode) return null;
 
-console.log(mode)
+  //console.log(mode)
 
   switch (mode.toLowerCase()) {
     case "bicycle":

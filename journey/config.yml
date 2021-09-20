@@ -339,7 +339,7 @@ modes:
     #   showWheelchairSetting: true
 
   accessModes:
-    - mode: BICYCLE
+    - mode: BICYCLE_RIDE
       label: bike_ride
     - mode: BICYCLE_RENT
       label: bikesharing_ride
