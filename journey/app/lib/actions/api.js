@@ -871,8 +871,16 @@ const receivedStopsWithinBBoxResponse = createAction('STOPS_WITHIN_BBOX_RESPONSE
 const receivedStopsWithinBBoxError = createAction('STOPS_WITHIN_BBOX_ERROR')
 
 export function findStopsWithinBBox (params) {
+  
+  let type = 'stops';
+
+  if (params.clusters === true) {
+    type = 'clusters';
+    params.detail = true;
+  }
+
   return createQueryAction(
-    `index/stops?${qs.stringify(params)}`,
+    `index/${type}?${qs.stringify(params)}`,
     receivedStopsWithinBBoxResponse,
     receivedStopsWithinBBoxError,
     {
@@ -883,7 +891,27 @@ export function findStopsWithinBBox (params) {
 }
 
 export const clearStops = createAction('CLEAR_STOPS_OVERLAY')
+/*
+// Clusters within Bounding Box Query
 
+const receivedClustersWithinBBoxResponse = createAction('CLUSTERS_WITHIN_BBOX_RESPONSE')
+const receivedClustersWithinBBoxError = createAction('CLUSTERS_WITHIN_BBOX_ERROR')
+
+export function findClustersWithinBBox (params) {
+  params.detail=true;
+  return createQueryAction(
+    `index/clusters?${qs.stringify(params)}`,
+    receivedClustersWithinBBoxResponse,
+    receivedClustersWithinBBoxError,
+    {
+      serviceId: 'clusters',
+      rewritePayload: clusters => ({clusters})
+    }
+  )
+}
+
+export const clearClusters = createAction('CLEAR_CLUSTERS_OVERLAY')
+*/
 const throttledUrls = {}
 
 function now () {
@@ -948,7 +976,7 @@ function createQueryAction (endpoint, responseAction, errorAction, options = {})
         console.warn(`Request throttled for url: ${url}`)
         return
       } else {
-        throttledUrls[throttleKey] = now()
+        throttledUrls[throttleKey] = now();
       }
     }
     let payload

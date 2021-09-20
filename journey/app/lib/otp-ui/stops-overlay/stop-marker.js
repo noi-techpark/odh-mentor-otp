@@ -10,31 +10,53 @@ import { divIcon } from "leaflet";
 import { CircleMarker, Popup, Marker } from "react-leaflet";
 import { withNamespaces } from "react-i18next"
 import { Button } from "react-bootstrap"
+import memoize from "lodash.memoize";
 import MarkerStopStation from "../icons/modern/MarkerStopStation";
+
+import MarkerStop from "../icons/modern/MarkerStop";
+import MarkerStopChild from "../icons/modern/MarkerStopChild";
+import MarkerStation from "../icons/modern/MarkerStation";
+
 import ReactDOMServer from "react-dom/server";
 import Bus from "../icons/modern/Bus";
 import config from '../../config.yml';
 
 const overlayStopConf = config.map.overlays.filter(item => item.type === 'stops')[0]
 
-const stopMarkerIcon = divIcon({
-  iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
-  popupAnchor: [0, -overlayStopConf.iconHeight / 2],
-  html: ReactDOMServer.renderToStaticMarkup(
-    <MarkerStopStation
-      width={overlayStopConf.iconWidth}
-      height={overlayStopConf.iconHeight}
-      iconColor={overlayStopConf.iconColor}
-      markerColor={overlayStopConf.iconMarkerColor}
-    />
-  ),
-  className: ""
-});;
+const stopMarkerIcon = memoize(stop => {
+
+  return divIcon({
+    iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
+    popupAnchor: [0, -overlayStopConf.iconHeight / 2],
+    html: ReactDOMServer.renderToStaticMarkup(
+      <>
+      { stop.cluster && 
+        <MarkerStopChild
+          width={overlayStopConf.iconWidth}
+          height={overlayStopConf.iconHeight}
+          iconColor={overlayStopConf.iconColor}
+          markerColor={overlayStopConf.iconMarkerColor}
+        />
+      }
+      { !stop.cluster && 
+        <MarkerStop
+          width={overlayStopConf.iconWidth}
+          height={overlayStopConf.iconHeight}
+          iconColor={overlayStopConf.iconColor}
+          markerColor={overlayStopConf.iconMarkerColor}
+        />
+      }
+      </>
+    ),
+    className: ''//TODO stop.cluster ? 'marker-stop-child': 'marker-stop-parent'
+  });
+});
 
 
 class StopMarker extends Component {
   onClickView = () => {
     const { setViewedStop, stop } = this.props;
+    if(!stop.cluster) return
     setViewedStop({ stopId: stop.id });
   };
 
@@ -51,9 +73,9 @@ class StopMarker extends Component {
     const { lat, lon, name } = stop;
     setLocation({ location: { lat, lon, name }, locationType });
   }
-
+  
   render() {
-    const { languageConfig, leafletPath, radius, stop, t } = this.props;
+    const { languageConfig, leafletPath, radius, stop, t, onClick } = this.props;
     const { id, name, lat, lon } = stop;
     const idArr = id.split(":");
     const agency = idArr[0];
@@ -64,8 +86,11 @@ class StopMarker extends Component {
         /* eslint-disable-next-line react/jsx-props-no-spreading */
         {...leafletPath}
         position={[lat, lon]}
-        icon={stopMarkerIcon}
+        icon={stopMarkerIcon(stop)}
+        onClick={onClick}
       >
+      {
+        stop.cluster && 
         <Popup>
           <div className="otp-ui-mapOverlayPopup">
             <div className="otp-ui-mapOverlayPopup__popupHeader">
@@ -93,6 +118,7 @@ class StopMarker extends Component {
             </div>
           </div>
         </Popup>
+      }
       </Marker>
     );
   }
@@ -106,7 +132,8 @@ StopMarker.propTypes = {
   radius: PropTypes.number,
   setLocation: PropTypes.func.isRequired,
   setViewedStop: PropTypes.func.isRequired,
-  stop: stopLayerStopType.isRequired
+  stop: stopLayerStopType.isRequired,
+  //onClick: PropTypes.func.isRequired
 };
 
 StopMarker.defaultProps = {
@@ -116,7 +143,17 @@ StopMarker.defaultProps = {
     fillOpacity: 1,
     weight: 1
   },
-  radius: 8
+  radius: 8,
+  onClick: e => {
+    
+    //PATCH
+    //
+    //console.log('click default', e.target)
+    
+    const {leaflet, position} = e.target.options;
+
+    leaflet.map.setView(position, Number(overlayStopConf.minZoomStation));
+  }
 };
 
 export default withNamespaces()(StopMarker)

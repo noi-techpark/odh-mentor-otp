@@ -119,7 +119,6 @@ services:
       - OFFICIAL=False
       - GTFS_FILE=latestGTFS.zip
       - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
-      #debug light file - GTFS_URL=ftp://ftp.sta.bz.it/solari/StopPoints_Report.xls
       - GTFS_URL_UPDATETIME=daily
       - GTFS_URL_UPDATEHOOK=''
     volumes:

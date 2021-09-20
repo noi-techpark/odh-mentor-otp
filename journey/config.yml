@@ -1,7 +1,27 @@
-branding: Mentor - Alto Adige/Suedtirol
-homeTimezone: Europe/Rome
-title: Mentor - Alto Adige/Suedtirol
-brandNavbar: Mentor
+branding: Merano - Alto Adige/Suedtirol
+title: Merano - Alto Adige/Suedtirol
+brandNavbar: Merano
+brandNavbarLogo: null
+
+#overwrite default values by location.hostname
+brandByDomain:
+  localhost:
+    branding: Journey 
+    title: Journey 
+    brandNavbar: Journey
+    brandNavbarLogo: openmove
+  
+  mobility.meran.eu:
+    branding: Merano - Alto Adige/Suedtirol
+    title: Merano - Alto Adige/Suedtirol
+    brandNavbar: Merano
+    brandNavbarLogo: null
+
+  interreg:
+    branding: Mentor
+    title: Mentor
+    brandNavbar: ''
+    brandNavbarLogo: interreg
 
 reportIssue:
   mailto: support@openmove.com
@@ -106,7 +126,8 @@ map:
   # Default map center
   initLat: 46.670953
   initLon: 11.155007
-
+  initZoom: 13
+  
   # closer-in zoom levels don't have any tiles that could be rendered by
   maxZoom: 20
 
@@ -134,8 +155,11 @@ map:
       visible: true
       iconWidth: 15
       iconHeight: 15
-      iconMarkerColor: "#337ab7"
+      iconMarkerColor: "#095980"
       iconColor: "#fff"
+      minZoom: 3
+      parentStations: true
+      minZoomStation: 17
 
     - type: car-rental
       name: carsharing
@@ -315,7 +339,7 @@ modes:
     #   showWheelchairSetting: true
 
   accessModes:
-    - mode: BICYCLE
+    - mode: BICYCLE_RIDE
       label: bike_ride
     - mode: BICYCLE_RENT
       label: bikesharing_ride
