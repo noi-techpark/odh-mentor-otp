@@ -60,7 +60,7 @@ class StopsOverlay extends MapLayer {
           maxLon: bounds.getEast()
         });
         this.lastBounds = bounds;
-      }, 300);
+      }, 150);
     }
   };
 

@@ -25,20 +25,22 @@ const overlayStopConf = config.map.overlays.filter(item => item.type === 'stops'
 
 const stopMarkerIcon = memoize(stop => {
 
+  let isStation = false;
+  let isStopChild = false;
+
+  if(Array.isArray(stop.stops) && stop.stops.length > 1) {
+    isStation = true;
+  }
+  else if(!stop.stops || stop.stops.length === 1 )  {
+    isStopChild = true;
+  }
+
   return divIcon({
     iconSize: [overlayStopConf.iconWidth, overlayStopConf.iconHeight],
     popupAnchor: [0, -overlayStopConf.iconHeight / 2],
     html: ReactDOMServer.renderToStaticMarkup(
       <>
-      { stop.cluster && 
-        <MarkerStopChild
-          width={overlayStopConf.iconWidth}
-          height={overlayStopConf.iconHeight}
-          iconColor={overlayStopConf.iconColor}
-          markerColor={overlayStopConf.iconMarkerColor}
-        />
-      }
-      { !stop.cluster && 
+      { isStation &&
         <MarkerStop
           width={overlayStopConf.iconWidth}
           height={overlayStopConf.iconHeight}
@@ -46,19 +48,27 @@ const stopMarkerIcon = memoize(stop => {
           markerColor={overlayStopConf.iconMarkerColor}
         />
       }
+      { isStopChild &&
+        <MarkerStopChild
+          width={overlayStopConf.iconWidth}
+          height={overlayStopConf.iconHeight}
+          iconColor={overlayStopConf.iconColor}
+          markerColor={overlayStopConf.iconMarkerColor}
+        />
+      }      
       </>
     ),
     className: ''//TODO stop.cluster ? 'marker-stop-child': 'marker-stop-parent'
   });
 });
 
+const stopIdStringify = id => {
+  const idArr = id.split(":")
+      , agency = idArr[0];
+  return idArr.pop();
+}
 
 class StopMarker extends Component {
-  onClickView = () => {
-    const { setViewedStop, stop } = this.props;
-    if(!stop.cluster) return
-    setViewedStop({ stopId: stop.id });
-  };
 
   onFromClick = () => {
     this.setLocation("from");
@@ -73,13 +83,32 @@ class StopMarker extends Component {
     const { lat, lon, name } = stop;
     setLocation({ location: { lat, lon, name }, locationType });
   }
+
+  onClickView = () => {
+    const { setViewedStop, stop } = this.props;
+
+    let stopId = stop.id;
+
+    if (Array.isArray(stop.stops) && stop.stops.length > 1) {
+      stopId = stop.stops[0].id;
+    }
+    else if (Array.isArray(stop.stops) && stop.stops.length === 1) {
+      stopId = stop.stops[0].id;
+    }
+
+    setViewedStop({ stopId });
+  };
   
   render() {
     const { languageConfig, leafletPath, radius, stop, t, onClick } = this.props;
-    const { id, name, lat, lon } = stop;
-    const idArr = id.split(":");
-    const agency = idArr[0];
-    const stopId = idArr.pop();
+    let { id, name, lat, lon, stops } = stop;
+
+    if (Array.isArray(stops) && stops.length===1) {
+      id = stops[0].id;
+      name = stops[0].name;      
+      lat = stops[0].lat;
+      lon = stops[0].lon;
+    }
 
     return (
       <Marker
@@ -90,26 +119,20 @@ class StopMarker extends Component {
         onClick={onClick}
       >
       {
-        stop.cluster && 
         <Popup>
           <div className="otp-ui-mapOverlayPopup">
             <div className="otp-ui-mapOverlayPopup__popupHeader">
               <Bus />
 
-              <Button bsStyle="link" onClick={this.onClickView} title={`Stop ID: ${stopId}`}>
+              <Button bsStyle="link" onClick={this.onClickView} title={`Stop ID: ${stopIdStringify(id)}`}>
                 {t(languageConfig.stopViewer || 'stop')}
               </Button>
             </div>
 
             <div className="otp-ui-mapOverlayPopup__popupTitle">{name}</div>
-            {/* {
-              agency &&
-                <div className="otp-ui-mapOverlayPopup__popupRow">
-                  <strong>Agency:</strong> {agency}
-                </div>
-            } */}
 
-            {/* The "Set as [from/to]" ButtonGroup */}
+            {/*debug <pre>{ JSON.stringify(stop) }</pre>*/}
+
             <div className="otp-ui-mapOverlayPopup__popupRow">
               <FromToLocationPicker
                 onFromClick={this.onFromClick}
