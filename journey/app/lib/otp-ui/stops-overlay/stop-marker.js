@@ -167,7 +167,7 @@ StopMarker.defaultProps = {
     weight: 1
   },
   radius: 8,
-  onClick: e => {
+/*  onClick: e => {
     
     //PATCH
     //
@@ -176,7 +176,7 @@ StopMarker.defaultProps = {
     const {leaflet, position} = e.target.options;
 
     leaflet.map.setView(position, Number(overlayStopConf.minZoomStation));
-  }
+  }*/
 };
 
 export default withNamespaces()(StopMarker)
