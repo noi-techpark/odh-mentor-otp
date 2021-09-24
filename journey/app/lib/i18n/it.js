@@ -359,9 +359,10 @@ export const TRANSLATIONS_IT = {
   "credits_title": "Credits",
   "credits_title_developed": "Developed by",
   "credits_title_designed": "Designed by",
-  "credits_title_data_provided": "Data provided by",  
+  "credits_title_data_provided": "Data provided by",
+  "credits_title_supported": "Supported by",
   "close": "Chiudi",
   "plan_now": "Parti adesso",
   "plan_depart_at": "Pianifica partenza",
-  "plan_arrive_at": "Pianifica arrivo",
+  "plan_arrive_at": "Pianifica arrivo"  
 }

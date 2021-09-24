@@ -1,7 +1,16 @@
 import utils from "../core-utils";
+
+import uniqBy from "lodash.uniqby";
+
 import PropTypes from "prop-types";
 import React from "react";
 import { FeatureGroup, MapLayer, withLeaflet } from "react-leaflet";
+
+/*
+  TODO DEPRECATED MapLayer
+  https://github.com/PaulLeCam/react-leaflet/issues/818
+  https://github.com/PaulLeCam/react-leaflet/issues/862
+*/
 
 /**
  * An overlay to view a collection of stops.
@@ -28,8 +37,14 @@ class StopsOverlay extends MapLayer {
   }
 
   refreshStops = () => {
-    const { leaflet, minZoom, refreshStops } = this.props;
-    if (leaflet.map.getZoom() < minZoom) {
+    const { leaflet, minZoom, refreshStops, parentStations, minZoomStation } = this.props;
+
+    let useClusters = false;
+
+    if (parentStations && leaflet.map.getZoom() < minZoomStation) {
+      useClusters = true;
+    }
+    else if (leaflet.map.getZoom() < minZoom) {
       this.forceUpdate();
       return;
     }
@@ -38,13 +53,14 @@ class StopsOverlay extends MapLayer {
     if (!bounds.equals(this.lastBounds)) {
       setTimeout(() => {
         refreshStops({
+          clusters: useClusters,
           minLat: bounds.getSouth(),
           maxLat: bounds.getNorth(),
           minLon: bounds.getWest(),
           maxLon: bounds.getEast()
         });
         this.lastBounds = bounds;
-      }, 300);
+      }, 150);
     }
   };
 
@@ -53,7 +69,9 @@ class StopsOverlay extends MapLayer {
   updateLeafletElement() {}
 
   render() {
-    const { leaflet, minZoom, StopMarker, stops } = this.props;
+    const { leaflet, minZoom, StopMarker, 'stops': stopsAll } = this.props;
+
+    const stops = uniqBy(stopsAll, 'id');
 
     // Don't render if below zoom threshold or no stops visible
     if (
@@ -76,7 +94,11 @@ class StopsOverlay extends MapLayer {
 
     // Otherwise, return FeatureGroup with mapped array of StopMarkers
     return (
-      <FeatureGroup>{stops.map(stop => createStopMarker(stop))}</FeatureGroup>
+      <FeatureGroup>
+      {
+        stops.map(stop => createStopMarker(stop))
+      }
+      </FeatureGroup>
     );
   }
 }

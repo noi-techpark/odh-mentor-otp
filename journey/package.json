@@ -10,14 +10,14 @@
   "author": "OpenMove <info@openmove.com>",
   "contributors": [
     {
-      "name" : "Stefano Cudini",
-      "email" : "stefano.cudini@gmail.com",
-      "url" : "https://github.com/stefanocudini"
-    },
-    {
       "name" : "Federico Bertolini",
       "email" : "federico.bertolini@openmove.com",
       "url" : "https://github.com/zabuTNT"
+    },
+    {
+      "name" : "Stefano Cudini",
+      "email" : "stefano.cudini@gmail.com",
+      "url" : "https://github.com/stefanocudini"
     },
     {
       "name" : "Valerio Capogna",

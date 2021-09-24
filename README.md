@@ -114,6 +114,9 @@ in addition to those of *otp* vars
 
 ```API_PORT``` port default ```8080``` (port of internal service otp)
 
+```HERE_APPID``` here geocoder api appId params
+
+```HERE_APPCODE``` here geocoder api appCode params
 
 ### Building Arguments
 

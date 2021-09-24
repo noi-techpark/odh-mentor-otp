@@ -3,7 +3,7 @@ import React from "react";
 import {
   AerialTram,
   Bicycle,
-  BikeSharing,
+//  BikeSharing,
   Bus,
   Car,
   Ferry,
@@ -15,7 +15,7 @@ import {
   Wes
 } from "./trimet";
 
-//import BikeSharing from "./modern/BikeSharing";
+import BikeSharing from "./modern/BikeSharing";
 //import CarSharing from "./modern/CarSharing";
 import MicromobilitySharing from "./modern/MicromobilitySharing";
 

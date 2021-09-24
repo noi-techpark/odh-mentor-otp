@@ -19,6 +19,8 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/otp/Dockerfile
+      args:
+        - GTFS_URL_UPDATETIME=${GTFS_URL_UPDATETIME}
   gbfs:
     image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
     build:

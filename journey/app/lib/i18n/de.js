@@ -356,7 +356,8 @@ export const TRANSLATIONS_DE = {
   "credits_title": "$_credits_title",
   "credits_title_developed": "$_credits_title_developed",
   "credits_title_designed": "$_credits_title_designed",
-  "credits_title_data_provided": "$_credits_title_data_provided", 
+  "credits_title_data_provided": "$_credits_title_data_provided",
+  "credits_title_supported": "Supported by",
   "close": "Schließen",
   "availability": "$_availability",
 }

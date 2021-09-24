@@ -11,6 +11,7 @@ import StandardLegIcon from "./standard-leg-icon";
 import StandardModeIcon from "./standard-mode-icon";
 import TriMetLegIcon from "./trimet-leg-icon";
 import TriMetModeIcon from "./trimet-mode-icon";
+import OpenMoveModeIcon from "./openmove-mode-icon";
 
 const {
   ClassicBike,
@@ -207,6 +208,7 @@ export {
   TriMet,
   TriMetLegIcon,
   TriMetModeIcon,
+  OpenMoveModeIcon,
   TripPlanner,
   TripPlannerSolid,
   UTurnLeft,
