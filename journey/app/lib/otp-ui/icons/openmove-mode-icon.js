@@ -49,8 +49,15 @@ function OpenMoveModeIcon({ mode, ...props }) {
       return <MicromobilityRide {...props} />;
     case "transit":
       return <Bus {...props} />;
+    case "bus":
+      return <Bus {...props} />;      
     case "walk":
       return <Walk {...props} />;
+    case "gondola":
+    case "funicular":
+      return <Funicolar {...props} />;
+    case "rail":
+      return <Rail {...props} />;
     default:
       return null;
   }
@@ -60,16 +67,11 @@ case "bus":
   return <Bus {...props} />;
 case "car":
   return <Car {...props} />;
-case "rail":
-  return <Rail {...props} />;
 case "streetcar":
   return <Streetcar {...props} />;
 case "subway":
 case "tram":
   return <Tram {...props} />;    
-case "gondola":
-case "funicular":
-  return <Funicolar {...props} />;
 */
 
 export default OpenMoveModeIcon;

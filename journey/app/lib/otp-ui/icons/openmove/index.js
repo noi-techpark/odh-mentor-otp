@@ -25,9 +25,11 @@ export {
   Bus,
   CarSharing,
   CarSharingRide,
+  Funicolar,
   ParkRide,
   Micromobility,
   MicromobilityRide,
   MicromobilitySharing,
   Walk,
+  Rail
 };
