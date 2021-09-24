@@ -331,7 +331,7 @@ export const TRANSLATIONS_IT = {
   "available_slots": "Slots disponibili",
   "time_max_walk": "tempo massimo a piedi",
   "time_max_bike": "tempo massimo in bici",
-  "distance_max_escooter": "$_distance_max_escooter",
+  "distance_max_escooter": "distanza massima e-scooter",
   "power_escooter": "E-scooter Power",
   "250_meters": "250 metri",
   "500_meters": "500 metri",
