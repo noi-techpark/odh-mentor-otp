@@ -4,7 +4,7 @@ import BicycleRide from "./BicycleRide";
 import BikeSharing from "./BikeSharing";
 import BikeSharingRide from "./BikeSharingRide";
 import Bus from "./Bus";
-//import Car from "./Car";
+import Car from "./Car";
 import CarSharing from "./CarSharing";
 import CarSharingRide from "./CarSharingRide";
 import Funicolar from "./Funicolar";
@@ -23,6 +23,7 @@ export {
   BikeSharing,
   BikeSharingRide,
   Bus,
+  Car,
   CarSharing,
   CarSharingRide,
   Funicolar,

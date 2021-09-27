@@ -25,11 +25,16 @@
             box-shadow: none;
             border: 0;
 
+            svg {
+              height: 33px
+            }
+
             &.active {
               background-color: $brand-primary;
               color: #fff;
 
-              svg path {
+              svg path,
+              svg circle {
                 fill: currentColor;
               }
             }           
