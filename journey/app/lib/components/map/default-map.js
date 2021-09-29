@@ -129,7 +129,7 @@ class DefaultMap extends Component {
         this.setState({ forceRefresh: false })
       }, 50)
     }
-  }
+  }  
 
   render () {
     const {
@@ -156,6 +156,18 @@ class DefaultMap extends Component {
         />
       ),
       location: [mapPopupLocation.lat, mapPopupLocation.lon]
+    }    
+
+    const storedOverlays = getItem('mapOverlayVisible') || []    
+
+    if (storedOverlays.length === 0) {
+      this.props.mapConfig.overlays.map(item => {
+        if (item.visible) {
+          storedOverlays.push(this.props.t(item.name))
+        }
+      })
+
+      storeItem('mapOverlayVisible', storedOverlays)
     }
 
     return (
@@ -181,6 +193,25 @@ class DefaultMap extends Component {
                 onBaseLayerChange={e => {
                   storeItem('mapStyleIndex', e.index)
                 }}
+                onOverlayAdded={e => {                  
+                  const visibleOverlays = getItem('mapOverlayVisible') || []
+
+                  console.log(e)
+
+                  if (visibleOverlays.indexOf(e.name) === -1) {
+                    visibleOverlays.push(e.name)
+                    storeItem('mapOverlayVisible', visibleOverlays)
+                  }
+                }}
+                onOverlayRemoved={e => {
+                  const visibleOverlays = getItem('mapOverlayVisible') || []
+                  const indexElement = visibleOverlays.indexOf(e.name)                  
+
+                  if (indexElement !== -1) {
+                    visibleOverlays.splice(indexElement, 1)
+                    storeItem('mapOverlayVisible', visibleOverlays)
+                  }
+                }}
               >
                 {/* The default overlays */}
                 <BoundsUpdatingOverlay />
@@ -197,7 +228,8 @@ class DefaultMap extends Component {
                     case 'bike-rental': return (
                       <VehicleRentalOverlay
                         key={k}
-                        {...overlayConfig}
+                        {...overlayConfig}     
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}                   
                         name={t(overlayConfig.name)}
                         refreshVehicles={bikeRentalQuery}
                         stations={bikeRentalStations}
@@ -207,27 +239,71 @@ class DefaultMap extends Component {
                       <VehicleRentalOverlay
                         key={k}
                         {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
                         refreshVehicles={carRentalQuery}
                         stations={carRentalStations}
                       />
                     )
                     case 'park-and-ride':
-                      return <ParkAndRideOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)} />
-                    case 'stops': return <StopsOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
-                    case 'tile': return <TileOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
+                      return (
+                        <ParkAndRideOverlay
+                          key={k}
+                          {...overlayConfig}
+                          visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
+                          name={t(overlayConfig.name)}                             
+                        />
+                      )
+                    case 'stops': return (
+                      <StopsOverlay
+                        key={k}
+                        {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
+                        name={t(overlayConfig.name)}                          
+                      />
+                    )
+                    case 'tile': return (
+                      <TileOverlay
+                        key={k}
+                        {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
+                        name={t(overlayConfig.name)}                          
+                      />
+                    )
                     case 'micromobility-rental': return (
                       <VehicleRentalOverlay
                         key={k}
                         {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
                         refreshVehicles={vehicleRentalQuery}
                         stations={vehicleRentalStations}
                       />
                     )
-                    case 'zipcar': return <ZipcarOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
-                    case 'parking': return <ParkingOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
-                    case 'charger': return <ChargerOverlay key={k} {...overlayConfig} name={t(overlayConfig.name)}/>
+                    case 'zipcar': return (
+                      <ZipcarOverlay
+                        key={k}
+                        {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
+                        name={t(overlayConfig.name)}                          
+                      />
+                    )
+                    case 'parking': return (
+                      <ParkingOverlay
+                        key={k}
+                        {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1} 
+                        name={t(overlayConfig.name)}                          
+                      />
+                    )
+                    case 'charger': return (
+                      <ChargerOverlay
+                        key={k}
+                        {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
+                        name={t(overlayConfig.name)}                        
+                      />
+                    )
                     default: return null
                   }
                 })}
