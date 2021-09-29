@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { LayersControl, Map, Popup, TileLayer } from "react-leaflet";
 import utils from "../core-utils";
+import { storeItem, getItem } from '../core-utils/storage'
 import L from "leaflet";
 
 import callIfValid from "./util";
@@ -79,10 +80,9 @@ class BaseMap extends Component {
 
   constructor(props) {
     super(props);
-    // Default active base layer index to zero (first layer).
-    // TODO: derive layerIndex from props?
+    
     this.state = {
-      layerIndex: 0
+      layerIndex: getItem('mapStyleIndex') || 0
     };
   }
 
@@ -153,6 +153,7 @@ class BaseMap extends Component {
       onBaseLayerChange({ index, layer });
     }
     // Update active index in state.
+    storeItem('mapStyleIndex', index)
     this.setState({ layerIndex: index });
   };
 
