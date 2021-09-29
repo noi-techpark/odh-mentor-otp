@@ -30,6 +30,7 @@ import TileOverlay from './tile-overlay'
 import ZipcarOverlay from '../../otp-ui/zipcar-overlay'
 import ParkingOverlay from '../../otp-ui/parking-overlay'
 import ChargerOverlay from '../../otp-ui/charger-overlay'
+import { storeItem, getItem } from '../../otp-ui/core-utils/storage'
 
 const MapContainer = styled.div`
   height: 100%;
@@ -175,6 +176,10 @@ class DefaultMap extends Component {
                   document.querySelectorAll('.leaflet-control-layers-base label span').forEach(item => {
                     item.setAttribute('id', `${item.textContent.toLowerCase().trim().split(' ').join('-')}-layer-image`);
                   })
+                }}
+                defaultBaseLayerIndex={getItem('mapStyleIndex') || 0}
+                onBaseLayerChange={e => {
+                  storeItem('mapStyleIndex', e.index)
                 }}
               >
                 {/* The default overlays */}

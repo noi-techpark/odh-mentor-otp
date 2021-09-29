@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { LayersControl, Map, Popup, TileLayer } from "react-leaflet";
 import utils from "../core-utils";
-import { storeItem, getItem } from '../core-utils/storage'
 import L from "leaflet";
 
 import callIfValid from "./util";
@@ -82,7 +81,7 @@ class BaseMap extends Component {
     super(props);
     
     this.state = {
-      layerIndex: getItem('mapStyleIndex') || 0
+      layerIndex: props.defaultBaseLayerIndex
     };
   }
 
@@ -152,16 +151,15 @@ class BaseMap extends Component {
     if (typeof onBaseLayerChange === "function") {
       onBaseLayerChange({ index, layer });
     }
-    // Update active index in state.
-    storeItem('mapStyleIndex', index)
+    // Update active index in state.    
     this.setState({ layerIndex: index });
   };
 
-  handleOverlayAdded = e => {
+  handleOverlayAdded = e => {    
     this.forwardOne("onOverlayAdded", e);
   };
 
-  handleOverlayRemoved = e => {
+  handleOverlayRemoved = e => {    
     this.forwardOne("onOverlayRemoved", e);
   };
 
@@ -383,7 +381,9 @@ BaseMap.propTypes = {
   /**
    * The zoom level of the map.
    */
-  zoom: PropTypes.number
+  zoom: PropTypes.number,
+
+  defaultBaseLayerIndex: PropTypes.number
 };
 
 BaseMap.defaultProps = {
@@ -416,7 +416,8 @@ BaseMap.defaultProps = {
   onViewportChanged: null,
   onLoad: null,
   popup: null,
-  zoom: 13
+  zoom: 13,
+  defaultBaseLayerIndex: 0
 };
 
 export default BaseMap;
