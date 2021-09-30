@@ -196,8 +196,6 @@ class DefaultMap extends Component {
                 onOverlayAdded={e => {                  
                   const visibleOverlays = getItem('mapOverlayVisible') || []
 
-                  console.log(e)
-
                   if (visibleOverlays.indexOf(e.name) === -1) {
                     visibleOverlays.push(e.name)
                     storeItem('mapOverlayVisible', visibleOverlays)
