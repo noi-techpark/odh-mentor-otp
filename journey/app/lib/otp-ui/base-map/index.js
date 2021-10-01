@@ -79,10 +79,9 @@ class BaseMap extends Component {
 
   constructor(props) {
     super(props);
-    // Default active base layer index to zero (first layer).
-    // TODO: derive layerIndex from props?
+    
     this.state = {
-      layerIndex: 0
+      layerIndex: props.defaultBaseLayerIndex
     };
   }
 
@@ -152,15 +151,15 @@ class BaseMap extends Component {
     if (typeof onBaseLayerChange === "function") {
       onBaseLayerChange({ index, layer });
     }
-    // Update active index in state.
+    // Update active index in state.    
     this.setState({ layerIndex: index });
   };
 
-  handleOverlayAdded = e => {
+  handleOverlayAdded = e => {    
     this.forwardOne("onOverlayAdded", e);
   };
 
-  handleOverlayRemoved = e => {
+  handleOverlayRemoved = e => {    
     this.forwardOne("onOverlayRemoved", e);
   };
 
@@ -382,7 +381,9 @@ BaseMap.propTypes = {
   /**
    * The zoom level of the map.
    */
-  zoom: PropTypes.number
+  zoom: PropTypes.number,
+
+  defaultBaseLayerIndex: PropTypes.number
 };
 
 BaseMap.defaultProps = {
@@ -415,7 +416,8 @@ BaseMap.defaultProps = {
   onViewportChanged: null,
   onLoad: null,
   popup: null,
-  zoom: 13
+  zoom: 13,
+  defaultBaseLayerIndex: 0
 };
 
 export default BaseMap;
