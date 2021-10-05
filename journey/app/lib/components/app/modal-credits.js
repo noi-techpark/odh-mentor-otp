@@ -3,6 +3,8 @@ import { Modal } from 'react-bootstrap'
 import { withNamespaces } from "react-i18next"
 
 import imageLogo from '../../images/credits/logo-placeholder.png'
+import imageLogo2 from '../../images/credits/openmove.png'
+
 
 //ADD MORE LOGO IMAGES HERE:
 //import imageLogo2 from '../../images/credits/logo-2.png'
@@ -22,8 +24,8 @@ class ModalCredits extends Component {
 
             <ul className="credits-list">
               <li>
-                <a href="#" target="_blank">
-                  <img src={imageLogo} />
+                <a href="https://www.openmove.com/" target="_blank">
+                  <img src={imageLogo2} />
                 </a>
               </li>
               <li>
