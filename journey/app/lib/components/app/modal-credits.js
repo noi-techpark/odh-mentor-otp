@@ -5,6 +5,7 @@ import { withNamespaces } from "react-i18next"
 import imageLogo from '../../images/credits/logo-placeholder.png'
 import imageLogo2 from '../../images/credits/openmove.png'
 import imageLogo3 from '../../images/credits/NOI.png'
+import imageLogo4 from '../../images/credits/AzSoggiorno.png'
 
 
 //ADD MORE LOGO IMAGES HERE:
@@ -40,8 +41,8 @@ class ModalCredits extends Component {
 
             <ul className="credits-list">
               <li>
-                <a href="#" target="_blank">
-                  <img src={imageLogo} />
+                <a href="https://www.merano-suedtirol.it" target="_blank">
+                  <img src={imageLogo4} />
                 </a>
               </li>
             </ul>
