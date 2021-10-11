@@ -1,0 +1,15 @@
+server:
+  port: 8095
+  polling_interval: 20
+
+endpoints:
+  default:
+    hostname: mobility.api.opendatahub.testingmachine.eu
+    port: 443
+    #path: /v2
+    #headers:
+    # User-Agent: OpenMove-Charger-Client
+  vehicle:
+    path: /v2/flat,node/ON_DEMAND_VEHICLE/*/latest
+  stops:
+    path: /v2/flat,node/ON_DEMAND_STOP
