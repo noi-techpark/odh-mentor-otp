@@ -16,7 +16,7 @@ class ModalCredits extends Component {
   render () {
     const { t, show} = this.props
     return (
-        <Modal bsSize="large" show={show} onHide={ () => this.props.onClose() }>
+        <Modal className="credits-modal" bsSize="large" show={show} onHide={ () => this.props.onClose() }>
           <Modal.Header closeButton><Modal.Title>{t('credits_title')}</Modal.Title></Modal.Header>
           <Modal.Body>
 
