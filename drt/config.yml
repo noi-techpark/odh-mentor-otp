@@ -8,7 +8,7 @@ endpoints:
     port: 443
     #path: /v2
     #headers:
-    # User-Agent: OpenMove-Charger-Client
+    # User-Agent: OpenMove-Drt-Client
   vehicle:
     path: /v2/flat,node/ON_DEMAND_VEHICLE/*/latest
   stops:
