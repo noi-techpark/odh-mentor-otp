@@ -10,6 +10,7 @@ endpoints:
     #headers:
     # User-Agent: OpenMove-Drt-Client
   vehicle:
-    path: /v2/flat,node/ON_DEMAND_VEHICLE/*/latest
+    path: /v2/flat,node/ON_DEMAND_VEHICLE
+    #/*/latest
   stops:
     path: /v2/flat,node/ON_DEMAND_STOP

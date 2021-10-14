@@ -166,8 +166,6 @@ app.get('/drt/stops.json', cors(corsOptions), async function (req, res) {
     });
 });
 
-
-
 app.get('/drt/vehicles.proto', cors(corsOptions), async function (req, res) {
     const {data: vehicle} = await getData();
     const entities = generateEntities(vehicle);
@@ -178,6 +176,6 @@ app.get('/drt/vehicles.proto', cors(corsOptions), async function (req, res) {
     res.end();
 });
 
-var server = app.listen(config.server.port, function () {
-   console.log("Listening on port ", config.server.port);
-})
+app.listen(config.server.port, function () {
+    console.log(`listening at http://localhost:${config.server.port}`);
+});

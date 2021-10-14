@@ -153,6 +153,6 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
     });
 });
 
-var server = app.listen(config.server.port, function () {
-   console.log("Listening on port ", config.server.port);
-})
+app.listen(config.server.port, function () {
+    console.log(`listening at http://localhost:${config.server.port}`);
+});
