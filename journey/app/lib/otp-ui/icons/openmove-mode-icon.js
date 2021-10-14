@@ -20,24 +20,15 @@ import {
   Walk
 } from "./openmove";
 
-//combination of secondary panel of modes
-//  bike_ride
-//  bikesharing_ride
-//  park_ride
-//  carsharing_ride
-//  micromobility_ride
-
 function OpenMoveModeIcon({ mode, ...props }) {
   if (!mode) return null;
-
-  //console.log(mode)
-
   switch (mode.toLowerCase()) {
     case "bicycle":
       return <Bicycle {...props} />
     case "bicycle_ride":
       return <BicycleRide {...props} />
     case "bicycle_rent":
+      //return <BikeSharing {...props} />;
       return <BikeSharingRide {...props} />;
     case "car_rent":
       return <CarSharingRide {...props} />;
@@ -58,20 +49,16 @@ function OpenMoveModeIcon({ mode, ...props }) {
       return <Funicolar {...props} />;
     case "rail":
       return <Rail {...props} />;
+    // case "car":
+    //   return <Car {...props} />;
+    // case "streetcar":
+    //   return <Streetcar {...props} />;
+    // case "subway":
+    // case "tram":
+    //   return <Tram {...props} />;
     default:
       return null;
   }
 }
-/* useless in journey
-case "bus":
-  return <Bus {...props} />;
-case "car":
-  return <Car {...props} />;
-case "streetcar":
-  return <Streetcar {...props} />;
-case "subway":
-case "tram":
-  return <Tram {...props} />;    
-*/
 
 export default OpenMoveModeIcon;

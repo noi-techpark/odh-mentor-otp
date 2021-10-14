@@ -102,6 +102,15 @@ services:
     build:
       context: ./
       dockerfile: infrastructure/docker/traffic/Dockerfile
+      
+  drt:
+      container_name: openmove-drt
+      ports:
+        - "8095:8095"
+      image: openmove_drt:latest
+      build:
+        context: ./
+        dockerfile: infrastructure/docker/drt/Dockerfile
 
   otp:
     container_name: openmove-otp
