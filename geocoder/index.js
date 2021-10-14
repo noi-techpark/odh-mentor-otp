@@ -140,6 +140,7 @@ const serverParser = servicesApp.listen(PORT_SERVICES, () => {
 });
 
 const serverApi = apiApp.listen( config.server.port, () => {
+    console.log( apiApp._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
 	console.log(`[GEOCODER] listening on ${config.server.port}`)
 	process.on('SIGTERM', () => {
 		console.error('[GEOCODER] closing...')

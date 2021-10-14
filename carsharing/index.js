@@ -181,5 +181,6 @@ app.get('/carsharing/regions.json', function (req, res) {
 
 
 app.listen(config.server.port, function () {
+    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
     console.log(`listening at http://localhost:${config.server.port}`);
 });
