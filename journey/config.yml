@@ -395,6 +395,9 @@ companies:
 #     label: Spin
 #     modes: MICROMOBILITY_RENT
 
+
+            #TEST
+            #
 errorMessages:
   - id: 404
     msg: Nessun percorso trovato. Prova a modificare le impostazioni del tuo viaggio.
