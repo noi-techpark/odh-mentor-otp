@@ -94,14 +94,14 @@ services:
       context: ./
       dockerfile: infrastructure/docker/charger/Dockerfile
 
-  traffic:
-    container_name: openmove-traffic
-    ports:
-      - "8094:8094"
-    image: openmove_traffic:latest
-    build:
-      context: ./
-      dockerfile: infrastructure/docker/traffic/Dockerfile
+  # traffic:
+  #   container_name: openmove-traffic
+  #   ports:
+  #     - "8094:8094"
+  #   image: openmove_traffic:latest
+  #   build:
+  #     context: ./
+  #     dockerfile: infrastructure/docker/traffic/Dockerfile
       
   drt:
       container_name: openmove-drt
