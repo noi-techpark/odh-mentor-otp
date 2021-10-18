@@ -4,17 +4,13 @@ const express = require('express')
 , cors = require('cors')
 , protobuf = require("protobufjs")
 , polyline = require('@mapbox/polyline')
-, {createStop} = require('./csv')
+, {createGtfsFlex} = require('./csv')
 , config = require('./config');
 
 var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-
-console.log(
-    polyline.decode('_p~iF~ps|U_ulLnnqC_mqNvxq`@')
-    );
 
 var app = express();
 
@@ -109,7 +105,7 @@ function generateEntities(vehicle){
                     latitude: item.scoordinate.y,
                     longitude: item.scoordinate.x
                 },
-                timestamp: new Date(item.mvalidtime).getTime()/1000,
+                timestamp: new Date(item.mvalidtime || 0).getTime()/1000,
                 vehicle: {
                     id: item.sname,
                     label: item.smetadata.type.name
@@ -131,7 +127,7 @@ function generateEntitiesStop(stops){
                     latitude: item.scoordinate.y,
                     longitude: item.scoordinate.x
                 },
-                timestamp: new Date(item.mvalidtime).getTime()/1000,
+                timestamp: new Date(item.mvalidtime || 0).getTime()/1000,
                 stop: {
                     id: item.scode,
                     name: item.sname
@@ -157,13 +153,24 @@ app.get('/drt/vehicles.json', cors(corsOptions), async function (req, res) {
 app.get('/drt/stops.json', cors(corsOptions), async function (req, res) {
     const {data: stops} = await getDataStop();
     const mStops = generateEntitiesStop(stops);
-    await createStop(mStops);
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: "1.0",
         data: mStops
     });
+});
+
+app.get('/drt/flex', cors(corsOptions), async function (req, res) {
+    const {data: stops} = await getDataStop();
+    const mStops = generateEntitiesStop(stops);
+    const buffer = await createGtfsFlex(mStops);
+    res.writeHead(200, {
+        'Content-Type': 'application/zip',
+        'Content-disposition': `attachment; filename=${config.server.filename}-${new Date().getTime()}.zip`
+    });
+    res.write(buffer);
+    res.end();
 });
 
 app.get('/drt/vehicles.proto', cors(corsOptions), async function (req, res) {

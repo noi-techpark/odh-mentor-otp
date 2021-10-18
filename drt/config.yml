@@ -1,6 +1,7 @@
 server:
   port: 8095
   polling_interval: 20
+  filename: 'gtfs-flex'
 
 endpoints:
   default:
@@ -14,3 +15,5 @@ endpoints:
     #/*/latest
   stops:
     path: /v2/flat,node/ON_DEMAND_STOP
+  trips:
+    path: /v2/flat,node/ON_DEMAND_ITINERARY/*/latest
