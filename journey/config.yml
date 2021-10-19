@@ -197,7 +197,15 @@ map:
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
       iconColor: "#5d5d5d"
-    
+
+    - type: drt
+      name: ondemand
+      api: ${DRT_BASEURL}/drt/stops.json
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#b0d1ef"
+      iconColor: "#5d5d5d"
+
     # - type: parking-sensors
     #   name: parking-sensors
     #   api: ${PARKING_BASEURL}/parking/sensors.json
