@@ -87,7 +87,7 @@ in addition to those of *otp* vars
 
 ```GTFS_URL``` gtfs source ftp uri of gtfs .zip file to download
 
-```GTFS_URL_UPDATETIME``` gtfs source time interval (default:"daily" possible values: 15min|daily|hourly|monthly|weekly)
+```GTFS_URL_UPDATETIME``` gtfs source time interval in cronjob style (i.e. `*/30 * * * *` for every 30 minutes)
 
 ```GTFS_URL_UPDATEHOOK``` url hook to restart build service
 

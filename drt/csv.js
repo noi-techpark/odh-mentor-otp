@@ -315,6 +315,6 @@ module.exports = {
     const buffer = await zipdir(tmpobj.name);
     tmpobj.removeCallback();
     return buffer;
-  },
+  }
 }
 
