@@ -202,9 +202,10 @@ map:
       name: ondemand
       api: ${DRT_BASEURL}/drt/all.json
       pollingInterval: 5000
-      iconWidth: 20
-      iconHeight: 20
+      iconWidth: 15
+      iconHeight: 15
       iconMarkerColor: "#095980"
+      iconVehicleColor: "#095980"
       iconColor: "#fff"
       areas:
         1:
