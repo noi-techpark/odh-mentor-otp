@@ -13,6 +13,7 @@ pipeline {
         GBFS_HOST = "https://gbfs.otp.opendatahub.testingmachine.eu"
         CARSHARING_HOST = "https://carsharing.otp.opendatahub.testingmachine.eu"
         PARKING_HOST = "https://parking.otp.opendatahub.testingmachine.eu"
+        DRT_HOST = "https://drt.otp.opendatahub.testingmachine.eu"
         CHARGER_HOST = "https://charger.otp.opendatahub.testingmachine.eu"
         UPDATERS = "True"
         GTFS_FILE = "latestGTFS.zip"
@@ -42,6 +43,7 @@ pipeline {
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
                     echo 'CARSHARING_HOST=${CARSHARING_HOST}' >> .env
                     echo 'PARKING_HOST=${PARKING_HOST}' >> .env
+                    echo 'DRT_HOST=${DRT_HOST}' >> .env
                     echo 'CHARGER_HOST=${CHARGER_HOST}' >> .env
                     echo 'OFFICIAL=${OFFICIAL}' >> .env
                     echo 'GBFS_VERSION="${GBFS_VERSION}"' >> .env

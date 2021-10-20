@@ -25,6 +25,7 @@ services:
       GBFS_VERSION: ${GBFS_VERSION}
       CARSHARING_HOST: ${CARSHARING_HOST}
       PARKING_HOST: ${PARKING_HOST}
+      DRT_HOST: ${DRT_HOST}
       CHARGER_HOST: ${CHARGER_HOST}      
       UPDATERS: "True"
       OFFICIAL: ${OFFICIAL}
@@ -60,6 +61,11 @@ services:
     restart: unless-stopped
     ports:
       - ${DOCKER_PARKING_PORT}:8092
+  drt:
+    image: ${DOCKER_IMAGE_DRT}:${DOCKER_TAG}
+    restart: unless-stopped
+    ports:
+      - ${DOCKER_DRT_PORT}:8095
   charger:
     image: ${DOCKER_IMAGE_ECHARGING}:${DOCKER_TAG}
     restart: unless-stopped
