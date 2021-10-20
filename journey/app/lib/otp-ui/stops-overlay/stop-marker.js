@@ -58,7 +58,7 @@ const stopMarkerIcon = memoize(stop => {
       }      
       </>
     ),
-    className: ''//TODO stop.cluster ? 'marker-stop-child': 'marker-stop-parent'
+    className: ''
   });
 });
 

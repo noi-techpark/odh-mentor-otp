@@ -39,8 +39,6 @@ class DrtOverlay extends MapLayer {
     this._refreshTimer = setInterval(() => {
       this.props.drtLocationsQuery(this.props.api)
     }, Number(overlayDrtConf.pollingInterval)) // defaults to every 30 sec. TODO: make this configurable?*/
-
-    //TODO move 5000 in config overlayDrtConf.interval
   }
 
   _stopRefreshing () {
@@ -87,37 +85,61 @@ class DrtOverlay extends MapLayer {
         locations.vehicles.length === 0 ||
         locations.stops.length === 0) return <LayerGroup />
 
+    const getAreaColor = (data) => {
+      if (overlayDrtConf.areas)
+        return overlayDrtConf.areas[Number(data.area)]?.color
+      else
+        return overlayDrtConf.iconColor;
+    }
+
+    const getAreaName = (data) => {
+      if (overlayDrtConf.areas)
+        return overlayDrtConf.areas[Number(data.area)]?.name
+      else
+        return '';
+    }
+
+    const getLatLon = (item) => {
+      return {
+        lat: item.position.latitude,
+        lon: item.position.longitude
+      }
+    }
+
     const markerIcon = (data) => {
-      let badgeType = 'success';
-      let badgeCounter = 0;
-      let iconWidth, iconHeight;
+      let badgeType = 'success'
+        , badgeCounter = 0
+        , iconWidth, iconHeight
+        , iconVehicleWidth, iconVehicleHeight;
 
       iconWidth = overlayDrtConf.iconWidth;
       iconHeight = overlayDrtConf.iconHeight;
+
+      iconVehicleWidth = 30;
+      iconVehicleHeight = 30;
 
       return divIcon({
         className: "",
         iconSize: [iconWidth, iconHeight],
         popupAnchor: [0, -iconHeight / 2],
         html: ReactDOMServer.renderToStaticMarkup(
-          <BadgeIcon type={badgeType} width={iconWidth}>
+          <>
           { data.stop &&
             <MarkerDrtStop
               width={iconWidth}
               height={iconHeight}
               iconColor={overlayDrtConf.iconColor}
-              markerColor={overlayDrtConf.iconMarkerColor}
+              markerColor={getAreaColor(data)}
             />
           }
           { data.vehicle &&
             <MarkerDrtVehicle
-              width={iconWidth}
-              height={iconHeight}
-              iconColor={overlayDrtConf.iconColor}
-              markerColor={overlayDrtConf.iconMarkerColor}
+              width={iconVehicleWidth}
+              height={iconVehicleHeight}
+              iconColor={overlayDrtConf.iconVehicleColor}
             />
           }
-          </BadgeIcon>
+          </>
         )
       });
     }
@@ -131,7 +153,7 @@ class DrtOverlay extends MapLayer {
             <Marker
               icon={markerIcon(stop)}
               key={stop.stop.id}
-              position={[stop.position.latitude, stop.position.longitude]}
+              position={[stop.lat, stop.lon]}
             >
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
@@ -140,7 +162,7 @@ class DrtOverlay extends MapLayer {
                   </div>*/}
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{stop.stop.name}</div>
-                  <small>area {stop.area}</small>
+                  <small>{getAreaName(stop)}</small>
 
                   <div className='popup-row'>
                     <FromToLocationPicker
@@ -172,10 +194,7 @@ class DrtOverlay extends MapLayer {
   }
 }
 
-// connect to the redux store
-
 const mapStateToProps = (state, ownProps) => {
-  console.log('DRT STATE', state)
   return {
     locations: state.otp.overlay.drt && state.otp.overlay.drt.locations
   }

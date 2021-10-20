@@ -58,12 +58,10 @@ async function getDataStop(){
     return await getStops();
 }
 
-//setInterval(getData, config.server.polling_interval * 1000);
-
 async function getVehicle(){
     return await axios({
-        method: config.endpoints.vehicle.method,
-        url: `${config.endpoints.vehicle.port === 443 ? 'https' : 'http'}://${config.endpoints.vehicle.hostname}${config.endpoints.vehicle.path}`,
+        method: config.endpoints.vehicles.method,
+        url: `${config.endpoints.vehicles.port === 443 ? 'https' : 'http'}://${config.endpoints.vehicles.hostname}${config.endpoints.vehicles.path}`,
         responseType: 'json'        
     })
 }
@@ -106,6 +104,8 @@ function generateEntities(vehicle){
                     latitude: item.scoordinate.y,
                     longitude: item.scoordinate.x
                 },
+                lat: item.scoordinate.y,
+                lon: item.scoordinate.x,
                 timestamp: new Date(item.mvalidtime || 0).getTime()/1000,
                 vehicle: {
                     id: item.sname,
@@ -128,6 +128,8 @@ function generateEntitiesStop(stops){
                     latitude: item.scoordinate.y,
                     longitude: item.scoordinate.x
                 },
+                lat: item.scoordinate.y,
+                lon: item.scoordinate.x,
                 timestamp: new Date(item.mvalidtime || 0).getTime()/1000,
                 stop: {
                     id: item.scode,
