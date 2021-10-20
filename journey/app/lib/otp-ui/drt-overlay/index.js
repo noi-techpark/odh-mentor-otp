@@ -12,17 +12,11 @@ import { drtLocationsQuery } from '../../actions/drt'
 
 import BadgeIcon from "../icons/badge-icon";
 
-//import MarkerParking from "../icons/modern/MarkerParking";
-//import MarkerParkingSensor from "../icons/modern/MarkerParkingSensor";
-import MarkerStop from "../icons/modern/MarkerStop";
-import MarkerStopChild from "../icons/modern/MarkerStopChild";
+import MarkerDrtStop from "../icons/modern/MarkerDrtStop";
+import MarkerDrtVehicle from "../icons/modern/MarkerDrtVehicle";
 
 import ReactDOMServer from "react-dom/server";
-import Parking from "../icons/modern/Parking";
 import FromToLocationPicker from '../from-to-location-picker'
-
-//import MarkerClusterGroup from 'react-leaflet-markercluster';
-//import MarkerCluster from "../icons/modern/MarkerCluster";
 
 import config from '../../config.yml';
 
@@ -31,7 +25,8 @@ const overlayDrtConf = config.map.overlays.filter(item => item.type === 'drt')[0
 class DrtOverlay extends MapLayer {
   static propTypes = {
     api: PropTypes.string,
-    locations: PropTypes.array,
+    //locations: PropTypes.array,
+    locations: PropTypes.object,
     drtLocationsQuery: PropTypes.func,
     setLocation: PropTypes.func
   }
@@ -43,7 +38,9 @@ class DrtOverlay extends MapLayer {
     // set up timer to refresh stations periodically
     this._refreshTimer = setInterval(() => {
       this.props.drtLocationsQuery(this.props.api)
-    }, 30000) // defaults to every 30 sec. TODO: make this configurable?*/
+    }, Number(overlayDrtConf.pollingInterval)) // defaults to every 30 sec. TODO: make this configurable?*/
+
+    //TODO move 5000 in config overlayDrtConf.interval
   }
 
   _stopRefreshing () {
@@ -84,7 +81,11 @@ class DrtOverlay extends MapLayer {
 
   render () {
     const { locations, t } = this.props
-    if (!locations || locations.length === 0) return <LayerGroup />
+    if (!locations ||
+        !locations.vehicles ||
+        !locations.stops ||
+        locations.vehicles.length === 0 ||
+        locations.stops.length === 0) return <LayerGroup />
 
     const markerIcon = (data) => {
       let badgeType = 'success';
@@ -101,7 +102,15 @@ class DrtOverlay extends MapLayer {
         html: ReactDOMServer.renderToStaticMarkup(
           <BadgeIcon type={badgeType} width={iconWidth}>
           { data.stop &&
-            <MarkerStop
+            <MarkerDrtStop
+              width={iconWidth}
+              height={iconHeight}
+              iconColor={overlayDrtConf.iconColor}
+              markerColor={overlayDrtConf.iconMarkerColor}
+            />
+          }
+          { data.vehicle &&
+            <MarkerDrtVehicle
               width={iconWidth}
               height={iconHeight}
               iconColor={overlayDrtConf.iconColor}
@@ -117,30 +126,43 @@ class DrtOverlay extends MapLayer {
       <LayerGroup>
       <FeatureGroup>
         {
-          locations.map( station => {
+          locations.stops.map( stop => {
           return (
             <Marker
-              icon={markerIcon(station)}
-              key={station.stop.id}
-              position={[station.position.lat, station.position.lon]}
+              icon={markerIcon(stop)}
+              key={stop.stop.id}
+              position={[stop.position.latitude, stop.position.longitude]}
             >
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
-                  <div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <Parking width={24} height={20} />&nbsp;{t('parking')}
-                  </div>
+                  {/*<div className="otp-ui-mapOverlayPopup__popupHeader">
+                    <Mar width={24} height={20} />&nbsp;{t('parking')}
+                  </div>*/}
 
-                  <div className="otp-ui-mapOverlayPopup__popupTitle">{station.stop.name}</div>
-                  <small>area {station.area}</small>
+                  <div className="otp-ui-mapOverlayPopup__popupTitle">{stop.stop.name}</div>
+                  <small>area {stop.area}</small>
 
                   <div className='popup-row'>
                     <FromToLocationPicker
-                      location={station}
+                      location={stop}
                       setLocation={this.props.setLocation}
                     />
                   </div>
                 </div>
               </Popup>
+            </Marker>
+          )
+        })}
+      </FeatureGroup>
+      <FeatureGroup>
+        {
+          locations.vehicles.map( vehicle => {
+          return (
+            <Marker
+              icon={markerIcon(vehicle)}
+              key={vehicle.vehicle.id}
+              position={[vehicle.position.latitude, vehicle.position.longitude]}
+            >
             </Marker>
           )
         })}
@@ -153,8 +175,9 @@ class DrtOverlay extends MapLayer {
 // connect to the redux store
 
 const mapStateToProps = (state, ownProps) => {
+  console.log('DRT STATE', state)
   return {
-    locations: state.otp.overlay.parking && state.otp.overlay.parking.locations
+    locations: state.otp.overlay.drt && state.otp.overlay.drt.locations
   }
 }
 

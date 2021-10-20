@@ -200,7 +200,8 @@ map:
 
     - type: drt
       name: ondemand
-      api: ${DRT_BASEURL}/drt/stops.json
+      api: ${DRT_BASEURL}/drt/all.json
+      pollingInterval: 1000
       iconWidth: 42
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
