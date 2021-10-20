@@ -37,6 +37,7 @@ pipeline {
 
         GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
         PARKING_BASEURL = "https://parking.otp.opendatahub.testingmachine.eu"
+        DRT_BASEURL = "https://drt.otp.opendatahub.testingmachine.eu"
         CHARGER_BASEURL = "https://charger.otp.opendatahub.testingmachine.eu"
         CARSHARING_BASEURL = "https://carsharing.otp.opendatahub.testingmachine.eu"
         OFFICIAL = "False"
@@ -56,7 +57,7 @@ pipeline {
             steps {
                 sh """
                     rm -f .env
-                    cp .env.example .env
+                    cp dot.env.example .env
                     echo 'COMPOSE_PROJECT_NAME=${DOCKER_PROJECT_NAME}' > .env
                     echo 'DOCKER_IMAGE_OTP=${DOCKER_IMAGE_OTP}' >> .env
                     echo 'DOCKER_IMAGE_JOURNEY=${DOCKER_IMAGE_JOURNEY}' >> .env
@@ -88,6 +89,7 @@ pipeline {
                     echo 'DOCKER_GBFS_PORT="${DOCKER_GBFS_PORT}"' >> .env
                     echo 'GEOCODER_BASEURL="${GEOCODER_BASEURL}"' >> .env
                     echo 'PARKING_BASEURL="${PARKING_BASEURL}"' >> .env
+                    echo 'DRT_BASEURL="${DRT_BASEURL}"' >> .env
                     echo 'CHARGER_BASEURL="${CHARGER_BASEURL}"' >> .env
                     echo 'CARSHARING_BASEURL="${CARSHARING_BASEURL}"' >> .env
                     echo 'DOCKER_GEOCODER_PORT=${DOCKER_GEOCODER_PORT}' >> .env

@@ -28,7 +28,7 @@ pipeline {
             steps {
                 sh """
                     rm -f .env
-                    cp .env.example .env
+                    cp dot.env.example .env
                     echo 'COMPOSE_PROJECT_NAME=${DOCKER_PROJECT_NAME}' > .env
                     echo 'DOCKER_IMAGE_OTP=${DOCKER_IMAGE_OTP}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
