@@ -39,7 +39,7 @@ function OpenMoveModeIcon({ mode, ...props }) {
       return <ParkRide {...props} />;
     case "micromobility":
       return <Micromobility {...props} />;
-    case "micromobility_ride":
+    case "micromobility_rent_ride":
       return <MicromobilityRide {...props} />;
     case "transit":
       return <Bus {...props} />;
