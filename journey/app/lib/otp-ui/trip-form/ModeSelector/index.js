@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withNamespaces } from "react-i18next"
-import { Button, ButtonGroup } from "react-bootstrap"
+import { ButtonGroup, Panel } from "react-bootstrap"
 import { modeSelectorOptionsType } from "../../core-utils/types";
 import { hasTransit, isTransit } from "../../core-utils/itinerary";
 
@@ -75,13 +75,19 @@ const ModeSelector = props => {
         {tertiary && tertiary.map(makeButton)}
       </ButtonGroup>
 
-      {
-        showSecondaryMenu &&
-          <ButtonGroup className="otp-ui-modeSelector__transitCombo">
-            <div className="otp-ui-modeSelector__plusIcon">+</div>
-            {secondary && secondary.map(makeButton)} &nbsp;
-          </ButtonGroup>
-      }
+      <Panel 
+        className="otp-ui-modeSelector__transitCombo"
+        expanded={showSecondaryMenu}
+      >
+        <Panel.Collapse>
+          <Panel.Body>
+            <ButtonGroup>
+              <div className="otp-ui-modeSelector__plusIcon">+</div>
+              {secondary && secondary.map(makeButton)} &nbsp;
+            </ButtonGroup>
+          </Panel.Body>
+        </Panel.Collapse>
+      </Panel>      
     </div>
   );
 };

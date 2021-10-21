@@ -58,6 +58,12 @@
 
         &__transitCombo {
           margin-top: 6px;
+          border: 0 !important;
+          box-shadow: none;
+
+          .panel-body {
+            padding: 0;
+          }
         }
       }
 
