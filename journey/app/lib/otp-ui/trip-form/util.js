@@ -175,10 +175,11 @@ function getTransitCombinedModeOptions(
        * - Implementers can set icons for companies not in OTP-UI or override OTP-UI icons using `icons`,
        *   using the scheme <OTP_MODE>_<COMPANY> (e.g. 'CAR_HAIL_UBER').
        * - Icons for common companies (defined in the icons package) don't need to be specified in `icons`.
-       */
+       */ 
+      
       let FinalIcon =
-        ModeIcon({ mode: modeStr, width: 28, height: 28 }) ||
-        ModeIcon({ mode: `${modeStr}_${modeCompany}`, width: 28, height: 28 }) ||
+        ModeIcon({ mode: `${modeStr}_RIDE`, width: 28, height: 28 }) ||
+        ModeIcon({ mode: `${modeStr}_RIDE_${modeCompany}`, width: 28, height: 28 }) ||
         (CompanyIcon && <CompanyIcon width={28} height={28} />);
 
       return {

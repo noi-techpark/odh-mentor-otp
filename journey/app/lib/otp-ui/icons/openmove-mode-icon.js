@@ -27,16 +27,15 @@ function OpenMoveModeIcon({ mode, ...props }) {
       return <Bicycle {...props} />
     case "bicycle_ride":
       return <BicycleRide {...props} />
-    case "bicycle_rent":
-      //return <BikeSharing {...props} />;
+    case "bicycle_rent_ride":      
       return <BikeSharingRide {...props} />;
-    case "car_rent":
+    case "car_rent_ride":
       return <CarSharingRide {...props} />;
-    case "car_park":
+    case "car_park_ride":
       return <ParkRide {...props} />;
     case "micromobility":
       return <Micromobility {...props} />;
-    case "micromobility_rent":
+    case "micromobility_ride":
       return <MicromobilityRide {...props} />;
     case "transit":
       return <Bus {...props} />;
