@@ -343,12 +343,12 @@ modes:
   transitModes:
     - mode: BUS
       label: bus
-    # - mode: TRAM
-    #   label: MAX & Streetcar
     - mode: RAIL
       label: train
     - mode: GONDOLA
       label: funicular
+    # - mode: TRAM
+    #   label: MAX & Streetcar
     #   showWheelchairSetting: true
 
   #old conf accessModes:
@@ -368,15 +368,15 @@ modes:
   #   - mode: MICROMOBILITY_RENT
   #     label: micromobility_ride
   accessModes:
-    - mode: BICYCLE_RIDE
+    - mode: BICYCLE
       label: bike_ride
-    - mode: BICYCLE_RENT_RIDE
+    - mode: BICYCLE_RENT
       label: bikesharing_ride
-    - mode: CAR_PARK_RIDE
+    - mode: CAR_PARK
       label: park_ride
-    - mode: CAR_RENT_RIDE
+    - mode: CAR_RENT
       label: carsharing_ride
-    - mode: MICROMOBILITY_RENT_RIDE
+    - mode: MICROMOBILITY
       label: micromobility_ride
     # - mode: MICROMOBILITY_RENT
     #   label: Transit + E-scooter

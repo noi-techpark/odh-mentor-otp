@@ -74,21 +74,21 @@ const ModeSelector = props => {
     <div className={`otp-ui-modeSelector ${className || ''}`} style={style}>
       <ButtonGroup>
         {primary && makeButton(primary) } &nbsp; 
-        { makeButton({
+        {/* makeButton({
             id: 'CAR_RENT',
             selected: false,
             showTitle: 'carsharing',
             title: t('carsharing'),
             icon: OpenMoveModeIcon({mode:'car_rent', width: 28, height: 28}),
             enabled: false
-        }) }
+        }) */}
         { makeButton({
             id: 'BICYCLE_RENT',
             selected: false,
             showTitle: 'bikesharing',
             title: t('bikesharing'),
             icon: OpenMoveModeIcon({mode:'bicycle_rent', width: 28, height: 28}),
-            enabled: false
+            //enabled: false
         }) }
         &nbsp; 
         {tertiary && tertiary.map(makeButton)}
