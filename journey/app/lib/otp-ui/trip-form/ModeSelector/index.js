@@ -1,8 +1,9 @@
-import React from "react";
+import React,{ useState } from "react";
 import PropTypes from "prop-types";
-import { modeSelectorOptionsType } from "../../core-utils/types";
 import { withNamespaces } from "react-i18next"
 import { Button, ButtonGroup } from "react-bootstrap"
+import { modeSelectorOptionsType } from "../../core-utils/types";
+import { hasTransit, isTransit } from "../../core-utils/itinerary";
 
 import ModeButton from "../ModeButton";
 
@@ -18,23 +19,38 @@ const ModeSelector = props => {
     tertiary: null
   };
 
-  const handleClick = option => {
+  const [currentSelectionId, setCurrentSelectionId] = useState('')
+
+  const handleClick = option => {    
     if (!option.selected && typeof onChange === "function") {
+      setCurrentSelectionId(option.id)
       onChange(option.id);
     }
   };
 
-  const makeButton = option => (
-    <ModeButton
+  const makeButton = option => {
+    // console.log(option.id, currentSelectionId)
+    // console.log(hasTransit(currentSelectionId) && hasTransit(option.id))
+
+    let selected = option.selected
+
+    console.log(option.id, hasTransit(option.id))
+
+    if (!selected) {
+      selected = isTransit(option.id) && hasTransit(currentSelectionId)
+    }
+
+    return <ModeButton
       key={option.id}
-      selected={option.selected}
+      selected={selected}
+      // selected={option.selected || (hasTransit(currentSelectionId) && isTransit(option.id))}
       showTitle={option.showTitle}
       title={t(option.title)}
       onClick={() => handleClick(option)}
     >
       {option.icon}
     </ModeButton>
-  );
+  }
 
   return (
     <div className={`otp-ui-modeSelector ${className || ''}`} style={style}>
