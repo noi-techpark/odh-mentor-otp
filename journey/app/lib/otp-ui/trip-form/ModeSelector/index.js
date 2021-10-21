@@ -32,14 +32,18 @@ const ModeSelector = props => {
     
     optionsGroup.map(option => {
       if (option.selected) {
-        setCurrentSelectionId(option.id)        
+        setCurrentSelectionId(option.id)
+        
+        if (hasTransit(option.id)) {
+          setShowSecondaryMenu(true)
+        }
       }
     })
   }, [])
 
   useEffect(() => {
     if (currentSelectionId !== '') {
-      const toggle = isTransit(currentSelectionId) || hasTransit(currentSelectionId)
+      const toggle = !isTransit(currentSelectionId) && hasTransit(currentSelectionId)
       setShowSecondaryMenu(toggle)
     }
   }, [currentSelectionId])
@@ -58,16 +62,43 @@ const ModeSelector = props => {
       selected = isTransit(option.id) && hasTransit(currentSelectionId)
     }
 
-    return <ModeButton
-      key={option.id}
-      selected={selected}      
-      showTitle={option.showTitle}
-      title={t(option.title)}
-      enabled={option.enabled}
-      onClick={() => handleClick(option)}
-    >
-      {option.icon}
-    </ModeButton>
+    if (!isTransit(option.id)) {
+      return <ModeButton
+        key={option.id}
+        selected={selected}      
+        showTitle={option.showTitle}
+        title={t(option.title)}
+        enabled={option.enabled}
+        onClick={() => handleClick(option)}
+      >
+        {option.icon}
+      </ModeButton>
+    } else {
+      return(
+        <div className="otp-ui-modeSelector__plusIconWrapper">
+          <ModeButton
+            key={option.id}
+            selected={selected}      
+            showTitle={option.showTitle}
+            title={t(option.title)}
+            enabled={option.enabled}
+            onClick={() => handleClick(option)}
+          >
+            {option.icon}
+          </ModeButton>
+
+          {
+            hasTransit(currentSelectionId) &&
+              <div 
+                className={`otp-ui-modeSelector__plusIcon ${showSecondaryMenu ? 'is-open' : ''}`}
+                onClick={() => setShowSecondaryMenu(!showSecondaryMenu)}
+              >
+                <span>+</span>
+              </div>
+          }
+        </div>
+      )
+    }
   }
 
   return (
@@ -100,8 +131,7 @@ const ModeSelector = props => {
       >
         <Panel.Collapse>
           <Panel.Body>
-            <ButtonGroup>
-              <div className="otp-ui-modeSelector__plusIcon">+</div>
+            <ButtonGroup>              
               {secondary && secondary.map(makeButton)} &nbsp;
             </ButtonGroup>
           </Panel.Body>
