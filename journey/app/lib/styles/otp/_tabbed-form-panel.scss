@@ -44,6 +44,21 @@
             }
           }
         }
+
+        &__plusIcon {
+          font-weight: bold;
+          text-transform: uppercase;
+          flex: 1;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2.8rem;
+        }
+
+        &__busCombo {
+          margin-top: 6px;
+        }
       }
 
       .otp-ui-settingsSelectorPanel {

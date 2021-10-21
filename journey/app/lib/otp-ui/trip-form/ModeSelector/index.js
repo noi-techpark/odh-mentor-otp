@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { modeSelectorOptionsType } from "../../core-utils/types";
 import { withNamespaces } from "react-i18next"
-import { ButtonGroup } from "react-bootstrap"
+import { Button, ButtonGroup } from "react-bootstrap"
 
 import ModeButton from "../ModeButton";
 
@@ -40,8 +40,12 @@ const ModeSelector = props => {
     <div className={`otp-ui-modeSelector ${className || ''}`} style={style}>
       <ButtonGroup>
         {primary && makeButton(primary) } &nbsp; 
-        {secondary && secondary.map(makeButton)} &nbsp;
         {tertiary && tertiary.map(makeButton)}
+      </ButtonGroup>
+
+      <ButtonGroup className="otp-ui-modeSelector__busCombo">
+        <div className="otp-ui-modeSelector__plusIcon">+</div>
+        {secondary && secondary.map(makeButton)} &nbsp;
       </ButtonGroup>
     </div>
   );
