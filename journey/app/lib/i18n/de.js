@@ -195,7 +195,7 @@ export const TRANSLATIONS_DE = {
   "parking": "Parkplätze",
   "charger": "E-Charger",
   "vehicles": "Fahrzeuge",
-  "ondemand": "onDemand",
+  "ondemand": "OnDemand transport",
   "free_slots": "$_free_slots",
   "free_sockets": "$_free_sockets",
   "socket": "$_socket",

@@ -119,7 +119,6 @@ const ModeSelector = props => {
             showTitle: 'bikesharing',
             title: t('bikesharing'),
             icon: OpenMoveModeIcon({mode:'bicycle_rent', width: 28, height: 28}),
-            //enabled: false
         }) }
         &nbsp; 
         {tertiary && tertiary.map(makeButton)}

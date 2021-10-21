@@ -28,7 +28,7 @@ const ModeButton = props => {
 
   return (
     <OverlayTrigger
-      placement="bottom"
+      placement="top"
       overlay={tooltip(title)}
     >
       <Button

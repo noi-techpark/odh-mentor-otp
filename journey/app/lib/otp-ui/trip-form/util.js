@@ -178,7 +178,8 @@ function getTransitCombinedModeOptions(
        */       
 
       let FinalIcon =
-        ModeIcon({ mode: `${modeStr}`, width: 28, height: 28 }) ||
+      //ADDED PATCH '_RIDE'  for fix icons
+        ModeIcon({ mode: `${modeStr}_RIDE`, width: 28, height: 28 }) ||
         ModeIcon({ mode: `${modeStr}_${modeCompany}`, width: 28, height: 28 }) ||
         (CompanyIcon && <CompanyIcon width={28} height={28} />);
 
