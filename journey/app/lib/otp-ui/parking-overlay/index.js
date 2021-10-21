@@ -280,8 +280,6 @@ class ParkingOverlay extends MapLayer {
   }
 }
 
-// connect to the redux store
-
 const mapStateToProps = (state, ownProps) => {
   return {
     locations: state.otp.overlay.parking && state.otp.overlay.parking.locations

@@ -17,7 +17,7 @@ git clone https://github.com/openmove/odh-mentor-otp.git
 
 ```bash
 docker-compose up -d otp
-cp env.example .env
+cp dot.env.example .env
 ```
 
 ### generation of config.yml

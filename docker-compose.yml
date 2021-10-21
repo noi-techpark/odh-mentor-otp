@@ -21,6 +21,7 @@ services:
         API_PORT: 8080
         GEOCODER_BASEURL: http://localhost:8088/v1
         PARKING_BASEURL: http://localhost:8092
+        DRT_BASEURL: http://localhost:8095
         CHARGER_BASEURL: http://localhost:8093
         CARSHARING_BASEURL: http://localhost:8091
         # debug

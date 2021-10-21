@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh """
                     rm -f .env
-                    cp .env.example .env
+                    cp dot.env.example .env
                     echo 'DOCKER_IMAGE_OTP=${DOCKER_IMAGE_OTP}' >> .env
                     echo 'DOCKER_IMAGE_JOURNEY=${DOCKER_IMAGE_JOURNEY}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env

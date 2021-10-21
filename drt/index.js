@@ -36,7 +36,7 @@ async function generateProto(vehicles){
         },
         entity: []
     };
-    for(const vehicle of vehicles){
+    for (const vehicle of vehicles) {
         payload.entity.push({
             vehicle, id: vehicle.vehicle.id
         });
@@ -58,12 +58,10 @@ async function getDataStop(){
     return await getStops();
 }
 
-//setInterval(getData, config.server.polling_interval * 1000);
-
 async function getVehicle(){
     return await axios({
-        method: config.endpoints.vehicle.method,
-        url: `${config.endpoints.vehicle.port === 443 ? 'https' : 'http'}://${config.endpoints.vehicle.hostname}${config.endpoints.vehicle.path}`,
+        method: config.endpoints.vehicles.method,
+        url: `${config.endpoints.vehicles.port === 443 ? 'https' : 'http'}://${config.endpoints.vehicles.hostname}${config.endpoints.vehicles.path}`,
         responseType: 'json'        
     })
 }
@@ -78,7 +76,8 @@ async function getStops(){
 
 function generateEntities(vehicle){
     const entities = [];
-    for(const item of vehicle.data){
+
+    for (const item of vehicle.data) {
         let capacityMax = 0;
         let capacityUsed = 0;
         for (const [key, value] of Object.entries(item.smetadata.capacityMax)) {
@@ -105,6 +104,8 @@ function generateEntities(vehicle){
                     latitude: item.scoordinate.y,
                     longitude: item.scoordinate.x
                 },
+                lat: item.scoordinate.y,
+                lon: item.scoordinate.x,
                 timestamp: new Date(item.mvalidtime || 0).getTime()/1000,
                 vehicle: {
                     id: item.sname,
@@ -119,14 +120,16 @@ function generateEntities(vehicle){
 
 function generateEntitiesStop(stops){
     const entities = [];
-    for(const item of stops.data){
-        
+
+    for (const item of stops.data) {
         entities.push(
             {
                 position: {
                     latitude: item.scoordinate.y,
                     longitude: item.scoordinate.x
                 },
+                lat: item.scoordinate.y,
+                lon: item.scoordinate.x,
                 timestamp: new Date(item.mvalidtime || 0).getTime()/1000,
                 stop: {
                     id: item.scode,
@@ -141,28 +144,53 @@ function generateEntitiesStop(stops){
 }
 
 app.get('/drt/vehicles.json', cors(corsOptions), async function (req, res) {
-    const {data: vehicle} = await getData();
+
+    const {'data': vehicle} = await getData();
+
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: "1.0",
-        data: generateEntities(vehicle)
+        data: {
+            vehicles: generateEntities(vehicle)
+        }
     });
 });
 
 app.get('/drt/stops.json', cors(corsOptions), async function (req, res) {
-    const {data: stops} = await getDataStop();
-    const mStops = generateEntitiesStop(stops);
+
+    const {'data': stops} = await getDataStop();
+
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: "1.0",
-        data: mStops
+        data: {
+            stops: generateEntitiesStop(stops)
+        }
+    });
+});
+
+app.get('/drt/all.json', cors(corsOptions), async function (req, res) {
+
+    const {'data': vehicle} = await getData();
+    const {'data': stops} = await getDataStop();
+
+    res.json({
+        last_updated: lastUpdate,
+        ttl: 0,
+        version: "1.0",
+        data: {
+            vehicles: generateEntities(vehicle),
+            stops: generateEntitiesStop(stops)
+        }
     });
 });
 
 app.get('/drt/flex', cors(corsOptions), async function (req, res) {
-    const {data: stops} = await getDataStop();
+
+    const {'data': stops} = await getDataStop();
+
     const mStops = generateEntitiesStop(stops);
     const buffer = await createGtfsFlex(mStops);
     res.writeHead(200, {
@@ -174,7 +202,9 @@ app.get('/drt/flex', cors(corsOptions), async function (req, res) {
 });
 
 app.get('/drt/vehicles.proto', cors(corsOptions), async function (req, res) {
-    const {data: vehicle} = await getData();
+
+    const {'data': vehicle} = await getData();
+
     const entities = generateEntities(vehicle);
     const buffer = await generateProto(entities);
 
@@ -183,6 +213,7 @@ app.get('/drt/vehicles.proto', cors(corsOptions), async function (req, res) {
     res.end();
 });
 
-var server = app.listen(config.server.port, function () {
-   console.log("Listening on port ", config.server.port);
-})
+app.listen(config.server.port, function () {
+    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+    console.log(`listening at http://localhost:${config.server.port}`);
+});
