@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withNamespaces } from "react-i18next"
 import { Button, ButtonGroup } from "react-bootstrap"
@@ -20,6 +20,28 @@ const ModeSelector = props => {
   };
 
   const [currentSelectionId, setCurrentSelectionId] = useState('')
+  const [showSecondaryMenu, setShowSecondaryMenu] = useState(false)
+
+  useEffect(() => {
+    const optionsGroup = [
+      primary, 
+      ...secondary, 
+      ...tertiary
+    ]    
+    
+    optionsGroup.map(option => {
+      if (option.selected) {
+        setCurrentSelectionId(option.id)        
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    if (currentSelectionId !== '') {
+      const toggle = isTransit(currentSelectionId) || hasTransit(currentSelectionId)
+      setShowSecondaryMenu(toggle)
+    }
+  }, [currentSelectionId])
 
   const handleClick = option => {    
     if (!option.selected && typeof onChange === "function") {
@@ -29,12 +51,7 @@ const ModeSelector = props => {
   };
 
   const makeButton = option => {
-    // console.log(option.id, currentSelectionId)
-    // console.log(hasTransit(currentSelectionId) && hasTransit(option.id))
-
     let selected = option.selected
-
-    console.log(option.id, hasTransit(option.id))
 
     if (!selected) {
       selected = isTransit(option.id) && hasTransit(currentSelectionId)
@@ -42,8 +59,7 @@ const ModeSelector = props => {
 
     return <ModeButton
       key={option.id}
-      selected={selected}
-      // selected={option.selected || (hasTransit(currentSelectionId) && isTransit(option.id))}
+      selected={selected}      
       showTitle={option.showTitle}
       title={t(option.title)}
       onClick={() => handleClick(option)}
@@ -59,10 +75,13 @@ const ModeSelector = props => {
         {tertiary && tertiary.map(makeButton)}
       </ButtonGroup>
 
-      <ButtonGroup className="otp-ui-modeSelector__busCombo">
-        <div className="otp-ui-modeSelector__plusIcon">+</div>
-        {secondary && secondary.map(makeButton)} &nbsp;
-      </ButtonGroup>
+      {
+        showSecondaryMenu &&
+          <ButtonGroup className="otp-ui-modeSelector__transitCombo">
+            <div className="otp-ui-modeSelector__plusIcon">+</div>
+            {secondary && secondary.map(makeButton)} &nbsp;
+          </ButtonGroup>
+      }
     </div>
   );
 };
