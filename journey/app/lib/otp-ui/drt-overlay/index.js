@@ -157,9 +157,11 @@ class DrtOverlay extends MapLayer {
             >
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
-                  {/*<div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <Mar width={24} height={20} />&nbsp;{t('parking')}
-                  </div>*/}
+                  <div className="otp-ui-mapOverlayPopup__popupHeader">
+                    <Bus />
+
+                    <Button bsStyle="link" onClick={this.onClickView}>{t('stop')}</Button>
+                  </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{stop.stop.name}</div>
                   <small>{getAreaName(stop)}</small>

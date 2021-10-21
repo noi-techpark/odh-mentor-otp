@@ -25,7 +25,7 @@ class ViewStopButton extends Component {
         bsSize='xsmall'
         className='view-stop-button'
         onClick={this._onClick}
-      >{this.props.text || t((this.props.languageConfig.stopViewer || 'stop'))}</Button>
+      >{this.props.text || t('stop')}</Button>
     )
   }
 }

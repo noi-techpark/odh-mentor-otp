@@ -64,6 +64,7 @@ export const TRANSLATIONS_DE = {
   "route_view_details": "Wählen Sie eine Linie aus, die auf der Karte angezeigt werden soll, und sehen Sie weitere Informationen zu dieser Linie.",
   "trip": "Fahrt",
   "stop": "Haltestelle",
+  "stop_id": "Stop ID",
   "plan_trip": "Fahrt planen",
   "hide_settings": "Einstellungen ausblenden",
   "show_settings": "$_show_settings",

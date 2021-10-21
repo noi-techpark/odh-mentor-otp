@@ -64,6 +64,7 @@ export const TRANSLATIONS_EN = {
   "route_view_details": "Select a line to show on the map and see more information about this line.",
   "trip": "Race",
   "stop": "Stop",
+  "stop_id": "Stop ID",
   "plan_trip": "Plan Trip",
   "no_plan_trip": "Cloud Not Plan Trip ",
   "hide_settings": "Hide Settings",
