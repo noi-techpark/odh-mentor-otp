@@ -356,6 +356,7 @@ export const TRANSLATIONS_IT = {
   "available_cars": "Auto disponibili",
   "availability": "Disponibilità",
   "capacity": "Capienza",
+  "occupancy": "occupazione",
   "credits": "Credits",
   "provider": "Operatore",
   "credits_title": "Credits",

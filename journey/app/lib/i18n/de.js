@@ -353,6 +353,7 @@ export const TRANSLATIONS_DE = {
   "view_stop": "Show stop",
   "available_cars": "$_available_cars",
   "capacity": "$_capacity",
+  "occupancy": "$_occupancy",
   "credits": "$_credits",
   "provider": "$_provider",
   "credits_title": "$_credits_title",
