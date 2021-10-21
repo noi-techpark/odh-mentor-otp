@@ -6,6 +6,7 @@ import { modeSelectorOptionsType } from "../../core-utils/types";
 import { hasTransit, isTransit } from "../../core-utils/itinerary";
 
 import ModeButton from "../ModeButton";
+import OpenMoveModeIcon from "../../icons/openmove-mode-icon"
 
 /**
  * ModeSelector is the control container where the OTP user selects
@@ -62,6 +63,7 @@ const ModeSelector = props => {
       selected={selected}      
       showTitle={option.showTitle}
       title={t(option.title)}
+      enabled={option.enabled}
       onClick={() => handleClick(option)}
     >
       {option.icon}
@@ -72,6 +74,23 @@ const ModeSelector = props => {
     <div className={`otp-ui-modeSelector ${className || ''}`} style={style}>
       <ButtonGroup>
         {primary && makeButton(primary) } &nbsp; 
+        { makeButton({
+            id: 'CAR_RENT',
+            selected: false,
+            showTitle: 'carsharing',
+            title: t('carsharing'),
+            icon: OpenMoveModeIcon({mode:'car_rent', width: 28, height: 28}),
+            enabled: false
+        }) }
+        { makeButton({
+            id: 'BICYCLE_RENT',
+            selected: false,
+            showTitle: 'bikesharing',
+            title: t('bikesharing'),
+            icon: OpenMoveModeIcon({mode:'bicycle_rent', width: 28, height: 28}),
+            enabled: false
+        }) }
+        &nbsp; 
         {tertiary && tertiary.map(makeButton)}
       </ButtonGroup>
 

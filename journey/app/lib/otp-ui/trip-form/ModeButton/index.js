@@ -17,7 +17,7 @@ const ModeButton = props => {
     selected,
     showTitle,
     title,
-    style
+    style    
   } = props;
 
   const tooltip = text => (
