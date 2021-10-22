@@ -38,7 +38,8 @@ async function generateProto(vehicles){
     };
     for (const vehicle of vehicles) {
         payload.entity.push({
-            vehicle, id: vehicle.vehicle.id
+            vehicle,
+            id: vehicle.vehicle.id
         });
     }
     // Create a new message
@@ -112,6 +113,8 @@ function generateEntitiesVehicle(vehicle) {
                     name: item.smetadata.type.name,
                     label: item.smetadata.type.name
                 },
+                capacity: capacityMax,
+                free: capacityMax - capacityUsed,
                 occupancyStatus
            }
         );

@@ -87,6 +87,8 @@ transitOperators:
     logo: http://www.trasporti.provincia.tn.it/binary/pat_trasporti/orari/LogoTT2018.1547032531.jpg
   - id: "1"
     logo: https://www.suedtirolmobil.info/typo3conf/ext/sta_layout/Resources/Public/Images/logo.svg
+  - id: "Easymobil"
+    logo: https://www.easymobil.it/wp-content/themes/easy_mobil/images/logo.png
 
 # Add suggested locations to be shown as options in the form view.
 # locations:
@@ -404,15 +406,19 @@ companies:
     - id: BZ
       label: Bikesharing BZ
       modes: BICYCLE_RENT
+
     - id: ME
       label: Bikesharing Meran
       modes: BICYCLE_RENT
+
     - id: PAPIN
       label: Bike Rental Papin
       modes: BICYCLE_RENT
+
     - id: CAR2GO
       label: CarSharing
       modes: CAR_RENT
+
 #   - id: BIRD
 #     label: Bird
 #     modes: MICROMOBILITY_RENT

@@ -34,7 +34,6 @@ const ModeButton = props => {
       <Button
         href="#"
         onClick={onClick}
-        title={title}
         disabled={!enabled}
         active={selected}
       >

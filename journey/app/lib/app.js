@@ -30,6 +30,10 @@ const otpConfig = require(YAML_CONFIG);
 // defaults to ./config.js
 const jsConfig = require(JS_CONFIG).configure(otpConfig);
 
+window.OM = {
+  config: otpConfig
+};
+
 const {getItineraryFooter, LegIcon, ModeIcon} = jsConfig
 
 if (!LegIcon || !ModeIcon) {
