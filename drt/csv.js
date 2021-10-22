@@ -110,6 +110,36 @@ const createRouteAndAgency = async(path) => {
 
 }
 
+const createBookingRules = async(path) => {
+  
+  const csvWriter = createCsvWriter({
+    path: `${path}/booking_rules.txt`,
+    header: [
+      {id: 'booking_rule_id', title: 'booking_rule_id'},
+      {id: 'booking_type', title: 'booking_type'},
+      {id: 'prior_notice_duration_min', title: 'prior_notice_duration_min'},
+      {id: 'message', title: 'message'},
+      {id: 'phone_number', title: 'phone_number'},
+      {id: 'info_url', title: 'info_url'},
+      {id: 'booking_url', title: 'booking_url'}
+    ]
+  });
+
+  const records = [{
+    booking_rule_id: 'B1',
+    booking_type: 1,
+    prior_notice_duration_min: 30,
+    message: `Il minibus elettrico può essere prenotato gratuitamente per viaggi da una fermata all'altra. La prenotazione avviene tramite l'app Callbus. L'autobus deve essere prenotato almeno 30 minuti prima della partenza, ma è consigliato farlo prima possibile, perché la capienza del bus è di soli 7 passeggeri. Nel caso ci siano già molte prenotazioni, potrebbe succedere che la richiesta di un utente non venga accettata e che gli venga offerta la corsa successiva. L'app gratuita per la prenotazione del Callbus può essere scaricata dallo store di Google Play`,
+    phone_number: '+390471706633',
+    info_url: 'https://www.gemeinde.meran.bz.it/it/Callbus',
+    booking_url: 'https://play.google.com/store/apps/details?id=lu.cube4t8.callbus&hl=it&gl=US'
+  }];
+   
+  
+  await csvWriter.writeRecords(records);
+
+}
+
 const createSchedule = async(stops, path) => {
   await createRouteAndAgency(path);
 
@@ -124,7 +154,9 @@ const createSchedule = async(stops, path) => {
       {id: 'start_pickup_dropoff_window', title: 'start_pickup_dropoff_window'},
       {id: 'end_pickup_dropoff_window', title: 'end_pickup_dropoff_window'},
       {id: 'pickup_type', title: 'pickup_type'},
-      {id: 'drop_off_type', title: 'drop_off_type'}
+      {id: 'drop_off_type', title: 'drop_off_type'},
+      {id: 'pickup_booking_rule_id', title: 'pickup_booking_rule_id'},
+      {id: 'drop_off_booking_rule_id', title: 'drop_off_booking_rule_id'}
     ]
   });
 
@@ -168,8 +200,8 @@ const createSchedule = async(stops, path) => {
     friday: 1,
     saturday: 0,
     sunday: 0,
-    start_date: 20211001,
-    end_date: 20231001
+    start_date: 20210601,
+    end_date: 20211128
   });
   recordService.push({
     service_id: "sat",
@@ -180,8 +212,8 @@ const createSchedule = async(stops, path) => {
     friday: 0,
     saturday: 1,
     sunday: 0,
-    start_date: 20211001,
-    end_date: 20231001
+    start_date: 20210601,
+    end_date: 20211128
   })
 
   const hours = [
@@ -207,9 +239,7 @@ const createSchedule = async(stops, path) => {
         });
       }
     }
-    
   }
- 
   
   await csvWriter.writeRecords(records);
   await csvWriterTrip.writeRecords(recordTrip);
@@ -229,7 +259,9 @@ function createTripTime(tripId, start,end, startTime, endTime, records){
       start_pickup_dropoff_window: startTime,
       end_pickup_dropoff_window: endTime,
       pickup_type: 2,
-      drop_off_type: 2
+      drop_off_type: 2,
+      pickup_booking_rule_id: 'B1',
+      drop_off_booking_rule_id: 'B1'
     });
   
     records.push({
@@ -241,7 +273,9 @@ function createTripTime(tripId, start,end, startTime, endTime, records){
       start_pickup_dropoff_window: startTime,
       end_pickup_dropoff_window: endTime,
       pickup_type: 2,
-      drop_off_type: 2
+      drop_off_type: 2,
+      pickup_booking_rule_id: 'B1',
+      drop_off_booking_rule_id: 'B1'
     });
   }
 
@@ -255,7 +289,9 @@ function createTripTime(tripId, start,end, startTime, endTime, records){
       start_pickup_dropoff_window: startTime,
       end_pickup_dropoff_window: endTime,
       pickup_type: 2,
-      drop_off_type: 1
+      drop_off_type: 1,
+      pickup_booking_rule_id: 'B1',
+      drop_off_booking_rule_id: 'B1'
     });
   
     records.push({
@@ -267,7 +303,9 @@ function createTripTime(tripId, start,end, startTime, endTime, records){
       start_pickup_dropoff_window: startTime,
       end_pickup_dropoff_window: endTime,
       pickup_type: 2,
-      drop_off_type: 2
+      drop_off_type: 2,
+      pickup_booking_rule_id: 'B1',
+      drop_off_booking_rule_id: 'B1'
     });
   }
 
@@ -281,7 +319,9 @@ function createTripTime(tripId, start,end, startTime, endTime, records){
       start_pickup_dropoff_window: startTime,
       end_pickup_dropoff_window: endTime,
       pickup_type: 2,
-      drop_off_type: 2
+      drop_off_type: 2,
+      pickup_booking_rule_id: 'B1',
+      drop_off_booking_rule_id: 'B1'
     });
   
     records.push({
@@ -293,7 +333,9 @@ function createTripTime(tripId, start,end, startTime, endTime, records){
       start_pickup_dropoff_window: startTime,
       end_pickup_dropoff_window: endTime,
       pickup_type: 1,
-      drop_off_type: 2
+      drop_off_type: 2,
+      pickup_booking_rule_id: 'B1',
+      drop_off_booking_rule_id: 'B1'
     });
   }
   
@@ -312,6 +354,7 @@ module.exports = {
     await createStop(mStops, tmpobj.name);
     await createArea(mStops, tmpobj.name);
     await createSchedule(mStops, tmpobj.name);
+    await createBookingRules(tmpobj.name);
     const buffer = await zipdir(tmpobj.name);
     tmpobj.removeCallback();
     return buffer;
