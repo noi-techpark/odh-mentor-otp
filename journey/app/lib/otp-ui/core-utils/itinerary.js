@@ -70,7 +70,8 @@ export function isAccessMode(mode) {
  * @return {boolean} whether any of the modes are transit modes
  */
 export function hasTransit(modesStr) {
-  return modesStr.split(",").some(mode => isTransit(mode));
+  return modesStr.split(",").some(mode => isTransit(mode))
+    || modesStr.split("+").some(mode => isTransit(mode));
 }
 
 /**
@@ -78,7 +79,8 @@ export function hasTransit(modesStr) {
  * @return {boolean} whether any of the modes are car-based modes
  */
 export function hasCar(modesStr) {
-  return modesStr.split(",").some(mode => isCar(mode));
+  return modesStr.split(",").some(mode => isCar(mode)) 
+    || modesStr.split("+").some(mode => isCar(mode));
 }
 
 /**
@@ -86,9 +88,8 @@ export function hasCar(modesStr) {
  * @return {boolean} whether any of the modes are bicycle-based modes
  */
 export function hasBike(modesStr) {
-  return modesStr
-    .split(",")
-    .some(mode => isBicycle(mode) || isBicycleRent(mode));
+  return modesStr.split(",").some(mode => isBicycle(mode) || isBicycleRent(mode))
+    || modesStr.split("+").some(mode => isBicycle(mode) || isBicycleRent(mode));
 }
 
 /**
@@ -96,7 +97,8 @@ export function hasBike(modesStr) {
  * @return {boolean} whether any of the modes are micromobility-based modes
  */
 export function hasMicromobility(modesStr) {
-  return modesStr.split(",").some(mode => isMicromobility(mode));
+  return modesStr.split(",").some(mode => isMicromobility(mode))
+    || modesStr.split("+").some(mode => isMicromobility(mode));
 }
 
 /**
@@ -104,7 +106,8 @@ export function hasMicromobility(modesStr) {
  * @return {boolean} whether any of the modes is a hailing mode
  */
 export function hasHail(modesStr) {
-  return modesStr.split(",").some(mode => mode.indexOf("_HAIL") > -1);
+  return modesStr.split(",").some(mode => mode.indexOf("_HAIL") > -1)
+    || modesStr.split("+").some(mode => mode.indexOf("_HAIL") > -1);
 }
 
 /**
@@ -112,7 +115,8 @@ export function hasHail(modesStr) {
  * @return {boolean} whether any of the modes is a rental mode
  */
 export function hasRental(modesStr) {
-  return modesStr.split(",").some(mode => mode.indexOf("_RENT") > -1);
+  return modesStr.split(",").some(mode => mode.indexOf("_RENT") > -1)
+    || modesStr.split("+").some(mode => mode.indexOf("_RENT") > -1);
 }
 
 export function getMapColor(mode) {

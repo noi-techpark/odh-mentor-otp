@@ -1,5 +1,5 @@
 .env
-data/*
+data
 **node_modules
 journey/app/lib/config.yml
 journey/app/yarn-error.log

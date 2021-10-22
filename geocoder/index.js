@@ -15,6 +15,8 @@ const AddressParser = require('pelias-parser/parser/AddressParser');
 const config = require('./config');
 const formatters = require('./formatters');
 
+const api = require('./api');
+
 const PORT_SERVICES = 8087;
 //same port in pelias.json
 
@@ -38,6 +40,15 @@ servicesApp.get('/libpostal/parse', require('pelias-parser/server/routes/parse')
 servicesApp.get(/^\/placeholder(.*)$/,  (req, res)=> {
 
 	res.json({})
+});
+
+servicesApp.get('/here', async(req, res) => {
+	
+	const response = await api.here(req.query.text);
+
+	console.log('HERE api equest', req.query.text, JSON.stringify(response,null,4))
+	//res.json(response);
+	res.json(formatters.here(response));
 })
 
 
@@ -105,10 +116,10 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	}
 });
 
-//useful 
+//DEBUG http://localhost:8087/testSearch?text=roma
 servicesApp.get('/testSearch', (req,res) => {
 	
-	console.log('/testSearch',req.query);
+	console.log('[GEOCODER] /testSearch',req.query);
 
 	let lang = req.query.lang || config.server.default_lang;
 	
@@ -129,7 +140,8 @@ const serverParser = servicesApp.listen(PORT_SERVICES, () => {
 });
 
 const serverApi = apiApp.listen( config.server.port, () => {
-	console.log('[GEOCODER] listening on %s:%s', config.server.port)
+    console.log( apiApp._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+	console.log(`[GEOCODER] listening on ${config.server.port}`)
 	process.on('SIGTERM', () => {
 		console.error('[GEOCODER] closing...')
 		serverApi.close();
@@ -170,10 +182,11 @@ function combineResults(text, lang, cb) {
 	var request = new ParallelRequest();
 
 	_.forOwn(config.endpoints, (eOpt, eKey) => {
+
+		if(eKey==='here') return;
+
 		request.add({
-			
 			id: eKey,	//not required by ParallelRequest
-			
 			url: makeUrl(eOpt, text, lang),
 			method: eOpt.method,
 			headers: eOpt.headers
@@ -190,7 +203,7 @@ function combineResults(text, lang, cb) {
 
 		requests.forEach( req => {
 
-			console.log('[GEOCODER] request',req.url)
+			//console.log('[GEOCODER] request',req.url)
 			
 			if(_.isFunction(formatters[ req.id ])) {
 
@@ -198,21 +211,31 @@ function combineResults(text, lang, cb) {
 				
 				let eRes = formatters[ req.id ]( response, lang );
 			
-				console.log("[GEOCODER] response", req.id, "results", _.size(eRes));
+				console.log(`[GEOCODER] response Endpoint: '${req.id}' results`, _.size(eRes));
 
 				results.push(eRes);
 			}
 		});
 
-		/*old code results.push( formatters.opentripplanner(resp[0].body) );
-		results.push( formatters.accommodations(resp[1].body) );
-		results.push( formatters.pois(resp[2].body) );*/
-		
-		let result = formatters.elasticsearch( _.flatten(results) );
+		results = _.flatten(results);
 
-		console.log(`[GEOCODER] search: "${text}" responses...`, result.hits.total.value);
+		if (config.endpoints.here) {
+			(async (cbb, poiResults) => {		//prepend here results
+				const hereResponse = await api.here(text, lang);
+				const hereResults = formatters.here(hereResponse);
 
-		cb(result);
+				console.log(`[GEOCODER] response Endpoint: 'here' results`, _.size(hereResults));
+				//console.log(JSON.stringify(_.get(hereResponse,'body.Response.View[0].Result'),null,4));
 
+				//add here first
+				const returnResults = hereResults.concat(poiResults);
+
+				cbb( formatters.elasticsearch(returnResults) );
+
+			})(cb, results);
+		}
+		else {
+			cb(formatters.elasticsearch(results));
+		}
 	});
 }

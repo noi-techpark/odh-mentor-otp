@@ -9,6 +9,14 @@ import AppMenu from '../app/app-menu'
 import NavLoginButtonAuth0 from '../../components/user/nav-login-button-auth0'
 import { accountLinks, getAuth0Config } from '../../util/auth'
 
+import interreg from '../../images/interreg.png'
+import openmove from '../../images/openmove.png'
+
+const logos = {
+  interreg,
+  openmove
+}
+
 class MobileNavigationBar extends Component {
   static propTypes = {
     backScreen: PropTypes.number,
@@ -35,9 +43,26 @@ class MobileNavigationBar extends Component {
       title
     } = this.props
 
+    const {brandByDomain} = config;
+    let {branding, brandNavbar, brandNavbarLogo} = config;
+
+    //TODO switch by domain location.hostname
+
+    let brandLogo = null;
+
+    if (brandByDomain && (location.hostname in brandByDomain)) {
+      branding = brandByDomain[ location.hostname ]['branding'];
+      brandNavbar = brandByDomain[ location.hostname ]['brandNavbar'];
+      brandNavbarLogo = brandByDomain[ location.hostname ]['brandNavbarLogo'];
+      brandLogo = logos[ brandNavbarLogo ] || null;
+    }
+
     return (
       <Navbar fluid fixedTop collapseOnSelect>
         <Navbar.Header>
+        { brandLogo &&
+            <img className='brandLogo' src={brandLogo} />
+          }
           <Navbar.Brand>
             {
               showBackButton &&

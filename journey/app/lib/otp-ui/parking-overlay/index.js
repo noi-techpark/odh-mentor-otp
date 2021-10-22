@@ -49,6 +49,10 @@ class ParkingOverlay extends MapLayer {
 
   componentDidMount () {
     this.props.registerOverlay(this)
+
+    if (this.props.visible) {
+      this._startRefreshing()
+    }
   }
 
   onOverlayAdded = (e) => {
@@ -275,8 +279,6 @@ class ParkingOverlay extends MapLayer {
     )
   }
 }
-
-// connect to the redux store
 
 const mapStateToProps = (state, ownProps) => {
   return {

@@ -47,6 +47,10 @@ class ChargerOverlay extends MapLayer {
 
   componentDidMount () {
     this.props.registerOverlay(this)
+
+    if (this.props.visible) {
+      this._startRefreshing()
+    }
   }
 
   onOverlayAdded = () => {

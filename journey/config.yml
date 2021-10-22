@@ -1,7 +1,27 @@
-branding: Mentor - Alto Adige/Suedtirol
-homeTimezone: Europe/Rome
-title: Mentor - Alto Adige/Suedtirol
-brandNavbar: Mentor
+branding: Merano - Alto Adige/Suedtirol
+title: Merano - Alto Adige/Suedtirol
+brandNavbar: Merano
+brandNavbarLogo: null
+
+#overwrite default values by location.hostname
+brandByDomain:
+  localhost:
+    branding: Journey 
+    title: Journey 
+    brandNavbar: Journey
+    brandNavbarLogo: openmove
+  
+  mobility.meran.eu:
+    branding: Merano - Alto Adige/Suedtirol
+    title: Merano - Alto Adige/Suedtirol
+    brandNavbar: Merano
+    brandNavbarLogo: null
+
+  mentor.opendatahub.bz.it:
+    branding: Mentor
+    title: Mentor
+    brandNavbar: ''
+    brandNavbarLogo: interreg
 
 reportIssue:
   mailto: support@openmove.com
@@ -11,17 +31,11 @@ api:
   host: ${API_HOST}
   path: ${API_PATH}
   port: ${API_PORT}
-# alternateTransitIndex:
-#  apiRoot: https://otp.openmove.com
-#  services:
-#     - stops
-#     - stops/routes
-#     - routes
 
 geocoder:
   baseUrl: ${GEOCODER_BASEURL}
   maxNearbyStops: 6
-  maxResults: 30
+  maxResults: 20
   type: PELIAS
   boundary:
     rect:
@@ -29,17 +43,15 @@ geocoder:
       maxLon: 12.255011
       minLat: 46.188280
       maxLat: 47.088780
-#Suedtirol 10.470121,46.188280,12.255011,47.088780
+      #Suedtirol 10.470121,46.188280,12.255011,47.088780
 
 language:
-    storageDisclaimer: storage_disclaimer
-    routeViewer: route_viewer
-    routeViewerDetails: route_view_details
-    tripViewer: trip
-    stopViewer: stop
-    defaultLanguage: it
-    fallbackLanguage: en
-    #SET HERE DEFAULT FRONT-END LANGUAGE
+  storageDisclaimer: storage_disclaimer
+  routeViewer: route_viewer
+  routeViewerDetails: route_view_details
+  defaultLanguage: it
+  fallbackLanguage: en
+  #SET HERE DEFAULT FRONT-END LANGUAGE
 
 # react-router config, for URL routing (not to be confused with multimodal/OTP routing)
 #reactRouter:
@@ -106,7 +118,7 @@ map:
   # Default map center
   initLat: 46.670953
   initLon: 11.155007
-
+  initZoom: 15
   # closer-in zoom levels don't have any tiles that could be rendered by
   maxZoom: 20
 
@@ -134,8 +146,11 @@ map:
       visible: true
       iconWidth: 15
       iconHeight: 15
-      iconMarkerColor: "#337ab7"
+      iconMarkerColor: "#095980"
       iconColor: "#fff"
+      minZoom: 3
+      parentStations: true
+      minZoomStation: 17
 
     - type: car-rental
       name: carsharing
@@ -169,18 +184,38 @@ map:
       iconHeight: 50
       iconMarkerColor: "#FAA61F"
       iconColor: "#5d5d5d"
-      
+
     - type: parking
       name: parking
       #visible: true
-      #TODO cluster: true      
+      #TODO enable clustering by config -> cluster: true
       #api: ${PARKING_BASEURL}/parking/stations.json
       api: ${PARKING_BASEURL}/parking/all.json
       iconWidth: 42
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
       iconColor: "#5d5d5d"
-    
+
+    - type: drt
+      name: ondemand
+      api: ${DRT_BASEURL}/drt/all.json
+      pollingInterval: 5000
+      iconWidth: 15
+      iconHeight: 15
+      iconMarkerColor: "#095980"
+      iconVehicleColor: "#095980"
+      iconColor: "#fff"
+      areas:
+        1:
+          name: 'Area Esterna'
+          color: 'red'
+        2:
+          name: 'Area Principale'
+          color: 'green'
+        3:
+          name: 'Area Esterna'
+          color: 'red'
+
     # - type: parking-sensors
     #   name: parking-sensors
     #   api: ${PARKING_BASEURL}/parking/sensors.json
@@ -306,30 +341,43 @@ modes:
   transitModes:
     - mode: BUS
       label: bus
-    # - mode: TRAM
-    #   label: MAX & Streetcar
     - mode: RAIL
       label: train
     - mode: GONDOLA
       label: funicular
+    # - mode: TRAM
+    #   label: MAX & Streetcar
     #   showWheelchairSetting: true
 
+  #old conf accessModes:
+  #   - mode: BICYCLE_RIDE
+  #     label: bike_ride
+  #   - mode: BICYCLE_RENT
+  #     label: bikesharing_ride
+  #   #  company: Bikesharing
+  #   # - mode: MICROMOBILITY_RENT
+  #   #   label: Transit + E-scooter
+  #   - mode: CAR_PARK
+  #     label: park_ride
+  #   - mode: CAR_RENT
+  #     label: carsharing_ride
+  #     company: CAR2GO
+  #   #   showWheelchairSetting: false
+  #   - mode: MICROMOBILITY_RENT
+  #     label: micromobility_ride
   accessModes:
     - mode: BICYCLE
       label: bike_ride
     - mode: BICYCLE_RENT
       label: bikesharing_ride
-    #  company: Bikesharing
-    # - mode: MICROMOBILITY_RENT
-    #   label: Transit + E-scooter
     - mode: CAR_PARK
       label: park_ride
     - mode: CAR_RENT
       label: carsharing_ride
-      company: CAR2GO
-    #   showWheelchairSetting: false
-    - mode: MICROMOBILITY_RENT
+    - mode: MICROMOBILITY
       label: micromobility_ride
+    # - mode: MICROMOBILITY_RENT
+    #   label: Transit + E-scooter
 
   # which exclusive modes to show. This involves using a single mode and no
   # transit for the duration of the trip. Further configurations of
@@ -378,6 +426,9 @@ companies:
 #     label: Spin
 #     modes: MICROMOBILITY_RENT
 
+
+            #TEST
+            #
 errorMessages:
   - id: 404
     msg: Nessun percorso trovato. Prova a modificare le impostazioni del tuo viaggio.

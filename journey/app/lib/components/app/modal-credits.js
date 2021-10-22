@@ -3,10 +3,10 @@ import { Modal } from 'react-bootstrap'
 import { withNamespaces } from "react-i18next"
 
 import imageLogo from '../../images/credits/logo-placeholder.png'
+import interregLogo from '../../images/credits/interreg.png'
 import imageLogo2 from '../../images/credits/openmove.png'
 import imageLogo3 from '../../images/credits/NOI.png'
 import imageLogo4 from '../../images/credits/AzSoggiorno.png'
-
 
 //ADD MORE LOGO IMAGES HERE:
 //import imageLogo2 from '../../images/credits/logo-2.png'
@@ -16,9 +16,11 @@ class ModalCredits extends Component {
   render () {
     const { t, show} = this.props
     return (
-        <Modal bsSize="large" show={show} onHide={ () => this.props.onClose() }>
+        <Modal className="credits-modal" bsSize="large" show={show} onHide={ () => this.props.onClose() }>
           <Modal.Header closeButton><Modal.Title>{t('credits_title')}</Modal.Title></Modal.Header>
           <Modal.Body>
+
+          <img src={interregLogo} />
 
           {/* START CONTENTS of CREDITS */}
 
@@ -61,6 +63,8 @@ class ModalCredits extends Component {
                 </a>
               </li>
             </ul>
+
+            <h6 className="credits-title">{t('credits_title_supported')}</h6>
 
             {/* END CONTENTS of CREDITS */}
 

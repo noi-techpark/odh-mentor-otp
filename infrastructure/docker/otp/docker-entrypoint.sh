@@ -2,6 +2,9 @@
 
 #for auto download gtfs
 crond
+if [ -v GTFS_URL_UPDATETIME ]; then  
+(crontab -l ; echo "$GTFS_URL_UPDATETIME" /gtfs-import/gtfs-download.sh) | crontab -
+fi
 
 if [ "${DOWNLOAD_DATA}" = "True" ]; then
 	#TODO move to file download-data.sh

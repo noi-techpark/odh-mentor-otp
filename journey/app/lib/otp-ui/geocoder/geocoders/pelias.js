@@ -1,4 +1,5 @@
 import Geocoder from "./abstract-geocoder";
+import { getItem } from "../../core-utils/storage";
 
 /**
  * Geocoder implementation for the Pelias geocoder.
@@ -13,12 +14,7 @@ export default class PeliasGeocoder extends Geocoder {
    */
   getAutocompleteQuery(query) {
 
-    const defaultLang = 'en' 
-      , store = window.localStorage.getItem('i18nextLng')
-      , code = store ? store.replace(/[-_][a-z]+$/i,'') : defaultLang
-      , lang =  code || defaultLang;
-
-    query.lang = lang;
+    query.lang = getItem('lng');
 
     const {
       apiKey,
@@ -49,12 +45,7 @@ export default class PeliasGeocoder extends Geocoder {
    */
   getSearchQuery(query) {
 
-    const defaultLang = 'en' 
-      , store = window.localStorage.getItem('i18nextLng')
-      , code = store ? store.replace(/[-_][a-z]+$/i,'') : defaultLang
-      , lang =  code || defaultLang;
-
-    query.lang = lang;
+    query.lang = getItem('lng');
 
     const {
       apiKey,
@@ -84,6 +75,7 @@ export default class PeliasGeocoder extends Geocoder {
    * first feature returned from the geocoder.
    */
   rewriteReverseResponse(response) {
+
     const {
       "point.lat": lat,
       "point.lon": lon

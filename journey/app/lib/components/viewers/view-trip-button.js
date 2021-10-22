@@ -31,7 +31,7 @@ class ViewTripButton extends Component {
         bsSize='xsmall'
         className='view-trip-button'
         onClick={this._onClick}
-      >{this.props.text || (t(this.props.languageConfig.tripViewer || 'trip_viewer'))}</Button>
+      >{this.props.text || (t('trip_viewer'))}</Button>
     )
   }
 }

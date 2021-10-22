@@ -27,7 +27,6 @@ import MicromobilitySharing from "./modern/MicromobilitySharing";
  */
 function ClassicModeIcon({ mode, ...props }) {
   if (!mode) return null;
-  //console.log('classic-mode',mode.toLowerCase());
   switch (mode.toLowerCase()) {
     case "bicycle":
       return <ClassicBike {...props} />;
