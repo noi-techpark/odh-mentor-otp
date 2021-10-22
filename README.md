@@ -60,7 +60,7 @@ cd odh-mentor-otp
 
 ### Docker Environment
 
-In each service directory the file `dot.env.example` list the default env vars by service.
+In each service directory the file `.env.example` list the default env vars by service.
 Below is a list of env variables for each container:
 
 ##### otp

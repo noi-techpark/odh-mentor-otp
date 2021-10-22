@@ -4,6 +4,7 @@ import BicycleRide from "./BicycleRide";
 import BikeSharing from "./BikeSharing";
 import BikeSharingRide from "./BikeSharingRide";
 import Bus from "./Bus";
+import BusDrt from "./BusDrt";
 import Car from "./Car";
 import CarSharing from "./CarSharing";
 import CarSharingRide from "./CarSharingRide";
@@ -23,6 +24,7 @@ export {
   BikeSharing,
   BikeSharingRide,
   Bus,
+  BusDrt,
   Car,
   CarSharing,
   CarSharingRide,

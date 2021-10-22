@@ -17,7 +17,7 @@ const ModeButton = props => {
     selected,
     showTitle,
     title,
-    style
+    style    
   } = props;
 
   const tooltip = text => (
@@ -28,7 +28,7 @@ const ModeButton = props => {
 
   return (
     <OverlayTrigger
-      placement="bottom"
+      placement="top"
       overlay={tooltip(title)}
     >
       <Button

@@ -62,12 +62,6 @@ const stopMarkerIcon = memoize(stop => {
   });
 });
 
-const stopIdStringify = id => {
-  const idArr = id.split(":")
-      , agency = idArr[0];
-  return idArr.pop();
-}
-
 class StopMarker extends Component {
 
   onFromClick = () => {
@@ -124,14 +118,10 @@ class StopMarker extends Component {
             <div className="otp-ui-mapOverlayPopup__popupHeader">
               <Bus />
 
-              <Button bsStyle="link" onClick={this.onClickView} title={`Stop ID: ${stopIdStringify(id)}`}>
-                {t(languageConfig.stopViewer || 'stop')}
-              </Button>
+              <Button bsStyle="link" onClick={this.onClickView}>{t('stop')}</Button>
             </div>
 
             <div className="otp-ui-mapOverlayPopup__popupTitle">{name}</div>
-
-            {/*debug <pre>{ JSON.stringify(stop) }</pre>*/}
 
             <div className="otp-ui-mapOverlayPopup__popupRow">
               <FromToLocationPicker

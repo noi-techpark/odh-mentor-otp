@@ -49,8 +49,6 @@ language:
   storageDisclaimer: storage_disclaimer
   routeViewer: route_viewer
   routeViewerDetails: route_view_details
-  tripViewer: trip
-  stopViewer: stop
   defaultLanguage: it
   fallbackLanguage: en
   #SET HERE DEFAULT FRONT-END LANGUAGE
@@ -209,14 +207,14 @@ map:
       iconColor: "#fff"
       areas:
         1:
-          color: 'red'
           name: 'Area Esterna'
+          color: 'red'
         2:
-          color: 'green'
           name: 'Area Principale'
+          color: 'green'
         3:
-          color: 'red'
           name: 'Area Esterna'
+          color: 'red'
 
     # - type: parking-sensors
     #   name: parking-sensors
@@ -343,30 +341,43 @@ modes:
   transitModes:
     - mode: BUS
       label: bus
-    # - mode: TRAM
-    #   label: MAX & Streetcar
     - mode: RAIL
       label: train
     - mode: GONDOLA
       label: funicular
+    # - mode: TRAM
+    #   label: MAX & Streetcar
     #   showWheelchairSetting: true
 
+  #old conf accessModes:
+  #   - mode: BICYCLE_RIDE
+  #     label: bike_ride
+  #   - mode: BICYCLE_RENT
+  #     label: bikesharing_ride
+  #   #  company: Bikesharing
+  #   # - mode: MICROMOBILITY_RENT
+  #   #   label: Transit + E-scooter
+  #   - mode: CAR_PARK
+  #     label: park_ride
+  #   - mode: CAR_RENT
+  #     label: carsharing_ride
+  #     company: CAR2GO
+  #   #   showWheelchairSetting: false
+  #   - mode: MICROMOBILITY_RENT
+  #     label: micromobility_ride
   accessModes:
-    - mode: BICYCLE_RIDE
+    - mode: BICYCLE
       label: bike_ride
     - mode: BICYCLE_RENT
       label: bikesharing_ride
-    #  company: Bikesharing
-    # - mode: MICROMOBILITY_RENT
-    #   label: Transit + E-scooter
     - mode: CAR_PARK
       label: park_ride
     - mode: CAR_RENT
       label: carsharing_ride
-      company: CAR2GO
-    #   showWheelchairSetting: false
-    - mode: MICROMOBILITY_RENT
+    - mode: MICROMOBILITY
       label: micromobility_ride
+    # - mode: MICROMOBILITY_RENT
+    #   label: Transit + E-scooter
 
   # which exclusive modes to show. This involves using a single mode and no
   # transit for the duration of the trip. Further configurations of

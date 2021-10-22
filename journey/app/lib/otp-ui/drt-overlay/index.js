@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { LayerGroup, FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
 import { divIcon } from 'leaflet'
 import { withNamespaces } from "react-i18next";
+import { Button } from "react-bootstrap";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -14,6 +15,8 @@ import BadgeIcon from "../icons/badge-icon";
 
 import MarkerDrtStop from "../icons/modern/MarkerDrtStop";
 import MarkerDrtVehicle from "../icons/modern/MarkerDrtVehicle";
+//import Bus from "../icons/openmove/Bus";
+import BusDrt from "../icons/openmove/BusDrt";
 
 import ReactDOMServer from "react-dom/server";
 import FromToLocationPicker from '../from-to-location-picker'
@@ -149,6 +152,7 @@ class DrtOverlay extends MapLayer {
       <FeatureGroup>
         {
           locations.stops.map( stop => {
+          stop.name = stop.stop.name;
           return (
             <Marker
               icon={markerIcon(stop)}
@@ -157,9 +161,9 @@ class DrtOverlay extends MapLayer {
             >
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
-                  {/*<div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <Mar width={24} height={20} />&nbsp;{t('parking')}
-                  </div>*/}
+                  <div className="otp-ui-mapOverlayPopup__popupHeader">
+                    <BusDrt /> <span bsStyle="link">{t('stop')} {t('ondemand')}</span>
+                  </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{stop.stop.name}</div>
                   <small>{getAreaName(stop)}</small>
@@ -185,6 +189,18 @@ class DrtOverlay extends MapLayer {
               key={vehicle.vehicle.id}
               position={[vehicle.position.latitude, vehicle.position.longitude]}
             >
+              <Popup>
+                <div className="otp-ui-mapOverlayPopup">
+                  <div className="otp-ui-mapOverlayPopup__popupHeader">
+                    <span>&nbsp;{vehicle.vehicle.id}</span>
+                  </div>
+
+                  <div className="otp-ui-mapOverlayPopup__popupTitle">
+                    {vehicle.vehicle.name}
+                  </div>
+                  <div className='popup-row'>{t('occupancy')}: {vehicle.occupancyStatus}</div>
+                </div>
+              </Popup>
             </Marker>
           )
         })}

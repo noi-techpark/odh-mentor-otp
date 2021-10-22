@@ -122,7 +122,6 @@ class ResponsiveWebapp extends Component {
     // set from URL.)
     this.props.matchContentToUrl(this.props.location)
     if (location && location.search) {
-      // Set search params and $_plan_trip_$ if routing enabled and a query exists
       // in the URL.
       this.props.parseUrlQueryString()
     }

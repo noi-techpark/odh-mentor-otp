@@ -48,17 +48,17 @@ async function generateProto(vehicles){
     return buffer;
 };
 
-async function getData(){
+async function getDataVehicle() {
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     return await getVehicle();
 }
 
-async function getDataStop(){
+async function getDataStop() {
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     return await getStops();
 }
 
-async function getVehicle(){
+async function getVehicle() {
     return await axios({
         method: config.endpoints.vehicles.method,
         url: `${config.endpoints.vehicles.port === 443 ? 'https' : 'http'}://${config.endpoints.vehicles.hostname}${config.endpoints.vehicles.path}`,
@@ -66,7 +66,7 @@ async function getVehicle(){
     })
 }
 
-async function getStops(){
+async function getStops() {
     return await axios({
         method: config.endpoints.stops.method,
         url: `${config.endpoints.stops.port === 443 ? 'https' : 'http'}://${config.endpoints.stops.hostname}${config.endpoints.stops.path}`,
@@ -74,7 +74,7 @@ async function getStops(){
     })
 }
 
-function generateEntities(vehicle){
+function generateEntitiesVehicle(vehicle) {
     const entities = [];
 
     for (const item of vehicle.data) {
@@ -109,6 +109,7 @@ function generateEntities(vehicle){
                 timestamp: new Date(item.mvalidtime || 0).getTime()/1000,
                 vehicle: {
                     id: item.sname,
+                    name: item.smetadata.type.name,
                     label: item.smetadata.type.name
                 },
                 occupancyStatus
@@ -145,14 +146,14 @@ function generateEntitiesStop(stops){
 
 app.get('/drt/vehicles.json', cors(corsOptions), async function (req, res) {
 
-    const {'data': vehicle} = await getData();
+    const {'data': vehicle} = await getDataVehicle();
 
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: "1.0",
         data: {
-            vehicles: generateEntities(vehicle)
+            vehicles: generateEntitiesVehicle(vehicle)
         }
     });
 });
@@ -173,7 +174,7 @@ app.get('/drt/stops.json', cors(corsOptions), async function (req, res) {
 
 app.get('/drt/all.json', cors(corsOptions), async function (req, res) {
 
-    const {'data': vehicle} = await getData();
+    const {'data': vehicle} = await getDataVehicle();
     const {'data': stops} = await getDataStop();
 
     res.json({
@@ -181,7 +182,7 @@ app.get('/drt/all.json', cors(corsOptions), async function (req, res) {
         ttl: 0,
         version: "1.0",
         data: {
-            vehicles: generateEntities(vehicle),
+            vehicles: generateEntitiesVehicle(vehicle),
             stops: generateEntitiesStop(stops)
         }
     });
@@ -203,9 +204,9 @@ app.get('/drt/flex', cors(corsOptions), async function (req, res) {
 
 app.get('/drt/vehicles.proto', cors(corsOptions), async function (req, res) {
 
-    const {'data': vehicle} = await getData();
+    const {'data': vehicle} = await getDataVehicle();
 
-    const entities = generateEntities(vehicle);
+    const entities = generateEntitiesVehicle(vehicle);
     const buffer = await generateProto(entities);
 
     res.writeHead(200, {'Content-Type': 'application/protobuf'});
