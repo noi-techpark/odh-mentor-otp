@@ -33,8 +33,8 @@ pipeline {
         API_PORT = "443"
         API_PATH = "/otp/routers/openmove"
 
-        HERE_APPID = ""
-        HERE_APPCODE = ""
+        HERE_APPID=credentials("otp-here-appid-test")
+        HERE_APPCODE=credentials("otp-here-appcode-test")
 
         GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
         PARKING_BASEURL = "https://parking.otp.opendatahub.testingmachine.eu"
