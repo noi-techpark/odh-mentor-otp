@@ -9,6 +9,7 @@ pipeline {
         DOCKER_IMAGE_CARSHARING = 'odh-mentor-otp-carsharing'
         DOCKER_IMAGE_PARKING = 'odh-mentor-otp-parking'
         DOCKER_IMAGE_ECHARGING = 'odh-mentor-otp-echarging'
+        DOCKER_IMAGE_DRT = 'odh-mentor-otp-drt'
         DOCKER_TAG = "$BUILD_NUMBER"
     }
 
