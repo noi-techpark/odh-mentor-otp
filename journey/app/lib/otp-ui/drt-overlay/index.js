@@ -15,7 +15,8 @@ import BadgeIcon from "../icons/badge-icon";
 
 import MarkerDrtStop from "../icons/modern/MarkerDrtStop";
 import MarkerDrtVehicle from "../icons/modern/MarkerDrtVehicle";
-import Bus from "../icons/modern/Bus";
+//import Bus from "../icons/openmove/Bus";
+import BusDrt from "../icons/openmove/BusDrt";
 
 import ReactDOMServer from "react-dom/server";
 import FromToLocationPicker from '../from-to-location-picker'
@@ -151,6 +152,7 @@ class DrtOverlay extends MapLayer {
       <FeatureGroup>
         {
           locations.stops.map( stop => {
+          stop.name = stop.stop.name;
           return (
             <Marker
               icon={markerIcon(stop)}
@@ -160,9 +162,7 @@ class DrtOverlay extends MapLayer {
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
                   <div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <Bus />
-
-                    <Button bsStyle="link" onClick={this.onClickView}>{t('stop')}</Button>
+                    <BusDrt /> <span bsStyle="link">{t('stop')} {t('ondemand')}</span>
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{stop.stop.name}</div>
@@ -192,7 +192,7 @@ class DrtOverlay extends MapLayer {
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
                   <div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <Bus /> <span>&nbsp;{vehicle.vehicle.id}</span>
+                    <span>&nbsp;{vehicle.vehicle.id}</span>
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">
