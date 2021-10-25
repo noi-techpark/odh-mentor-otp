@@ -3,28 +3,30 @@
   "private": true,
   "version": "2.0.0",
   "description": "",
-  "dependencies": {},
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
   "devDependencies": {
     "dotenv": "^8.2.0"
   },
   "author": "OpenMove <info@openmove.com>",
   "contributors": [
     {
-      "name" : "Federico Bertolini",
-      "email" : "federico.bertolini@openmove.com",
-      "url" : "https://github.com/zabuTNT"
+      "name": "Federico Bertolini",
+      "email": "federico.bertolini@openmove.com",
+      "url": "https://github.com/zabuTNT"
     },
     {
-      "name" : "Stefano Cudini",
-      "email" : "stefano.cudini@gmail.com",
-      "url" : "https://github.com/stefanocudini"
+      "name": "Stefano Cudini",
+      "email": "stefano.cudini@gmail.com",
+      "url": "https://github.com/stefanocudini"
     },
     {
-      "name" : "Valerio Capogna",
-      "email" : "capogna.valerio@gmail.com",
+      "name": "Valerio Capogna",
+      "email": "capogna.valerio@gmail.com",
       "url": "https://github.com/capognavalerio"
     }
-  ],  
+  ],
   "license": "MIT",
   "scripts": {
     "genconfig": "node env2config.js config.yml > app/lib/config.yml",

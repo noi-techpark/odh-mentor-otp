@@ -186,6 +186,23 @@ map:
       iconHeight: 50
       iconMarkerColor: "#FAA61F"
       iconColor: "#5d5d5d"
+      filters:
+        - provider:
+          enabled: true
+          label: label_provider
+          values:
+          - value: "Neogy"
+            enabled: true
+          - value: "H2 Center"
+            enabled: true
+          - value: "Route220"
+            enabled: true
+        - accesstype:
+          enabled: true
+          label: "Access Type"
+          values:
+            - value:
+
 
     - type: parking
       name: parking
