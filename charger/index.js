@@ -3,6 +3,7 @@ const https = require('https');
 const _ = require('lodash');
 const cors = require('cors')
 const config = require('./config');
+const yaml = require('js-yaml');
 
 var corsOptions = {
   origin: '*',
@@ -153,7 +154,7 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
     });
 });
 
-app.get('/charger/filters.json', cors(corsOptions), function (req, res) {
+app.get('/charger/filters.yaml', cors(corsOptions), function (req, res) {
     const chargeStations = [];
     const chargeFilters = {};
 
@@ -174,8 +175,6 @@ app.get('/charger/filters.json', cors(corsOptions), function (req, res) {
 
             const groups = _.groupBy(chargeStations, filterKey);
 
-            console.log(groups);
-
             chargeFilters[filterKey] = {
                 enabled: true,
                 label: `label_${filterKey.toLowerCase()}`,
@@ -189,15 +188,7 @@ app.get('/charger/filters.json', cors(corsOptions), function (req, res) {
         }
     }
 
-
-    res.json({
-        last_updated: lastUpdate,
-        ttl: 0,
-        version: "1.0",
-        data: {
-            filters: chargeFilters
-       }
-    });
+    res.end(yaml.dump(chargeFilters));
 });
 
 app.listen(config.server.port, function () {
