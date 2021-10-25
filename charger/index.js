@@ -188,7 +188,11 @@ app.get('/charger/filters.yaml', cors(corsOptions), function (req, res) {
         }
     }
 
-    res.end(yaml.dump(chargeFilters));
+    const ymlText = yaml.dump({
+        filters: chargeFilters
+    })
+
+    res.end(ymlText);
 });
 
 app.listen(config.server.port, function () {
