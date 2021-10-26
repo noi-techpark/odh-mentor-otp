@@ -154,7 +154,7 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
     });
 });
 
-app.get('/charger/filters.yaml', cors(corsOptions), function (req, res) {
+app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
     const chargeStations = [];
     const chargeFilters = {};
 

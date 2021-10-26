@@ -4,6 +4,7 @@ const _ = require('lodash');
 const fs = require('fs');
 const cors = require('cors');
 const config = require('./config');
+const yaml = require('js-yaml');
 
 var app = express();
 
@@ -129,6 +130,10 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                     free: station.smetadata.availableVehicles || 0,
                     type: 'carsharing-hub',
                     networks: ['SUEDTIROL'],
+
+                    company: station.smetadata.company.shortName,
+                    bookahead: station.smetadata.bookahead,
+
                     vehicles: carVehicles,
                     groupVehicles: _.reverse(_.sortBy(groupVehicles, 'free'))
                 })
@@ -177,6 +182,45 @@ app.get('/carsharing/regions.json', function (req, res) {
     let rawdata = fs.readFileSync('region.geojson');
     let region = JSON.parse(rawdata);
     res.json(region);
+});
+
+
+app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
+    const chargeStations = [];
+    const chargeFilters = {};
+
+    if(stationsReceived) {
+        for(var i = 0; i < stationsReceived.length; i++){
+            var station = stationsReceived[i];
+
+            chargeStations.push({
+                company: station.smetadata.company.shortName,
+                bookahead: station.smetadata.bookahead,
+            });
+        }
+
+        for(let filterKey of Object.keys(chargeStations[0])) {
+
+            const groups = _.groupBy(chargeStations, filterKey);
+
+            chargeFilters[filterKey] = {
+                enabled: true,
+                label: `label_${filterKey.toLowerCase()}`,
+                values: Object.keys(groups).map(key => {
+                    return {
+                        value: key,
+                        enabled: true
+                    }
+                })
+            }
+        }
+    }
+
+    const ymlText = yaml.dump({
+        filters: chargeFilters
+    })
+
+    res.end(ymlText);
 });
 
 
