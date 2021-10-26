@@ -184,7 +184,6 @@ app.get('/carsharing/regions.json', function (req, res) {
     res.json(region);
 });
 
-
 app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
     const chargeStations = [];
     const chargeFilters = {};

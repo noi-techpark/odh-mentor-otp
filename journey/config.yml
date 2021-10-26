@@ -154,18 +154,6 @@ map:
       parentStations: true
       minZoomStation: 17
 
-    - type: car-rental
-      name: carsharing
-      modes:
-        - CAR_RENT
-      companies:
-        - SUEDTIROL
-      api: ${CARSHARING_BASEURL}/carsharing/stations.json
-      iconWidth: 42
-      iconHeight: 50
-      iconMarkerColor: "#d9bd48"
-      iconColor: "#5d5d5d"
-
     - type: bike-rental
       name: bikesharing
       modes:
@@ -178,6 +166,37 @@ map:
       iconHeight: 50
       iconMarkerColor: "#ead896"
       iconColor: "#5d5d5d"
+
+    - type: car-rental
+      name: carsharing
+      modes:
+        - CAR_RENT
+      companies:
+        - SUEDTIROL
+      api: ${CARSHARING_BASEURL}/carsharing/stations.json
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#d9bd48"
+      iconColor: "#5d5d5d"
+      filters:
+        company:
+          enabled: true
+          label: label_company
+          values:
+            - value: undefined
+              enabled: true
+            - value: Car Sharing SÃ¼dtirol Alto Adige
+              enabled: true
+            - value: Car Sharing Trentino
+              enabled: true
+        bookahead:
+          enabled: true
+          label: label_bookahead
+          values:
+            - value: 'false'
+              enabled: true
+            - value: 'true'
+              enabled: true
 
     - type: charger
       name: charger
