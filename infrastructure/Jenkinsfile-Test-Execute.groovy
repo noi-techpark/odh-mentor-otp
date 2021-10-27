@@ -11,7 +11,7 @@ pipeline {
         DOCKER_IMAGE_PARKING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-parking'
         DOCKER_IMAGE_ECHARGING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-echarging'
         DOCKER_IMAGE_DRT = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-drt'
-        DOCKER_TAG = "test-$BUILD_NUMBER"
+        DOCKER_TAG = "test-execute-$BUILD_NUMBER"
 
         EFS_FOLDER = "/opt/odh-mentor-otp-test/"
 

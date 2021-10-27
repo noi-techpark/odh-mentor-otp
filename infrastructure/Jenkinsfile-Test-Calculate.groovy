@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_PROJECT_NAME = "odh-mentor-otp"
         DOCKER_IMAGE_OTP = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-calculate-otp'
-        DOCKER_TAG = "test-$BUILD_NUMBER"
+        DOCKER_TAG = "test-calculate-$BUILD_NUMBER"
 
         EFS_FOLDER = "/opt/odh-mentor-otp-test/"
 
