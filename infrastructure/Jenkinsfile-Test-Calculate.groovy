@@ -6,6 +6,8 @@ pipeline {
         DOCKER_IMAGE_OTP = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-calculate-otp'
         DOCKER_TAG = "test-$BUILD_NUMBER"
 
+        EFS_FOLDER = "/opt/odh-mentor-otp-test/"
+
         JAVA_MX = "8G"
         BUILD_GRAPH = "True"
         DOWNLOAD_DATA = "False"
@@ -33,6 +35,8 @@ pipeline {
                     echo 'COMPOSE_PROJECT_NAME=${DOCKER_PROJECT_NAME}' > .env
                     echo 'DOCKER_IMAGE_OTP=${DOCKER_IMAGE_OTP}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
+
+                    echo 'EFS_FOLDER=${EFS_FOLDER}' >> .env
 
                     echo 'JAVA_MX=${JAVA_MX}' >> .env
                     echo 'BUILD_GRAPH=${BUILD_GRAPH}' >> .env

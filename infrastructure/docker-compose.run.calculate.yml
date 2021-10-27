@@ -25,4 +25,4 @@ services:
       GTFS_FEED_ID: ${GTFS_FEED_ID}
       OFFICIAL: ${OFFICIAL}
     volumes:
-      - /opt/odh-mentor-otp/:/data/
+      - ${EFS_FOLDER}:/data/

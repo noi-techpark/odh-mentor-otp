@@ -13,6 +13,8 @@ pipeline {
         DOCKER_IMAGE_DRT = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-drt'
         DOCKER_TAG = "test-$BUILD_NUMBER"
 
+        EFS_FOLDER = "/opt/odh-mentor-otp-test/"
+
         SERVER_PORT_OTP = "1014"
         SERVER_PORT_JOURNEY = "1015"
         GBFS_HOST ="https://gbfs.otp.opendatahub.testingmachine.eu/"
@@ -74,6 +76,8 @@ pipeline {
 
                     echo 'SERVER_PORT_OTP=${SERVER_PORT_OTP}' >> .env
                     echo 'SERVER_PORT_JOURNEY=${SERVER_PORT_JOURNEY}' >> .env
+
+                    echo 'EFS_FOLDER=${EFS_FOLDER}' >> .env
 
                     echo 'JAVA_MX=${JAVA_MX}' >> .env
                     echo 'BUILD_GRAPH=${BUILD_GRAPH}' >> .env

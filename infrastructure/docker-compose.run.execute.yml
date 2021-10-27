@@ -30,7 +30,7 @@ services:
       UPDATERS: "True"
       OFFICIAL: ${OFFICIAL}
     volumes:
-      - /opt/odh-mentor-otp/:/data/
+      - ${EFS_FOLDER}:/data/
     ports:
       - ${SERVER_PORT_OTP}:8080
 
