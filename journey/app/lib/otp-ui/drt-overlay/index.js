@@ -15,7 +15,8 @@ import BadgeIcon from "../icons/badge-icon";
 
 import MarkerDrtStop from "../icons/modern/MarkerDrtStop";
 import MarkerDrtVehicle from "../icons/modern/MarkerDrtVehicle";
-import Bus from "../icons/modern/Bus";
+//import Bus from "../icons/openmove/Bus";
+import BusDrt from "../icons/openmove/BusDrt";
 
 import ReactDOMServer from "react-dom/server";
 import FromToLocationPicker from '../from-to-location-picker'
@@ -109,7 +110,7 @@ class DrtOverlay extends MapLayer {
     }
 
     const markerIcon = (data) => {
-      let badgeType = 'success'
+      let badgeType = ''
         , badgeCounter = 0
         , iconWidth, iconHeight
         , iconVehicleWidth, iconVehicleHeight;
@@ -119,6 +120,17 @@ class DrtOverlay extends MapLayer {
 
       iconVehicleWidth = 30;
       iconVehicleHeight = 30;
+
+/*      if (data.vehicle) {
+        if (data.free > 0 ) {
+          badgeType = 'success';
+        } else if (data.free == 1) {
+          badgeType = 'danger';
+        }
+        else {
+          badgeType = 'warning';
+        }
+      }*/
 
       return divIcon({
         className: "",
@@ -151,6 +163,7 @@ class DrtOverlay extends MapLayer {
       <FeatureGroup>
         {
           locations.stops.map( stop => {
+          stop.name = stop.stop.name;
           return (
             <Marker
               icon={markerIcon(stop)}
@@ -160,9 +173,7 @@ class DrtOverlay extends MapLayer {
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
                   <div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <Bus />
-
-                    <Button bsStyle="link" onClick={this.onClickView}>{t('stop')}</Button>
+                    <BusDrt /> <span bsStyle="link">{t('stop')} {t('ondemand')}</span>
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">{stop.stop.name}</div>
@@ -192,13 +203,28 @@ class DrtOverlay extends MapLayer {
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
                   <div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <Bus /> <span>&nbsp;{vehicle.vehicle.id}</span>
+                    <span>&nbsp;{vehicle.vehicle.id}</span>
                   </div>
 
                   <div className="otp-ui-mapOverlayPopup__popupTitle">
                     {vehicle.vehicle.name}
                   </div>
-                  <div className='popup-row'>{t('occupancy')}: {vehicle.occupancyStatus}</div>
+
+                  <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                    <CircularProgressbar
+                      value={vehicle.free}
+                      minValue={0}
+                      maxValue={vehicle.capacity}
+                      text={vehicle.free+' '}
+                      className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
+                    />
+                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">
+                      {t('capacity')}: {vehicle.capacity}
+{/*                      <br />
+                      {t('free_slots')}: {vehicle.free}*/}
+                    </div>
+                  </div>
+
                 </div>
               </Popup>
             </Marker>

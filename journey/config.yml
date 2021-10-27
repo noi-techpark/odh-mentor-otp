@@ -87,6 +87,8 @@ transitOperators:
     logo: http://www.trasporti.provincia.tn.it/binary/pat_trasporti/orari/LogoTT2018.1547032531.jpg
   - id: "1"
     logo: https://www.suedtirolmobil.info/typo3conf/ext/sta_layout/Resources/Public/Images/logo.svg
+  - id: "Easymobil"
+    logo: https://www.easymobil.it/wp-content/themes/easy_mobil/images/logo.png
 
 # Add suggested locations to be shown as options in the form view.
 # locations:
@@ -152,18 +154,6 @@ map:
       parentStations: true
       minZoomStation: 17
 
-    - type: car-rental
-      name: carsharing
-      modes:
-        - CAR_RENT
-      companies:
-        - SUEDTIROL
-      api: ${CARSHARING_BASEURL}/carsharing/stations.json
-      iconWidth: 42
-      iconHeight: 50
-      iconMarkerColor: "#d9bd48"
-      iconColor: "#5d5d5d"
-
     - type: bike-rental
       name: bikesharing
       modes:
@@ -177,6 +167,37 @@ map:
       iconMarkerColor: "#ead896"
       iconColor: "#5d5d5d"
 
+    - type: car-rental
+      name: carsharing
+      modes:
+        - CAR_RENT
+      companies:
+        - SUEDTIROL
+      api: ${CARSHARING_BASEURL}/carsharing/stations.json
+      iconWidth: 42
+      iconHeight: 50
+      iconMarkerColor: "#d9bd48"
+      iconColor: "#5d5d5d"
+      filters:
+        company:
+          enabled: true
+          label: label_company
+          values:
+            - value: undefined
+              enabled: true
+            - value: Car Sharing SÃ¼dtirol Alto Adige
+              enabled: true
+            - value: Car Sharing Trentino
+              enabled: true
+        bookahead:
+          enabled: true
+          label: label_bookahead
+          values:
+            - value: 'false'
+              enabled: true
+            - value: 'true'
+              enabled: true
+
     - type: charger
       name: charger
       api: ${CHARGER_BASEURL}/charger/stations.json
@@ -184,6 +205,82 @@ map:
       iconHeight: 50
       iconMarkerColor: "#FAA61F"
       iconColor: "#5d5d5d"
+      filters:
+        provider:
+          enabled: true
+          label: label_provider
+          values:
+            - value: H2 Center
+              enabled: true
+            - value: AER
+              enabled: true
+            - value: Neogy
+              enabled: true
+            - value: EDY
+              enabled: true
+            - value: Alperia Smart Mobility
+              enabled: true
+            - value: ASM
+              enabled: true
+            - value: NHP
+              enabled: true
+            - value: ASD
+              enabled: true
+            - value: DriWe
+              enabled: true
+            - value: Route220
+              enabled: true
+            - value: AP_GEN
+              enabled: true
+        accessType:
+          enabled: true
+          label: label_accesstype
+          values:
+            - value: PUBLIC
+              enabled: true
+            - value: undefined
+              enabled: true
+            - value: PRIVATE
+              enabled: true
+            - value: PRIVATE_WITHPUBLICACCESS
+              enabled: true
+        reservable:
+          enabled: true
+          label: label_reservable
+          values:
+            - value: 'true'
+              enabled: true
+            - value: undefined
+              enabled: true
+            - value: 'false'
+              enabled: true
+            - value: 'null'
+              enabled: true
+        state:
+          enabled: true
+          label: label_state
+          values:
+            - value: AVAILABLE
+              enabled: true
+            - value: MAINTENANCE
+              enabled: true
+            - value: ACTIVE
+              enabled: true
+            - value: TEMPORARYUNAVAILABLE
+              enabled: true
+            - value: UNKNOWN
+              enabled: true
+            - value: undefined
+              enabled: true
+            - value: FAULT
+              enabled: true
+            - value: UNAVAILABLE
+              enabled: true
+            - value: 'null'
+              enabled: true
+            - value: OCCUPIED
+              enabled: true
+
 
     - type: parking
       name: parking
@@ -404,15 +501,19 @@ companies:
     - id: BZ
       label: Bikesharing BZ
       modes: BICYCLE_RENT
+
     - id: ME
       label: Bikesharing Meran
       modes: BICYCLE_RENT
+
     - id: PAPIN
       label: Bike Rental Papin
       modes: BICYCLE_RENT
+
     - id: CAR2GO
       label: CarSharing
       modes: CAR_RENT
+
 #   - id: BIRD
 #     label: Bird
 #     modes: MICROMOBILITY_RENT

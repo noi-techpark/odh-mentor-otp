@@ -132,6 +132,7 @@ services:
     volumes:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
+      #TODO - drt
       - gbfs
       - parking
       - charger
