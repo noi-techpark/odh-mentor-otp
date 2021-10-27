@@ -15,15 +15,15 @@ pipeline {
 
         EFS_FOLDER = "/opt/odh-mentor-otp-test/"
 
-        SERVER_PORT_OTP = "1014"
-        SERVER_PORT_JOURNEY = "1015"
+        SERVER_PORT_OTP = "1080"
+        SERVER_PORT_JOURNEY = "1081"
         GBFS_HOST ="https://gbfs.otp.opendatahub.testingmachine.eu/"
-        DOCKER_GBFS_PORT = "1016"
-        DOCKER_GEOCODER_PORT = "1017"
-        DOCKER_CARSHARING_PORT = "1018"
-        DOCKER_PARKING_PORT = "1019"
-        DOCKER_DRT_PORT = "1020"
-        DOCKER_ECHARGING_PORT = "1021"
+        DOCKER_GBFS_PORT = "1082"
+        DOCKER_GEOCODER_PORT = "1083"
+        DOCKER_CARSHARING_PORT = "1084"
+        DOCKER_PARKING_PORT = "1085"
+        DOCKER_DRT_PORT = "1086"
+        DOCKER_ECHARGING_PORT = "1087"
 
         JAVA_MX = "2G"
         BUILD_GRAPH = "False"
