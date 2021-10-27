@@ -47,4 +47,9 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/charger/Dockerfile
+  drt:
+    image: ${DOCKER_IMAGE_DRT}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/drt/Dockerfile
 
