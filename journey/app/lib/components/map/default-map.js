@@ -52,7 +52,8 @@ class DefaultMap extends Component {
     super(props)
 
     this.state = {
-      forceRefresh: false
+      forceRefresh: false,
+      activeFilterLayer: null
     }
   }
   /**
@@ -211,6 +212,7 @@ class DefaultMap extends Component {
                     storeItem('mapOverlayVisible', visibleOverlays)
                   }
                 }}
+                onFilterLayerRequest={filterLayer => this.setState({ activeFilterLayer: filterLayer })}
               >
                 {/* The default overlays */}
                 <BoundsUpdatingOverlay />
@@ -232,6 +234,8 @@ class DefaultMap extends Component {
                         name={t(overlayConfig.name)}
                         refreshVehicles={bikeRentalQuery}
                         stations={bikeRentalStations}
+                        showFilters={this.state.activeFilterLayer === 'bike-rental'}
+                        onFilterClose={() => this.setState({ activeFilterLayer: null })}
                       />
                     )
                     case 'car-rental': return (
@@ -242,6 +246,8 @@ class DefaultMap extends Component {
                         name={t(overlayConfig.name)}
                         refreshVehicles={carRentalQuery}
                         stations={carRentalStations}
+                        showFilters={this.state.activeFilterLayer === 'car-rental'}
+                        onFilterClose={() => this.setState({ activeFilterLayer: null })}
                       />
                     )
                     case 'park-and-ride':
@@ -250,7 +256,9 @@ class DefaultMap extends Component {
                           key={k}
                           {...overlayConfig}
                           visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                          name={t(overlayConfig.name)}                             
+                          name={t(overlayConfig.name)}     
+                          showFilters={this.state.activeFilterLayer === 'park-and-ride'}
+                          onFilterClose={() => this.setState({ activeFilterLayer: null })}                        
                         />
                       )
                     case 'stops': return (
@@ -258,7 +266,9 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                          
+                        name={t(overlayConfig.name)}  
+                        showFilters={this.state.activeFilterLayer === 'stops'}
+                        onFilterClose={() => this.setState({ activeFilterLayer: null })}                        
                       />
                     )
                     case 'tile': return (
@@ -266,7 +276,9 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                          
+                        name={t(overlayConfig.name)}        
+                        showFilters={this.state.activeFilterLayer === 'tile'}
+                        onFilterClose={() => this.setState({ activeFilterLayer: null })}                  
                       />
                     )
                     case 'micromobility-rental': return (
@@ -277,6 +289,8 @@ class DefaultMap extends Component {
                         name={t(overlayConfig.name)}
                         refreshVehicles={vehicleRentalQuery}
                         stations={vehicleRentalStations}
+                        showFilters={this.state.activeFilterLayer === 'micromobility-rental'}
+                        onFilterClose={() => this.setState({ activeFilterLayer: null })}
                       />
                     )
                     case 'zipcar': return (
@@ -284,7 +298,9 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                          
+                        name={t(overlayConfig.name)}     
+                        showFilters={this.state.activeFilterLayer === 'zipcar'}
+                        onFilterClose={() => this.setState({ activeFilterLayer: null })}                     
                       />
                     )
                     case 'parking': return (
@@ -292,7 +308,9 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1} 
-                        name={t(overlayConfig.name)}                          
+                        name={t(overlayConfig.name)}      
+                        showFilters={this.state.activeFilterLayer === 'parking'}
+                        onFilterClose={() => this.setState({ activeFilterLayer: null })}                    
                       />
                     )
                     case 'drt': return (
@@ -301,6 +319,8 @@ class DefaultMap extends Component {
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
+                        showFilters={this.state.activeFilterLayer === 'drt'}
+                        onFilterClose={() => this.setState({ activeFilterLayer: null })}
                       />
                     )
                     case 'charger': return (
@@ -308,7 +328,9 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                        
+                        name={t(overlayConfig.name)}    
+                        showFilters={this.state.activeFilterLayer === 'charger'}
+                        onFilterClose={() => this.setState({ activeFilterLayer: null })}
                       />
                     )
                     default: return null

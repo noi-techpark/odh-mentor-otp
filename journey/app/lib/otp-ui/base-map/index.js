@@ -183,6 +183,7 @@ class BaseMap extends Component {
       onContextMenu,
       onPopupClosed,
       onLoad,
+      onFilterLayerRequest,
       zoom
     } = this.props;
     const { layerIndex } = this.state;
@@ -234,8 +235,8 @@ class BaseMap extends Component {
         )}
 
         <AdvancedOverlaysController 
-          mapRef={this.refs.map}
           overlays={userControlledOverlays}
+          onFilterRequest={filterName => onFilterLayerRequest(filterName)}
         />
 
         <LayersControl position="bottomright">
@@ -361,6 +362,8 @@ BaseMap.propTypes = {
    */
   // eslint-disable-next-line react/no-unused-prop-types
   onViewportChanged: PropTypes.func,
+
+  onFilterLayerRequest: PropTypes.func,
   /**
    * The contents and location (in [lat, lng] format) of the popup to display, or null if no popup is displayed.
    */
@@ -404,6 +407,7 @@ BaseMap.defaultProps = {
   onOverlayRemoved: null,
   onPopupClosed: null,
   onViewportChanged: null,
+  onFilterLayerRequest: null,
   onLoad: null,
   popup: null,
   zoom: 13,

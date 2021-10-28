@@ -16,7 +16,8 @@ class AdvancedOverlaysController extends Component {
 
     componentDidMount() {
         const {
-            overlays
+            overlays,
+            onFilterRequest
         } = this.props;
 
         const $mainContainer = document.querySelector('.leaflet-control-layers-overlays')
@@ -33,8 +34,10 @@ class AdvancedOverlaysController extends Component {
                 $filterButton.setAttribute('disabled', 'disabled')
             }
 
+            console.log(item)
+
             $filterButton.addEventListener('click', () => {
-                alert('Filter')
+                onFilterRequest(item.props.type)
             })
     
             this.createWrap($mainContainer.children[index], $wrapper)
@@ -94,13 +97,13 @@ class AdvancedOverlaysController extends Component {
 }
 
 AdvancedOverlaysController.propTypes = {
-    mapRef: PropTypes.object,
-    overlays: PropTypes.array
+    overlays: PropTypes.array,
+    onFilterRequest: PropTypes.func
 }
 
-AdvancedOverlaysController.defaultProps = {
-    mapRef: null,
-    overlays: []
+AdvancedOverlaysController.defaultProps = {    
+    overlays: [],
+    onFilterRequest: () => {}
 }
 
 export default AdvancedOverlaysController
