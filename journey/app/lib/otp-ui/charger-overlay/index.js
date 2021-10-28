@@ -127,72 +127,76 @@ class ChargerOverlay extends MapLayer {
       });
     }
 
-    return (      
-      <LayerGroup>
-        <MarkerClusterGroup
-          showCoverageOnHover={false}
-          maxClusterRadius={40}
-          disableClusteringAtZoom={16}
-          iconCreateFunction={markerClusterIcon}
-        >
-          {
-            locations.map( station => {
-              return (
-                <Marker
-                  icon={markerIcon(station)}
-                  key={station.station_id}
-                  position={[station.lat, station.lon]}
-                >
-                  <Popup>
-                    <div className="otp-ui-mapOverlayPopup">
-                      <div className="otp-ui-mapOverlayPopup__popupHeader">
-                        <Charger width={24} height={20} />&nbsp;{t('charger')}
-                      </div>
+    return (  
+      <>
+        
 
-                      <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
-                      
-                      <div>{t('provider')}: {station.provider}</div>
+        <LayerGroup>
+          <MarkerClusterGroup
+            showCoverageOnHover={false}
+            maxClusterRadius={40}
+            disableClusteringAtZoom={16}
+            iconCreateFunction={markerClusterIcon}
+          >
+            {
+              locations.map( station => {
+                return (
+                  <Marker
+                    icon={markerIcon(station)}
+                    key={station.station_id}
+                    position={[station.lat, station.lon]}
+                  >
+                    <Popup>
+                      <div className="otp-ui-mapOverlayPopup">
+                        <div className="otp-ui-mapOverlayPopup__popupHeader">
+                          <Charger width={24} height={20} />&nbsp;{t('charger')}
+                        </div>
 
-                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
-                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('free_sockets')}</div>
-                      </div>
+                        <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
+                        
+                        <div>{t('provider')}: {station.provider}</div>
 
-                      <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
-                        {
-                          station.plugs.map((plug, key) => {
-                            const ava = plug.available ? 'bg-success': 'bg-danger';
-                            
-                            plug.maxPower = Math.round(plug.maxPower);
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                          <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
+                          <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('free_sockets')}</div>
+                        </div>
 
-                            return (
-                              <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
-                                <div>
-                                  <span className={ava}></span>
-                                  <strong>{t('socket')} {key+1}</strong>
-                                  <br />
-                                  {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
+                          {
+                            station.plugs.map((plug, key) => {
+                              const ava = plug.available ? 'bg-success': 'bg-danger';
+                              
+                              plug.maxPower = Math.round(plug.maxPower);
+
+                              return (
+                                <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                                  <div>
+                                    <span className={ava}></span>
+                                    <strong>{t('socket')} {key+1}</strong>
+                                    <br />
+                                    {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })
-                        }
-                      </div>
+                              );
+                            })
+                          }
+                        </div>
 
-                      <div className="otp-ui-mapOverlayPopup__popupRow">
-                        <FromToLocationPicker
-                          location={station}
-                          setLocation={this.props.setLocation}
-                        />
+                        <div className="otp-ui-mapOverlayPopup__popupRow">
+                          <FromToLocationPicker
+                            location={station}
+                            setLocation={this.props.setLocation}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </Popup>
-                </Marker>
-              )
-            })
-          }
-        </MarkerClusterGroup>      
-      </LayerGroup>
+                    </Popup>
+                  </Marker>
+                )
+              })
+            }
+          </MarkerClusterGroup>      
+        </LayerGroup>        
+      </>
     )
   }
 }

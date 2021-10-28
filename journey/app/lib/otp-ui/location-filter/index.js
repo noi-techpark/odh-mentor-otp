@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { LayersControl } from "react-leaflet";
 
+import ToggleSwitch from "../toggle-switch"
+
 class AdvancedOverlaysController extends Component {
     constructor(props) {
         super(props);
@@ -63,6 +65,32 @@ class AdvancedOverlaysController extends Component {
                 }
             </LayersControl>
         )
+
+        // return (
+        //     <div className="otp-ui-advancedOverlaysController">
+        //         <button 
+        //             className="otp-ui-advancedOverlaysController__toggle"
+        //             onClick={() => this.setState({ showList: true })}
+        //         >
+        //         </button>
+        //         <div className="otp-ui-advancedOverlaysController__panel">
+        //             {
+        //                 overlays.map((child, i) => {
+        //                     console.log(child)
+        //                     return (      
+        //                         <ToggleSwitch 
+        //                             key={i}
+        //                             label={child.props.name}
+        //                             value={child.props.value}
+        //                             checked={child.props.visible}
+        //                             onChange={this.onOverlayToggle}
+        //                         />                                
+        //                     );
+        //                 })
+        //             }
+        //         </div>
+        //     </div>
+        // )
     }
 }
 
