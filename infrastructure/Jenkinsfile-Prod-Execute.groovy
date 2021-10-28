@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_PROJECT_NAME = "odh-mentor-otp"
+        DOCKER_PROJECT_NAME = "odh-mentor-otp-prod"
         DOCKER_IMAGE_OTP = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-otp'
         DOCKER_IMAGE_JOURNEY = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-journey'
         DOCKER_IMAGE_GBFS = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-gbfs'
