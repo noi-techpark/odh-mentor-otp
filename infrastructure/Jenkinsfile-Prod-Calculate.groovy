@@ -19,11 +19,14 @@ pipeline {
         CHARGER_HOST = "https://charger.otp.opendatahub.bz.it"
         UPDATERS = "True"
         GTFS_FILE = "latestGTFS.zip"
-        OFFICIAL="False"
-        GBFS_VERSION=1
-        GTFS_RT_URL="https://efa.sta.bz.it/gtfs-r/"
-        GTFS_FEED_ID=1
-
+        OFFICIAL = "False"
+        GBFS_VERSION = 1
+        GTFS_RT_URL = "https://efa.sta.bz.it/gtfs-r/"
+        GTFS_FEED_ID = 1
+        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.bz.it/v1"
+        PARKING_BASEURL = "https://parking.otp.opendatahub.bz.it"
+        DRT_BASEURL = "https://drt.otp.opendatahub.bz.it"
+        CHARGER_BASEURL = "https://charger.otp.opendatahub.bz.it"
     }
 
     stages {
@@ -53,6 +56,11 @@ pipeline {
                     echo 'GBFS_VERSION="${GBFS_VERSION}"' >> .env
                     echo 'GTFS_RT_URL="${GTFS_RT_URL}"' >> .env
                     echo 'GTFS_FEED_ID="${GTFS_FEED_ID}"' >> .env
+
+                    echo 'GEOCODER_BASEURL="${GEOCODER_BASEURL}"' >> .env
+                    echo 'PARKING_BASEURL="${PARKING_BASEURL}"' >> .env
+                    echo 'DRT_BASEURL="${DRT_BASEURL}"' >> .env
+                    echo 'CHARGER_BASEURL="${CHARGER_BASEURL}"' >> .env
                 """
             }
         }
