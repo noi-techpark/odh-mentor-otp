@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { LayersControl, Map, Popup, TileLayer } from "react-leaflet";
 import utils from "../core-utils";
+import AdvancedOverlaysController from "../advanced-overlays-controller";
 import L from "leaflet";
 
 import callIfValid from "./util";
@@ -232,21 +233,10 @@ class BaseMap extends Component {
           </a>
         )}
 
-        <LayersControl position="topright">
-          {
-            userControlledOverlays.map((child, i) => {
-              return (
-                <LayersControl.Overlay
-                  key={i}
-                  name={child.props.name}
-                  checked={child.props.visible}
-                >
-                  {child}
-                </LayersControl.Overlay>
-              );
-            })
-          }
-        </LayersControl>
+        <AdvancedOverlaysController 
+          mapRef={this.refs.map}
+          overlays={userControlledOverlays}
+        />
 
         <LayersControl position="bottomright">
           {/* base layers */}
