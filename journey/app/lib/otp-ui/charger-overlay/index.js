@@ -19,6 +19,8 @@ import FromToLocationPicker from '../from-to-location-picker'
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import MarkerCluster from "../icons/modern/MarkerCluster";
 
+import LocationFilter from "../location-filter"
+
 import config from '../../config.yml';
 
 const overlayChargerConf = config.map.overlays.filter(item => item.type === 'charger')[0]
@@ -129,7 +131,10 @@ class ChargerOverlay extends MapLayer {
 
     return (  
       <>
-        
+        <LocationFilter 
+          title={this.props.name}
+          onClose={() => this.props.onFilterClose && this.props.onFilterClose()}
+        />
 
         <LayerGroup>
           <MarkerClusterGroup
