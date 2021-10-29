@@ -131,10 +131,14 @@ class ChargerOverlay extends MapLayer {
 
     return (  
       <>
-        <LocationFilter 
-          title={this.props.name}
-          onClose={() => this.props.onFilterClose && this.props.onFilterClose()}
-        />
+        {
+          this.props.filters && 
+            <LocationFilter 
+              title={this.props.name}
+              filters={this.props.filters}
+              onClose={() => this.props.onFilterClose && this.props.onFilterClose()}
+            />
+        }
 
         <LayerGroup>
           <MarkerClusterGroup
