@@ -79,7 +79,7 @@ class ChargerOverlay extends MapLayer {
   updateLeafletElement () {}
 
   render () {
-    const { locations, t } = this.props
+    const { locations, t, activeFilters} = this.props
     if (!locations || locations.length === 0) return <LayerGroup />
 
     const markerIcon = station => {
@@ -126,7 +126,75 @@ class ChargerOverlay extends MapLayer {
             />
           )
       });
-    }       
+    }
+
+    const filters = activeFilters[ overlayChargerConf.type ]
+
+    const enabledFiltersVals = {};
+    for (let filterProperty in filters) {
+      if (filters[filterProperty] &&
+          filters[filterProperty].enabled === true &&
+          Array.isArray(filters[filterProperty].values)) {   //only enabled filters
+
+        let enabledValues = filters[filterProperty].values.filter(val => {
+          return val.enabled === true;
+        }).map(val => {
+          //TODO reformat values example reservable: 'true', 'undefined', 'false', 'null'
+          return val.value
+        });
+
+        enabledFiltersVals[filterProperty]= enabledValues;
+      }
+    }
+
+console.log('ENABLED_FILTERS',enabledFiltersVals)
+
+    const VV={}
+
+    const locationsFiltered = locations.filter(station => {
+
+      const retFilters = [];
+
+      let retValue = true;
+
+      //TODO move out for over filters
+      for (let filterProperty in filters) {
+        if (filters[filterProperty] &&
+            filters[filterProperty].enabled === true &&
+            Array.isArray(filters[filterProperty].values)) {   //only enabled filters
+
+          let enabledValues = filters[filterProperty].values.filter(val => {
+            return val.enabled === true;
+          }).map(val => val.value);
+
+          //console.log('FILTER ACTIVE',filterProperty, enabledValues)
+
+          if (station.hasOwnProperty(filterProperty)) {
+
+            let stationValue = station[filterProperty];
+
+            /*if(!VV[filterProperty])
+              VV[filterProperty]= {};
+
+            if(!VV[filterProperty][stationValue])
+              VV[filterProperty][stationValue] = 0;
+
+            VV[filterProperty][stationValue] += 1;*/
+
+            if(!enabledValues.includes( stationValue )) {  //exclude station
+
+              retValue = false;
+            }
+
+          }
+        }
+      }
+
+      return retValue;
+    });
+
+    console.log('STATIONS',locationsFiltered.length);
+    //console.log('ALL_VALUES_FROM_DATA', VV)
 
     return (  
       <LayerGroup>
@@ -137,11 +205,7 @@ class ChargerOverlay extends MapLayer {
           iconCreateFunction={markerClusterIcon}
         >
           {
-            locations.map(station => {
-              {/* TODO: @stefano will do filter implementation */}
-              const filters = this.props.activeFilters[this.props.type]
-
-              {/* console.log(filters) */}
+            locationsFiltered.map(station => {
 
               return (
                 <Marker

@@ -181,7 +181,7 @@ map:
       filters:
         company:
           enabled: true
-          label: label_company
+          label: carsharing_company
           values:
             - value: undefined
               enabled: true
@@ -191,7 +191,7 @@ map:
               enabled: true
         bookahead:
           enabled: true
-          label: label_bookahead
+          label: carsharing_bookahead
           values:
             - value: 'false'
               enabled: true
@@ -208,78 +208,78 @@ map:
       filters:
         provider:
           enabled: true
-          label: label_provider
+          label: charger_provider
           values:
-            - value: H2 Center
+            - value: DriWe
               enabled: true
-            - value: AER
+            - value: H2 Center
               enabled: true
             - value: Neogy
               enabled: true
-            - value: EDY
-              enabled: true
-            - value: Alperia Smart Mobility
-              enabled: true
-            - value: ASM
-              enabled: true
-            - value: NHP
-              enabled: true
-            - value: ASD
-              enabled: true
-            - value: DriWe
-              enabled: true
             - value: Route220
               enabled: true
-            - value: AP_GEN
-              enabled: true
+            # - value: AER
+            #   enabled: true
+            # - value: Alperia Smart Mobility
+            #   enabled: true
+            # - value: AP_GEN
+            #   enabled: true
+            # - value: ASD
+            #   enabled: true
+            # - value: ASM
+            #   enabled: true
+            # - value: EDY
+            #   enabled: true
+            # - value: NHP
+            #   enabled: true
         accessType:
           enabled: true
-          label: label_accesstype
+          label: charger_accesstype
           values:
             - value: PUBLIC
-              enabled: true
-            - value: undefined
               enabled: true
             - value: PRIVATE
               enabled: true
             - value: PRIVATE_WITHPUBLICACCESS
               enabled: true
+            # - value: undefined
+            #   enabled: true
         reservable:
           enabled: true
-          label: label_reservable
+          label: charger_reservable
           values:
-            - value: 'true'
+            - value: true
               enabled: true
-            - value: undefined
+            - value: false
               enabled: true
-            - value: 'false'
-              enabled: true
-            - value: 'null'
-              enabled: true
-        state:
-          enabled: true
-          label: label_state
-          values:
-            - value: AVAILABLE
-              enabled: true
-            - value: MAINTENANCE
-              enabled: true
-            - value: ACTIVE
-              enabled: true
-            - value: TEMPORARYUNAVAILABLE
-              enabled: true
-            - value: UNKNOWN
-              enabled: true
-            - value: undefined
-              enabled: true
-            - value: FAULT
-              enabled: true
-            - value: UNAVAILABLE
-              enabled: true
-            - value: 'null'
-              enabled: true
-            - value: OCCUPIED
-              enabled: true
+            # - value: undefined
+            #   enabled: true
+            # - value: 'null'
+            #   enabled: true
+        # state:
+        #   enabled: true
+        #   label: charger_state
+        #   values:
+        #     - value: AVAILABLE
+        #       enabled: true
+        #     - value: MAINTENANCE
+        #       enabled: true
+        #     - value: ACTIVE
+        #       enabled: true
+        #     - value: TEMPORARYUNAVAILABLE
+        #       enabled: true
+        #     - value: UNKNOWN
+        #       enabled: true
+        #     - value: undefined
+        #       enabled: true
+        #     - value: FAULT
+        #       enabled: true
+        #     - value: UNAVAILABLE
+        #       enabled: true
+        #     - value: 'null'
+        #       enabled: true
+        #     - value: OCCUPIED
+        #       enabled: true
 
 
     - type: parking
