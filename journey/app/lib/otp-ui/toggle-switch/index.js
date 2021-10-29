@@ -22,7 +22,7 @@ class ToggleSwitch extends Component {
                         className="otp-ui-toggleSwitch__selector"  
                         checked={checked}
                         value={value}
-                        onChange={() => onChange(value, !checked)}                       
+                        onChange={() => onChange(value)}                       
                     />
                     <span>{label}</span>
                 </div>

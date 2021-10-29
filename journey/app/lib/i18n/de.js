@@ -363,4 +363,6 @@ export const TRANSLATIONS_DE = {
   "credits_title_supported": "Supported by",
   "close": "Schließen",
   "availability": "$_availability",
+  "active_all": "$_active_all",
+  "reset_filters": "$_reset_filters"
 }

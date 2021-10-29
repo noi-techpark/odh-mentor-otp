@@ -54,7 +54,8 @@ class DefaultMap extends Component {
 
     this.state = {
       forceRefresh: false,
-      activeFilterLayer: null
+      overlayFilters: {},
+      activeOverlayFilter: null
     }
   }
   /**
@@ -133,6 +134,41 @@ class DefaultMap extends Component {
       }, 50)
     }
   }  
+
+  componentDidMount () {   
+    const overlayFilters = {}
+
+    this.props.mapConfig.overlays.map((overlayConfig, k) => {
+      if (overlayConfig.filters) {        
+        overlayFilters[overlayConfig.name] = overlayConfig.filters
+      }
+    })
+
+    this.setState({ overlayFilters })
+  }
+
+  onLocationFilterChange = (overlay, group, name) => {
+    const overlayFilters = { ...this.state.overlayFilters }
+    
+    overlayFilters[overlay][group].values.map(item => {
+      if (item.value === name) {
+        item.enabled = !item.enabled
+        return
+      }
+    })
+            
+    this.setState({ overlayFilters })
+  }
+  
+  onLocationFilterReset = overlay => {
+    const overlayFilters = { ...this.state.overlayFilters }
+    
+    Object.keys(overlayFilters[overlay]).map(key => {
+      overlayFilters[overlay][key].values.map(item => item.enabled = true)
+    })
+    
+    this.setState({ overlayFilters })
+  }
 
   render () {
     const {
@@ -222,7 +258,7 @@ class DefaultMap extends Component {
                     storeItem('mapOverlayVisible', visibleOverlays)
                   }
                 }}
-                onFilterLayerRequest={filterLayer => this.setState({ activeFilterLayer: filterLayer })}
+                onFilterLayerRequest={filterLayer => this.setState({ activeOverlayFilter: filterLayer })}
               >
                 {/* The default overlays */}
                 <BoundsUpdatingOverlay />
@@ -335,10 +371,12 @@ class DefaultMap extends Component {
             if (overlayConfig.filters) {
               return (
                 <LocationFilter 
+                  show={this.state.activeOverlayFilter === overlayConfig.name}
                   title={t(overlayConfig.name)}
-                  filters={overlayConfig.filters}
-                  onClose={() => this.setState({ activeFilterLayer: null })}
-                  show={this.state.activeFilterLayer === overlayConfig.name}
+                  filters={this.state.overlayFilters[overlayConfig.name]}
+                  onClose={() => this.setState({ activeOverlayFilter: null })}
+                  onChange={(group, value) => this.onLocationFilterChange(overlayConfig.name, group, value)}
+                  onReset={() => this.onLocationFilterReset(overlayConfig.name)}
                 />
               )
             }

@@ -15,7 +15,9 @@ class LocationFilter extends Component {
             title,
             filters,
             show,
-            onClose
+            onClose,
+            onChange,
+            onReset
         } = this.props
 
         return (
@@ -24,7 +26,7 @@ class LocationFilter extends Component {
                     <h4 className="otp-ui-locationFilter__title">{title}</h4>
                     <button className="otp-ui-locationFilter__close" onClick={onClose}></button>
                 </div>
-                <button className="otp-ui-locationFilter__activeAll">Attiva tutti</button>
+                <button className="otp-ui-locationFilter__activeAll" onClick={onReset}>{t('reset_filters')}</button>
                 <div className="otp-ui-locationFilter__container">
                     {
                         Object.keys(filters).map((key, index) => {
@@ -37,15 +39,14 @@ class LocationFilter extends Component {
                                     <div className="otp-ui-locationFilter__label">{t(filterGroup.label)}</div>
                                     <div className="otp-ui-locationFilter__panel">
                                         {
-                                            filterGroup.values.map((item, i) => {
-                                                console.log(item)
+                                            filterGroup.values.map((item, i) => {                                                
                                                 return (      
                                                     <ToggleSwitch 
                                                         key={`${filterGroup.label}-${i}`}
                                                         label={item.value}
                                                         value={item.value}
                                                         checked={item.enabled}
-                                                        // onChange={this.onOverlayToggle}
+                                                        onChange={() => onChange(key, item.value)}
                                                     />                                
                                                 );
                                             })
@@ -64,15 +65,19 @@ class LocationFilter extends Component {
 LocationFilter.propTypes = {
     title: PropTypes.string,
     filters: PropTypes.object,
+    show: PropTypes.bool,
     onClose: PropTypes.func,
-    show: PropTypes.bool
+    onChange: PropTypes.func,    
+    onReset: PropTypes.func    
 }
 
 LocationFilter.defaultProps = {    
     title: '',
     filters: {},
+    show: false,
     onClose: () => {},
-    show: false
+    onChange: () => {},
+    onReset: () => {}
 }
 
 export default withNamespaces()(LocationFilter)
