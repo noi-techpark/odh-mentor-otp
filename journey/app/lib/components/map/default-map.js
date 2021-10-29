@@ -357,6 +357,7 @@ class DefaultMap extends Component {
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
+                        activeFilters={this.state.overlayFilters[overlayConfig.name]}
                       />
                     )
                     default: return null
