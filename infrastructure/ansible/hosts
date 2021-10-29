@@ -3,7 +3,7 @@ docker02.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 mentor01.opendatahub.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [prod]
-docker01.opendatahub.bz.it ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+docker03.opendatahub.bz.it ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 mentor01.opendatahub.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [calculate]
@@ -11,4 +11,4 @@ mentor01.opendatahub.testingmachine.eu ansible_ssh_common_args='-o StrictHostKey
 
 [execute]
 docker02.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
-docker01.opendatahub.bz.it ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+docker03.opendatahub.bz.it ansible_ssh_common_args='-o StrictHostKeyChecking=no'
