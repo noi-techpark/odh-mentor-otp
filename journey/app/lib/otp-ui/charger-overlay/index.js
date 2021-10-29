@@ -20,6 +20,7 @@ import MarkerClusterGroup from 'react-leaflet-markercluster';
 import MarkerCluster from "../icons/modern/MarkerCluster";
 
 import config from '../../config.yml';
+import connectedStopsOverlay from '../../components/map/connected-stops-overlay'
 
 const overlayChargerConf = config.map.overlays.filter(item => item.type === 'charger')[0]
 
@@ -125,7 +126,7 @@ class ChargerOverlay extends MapLayer {
             />
           )
       });
-    }
+    }       
 
     return (  
       <LayerGroup>
@@ -136,7 +137,12 @@ class ChargerOverlay extends MapLayer {
           iconCreateFunction={markerClusterIcon}
         >
           {
-            locations.map( station => {
+            locations.map(station => {
+              {/* TODO: @stefano will do filter implementation */}
+              const filters = this.props.activeFilters[this.props.type]
+
+              {/* console.log(filters) */}
+
               return (
                 <Marker
                   icon={markerIcon(station)}

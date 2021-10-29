@@ -156,8 +156,8 @@ class DefaultMap extends Component {
         return
       }
     })
-            
-    this.setState({ overlayFilters })
+                            
+    this.setState({ overlayFilters })    
   }
   
   onLocationFilterReset = overlay => {
@@ -208,16 +208,7 @@ class DefaultMap extends Component {
 
       storeItem('mapOverlayVisible', storedOverlays)
     }
-    {
-      
-      this.props.filters && 
-        <LocationFilter 
-          title={this.props.name}
-          filters={this.props.filters}
-          onClose={() => this.props.onFilterClose && this.props.onFilterClose()}
-        />
-    }
-
+     
     return (
       <>
         { !this.state.forceRefresh &&
@@ -289,7 +280,8 @@ class DefaultMap extends Component {
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
                         refreshVehicles={carRentalQuery}
-                        stations={carRentalStations}                        
+                        stations={carRentalStations}       
+                        activeFilters={this.state.overlayFilters}                 
                       />
                     )
                     case 'park-and-ride':
@@ -348,7 +340,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                        
+                        name={t(overlayConfig.name)}                                                
                       />
                     )
                     case 'charger': return (
@@ -357,7 +349,7 @@ class DefaultMap extends Component {
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
-                        activeFilters={this.state.overlayFilters[overlayConfig.name]}
+                        activeFilters={this.state.overlayFilters}
                       />
                     )
                     default: return null
