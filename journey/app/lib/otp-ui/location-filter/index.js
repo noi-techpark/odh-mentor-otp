@@ -7,9 +7,6 @@ import ToggleSwitch from "../toggle-switch"
 class LocationFilter extends Component {
     constructor(props) {
         super(props)
-
-        console.log('FILTERS')
-        console.log(this.props.filters)
     }
 
     render() {
@@ -17,18 +14,15 @@ class LocationFilter extends Component {
             t,
             title,
             filters,
+            show,
             onClose
         } = this.props
 
         return (
-            <div className="otp-ui-locationFilter">
+            <div className={`otp-ui-locationFilter ${show ? 'is-visible' : ''}`}>
                 <div className="otp-ui-locationFilter__header">
                     <h4 className="otp-ui-locationFilter__title">{title}</h4>
-                    <button className="otp-ui-locationFilter__close" onClick={e => {
-                        e.preventDefault()
-                        e.stopPropagation()
-                        onClose()
-                    }}></button>
+                    <button className="otp-ui-locationFilter__close" onClick={onClose}></button>
                 </div>
                 <button className="otp-ui-locationFilter__activeAll">Attiva tutti</button>
                 <div className="otp-ui-locationFilter__container">
@@ -71,12 +65,14 @@ LocationFilter.propTypes = {
     title: PropTypes.string,
     filters: PropTypes.object,
     onClose: PropTypes.func,
+    show: PropTypes.bool
 }
 
 LocationFilter.defaultProps = {    
     title: '',
     filters: {},
-    onClose: () => {}
+    onClose: () => {},
+    show: false
 }
 
 export default withNamespaces()(LocationFilter)
