@@ -23,7 +23,7 @@ class MobileTripViewer extends Component {
     return (
       <MobileContainer>
         <MobileNavigationBar
-          headerText={t(this.props.languageConfig.tripViewer || 'trip_viewer')}
+          headerText={t('trip_viewer')}
           showBackButton
           onBackClicked={this._onBackClicked}
         />

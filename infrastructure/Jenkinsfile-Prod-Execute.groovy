@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_PROJECT_NAME = "odh-mentor-otp"
+        DOCKER_PROJECT_NAME = "odh-mentor-otp-prod"
         DOCKER_IMAGE_OTP = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-otp'
         DOCKER_IMAGE_JOURNEY = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-journey'
         DOCKER_IMAGE_GBFS = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-gbfs'
@@ -11,13 +11,13 @@ pipeline {
         DOCKER_IMAGE_PARKING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-parking'
         DOCKER_IMAGE_ECHARGING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-echarging'
         DOCKER_IMAGE_DRT = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-drt'
-        DOCKER_TAG = "test-execute-$BUILD_NUMBER"
+        DOCKER_TAG = "prod-execute-$BUILD_NUMBER"
 
-        EFS_FOLDER = "/opt/odh-mentor-otp-test/"
+        EFS_FOLDER = "/opt/odh-mentor-otp-prod/"
 
         SERVER_PORT_OTP = "1080"
         SERVER_PORT_JOURNEY = "1081"
-        GBFS_HOST ="https://gbfs.otp.opendatahub.testingmachine.eu/"
+        GBFS_HOST ="https://gbfs.otp.opendatahub.bz.it/"
         DOCKER_GBFS_PORT = "1082"
         DOCKER_GEOCODER_PORT = "1083"
         DOCKER_CARSHARING_PORT = "1084"
@@ -32,28 +32,28 @@ pipeline {
 
         OTP_RR_BRANCH = "mentor-meran"
         OTP_UI_BRANCH = "master"
-        API_HOST = "https://otp.opendatahub.testingmachine.eu"
+        API_HOST = "https://otp.opendatahub.bz.it"
         API_PORT = "443"
         API_PATH = "/otp/routers/openmove"
 
-        HERE_APPID=credentials("otp-here-appid-test")
-        HERE_APPCODE=credentials("otp-here-appcode-test")
+        HERE_APPID=credentials("otp-here-appid-prod")
+        HERE_APPCODE=credentials("otp-here-appcode-prod")
 
-        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
-        PARKING_BASEURL = "https://parking.otp.opendatahub.testingmachine.eu"
-        DRT_BASEURL = "https://drt.otp.opendatahub.testingmachine.eu"
-        CHARGER_BASEURL = "https://charger.otp.opendatahub.testingmachine.eu"
-        CARSHARING_BASEURL = "https://carsharing.otp.opendatahub.testingmachine.eu"
+        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.bz.it/v1"
+        PARKING_BASEURL = "https://parking.otp.opendatahub.bz.it"
+        DRT_BASEURL = "https://drt.otp.opendatahub.bz.it"
+        CHARGER_BASEURL = "https://charger.otp.opendatahub.bz.it"
+        CARSHARING_BASEURL = "https://carsharing.otp.opendatahub.bz.it"
         OFFICIAL = "False"
         GBFS_VERSION=1
-        CARSHARING_HOST="https://carsharing.otp.opendatahub.testingmachine.eu/"
-        PARKING_HOST="https://parking.otp.opendatahub.testingmachine.eu/"
-        DRT_HOST="https://drt.otp.opendatahub.testingmachine.eu/"
-        CHARGER_HOST="https://charger.otp.opendatahub.testingmachine.eu/"
+        CARSHARING_HOST="https://carsharing.otp.opendatahub.bz.it/"
+        PARKING_HOST="https://parking.otp.opendatahub.bz.it/"
+        DRT_HOST="https://drt.otp.opendatahub.bz.it/"
+        CHARGER_HOST="https://charger.otp.opendatahub.bz.it/"
         
         GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
-        GTFS_URL_UPDATETIME="0 2 * * *"
-        GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.test-deploy.trigger/build?token="
+        GTFS_URL_UPDATETIME="0 4 * * *"
+        GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.prod-deploy.trigger/build?token="
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
     }
 
@@ -132,7 +132,7 @@ pipeline {
                sshagent(['jenkins-ssh-key']) {
                     sh """
                         (cd infrastructure/ansible && ansible-galaxy install -f -r requirements.yml)
-                        (cd infrastructure/ansible && ansible-playbook --limit=test deploy.execute.yml --extra-vars "release_name=${BUILD_NUMBER}")
+                        (cd infrastructure/ansible && ansible-playbook --limit=prod deploy.execute.yml --extra-vars "release_name=${BUILD_NUMBER}")
                     """
                 }
             }

@@ -206,16 +206,14 @@ class StopViewer extends Component {
   _renderControls = () => {
     const {stopData, t} = this.props
     const {scheduleView} = this.state
-    // Rewrite stop ID to not include Agency prefix, if present
-    // TODO: make this functionality configurable?
-    let stopId
-    if (stopData && stopData.id) {
-      stopId = stopData.id.includes(':') ? stopData.id.split(':')[1] : stopData.id
-    }
+    const stopId = stopData.id?.split(":").pop();
+
+    //TODO add agency
+
     return (
       <div>
         <div>
-          <strong>Stop ID</strong>: {stopId}
+          <strong>{t('stop_id')}</strong>: {stopId}
           <Button
             bsStyle="link"
             className="pull-right"

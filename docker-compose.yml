@@ -21,6 +21,7 @@ services:
         API_PORT: 8080
         GEOCODER_BASEURL: http://localhost:8088/v1
         PARKING_BASEURL: http://localhost:8092
+        DRT_BASEURL: http://localhost:8095
         CHARGER_BASEURL: http://localhost:8093
         CARSHARING_BASEURL: http://localhost:8091
         # debug
@@ -54,9 +55,9 @@ services:
       API_HOST: otp
       API_PATH: /otp/routers/openmove
       API_PORT: 8080    
-      HERE_APPID: hpwU7yPFaQkGhyTRwDZG
-      HERE_APPCODE: eq17MTUJ8TZvohEKBdoaeg
-      HERE_APIKEY: NB4dgSQihrpnjmqpiwnodCU6gbco2JY_nk-b6Gx59y4
+      HERE_APPID: ''
+      HERE_APPCODE: ''
+      HERE_APIKEY: ''
 
   gbfs:
     container_name: openmove-gbfs
@@ -94,14 +95,14 @@ services:
       context: ./
       dockerfile: infrastructure/docker/charger/Dockerfile
 
-  traffic:
-    container_name: openmove-traffic
-    ports:
-      - "8094:8094"
-    image: openmove_traffic:latest
-    build:
-      context: ./
-      dockerfile: infrastructure/docker/traffic/Dockerfile
+  # traffic:
+  #   container_name: openmove-traffic
+  #   ports:
+  #     - "8094:8094"
+  #   image: openmove_traffic:latest
+  #   build:
+  #     context: ./
+  #     dockerfile: infrastructure/docker/traffic/Dockerfile
       
   drt:
       container_name: openmove-drt
@@ -120,19 +121,18 @@ services:
     build:
       context: ./
       dockerfile: infrastructure/docker/otp/Dockerfile
-      # args:
-      #   GTFS_URL_UPDATETIME: 15min
     environment:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
       - OFFICIAL=False
       - GTFS_FILE=latestGTFS.zip
       - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
-      - GTFS_URL_UPDATETIME=daily
+      - GTFS_URL_UPDATETIME=0 * * * *
       - GTFS_URL_UPDATEHOOK=''
     volumes:
       - /opt/odh-mentor-otp/:/data/
     depends_on:
+      #TODO - drt
       - gbfs
       - parking
       - charger

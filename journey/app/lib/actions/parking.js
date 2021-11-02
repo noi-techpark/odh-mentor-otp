@@ -16,7 +16,7 @@ export function parkingLocationsQuery (url) {
         error.response = response
         throw error
       }
-      json = await response.json()
+      json = await response.json();
     } catch (err) {
       return dispatch(receivedParkingLocationsError(err))
     }

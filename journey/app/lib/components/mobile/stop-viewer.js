@@ -22,7 +22,7 @@ class MobileStopViewer extends Component {
     return (
       <MobileContainer>
         <MobileNavigationBar
-          headerText={t(this.props.languageConfig.stopViewer || 'stop')}
+          headerText={t('stop')}
           showBackButton
           onBackClicked={() => { this.props.setViewedStop(null) }}
         />

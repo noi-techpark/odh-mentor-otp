@@ -1,7 +1,6 @@
 /**
  * Looks up an operator from the provided configuration.
  * @param  {string} feedId - the feed ID, which can be obtained by splitting the
- *                            OTP route or stop ID by `:`
  * @param  {object} transitOperators - transitOperators from config.
  * @return {object} the operator for the specified feedId
  */

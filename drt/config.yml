@@ -1,6 +1,7 @@
 server:
   port: 8095
   polling_interval: 20
+  filename: 'gtfs-flex'
 
 endpoints:
   default:
@@ -8,8 +9,19 @@ endpoints:
     port: 443
     #path: /v2
     #headers:
-    # User-Agent: OpenMove-Charger-Client
-  vehicle:
+    # User-Agent: OpenMove-Drt-Client
+  vehicles:
     path: /v2/flat,node/ON_DEMAND_VEHICLE/*/latest
   stops:
     path: /v2/flat,node/ON_DEMAND_STOP
+  trips:
+    path: /v2/flat,node/ON_DEMAND_ITINERARY/*/latest
+
+#TODO use in csv.js
+gtfsFlex:
+  agency_id: DRT
+  agency_name: Call Bus
+  agency_url: https://www.sasabz.it/callbus
+  agency_timezone: Europe/Rome
+  agency_lang: it
+  agency_phone: +390471706633

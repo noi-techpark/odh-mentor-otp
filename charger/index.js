@@ -3,6 +3,7 @@ const https = require('https');
 const _ = require('lodash');
 const cors = require('cors')
 const config = require('./config');
+const yaml = require('js-yaml');
 
 var corsOptions = {
   origin: '*',
@@ -153,6 +154,48 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
     });
 });
 
-var server = app.listen(config.server.port, function () {
-   console.log("Listening on port ", config.server.port);
-})
+app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
+    const chargeStations = [];
+    const chargeFilters = {};
+
+    if(stationsReceived) {
+        for(var i = 0; i < stationsReceived.length; i++){
+            var station = stationsReceived[i];
+
+            chargeStations.push({
+                provider: station.smetadata.provider,
+                //city: (station.smetadata.municipality || station.smetadata.city).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' '),
+                accessType: station.smetadata.accessType,
+                reservable: station.smetadata.reservable,
+                state: station.smetadata.state
+            });
+        }
+
+        for(let filterKey of Object.keys(chargeStations[0])) {
+
+            const groups = _.groupBy(chargeStations, filterKey);
+
+            chargeFilters[filterKey] = {
+                enabled: true,
+                label: `label_${filterKey.toLowerCase()}`,
+                values: Object.keys(groups).map(key => {
+                    return {
+                        value: key,
+                        enabled: true
+                    }
+                })
+            }
+        }
+    }
+
+    const ymlText = yaml.dump({
+        filters: chargeFilters
+    })
+
+    res.end(ymlText);
+});
+
+app.listen(config.server.port, function () {
+    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+    console.log(`listening at http://localhost:${config.server.port}`);
+});

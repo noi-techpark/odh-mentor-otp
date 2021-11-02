@@ -217,6 +217,9 @@ export function getInitialState (userDefinedConfig, initialQuery) {
       },
       charger: {
         locations: []
+      },
+      drt: {
+        locations: []
       }
     },
     tnc: {
@@ -916,6 +919,17 @@ function createOtpReducer (config, initialQuery) {
           overlay: {
             parking: {
               locations: { $set: action.payload.data.stations },
+              pending: { $set: false }
+            }
+          }
+        })
+
+      case 'DRT_LOCATIONS_RESPONSE':
+        return update(state, {
+          overlay: {
+            drt: {
+              locations: { $set: action.payload.data },
+              //TODO maybe split stops and vehicles
               pending: { $set: false }
             }
           }

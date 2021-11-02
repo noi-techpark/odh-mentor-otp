@@ -2,31 +2,31 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_PROJECT_NAME = "odh-mentor-otp-test"
+        DOCKER_PROJECT_NAME = "odh-mentor-otp"
         DOCKER_IMAGE_OTP = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-calculate-otp'
-        DOCKER_TAG = "test-calculate-$BUILD_NUMBER"
+        DOCKER_TAG = "prod-calculate-$BUILD_NUMBER"
 
-        EFS_FOLDER = "/opt/odh-mentor-otp-test/"
+        EFS_FOLDER = "/opt/odh-mentor-otp-prod/"
 
         JAVA_MX = "8G"
         BUILD_GRAPH = "True"
         DOWNLOAD_DATA = "False"
         BACKUP_GRAPH = "True"
-        GBFS_HOST = "https://gbfs.otp.opendatahub.testingmachine.eu"
-        CARSHARING_HOST = "https://carsharing.otp.opendatahub.testingmachine.eu"
-        PARKING_HOST = "https://parking.otp.opendatahub.testingmachine.eu"
-        DRT_HOST = "https://drt.otp.opendatahub.testingmachine.eu"
-        CHARGER_HOST = "https://charger.otp.opendatahub.testingmachine.eu"
+        GBFS_HOST = "https://gbfs.otp.opendatahub.bz.it"
+        CARSHARING_HOST = "https://carsharing.otp.opendatahub.bz.it"
+        PARKING_HOST = "https://parking.otp.opendatahub.bz.it"
+        DRT_HOST = "https://drt.otp.opendatahub.bz.it"
+        CHARGER_HOST = "https://charger.otp.opendatahub.bz.it"
         UPDATERS = "True"
         GTFS_FILE = "latestGTFS.zip"
         OFFICIAL = "False"
         GBFS_VERSION = 1
         GTFS_RT_URL = "https://efa.sta.bz.it/gtfs-r/"
         GTFS_FEED_ID = 1
-        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
-        PARKING_BASEURL = "https://parking.otp.opendatahub.testingmachine.eu"
-        DRT_BASEURL = "https://drt.otp.opendatahub.testingmachine.eu"
-        CHARGER_BASEURL = "https://charger.otp.opendatahub.testingmachine.eu"
+        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.bz.it/v1"
+        PARKING_BASEURL = "https://parking.otp.opendatahub.bz.it"
+        DRT_BASEURL = "https://drt.otp.opendatahub.bz.it"
+        CHARGER_BASEURL = "https://charger.otp.opendatahub.bz.it"
     }
 
     stages {
@@ -78,7 +78,7 @@ pipeline {
                sshagent(['jenkins-ssh-key']) {
                     sh """
                         (cd infrastructure/ansible && ansible-galaxy install -f -r requirements.yml)
-                        (cd infrastructure/ansible && ansible-playbook --limit=test deploy.calculate.yml --extra-vars "release_name=${BUILD_NUMBER}" --extra-vars "stage=test")
+                        (cd infrastructure/ansible && ansible-playbook --limit=prod deploy.calculate.yml --extra-vars "release_name=${BUILD_NUMBER}" --extra-vars "stage=prod")
                     """
                 }
             }

@@ -5,7 +5,7 @@
   roles:
     - role: ansible-docker-deployment
       vars:
-        docker_deployment_project_name: odh-mentor-otp
+        docker_deployment_project_name: odh-mentor-otp-{{ stage }}
         docker_deployment_release_name: '{{ release_name }}'
         docker_deployment_release_files:
           - local: ../docker-compose.run.calculate.yml
