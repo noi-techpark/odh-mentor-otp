@@ -195,6 +195,12 @@ export const TRANSLATIONS_DE = {
   "remember_trip_settings": "$_remember_trip_settings",
   "parking": "Parkplätze",
   "charger": "E-Charger",
+  "charger_provider": "Provider",
+  "charger_accesstype": "Access Type",
+  "charger_reservable": "Reservable",
+  "charger_state": "Status",
+  "carsharing_company": "Company",
+  "carsharing_bookahead": "Bookahead",
   "vehicles": "Fahrzeuge",
   "ondemand": "OnDemand transport",
   "free_slots": "$_free_slots",
@@ -363,4 +369,6 @@ export const TRANSLATIONS_DE = {
   "credits_title_supported": "Supported by",
   "close": "Schließen",
   "availability": "$_availability",
+  "active_all": "$_active_all",
+  "reset_filters": "$_reset_filters"
 }

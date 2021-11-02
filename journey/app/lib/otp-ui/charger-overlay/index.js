@@ -20,6 +20,7 @@ import MarkerClusterGroup from 'react-leaflet-markercluster';
 import MarkerCluster from "../icons/modern/MarkerCluster";
 
 import config from '../../config.yml';
+import connectedStopsOverlay from '../../components/map/connected-stops-overlay'
 
 const overlayChargerConf = config.map.overlays.filter(item => item.type === 'charger')[0]
 
@@ -78,7 +79,7 @@ class ChargerOverlay extends MapLayer {
   updateLeafletElement () {}
 
   render () {
-    const { locations, t } = this.props
+    const { locations, t, activeFilters} = this.props
     if (!locations || locations.length === 0) return <LayerGroup />
 
     const markerIcon = station => {
@@ -127,70 +128,140 @@ class ChargerOverlay extends MapLayer {
       });
     }
 
-    return (
+    const filters = activeFilters[ overlayChargerConf.type ]
+
+    const enabledFiltersVals = {};
+    for (let filterProperty in filters) {
+      if (filters[filterProperty] &&
+          filters[filterProperty].enabled === true &&
+          Array.isArray(filters[filterProperty].values)) {   //only enabled filters
+
+        let enabledValues = filters[filterProperty].values.filter(val => {
+          return val.enabled === true;
+        }).map(val => {
+          //TODO reformat values example reservable: 'true', 'undefined', 'false', 'null'
+          return val.value
+        });
+
+        enabledFiltersVals[filterProperty]= enabledValues;
+      }
+    }
+
+console.log('ENABLED_FILTERS',enabledFiltersVals)
+
+    const VV={}
+
+    const locationsFiltered = locations.filter(station => {
+
+      const retFilters = [];
+
+      let retValue = true;
+
+      //TODO move out for over filters
+      for (let filterProperty in filters) {
+        if (filters[filterProperty] &&
+            filters[filterProperty].enabled === true &&
+            Array.isArray(filters[filterProperty].values)) {   //only enabled filters
+
+          let enabledValues = filters[filterProperty].values.filter(val => {
+            return val.enabled === true;
+          }).map(val => val.value);
+
+          //console.log('FILTER ACTIVE',filterProperty, enabledValues)
+
+          if (station.hasOwnProperty(filterProperty)) {
+
+            let stationValue = station[filterProperty];
+
+            /*if(!VV[filterProperty])
+              VV[filterProperty]= {};
+
+            if(!VV[filterProperty][stationValue])
+              VV[filterProperty][stationValue] = 0;
+
+            VV[filterProperty][stationValue] += 1;*/
+
+            if(!enabledValues.includes( stationValue )) {  //exclude station
+
+              retValue = false;
+            }
+
+          }
+        }
+      }
+
+      return retValue;
+    });
+
+    console.log('STATIONS',locationsFiltered.length);
+    //console.log('ALL_VALUES_FROM_DATA', VV)
+
+    return (  
       <LayerGroup>
-      <MarkerClusterGroup
-        showCoverageOnHover={false}
-        maxClusterRadius={40}
-        disableClusteringAtZoom={16}
-        iconCreateFunction={markerClusterIcon}
-      >
-        {
-          locations.map( station => {
-          return (
-            <Marker
-              icon={markerIcon(station)}
-              key={station.station_id}
-              position={[station.lat, station.lon]}
-            >
-              <Popup>
-                <div className="otp-ui-mapOverlayPopup">
-                  <div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <Charger width={24} height={20} />&nbsp;{t('charger')}
-                  </div>
+        <MarkerClusterGroup
+          showCoverageOnHover={false}
+          maxClusterRadius={40}
+          disableClusteringAtZoom={16}
+          iconCreateFunction={markerClusterIcon}
+        >
+          {
+            locationsFiltered.map(station => {
 
-                  <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
-                  
-                  <div>{t('provider')}: {station.provider}</div>
+              return (
+                <Marker
+                  icon={markerIcon(station)}
+                  key={station.station_id}
+                  position={[station.lat, station.lon]}
+                >
+                  <Popup>
+                    <div className="otp-ui-mapOverlayPopup">
+                      <div className="otp-ui-mapOverlayPopup__popupHeader">
+                        <Charger width={24} height={20} />&nbsp;{t('charger')}
+                      </div>
 
-                  <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('free_sockets')}</div>
-                  </div>
+                      <div className="otp-ui-mapOverlayPopup__popupTitle">{station.name}</div>
+                      
+                      <div>{t('provider')}: {station.provider}</div>
 
-                  <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
-                    {
-                      station.plugs.map((plug, key) => {
-                        const ava = plug.available ? 'bg-success': 'bg-danger';
-                        
-                        plug.maxPower = Math.round(plug.maxPower);
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoValue">{station.free}</div>
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">{t('free_sockets')}</div>
+                      </div>
 
-                        return (
-                          <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
-                            <div>
-                              <span className={ava}></span>
-                              <strong>{t('socket')} {key+1}</strong>
-                              <br />
-                              {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
-                            </div>
-                          </div>
-                        );
-                      })
-                    }
-                  </div>
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
+                        {
+                          station.plugs.map((plug, key) => {
+                            const ava = plug.available ? 'bg-success': 'bg-danger';
+                            
+                            plug.maxPower = Math.round(plug.maxPower);
 
-                  <div className="otp-ui-mapOverlayPopup__popupRow">
-                    <FromToLocationPicker
-                      location={station}
-                      setLocation={this.props.setLocation}
-                    />
-                  </div>
-                </div>
-              </Popup>
-            </Marker>
-          )
-        })}
-      </MarkerClusterGroup>
+                            return (
+                              <div className="otp-ui-mapOverlayPopup__popupAvailableSlotItem">
+                                <div>
+                                  <span className={ava}></span>
+                                  <strong>{t('socket')} {key+1}</strong>
+                                  <br />
+                                  {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
+                                </div>
+                              </div>
+                            );
+                          })
+                        }
+                      </div>
+
+                      <div className="otp-ui-mapOverlayPopup__popupRow">
+                        <FromToLocationPicker
+                          location={station}
+                          setLocation={this.props.setLocation}
+                        />
+                      </div>
+                    </div>
+                  </Popup>
+                </Marker>
+              )
+            })
+          }
+        </MarkerClusterGroup>      
       </LayerGroup>
     )
   }

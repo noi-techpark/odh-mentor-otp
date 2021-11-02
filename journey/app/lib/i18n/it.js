@@ -196,6 +196,12 @@ export const TRANSLATIONS_IT = {
   "remember_trip_settings": "Ricorda opzioni di viaggio",
   "parking": "Parcheggi",
   "charger": "E-Charger",
+  "charger_provider": "Fornitore",
+  "charger_accesstype": "Tipo di accesso",
+  "charger_reservable": "Prenotabile",
+  "charger_state": "Stato",
+  "carsharing_company": "Compagnia",
+  "carsharing_bookahead": "Prenotabile",
   "vehicles": "Veicoli",
   "ondemand": "onDemand",
   "free_slots": "posti liberi",
@@ -367,5 +373,7 @@ export const TRANSLATIONS_IT = {
   "close": "Chiudi",
   "plan_now": "Parti adesso",
   "plan_depart_at": "Pianifica partenza",
-  "plan_arrive_at": "Pianifica arrivo"  
+  "plan_arrive_at": "Pianifica arrivo",
+  "active_all": "Attiva tutti",
+  "reset_filters": "Resetta filtri"
 }
