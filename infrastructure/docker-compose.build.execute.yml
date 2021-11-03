@@ -22,7 +22,6 @@ services:
       dockerfile: infrastructure/docker/otp/Dockerfile
       args:
         - GTFS_URL_UPDATETIME=${GTFS_URL_UPDATETIME}
-        - GTFS_URL_UPDATEHOOK=${GTFS_URL_UPDATEHOOK}
   gbfs:
     image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
     build:
