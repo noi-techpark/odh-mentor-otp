@@ -183,12 +183,12 @@ map:
           enabled: true
           label: carsharing_company
           values:
-            - value: undefined
-              enabled: true
             - value: Car Sharing SÃ¼dtirol Alto Adige
               enabled: true
             - value: Car Sharing Trentino
               enabled: true
+            # - value: undefined
+            #   enabled: true
         bookahead:
           enabled: true
           label: carsharing_bookahead
