@@ -131,8 +131,8 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                     type: 'carsharing-hub',
                     networks: ['SUEDTIROL'],
 
-                    company: station.smetadata.company.shortName,
-                    bookahead: station.smetadata.bookahead,
+                    company: _.trim(station.smetadata.company.shortName),
+                    bookahead: station.smetadata.bookahead ? 'yes' : 'no',
 
                     vehicles: carVehicles,
                     groupVehicles: _.reverse(_.sortBy(groupVehicles, 'free'))
@@ -193,8 +193,8 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
             var station = stationsReceived[i];
 
             chargeStations.push({
-                company: station.smetadata.company.shortName,
-                bookahead: station.smetadata.bookahead,
+                company: _.trim(station.smetadata.company.shortName),
+                bookahead: station.smetadata.bookahead ? 'yes' : 'no',
             });
         }
 

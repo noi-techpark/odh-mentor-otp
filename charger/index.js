@@ -131,13 +131,13 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
                     name: station.sname,
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
-                    provider: station.smetadata.provider,
                     address: station.smetadata.address,
                     city: (station.smetadata.municipality || station.smetadata.city).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' '),
                     accessType: station.smetadata.accessType,
                     capacity: station.smetadata.capacity || plugs.length,
                     free: plugs.filter(p => p.available).length,
-                    reservable: station.smetadata.reservable,
+                    provider: _.trim(station.smetadata.provider),
+                    reservable: station.smetadata.reservable ? 'yes' : 'no',
                     state: station.smetadata.state,
                     plugs: plugs
                 });
@@ -163,10 +163,10 @@ app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
             var station = stationsReceived[i];
 
             chargeStations.push({
-                provider: station.smetadata.provider,
+                provider: _.trim(station.smetadata.provider),
                 //city: (station.smetadata.municipality || station.smetadata.city).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' '),
                 accessType: station.smetadata.accessType,
-                reservable: station.smetadata.reservable,
+                reservable: station.smetadata.reservable ? 'yes' : 'no',
                 state: station.smetadata.state
             });
         }

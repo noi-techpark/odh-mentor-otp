@@ -189,14 +189,14 @@ map:
               enabled: true
             # - value: undefined
             #   enabled: true
-        bookahead:
-          enabled: true
-          label: carsharing_bookahead
-          values:
-            - value: 'false'
-              enabled: true
-            - value: 'true'
-              enabled: true
+        # bookahead:
+        #   enabled: true
+        #   label: carsharing_bookahead
+        #   values:
+        #     - value: 'yes'
+        #       enabled: true
+        #     - value: 'no'
+        #       enabled: true
 
     - type: charger
       name: charger
@@ -244,14 +244,14 @@ map:
               enabled: true
             # - value: undefined
             #   enabled: true
-        reservable:
-          enabled: true
-          label: charger_reservable
-          values:
-            - value: true
-              enabled: true
-            - value: false
-              enabled: true
+        # reservable:
+        #   enabled: true
+        #   label: charger_reservable
+        #   values:
+        #     - value: 'yes'
+        #       enabled: true
+        #     - value: 'no'
+        #       enabled: true
             # - value: undefined
             #   enabled: true
             # - value: 'null'
