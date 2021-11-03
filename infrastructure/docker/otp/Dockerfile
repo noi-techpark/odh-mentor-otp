@@ -7,7 +7,7 @@ ENV JAVA_MX=4G \
     GBFS_VERSION=1 \
     GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip \
     GTFS_URL_UPDATETIME=$GTFS_URL_UPDATETIME \
-    GTFS_URL_UPDATEHOOK=''
+    GTFS_URL_UPDATEHOOK=$GTFS_URL_UPDATEHOOK \
 
 RUN apk add --no-cache \
     openjdk8-jre \
