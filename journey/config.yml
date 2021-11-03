@@ -244,6 +244,23 @@ map:
               enabled: true
             # - value: undefined
             #   enabled: true
+        plugsTypes:
+          - value: 700 bar small vehicles
+            enabled: true
+          - value: IEC 62196-2 type 2 outlets (all amperage and phase)
+            enabled: true
+          - value: Type2Mennekes
+            enabled: true
+          - value: CHAdeMO
+            enabled: true
+          - value: CCS
+            enabled: true
+          - value: Schuko
+            enabled: true
+          - value: OTHER
+            enabled: true
+          # - value: UNKNOWN
+          #   enabled: true
         # reservable:
         #   enabled: true
         #   label: charger_reservable
@@ -256,30 +273,6 @@ map:
             #   enabled: true
             # - value: 'null'
             #   enabled: true
-        # state:
-        #   enabled: true
-        #   label: charger_state
-        #   values:
-        #     - value: AVAILABLE
-        #       enabled: true
-        #     - value: MAINTENANCE
-        #       enabled: true
-        #     - value: ACTIVE
-        #       enabled: true
-        #     - value: TEMPORARYUNAVAILABLE
-        #       enabled: true
-        #     - value: UNKNOWN
-        #       enabled: true
-        #     - value: undefined
-        #       enabled: true
-        #     - value: FAULT
-        #       enabled: true
-        #     - value: UNAVAILABLE
-        #       enabled: true
-        #     - value: 'null'
-        #       enabled: true
-        #     - value: OCCUPIED
-        #       enabled: true
 
 
     - type: parking
