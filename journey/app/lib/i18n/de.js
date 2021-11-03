@@ -199,6 +199,7 @@ export const TRANSLATIONS_DE = {
   "charger_accesstype": "Access Type",
   "charger_reservable": "Reservable",
   "charger_state": "Status",
+  "charger_plugstypes": "Plug Types",
   "carsharing_company": "Company",
   "carsharing_bookahead": "Bookahead",
   "vehicles": "Fahrzeuge",

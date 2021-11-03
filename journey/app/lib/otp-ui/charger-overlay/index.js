@@ -130,7 +130,7 @@ class ChargerOverlay extends MapLayer {
 
     const filters = activeFilters[ overlayChargerConf.type ]
 
-    const enabledFiltersVals = {};
+/*    const enabledFiltersVals = {};
     for (let filterProperty in filters) {
       if (filters[filterProperty] &&
           filters[filterProperty].enabled === true &&
@@ -147,11 +147,14 @@ class ChargerOverlay extends MapLayer {
       }
     }
 
-console.log('ENABLED_FILTERS',enabledFiltersVals)
-
-    const VV={}
+    console.log('ENABLED_FILTERS',enabledFiltersVals)*/
 
     const locationsFiltered = locations.filter(station => {
+
+      const intersected = (arA, arB) => {
+        let ret = [arA, arB].reduce((a, b) => a.filter(c => b.includes(c)));
+        return ret.length > 0;
+      }
 
       const retFilters = [];
 
@@ -167,23 +170,28 @@ console.log('ENABLED_FILTERS',enabledFiltersVals)
             return val.enabled === true;
           }).map(val => val.value);
 
-          //console.log('FILTER ACTIVE',filterProperty, enabledValues)
+          let disabledValues = filters[filterProperty].values.filter(val => {
+            return val.enabled === false;
+          }).map(val => val.value);
 
+          /*if(filterProperty==='plugsTypes')
+            console.log('FILTER ACTIVE',filterProperty, enabledValues, disabledValues)
+*/
           if (station.hasOwnProperty(filterProperty)) {
 
             let stationValue = station[filterProperty];
 
-            /*if(!VV[filterProperty])
-              VV[filterProperty]= {};
+            if (Array.isArray(stationValue)) {
+              console.log(station, stationValue)
 
-            if(!VV[filterProperty][stationValue])
-              VV[filterProperty][stationValue] = 0;
+              retValue = intersected(enabledValues, stationValue)
+            }
+            else {
 
-            VV[filterProperty][stationValue] += 1;*/
+              if(!enabledValues.includes( stationValue )) {  //exclude station
 
-            if(!enabledValues.includes( stationValue )) {  //exclude station
-
-              retValue = false;
+                retValue = false;
+              }
             }
 
           }
@@ -240,8 +248,10 @@ console.log('ENABLED_FILTERS',enabledFiltersVals)
                                 <div>
                                   <span className={ava}></span>
                                   <strong>{t('socket')} {key+1}</strong>
-                                  <br />
+                                  <br /><br />
                                   {plug.maxPower}W | {plug.minCurrent}-{plug.maxCurrent}A
+                                  <br /><br />
+                                  <small>{t('socket_type')} {plug.outletTypeCode}</small>
                                 </div>
                               </div>
                             );
