@@ -197,7 +197,44 @@ map:
         #       enabled: true
         #     - value: 'no'
         #       enabled: true
-
+        vehiclesModels:
+          enabled: true
+          label: label_vehicles_models
+          values:
+            - value: vw-golf-golf-a7-16-tdi-comf-bmt
+              enabled: true
+            - value: vw-up-move-10
+              enabled: true
+            - value: vw-golf-variant-16-tdi-comf-8mt
+              enabled: true
+            - value: vw-up-move-up-10-60cv
+              enabled: true
+            - value: vw-up
+              enabled: true
+            - value: vw-golf-golf-a7-16tdi
+              enabled: true
+            - value: vw-up-vw-up
+              enabled: true
+            - value: vw-golf-vw-golf
+              enabled: true
+            - value: vw-golf
+              enabled: true
+            - value: vw-golf-golf-16-tdi
+              enabled: true
+            - value: vw-caddy-16-tdi-trendline--7-sitzer-ohne-stauraum
+              enabled: true
+            - value: vw-caddy-caddy-20-tdi
+              enabled: true
+            - value: renault-zoe
+              enabled: true
+            - value: vw-id3-vw-id3-pro-58kwh
+              enabled: true
+            - value: vw-egolf
+              enabled: true
+            - value: vw-eup
+              enabled: true
+            - value: nissan-leaf
+              enabled: true
     - type: charger
       name: charger
       api: ${CHARGER_BASEURL}/charger/stations.json

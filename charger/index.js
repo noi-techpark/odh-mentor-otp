@@ -206,12 +206,16 @@ app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
             }
         }
 
-        chargeFilters['plugsTypes'] = Object.keys(plugsTypes).map(plugType => {
-            return {
-                value: plugType,
-                enabled: true
-            }
-        })
+        chargeFilters['plugsTypes'] = {
+            enabled: true,
+            label: 'label_plugs_types',
+            values: Object.keys(plugsTypes).map(plugType => {
+                return {
+                    value: plugType,
+                    enabled: true
+                }
+            })
+        }
     }
 
     const ymlText = yaml.dump({

@@ -78,6 +78,10 @@ function getCars(){
     req.end()
 }
 
+function getModelName(car) {
+    return car.sname ? car.sname.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+}
+
 app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
     var carStations = [];
     if(stationsReceived){
@@ -92,7 +96,7 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                         var car = carReceived[j];
                         if(car.smetadata && car.pcoordinate && car.pcode === station.scode) {
 
-                            const modelName = car.sname ? car.sname.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+                            const modelName = getModelName(car);
 
                             carsModels[ modelName ] = 1;
 
@@ -195,6 +199,19 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
     const chargeFilters = {};
 
     if(stationsReceived) {
+
+        const carsModels = {};
+
+        for(var j = 0; j < carReceived.length; j++){
+            var car = carReceived[j];
+            if(car.smetadata && car.pcoordinate) {
+
+                const modelName = getModelName(car);
+
+                carsModels[ modelName ] = 1;
+            }
+        }
+
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
 
@@ -218,6 +235,17 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
                     }
                 })
             }
+        }
+
+        chargeFilters['vehiclesModels'] = {
+            enabled: true,
+            label: 'label_vehicles_models',
+            values: Object.keys(carsModels).map(carModel => {
+                return {
+                    value: carModel,
+                    enabled: true
+                }
+            })
         }
     }
 
