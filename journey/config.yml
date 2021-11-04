@@ -179,6 +179,7 @@ map:
       iconMarkerColor: "#d9bd48"
       iconColor: "#5d5d5d"
       filters:
+        #generate filter config by: http://localhost:8091/carsharing/filters.yml
         company:
           enabled: true
           label: carsharing_company
@@ -201,40 +202,57 @@ map:
           enabled: true
           label: label_vehicles_models
           values:
-            - value: vw-golf-golf-a7-16-tdi-comf-bmt
-              enabled: true
-            - value: vw-up-move-10
-              enabled: true
-            - value: vw-golf-variant-16-tdi-comf-8mt
-              enabled: true
-            - value: vw-up-move-up-10-60cv
-              enabled: true
-            - value: vw-up
-              enabled: true
-            - value: vw-golf-golf-a7-16tdi
-              enabled: true
-            - value: vw-up-vw-up
-              enabled: true
-            - value: vw-golf-vw-golf
-              enabled: true
-            - value: vw-golf
-              enabled: true
-            - value: vw-golf-golf-16-tdi
-              enabled: true
-            - value: vw-caddy-16-tdi-trendline--7-sitzer-ohne-stauraum
-              enabled: true
-            - value: vw-caddy-caddy-20-tdi
-              enabled: true
-            - value: renault-zoe
-              enabled: true
-            - value: vw-id3-vw-id3-pro-58kwh
-              enabled: true
-            - value: vw-egolf
-              enabled: true
-            - value: vw-eup
-              enabled: true
-            - value: nissan-leaf
-              enabled: true
+            - enabled: true
+              value: vw-golf-golf-a7-16-tdi-comf-bmt
+              label: VW Golf Golf A7 1.6 TDI Comf BMT
+            - enabled: true
+              value: vw-up-move-10
+              label: VW up! Move 1.0
+            - enabled: true
+              value: vw-golf-variant-16-tdi-comf-8mt
+              label: VW Golf Variant 1.6 TDI comf 8MT
+            - enabled: true
+              value: vw-up-move-up-10-60cv
+              label: VW up! MOVE UP 1.0 60CV
+            - enabled: true
+              value: vw-up
+              label: VW up!
+            - enabled: true
+              value: vw-golf-golf-a7-16tdi
+              label: VW Golf GOLF A7 1.6TDI
+            - enabled: true
+              value: vw-up-vw-up
+              label: VW up! VW up!
+            - enabled: true
+              value: vw-golf-vw-golf
+              label: VW Golf VW Golf
+            - enabled: true
+              value: vw-golf
+              label: VW Golf
+            - enabled: true
+              value: vw-golf-golf-16-tdi
+              label: VW Golf Golf 1.6 TDI
+            - enabled: true
+              value: vw-caddy-16-tdi-trendline--7-sitzer-ohne-stauraum
+              label: VW Caddy 1.6 TDI Trendline - 7 Sitzer ohne Stauraum
+            - enabled: true
+              value: vw-caddy-caddy-20-tdi
+              label: VW Caddy Caddy 2.0 TDI
+            - enabled: true
+              value: renault-zoe
+              label: Renault Zoe
+            - enabled: true
+              value: vw-id3-vw-id3-pro-58kwh
+              label: VW ID.3 VW ID.3 PRO 58kWh
+            - enabled: true
+              value: vw-egolf
+              label: VW e-Golf
+            - enabled: true
+              value: vw-eup
+              label: VW e-UP!
+            - enabled: true
+              value: nissan-leaf
+              label: Nissan Leaf
     - type: charger
       name: charger
       api: ${CHARGER_BASEURL}/charger/stations.json
@@ -325,15 +343,15 @@ map:
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
       iconColor: "#5d5d5d"
-      filters:
-        type:
-          enabled: true
-          label: parking_type
-          values:
-            - value: station
-              enabled: true
-            - value: sensor
-              enabled: true
+      # filters:
+      #   type:
+      #     enabled: true
+      #     label: parking_type
+      #     values:
+      #       - value: station
+      #         enabled: true
+      #       - value: sensor
+      #         enabled: true
 
     - type: drt
       name: ondemand

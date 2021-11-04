@@ -43,7 +43,7 @@ class LocationFilter extends Component {
                                                 return (      
                                                     <ToggleSwitch 
                                                         key={`${filterGroup.label}-${i}`}
-                                                        label={item.value}
+                                                        label={item.label||item.value}
                                                         value={item.value}
                                                         checked={item.enabled}
                                                         onChange={() => onChange(key, item.value)}

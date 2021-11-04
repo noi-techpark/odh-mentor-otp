@@ -203,6 +203,7 @@ export const TRANSLATIONS_EN = {
   "charger_plugstypes": "Plug Types",
   "carsharing_company": "Company",
   "carsharing_bookahead": "Bookahead",
+  "carsharing_vehicles_models": "Vehicle models",
   "vehicles": "Vehicles",
   "ondemand": "OnDemand",
   "free_slots": "free slots",

@@ -132,46 +132,6 @@ class ChargerOverlay extends MapLayer {
 
     const locationsFiltered = filterOverlay(locations, activeFilters[ overlayChargerConf.type ]);
 
-    /*const filters = activeFilters[ overlayChargerConf.type ];
-    const locationsFiltered = locations.filter(station => {
-
-      const intersected = (arA, arB) => {
-        let ret = [arA, arB].reduce((a, b) => a.filter(c => b.includes(c)));
-        return ret.length > 0;
-      }
-
-      let retValue = true;
-
-      //TODO move out for each overlay filters
-      for (let filterProperty in filters) {
-        if (filters[filterProperty] &&
-            filters[filterProperty].enabled === true &&
-            Array.isArray(filters[filterProperty].values)) {
-
-          let enabledValues = filters[filterProperty].values.filter(val => {
-            return val.enabled === true;
-          }).map(val => val.value);
-
-          if (station.hasOwnProperty(filterProperty)) {
-
-            let stationValue = station[filterProperty];
-
-            if (Array.isArray(stationValue)) {
-              retValue = intersected(enabledValues, stationValue)
-            }
-            else {
-              if(!enabledValues.includes( stationValue )) {
-                retValue = false;
-              }
-            }
-
-          }
-        }
-      }
-
-      return retValue;
-    }); //*/
-
     return (  
       <LayerGroup>
         <MarkerClusterGroup

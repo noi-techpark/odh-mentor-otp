@@ -203,6 +203,7 @@ export const TRANSLATIONS_IT = {
   "charger_plugstypes": "Tipi Presa",
   "carsharing_company": "Compagnia",
   "carsharing_bookahead": "Prenotabile",
+  "carsharing_vehicles_models": "Modelli veicoli",
   "vehicles": "Veicoli",
   "ondemand": "onDemand",
   "free_slots": "posti liberi",

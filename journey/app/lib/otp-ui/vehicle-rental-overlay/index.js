@@ -19,6 +19,8 @@ import BadgeIcon from "../icons/badge-icon";
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import MarkerCluster from "../icons/modern/MarkerCluster";
 
+import { filterOverlay } from "../core-utils/overlays";
+
 import config from '../../config.yml';
 
 import carNissanLeaf from '../../images/cars/nissan-leaf.jpg';

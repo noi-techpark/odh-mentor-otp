@@ -98,7 +98,7 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
 
                             const modelName = getModelName(car);
 
-                            carsModels[ modelName ] = 1;
+                            carsModels[ modelName ] = car.sname;
 
                             carVehicles.push({
                                 id: car.scode,
@@ -208,7 +208,7 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
 
                 const modelName = getModelName(car);
 
-                carsModels[ modelName ] = 1;
+                carsModels[ modelName ] = car.sname;
             }
         }
 
@@ -240,10 +240,12 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
         chargeFilters['vehiclesModels'] = {
             enabled: true,
             label: 'label_vehicles_models',
-            values: Object.keys(carsModels).map(carModel => {
+            values: Object.entries(carsModels).map(carModel => {
+                const [value, label] = carModel;
                 return {
-                    value: carModel,
-                    enabled: true
+                    enabled: true,
+                    value,
+                    label
                 }
             })
         }
