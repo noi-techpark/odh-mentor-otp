@@ -43,7 +43,6 @@ class AdvancedOverlaysController extends Component {
             }            
 
             $filterButton.addEventListener('click', e => {
-                console.log('CLICK',e)
                 onFilterRequest(item.props.type)
             })
     

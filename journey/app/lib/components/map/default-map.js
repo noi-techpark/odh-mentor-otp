@@ -140,7 +140,7 @@ class DefaultMap extends Component {
 
     this.props.mapConfig.overlays.map((overlayConfig, k) => {
       if (overlayConfig.filters) {        
-        overlayFilters[overlayConfig.name] = overlayConfig.filters
+        overlayFilters[overlayConfig.type] = overlayConfig.filters
       }
     })
 
@@ -150,6 +150,11 @@ class DefaultMap extends Component {
   onLocationFilterChange = (overlay, group, name) => {
     const overlayFilters = { ...this.state.overlayFilters }
     
+    console.log(overlay)
+    console.log(group)
+    console.log(name)
+    console.log(overlayFilters)
+
     overlayFilters[overlay][group].values.map(item => {
       if (item.value === name) {
         item.enabled = !item.enabled
@@ -364,12 +369,12 @@ class DefaultMap extends Component {
             if (overlayConfig.filters) {
               return (
                 <LocationFilter 
-                  show={this.state.activeOverlayFilter === overlayConfig.name}
+                  show={this.state.activeOverlayFilter === overlayConfig.type}
                   title={t(overlayConfig.name)}
-                  filters={this.state.overlayFilters[overlayConfig.name]}
+                  filters={this.state.overlayFilters[overlayConfig.type]}
                   onClose={() => this.setState({ activeOverlayFilter: null })}
-                  onChange={(group, value) => this.onLocationFilterChange(overlayConfig.name, group, value)}
-                  onReset={() => this.onLocationFilterReset(overlayConfig.name)}
+                  onChange={(group, value) => this.onLocationFilterChange(overlayConfig.type, group, value)}
+                  onReset={() => this.onLocationFilterReset(overlayConfig.type)}
                 />
               )
             }
