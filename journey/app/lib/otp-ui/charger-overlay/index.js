@@ -81,8 +81,11 @@ class ChargerOverlay extends MapLayer {
   updateLeafletElement () {}
 
   render () {
-    const { locations, t, activeFilters} = this.props
-    if (!locations || locations.length === 0) return <LayerGroup />
+    const { locations, t, activeFilters} = this.props;
+
+    if (!locations || locations.length === 0) return <LayerGroup />;
+
+    const locationsFiltered = filterOverlay(locations, activeFilters[ overlayChargerConf.type ]);
 
     const markerIcon = station => {
       let badgeType = 'success';
@@ -129,8 +132,6 @@ class ChargerOverlay extends MapLayer {
           )
       });
     }
-
-    const locationsFiltered = filterOverlay(locations, activeFilters[ overlayChargerConf.type ]);
 
     return (  
       <LayerGroup>

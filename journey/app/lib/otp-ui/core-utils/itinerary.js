@@ -410,10 +410,7 @@ export function getTextWidth(text, font = "22px Arial") {
 function getCompanyForNetwork(networkString, companies = []) {
   const company = companies.find(co => co.id === networkString);
   if (!company) {
-    console.warn(
-      `No company found in config.yml that matches rented vehicle network: ${networkString}`,
-      companies
-    );
+    //console.warn(`No company found in config.yml that matches rented vehicle network: ${networkString}`,companies);
   }
   return company;
 }

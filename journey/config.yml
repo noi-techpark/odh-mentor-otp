@@ -159,6 +159,7 @@ map:
       modes:
         - BICYCLE_RENT
       companies:
+        #TODO move to filters
         - BZ
         - ME
         - PAPIN
@@ -180,16 +181,16 @@ map:
       iconColor: "#5d5d5d"
       filters:
         #generate filter config by: http://localhost:8091/carsharing/filters.yml
-        company:
-          enabled: true
-          label: carsharing_company
-          values:
-            - value: Car Sharing Südtirol Alto Adige
-              enabled: true
-            - value: Car Sharing Trentino
-              enabled: true
-            # - value: undefined
-            #   enabled: true
+        # company:
+        #   enabled: true
+        #   label: carsharing_company
+        #   values:
+        #     - value: Car Sharing Südtirol Alto Adige
+        #       enabled: true
+        #     - value: Car Sharing Trentino
+        #       enabled: true
+        #     # - value: undefined
+        #     #   enabled: true
         # bookahead:
         #   enabled: true
         #   label: carsharing_bookahead
