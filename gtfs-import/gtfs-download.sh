@@ -13,6 +13,7 @@ if [ -z "${GTFS_URL}" ]; then
   exit 0
 fi
 
+echo -e "\n" >> $LOGFILE
 echo "${DATE} Download new gtfs and checksum..." >> $LOGFILE
 
 curl -s "${GTFS_URL}" -o /tmp/gtfs_$NEW_UUID.zip
@@ -38,7 +39,11 @@ else
 
   mv /tmp/gtfs_$NEW_UUID.zip /data/$GTFS_FILE
   
-  echo "${DATE} run rebuild hook ${GTFS_URL_UPDATEHOOK}" >> $LOGFILE
+  echo "${DATE} run rebuild hook..." >> $LOGFILE
 
-  curl -s $GTFS_URL_UPDATEHOOK
+  #curl -s $GTFS_URL_UPDATEHOOK
+
+  RESP=$(curl --write-out '%{http_code}' --silent --output /dev/null $GTFS_URL_UPDATEHOOK)
+
+  echo "hook http response: ${RESP}" >> $LOGFILE
 fi

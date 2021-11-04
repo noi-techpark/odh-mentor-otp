@@ -6,7 +6,7 @@ import imageLogo from '../../images/credits/logo-placeholder.png'
 import interregLogo from '../../images/credits/interreg.png'
 import imageLogo2 from '../../images/credits/openmove.png'
 import imageLogo3 from '../../images/credits/NOI.png'
-import imageLogo4 from '../../images/credits/AzSoggiorno.png'
+import imageLogo4 from '../../images/credits/merano.png'
 
 //ADD MORE LOGO IMAGES HERE:
 //import imageLogo2 from '../../images/credits/logo-2.png'
@@ -29,7 +29,7 @@ class ModalCredits extends Component {
             <ul className="credits-list">
               <li>
                 <a href="https://www.openmove.com/" target="_blank">
-                  <img src={imageLogo2} />
+                <img src={imageLogo2} />
                 </a>
               </li>
               <li>

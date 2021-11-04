@@ -14,8 +14,8 @@ brandByDomain:
   mobility.meran.eu:
     branding: Merano - Alto Adige/Suedtirol
     title: Merano - Alto Adige/Suedtirol
-    brandNavbar: Merano
-    brandNavbarLogo: null
+    brandNavbar: ''
+    brandNavbarLogo: merano
 
   mentor.opendatahub.bz.it:
     branding: Mentor
@@ -150,7 +150,7 @@ map:
       iconHeight: 15
       iconMarkerColor: "#095980"
       iconColor: "#fff"
-      minZoom: 3
+      minZoom: 15
       parentStations: true
       minZoomStation: 17
 
