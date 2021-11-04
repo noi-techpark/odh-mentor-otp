@@ -175,6 +175,18 @@
   user-select: none;           /* Non-prefixed version*/
   padding: 3rem 2rem;
 
+  .close-button {
+    display: inline-block;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-weight: bold;
+    font-size: 20px
+  }
+  .close-button:hover {
+    text-decoration: none;
+  }
+
   label {
     font-family: inherit;
     font-weight: 400;

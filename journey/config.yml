@@ -288,6 +288,15 @@ map:
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
       iconColor: "#5d5d5d"
+      filters:
+        type:
+          enabled: true
+          label: parking_type
+          values:
+            - value: station
+              enabled: true
+            - value: sensor
+              enabled: true
 
     - type: drt
       name: ondemand

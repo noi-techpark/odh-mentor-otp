@@ -84,13 +84,17 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata){
-                var carVehicles = [];
+
+                var carVehicles = [], carsModels = {};
+
                 if(carReceived){
                     for(var j = 0; j < carReceived.length; j++){
                         var car = carReceived[j];
                         if(car.smetadata && car.pcoordinate && car.pcode === station.scode) {
 
                             const modelName = car.sname ? car.sname.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+
+                            carsModels[ modelName ] = 1;
 
                             carVehicles.push({
                                 id: car.scode,
@@ -134,7 +138,9 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                     company: _.trim(station.smetadata.company.shortName),
                     bookahead: station.smetadata.bookahead ? 'yes' : 'no',
 
+                    vehiclesModels: Object.keys(carsModels),
                     vehicles: carVehicles,
+
                     groupVehicles: _.reverse(_.sortBy(groupVehicles, 'free'))
                 })
             }

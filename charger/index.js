@@ -118,7 +118,7 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
                     if(station.scode === plug.pcode && plug.smetadata){
                         const plugType = (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].outletTypeCode : plug.smetadata.outletTypeCode;
 
-                        plugsTypes[ plugType ]= 1;
+                        plugsTypes[ plugType ] = 1;
 
                         plugs.push({
                             plug_id: plug.scode,

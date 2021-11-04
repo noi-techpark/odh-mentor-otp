@@ -20,6 +20,11 @@ class AdvancedOverlaysController extends Component {
 
         const $mainContainer = document.querySelector('.leaflet-control-layers-overlays')
 
+/* TODO        const $close = document.createElement('a');
+        $close.textContent = '×';
+        $close.className = 'close-button';
+        $mainContainer.appendChild($close);*/
+
         overlays.map((item, index) => {
             const $el = $mainContainer.children[index]
             const $wrapper = document.createElement('div')
@@ -28,7 +33,8 @@ class AdvancedOverlaysController extends Component {
             //TODO const titleVal = $el.querySelector('div > span').textContent.trim();
             //TODO $el.setAttribute('title', titleVal)
 
-            $wrapper.classList.add('otp-ui-advanced-overlays-controller')
+            $wrapper.classList.add('otp-ui-advanced-overlays-controller');
+
 
             $filterButton.classList.add('otp-ui-advanced-overlays-controller__filterButton')
 
@@ -36,7 +42,8 @@ class AdvancedOverlaysController extends Component {
                 $filterButton.setAttribute('disabled', 'disabled')
             }            
 
-            $filterButton.addEventListener('click', () => {
+            $filterButton.addEventListener('click', e => {
+                console.log('CLICK',e)
                 onFilterRequest(item.props.type)
             })
     
