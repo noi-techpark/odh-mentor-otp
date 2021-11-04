@@ -269,18 +269,6 @@ map:
             #   enabled: true
             # - value: NHP
             #   enabled: true
-        accessType:
-          enabled: true
-          label: charger_accesstype
-          values:
-            - value: PUBLIC
-              enabled: true
-            - value: PRIVATE
-              enabled: true
-            - value: PRIVATE_WITHPUBLICACCESS
-              enabled: true
-            # - value: undefined
-            #   enabled: true
         plugsTypes:
           enabled: true
           label: charger_plugstypes
@@ -300,6 +288,18 @@ map:
             - value: OTHER
               enabled: true
             # - value: UNKNOWN
+            #   enabled: true#
+        accessType:
+          enabled: true
+          label: charger_accesstype
+          values:
+            - value: PUBLIC
+              enabled: true
+            - value: PRIVATE
+              enabled: true
+            - value: PRIVATE_WITHPUBLICACCESS
+              enabled: true
+            # - value: undefined
             #   enabled: true
         # reservable:
         #   enabled: true

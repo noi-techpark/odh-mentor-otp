@@ -148,12 +148,7 @@ class DefaultMap extends Component {
   }
 
   onLocationFilterChange = (overlay, group, name) => {
-    const overlayFilters = { ...this.state.overlayFilters }
-    
-    console.log(overlay)
-    console.log(group)
-    console.log(name)
-    console.log(overlayFilters)
+    const overlayFilters = { ...this.state.overlayFilters };
 
     overlayFilters[overlay][group].values.map(item => {
       if (item.value === name) {

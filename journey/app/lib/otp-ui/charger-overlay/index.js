@@ -22,6 +22,8 @@ import MarkerCluster from "../icons/modern/MarkerCluster";
 import config from '../../config.yml';
 import connectedStopsOverlay from '../../components/map/connected-stops-overlay'
 
+import { filterOverlay } from "../core-utils/overlays";
+
 const overlayChargerConf = config.map.overlays.filter(item => item.type === 'charger')[0]
 
 class ChargerOverlay extends MapLayer {
@@ -128,8 +130,9 @@ class ChargerOverlay extends MapLayer {
       });
     }
 
-    const filters = activeFilters[ overlayChargerConf.type ]
+    const locationsFiltered = filterOverlay(locations, activeFilters[ overlayChargerConf.type ]);
 
+    /*const filters = activeFilters[ overlayChargerConf.type ];
     const locationsFiltered = locations.filter(station => {
 
       const intersected = (arA, arB) => {
@@ -137,33 +140,27 @@ class ChargerOverlay extends MapLayer {
         return ret.length > 0;
       }
 
-      const retFilters = [];
-
       let retValue = true;
 
       //TODO move out for each overlay filters
       for (let filterProperty in filters) {
         if (filters[filterProperty] &&
             filters[filterProperty].enabled === true &&
-            Array.isArray(filters[filterProperty].values)) {   //only enabled filters
+            Array.isArray(filters[filterProperty].values)) {
 
           let enabledValues = filters[filterProperty].values.filter(val => {
             return val.enabled === true;
-          }).map(val => val.value);
-
-          let disabledValues = filters[filterProperty].values.filter(val => {
-            return val.enabled === false;
           }).map(val => val.value);
 
           if (station.hasOwnProperty(filterProperty)) {
 
             let stationValue = station[filterProperty];
 
-            if (Array.isArray(stationValue)) {    //filter by array field
+            if (Array.isArray(stationValue)) {
               retValue = intersected(enabledValues, stationValue)
             }
             else {
-              if(!enabledValues.includes( stationValue )) { //filter by field
+              if(!enabledValues.includes( stationValue )) {
                 retValue = false;
               }
             }
@@ -173,7 +170,7 @@ class ChargerOverlay extends MapLayer {
       }
 
       return retValue;
-    });
+    }); //*/
 
     return (  
       <LayerGroup>

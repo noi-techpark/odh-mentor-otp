@@ -310,8 +310,6 @@ class VehicleRentalOverlay extends MapLayer {
   render() {
     const { stations, companies, activeFilters } = this.props;
 
-    console.log('FILTERS', activeFilters);
-
     let filteredStations = stations;
     if (companies) {
       filteredStations = stations.filter(
