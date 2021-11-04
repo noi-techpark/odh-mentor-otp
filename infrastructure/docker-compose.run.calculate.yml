@@ -24,5 +24,6 @@ services:
       GTFS_RT_URL: ${GTFS_RT_URL}
       GTFS_FEED_ID: ${GTFS_FEED_ID}
       OFFICIAL: ${OFFICIAL}
+      GTFS_URL_UPDATEHOOK: ${GTFS_URL_UPDATEHOOK}
     volumes:
       - ${EFS_FOLDER}:/data/
