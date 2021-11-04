@@ -7,7 +7,8 @@ class ToggleSwitch extends Component {
     }
 
     render() {
-        const { 
+        const {
+            title,
             label,
             checked,
             onChange,
@@ -15,7 +16,7 @@ class ToggleSwitch extends Component {
         } = this.props;
 
         return (            
-            <label className="otp-ui-toggleSwitch">
+            <label title={title} className="otp-ui-toggleSwitch">
                 <div>
                     <input 
                         type="checkbox"
@@ -33,6 +34,7 @@ class ToggleSwitch extends Component {
 
 ToggleSwitch.propTypes = {
     label: PropTypes.string,
+    title: PropTypes.string,
     value: PropTypes.string,
     checked: PropTypes.bool,
     onChange: PropTypes.func
@@ -40,6 +42,7 @@ ToggleSwitch.propTypes = {
 
 ToggleSwitch.defaultProps = {
     label: '',
+    title: '',
     value: undefined,
     checked: false,
     onChange: () => {}

@@ -200,7 +200,7 @@ map:
         #       enabled: true
         vehiclesModels:
           enabled: true
-          label: label_vehicles_models
+          label: carsharing_vehicles_models
           values:
             - enabled: true
               value: vw-golf-golf-a7-16-tdi-comf-bmt
