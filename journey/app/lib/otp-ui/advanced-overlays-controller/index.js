@@ -36,7 +36,7 @@ class AdvancedOverlaysController extends Component {
                 $filterButton.setAttribute('disabled', 'disabled')
             }            
 
-            $filterButton.addEventListener('click', () => {
+            $filterButton.addEventListener('click', (e) => {
                 onFilterRequest(item.props.type)
             })
     
