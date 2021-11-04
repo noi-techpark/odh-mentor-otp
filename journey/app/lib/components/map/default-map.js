@@ -270,7 +270,8 @@ class DefaultMap extends Component {
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}                   
                         name={t(overlayConfig.name)}
                         refreshVehicles={bikeRentalQuery}
-                        stations={bikeRentalStations}                        
+                        stations={bikeRentalStations}
+                        activeFilters={this.state.overlayFilters}
                       />
                     )
                     case 'car-rental': return (
@@ -290,7 +291,8 @@ class DefaultMap extends Component {
                           key={k}
                           {...overlayConfig}
                           visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                          name={t(overlayConfig.name)}                                                       
+                          name={t(overlayConfig.name)}
+                          activeFilters={this.state.overlayFilters}
                         />
                       )
                     case 'stops': return (

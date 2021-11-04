@@ -313,6 +313,7 @@ class VehicleRentalOverlay extends MapLayer {
 
     if (!stations || stations.length === 0) return <LayerGroup />;
 
+
     let filteredStations = [];
     if (Array.isArray(companies)) {
       filteredStations = stations.filter(station =>
