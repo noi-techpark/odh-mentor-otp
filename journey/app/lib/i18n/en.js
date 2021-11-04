@@ -378,5 +378,5 @@ export const TRANSLATIONS_EN = {
   "plan_depart_at": "Plan departure",
   "plan_arrive_at": "Plan arrival",
   "active_all": "Active all",
-  "reset_filters": "Resetta filters"
+  "reset_filters": "Reset filters"
 };
