@@ -183,7 +183,7 @@ map:
           enabled: true
           label: carsharing_company
           values:
-            - value: Car Sharing SÃ¼dtirol Alto Adige
+            - value: Car Sharing Südtirol Alto Adige
               enabled: true
             - value: Car Sharing Trentino
               enabled: true

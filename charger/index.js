@@ -217,7 +217,7 @@ app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
     const ymlText = yaml.dump({
         filters: chargeFilters
     })
-
+    res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
     res.end(ymlText);
 });
 

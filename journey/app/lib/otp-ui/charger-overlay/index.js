@@ -130,25 +130,6 @@ class ChargerOverlay extends MapLayer {
 
     const filters = activeFilters[ overlayChargerConf.type ]
 
-/*    const enabledFiltersVals = {};
-    for (let filterProperty in filters) {
-      if (filters[filterProperty] &&
-          filters[filterProperty].enabled === true &&
-          Array.isArray(filters[filterProperty].values)) {   //only enabled filters
-
-        let enabledValues = filters[filterProperty].values.filter(val => {
-          return val.enabled === true;
-        }).map(val => {
-          //TODO reformat values example reservable: 'true', 'undefined', 'false', 'null'
-          return val.value
-        });
-
-        enabledFiltersVals[filterProperty]= enabledValues;
-      }
-    }
-
-    console.log('ENABLED_FILTERS',enabledFiltersVals)*/
-
     const locationsFiltered = locations.filter(station => {
 
       const intersected = (arA, arB) => {
@@ -160,7 +141,7 @@ class ChargerOverlay extends MapLayer {
 
       let retValue = true;
 
-      //TODO move out for over filters
+      //TODO move out for each overlay filters
       for (let filterProperty in filters) {
         if (filters[filterProperty] &&
             filters[filterProperty].enabled === true &&
@@ -174,22 +155,15 @@ class ChargerOverlay extends MapLayer {
             return val.enabled === false;
           }).map(val => val.value);
 
-          /*if(filterProperty==='plugsTypes')
-            console.log('FILTER ACTIVE',filterProperty, enabledValues, disabledValues)
-*/
           if (station.hasOwnProperty(filterProperty)) {
 
             let stationValue = station[filterProperty];
 
-            if (Array.isArray(stationValue)) {
-              console.log(station, stationValue)
-
+            if (Array.isArray(stationValue)) {    //filter by array field
               retValue = intersected(enabledValues, stationValue)
             }
             else {
-
-              if(!enabledValues.includes( stationValue )) {  //exclude station
-
+              if(!enabledValues.includes( stationValue )) { //filter by field
                 retValue = false;
               }
             }
@@ -200,9 +174,6 @@ class ChargerOverlay extends MapLayer {
 
       return retValue;
     });
-
-    console.log('STATIONS',locationsFiltered.length);
-    //console.log('ALL_VALUES_FROM_DATA', VV)
 
     return (  
       <LayerGroup>
