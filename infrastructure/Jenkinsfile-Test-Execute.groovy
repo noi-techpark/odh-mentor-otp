@@ -55,6 +55,8 @@ pipeline {
         GTFS_URL_UPDATETIME="0 2 * * *"
         GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.test-deploy.trigger/build?token="
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
+        JENKINS_TRIGGER_PSWD=credentials("otp-jenkins-trigger-pswd")
+        JENKINS_TRIGGER_USER="otp-jenkins-trigger"
     }
 
     stages {
@@ -115,6 +117,7 @@ pipeline {
                     echo 'GTFS_URL="${GTFS_URL}"' >> .env
                     echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env
                     echo 'GTFS_URL_UPDATEHOOK="${GTFS_URL_UPDATEHOOK}${JENKINSURL_TOKEN}"' >> .env
+                    echo 'GTFS_UPDATEHOOK_USER="${JENKINS_TRIGGER_USER}:${JENKINS_TRIGGER_PSWD}"' >> .env
                 """
             }
         }
