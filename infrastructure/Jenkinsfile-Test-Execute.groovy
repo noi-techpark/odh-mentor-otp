@@ -56,7 +56,7 @@ pipeline {
         GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.test-deploy.trigger/build?token="
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
         JENKINS_TRIGGER_PSWD=credentials("otp-jenkins-trigger-pswd")
-        JENKINS_TRIGGER_USER=("otp-jenkins-trigger-user")
+        JENKINS_TRIGGER_USER=credentials("otp-jenkins-trigger-user")
     }
 
     stages {
