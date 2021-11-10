@@ -43,7 +43,7 @@ else
 
   #curl -s $GTFS_URL_UPDATEHOOK
 
-  RESP=$(curl --write-out '%{http_code}' --silent --output /dev/null $GTFS_URL_UPDATEHOOK)
+  RESP=$(curl --user $GTFS_UPDATEHOOK_USER --write-out '%{http_code}' --silent --output /dev/null $GTFS_URL_UPDATEHOOK)
 
   echo "hook http response: ${RESP}" >> $LOGFILE
 fi
