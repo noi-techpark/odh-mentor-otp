@@ -38,6 +38,7 @@ geocoder:
   maxResults: 20
   type: PELIAS
   boundary:
+    #IF boundary is empty get bounds from current map bounds
     rect:
       minLon: 10.470121
       maxLon: 12.255011
