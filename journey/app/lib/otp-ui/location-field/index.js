@@ -42,6 +42,7 @@ class LocationField extends Component {
     }
 
     const { geocoderConfig } = this.props;
+
     getGeocoder(geocoderConfig)
       .autocomplete({ text })
       .then(result => {

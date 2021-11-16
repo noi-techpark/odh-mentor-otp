@@ -55,6 +55,7 @@ export function setLocation (payload) {
 
     // reverse geocode point location if requested
     if (payload.reverseGeocode) {
+
       getGeocoder(otpState.config.geocoder)
         .reverse({ point: payload.location })
         .then((location) => {
