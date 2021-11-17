@@ -7,4 +7,5 @@
 journey/app/dist
 journey/app/lib/config.yml
 journey/.env
+journey/screenshots
 geocoder/.env
