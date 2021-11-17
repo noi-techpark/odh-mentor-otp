@@ -236,7 +236,6 @@ class DrtOverlay extends MapLayer {
       <FeatureGroup>
         <Polyline positions={polyline.decode(locations.itinerary)} />        
       </FeatureGroup>
-    );
       </LayerGroup>
     )
   }
