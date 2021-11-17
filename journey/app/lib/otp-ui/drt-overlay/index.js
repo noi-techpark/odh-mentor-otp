@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { LayerGroup, FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
+import { LayerGroup, FeatureGroup, MapLayer, Marker, Popup, withLeaflet, Polyline } from 'react-leaflet'
 import { divIcon } from 'leaflet'
 import { withNamespaces } from "react-i18next";
 import { Button } from "react-bootstrap";
@@ -23,8 +23,9 @@ import FromToLocationPicker from '../from-to-location-picker'
 
 import config from '../../config.yml';
 
-const overlayDrtConf = config.map.overlays.filter(item => item.type === 'drt')[0];
+import polyline from "@mapbox/polyline";
 
+const overlayDrtConf = config.map.overlays.filter(item => item.type === 'drt')[0];
 class DrtOverlay extends MapLayer {
   static propTypes = {
     api: PropTypes.string,
@@ -220,7 +221,7 @@ class DrtOverlay extends MapLayer {
                     />
                     <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">
                       {t('capacity')}: {vehicle.capacity}
-{/*                      <br />
+                      {/*                      <br />
                       {t('free_slots')}: {vehicle.free}*/}
                     </div>
                   </div>
@@ -231,6 +232,11 @@ class DrtOverlay extends MapLayer {
           )
         })}
       </FeatureGroup>
+      
+      <FeatureGroup>
+        <Polyline positions={polyline.decode(locations.itinerary)} />        
+      </FeatureGroup>
+    );
       </LayerGroup>
     )
   }
