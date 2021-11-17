@@ -182,7 +182,7 @@ export const TRANSLATIONS_DE = {
   "report_issue": "Melde Probleme",
   "active_call": "Anruf aktivieren",
   "searches": "Suchen",
-  "call": "Anrufe,
+  "call": "Anrufe",
   "no_queries_recorded": "Keine Abfragen erfasst",
   "in_progress": "in Bearbeitung",
   "to_save": "zu speichern",
