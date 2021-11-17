@@ -9,12 +9,12 @@ import imageLogo3 from '../../images/credits/NOI.png'
 import imageLogo4 from '../../images/credits/merano.png'
 import imageLogo5 from '../../images/credits/STA.png'
 import imageLogo6 from '../../images/credits/ComuneMerano.png'
-import imageLogo7 from '../../images/credits/ecospazio.png'
+import imageLogo7 from '../../images/credits/ecospazio_1.png'
 import imageLogo8 from '../../images/credits/papinSport.png'
 import imageLogo9 from '../../images/credits/ComuneBolzano.png'
-import imageLogo10 from '../../images/credits/CSAA.png'
+import imageLogo10 from '../../images/credits/carsharing_1.png'
 import imageLogo11 from '../../images/credits/neogy.png'
-import imageLogo12 from '../../images/credits/route220.png'
+import imageLogo12 from '../../images/credits/Route220_1.png'
 import imageLogo13 from '../../images/credits/easymobil.png'
 
 
@@ -108,8 +108,6 @@ class ModalCredits extends Component {
                 </a>
               </li>
             </ul>
-
-         /*   <h6 className="credits-title">{t('credits_title_supported')}</h6> */
 
             {/* END CONTENTS of CREDITS */}
 
