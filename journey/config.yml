@@ -303,6 +303,8 @@ map:
       iconMarkerColor: "#095980"
       iconVehicleColor: "#095980"
       iconColor: "#fff"
+      pathColor: "#3388ff"
+      pathDash: 1,1
       areas:
         1:
           name: 'Area Esterna'

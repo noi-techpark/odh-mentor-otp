@@ -26,6 +26,7 @@ import config from '../../config.yml';
 import polyline from "@mapbox/polyline";
 
 const overlayDrtConf = config.map.overlays.filter(item => item.type === 'drt')[0];
+
 class DrtOverlay extends MapLayer {
   static propTypes = {
     api: PropTypes.string,
@@ -234,7 +235,7 @@ class DrtOverlay extends MapLayer {
       </FeatureGroup>
       
       <FeatureGroup>
-        <Polyline positions={polyline.decode(locations.itinerary)} />        
+        <Polyline color={overlayDrtConf.pathColor} dashArray={overlayDrtConf.pathDash} positions={polyline.decode(locations.itinerary)} />        
       </FeatureGroup>
       </LayerGroup>
     )
