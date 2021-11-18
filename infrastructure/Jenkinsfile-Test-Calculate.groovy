@@ -8,7 +8,7 @@ pipeline {
 
         EFS_FOLDER = "/opt/odh-mentor-otp-test/"
 
-        JAVA_MX = "8G"
+        JAVA_MX = "16G"
         BUILD_GRAPH = "True"
         DOWNLOAD_DATA = "False"
         BACKUP_GRAPH = "True"
