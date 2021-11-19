@@ -31,7 +31,7 @@ i18n
   .init({
     debug: false,
     resources,
-    lng: getItem('lng') || config.language.defaultLanguage,
+    lng: getItem('lang') || config.language.defaultLanguage,
     fallbackLng: config.language.fallbackLanguage || "en",
     backend: {
       backends: [ LocalStorageBackend ],
@@ -44,6 +44,6 @@ i18n
     }
   });
 
-i18n.on('languageChanged', lng => storeItem('lng', lng));
+i18n.on('languageChanged', lang => storeItem('lang', lang));
 
 export default i18n;

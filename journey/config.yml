@@ -38,6 +38,7 @@ geocoder:
   maxResults: 20
   type: PELIAS
   boundary:
+    #IF boundary is empty get bounds from current map bounds
     rect:
       minLon: 10.470121
       maxLon: 12.255011
@@ -302,6 +303,8 @@ map:
       iconMarkerColor: "#095980"
       iconVehicleColor: "#095980"
       iconColor: "#fff"
+      pathColor: "#3388ff"
+      pathDash: 1,1
       areas:
         1:
           name: 'Area Esterna'
