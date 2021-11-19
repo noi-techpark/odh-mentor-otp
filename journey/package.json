@@ -30,6 +30,7 @@
   "license": "MIT",
   "scripts": {
     "genconfig": "node env2config.js config.yml > app/lib/config.yml",
+    "geni18n": "node geni18n.js $1",
     "cleandeps": "rm -fr node_modules/ && rm -fr app/node_modules"
   }
 }

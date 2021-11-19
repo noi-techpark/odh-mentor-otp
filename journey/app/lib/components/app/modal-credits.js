@@ -39,7 +39,7 @@ class ModalCredits extends Component {
             <ul className="credits-list">
               <li>
                 <a href="https://www.openmove.com/" target="_blank">
-                <img src={imageLogo2} />
+                  <img src={imageLogo2} />
                 </a>
               </li>
               <li>

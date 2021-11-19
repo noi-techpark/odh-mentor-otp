@@ -211,6 +211,20 @@ class DefaultMap extends Component {
                     storeItem('mapOverlayVisible', visibleOverlays)
                   }
                 }}
+                onMoveEnd={e => {
+
+                  const bb = e.target.getBounds()
+                      , bounds = {
+                        minLon: bb._southWest.lng,
+                        maxLon: bb._northEast.lng,
+                        minLat: bb._southWest.lat,
+                        maxLat: bb._northEast.lat
+                      };
+
+                  //console.log('onMoveEnd', bounds);
+
+                  storeItem('mapBounds', bounds)
+                }}
               >
                 {/* The default overlays */}
                 <BoundsUpdatingOverlay />
