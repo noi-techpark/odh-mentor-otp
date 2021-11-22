@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { LayerGroup, FeatureGroup, MapLayer, Marker, Popup, withLeaflet } from 'react-leaflet'
+import { LayerGroup, FeatureGroup, MapLayer, Marker, Popup, withLeaflet, Polyline } from 'react-leaflet'
 import { divIcon } from 'leaflet'
 import { withNamespaces } from "react-i18next";
 import { Button } from "react-bootstrap";
@@ -22,6 +22,8 @@ import ReactDOMServer from "react-dom/server";
 import FromToLocationPicker from '../from-to-location-picker'
 
 import config from '../../config.yml';
+
+import polyline from "@mapbox/polyline";
 
 const overlayDrtConf = config.map.overlays.filter(item => item.type === 'drt')[0];
 
@@ -107,6 +109,10 @@ class DrtOverlay extends MapLayer {
         lat: item.position.latitude,
         lon: item.position.longitude
       }
+    }
+
+    const getPolyline = (itinerary) => {
+      return polyline.decode(itinerary)
     }
 
     const markerIcon = (data) => {
@@ -220,7 +226,7 @@ class DrtOverlay extends MapLayer {
                     />
                     <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">
                       {t('capacity')}: {vehicle.capacity}
-{/*                      <br />
+                      {/*                      <br />
                       {t('free_slots')}: {vehicle.free}*/}
                     </div>
                   </div>
@@ -230,6 +236,25 @@ class DrtOverlay extends MapLayer {
             </Marker>
           )
         })}
+      </FeatureGroup>
+      
+      <FeatureGroup>
+        <Polyline
+          positions={getPolyline(locations.itinerary)}
+          color={overlayDrtConf.pathColor}
+          dashArray={overlayDrtConf.pathDash}
+          opacity={0.7}
+          weight={6}
+        >
+          <Popup>
+            <div className="otp-ui-mapOverlayPopup">
+              <div className="otp-ui-mapOverlayPopup__popupHeader">
+                <BusDrt /> <span bsStyle="link">{t('itinerary')} {t('ondemand')}</span>
+              </div>
+            {/*//TODO info about itinerary */}
+            </div>
+          </Popup>
+        </Polyline>
       </FeatureGroup>
       </LayerGroup>
     )

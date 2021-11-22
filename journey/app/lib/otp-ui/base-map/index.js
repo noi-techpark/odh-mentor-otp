@@ -36,8 +36,9 @@ L.Evented.addInitHook(function() {
   this.on("click", this.scheduleSingleClick, this);
   this.on("dblclick dragstart zoomstart", this.cancelSingleClick, this);
   this.on("zoomend", e => {
-        console.log('zoom',this.getZoom())
+      console.log('zoom',this.getZoom())
   })
+  //this.on("moveend", this.handleMoveEnd, this);
 });
 
 L.Evented.include({
@@ -168,6 +169,10 @@ class BaseMap extends Component {
     this.forwardAll("onViewportChanged", e);
   };
 
+  handleMoveEnd = e => {
+    this.forwardAll("onMoveEnd", e);
+  };
+
   registerOverlay = overlay => {
     this.overlays.push(overlay);
   };
@@ -182,6 +187,7 @@ class BaseMap extends Component {
       popup,
       onContextMenu,
       onPopupClosed,
+      onMoveEnd,
       onLoad,
       onFilterLayerRequest,
       zoom
@@ -218,6 +224,7 @@ class BaseMap extends Component {
         onBaseLayerChange={this.handleBaseLayerChange}
         onOverlayRemove={this.handleOverlayRemoved}
         onViewportChanged={this.handleViewportChanged}
+        onMoveEnd={this.handleMoveEnd}
         whenReady={onLoad}
       >
         {/* Add the mapbox wordmark if the current base layer's URL appears to
@@ -234,7 +241,7 @@ class BaseMap extends Component {
           </a>
         )}
 
-        <AdvancedOverlaysController 
+        <AdvancedOverlaysController
           overlays={userControlledOverlays}
           onFilterRequest={filterName => onFilterLayerRequest(filterName)}
         />
@@ -364,6 +371,9 @@ BaseMap.propTypes = {
   onViewportChanged: PropTypes.func,
 
   onFilterLayerRequest: PropTypes.func,
+
+  onMoveEnd: PropTypes.func,
+
   /**
    * The contents and location (in [lat, lng] format) of the popup to display, or null if no popup is displayed.
    */

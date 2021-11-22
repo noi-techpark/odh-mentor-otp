@@ -135,11 +135,11 @@ class DefaultMap extends Component {
     }
   }  
 
-  componentDidMount () {   
+  componentDidMount () {
     const overlayFilters = {}
 
     this.props.mapConfig.overlays.map((overlayConfig, k) => {
-      if (overlayConfig.filters) {        
+      if (overlayConfig.filters) {
         overlayFilters[overlayConfig.type] = overlayConfig.filters
       }
     })
@@ -156,17 +156,17 @@ class DefaultMap extends Component {
         return
       }
     })
-                            
-    this.setState({ overlayFilters })    
+
+    this.setState({ overlayFilters })
   }
-  
+
   onLocationFilterReset = overlay => {
     const overlayFilters = { ...this.state.overlayFilters }
-    
+
     Object.keys(overlayFilters[overlay]).map(key => {
       overlayFilters[overlay][key].values.map(item => item.enabled = true)
     })
-    
+
     this.setState({ overlayFilters })
   }
 
@@ -208,7 +208,7 @@ class DefaultMap extends Component {
 
       storeItem('mapOverlayVisible', storedOverlays)
     }
-     
+
     return (
       <>
         { !this.state.forceRefresh &&
@@ -250,6 +250,20 @@ class DefaultMap extends Component {
                   }
                 }}
                 onFilterLayerRequest={filterLayer => this.setState({ activeOverlayFilter: filterLayer })}
+                onMoveEnd={e => {
+
+                  const bb = e.target.getBounds()
+                      , bounds = {
+                        minLon: bb._southWest.lng,
+                        maxLon: bb._northEast.lng,
+                        minLat: bb._southWest.lat,
+                        maxLat: bb._northEast.lat
+                      };
+
+                  //console.log('onMoveEnd', bounds);
+
+                  storeItem('mapBounds', bounds);
+                }}
               >
                 {/* The default overlays */}
                 <BoundsUpdatingOverlay />
@@ -281,8 +295,8 @@ class DefaultMap extends Component {
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
                         refreshVehicles={carRentalQuery}
-                        stations={carRentalStations}       
-                        activeFilters={this.state.overlayFilters}                 
+                        stations={carRentalStations}
+                        activeFilters={this.state.overlayFilters}
                       />
                     )
                     case 'park-and-ride':
@@ -300,7 +314,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                                                  
+                        name={t(overlayConfig.name)}
                       />
                     )
                     case 'tile': return (
@@ -308,7 +322,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                                
+                        name={t(overlayConfig.name)}
                       />
                     )
                     case 'micromobility-rental': return (
@@ -318,7 +332,7 @@ class DefaultMap extends Component {
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
                         refreshVehicles={vehicleRentalQuery}
-                        stations={vehicleRentalStations}                        
+                        stations={vehicleRentalStations}
                       />
                     )
                     case 'zipcar': return (
@@ -326,7 +340,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                                            
+                        name={t(overlayConfig.name)}
                       />
                     )
                     case 'parking': return (
@@ -334,7 +348,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1} 
-                        name={t(overlayConfig.name)}                                   
+                        name={t(overlayConfig.name)}
                       />
                     )
                     case 'drt': return (
@@ -342,7 +356,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                                                
+                        name={t(overlayConfig.name)}
                       />
                     )
                     case 'charger': return (
@@ -365,7 +379,7 @@ class DefaultMap extends Component {
           mapConfig.overlays && mapConfig.overlays.map((overlayConfig, k) => {
             if (overlayConfig.filters) {
               return (
-                <LocationFilter 
+                <LocationFilter
                   show={this.state.activeOverlayFilter === overlayConfig.type}
                   title={t(overlayConfig.name)}
                   filters={this.state.overlayFilters[overlayConfig.type]}
@@ -376,7 +390,7 @@ class DefaultMap extends Component {
               )
             }
           })
-        }        
+        }
       </>
     )
   }

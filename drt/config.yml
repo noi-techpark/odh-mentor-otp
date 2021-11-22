@@ -5,7 +5,7 @@ server:
 
 endpoints:
   default:
-    hostname: mobility.api.opendatahub.testingmachine.eu
+    hostname: mobility.api.opendatahub.bz.it
     port: 443
     #path: /v2
     #headers:
@@ -24,4 +24,4 @@ gtfsFlex:
   agency_url: https://www.sasabz.it/callbus
   agency_timezone: Europe/Rome
   agency_lang: it
-  agency_phone: +390471706633
+  agency_phone: "+390471706633"

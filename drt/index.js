@@ -59,6 +59,11 @@ async function getDataStop() {
     return await getStops();
 }
 
+async function getDataItineraries() {
+    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    return await getTrips();
+}
+
 async function getVehicle() {
     return await axios({
         method: config.endpoints.vehicles.method,
@@ -71,6 +76,14 @@ async function getStops() {
     return await axios({
         method: config.endpoints.stops.method,
         url: `${config.endpoints.stops.port === 443 ? 'https' : 'http'}://${config.endpoints.stops.hostname}${config.endpoints.stops.path}`,
+        responseType: 'json'        
+    })
+}
+
+async function getTrips() {
+    return await axios({
+        method: config.endpoints.trips.method,
+        url: `${config.endpoints.trips.port === 443 ? 'https' : 'http'}://${config.endpoints.trips.hostname}${config.endpoints.trips.path}`,
         responseType: 'json'        
     })
 }
@@ -147,6 +160,27 @@ function generateEntitiesStop(stops){
     return entities;
 }
 
+function generateEntitiesTrip(itineraries){
+    let all = [];
+    for(const elem of itineraries.data){
+        
+        if(elem.sactive === true){
+
+            for(const step of elem.mvalue.itineraryRemaining){
+                if(step.type === 'ROUTE'){
+                    const p = polyline.decode(step.routeEncoded, 6);
+                    
+                    all = all.concat(p);
+
+                }
+            }
+            
+        }
+    }
+    
+    return polyline.encode(all)
+}
+
 app.get('/drt/vehicles.json', cors(corsOptions), async function (req, res) {
 
     const {'data': vehicle} = await getDataVehicle();
@@ -175,21 +209,40 @@ app.get('/drt/stops.json', cors(corsOptions), async function (req, res) {
     });
 });
 
+app.get('/drt/itinerary.json', cors(corsOptions), async function (req, res) {
+
+    const {'data': itineraries} = await getDataItineraries();
+    
+   
+    res.json({
+        last_updated: lastUpdate,
+        ttl: 0,
+        version: "1.0",
+        data: {
+            itinerary: generateEntitiesTrip(itineraries)
+        }
+    });
+});
+
 app.get('/drt/all.json', cors(corsOptions), async function (req, res) {
 
     const {'data': vehicle} = await getDataVehicle();
     const {'data': stops} = await getDataStop();
-
+    const {'data': itineraries} = await getDataItineraries();
+    
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: "1.0",
         data: {
             vehicles: generateEntitiesVehicle(vehicle),
-            stops: generateEntitiesStop(stops)
+            stops: generateEntitiesStop(stops),
+            itinerary: generateEntitiesTrip(itineraries)
         }
     });
 });
+
+
 
 app.get('/drt/flex', cors(corsOptions), async function (req, res) {
 
