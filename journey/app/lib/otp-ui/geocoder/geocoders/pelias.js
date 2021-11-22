@@ -14,8 +14,6 @@ export default class PeliasGeocoder extends Geocoder {
    */
   getAutocompleteQuery(query) {
 
-    query.lang = getItem('lng');
-
     const {
       apiKey,
       baseUrl,
@@ -25,9 +23,11 @@ export default class PeliasGeocoder extends Geocoder {
       sources
     } = this.geocoderConfig;
 
+    query.lang = getItem('lang');
+
     return {
       apiKey,
-      boundary,
+      boundary: boundary || {rect: getItem('mapBounds') },
       focusPoint,
       options,
       // explicitly send over null for sources if provided sources is not truthy
@@ -45,8 +45,6 @@ export default class PeliasGeocoder extends Geocoder {
    */
   getSearchQuery(query) {
 
-    query.lang = getItem('lng');
-
     const {
       apiKey,
       baseUrl,
@@ -55,9 +53,12 @@ export default class PeliasGeocoder extends Geocoder {
       options,
       sources
     } = this.geocoderConfig;
+
+    query.lang = getItem('lang');
+
     return {
       apiKey,
-      boundary,
+      boundary: boundary || {rect: getItem('mapBounds') },
       focusPoint,
       options,
       // explicitly send over null for sources if provided sources is not truthy

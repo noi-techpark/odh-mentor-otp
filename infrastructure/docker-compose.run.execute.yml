@@ -29,6 +29,8 @@ services:
       CHARGER_HOST: ${CHARGER_HOST}      
       UPDATERS: "True"
       OFFICIAL: ${OFFICIAL}
+      GTFS_URL_UPDATEHOOK: ${GTFS_URL_UPDATEHOOK}
+      GTFS_UPDATEHOOK_USER: ${GTFS_UPDATEHOOK_USER}
     volumes:
       - ${EFS_FOLDER}:/data/
     ports:

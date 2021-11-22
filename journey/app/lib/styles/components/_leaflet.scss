@@ -22,7 +22,7 @@
     background-color: $brand-primary;
     display: inline-block !important;
     position: absolute;
-    top: 15px;
+    top: 20px;
     right: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     z-index: 2;
@@ -173,7 +173,19 @@
   -ms-user-select: none;        /* Internet Explorer/Edge */
   -moz-user-select: none;       /* Old versions of Firefox */
   user-select: none;           /* Non-prefixed version*/
-  padding: 3rem;
+  padding: 3rem 2rem;
+
+  .close-button {
+    display: inline-block;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-weight: bold;
+    font-size: 20px
+  }
+  .close-button:hover {
+    text-decoration: none;
+  }
 
   label {
     font-family: inherit;

@@ -78,19 +78,27 @@ function getCars(){
     req.end()
 }
 
+function getModelName(car) {
+    return car.sname ? car.sname.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+}
+
 app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
     var carStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata){
-                var carVehicles = [];
+
+                var carVehicles = [], carsModels = {};
+
                 if(carReceived){
                     for(var j = 0; j < carReceived.length; j++){
                         var car = carReceived[j];
                         if(car.smetadata && car.pcoordinate && car.pcode === station.scode) {
 
-                            const modelName = car.sname ? car.sname.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+                            const modelName = getModelName(car);
+
+                            carsModels[ modelName ] = car.sname;
 
                             carVehicles.push({
                                 id: car.scode,
@@ -131,10 +139,12 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                     type: 'carsharing-hub',
                     networks: ['SUEDTIROL'],
 
-                    company: station.smetadata.company.shortName,
-                    bookahead: station.smetadata.bookahead,
+                    company: _.trim(station.smetadata.company.shortName),
+                    bookahead: station.smetadata.bookahead ? 'yes' : 'no',
 
+                    vehiclesModels: Object.keys(carsModels),
                     vehicles: carVehicles,
+
                     groupVehicles: _.reverse(_.sortBy(groupVehicles, 'free'))
                 })
             }
@@ -189,12 +199,25 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
     const chargeFilters = {};
 
     if(stationsReceived) {
+
+        const carsModels = {};
+
+        for(var j = 0; j < carReceived.length; j++){
+            var car = carReceived[j];
+            if(car.smetadata && car.pcoordinate) {
+
+                const modelName = getModelName(car);
+
+                carsModels[ modelName ] = car.sname;
+            }
+        }
+
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
 
             chargeStations.push({
-                company: station.smetadata.company.shortName,
-                bookahead: station.smetadata.bookahead,
+                company: _.trim(station.smetadata.company.shortName),
+                bookahead: station.smetadata.bookahead ? 'yes' : 'no',
             });
         }
 
@@ -213,12 +236,26 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
                 })
             }
         }
+
+        chargeFilters['vehiclesModels'] = {
+            enabled: true,
+            label: 'label_vehicles_models',
+            values: Object.entries(carsModels).map(carModel => {
+                const [value, label] = carModel;
+                return {
+                    enabled: true,
+                    value,
+                    label
+                }
+            })
+        }
     }
 
     const ymlText = yaml.dump({
         filters: chargeFilters
-    })
+    });
 
+    res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
     res.end(ymlText);
 });
 

@@ -25,7 +25,7 @@ pipeline {
         DOCKER_DRT_PORT = "1086"
         DOCKER_ECHARGING_PORT = "1087"
 
-        JAVA_MX = "2G"
+        JAVA_MX = "16G"
         BUILD_GRAPH = "False"
         DOWNLOAD_DATA = "False"
         BACKUP_GRAPH = "False"
@@ -55,6 +55,8 @@ pipeline {
         GTFS_URL_UPDATETIME="0 2 * * *"
         GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.test-deploy.trigger/build?token="
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
+        JENKINS_TRIGGER_PSWD=credentials("otp-jenkins-trigger-pswd")
+        JENKINS_TRIGGER_USER=credentials("otp-jenkins-trigger-user")
     }
 
     stages {
@@ -94,7 +96,6 @@ pipeline {
                     echo 'OTP_RR_BRANCH=${OTP_RR_BRANCH}' >> .env
                     echo 'OTP_UI_BRANCH=${OTP_UI_BRANCH}' >> .env
                     echo 'GBFS_HOST=${GBFS_HOST}' >> .env
-                    echo 'DOCKER_GBFS_PORT="${DOCKER_GBFS_PORT}"' >> .env
                     echo 'GEOCODER_BASEURL="${GEOCODER_BASEURL}"' >> .env
                     echo 'PARKING_BASEURL="${PARKING_BASEURL}"' >> .env
                     echo 'DRT_BASEURL="${DRT_BASEURL}"' >> .env
@@ -109,12 +110,14 @@ pipeline {
                     echo 'CHARGER_HOST=${CHARGER_HOST}' >> .env
                     echo 'DOCKER_CARSHARING_PORT=${DOCKER_CARSHARING_PORT}' >> .env
                     echo 'DOCKER_PARKING_PORT=${DOCKER_PARKING_PORT}' >> .env
+                    echo 'DOCKER_GBFS_PORT=${DOCKER_GBFS_PORT}' >> .env
                     echo 'DOCKER_DRT_PORT=${DOCKER_DRT_PORT}' >> .env
                     echo 'DOCKER_ECHARGING_PORT=${DOCKER_ECHARGING_PORT}' >> .env
                     
                     echo 'GTFS_URL="${GTFS_URL}"' >> .env
                     echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env
                     echo 'GTFS_URL_UPDATEHOOK="${GTFS_URL_UPDATEHOOK}${JENKINSURL_TOKEN}"' >> .env
+                    echo 'GTFS_UPDATEHOOK_USER="${JENKINS_TRIGGER_USER}:${JENKINS_TRIGGER_PSWD}"' >> .env
                 """
             }
         }

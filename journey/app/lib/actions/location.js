@@ -14,10 +14,10 @@ export function getCurrentPosition (setAsType = null, onSuccess) {
         // On success
         position => {
           if (position) {
-            console.log('current loc', position, setAsType)
+
             dispatch(receivedPositionResponse({ position }))
             if (setAsType) {
-              console.log('setting location to current position')
+
               dispatch(setLocationToCurrent({ locationType: setAsType }))
               onSuccess && onSuccess()
             }

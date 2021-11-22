@@ -34,7 +34,6 @@ class StopViewerOverlay extends MapLayer {
     const { stop, StopMarker } = this.props;
 
 /*    const onClick = e => {
-      console.log('click Custom', e.target)
       const {leaflet, position} = e.target.options;
       this.props.leaflet.map.setView(position, Number(overlayStopConf.minZoomStation));
     }*/

@@ -124,8 +124,11 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         return;
     }
 
-    var protocol = req.protocol;
-    var host = req.get("x-forwarded-host") || req.get('host');
+
+    var protocol = req.get("x-forward-proto") || req.get("x-forwarded-proto") || req.protocol;
+
+    var host = req.get("x-forward-host") || req.get("x-forwarded-host") || req.get('host');
+
     if(host.indexOf(":443") > -1){
         protocol = "https";
     }
@@ -200,7 +203,16 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
         res.status(500).send({ error: "wrong context" });
         return;
     }
-    var url = req.protocol + '://' + (req.get("x-forwarded-host") || req.get('host')) + "/" + context;
+
+    var protocol = req.get("x-forward-proto") || req.get("x-forwarded-proto") || req.protocol;
+
+    var host = req.get("x-forward-host") || req.get("x-forwarded-host") || req.get('host');
+
+    var url = protocol + '://' + host + "/" + context;
+
+    if(host.indexOf(":443") > -1){
+        protocol = "https";
+    }
 
     res.json(
     {
