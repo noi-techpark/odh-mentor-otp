@@ -4,8 +4,6 @@ import {
   isEScooterStation
 } from "../core-utils/map";
 
-import Transitive from "transitive-js";
-
 const STYLES = {};
 
 function getSegmentStyle(segment) {
@@ -95,6 +93,9 @@ STYLES.segment_labels = style;
 STYLES.labels = style;
 
 /*
+
+possible customizations
+
 wireframe_edges: wireframeEdges,
 wireframe_vertices: wireframeVertices,
 stops_merged: stopsMerged,
@@ -108,6 +109,8 @@ segments_front: segmentsFront,
 segments_halo: segmentsHalo,
 segment_labels: segmentLabels,
 segment_label_containers: segmentLabelContainers
+
+DEFAULT VALUES/COLORS https://github.com/conveyal/transitive-demo/blob/master/styles.js
 */
 
 export default STYLES;
