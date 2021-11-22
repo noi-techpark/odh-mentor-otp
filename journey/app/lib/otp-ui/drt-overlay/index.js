@@ -111,6 +111,10 @@ class DrtOverlay extends MapLayer {
       }
     }
 
+    const getPolyline = (itinerary) => {
+      return polyline.decode(itinerary)
+    }
+
     const markerIcon = (data) => {
       let badgeType = ''
         , badgeCounter = 0
@@ -235,7 +239,22 @@ class DrtOverlay extends MapLayer {
       </FeatureGroup>
       
       <FeatureGroup>
-        <Polyline color={overlayDrtConf.pathColor} dashArray={overlayDrtConf.pathDash} positions={polyline.decode(locations.itinerary)} />        
+        <Polyline
+          positions={getPolyline(locations.itinerary)}
+          color={overlayDrtConf.pathColor}
+          dashArray={overlayDrtConf.pathDash}
+          opacity={0.7}
+          weight={6}
+        >
+          <Popup>
+            <div className="otp-ui-mapOverlayPopup">
+              <div className="otp-ui-mapOverlayPopup__popupHeader">
+                <BusDrt /> <span bsStyle="link">{t('itinerary')} {t('ondemand')}</span>
+              </div>
+            {/*//TODO info about itinerary */}
+            </div>
+          </Popup>
+        </Polyline>
       </FeatureGroup>
       </LayerGroup>
     )
