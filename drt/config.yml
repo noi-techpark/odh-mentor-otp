@@ -5,7 +5,7 @@ server:
 
 endpoints:
   default:
-    hostname: mobility.api.opendatahub.testingmachine.eu
+    hostname: mobility.api.opendatahub.bz.it
     port: 443
     #path: /v2
     #headers:
