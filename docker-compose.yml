@@ -38,6 +38,7 @@ services:
      - parking
      - charger
      - carsharing
+     - drt
 
   geocoder:
     container_name: openmove-geocoder

@@ -8,6 +8,15 @@ fi
 
 if [ "${DOWNLOAD_DATA}" = "True" ]; then
 	#TODO move to file download-data.sh
+	#
+	#
+	# online tool selection:
+	#
+	# free 90m: http://dwtkns.com/srtm
+	#
+	# SRTM 30m: http://dwtkns.com/srtm30m/
+	# require login https://urs.earthdata.nasa.gov/
+	#
 
 	srtmurl="http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_03.zip"
 	srtmzip=/data/srtm_39_03.zip
