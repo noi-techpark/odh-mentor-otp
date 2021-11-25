@@ -85,13 +85,14 @@ class TrafficOverlay extends MapLayer {
     }
 
     const getColor = props => {
+      //TODO from props values
       return sample(['#aaa','#3e0','#fe0','#e00'])
     }
 
     const getStyle = feature => {
       return {
         weight: 5,
-        opacity: 0.85,
+        opacity: 0.9,
         fillOpacity: 0,
         color: getColor(feature.properties)
       }
