@@ -1,8 +1,9 @@
-const express = require('express');
-const https = require('https');
-const _ = require('lodash');
-const cors = require('cors')
-const config = require('./config');
+const express = require('express')
+    , https = require('https')
+    , _ = require('lodash')
+    , cors = require('cors')
+    //, polyline = require('@mapbox/polyline')
+    , config = require('./config');
 
 var corsOptions = {
   origin: '*',
@@ -111,12 +112,15 @@ app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) 
     if(linkStationsReceived) {
         for(var i = 0; i < linkStationsReceived.length; i++){
             var link = linkStationsReceived[i];
-            console.log('LINK',link)
-            if(link.ecode && link.egeometry){
+            //console.log('LINK',link)
+            if(link.ecode && link.egeometry) {
                 linkStations.push({
                     type: "Feature",
                     id: link.ecode,     //identify station
-                    geometry: link.egeometry
+                    geometry: link.egeometry,
+                    /*properties: {
+                        //TODO station_value
+                    }*/
                 });
             }
         }
@@ -124,14 +128,44 @@ app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) 
     res.json({
         version: "1.0",
         ttl: 0,        
-        last_updated: lastUpdate,    
+        last_updated: lastUpdate,
+        //TODO maybe use format {data:{...}}
         "type": "FeatureCollection",
-        "features": linkStations      
+        "features": linkStations
     });
 });
 
+app.get('/traffic/all.json', cors(corsOptions), async function (req, res) {
 
-var server = app.listen(config.server.port, function () {
-   console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-   console.log("Listening on port ", config.server.port);
-})
+    var linkStations = [];
+    if(linkStationsReceived) {
+        for(var i = 0; i < linkStationsReceived.length; i++){
+            var link = linkStationsReceived[i];
+            //console.log('LINK',link)
+            if(link.ecode && link.egeometry) {
+                linkStations.push({
+                    type: "Feature",
+                    id: link.ecode,     //identify station
+                    geometry: link.egeometry,
+                    /*properties: {
+                        //TODO station_value
+                    }*/
+                });
+            }
+        }
+    }
+    res.json({
+        last_updated: lastUpdate,
+        ttl: 0,
+        version: "1.0",
+        data: {
+            //stations
+            linkStations
+        }
+    });
+});
+
+app.listen(config.server.port, function () {
+    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+    console.log(`listening at http://localhost:${config.server.port}`);
+});

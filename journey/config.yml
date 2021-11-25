@@ -386,7 +386,7 @@ map:
       # iconMarkerColor: "#095980"
       # iconVehicleColor: "#095980"
       iconColor: "#fff"
-      pathColor: "#3388ff"
+      pathColor: "#33ff88"
       #pathDash: 1,1
 
     # - type: parking-sensors

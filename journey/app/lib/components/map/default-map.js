@@ -32,7 +32,7 @@ import ParkingOverlay from '../../otp-ui/parking-overlay'
 import DrtOverlay from '../../otp-ui/drt-overlay'
 import TrafficOverlay from '../../otp-ui/traffic-overlay'
 import ChargerOverlay from '../../otp-ui/charger-overlay'
-import LocationFilter from "../../otp-ui/location-filter"
+import LocationFilter from '../../otp-ui/location-filter'
 import { storeItem, getItem } from '../../otp-ui/core-utils/storage'
 
 const MapContainer = styled.div`
