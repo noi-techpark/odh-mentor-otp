@@ -8,6 +8,33 @@ const express = require('express')
 //
 const linkStationsConfig = require('./linkstation-config.json');
 
+function linkStationGetColor(id, value) {
+    const color = null;
+
+/* 'terme_est->terme_ovest': [
+    [ '#00ff00', 'Bluetooth Elapsed time (test)', 600, 0, 150 ],
+    [ '#ffff00', 'Bluetooth Elapsed time (test)', 600, 151, 350 ],
+    [ '#ff0000', 'Bluetooth Elapsed time (test)', 600, 351, 999999 ]
+  ],
+  'terme_ovest->liberta-corse': [
+    [ '#00ff00', 'Bluetooth Elapsed time (test)', 600, 0, 100 ],
+    [ '#ffff00', 'Bluetooth Elapsed time (test)', 600, 101, 200 ],
+    [ '#ff0000', 'Bluetooth Elapsed time (test)', 600, 201, 999999 ]
+  ],
+*/
+    const vals = linkStationsConfig[id] || [];
+
+    for (let val of vals) {
+
+        const [color,,period,minval,maxval] = val;
+
+        if(value >= minval && value <= maxval ) {
+            return color;
+        }
+    }
+
+    return color;
+}
 //
 var corsOptions = {
   origin: '*',
@@ -73,7 +100,7 @@ function getStations() {
                 stationsReceived = Object.keys(stations).map(key => {
                     return {
                         id: key,
-                        val: stations[key]["sdatatypes"]["Bluetooth Elapsed time (test)"]
+                        values: stations[key]["sdatatypes"]["Bluetooth Elapsed time (test)"]['tmeasurements']
                     }
                 });
             });
@@ -90,11 +117,10 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
     var trafficStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
-            var station = stationsReceived[i].val;
-            if(station["tmeasurements"]){
+            if(stationsReceived[i].values){
                 trafficStations.push({
                     station_id: stationsReceived[i]['id'],
-                    station_value: station['tmeasurements']
+                    station_value: stationsReceived[i].values[0]['mvalue']//600 period
 
                     //TODO filter mvalue properties
                 });
@@ -110,7 +136,7 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
         }
     }); 
 });
-
+/*
 app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) {
     var linkStations = [];
     if(linkStationsReceived) {
@@ -134,21 +160,61 @@ app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) 
         "type": "FeatureCollection",
         "features": linkStations
     });
-});
+});*/
 
 app.get('/traffic/all.json', cors(corsOptions), async function (req, res) {
+
+    const stations = [];
+    const stationsById = {};
+//https://mobility.api.opendatahub.bz.it/v2/tree/LinkStation/*/latest?limit=-1&distinct=true&select=tmeasurements&where=sactive.eq.true,or(and(tname.eq.%22Bluetooth%20Elapsed%20time%20%5C(test%5C)%22))
+/*
+    values: [
+    {
+        mperiod: 600,
+        mtransactiontime: "2020-01-09 02:14:42.322+0000",
+        mvalidtime: "2021-11-25 14:55:00.000+0000",
+        mvalue: 119,
+    },
+    {
+        mperiod: 900,
+        mtransactiontime: "2019-10-12 18:27:28.973+0000",
+        mvalidtime: "2021-11-25 14:52:30.000+0000",
+        mvalue: 119,
+    },
+    {
+        mperiod: 3600,
+        mtransactiontime: "2020-01-18 21:54:13.328+0000",
+        mvalidtime: "2021-11-25 14:30:00.000+0000",
+        mvalue: 184,
+    },
+],*/
+    if(stationsReceived){
+        for(var i = 0; i < stationsReceived.length; i++){
+            var station = stationsReceived[i].val;
+            if(station["tmeasurements"]) {
+
+                const value600 = station['tmeasurements']
+                    .filter(val => val.mperiod===600)[0]['mvalue'] || undefined;
+
+
+                const value = Number(value600);
+                stationsById[ stationsReceived[i]['id'] ] = value
+            }
+        }
+    }
 
     var linkStations = [];
     if(linkStationsReceived) {
         for(var i = 0; i < linkStationsReceived.length; i++){
             var link = linkStationsReceived[i];
-            console.log('LINK',link)
+
             if(link.ecode && link.egeometry) {
                 linkStations.push({
                     type: "Feature",
                     id: link.ecode,     //identify station
                     //geometry: link.egeometry,
                     properties: {
+                        value: stationsById[link.ecode] || null
                         //TODO station_value
                     }
                 });
@@ -160,7 +226,7 @@ app.get('/traffic/all.json', cors(corsOptions), async function (req, res) {
         ttl: 0,
         version: "1.0",
         data: {
-            //stations
+            //stations,
             linkStations
         }
     });
