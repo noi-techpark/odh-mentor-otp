@@ -80,16 +80,32 @@ class TrafficOverlay extends MapLayer {
   render () {
     const { locations, t } = this.props
 
+    const sample = arr => {
+      return arr[Math.floor(Math.random() * arr.length)]
+    }
+
+    const getColor = props => {
+      return sample(['#aaa','#3e0','#fe0','#e00'])
+    }
+
+    const getStyle = feature => {
+      return {
+        weight: 5,
+        opacity: 0.85,
+        fillOpacity: 0,
+        color: getColor(feature.properties)
+      }
+    }
 
     if (!locations ||
         !locations.linkStations ||
         locations.linkStations.length === 0) return <LayerGroup />
-console.log('TRAFFIC', locations);
 
     return (
       <LayerGroup>
       <GeoJSON
         data={locations.linkStations}
+        style={getStyle(locations.linkStations)}
       />
       </LayerGroup>
     )
