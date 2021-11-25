@@ -2,9 +2,13 @@ const express = require('express')
     , https = require('https')
     , _ = require('lodash')
     , cors = require('cors')
-    //, polyline = require('@mapbox/polyline')
     , config = require('./config');
 
+//https://raw.githubusercontent.com/noi-techpark/it.bz.opendatahub.analytics/master/src/main/webapp/linkstation-config.json
+//
+const linkStationsConfig = require('./linkstation-config.json');
+
+//
 var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -118,9 +122,6 @@ app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) 
                     type: "Feature",
                     id: link.ecode,     //identify station
                     geometry: link.egeometry,
-                    /*properties: {
-                        //TODO station_value
-                    }*/
                 });
             }
         }
@@ -141,15 +142,15 @@ app.get('/traffic/all.json', cors(corsOptions), async function (req, res) {
     if(linkStationsReceived) {
         for(var i = 0; i < linkStationsReceived.length; i++){
             var link = linkStationsReceived[i];
-            //console.log('LINK',link)
+            console.log('LINK',link)
             if(link.ecode && link.egeometry) {
                 linkStations.push({
                     type: "Feature",
                     id: link.ecode,     //identify station
-                    geometry: link.egeometry,
-                    /*properties: {
+                    //geometry: link.egeometry,
+                    properties: {
                         //TODO station_value
-                    }*/
+                    }
                 });
             }
         }

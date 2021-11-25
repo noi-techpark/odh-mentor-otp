@@ -106,7 +106,7 @@ class TrafficOverlay extends MapLayer {
       <LayerGroup>
       <GeoJSON
         data={locations.linkStations}
-        style={getStyle(locations.linkStations)}
+        style={getStyle}
       />
       </LayerGroup>
     )
