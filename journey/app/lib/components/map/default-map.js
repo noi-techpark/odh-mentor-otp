@@ -30,6 +30,7 @@ import TileOverlay from './tile-overlay'
 import ZipcarOverlay from '../../otp-ui/zipcar-overlay'
 import ParkingOverlay from '../../otp-ui/parking-overlay'
 import DrtOverlay from '../../otp-ui/drt-overlay'
+import TrafficOverlay from '../../otp-ui/traffic-overlay'
 import ChargerOverlay from '../../otp-ui/charger-overlay'
 import LocationFilter from "../../otp-ui/location-filter"
 import { storeItem, getItem } from '../../otp-ui/core-utils/storage'
@@ -353,6 +354,14 @@ class DefaultMap extends Component {
                     )
                     case 'drt': return (
                       <DrtOverlay
+                        key={k}
+                        {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
+                        name={t(overlayConfig.name)}
+                      />
+                    )
+                    case 'traffic': return (
+                      <TrafficOverlay
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}

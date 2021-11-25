@@ -377,6 +377,18 @@ map:
           name: 'Area Esterna'
           color: 'red'
 
+    - type: traffic
+      name: traffic
+      api: ${TRAFFIC_BASEURL}/traffic/all.json
+      pollingInterval: 5000
+      # iconWidth: 15
+      # iconHeight: 15
+      # iconMarkerColor: "#095980"
+      # iconVehicleColor: "#095980"
+      iconColor: "#fff"
+      pathColor: "#3388ff"
+      #pathDash: 1,1
+
     # - type: parking-sensors
     #   name: parking-sensors
     #   api: ${PARKING_BASEURL}/parking/sensors.json
