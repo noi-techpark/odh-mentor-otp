@@ -14,4 +14,5 @@ endpoints:
 
   stations:
     path: /v2/tree/LinkStation/*/latest?limit=-1&distinct=true&select=tmeasurements&where=sactive.eq.true,or(and(tname.eq.%22Bluetooth%20Elapsed%20time%20%5C(test%5C)%22))
+    measurementsPeriod: 600
 
