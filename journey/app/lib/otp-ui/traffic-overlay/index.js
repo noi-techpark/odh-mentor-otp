@@ -80,36 +80,39 @@ class TrafficOverlay extends MapLayer {
   render () {
     const { locations, t } = this.props
 
-    const sample = arr => {
-      return arr[Math.floor(Math.random() * arr.length)]
-    }
+    const getStyle = feature => ({
+        weight: 4,
+        opacity: !feature.properties.level ? 0.3 : 1,
+        color: overlayTrafficConf.levelColors[ feature.properties.level ]
+    });
 
-    const getColor = props => {
-
-      return overlayTrafficConf.levelColors[props.level]
-      //TODO from props values
-      //return sample(['#aaa','#3e0','#fe0','#e00'])
-    }
-
-    const getStyle = feature => {
-      return {
-        weight: 5,
-        opacity: 0.8,
-        fillOpacity: 0,
-        color: getColor(feature.properties)
+    const onEachFeature = (feature, layer) => {
+      if(feature.properties?.value) {
+        let time = Math.round(feature.properties.value/60);
+        const popupContent = ReactDOMServer.renderToString(
+          <div className="otp-ui-mapOverlayPopup">
+            <div className="otp-ui-mapOverlayPopup__popupHeader">
+              <span bsStyle="link">{t('traffic')}</span>
+            </div>
+            <div className="otp-ui-mapOverlayPopup__popupTitle">{t('traffic_travel_time')}</div>
+            <small>{time} min</small>
+          </div>
+        );
+        layer.bindPopup(popupContent);
       }
-    }
+    };
 
     if (!locations ||
-        !locations.linkStations ||
-        locations.linkStations.length === 0) return <LayerGroup />
+        !locations.linkstations ||
+        locations.linkstations.length === 0) return <LayerGroup />
 
     return (
       <LayerGroup>
-      <GeoJSON
-        data={locations.linkStations}
-        style={getStyle}
-      />
+        <GeoJSON
+          data={locations.linkstations}
+          onEachFeature={onEachFeature}
+          style={getStyle}
+        />
       </LayerGroup>
     )
   }

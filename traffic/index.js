@@ -136,36 +136,11 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
         }
     }); 
 });
-/*
-app.get('/traffic/linkstations.geojson', cors(corsOptions), function (req, res) {
-    var linkStations = [];
-    if(linkStationsReceived) {
-        for(var i = 0; i < linkStationsReceived.length; i++){
-            var link = linkStationsReceived[i];
-            //console.log('LINK',link)
-            if(link.ecode && link.egeometry) {
-                linkStations.push({
-                    type: "Feature",
-                    id: link.ecode,     //identify station
-                    geometry: link.egeometry,
-                });
-            }
-        }
-    }
-    res.json({
-        version: "1.0",
-        ttl: 0,        
-        last_updated: lastUpdate,
-        //TODO maybe use format {data:{...}}
-        "type": "FeatureCollection",
-        "features": linkStations
-    });
-});*/
 
-app.get('/traffic/all.json', cors(corsOptions), async function (req, res) {
+app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, res) {
 //source: https://mobility.api.opendatahub.bz.it/v2/tree/LinkStation/*/latest?limit=-1&distinct=true&select=tmeasurements&where=sactive.eq.true,or(and(tname.eq.%22Bluetooth%20Elapsed%20time%20%5C(test%5C)%22))
 
-    const stations = [];
+    var linkstations = [];
     const stationsById = {};
 
     const mPeriod = config.endpoints.stations.measurementsPeriod;
@@ -182,7 +157,6 @@ app.get('/traffic/all.json', cors(corsOptions), async function (req, res) {
         }
     }
 
-    var linkStations = [];
     if(linkStationsReceived) {
         for(var i = 0; i < linkStationsReceived.length; i++){
             var link = linkStationsReceived[i];
@@ -191,7 +165,8 @@ app.get('/traffic/all.json', cors(corsOptions), async function (req, res) {
 
                 const value = stationsById[link.ecode] || null;
 
-                linkStations.push({
+                //geojson
+                linkstations.push({
                     type: "Feature",
                     id: link.ecode,     //identify station
                     geometry: link.egeometry,
@@ -209,8 +184,7 @@ app.get('/traffic/all.json', cors(corsOptions), async function (req, res) {
         ttl: 0,
         version: "1.0",
         data: {
-            //stations,
-            linkStations
+            linkstations
         }
     });
 });

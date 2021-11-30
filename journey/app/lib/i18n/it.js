@@ -207,6 +207,7 @@ export const TRANSLATIONS_IT = {
   "vehicles": "Veicoli",
   "ondemand": "onDemand",
   "traffic": "Traffico",
+  "traffic_travel_time": "Tempo di Percorrenza",
   "free_slots": "posti liberi",
   "free_sockets": "prese libere",
   "socket": "Presa",
