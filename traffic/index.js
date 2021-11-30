@@ -194,7 +194,7 @@ app.get('/traffic/all.json', cors(corsOptions), async function (req, res) {
                 linkStations.push({
                     type: "Feature",
                     id: link.ecode,     //identify station
-                    //geometry: link.egeometry,
+                    geometry: link.egeometry,
                     properties: {
                         period: mPeriod,
                         value,

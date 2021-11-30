@@ -387,7 +387,11 @@ map:
       # iconVehicleColor: "#095980"
       iconColor: "#fff"
       pathColor: "#33ff88"
-      #pathDash: 1,1
+      levelColors:
+        - '#aaa'  #not measured
+        - '#3e0'  #green
+        - '#fe0'  #yellow
+        - '#e00'  #red
 
     # - type: parking-sensors
     #   name: parking-sensors
