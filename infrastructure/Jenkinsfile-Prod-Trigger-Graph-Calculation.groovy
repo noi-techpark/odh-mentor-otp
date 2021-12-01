@@ -22,11 +22,12 @@ pipeline {
             steps{
                 build job: 'calculate.prod-deploy', wait:true
             }
-        }
-        stage('Stop Server'){
-            steps {
-                sh 'aws ec2 stop-instances --instance-ids ${INSTANCE_ID}'
-            }
+        }       
+    }
+    
+     post {
+        always {
+            sh 'aws ec2 stop-instances --instance-ids ${INSTANCE_ID}'
         }
     }
 }
