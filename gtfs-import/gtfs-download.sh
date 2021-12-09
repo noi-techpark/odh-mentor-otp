@@ -40,7 +40,9 @@ else
   mv /tmp/gtfs_$NEW_UUID.zip /data/$GTFS_FILE
   
   #After new File is moved delete all old files
-  #find /data/ -name 'gtfs*' -mindepth 1 -mtime +1 -delete
+  echo "Deleting old gtfs files..." >> $LOGFILE
+  find /data/ -name 'gtfs*.zip' -mindepth 1 -mtime +1 >> $LOGFILE
+  find /data/ -name 'gtfs*.zip' -mindepth 1 -mtime +1 -delete
   
   echo "${DATE} run rebuild hook..." >> $LOGFILE   
 
