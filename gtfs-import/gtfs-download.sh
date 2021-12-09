@@ -40,6 +40,8 @@ else
   mv /tmp/gtfs_$NEW_UUID.zip /data/$GTFS_FILE
   
   echo "${DATE} run rebuild hook..." >> $LOGFILE
+  
+  #TODO: delete old GTFS FILES
 
   #curl -s $GTFS_URL_UPDATEHOOK
 
