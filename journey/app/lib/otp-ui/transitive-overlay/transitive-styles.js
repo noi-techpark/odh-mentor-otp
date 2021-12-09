@@ -6,6 +6,22 @@ import {
 
 const STYLES = {};
 
+function getSegmentStyle(segment) {
+  switch (segment.type) {
+    case "WALK":
+      return 'is-walk';
+    case "BICYCLE":
+    case "BICYCLE_RENT":
+      return 'is-bicycle';
+    case "CAR":
+      return 'is-car';
+    case "MICROMOBILITY":
+    case "MICROMOBILITY_RENT":
+      return 'is-micromobility';
+    default:
+      return 'is-transit';
+  }
+}
 /**
  * Transitive style overrides for places (basically any point that isn't a
  * transit stop)
@@ -54,14 +70,17 @@ STYLES.stops_merged = {
 };
 
 const style = {
-  fill: function() {
-    return '#095980';
+  fill: function(display, segment) {
+    if (segment.type ==='TRANSIT')
+      return '#095980';
   },
-  stroke: function() {
-    return '#095980';
+  stroke: function(display, segment) {
+    if (segment.type ==='TRANSIT')
+      return '#095980';
   },
-  background: function() {
-    return '#095980';
+  background: function(display, segment) {
+    if (segment.type ==='TRANSIT')
+      return '#095980';
   }
 }
 
@@ -74,6 +93,9 @@ STYLES.segment_labels = style;
 STYLES.labels = style;
 
 /*
+
+possible customizations
+
 wireframe_edges: wireframeEdges,
 wireframe_vertices: wireframeVertices,
 stops_merged: stopsMerged,
@@ -87,6 +109,8 @@ segments_front: segmentsFront,
 segments_halo: segmentsHalo,
 segment_labels: segmentLabels,
 segment_label_containers: segmentLabelContainers
+
+DEFAULT VALUES/COLORS https://github.com/conveyal/transitive-demo/blob/master/styles.js
 */
 
 export default STYLES;

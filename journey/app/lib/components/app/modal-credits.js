@@ -9,13 +9,14 @@ import imageLogo3 from '../../images/credits/NOI.png'
 import imageLogo4 from '../../images/credits/merano.png'
 import imageLogo5 from '../../images/credits/STA.png'
 import imageLogo6 from '../../images/credits/ComuneMerano.png'
-import imageLogo7 from '../../images/credits/ecospazio_3.png'
+import imageLogo7 from '../../images/credits/ecospazio_4.png'
 import imageLogo8 from '../../images/credits/papinSport.png'
 import imageLogo9 from '../../images/credits/ComuneBolzano.png'
-import imageLogo10 from '../../images/credits/CSAA_3.png'
+import imageLogo10 from '../../images/credits/CSAA_5.png'
 import imageLogo11 from '../../images/credits/neogy.png'
-import imageLogo12 from '../../images/credits/route220_3.png'
+import imageLogo12 from '../../images/credits/route220_4.png'
 import imageLogo13 from '../../images/credits/easymobil.png'
+import imageLogo14 from '../../images/credits/ODH.png'
 
 
 //ADD MORE LOGO IMAGES HERE:
@@ -30,6 +31,7 @@ class ModalCredits extends Component {
           <Modal.Header closeButton><Modal.Title>{t('credits_title')}</Modal.Title></Modal.Header>
           <Modal.Body>
 
+          <a href="https://www.gemeinde.meran.bz.it/it/mobility_meran_eu" target="_blank"/>
           <img src={interregLogo} />
 
           {/* START CONTENTS of CREDITS */}
@@ -45,6 +47,11 @@ class ModalCredits extends Component {
               <li>
                 <a href="https://noi.bz.it/" target="_blank">
                   <img src={imageLogo3} />
+                </a>
+              </li>
+              <li>
+                <a href="https://opendatahub.bz.it/" target="_blank">
+                  <img src={imageLogo14} />
                 </a>
               </li>
             </ul>
