@@ -16,6 +16,7 @@ import imageLogo10 from '../../images/credits/CSAA_5.png'
 import imageLogo11 from '../../images/credits/neogy.png'
 import imageLogo12 from '../../images/credits/route220_4.png'
 import imageLogo13 from '../../images/credits/easymobil.png'
+import imageLogo14 from '../../images/credits/ODH.png'
 
 
 //ADD MORE LOGO IMAGES HERE:
@@ -45,6 +46,11 @@ class ModalCredits extends Component {
               <li>
                 <a href="https://noi.bz.it/" target="_blank">
                   <img src={imageLogo3} />
+                </a>
+              </li>
+              <li>
+                <a href="https://opendatahub.bz.it/" target="_blank">
+                  <img src={imageLogo14} />
                 </a>
               </li>
             </ul>
