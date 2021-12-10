@@ -124,6 +124,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         return;
     }
 
+
     var protocol = req.get("x-forward-proto") || req.get("x-forwarded-proto") || req.protocol;
 
     var host = req.get("x-forward-host") || req.get("x-forwarded-host") || req.get('host');

@@ -62,4 +62,10 @@
 .ml-5 { margin-left: $font-size-base * 2.5; }
 .mr-5 { margin-right: $font-size-base * 2.5; }
 
-
+.noneselect {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}

@@ -70,4 +70,18 @@
     bottom: 0;
     padding-top: 12px;
   }
+  
+  .otp-ui-locationFilter {
+    top: 58px;
+    bottom: 4px;
+    right: 4px;
+    left: 4px;  
+    width: auto;
+
+    &__header,
+    &__container {
+      padding-left: $grid-gutter-width / 2;
+      padding-right: $grid-gutter-width / 2;
+    }
+  }
 }

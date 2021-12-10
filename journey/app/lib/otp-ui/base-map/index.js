@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { LayersControl, Map, Popup, TileLayer } from "react-leaflet";
 import utils from "../core-utils";
+import AdvancedOverlaysController from "../advanced-overlays-controller";
 import L from "leaflet";
 
 import callIfValid from "./util";
@@ -188,6 +189,7 @@ class BaseMap extends Component {
       onPopupClosed,
       onMoveEnd,
       onLoad,
+      onFilterLayerRequest,
       zoom
     } = this.props;
     const { layerIndex } = this.state;
@@ -239,21 +241,10 @@ class BaseMap extends Component {
           </a>
         )}
 
-        <LayersControl position="topright">
-          {
-            userControlledOverlays.map((child, i) => {
-              return (
-                <LayersControl.Overlay
-                  key={i}
-                  name={child.props.name}
-                  checked={child.props.visible}
-                >
-                  {child}
-                </LayersControl.Overlay>
-              );
-            })
-          }
-        </LayersControl>
+        <AdvancedOverlaysController
+          overlays={userControlledOverlays}
+          onFilterRequest={filterName => onFilterLayerRequest(filterName)}
+        />
 
         <LayersControl position="bottomright">
           {/* base layers */}
@@ -378,7 +369,11 @@ BaseMap.propTypes = {
    */
   // eslint-disable-next-line react/no-unused-prop-types
   onViewportChanged: PropTypes.func,
+
+  onFilterLayerRequest: PropTypes.func,
+
   onMoveEnd: PropTypes.func,
+
   /**
    * The contents and location (in [lat, lng] format) of the popup to display, or null if no popup is displayed.
    */
@@ -422,6 +417,7 @@ BaseMap.defaultProps = {
   onOverlayRemoved: null,
   onPopupClosed: null,
   onViewportChanged: null,
+  onFilterLayerRequest: null,
   onLoad: null,
   popup: null,
   zoom: 13,
