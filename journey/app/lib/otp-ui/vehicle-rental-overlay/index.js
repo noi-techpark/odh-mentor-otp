@@ -28,22 +28,22 @@ import carVwCaddy from '../../images/cars/vw-caddy.jpg';
 import carGolfVariant from '../../images/cars/vw-golf-variant.jpg';
 import carGolf from '../../images/cars/vw-golf.jpg';
 import carVwUp from '../../images/cars/vw-up.jpg';
+import carVwId3 from '../../images/cars/vw-id3.jpg';
+import carRenaultZoe from '../../images/cars/renault-zoe.jpg';
 import carPlaceholder from '../../images/cars/placeholder.png';
 
 const carImages = {
 'defaultCar': carPlaceholder,
-'renault-zoe': carPlaceholder,
-//
-'nissan-leaf': carNissanLeaf,
-'vw-caddy-caddy-20-tdi': carVwCaddy,
+'vw-golf': carGolf,
+'vw-up': carVwUp,
+'vw-golf-variant': carGolfVariant,
+'vw-caddy': carVwCaddy,
+'vw-caddy-life': carVwCaddy, //TODO create new image
+'vw-id3': carVwId3,
 'vw-egolf': carGolf,
 'vw-eup': carVwUp,
-'vw-golf': carGolf,
-'vw-golf-golf-16-tdi': carGolf,
-'vw-golf-vw-golf': carGolf,
-'vw-up': carVwUp,
-'vw-up-vw-up': carVwUp,
-'vw-golf-variant-16-tdi-comf-8mt': carGolfVariant
+'renault-zoe': carRenaultZoe,
+'nissan-leaf-elektro': carNissanLeaf
 };
 
 const getCarModel = model => {
