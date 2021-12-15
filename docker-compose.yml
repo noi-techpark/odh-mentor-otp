@@ -24,6 +24,7 @@ services:
         DRT_BASEURL: http://localhost:8095
         CHARGER_BASEURL: http://localhost:8093
         CARSHARING_BASEURL: http://localhost:8091
+        GOOGLE_ANALYTICS_ID: 'UA-XXXXX-Y'
         # debug
         #API_HOST: https://otp.opendatahub.testingmachine.eu
         #API_PORT: 443

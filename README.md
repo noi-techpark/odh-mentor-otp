@@ -142,6 +142,8 @@ Below is a list of Docker args variables for each container:
 
 ```CHARGER_BASEURL``` host path to Charger stationsto show in map
 
+```GOOGLE_ANALYTICS_ID``` google analytics tracking code UA-XXXXX-Y
+
 Then you can start the application using the following command:
 
 #### First build Graph and Cache
