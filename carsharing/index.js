@@ -67,6 +67,7 @@ function getCars(){
             res.on('end', function () {
                 let tmp = JSON.parse(str);
                 var cars = tmp.data;
+                //console.log('GETCARS',JSON.stringify(tmp.data,null,2))
                 carReceived = cars;
             });
         })
@@ -79,8 +80,10 @@ function getCars(){
 }
 
 function getModelId(car) {
-    const brand = _.trim(car.smetadata?.brand);
-    return brand ? brand.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+    if(car.smetadata && car.smetadata.brand) {
+        const brand = _.trim(car.smetadata.brand);
+        return brand ? brand.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+    }
 }
 
 app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
@@ -99,11 +102,11 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
 
                             const modelId = getModelId(car);
 
-                            carsModels[ modelId ] = _.trim(car.smetadata?.brand);
+                            carsModels[ modelId ] = _.trim(car.smetadata.brand);
 
                             carVehicles.push({
                                 id: car.scode,
-                                name: _.trim(car.smetadata?.brand),
+                                name: _.trim(car.smetadata.brand),
                                 model: modelId,
                                 plate: car.smetadata.licensePlate,
                                 geoCoordinate: {
@@ -210,7 +213,7 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
 
                 const modelId = getModelId(car);
 
-                carsModels[ modelId ] = _.trim(car.smetadata?.brand);
+                carsModels[ modelId ] = _.trim(car.smetadata.brand);
             }
         }
 
