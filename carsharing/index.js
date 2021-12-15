@@ -67,7 +67,7 @@ function getCars(){
             res.on('end', function () {
                 let tmp = JSON.parse(str);
                 var cars = tmp.data;
-                console.log('GETCARS',JSON.stringify(tmp.data,null,2))
+                //console.log('GETCARS',JSON.stringify(tmp.data,null,2))
                 carReceived = cars;
             });
         })
