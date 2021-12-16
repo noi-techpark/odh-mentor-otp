@@ -35,6 +35,13 @@ brandByDomain:
     brandNavbar: ''
     brandNavbarLogo: interreg
 
+configByDomain:
+  mobility.bz.it:
+    map:
+      initLat: 46.4873
+      initLon: 11.3278
+      initZoom: 15
+
 reportIssue:
   mailto: support@openmove.com
 
@@ -122,7 +129,6 @@ persistence:
 
 # Map config
 map:
-  # Enabled map views
   views:
     - type: DEFAULT
       text: Mappa
