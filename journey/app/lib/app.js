@@ -16,6 +16,7 @@ import i18n from './i18n'
 import interreg from './images/interreg.png'
 import openmove from './images/openmove.png'
 import merano from './images/merano.png'
+import bolzano from './images/ComuneBolzano.png'
 
 const logos = {
   interreg,

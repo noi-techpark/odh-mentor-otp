@@ -7,7 +7,7 @@ brandNavbarLogo: null
 brandByDomain:
   localhost:
     branding: Journey 
-    title: Journey 
+    title: Journey
     brandNavbar: Journey
     brandNavbarLogo: openmove
   
@@ -22,6 +22,12 @@ brandByDomain:
     title: Merano - Alto Adige/Suedtirol
     brandNavbar: ''
     brandNavbarLogo: merano
+
+  mobility.bz.it:
+    branding: Bolzano - Alto Adige/Suedtirol
+    title: Bolzano - Alto Adige/Suedtirol
+    brandNavbar: ''
+    brandNavbarLogo: bolzano
 
   journey.opendatahub.bz.it:
     branding: Mentor
