@@ -110,10 +110,16 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata && isInBbox(bbox, station.scoordinate)){
-                var plugs = [];
+
+                var plugs = [], plugsTypes = {};
+
                 for(var j = 0; j < plugsReceived.length; j++){
                     var plug = plugsReceived[j];
                     if(station.scode === plug.pcode && plug.smetadata){
+                        const plugType = (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].outletTypeCode : plug.smetadata.outletTypeCode;
+
+                        plugsTypes[ plugType ] = 1;
+
                         plugs.push({
                             plug_id: plug.scode,
                             name: plug.sname,
@@ -121,7 +127,7 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
                             maxPower: (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].maxPower : plug.smetadata.maxPower,
                             maxCurrent: (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].maxCurrent : plug.smetadata.maxCurrent,
                             minCurrent: (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].minCurrent : plug.smetadata.minCurrent,
-                            outletTypeCode: (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].outletTypeCode : plug.smetadata.outletTypeCode,
+                            outletTypeCode: plugType
                         });
                     }
                 }
@@ -131,14 +137,15 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
                     name: station.sname,
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
-                    provider: station.smetadata.provider,
                     address: station.smetadata.address,
                     city: (station.smetadata.municipality || station.smetadata.city).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' '),
                     accessType: station.smetadata.accessType,
                     capacity: station.smetadata.capacity || plugs.length,
                     free: plugs.filter(p => p.available).length,
-                    reservable: station.smetadata.reservable,
+                    provider: _.trim(station.smetadata.provider),
+                    reservable: station.smetadata.reservable ? 'yes' : 'no',
                     state: station.smetadata.state,
+                    plugsTypes: Object.keys(plugsTypes),
                     plugs: plugs
                 });
             }
@@ -159,14 +166,26 @@ app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
     const chargeFilters = {};
 
     if(stationsReceived) {
+
+        var plugsTypes = {};
+
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
 
+            for(var j = 0; j < plugsReceived.length; j++){
+                var plug = plugsReceived[j];
+                if(station.scode === plug.pcode && plug.smetadata){
+                    const plugType = (plug.smetadata.outlets && plug.smetadata.outlets.length > 0) ? plug.smetadata.outlets[0].outletTypeCode : plug.smetadata.outletTypeCode;
+
+                    plugsTypes[ plugType ]= 1;
+                }
+            }
+
             chargeStations.push({
-                provider: station.smetadata.provider,
+                provider: _.trim(station.smetadata.provider),
                 //city: (station.smetadata.municipality || station.smetadata.city).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' '),
                 accessType: station.smetadata.accessType,
-                reservable: station.smetadata.reservable,
+                reservable: station.smetadata.reservable ? 'yes' : 'no',
                 state: station.smetadata.state
             });
         }
@@ -186,12 +205,23 @@ app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
                 })
             }
         }
+
+        chargeFilters['plugsTypes'] = {
+            enabled: true,
+            label: 'label_plugs_types',
+            values: Object.keys(plugsTypes).map(plugType => {
+                return {
+                    value: plugType,
+                    enabled: true
+                }
+            })
+        }
     }
 
     const ymlText = yaml.dump({
         filters: chargeFilters
     })
-
+    res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
     res.end(ymlText);
 });
 
