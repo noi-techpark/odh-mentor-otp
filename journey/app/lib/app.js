@@ -27,13 +27,18 @@ const logos = {
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.yml
-let otpConfig = require(YAML_CONFIG);
-const {configByDomain} = otpConfig;
+let ymlConfig = require(YAML_CONFIG);
+const {configByDomain} = ymlConfig;
+const {brandByDomain} = ymlConfig;
 
+let otpConfig;
 if (configByDomain && (location.hostname in configByDomain)) {
   const newConfig = configByDomain[ location.hostname ];
+
   console.log('OVERRIDE CONFIG by DOMAIN', newConfig)
-  otpConfig = Object.assign({}, otpConfig, newConfig);
+  otpConfig = Object.assign({}, ymlConfig, newConfig);
+
+  console.log('OVERRIDE CONFIG by DOMAIN new ', otpConfig)
 }
 
 console.log('OTP_CONFIG', otpConfig);
@@ -43,7 +48,7 @@ console.log('OTP_CONFIG', otpConfig);
 // defaults to ./config.js
 const jsConfig = require(JS_CONFIG).configure(otpConfig);
 
-const {brandByDomain} = otpConfig;
+
 
 window.OM = {
   config: otpConfig

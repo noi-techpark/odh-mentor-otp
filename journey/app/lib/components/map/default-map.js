@@ -259,9 +259,6 @@ class DefaultMap extends Component {
                         minLat: bb._southWest.lat,
                         maxLat: bb._northEast.lat
                       };
-
-                  //console.log('onMoveEnd', bounds);
-
                   storeItem('mapBounds', bounds);
                 }}
               >
