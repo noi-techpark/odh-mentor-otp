@@ -27,12 +27,23 @@ const logos = {
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.yml
-const otpConfig = require(YAML_CONFIG);
+let otpConfig = require(YAML_CONFIG);
+const {configByDomain} = otpConfig;
+
+if (configByDomain && (location.hostname in configByDomain)) {
+  const newConfig = configByDomain[ location.hostname ];
+  console.log('OVERRIDE CONFIG by DOMAIN', newConfig)
+  otpConfig = Object.assign({}, otpConfig, newConfig);
+}
+
+console.log('OTP_CONFIG', otpConfig);
 
 // Loads a JavaScript file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.js
 const jsConfig = require(JS_CONFIG).configure(otpConfig);
+
+const {brandByDomain} = otpConfig;
 
 window.OM = {
   config: otpConfig
@@ -49,8 +60,6 @@ class JourneyWebapp extends Component {
     const { t } = this.props;
     const {brandByDomain} = otpConfig;
     let {branding, brandNavbar, brandNavbarLogo} = otpConfig;
-
-    //TODO switch by domain location.hostname
 
     let brandLogo = null;
 
