@@ -13,6 +13,8 @@ import AppMenu from './components/app/app-menu'
 
 import i18n from './i18n'
 
+import mergeDeep from './util/mergeDeep'
+
 import interreg from './images/interreg.png'
 import openmove from './images/openmove.png'
 import merano from './images/merano.png'
@@ -36,7 +38,7 @@ if (configByDomain && (location.hostname in configByDomain)) {
   const newConfig = configByDomain[ location.hostname ];
 
   console.log('OVERRIDE CONFIG by DOMAIN', newConfig)
-  otpConfig = Object.assign({}, ymlConfig, newConfig);
+  otpConfig = mergeDeep({}, ymlConfig, newConfig);
 
   console.log('OVERRIDE CONFIG by DOMAIN new ', otpConfig)
 }
@@ -106,7 +108,7 @@ class JourneyWebapp extends Component {
             </main>
           </div>
           <div className='map-container'>
-            <Map />
+            <Map mapConfig={otpConfig.map}/>
           </div>
         </div>
       </div>
@@ -117,7 +119,7 @@ class JourneyWebapp extends Component {
       // <main> is needed for accessibility checks.
       <main>
         <MobileMain
-          map={(<Map />)}
+          map={(<Map mapConfig={otpConfig.map}/>)}
           itineraryClass={LineItinerary}
           itineraryFooter={getItineraryFooter(t)}
           LegIcon={LegIcon}
