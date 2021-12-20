@@ -31,6 +31,7 @@ import ZipcarOverlay from '../../otp-ui/zipcar-overlay'
 import ParkingOverlay from '../../otp-ui/parking-overlay'
 import DrtOverlay from '../../otp-ui/drt-overlay'
 import ChargerOverlay from '../../otp-ui/charger-overlay'
+import LocationFilter from "../../otp-ui/location-filter"
 import { storeItem, getItem } from '../../otp-ui/core-utils/storage'
 
 const MapContainer = styled.div`
@@ -52,7 +53,9 @@ class DefaultMap extends Component {
     super(props)
 
     this.state = {
-      forceRefresh: false
+      forceRefresh: false,
+      overlayFilters: {},
+      activeOverlayFilter: null
     }
   }
   /**
@@ -131,6 +134,41 @@ class DefaultMap extends Component {
       }, 50)
     }
   }  
+
+  componentDidMount () {
+    const overlayFilters = {}
+
+    this.props.mapConfig.overlays.map((overlayConfig, k) => {
+      if (overlayConfig.filters) {
+        overlayFilters[overlayConfig.type] = overlayConfig.filters
+      }
+    })
+
+    this.setState({ overlayFilters })
+  }
+
+  onLocationFilterChange = (overlay, group, name) => {
+    const overlayFilters = { ...this.state.overlayFilters };
+
+    overlayFilters[overlay][group].values.map(item => {
+      if (item.value === name) {
+        item.enabled = !item.enabled
+        return
+      }
+    })
+
+    this.setState({ overlayFilters })
+  }
+
+  onLocationFilterReset = overlay => {
+    const overlayFilters = { ...this.state.overlayFilters }
+
+    Object.keys(overlayFilters[overlay]).map(key => {
+      overlayFilters[overlay][key].values.map(item => item.enabled = true)
+    })
+
+    this.setState({ overlayFilters })
+  }
 
   render () {
     const {
@@ -211,6 +249,7 @@ class DefaultMap extends Component {
                     storeItem('mapOverlayVisible', visibleOverlays)
                   }
                 }}
+                onFilterLayerRequest={filterLayer => this.setState({ activeOverlayFilter: filterLayer })}
                 onMoveEnd={e => {
 
                   const bb = e.target.getBounds()
@@ -223,7 +262,7 @@ class DefaultMap extends Component {
 
                   //console.log('onMoveEnd', bounds);
 
-                  storeItem('mapBounds', bounds)
+                  storeItem('mapBounds', bounds);
                 }}
               >
                 {/* The default overlays */}
@@ -246,6 +285,7 @@ class DefaultMap extends Component {
                         name={t(overlayConfig.name)}
                         refreshVehicles={bikeRentalQuery}
                         stations={bikeRentalStations}
+                        activeFilters={this.state.overlayFilters}
                       />
                     )
                     case 'car-rental': return (
@@ -256,6 +296,7 @@ class DefaultMap extends Component {
                         name={t(overlayConfig.name)}
                         refreshVehicles={carRentalQuery}
                         stations={carRentalStations}
+                        activeFilters={this.state.overlayFilters}
                       />
                     )
                     case 'park-and-ride':
@@ -264,7 +305,8 @@ class DefaultMap extends Component {
                           key={k}
                           {...overlayConfig}
                           visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                          name={t(overlayConfig.name)}                             
+                          name={t(overlayConfig.name)}
+                          activeFilters={this.state.overlayFilters}
                         />
                       )
                     case 'stops': return (
@@ -272,7 +314,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                          
+                        name={t(overlayConfig.name)}
                       />
                     )
                     case 'tile': return (
@@ -280,7 +322,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                          
+                        name={t(overlayConfig.name)}
                       />
                     )
                     case 'micromobility-rental': return (
@@ -298,7 +340,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                          
+                        name={t(overlayConfig.name)}
                       />
                     )
                     case 'parking': return (
@@ -306,7 +348,7 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1} 
-                        name={t(overlayConfig.name)}                          
+                        name={t(overlayConfig.name)}
                       />
                     )
                     case 'drt': return (
@@ -322,7 +364,8 @@ class DefaultMap extends Component {
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
-                        name={t(overlayConfig.name)}                        
+                        name={t(overlayConfig.name)}
+                        activeFilters={this.state.overlayFilters}
                       />
                     )
                     default: return null
@@ -330,6 +373,23 @@ class DefaultMap extends Component {
                 })}
               </BaseMap>
             </MapContainer>
+        }
+
+        {
+          mapConfig.overlays && mapConfig.overlays.map((overlayConfig, k) => {
+            if (overlayConfig.filters) {
+              return (
+                <LocationFilter
+                  show={this.state.activeOverlayFilter === overlayConfig.type}
+                  title={t(overlayConfig.name)}
+                  filters={this.state.overlayFilters[overlayConfig.type]}
+                  onClose={() => this.setState({ activeOverlayFilter: null })}
+                  onChange={(group, value) => this.onLocationFilterChange(overlayConfig.type, group, value)}
+                  onReset={() => this.onLocationFilterReset(overlayConfig.type)}
+                />
+              )
+            }
+          })
         }
       </>
     )

@@ -24,6 +24,7 @@ services:
         DRT_BASEURL: http://localhost:8095
         CHARGER_BASEURL: http://localhost:8093
         CARSHARING_BASEURL: http://localhost:8091
+        GOOGLE_ANALYTICS_ID: 'UA-XXXXX-Y'
         # debug
         #API_HOST: https://otp.opendatahub.testingmachine.eu
         #API_PORT: 443
@@ -96,15 +97,6 @@ services:
       context: ./
       dockerfile: infrastructure/docker/charger/Dockerfile
 
-  # traffic:
-  #   container_name: openmove-traffic
-  #   ports:
-  #     - "8094:8094"
-  #   image: openmove_traffic:latest
-  #   build:
-  #     context: ./
-  #     dockerfile: infrastructure/docker/traffic/Dockerfile
-      
   drt:
       container_name: openmove-drt
       ports:
@@ -113,6 +105,15 @@ services:
       build:
         context: ./
         dockerfile: infrastructure/docker/drt/Dockerfile
+
+  # traffic:
+  #   container_name: openmove-traffic
+  #   ports:
+  #     - "8094:8094"
+  #   image: openmove_traffic:latest
+  #   build:
+  #     context: ./
+  #     dockerfile: infrastructure/docker/traffic/Dockerfile
 
   otp:
     container_name: openmove-otp

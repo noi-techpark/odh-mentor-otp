@@ -54,12 +54,12 @@ endpoints:
 
   accommodations:
     #TODO priority: 50
-    path: /api/Accommodation?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
+    path: /v1/Accommodation?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
     size: 5
     layer: venue
     #in pelias venue is a POIs
 
   ODHActivityPoi:
-    path: /api/ODHActivityPoi/?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
+    path: /v1/ODHActivityPoi/?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
     size: 5
     layer: venue

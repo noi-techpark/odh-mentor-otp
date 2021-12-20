@@ -19,6 +19,8 @@ import BadgeIcon from "../icons/badge-icon";
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import MarkerCluster from "../icons/modern/MarkerCluster";
 
+import { filterOverlay } from "../core-utils/overlays";
+
 import config from '../../config.yml';
 
 import carNissanLeaf from '../../images/cars/nissan-leaf.jpg';
@@ -26,27 +28,26 @@ import carVwCaddy from '../../images/cars/vw-caddy.jpg';
 import carGolfVariant from '../../images/cars/vw-golf-variant.jpg';
 import carGolf from '../../images/cars/vw-golf.jpg';
 import carVwUp from '../../images/cars/vw-up.jpg';
+import carVwId3 from '../../images/cars/vw-id3.jpg';
+import carRenaultZoe from '../../images/cars/renault-zoe.jpg';
 import carPlaceholder from '../../images/cars/placeholder.png';
 
-
-const carModels = {
+const carImages = {
 'defaultCar': carPlaceholder,
-'renault-zoe': carPlaceholder,
-//
-'nissan-leaf': carNissanLeaf,
-'vw-caddy-caddy-20-tdi': carVwCaddy,
+'vw-golf': carGolf,
+'vw-up': carVwUp,
+'vw-golf-variant': carGolfVariant,
+'vw-caddy': carVwCaddy,
+'vw-caddy-life': carVwCaddy, //TODO create new image
+'vw-id3': carVwId3,
 'vw-egolf': carGolf,
 'vw-eup': carVwUp,
-'vw-golf': carGolf,
-'vw-golf-golf-16-tdi': carGolf,
-'vw-golf-vw-golf': carGolf,
-'vw-up': carVwUp,
-'vw-up-vw-up': carVwUp,
-'vw-golf-variant-16-tdi-comf-8mt': carGolfVariant
+'renault-zoe': carRenaultZoe,
+'nissan-leaf-elektro': carNissanLeaf
 };
 
 const getCarModel = model => {
-    return carModels[model] || carModels.defaultCar;
+    return carImages[model] || carImages.defaultCar;
 };
 
 const getDistanceFromLatLonInMeters = (lat1, lon1, lat2, lon2) => {
@@ -308,18 +309,25 @@ class VehicleRentalOverlay extends MapLayer {
   };
 
   render() {
-    const { stations, companies } = this.props;
-    let filteredStations = stations;
-    if (companies) {
-      filteredStations = stations.filter(
-        station =>
+    const { stations, companies, activeFilters } = this.props;
+
+    if (!stations || stations.length === 0) return <LayerGroup />;
+
+
+    let filteredStations = [];
+    if (Array.isArray(companies)) {
+      filteredStations = stations.filter(station =>
           station.networks.filter(value => companies.includes(value)).length > 0
       );
     }
+    else {
+      filteredStations = stations;
+    }
 
-    if (!filteredStations || filteredStations.length === 0) return <LayerGroup />;
+    filteredStations = filterOverlay(filteredStations, activeFilters[ overlayCarSharingConf.type ]);
 
-    for(let station of filteredStations){
+    //TODO move in core-utils/overlays.js
+    for(let station of filteredStations) {
       if(station.isFloatingBike){
         let nearest = null;
         let lastDistance = null;
@@ -333,7 +341,6 @@ class VehicleRentalOverlay extends MapLayer {
                 nearest = i;
                 lastDistance = distance;        
               }
-                  
           }
         }
         if(nearest){
@@ -439,12 +446,16 @@ VehicleRentalOverlay.defaultProps = {
       station.networks,
       configCompanies
     );
+
     let stationName = station.name || station.id;
+
     if (station.isFloatingBike) {
       stationName = `Free-floating bike: ${stationName}`;
-    } else if (station.isFloatingCar) {
+    }
+    else if (station.isFloatingCar) {
       stationName = `${stationNetworks} ${stationName}`;
-    } else if (station.isFloatingVehicle) {
+    }
+    else if (station.isFloatingVehicle) {
       // assumes that all floating vehicles are E-scooters
       stationName = `${stationNetworks} E-scooter`;
     }

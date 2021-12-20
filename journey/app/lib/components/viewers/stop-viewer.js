@@ -154,7 +154,7 @@ class StopViewer extends Component {
     findStopTimesForStop({
       stopId: viewedStop.stopId,
       startTime: this._getStartTimeForDate(date),
-      timeRange: 86400
+      timeRange: 86401
     })
     this.setState({ date })
   }

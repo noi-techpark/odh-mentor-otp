@@ -31,8 +31,9 @@ class ModalCredits extends Component {
           <Modal.Header closeButton><Modal.Title>{t('credits_title')}</Modal.Title></Modal.Header>
           <Modal.Body>
 
-          <a href="https://www.gemeinde.meran.bz.it/it/mobility_meran_eu" target="_blank"/>
-          <img src={interregLogo} />
+          <a href="https://www.gemeinde.meran.bz.it/it/mobility_meran_eu" target="_blank" >
+            <img src={interregLogo} />
+          </a>
 
           {/* START CONTENTS of CREDITS */}
 

@@ -7,7 +7,7 @@ brandNavbarLogo: null
 brandByDomain:
   localhost:
     branding: Journey 
-    title: Journey 
+    title: Journey
     brandNavbar: Journey
     brandNavbarLogo: openmove
   
@@ -23,14 +23,31 @@ brandByDomain:
     brandNavbar: ''
     brandNavbarLogo: merano
 
+  mobility.bz.it:
+    branding: Bolzano - Alto Adige/Suedtirol
+    title: Bolzano - Alto Adige/Suedtirol
+    brandNavbar: ''
+    brandNavbarLogo: bolzano
+
   journey.opendatahub.bz.it:
     branding: Mentor
     title: Mentor
     brandNavbar: ''
     brandNavbarLogo: interreg
 
+configByDomain:
+  mobility.bz.it:
+    map:
+      initLat: 46.4873
+      initLon: 11.3278
+      initZoom: 15
+
 reportIssue:
   mailto: support@openmove.com
+
+analytics:
+  google:
+    globalSiteTag: ${GOOGLE_ANALYTICS_ID}
 
 # Default OTP API
 api:
@@ -64,10 +81,6 @@ language:
 #reactRouter:
 #   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
 #  basename: ${FOLDER}
-#
-# analytics:
-#   google:
-#     globalSiteTag: UA-133677388-1
 
 # Enabled multimodal routing types (e.g. interary, profile)
 routingTypes:
@@ -116,7 +129,6 @@ persistence:
 
 # Map config
 map:
-  # Enabled map views
   views:
     - type: DEFAULT
       text: Mappa
@@ -166,6 +178,7 @@ map:
       modes:
         - BICYCLE_RENT
       companies:
+        #TODO move to filters
         - BZ
         - ME
         - PAPIN
@@ -186,25 +199,59 @@ map:
       iconMarkerColor: "#d9bd48"
       iconColor: "#5d5d5d"
       filters:
-        company:
+        #generate filter config by: http://localhost:8091/carsharing/filters.yml
+        # company:
+        #   enabled: true
+        #   label: carsharing_company
+        #   values:
+        #     - value: Car Sharing Südtirol Alto Adige
+        #       enabled: true
+        #     - value: Car Sharing Trentino
+        #       enabled: true
+        #     # - value: undefined
+        #     #   enabled: true
+        # bookahead:
+        #   enabled: true
+        #   label: carsharing_bookahead
+        #   values:
+        #     - value: 'yes'
+        #       enabled: true
+        #     - value: 'no'
+        #       enabled: true
+        vehiclesModels:
           enabled: true
-          label: label_company
+          label: carsharing_vehicles_models
           values:
-            - value: undefined
-              enabled: true
-            - value: Car Sharing SÃ¼dtirol Alto Adige
-              enabled: true
-            - value: Car Sharing Trentino
-              enabled: true
-        bookahead:
-          enabled: true
-          label: label_bookahead
-          values:
-            - value: 'false'
-              enabled: true
-            - value: 'true'
-              enabled: true
-
+            - enabled: true
+              value: vw-golf
+              label: VW Golf
+            - enabled: true
+              value: vw-up
+              label: VW up!
+            - enabled: true
+              value: vw-golf-variant
+              label: VW Golf Variant
+            - enabled: true
+              value: vw-caddy
+              label: VW Caddy
+            - enabled: true
+              value: vw-caddy-life
+              label: VW Caddy Life
+            - enabled: true
+              value: vw-id3
+              label: VW ID.3
+            - enabled: true
+              value: vw-egolf
+              label: VW e-Golf
+            - enabled: true
+              value: vw-eup
+              label: VW e-UP!
+            - enabled: true
+              value: renault-zoe
+              label: Renault Zoe
+            - enabled: true
+              value: nissan-leaf-elektro
+              label: Nissan Leaf (elektro)
     - type: charger
       name: charger
       api: ${CHARGER_BASEURL}/charger/stations.json
@@ -215,78 +262,74 @@ map:
       filters:
         provider:
           enabled: true
-          label: label_provider
+          label: charger_provider
           values:
-            - value: H2 Center
+            - value: DriWe
               enabled: true
-            - value: AER
+            - value: H2 Center
               enabled: true
             - value: Neogy
               enabled: true
-            - value: EDY
-              enabled: true
-            - value: Alperia Smart Mobility
-              enabled: true
-            - value: ASM
-              enabled: true
-            - value: NHP
-              enabled: true
-            - value: ASD
-              enabled: true
-            - value: DriWe
-              enabled: true
             - value: Route220
               enabled: true
-            - value: AP_GEN
+            # - value: AER
+            #   enabled: true
+            - value: Alperia Smart Mobility
               enabled: true
+            # - value: AP_GEN
+            #   enabled: true
+            # - value: ASD
+            #   enabled: true
+            # - value: ASM
+            #   enabled: true
+            # - value: EDY
+            #   enabled: true
+            # - value: NHP
+            #   enabled: true
+        plugsTypes:
+          enabled: true
+          label: charger_plugstypes
+          values:
+            - value: 700 bar small vehicles
+              enabled: true
+            - value: IEC 62196-2 type 2 outlets (all amperage and phase)
+              enabled: true
+            - value: Type2Mennekes
+              enabled: true
+            - value: CHAdeMO
+              enabled: true
+            - value: CCS
+              enabled: true
+            - value: Schuko
+              enabled: true
+            - value: OTHER
+              enabled: true
+            # - value: UNKNOWN
+            #   enabled: true#
         accessType:
           enabled: true
-          label: label_accesstype
+          label: charger_accesstype
           values:
             - value: PUBLIC
-              enabled: true
-            - value: undefined
               enabled: true
             - value: PRIVATE
               enabled: true
             - value: PRIVATE_WITHPUBLICACCESS
               enabled: true
-        reservable:
-          enabled: true
-          label: label_reservable
-          values:
-            - value: 'true'
-              enabled: true
-            - value: undefined
-              enabled: true
-            - value: 'false'
-              enabled: true
-            - value: 'null'
-              enabled: true
-        state:
-          enabled: true
-          label: label_state
-          values:
-            - value: AVAILABLE
-              enabled: true
-            - value: MAINTENANCE
-              enabled: true
-            - value: ACTIVE
-              enabled: true
-            - value: TEMPORARYUNAVAILABLE
-              enabled: true
-            - value: UNKNOWN
-              enabled: true
-            - value: undefined
-              enabled: true
-            - value: FAULT
-              enabled: true
-            - value: UNAVAILABLE
-              enabled: true
-            - value: 'null'
-              enabled: true
-            - value: OCCUPIED
-              enabled: true
+            # - value: undefined
+            #   enabled: true
+        # reservable:
+        #   enabled: true
+        #   label: charger_reservable
+        #   values:
+        #     - value: 'yes'
+        #       enabled: true
+        #     - value: 'no'
+        #       enabled: true
+            # - value: undefined
+            #   enabled: true
+            # - value: 'null'
+            #   enabled: true
 
 
     - type: parking
@@ -299,6 +342,15 @@ map:
       iconHeight: 50
       iconMarkerColor: "#b0d1ef"
       iconColor: "#5d5d5d"
+      # filters:
+      #   type:
+      #     enabled: true
+      #     label: parking_type
+      #     values:
+      #       - value: station
+      #         enabled: true
+      #       - value: sensor
+      #         enabled: true
 
     - type: drt
       name: ondemand
