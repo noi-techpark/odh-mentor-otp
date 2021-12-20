@@ -7,7 +7,7 @@ brandNavbarLogo: null
 brandByDomain:
   localhost:
     branding: Journey 
-    title: Journey 
+    title: Journey
     brandNavbar: Journey
     brandNavbarLogo: openmove
   
@@ -23,14 +23,31 @@ brandByDomain:
     brandNavbar: ''
     brandNavbarLogo: merano
 
+  mobility.bz.it:
+    branding: Bolzano - Alto Adige/Suedtirol
+    title: Bolzano - Alto Adige/Suedtirol
+    brandNavbar: ''
+    brandNavbarLogo: bolzano
+
   journey.opendatahub.bz.it:
     branding: Mentor
     title: Mentor
     brandNavbar: ''
     brandNavbarLogo: interreg
 
+configByDomain:
+  mobility.bz.it:
+    map:
+      initLat: 46.4873
+      initLon: 11.3278
+      initZoom: 15
+
 reportIssue:
   mailto: support@openmove.com
+
+analytics:
+  google:
+    globalSiteTag: ${GOOGLE_ANALYTICS_ID}
 
 # Default OTP API
 api:
@@ -64,10 +81,6 @@ language:
 #reactRouter:
 #   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
 #  basename: ${FOLDER}
-#
-# analytics:
-#   google:
-#     globalSiteTag: UA-133677388-1
 
 # Enabled multimodal routing types (e.g. interary, profile)
 routingTypes:
@@ -116,7 +129,6 @@ persistence:
 
 # Map config
 map:
-  # Enabled map views
   views:
     - type: DEFAULT
       text: Mappa
