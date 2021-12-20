@@ -44,7 +44,7 @@ pipeline {
         DRT_BASEURL = "https://drt.otp.opendatahub.bz.it"
         CHARGER_BASEURL = "https://charger.otp.opendatahub.bz.it"
         CARSHARING_BASEURL = "https://carsharing.otp.opendatahub.bz.it"
-        GOOGLE_ANALYTICS_ID = ""
+        GOOGLE_ANALYTICS_ID = "UA-81346533-1"
         OFFICIAL = "False"
         GBFS_VERSION=1
         CARSHARING_HOST="https://carsharing.otp.opendatahub.bz.it/"
