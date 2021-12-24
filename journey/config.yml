@@ -7,7 +7,7 @@ brandNavbarLogo: null
 brandByDomain:
   localhost:
     branding: Journey 
-    title: Journey 
+    title: Journey
     brandNavbar: Journey
     brandNavbarLogo: openmove
   
@@ -17,14 +17,37 @@ brandByDomain:
     brandNavbar: ''
     brandNavbarLogo: merano
 
+  mobility.merano.eu:
+    branding: Merano - Alto Adige/Suedtirol
+    title: Merano - Alto Adige/Suedtirol
+    brandNavbar: ''
+    brandNavbarLogo: merano
+
+  mobility.bz.it:
+    branding: Bolzano - Alto Adige/Suedtirol
+    title: Bolzano - Alto Adige/Suedtirol
+    brandNavbar: ''
+    brandNavbarLogo: bolzano
+
   journey.opendatahub.bz.it:
     branding: Mentor
     title: Mentor
     brandNavbar: ''
     brandNavbarLogo: interreg
 
+configByDomain:
+  mobility.bz.it:
+    map:
+      initLat: 46.4873
+      initLon: 11.3278
+      initZoom: 15
+
 reportIssue:
   mailto: support@openmove.com
+
+analytics:
+  google:
+    globalSiteTag: ${GOOGLE_ANALYTICS_ID}
 
 # Default OTP API
 api:
@@ -58,10 +81,6 @@ language:
 #reactRouter:
 #   # If app is to be deployed to a URL subdirectory (e.g. http://foo.bar/app), specify the path here:
 #  basename: ${FOLDER}
-#
-# analytics:
-#   google:
-#     globalSiteTag: UA-133677388-1
 
 # Enabled multimodal routing types (e.g. interary, profile)
 routingTypes:
@@ -110,7 +129,6 @@ persistence:
 
 # Map config
 map:
-  # Enabled map views
   views:
     - type: DEFAULT
       text: Mappa
@@ -205,47 +223,23 @@ map:
           label: carsharing_vehicles_models
           values:
             - enabled: true
-              value: vw-golf-golf-a7-16-tdi-comf-bmt
-              label: VW Golf Golf A7 1.6 TDI Comf BMT
-            - enabled: true
-              value: vw-up-move-10
-              label: VW up! Move 1.0
-            - enabled: true
-              value: vw-golf-variant-16-tdi-comf-8mt
-              label: VW Golf Variant 1.6 TDI comf 8MT
-            - enabled: true
-              value: vw-up-move-up-10-60cv
-              label: VW up! MOVE UP 1.0 60CV
+              value: vw-golf
+              label: VW Golf
             - enabled: true
               value: vw-up
               label: VW up!
             - enabled: true
-              value: vw-golf-golf-a7-16tdi
-              label: VW Golf GOLF A7 1.6TDI
+              value: vw-golf-variant
+              label: VW Golf Variant
             - enabled: true
-              value: vw-up-vw-up
-              label: VW up! VW up!
+              value: vw-caddy
+              label: VW Caddy
             - enabled: true
-              value: vw-golf-vw-golf
-              label: VW Golf VW Golf
+              value: vw-caddy-life
+              label: VW Caddy Life
             - enabled: true
-              value: vw-golf
-              label: VW Golf
-            - enabled: true
-              value: vw-golf-golf-16-tdi
-              label: VW Golf Golf 1.6 TDI
-            - enabled: true
-              value: vw-caddy-16-tdi-trendline--7-sitzer-ohne-stauraum
-              label: VW Caddy 1.6 TDI Trendline - 7 Sitzer ohne Stauraum
-            - enabled: true
-              value: vw-caddy-caddy-20-tdi
-              label: VW Caddy Caddy 2.0 TDI
-            - enabled: true
-              value: renault-zoe
-              label: Renault Zoe
-            - enabled: true
-              value: vw-id3-vw-id3-pro-58kwh
-              label: VW ID.3 VW ID.3 PRO 58kWh
+              value: vw-id3
+              label: VW ID.3
             - enabled: true
               value: vw-egolf
               label: VW e-Golf
@@ -253,8 +247,11 @@ map:
               value: vw-eup
               label: VW e-UP!
             - enabled: true
-              value: nissan-leaf
-              label: Nissan Leaf
+              value: renault-zoe
+              label: Renault Zoe
+            - enabled: true
+              value: nissan-leaf-elektro
+              label: Nissan Leaf (elektro)
     - type: charger
       name: charger
       api: ${CHARGER_BASEURL}/charger/stations.json

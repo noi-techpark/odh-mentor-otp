@@ -67,6 +67,7 @@ function getCars(){
             res.on('end', function () {
                 let tmp = JSON.parse(str);
                 var cars = tmp.data;
+                //console.log('GETCARS',JSON.stringify(tmp.data,null,2))
                 carReceived = cars;
             });
         })
@@ -78,8 +79,11 @@ function getCars(){
     req.end()
 }
 
-function getModelName(car) {
-    return car.sname ? car.sname.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+function getModelId(car) {
+    if(car.smetadata && car.smetadata.brand) {
+        const brand = _.trim(car.smetadata.brand);
+        return brand ? brand.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim().replace(/ /g, "-") : 'unknown';
+    }
 }
 
 app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
@@ -96,14 +100,14 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
                         var car = carReceived[j];
                         if(car.smetadata && car.pcoordinate && car.pcode === station.scode) {
 
-                            const modelName = getModelName(car);
+                            const modelId = getModelId(car);
 
-                            carsModels[ modelName ] = car.sname;
+                            carsModels[ modelId ] = _.trim(car.smetadata.brand);
 
                             carVehicles.push({
                                 id: car.scode,
-                                name: car.sname,
-                                model: modelName,
+                                name: _.trim(car.smetadata.brand),
+                                model: modelId,
                                 plate: car.smetadata.licensePlate,
                                 geoCoordinate: {
                                     latitude: car.pcoordinate.y,
@@ -168,6 +172,7 @@ app.get('/carsharing/vehicles.json', function (req, res) {
                 carVehicles.push({
                     id: car.scode,
                     name: car.sname,
+                    model: getModelId(car),
                     plate: car.smetadata.licensePlate,
                     geoCoordinate: {
                         latitude: car.pcoordinate.y,
@@ -206,9 +211,9 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
             var car = carReceived[j];
             if(car.smetadata && car.pcoordinate) {
 
-                const modelName = getModelName(car);
+                const modelId = getModelId(car);
 
-                carsModels[ modelName ] = car.sname;
+                carsModels[ modelId ] = _.trim(car.smetadata.brand);
             }
         }
 

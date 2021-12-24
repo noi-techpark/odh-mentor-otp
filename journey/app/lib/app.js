@@ -16,11 +16,13 @@ import i18n from './i18n'
 import interreg from './images/interreg.png'
 import openmove from './images/openmove.png'
 import merano from './images/merano.png'
+import bolzano from './images/ComuneBolzano.png'
 
 const logos = {
   interreg,
   openmove,
-  merano
+  merano,
+  bolzano
 }
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
