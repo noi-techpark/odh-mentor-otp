@@ -13,6 +13,9 @@ import AppMenu from './components/app/app-menu'
 
 import i18n from './i18n'
 
+
+import { setMapCenter, setMapZoom } from './actions/config'
+
 import mergeDeep from './util/mergeDeep'
 
 import interreg from './images/interreg.png'
@@ -29,18 +32,20 @@ const logos = {
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.yml
-let ymlConfig = require(YAML_CONFIG);
-const {configByDomain} = ymlConfig;
-const {brandByDomain} = ymlConfig;
+let otpConfig = require(YAML_CONFIG);
+const {configByDomain} = otpConfig;
+const {brandByDomain} = otpConfig;
 
-let otpConfig;
 if (configByDomain && (location.hostname in configByDomain)) {
-  const newConfig = configByDomain[ location.hostname ];
+  const domainConfig = configByDomain[ location.hostname ];
 
-  console.log('OVERRIDE CONFIG by DOMAIN', newConfig)
-  otpConfig = mergeDeep({}, ymlConfig, newConfig);
-
-  console.log('OVERRIDE CONFIG by DOMAIN new ', otpConfig)
+  if( domainConfig.map?.initLat && domainConfig.map?.initLon ) {
+    otpConfig.map.initLat = Number(domainConfig.map.initLat);
+    otpConfig.map.initLon = Number(domainConfig.map.initLon);
+  }
+  if( domainConfig.map?.initZoom ) {
+    otpConfig.map.initZoom = Number(domainConfig.map.initZoom);
+  }
 }
 
 console.log('OTP_CONFIG', otpConfig);

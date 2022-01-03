@@ -183,6 +183,8 @@ class DefaultMap extends Component {
       t
     } = this.props
 
+
+
     const center = mapConfig && mapConfig.initLat && mapConfig.initLon
       ? [mapConfig.initLat, mapConfig.initLon]
       : null
