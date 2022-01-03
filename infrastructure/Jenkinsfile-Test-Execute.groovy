@@ -44,7 +44,7 @@ pipeline {
         DRT_BASEURL = "https://drt.otp.opendatahub.testingmachine.eu"
         CHARGER_BASEURL = "https://charger.otp.opendatahub.testingmachine.eu"
         CARSHARING_BASEURL = "https://carsharing.otp.opendatahub.testingmachine.eu"
-        OFFICIAL = "False"
+        OTP_OFFICIAL = "False"
         GBFS_VERSION=1
         CARSHARING_HOST="https://carsharing.otp.opendatahub.testingmachine.eu/"
         PARKING_HOST="https://parking.otp.opendatahub.testingmachine.eu/"
@@ -102,7 +102,7 @@ pipeline {
                     echo 'CHARGER_BASEURL="${CHARGER_BASEURL}"' >> .env
                     echo 'CARSHARING_BASEURL="${CARSHARING_BASEURL}"' >> .env
                     echo 'DOCKER_GEOCODER_PORT=${DOCKER_GEOCODER_PORT}' >> .env
-                    echo 'OFFICIAL=${OFFICIAL}' >> .env
+                    echo 'OTP_OFFICIAL=${OTP_OFFICIAL}' >> .env
                     echo 'GBFS_VERSION=${GBFS_VERSION}' >> .env
                     echo 'CARSHARING_HOST=${CARSHARING_HOST}' >> .env
                     echo 'PARKING_HOST=${PARKING_HOST}' >> .env
