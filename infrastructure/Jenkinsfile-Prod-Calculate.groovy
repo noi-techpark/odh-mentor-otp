@@ -19,7 +19,7 @@ pipeline {
         CHARGER_HOST = "https://charger.otp.opendatahub.bz.it"
         UPDATERS = "True"
         GTFS_FILE = "latestGTFS.zip"
-        OFFICIAL = "False"
+        OTP_OFFICIAL = "False"
         GBFS_VERSION = 1
         GTFS_RT_URL = "https://efa.sta.bz.it/gtfs-r/"
         GTFS_FEED_ID = 1
@@ -52,7 +52,7 @@ pipeline {
                     echo 'PARKING_HOST=${PARKING_HOST}' >> .env
                     echo 'DRT_HOST=${DRT_HOST}' >> .env
                     echo 'CHARGER_HOST=${CHARGER_HOST}' >> .env
-                    echo 'OFFICIAL=${OFFICIAL}' >> .env
+                    echo 'OTP_OFFICIAL=${OTP_OFFICIAL}' >> .env
                     echo 'GBFS_VERSION="${GBFS_VERSION}"' >> .env
                     echo 'GTFS_RT_URL="${GTFS_RT_URL}"' >> .env
                     echo 'GTFS_FEED_ID="${GTFS_FEED_ID}"' >> .env
