@@ -13,6 +13,11 @@ import AppMenu from './components/app/app-menu'
 
 import i18n from './i18n'
 
+
+import { setMapCenter, setMapZoom } from './actions/config'
+
+import mergeDeep from './util/mergeDeep'
+
 import interreg from './images/interreg.png'
 import openmove from './images/openmove.png'
 import merano from './images/merano.png'
@@ -27,12 +32,30 @@ const logos = {
 // Loads a yaml config file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.yml
-const otpConfig = require(YAML_CONFIG);
+let otpConfig = require(YAML_CONFIG);
+const {configByDomain} = otpConfig;
+const {brandByDomain} = otpConfig;
+
+if (configByDomain && (location.hostname in configByDomain)) {
+  const domainConfig = configByDomain[ location.hostname ];
+
+  if( domainConfig.map?.initLat && domainConfig.map?.initLon ) {
+    otpConfig.map.initLat = Number(domainConfig.map.initLat);
+    otpConfig.map.initLon = Number(domainConfig.map.initLon);
+  }
+  if( domainConfig.map?.initZoom ) {
+    otpConfig.map.initZoom = Number(domainConfig.map.initZoom);
+  }
+}
+
+console.log('OTP_CONFIG', otpConfig);
 
 // Loads a JavaScript file which is set in the webpack.config.js file. This
 // setting is defined from a custom environment setting passed into webpack or
 // defaults to ./config.js
 const jsConfig = require(JS_CONFIG).configure(otpConfig);
+
+
 
 window.OM = {
   config: otpConfig
@@ -49,8 +72,6 @@ class JourneyWebapp extends Component {
     const { t } = this.props;
     const {brandByDomain} = otpConfig;
     let {branding, brandNavbar, brandNavbarLogo} = otpConfig;
-
-    //TODO switch by domain location.hostname
 
     let brandLogo = null;
 
@@ -92,7 +113,7 @@ class JourneyWebapp extends Component {
             </main>
           </div>
           <div className='map-container'>
-            <Map />
+            <Map mapConfig={otpConfig.map}/>
           </div>
         </div>
       </div>
@@ -103,7 +124,7 @@ class JourneyWebapp extends Component {
       // <main> is needed for accessibility checks.
       <main>
         <MobileMain
-          map={(<Map />)}
+          map={(<Map mapConfig={otpConfig.map}/>)}
           itineraryClass={LineItinerary}
           itineraryFooter={getItineraryFooter(t)}
           LegIcon={LegIcon}

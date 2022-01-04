@@ -127,7 +127,7 @@ services:
     environment:
       - JAVA_MX=4G
       - BUILD_GRAPH=False
-      - OFFICIAL=False
+      - OTP_OFFICIAL=False
       - GTFS_FILE=latestGTFS.zip
       - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
       - GTFS_URL_UPDATETIME=0 * * * *
@@ -153,7 +153,7 @@ services:
     environment:
       - JAVA_MX=10G
       - BUILD_GRAPH=True
-      - OFFICIAL=False
+      - OTP_OFFICIAL=False
       - DOWNLOAD_DATA=False
       - BACKUP_GRAPH=False
       - GTFS_FILE=latestGTFS.zip

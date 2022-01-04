@@ -38,8 +38,8 @@ brandByDomain:
 configByDomain:
   mobility.bz.it:
     map:
-      initLat: 46.4873
-      initLon: 11.3278
+      initLat: 46.492111111111
+      initLon: 11.333333333333
       initZoom: 15
 
 reportIssue:

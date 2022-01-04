@@ -1,6 +1,6 @@
-FROM node:12.18.2-alpine3.11
+FROM node:14.16.0-alpine3.11
 
-ARG OTP_VERSION=1.4.0
+ARG OTP_VERSION=1.5.2
 ARG GTFS_URL_UPDATETIME="0 2 * * *"
 
 ENV JAVA_MX=4G \
@@ -20,12 +20,12 @@ RUN mkdir -p /usr/local/share/java
 RUN mkdir -p /var/otp
 RUN mkdir -p /conf
 
-#download official version
-#RUN curl -o /usr/local/share/java/otp.jar https://repo1.maven.org/maven2/org/opentripplanner/otp/$OTP_VERSION/otp-$OTP_VERSION-shaded.jar
+# OpenTripPlanner Openmove fork https://github.com/openmove/OpenTripPlanner
 
+#RUN curl -o /usr/local/share/java/otp.jar https://repo1.maven.org/maven2/org/opentripplanner/otp/$OTP_VERSION/otp-$OTP_VERSION-shaded.jar
 #COPY otp-1.5.0-clusters-extended.jar /usr/local/share/java/otp-unofficial.jar
 
-COPY otp-1.5.2-SNAPSHOT-shaded.jar /usr/local/share/java/otp-unofficial.jar
+COPY otp-1.5.2-openmove.jar /usr/local/share/java/otp-unofficial.jar
 
 COPY otp.sh /usr/local/bin/
 COPY otp-unofficial.sh /usr/local/bin/

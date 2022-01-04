@@ -184,6 +184,8 @@ class DefaultMap extends Component {
       t
     } = this.props
 
+
+
     const center = mapConfig && mapConfig.initLat && mapConfig.initLon
       ? [mapConfig.initLat, mapConfig.initLon]
       : null
@@ -260,9 +262,6 @@ class DefaultMap extends Component {
                         minLat: bb._southWest.lat,
                         maxLat: bb._northEast.lat
                       };
-
-                  //console.log('onMoveEnd', bounds);
-
                   storeItem('mapBounds', bounds);
                 }}
               >
