@@ -1,4 +1,3 @@
-#FROM node:14-buster-slim
 FROM node:14.16.0-alpine3.11
 
 ARG API_HOST=http://localhost
