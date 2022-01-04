@@ -1,4 +1,4 @@
-FROM node:12.18.2-alpine3.11
+FROM node:14.16.0-alpine3.11
 
 ARG OTP_VERSION=1.5.2
 ARG GTFS_URL_UPDATETIME="0 2 * * *"
