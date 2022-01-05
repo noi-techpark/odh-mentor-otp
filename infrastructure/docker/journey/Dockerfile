@@ -22,29 +22,17 @@ ENV API_HOST=$API_HOST \
 	CARSHARING_BASEURL=$CARSHARING_BASEURL \
 	GOOGLE_ANALYTICS_ID=$GOOGLE_ANALYTICS_ID
 
-#RUN	apt-get -qq update && \
-#	apt-get -y install nginx && \
 RUN apk add --no-cache \
 	bash \
 	nginx && \
 	mkdir -p /run/nginx && \
 	mkdir -p /var/www/html
-	#rm -f /var/www/html/index.nginx-debian.html
 
 RUN mkdir -p /journey
 
 COPY ./journey /journey
 
 WORKDIR /journey
-
-RUN rm -fr node_modules
-
-RUN npm install
-RUN npm run genconfig
-
-WORKDIR /journey/app
-
-RUN rm -fr node_modules
 
 RUN yarn install
 

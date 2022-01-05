@@ -40,7 +40,7 @@ configByDomain:
     map:
       initLat: 46.492111111111
       initLon: 11.333333333333
-      initZoom: 15
+      initZoom: 14
 
 reportIssue:
   mailto: support@openmove.com
