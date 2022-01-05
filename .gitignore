@@ -1,10 +1,10 @@
 .env
 data
 **node_modules
-journey/app/lib/config.yml
-journey/app/yarn-error.log
-journey/app/node_modules
-journey/app/dist
+journey/src/config.yml
+journey/yarn-error.log
+journey/node_modules
+journey/dist
 journey/node_modules
 journey/.env
 journey/tmp
