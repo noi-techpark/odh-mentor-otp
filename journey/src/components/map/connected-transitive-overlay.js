@@ -1,5 +1,5 @@
 import coreUtils from '../../otp-ui/core-utils'
-import TransitiveCanvasOverlay from '../../otp-ui/transitive-overlay'
+import TransitiveCanvasOverlay from '../../otp-ui/overlay-transitive'
 import { connect } from 'react-redux'
 
 import { getActiveSearch, getActiveItinerary, getActiveItineraries } from '../../util/state'

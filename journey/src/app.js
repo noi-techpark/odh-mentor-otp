@@ -58,7 +58,8 @@ const jsConfig = require(JS_CONFIG).configure(otpConfig);
 
 
 window.OM = {
-  config: otpConfig
+  config: otpConfig,
+  YAML_CONFIG
 };
 
 const {getItineraryFooter, LegIcon, ModeIcon} = jsConfig

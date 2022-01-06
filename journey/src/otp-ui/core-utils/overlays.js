@@ -1,5 +1,5 @@
 
-//TODO move here filter logic in charger-overlay/index.js
+//TODO move here filter logic in overlay-charger/index.js
 //
 //
 //
@@ -33,11 +33,15 @@ const filterOverlayItem = (station, filters) => {
           retValue = intersected(enabledValues, stationValue)
         }
         else {
+console.log('enabledValues',enabledValues)
           if(!enabledValues.includes( stationValue )) { //filter by field
             retValue = false;
           }
         }
       }
+
+      if (retValue===false) break;
+      //senza questo salta l'elaborazione del filtro precedente
     }
   }
 

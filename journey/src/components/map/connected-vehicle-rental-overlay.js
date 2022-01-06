@@ -1,4 +1,4 @@
-import VehicleRentalOverlay from '../../otp-ui/vehicle-rental-overlay'
+import VehicleRentalOverlay from '../../otp-ui/overlay-vehicle-rental'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 

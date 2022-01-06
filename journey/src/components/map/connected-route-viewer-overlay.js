@@ -1,4 +1,4 @@
-import RouteViewerOverlay from '../../otp-ui/route-viewer-overlay'
+import RouteViewerOverlay from '../../otp-ui/overlay-route-viewer'
 import { connect } from 'react-redux'
 
 // connect to the redux store

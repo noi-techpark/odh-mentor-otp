@@ -15,6 +15,7 @@ import {
   setMapPopupLocation,
   setMapPopupLocationAndGeocode
 } from '../../actions/map'
+
 import BoundsUpdatingOverlay from './bounds-updating-overlay'
 import EndpointsOverlay from './connected-endpoints-overlay'
 import ParkAndRideOverlay from './connected-park-and-ride-overlay'
@@ -24,13 +25,15 @@ import StopsOverlay from './connected-stops-overlay'
 import TransitiveOverlay from './connected-transitive-overlay'
 import TripViewerOverlay from './connected-trip-viewer-overlay'
 import VehicleRentalOverlay from './connected-vehicle-rental-overlay'
+//data layers
+import TileOverlay from './overlay-tile'
+import ZipcarOverlay from '../../otp-ui/overlay-zipcar'
+import ParkingOverlay from '../../otp-ui/overlay-parking'
+import DrtOverlay from '../../otp-ui/overlay-drt'
+import ChargerOverlay from '../../otp-ui/overlay-charger'
+
 import ElevationPointMarker from './elevation-point-marker'
 import PointPopup from './point-popup'
-import TileOverlay from './tile-overlay'
-import ZipcarOverlay from '../../otp-ui/zipcar-overlay'
-import ParkingOverlay from '../../otp-ui/parking-overlay'
-import DrtOverlay from '../../otp-ui/drt-overlay'
-import ChargerOverlay from '../../otp-ui/charger-overlay'
 import LocationFilter from "../../otp-ui/location-filter"
 import { storeItem, getItem } from '../../otp-ui/core-utils/storage'
 

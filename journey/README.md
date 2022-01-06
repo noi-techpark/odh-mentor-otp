@@ -30,6 +30,8 @@ API_PORT=8080
 GEOCODER_BASEURL=http://localhost:8088/v1
 ```
 
+after changed some env var restart using ```yarn genconfig && yarn start``` or rebuild journey docker image
+
 ```bash
 yarn install
 ```
