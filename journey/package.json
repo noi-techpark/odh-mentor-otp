@@ -1,6 +1,6 @@
 {
   "name": "openmove-otp-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Openmove deployment of otp-react-redux",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "geni18n": "node geni18n.js $1",
     "cleandeps": "rm -fr node_modules",
     "prebuild": "npm run genconfig",
-    "prestart": "npm run genconfig && yarn",
+    "__prestart": "npm run genconfig && yarn",
+    "prestart": "yarn",
     "build": "webpack --mode=production",
     "start": "webpack-dev-server --hot --mode=development --port 8081 --host 0.0.0.0 --disableHostCheck=true"
   },

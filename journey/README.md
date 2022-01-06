@@ -1,11 +1,11 @@
 
-# openmove otp ui
+# Openmove otp ui
 
 Openmove specific implementation of the [otp-react-redux](https://github.com/opentripplanner/otp-react-redux) library, managed using Yarn and Webpack 4.
 
 original project: https://github.com/ibi-group/trimet-mod-otp
 
-## Setup and Configuration Instructions
+## Development Setup and Configurations
 
 1. Ensure that [Yarn](https://yarnpkg.com/en/) (v1.9+) and [Node.js](https://nodejs.org/en/) (v8.9+) are installed locally.
 
@@ -15,9 +15,9 @@ original project: https://github.com/ibi-group/trimet-mod-otp
 git clone https://github.com/openmove/odh-mentor-otp.git
 ```
 
+optionally you   can run local instance of OpenTripPlanner and other services
 ```bash
 docker-compose up -d otp
-cp _env.example .env
 ```
 
 ### generation of config.yml
@@ -32,7 +32,14 @@ GEOCODER_BASEURL=http://localhost:8088/v1
 
 ```bash
 yarn install
+```
 
+only first time generate src/config.yml from environment vars and base /config.yml file
+```bash
+npm run genconfig
+```
+
+```
 yarn start
 ```
 
@@ -54,16 +61,16 @@ yarn install
 - enabled travel modes, and
 - other settings.
 
-See [`config.yml`](https://github.com/openmove/odh-mentor-otp/blob/master/journey/config.yml) comments for details.
+See [`config.yml`](./config.yml) comments for details.
 
-## Development/Deployment:
+## Development:
 
 ### Running a local test instance
 
 Run the `start` command with Yarn to deploy the application locally for testing. This command uses [webpack-dev-server](https://github.com/webpack/webpack-dev-server) and deploys to `http://localhost:8080`:
 
 ```bash
-cd app
+cd src
 yarn start
 ```
 
@@ -72,7 +79,7 @@ yarn start
 Run the `build` command with Yarn to bundle the application for production deployment. This command uses webpack running in production mode and produces minified/optimized code:
 
 ```bash
-cd app
+cd src
 yarn build
 ```
 
@@ -83,17 +90,3 @@ This will build three files in the `dist/` directory: `index.html`, `bundle.js`,
 Both the `yarn build` and `yarn start` commands are equipped with the ability to override the default `src/index.tpl.html`, `src/style.scss`, and `config.js` (not to mention the `config.yml`). This can be handy for injecting some custom scripts/widgets into the html (in a pinch), overriding the default branding, or configuring pieces of `config.js` like the icons used for modes (e.g., car, bus, or trolley) and the disclaimers shown in the sidebar footer.
 
 To override these files, run the start/build command with any of the options specified with an absolute file path to the file override. For example:
-
-```bash
-# Optionally, copy and modify the default CSS file (making the navbar color pink).
-sed 's/base-color: #084c8d/base-color: pink/' src/style.scss > src/branding.scss
-
-# Kick off dev server with custom items (only specify items you want to override).
-yarn start \
-  # This is the CSS we just created above ^^
-  --env.CUSTOM_CSS=/Users/$USER/git/odh-mentor-otp/src/branding.scss \
-  --env.YAML_CONFIG=/absolute/path/to/config.yml \
-  --env.HTML_FILE=/path/to/index.html \
-  --env.JS_CONFIG=/path/to/my-config.js
-```
-
