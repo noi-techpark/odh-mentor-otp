@@ -1,7 +1,6 @@
-#
-# example of .env file for debugging
+## example of .env file for debugging
 
-# demo online api
+## demo online api
 # API_HOST=https://otp.opendatahub.testingmachine.eu
 # API_PORT=443
 # API_PATH=/otp/routers/openmove
