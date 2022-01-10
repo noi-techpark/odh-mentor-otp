@@ -18,7 +18,7 @@ const TerserPlugin = require('terser-webpack-plugin')
  */
 module.exports = async env => {
   // Gather the CSS, HTML, YAML, and JS override files.
-  const HTML_FILE = env && env.HTML_FILE || 'lib/index.tpl.html'
+  const HTML_FILE = env && env.HTML_FILE || 'src/index.tpl.html'
   const YAML_CONFIG = env && env.YAML_CONFIG || './config.yml'
   // resolve the custom js file. If it is present, copy the file to a
   // temporary folder within this project so that the file will be able to
@@ -27,12 +27,12 @@ module.exports = async env => {
   if (env && env.JS_CONFIG) {
     const splitPath = env.JS_CONFIG.split(path.sep)
     customJsFile = `../tmp/${splitPath[splitPath.length - 1]}`
-    // copy location is relative to root, while js file for app is relative to lib
+    // copy location is relative to root, while js file for app is relative to src
     await fs.copy(env.JS_CONFIG, `./tmp/${splitPath[splitPath.length - 1]}`)
   }
   return {
     entry: [
-      './lib/main.js'
+      './src/main.js'
     ],
     module: {
       rules: [

@@ -1,4 +1,4 @@
-import TripViewerOverlay from '../../otp-ui/trip-viewer-overlay'
+import TripViewerOverlay from '../../otp-ui/overlay-trip-viewer'
 import { connect } from 'react-redux'
 
 // connect to the redux store

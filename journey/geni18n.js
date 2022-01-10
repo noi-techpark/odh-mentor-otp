@@ -9,12 +9,12 @@ usage:
 	cat config.template.yml | VAR1=test node envtmpl.js > config.valued.yml
 */
 
-//const defLang = require('./app/lib/i18n/default');
-//TODO const defLang = require('./app/lib/i18n/default');
+//const defLang = require('./src/i18n/default');
+//TODO const defLang = require('./src/i18n/default');
 
 const fs = require('fs');
 
-const basepath = `${__dirname}/app/lib/i18n/`;
+const basepath = `${__dirname}/src/i18n/`;
 
 //const defaultLang = require(`${__dirname}`)
 

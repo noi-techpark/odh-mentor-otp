@@ -1,4 +1,4 @@
-import ParkAndRideOverlay from '../../otp-ui/park-and-ride-overlay'
+import ParkAndRideOverlay from '../../otp-ui/overlay-park-and-ride'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 

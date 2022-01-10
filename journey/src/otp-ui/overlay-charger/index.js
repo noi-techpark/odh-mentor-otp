@@ -87,6 +87,8 @@ class ChargerOverlay extends MapLayer {
 
     const locationsFiltered = filterOverlay(locations, activeFilters[ overlayChargerConf.type ]);
 
+console.log('FILTERS',locationsFiltered, activeFilters[overlayChargerConf.type])
+
     const markerIcon = station => {
       let badgeType = 'success';
       let badgeCounter = station.capacity || 0;
