@@ -9,7 +9,7 @@ services:
   journey:
     container_name: openmove-journey
     ports:
-      - "80:80"
+      - "8081:80"
     image: openmove_journey:latest
     build:
       context: ./
@@ -34,12 +34,14 @@ services:
         #PARKING_BASEURL: https://parking.otp.opendatahub.testingmachine.eu
         #CHARGER_BASEURL: https://charger.otp.opendatahub.testingmachine.eu
         #CARSHARING_BASEURL: https://carsharing.otp.opendatahub.testingmachine.eu
+        #TRAFFIC_BASEURL: https://traffic.otp.opendatahub.testingmachine.eu
     depends_on:
      - geocoder
      - otp
      - parking
      - charger
      - carsharing
+     - traffic
      - drt
 
   geocoder:
