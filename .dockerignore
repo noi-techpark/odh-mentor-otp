@@ -4,8 +4,8 @@
 **/*.tif
 **/.env
 **/node_modules
-journey/app/dist
-journey/app/lib/config.yml
+journey/dist
+journey/src/config.yml
 journey/.env
 journey/screenshots
 geocoder/.env

@@ -1,0 +1,14 @@
+.otp-ui-parkAndRideOverlay {
+  &__marker {
+    background: #000;
+    color: #fff;
+    font-size: $font-size-base;
+    font-weight: bold;
+    width: 17px;
+    height: 12px;
+    border-radius: 17px;
+    line-height: 0px;
+    padding-left: 7px;
+    padding-top: 12px;
+  }
+}
