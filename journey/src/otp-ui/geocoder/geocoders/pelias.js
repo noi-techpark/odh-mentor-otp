@@ -34,11 +34,24 @@ export default class PeliasGeocoder extends Geocoder {
       // in order to avoid default isomorphic-mapzen-search sources form being
       // applied
       sources: sources || null,
-      url: baseUrl ? `${baseUrl}/autocomplete` : undefined,
+      url: baseUrl ? `${baseUrl}/v1/autocomplete` : undefined,
       ...query
     };
   }
 
+  /**
+   * Default reverse query generator
+   */
+  getReverseQuery(query) {
+    const { apiKey, baseUrl, options } = this.geocoderConfig;
+    return {
+      apiKey,
+      format: true,
+      options,
+      url: baseUrl ? `${baseUrl}/v1/reverse` : undefined,
+      ...query
+    };
+  }
   /**
    * Generate a search query specifically for the Pelias API. The
    * `sources` parameter is a Pelias-specific option.
@@ -65,7 +78,7 @@ export default class PeliasGeocoder extends Geocoder {
       // in order to avoid default isomorphic-mapzen-search sources form being
       // applied
       sources: sources || null,
-      url: baseUrl ? `${baseUrl}/search` : undefined,
+      url: baseUrl ? `${baseUrl}/v1/search` : undefined,
       format: false, // keep as returned GeoJSON,
       ...query
     };

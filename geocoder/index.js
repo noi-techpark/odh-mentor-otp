@@ -26,8 +26,8 @@ const servicesApp = express();
 //
 //TODO add support to param lang un endpoints urls 
 // 
-/*apiApp.use(function (req, res, next) {
-	console.log('MIDDLE:', req.method, req.originalUrl);
+/*apiApp.use((req, res, next) => {
+	console.log('[GEOCODER] request:', req.method, req.originalUrl);
 	next();
 });*/
 
