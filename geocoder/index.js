@@ -58,6 +58,10 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	//console.clear();
 	//console.log('ELASTIC REQUEST', JSON.stringify(req.body, null, 4))
 	
+	//
+	//TODO HERE FILTER REVERSE GEOCODING
+	//
+
 	let musts = _.get(req.body, "query.bool.must");
 	
 	if (!musts || musts.length===0) {

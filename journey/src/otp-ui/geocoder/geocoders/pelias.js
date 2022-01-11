@@ -44,6 +44,9 @@ export default class PeliasGeocoder extends Geocoder {
    */
   getReverseQuery(query) {
     const { apiKey, baseUrl, options } = this.geocoderConfig;
+
+    query.lang = getItem('lang');
+
     return {
       apiKey,
       format: true,
@@ -98,7 +101,7 @@ export default class PeliasGeocoder extends Geocoder {
     return {
       lat,
       lon,
-      name: firstFeature.label,
+      name: firstFeature?.label || `${lat.toFixed(3)}, ${lon.toFixed(3)}`,
       rawGeocodedFeature: firstFeature
     };
   }
