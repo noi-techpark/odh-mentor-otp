@@ -54,4 +54,8 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/drt/Dockerfile
-
+  traffic:
+    image: ${DOCKER_IMAGE_TRAFFIC}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/traffic/Dockerfile
