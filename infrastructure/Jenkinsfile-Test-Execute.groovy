@@ -11,6 +11,7 @@ pipeline {
         DOCKER_IMAGE_PARKING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-parking'
         DOCKER_IMAGE_ECHARGING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-echarging'
         DOCKER_IMAGE_DRT = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-drt'
+        DOCKER_IMAGE_TRAFFIC = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-traffic'
         DOCKER_TAG = "test-execute-$BUILD_NUMBER"
 
         EFS_FOLDER = "/opt/odh-mentor-otp-test/"
@@ -76,6 +77,7 @@ pipeline {
                     echo 'DOCKER_IMAGE_PARKING=${DOCKER_IMAGE_PARKING}' >> .env
                     echo 'DOCKER_IMAGE_DRT=${DOCKER_IMAGE_DRT}' >> .env
                     echo 'DOCKER_IMAGE_ECHARGING=${DOCKER_IMAGE_ECHARGING}' >> .env
+                    echo 'DOCKER_IMAGE_TRAFFIC=${DOCKER_IMAGE_TRAFFIC}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
 
                     echo 'SERVER_PORT_OTP=${SERVER_PORT_OTP}' >> .env
