@@ -31,10 +31,13 @@ import ZipcarOverlay from '../../otp-ui/overlay-zipcar'
 import ParkingOverlay from '../../otp-ui/overlay-parking'
 import DrtOverlay from '../../otp-ui/overlay-drt'
 import ChargerOverlay from '../../otp-ui/overlay-charger'
+import TrafficOverlay from '../../otp-ui/overlay-traffic'
 
+import LocationFilter from '../../otp-ui/location-filter'
 import ElevationPointMarker from './elevation-point-marker'
 import PointPopup from './point-popup'
-import LocationFilter from "../../otp-ui/location-filter"
+
+
 import { storeItem, getItem } from '../../otp-ui/core-utils/storage'
 
 const MapContainer = styled.div`
@@ -355,6 +358,14 @@ class DefaultMap extends Component {
                     )
                     case 'drt': return (
                       <DrtOverlay
+                        key={k}
+                        {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
+                        name={t(overlayConfig.name)}
+                      />
+                    )
+                    case 'traffic': return (
+                      <TrafficOverlay
                         key={k}
                         {...overlayConfig}
                         visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}

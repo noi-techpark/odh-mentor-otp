@@ -1,0 +1,15 @@
+server:
+  port: 8094
+  polling_interval: 10
+
+endpoints:
+  default:
+    hostname: mobility.api.opendatahub.bz.it
+    port: 443
+    #headers:
+    # User-Agent: OpenMove-Traffic-Client
+  stations:
+  #TODO   named LinkStation
+  #path: /v2/flat%2Cnode/TrafficStation/*/latest?distinct=true&limit=-1
+  sensors:
+    path: /v2/flat/TrafficSensor/*/?distinct=true&limit=-1

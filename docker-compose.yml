@@ -9,7 +9,7 @@ services:
   journey:
     container_name: openmove-journey
     ports:
-      - "80:80"
+      - "8081:80"
     image: openmove_journey:latest
     build:
       context: ./
@@ -24,6 +24,7 @@ services:
         DRT_BASEURL: http://localhost:8095
         CHARGER_BASEURL: http://localhost:8093
         CARSHARING_BASEURL: http://localhost:8091
+        TRAFFIC_BASEURL: http://localhost:8094
         GOOGLE_ANALYTICS_ID: 'UA-XXXXX-Y'
         # debug
         #API_HOST: https://otp.opendatahub.testingmachine.eu
@@ -33,12 +34,14 @@ services:
         #PARKING_BASEURL: https://parking.otp.opendatahub.testingmachine.eu
         #CHARGER_BASEURL: https://charger.otp.opendatahub.testingmachine.eu
         #CARSHARING_BASEURL: https://carsharing.otp.opendatahub.testingmachine.eu
+        #TRAFFIC_BASEURL: https://traffic.otp.opendatahub.testingmachine.eu
     depends_on:
      - geocoder
      - otp
      - parking
      - charger
      - carsharing
+     - traffic
      - drt
 
   geocoder:
@@ -106,14 +109,14 @@ services:
         context: ./
         dockerfile: infrastructure/docker/drt/Dockerfile
 
-  # traffic:
-  #   container_name: openmove-traffic
-  #   ports:
-  #     - "8094:8094"
-  #   image: openmove_traffic:latest
-  #   build:
-  #     context: ./
-  #     dockerfile: infrastructure/docker/traffic/Dockerfile
+  traffic:
+    container_name: openmove-traffic
+    ports:
+      - "8094:8094"
+    image: openmove_traffic:latest
+    build:
+      context: ./
+      dockerfile: infrastructure/docker/traffic/Dockerfile
 
   otp:
     container_name: openmove-otp

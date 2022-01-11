@@ -220,6 +220,9 @@ export function getInitialState (userDefinedConfig, initialQuery) {
       },
       drt: {
         locations: []
+      },
+      traffic: {
+        locations: []
       }
     },
     tnc: {
@@ -928,6 +931,17 @@ function createOtpReducer (config, initialQuery) {
         return update(state, {
           overlay: {
             drt: {
+              locations: { $set: action.payload.data },
+              //TODO maybe split stops and vehicles
+              pending: { $set: false }
+            }
+          }
+        })
+
+      case 'TRAFFIC_LOCATIONS_RESPONSE':
+        return update(state, {
+          overlay: {
+            traffic: {
               locations: { $set: action.payload.data },
               //TODO maybe split stops and vehicles
               pending: { $set: false }
