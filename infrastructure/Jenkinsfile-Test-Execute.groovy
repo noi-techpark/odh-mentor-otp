@@ -24,6 +24,7 @@ pipeline {
         DOCKER_PARKING_PORT = "1085"
         DOCKER_DRT_PORT = "1086"
         DOCKER_ECHARGING_PORT = "1087"
+        DOCKER_TRAFFIC_PORT = "1088"
 
         JAVA_MX = "14G"
         BUILD_GRAPH = "False"
@@ -115,6 +116,7 @@ pipeline {
                     echo 'DOCKER_GBFS_PORT=${DOCKER_GBFS_PORT}' >> .env
                     echo 'DOCKER_DRT_PORT=${DOCKER_DRT_PORT}' >> .env
                     echo 'DOCKER_ECHARGING_PORT=${DOCKER_ECHARGING_PORT}' >> .env
+                    echo 'DOCKER_TRAFFIC_PORT=${DOCKER_TRAFFIC_PORT}' >> .env
                     
                     echo 'GTFS_URL="${GTFS_URL}"' >> .env
                     echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env
