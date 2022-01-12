@@ -11,12 +11,17 @@ const wdlevenshtein = require('weighted-damerau-levenshtein');
 
 function textDistance(text, result) {
 	//return _.str.levenshtein(text, hit._source.name.default)
-	return wdlevenshtein(text, result, {})
+
+	/*//https://github.com/mrshu/node-weighted-damerau-levenshtein/blob/master/index.js#L19
+	insWeight : 1;
+	delWeight : 1;
+	subWeight : 1;
+	useDamerau : true;*/
+	return wdlevenshtein(text, result, {insWeight:2, subWeight:0.5})
 }
 //</RANKING>
 
 const ParallelRequest = require('parallel-http-request');
-
 
 process.env.PELIAS_CONFIG='./pelias.json';
 
@@ -150,7 +155,7 @@ servicesApp.get('/testSearch', (req,res) => {
 				rawResult: jsonres.hits.hits.map(hit => {
 					return {
 						name: hit._source.name.default,
-						layer: hit._source.layer,
+						//layer: hit._source.layer,
 						rank: textDistance(req.query.text, hit._source.name.default)
 					}
 				}),
