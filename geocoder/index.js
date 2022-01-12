@@ -4,6 +4,7 @@ const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
+_.str = require("underscore.string");
 
 const ParallelRequest = require('parallel-http-request');
 
@@ -120,7 +121,7 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	}
 });
 
-//DEBUG http://localhost:8087/testSearch?text=roma
+//DEBUG http://localhost:8087/testSearch?text=hotel
 servicesApp.get('/testSearch', (req,res) => {
 	
 	console.log('[GEOCODER] /testSearch',req.query);
@@ -130,7 +131,15 @@ servicesApp.get('/testSearch', (req,res) => {
 	if(!_.isEmpty(req.query.text)) {
 		
 		combineResults(req.query.text, lang, jsonres => {
-			res.json(jsonres);
+			res.json({
+				rawResult: jsonres.hits.hits.map(hit => {
+					return {
+						name: hit._source.name.default,
+						layer: hit._source.layer
+					}
+				}),
+				peliasResult: jsonres
+			});
 		});
 	}
 });
