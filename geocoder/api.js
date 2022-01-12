@@ -25,9 +25,9 @@ module.exports = {
 		});
 
 		let bbox;
-		if(config.endpoints.here.bbox) {
+		if(config.endpoints.here.boundary.rect) {
 			const {maxLat, minLon, minLat, maxLon} = config.endpoints.here.boundary.rect
-				, bbox = `${maxLat},${minLon};${minLat},${maxLon}`;
+			bbox = `${maxLat},${minLon};${minLat},${maxLon}`;
 	/*boundary:
       rect:
         minLon: 10.470121
@@ -40,8 +40,8 @@ module.exports = {
 		//docs AUTOCOMPLETE https://developer.here.com/documentation/geocoder-autocomplete/dev_guide/topics/resource-suggest.html
 		//docs GEOCODER https://developer.here.com/documentation/geocoder/dev_guide/topics/api-reference.html
 		try {
-			console.log('HERE',bbox,mapview)
-			return await heremap.geocode(text, {
+			//console.log('HERE',bbox,mapview)
+			const opts = {
 				//search: text,	//only AUTOCOMPLETE
 				maxresults: Number(config.endpoints.here.size),
 				country: 'ITA',
@@ -49,7 +49,9 @@ module.exports = {
 				language: lang || config.server.default_lang,
 				bbox: bbox,
 				mapview: bbox
-			});
+			};
+			console.log('HERE REQUEST OPTS',opts)
+			return await heremap.geocode(text, opts);
 		}catch(err) {
 			return []
 		}

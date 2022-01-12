@@ -4,11 +4,19 @@ const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
-_.str = require("underscore.string");
 
+//<RANKING>
+_.str = require("underscore.string");
 const wdlevenshtein = require('weighted-damerau-levenshtein');
 
+function textDistance(text, result) {
+	//return _.str.levenshtein(text, hit._source.name.default)
+	return wdlevenshtein(text, result, {})
+}
+//</RANKING>
+
 const ParallelRequest = require('parallel-http-request');
+
 
 process.env.PELIAS_CONFIG='./pelias.json';
 
@@ -143,7 +151,7 @@ servicesApp.get('/testSearch', (req,res) => {
 					return {
 						name: hit._source.name.default,
 						layer: hit._source.layer,
-						rank: wdlevenshtein(req.query.text, hit._source.name.default)
+						rank: textDistance(req.query.text, hit._source.name.default)
 					}
 				}),
 				peliasResult: jsonres
@@ -171,9 +179,7 @@ const serverApi = apiApp.listen( config.server.port, () => {
 
 function orderResult(text, res) {
 	res.hits.hits = _.sortBy(res.hits.hits, hit => {
-		//console.log(hit)
-		//return _.str.levenshtein(text, hit._source.name.default)
-		return wdlevenshtein(text, hit._source.name.default)
+		return textDistance(text, hit._source.name.default)
 	});
 	return res;
 }
