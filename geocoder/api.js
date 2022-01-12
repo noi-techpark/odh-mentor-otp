@@ -50,7 +50,7 @@ module.exports = {
 				bbox: bbox,
 				mapview: bbox
 			};
-			console.log('HERE REQUEST OPTS',opts)
+			//console.log('HERE REQUEST OPTS',opts)
 			return await heremap.geocode(text, opts);
 		}catch(err) {
 			return []
