@@ -24,6 +24,7 @@
     "parallel-http-request": "^1.1.3",
     "pelias-api": "^5.20.0",
     "pelias-parser": "^1.57.0",
-    "underscore.string": "^3.3.5"
+    "underscore.string": "^3.3.5",
+    "weighted-damerau-levenshtein": "^0.1.2"
   }
 }

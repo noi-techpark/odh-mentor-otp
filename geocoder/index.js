@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const _ = require('lodash');
 _.str = require("underscore.string");
 
+const wdlevenshtein = require('weighted-damerau-levenshtein');
+
 const ParallelRequest = require('parallel-http-request');
 
 process.env.PELIAS_CONFIG='./pelias.json';
@@ -47,7 +49,7 @@ servicesApp.get('/here', async(req, res) => {
 	
 	const response = await api.here(req.query.text);
 
-	console.log('HERE api equest', req.query.text, JSON.stringify(response,null,4))
+	console.log('HERE api request', req.query.text, JSON.stringify(response,null,4))
 	//res.json(response);
 	res.json(formatters.here(response));
 })
@@ -115,6 +117,8 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	else {
 		combineResults(text, lang, jsonres => {
 			
+			jsonres = orderResult(text, jsonres)
+
 			res.json(jsonres);
 
 		});
@@ -131,11 +135,15 @@ servicesApp.get('/testSearch', (req,res) => {
 	if(!_.isEmpty(req.query.text)) {
 		
 		combineResults(req.query.text, lang, jsonres => {
+
+			jsonres = orderResult(req.query.text, jsonres)
+
 			res.json({
 				rawResult: jsonres.hits.hits.map(hit => {
 					return {
 						name: hit._source.name.default,
-						layer: hit._source.layer
+						layer: hit._source.layer,
+						rank: wdlevenshtein(req.query.text, hit._source.name.default)
 					}
 				}),
 				peliasResult: jsonres
@@ -160,6 +168,15 @@ const serverApi = apiApp.listen( config.server.port, () => {
 		serverApi.close();
 	});
 });
+
+function orderResult(text, res) {
+	res.hits.hits = _.sortBy(res.hits.hits, hit => {
+		//console.log(hit)
+		//return _.str.levenshtein(text, hit._source.name.default)
+		return wdlevenshtein(text, hit._source.name.default)
+	});
+	return res;
+}
 
 function tmpl(str, data) {
 	const tmplReg = /\{\{([\w_\-]+)\}\}/g
@@ -237,7 +254,7 @@ function combineResults(text, lang, cb) {
 				const hereResponse = await api.here(text, lang);
 				const hereResults = formatters.here(hereResponse);
 
-				console.log(`[GEOCODER] response Endpoint: 'here' results`, _.size(hereResults));
+				console.log(`[GEOCODER] response Endpoint: 'HERE' results`, _.size(hereResults));
 				//console.log(JSON.stringify(_.get(hereResponse,'body.Response.View[0].Result'),null,4));
 
 				//add here first

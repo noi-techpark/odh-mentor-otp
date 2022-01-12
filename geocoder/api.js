@@ -40,6 +40,7 @@ module.exports = {
 		//docs AUTOCOMPLETE https://developer.here.com/documentation/geocoder-autocomplete/dev_guide/topics/resource-suggest.html
 		//docs GEOCODER https://developer.here.com/documentation/geocoder/dev_guide/topics/api-reference.html
 		try {
+			console.log('HERE',bbox,mapview)
 			return await heremap.geocode(text, {
 				//search: text,	//only AUTOCOMPLETE
 				maxresults: Number(config.endpoints.here.size),
