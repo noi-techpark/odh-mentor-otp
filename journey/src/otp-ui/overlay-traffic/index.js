@@ -16,6 +16,8 @@ import { trafficLocationsQuery } from '../../actions/traffic';
 import ReactDOMServer from "react-dom/server";
 import FromToLocationPicker from '../from-to-location-picker'
 
+import { ClassicCar } from "../icons/classic";
+
 import config from '../../config.yml';
 
 //import polyline from "@mapbox/polyline";
@@ -51,17 +53,27 @@ class TrafficOverlay extends MapLayer {
     if (this.props.visible) {
       this._startRefreshing()
     }
+    //this.props.leaflet.map.on('zoomend', this.updatePolylineWeigth);
   }
+
+  componentWillUnmount () {
+    this._stopRefreshing()
+    //this.props.leaflet.map.off('zoomend', this.updatePolylineWeigth);
+  }
+
+/*  updatePolylineWeigth = () => {
+    const z = this.props.leaflet.map.getZoom();
+    console.log('ZOOM',z);
+
+    //TODO change geojson layer weight
+
+  }*/
 
   onOverlayAdded = (e) => {
     this._startRefreshing();
   }
 
   onOverlayRemoved = () => {
-    this._stopRefreshing()
-  }
-
-  componentWillUnmount () {
     this._stopRefreshing()
   }
 
@@ -89,7 +101,7 @@ class TrafficOverlay extends MapLayer {
     const onEachFeature = (feature, layer) => {
       if(feature.properties?.value) {
         let time = Math.round(feature.properties.value/60);
-        const popupContent = ReactDOMServer.renderToString(
+/*        const popupContent = ReactDOMServer.renderToString(
           <div className="otp-ui-mapOverlayPopup">
             <div className="otp-ui-mapOverlayPopup__popupHeader">
               <span bsStyle="link">{t('traffic')}</span>
@@ -97,8 +109,26 @@ class TrafficOverlay extends MapLayer {
             <div className="otp-ui-mapOverlayPopup__popupTitle">{t('traffic_travel_time')}</div>
             <small>{time} min</small>
           </div>
+        );*/
+        const tooltipContent = ReactDOMServer.renderToString(
+          <><ClassicCar height={14} width={14} />{time} min</>
         );
-        layer.bindPopup(popupContent);
+        //layer.bindPopup(popupContent);
+
+        if (feature.properties.level>1) {
+          layer.bindTooltip(tooltipContent, {
+            permanent: true,
+            sticky: true
+          });
+        }
+
+       /* let map = this.props.leaflet.map;
+        layer.on('click', e => {
+
+          if (map.getZoom() < 18 ) {
+            e.target.closePopup();
+          }
+        })*/
       }
     };
 
