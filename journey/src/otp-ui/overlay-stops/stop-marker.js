@@ -92,7 +92,7 @@ class StopMarker extends Component {
     console.log('STOP VIEW', stop);
     setViewedStop({ stopId });
   };
-  
+
   render() {
     const { languageConfig, leafletPath, radius, stop, t, onClick } = this.props;
     let { id, name, lat, lon, stops } = stop;
@@ -107,6 +107,7 @@ class StopMarker extends Component {
     }
 
     //name = `${name} (${id})`
+    //
 
     return (
       <Marker
