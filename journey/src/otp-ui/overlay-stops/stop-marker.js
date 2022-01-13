@@ -73,7 +73,7 @@ class StopMarker extends Component {
   };
 
   setLocation(locationType) {
-    const { setLocation, stop } = this.props;
+    const { stop, setLocation } = this.props;
     const { lat, lon, name } = stop;
     setLocation({ location: { lat, lon, name }, locationType });
   }
@@ -89,9 +89,23 @@ class StopMarker extends Component {
     else if (Array.isArray(stop.stops) && stop.stops.length === 1) {
       stopId = stop.stops[0].id;
     }
-    console.log('STOP VIEW', stop);
+    //console.log('STOP VIEW', stop);
     setViewedStop({ stopId });
   };
+
+  onClickMarker = (e) => {
+    const { stop, leafletPath } = this.props;
+    let { id, name, lat, lon, stops } = stop;
+    //console.log('onClickMarker',e);
+
+    if (Array.isArray(stops) && stops.length>1) {
+      e.target.closePopup();
+
+      const {leaflet, position} = e.target.options;
+
+      leaflet.map.setView(position, Number(overlayStopConf.minZoomStation));
+    }
+  }
 
   render() {
     const { languageConfig, leafletPath, radius, stop, t, onClick } = this.props;
@@ -108,14 +122,13 @@ class StopMarker extends Component {
 
     //name = `${name} (${id})`
     //
-
     return (
       <Marker
         /* eslint-disable-next-line react/jsx-props-no-spreading */
         {...leafletPath}
         position={[lat, lon]}
         icon={stopMarkerIcon(stop)}
-        onClick={onClick}
+        onClick={this.onClickMarker}
       >
       {
         <Popup>
@@ -127,7 +140,7 @@ class StopMarker extends Component {
             <Button bsStyle="link" className="otp-ui-mapOverlayPopup__popupTitle" onClick={this.onClickView}>{name}</Button>
             <br />
             <small>{t('stop_id')}: {stopId}</small>
-            {/*
+            {/* show stop childs
               Array.isArray(stops) && stops.length>1 && stops.map((substop, key) => {
                 return(
                   <Button bsStyle="link">&bull; {substop.id}</Button>
@@ -167,17 +180,7 @@ StopMarker.defaultProps = {
     fillOpacity: 1,
     weight: 1
   },
-  radius: 8,
-/*  onClick: e => {
-    
-    //PATCH
-    //
-    //console.log('click default', e.target)
-    
-    const {leaflet, position} = e.target.options;
-
-    leaflet.map.setView(position, Number(overlayStopConf.minZoomStation));
-  }*/
+  radius: 8
 };
 
 export default withNamespaces()(StopMarker)
