@@ -82,7 +82,7 @@ class TrafficOverlay extends MapLayer {
 
     const getStyle = feature => ({
         weight: 4,
-        opacity: !feature.properties.level ? 0.3 : 1,
+        opacity: !feature.properties.level ? 0.4 : 1,
         color: overlayTrafficConf.levelColors[ feature.properties.level ]
     });
 

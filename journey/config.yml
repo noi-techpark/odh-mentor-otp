@@ -374,7 +374,7 @@ map:
       api: ${TRAFFIC_BASEURL}/traffic/linkstations.json
       pollingInterval: 5000
       levelColors:
-        - '#aac'  #not measured
+        - '#aab'  #not measured
         - '#3d0'  #green
         - '#ed0'  #yellow
         - '#e00'  #red
