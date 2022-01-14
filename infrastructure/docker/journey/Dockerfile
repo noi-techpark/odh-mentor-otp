@@ -1,4 +1,4 @@
-FROM node:12-buster-slim
+FROM node:14.16.0-alpine3.11
 
 ARG API_HOST=http://localhost
 ARG	API_PATH=/otp/routers/default
@@ -22,24 +22,17 @@ ENV API_HOST=$API_HOST \
 	CARSHARING_BASEURL=$CARSHARING_BASEURL \
 	GOOGLE_ANALYTICS_ID=$GOOGLE_ANALYTICS_ID
 
-RUN	apt-get -qq update && \
-	apt-get -y install nginx git && \
-	rm -f /var/www/html/index.nginx-debian.html
+RUN apk add --no-cache \
+	bash \
+	nginx && \
+	mkdir -p /run/nginx && \
+	mkdir -p /var/www/html
 
 RUN mkdir -p /journey
 
 COPY ./journey /journey
 
 WORKDIR /journey
-
-RUN rm -fr node_modules
-
-RUN npm install
-RUN npm run genconfig
-
-WORKDIR /journey/app
-
-RUN rm -fr node_modules
 
 RUN yarn install
 

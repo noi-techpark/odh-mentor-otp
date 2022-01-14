@@ -38,9 +38,9 @@ brandByDomain:
 configByDomain:
   mobility.bz.it:
     map:
-      initLat: 46.4873
-      initLon: 11.3278
-      initZoom: 15
+      initLat: 46.492111111111
+      initLon: 11.333333333333
+      initZoom: 14
 
 reportIssue:
   mailto: support@openmove.com

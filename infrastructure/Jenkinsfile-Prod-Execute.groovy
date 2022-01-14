@@ -45,7 +45,7 @@ pipeline {
         CHARGER_BASEURL = "https://charger.otp.opendatahub.bz.it"
         CARSHARING_BASEURL = "https://carsharing.otp.opendatahub.bz.it"
         GOOGLE_ANALYTICS_ID = "UA-81346533-1"
-        OFFICIAL = "False"
+        OTP_OFFICIAL = "False"
         GBFS_VERSION=1
         CARSHARING_HOST="https://carsharing.otp.opendatahub.bz.it/"
         PARKING_HOST="https://parking.otp.opendatahub.bz.it/"
@@ -104,7 +104,7 @@ pipeline {
                     echo 'GOOGLE_ANALYTICS_ID="${GOOGLE_ANALYTICS_ID}"' >> .env
                     echo 'CARSHARING_BASEURL="${CARSHARING_BASEURL}"' >> .env
                     echo 'DOCKER_GEOCODER_PORT=${DOCKER_GEOCODER_PORT}' >> .env
-                    echo 'OFFICIAL=${OFFICIAL}' >> .env
+                    echo 'OTP_OFFICIAL=${OTP_OFFICIAL}' >> .env
                     echo 'GBFS_VERSION=${GBFS_VERSION}' >> .env
                     echo 'CARSHARING_HOST=${CARSHARING_HOST}' >> .env
                     echo 'PARKING_HOST=${PARKING_HOST}' >> .env
