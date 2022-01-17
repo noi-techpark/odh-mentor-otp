@@ -73,4 +73,8 @@ services:
     restart: unless-stopped
     ports:
       - ${DOCKER_ECHARGING_PORT}:8093
-
+  traffic:
+    image: ${DOCKER_IMAGE_TRAFFIC}:${DOCKER_TAG}
+    restart: unless-stopped
+    ports:
+      - ${DOCKER_TRAFFIC_PORT}:8094

@@ -11,6 +11,7 @@ pipeline {
         DOCKER_IMAGE_PARKING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-parking'
         DOCKER_IMAGE_ECHARGING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-echarging'
         DOCKER_IMAGE_DRT = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-drt'
+        DOCKER_IMAGE_TRAFFIC = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-traffic'
         DOCKER_TAG = "test-execute-$BUILD_NUMBER"
 
         EFS_FOLDER = "/opt/odh-mentor-otp-test/"
@@ -24,6 +25,7 @@ pipeline {
         DOCKER_PARKING_PORT = "1085"
         DOCKER_DRT_PORT = "1086"
         DOCKER_ECHARGING_PORT = "1087"
+        DOCKER_TRAFFIC_PORT = "1088"
 
         JAVA_MX = "14G"
         BUILD_GRAPH = "False"
@@ -75,6 +77,7 @@ pipeline {
                     echo 'DOCKER_IMAGE_PARKING=${DOCKER_IMAGE_PARKING}' >> .env
                     echo 'DOCKER_IMAGE_DRT=${DOCKER_IMAGE_DRT}' >> .env
                     echo 'DOCKER_IMAGE_ECHARGING=${DOCKER_IMAGE_ECHARGING}' >> .env
+                    echo 'DOCKER_IMAGE_TRAFFIC=${DOCKER_IMAGE_TRAFFIC}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
 
                     echo 'SERVER_PORT_OTP=${SERVER_PORT_OTP}' >> .env
@@ -115,6 +118,7 @@ pipeline {
                     echo 'DOCKER_GBFS_PORT=${DOCKER_GBFS_PORT}' >> .env
                     echo 'DOCKER_DRT_PORT=${DOCKER_DRT_PORT}' >> .env
                     echo 'DOCKER_ECHARGING_PORT=${DOCKER_ECHARGING_PORT}' >> .env
+                    echo 'DOCKER_TRAFFIC_PORT=${DOCKER_TRAFFIC_PORT}' >> .env
                     
                     echo 'GTFS_URL="${GTFS_URL}"' >> .env
                     echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env

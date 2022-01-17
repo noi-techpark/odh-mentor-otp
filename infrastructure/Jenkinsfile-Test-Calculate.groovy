@@ -27,6 +27,7 @@ pipeline {
         PARKING_BASEURL = "https://parking.otp.opendatahub.testingmachine.eu"
         DRT_BASEURL = "https://drt.otp.opendatahub.testingmachine.eu"
         CHARGER_BASEURL = "https://charger.otp.opendatahub.testingmachine.eu"
+        TRAFFIC_BASEURL = "https://traffic.otp.opendatahub.testingmachine.eu"
     }
 
     stages {
@@ -61,6 +62,7 @@ pipeline {
                     echo 'PARKING_BASEURL="${PARKING_BASEURL}"' >> .env
                     echo 'DRT_BASEURL="${DRT_BASEURL}"' >> .env
                     echo 'CHARGER_BASEURL="${CHARGER_BASEURL}"' >> .env
+                    echo 'TRAFFIC_BASEURL="${TRAFFIC_BASEURL}"' >> .env
                 """
             }
         }
