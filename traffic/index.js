@@ -181,6 +181,11 @@ app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, re
             }
         }
     }
+
+    linkstations = _.sortBy(linkstations, feature => {
+        return feature.properties.level
+    });
+
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
