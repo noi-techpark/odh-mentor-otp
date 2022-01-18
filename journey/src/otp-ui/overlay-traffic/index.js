@@ -101,34 +101,15 @@ class TrafficOverlay extends MapLayer {
     const onEachFeature = (feature, layer) => {
       if(feature.properties?.value) {
         let time = Math.round(feature.properties.value/60);
-/*        const popupContent = ReactDOMServer.renderToString(
-          <div className="otp-ui-mapOverlayPopup">
-            <div className="otp-ui-mapOverlayPopup__popupHeader">
-              <span bsStyle="link">{t('traffic')}</span>
-            </div>
-            <div className="otp-ui-mapOverlayPopup__popupTitle">{t('traffic_travel_time')}</div>
-            <small>{time} min</small>
-          </div>
-        );*/
-        const tooltipContent = ReactDOMServer.renderToString(
-          <><ClassicCar height={14} width={14} />{time} min</>
-        );
-        //layer.bindPopup(popupContent);
 
         if (feature.properties.level>1) {
-          layer.bindTooltip(tooltipContent, {
-            permanent: true,
-            sticky: true
-          });
+          layer.bindTooltip(ReactDOMServer.renderToString(
+            <span><ClassicCar height={14} width={14} />&nbsp;{time} min</span>
+          ), {
+              permanent: true,
+              sticky: true
+            });
         }
-
-       /* let map = this.props.leaflet.map;
-        layer.on('click', e => {
-
-          if (map.getZoom() < 18 ) {
-            e.target.closePopup();
-          }
-        })*/
       }
     };
 
