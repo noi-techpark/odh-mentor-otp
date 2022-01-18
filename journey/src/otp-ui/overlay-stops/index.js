@@ -85,7 +85,11 @@ class StopsOverlay extends MapLayer {
     }
 
     // Helper to create StopMarker from stop
-    const createStopMarker = stop => <StopMarker key={stop.id} stop={stop} />;
+    const createStopMarker = stop => {
+      return(
+        <StopMarker key={stop.id} stop={stop} />
+      );
+    }
 
     // Singleton case; return FeatureGroup with single StopMarker
     if (stops.length === 1) {

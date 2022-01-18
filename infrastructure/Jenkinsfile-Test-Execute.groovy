@@ -41,7 +41,7 @@ pipeline {
         HERE_APPID=credentials("otp-here-appid-test")
         HERE_APPCODE=credentials("otp-here-appcode-test")
 
-        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu/v1"
+        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.testingmachine.eu"
         PARKING_BASEURL = "https://parking.otp.opendatahub.testingmachine.eu"
         DRT_BASEURL = "https://drt.otp.opendatahub.testingmachine.eu"
         CHARGER_BASEURL = "https://charger.otp.opendatahub.testingmachine.eu"

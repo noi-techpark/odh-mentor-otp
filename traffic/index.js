@@ -4,37 +4,38 @@ const express = require('express')
     , cors = require('cors')
     , config = require('./config');
 
-//https://raw.githubusercontent.com/noi-techpark/it.bz.opendatahub.analytics/master/src/main/webapp/linkstation-config.json
-//
-const linkStationsConfig = require('./linkstation-config.json');
-/* 'terme_est->terme_ovest': [
-    [ '#00ff00', 'Bluetooth Elapsed time (test)', 600, 0, 150 ],
-    [ '#ffff00', 'Bluetooth Elapsed time (test)', 600, 151, 350 ],
-    [ '#ff0000', 'Bluetooth Elapsed time (test)', 600, 351, 999999 ]
+//ORIGINAL DATA:
+//  https://github.com/noi-techpark/it.bz.opendatahub.analytics/blob/master/src/main/webapp/linkstation-config.json
+
+const linkStationsConfig = require('./linkstation-config');
+/*
+  '<linkId>': [
+    [ 600, 0, 150 ],
+    [ 600, 151, 350 ],
+    [ 600, 351, 999999 ]
   ],
-  'terme_ovest->liberta-corse': [
-    [ '#00ff00', 'Bluetooth Elapsed time (test)', 600, 0, 100 ],
-    [ '#ffff00', 'Bluetooth Elapsed time (test)', 600, 101, 200 ],
-    [ '#ff0000', 'Bluetooth Elapsed time (test)', 600, 201, 999999 ]
-  ],
+  ...
 */
 
-function linkStationGetLevel(id, value, period) {
+function linkStationGetLevel(linkId, value, mPeriod) {
     //return level of traffic from 0(not measured) to 3
     //TODO periods is only 600 now
-    const vals = linkStationsConfig[id] || [];
+    const vals = linkStationsConfig[ linkId ] || [];
 
-    for (let level = 0; level<vals.length; level++) {
+    for (let level = 0; level < vals.length; level++) {
 
-        const [color,,,minval,maxval] = vals[ level ];
+        const [period, minval, maxval] = vals[ level ];
 
-        if(value >= minval && value <= maxval ) {
+        if (period != mPeriod) continue;
+        //TODO check if this makes sense
+
+        if (value >= minval && value <= maxval ) {
             return level + 1;
         }
     }
     return 0;
 }
-//
+
 var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -140,10 +141,11 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
 app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, res) {
 //source: https://mobility.api.opendatahub.bz.it/v2/tree/LinkStation/*/latest?limit=-1&distinct=true&select=tmeasurements&where=sactive.eq.true,or(and(tname.eq.%22Bluetooth%20Elapsed%20time%20%5C(test%5C)%22))
 
+    console.log('[TRAFFIC] request /traffic/linkstations.json')
     var linkstations = [];
     const stationsById = {};
 
-    const mPeriod = config.endpoints.stations.measurementsPeriod;
+    const mPeriod = Number(config.endpoints.stations.linkStationPeriod);
     //TODO can be picked from get params
 
     if(stationsReceived) {
@@ -179,6 +181,11 @@ app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, re
             }
         }
     }
+
+    linkstations = _.sortBy(linkstations, feature => {
+        return feature.properties.level
+    });
+
     res.json({
         last_updated: lastUpdate,
         ttl: 0,

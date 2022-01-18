@@ -87,8 +87,6 @@ class ChargerOverlay extends MapLayer {
 
     const locationsFiltered = filterOverlay(locations, activeFilters[ overlayChargerConf.type ]);
 
-console.log('FILTERS',locationsFiltered, activeFilters[overlayChargerConf.type])
-
     const markerIcon = station => {
       let badgeType = 'success';
       let badgeCounter = station.capacity || 0;
@@ -106,7 +104,8 @@ console.log('FILTERS',locationsFiltered, activeFilters[overlayChargerConf.type])
       return divIcon({
         className: "",
         iconSize: [overlayChargerConf.iconWidth, overlayChargerConf.iconHeight],
-        popupAnchor: [0, -overlayChargerConf.iconHeight / 2],
+        iconAnchor: [overlayChargerConf.iconWidth / 2, overlayChargerConf.iconHeight],
+        popupAnchor: [0, -overlayChargerConf.iconHeight],
         html: ReactDOMServer.renderToStaticMarkup(
           <BadgeIcon type={badgeType} width={overlayChargerConf.iconWidth}>
             <MarkerCharger
@@ -121,7 +120,7 @@ console.log('FILTERS',locationsFiltered, activeFilters[overlayChargerConf.type])
     }
 
     const markerClusterIcon = cluster => {
-      const text = cluster.getChildCount();    
+      const text = cluster.getChildCount();
       return L.divIcon({
         className: 'marker-cluster-svg',
         iconSize: [overlayChargerConf.iconWidth, overlayChargerConf.iconHeight],

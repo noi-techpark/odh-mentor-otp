@@ -78,6 +78,6 @@ configYml.endpoints = _.mapValues(configYml.endpoints, econf => {
 
 delete configYml.endpoints.default;
 
-console.log('GEOCODER CONFIG',configYml)
+console.log('GEOCODER CONFIG',JSON.stringify(configYml,null,4))
 
 module.exports = configYml;

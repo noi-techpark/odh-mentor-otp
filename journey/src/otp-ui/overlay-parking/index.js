@@ -125,7 +125,8 @@ class ParkingOverlay extends MapLayer {
       return divIcon({
         className: "",
         iconSize: [iconWidth, iconHeight],
-        popupAnchor: [0, -iconHeight / 2],
+        iconAnchor: [iconWidth/2, iconHeight],
+        popupAnchor: [0, -iconHeight],
         html: ReactDOMServer.renderToStaticMarkup(
           <BadgeIcon type={badgeType} width={iconWidth}>
           { data.type === 'station' && 

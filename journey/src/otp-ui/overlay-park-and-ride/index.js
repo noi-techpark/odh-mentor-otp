@@ -14,6 +14,7 @@ import { withNamespaces } from "react-i18next"
 
 const parkAndRideMarker = divIcon({
   iconSize: [20, 20],
+  iconAnchor: [10, 20],
   popupAnchor: [0, -10],
   html: ReactDOMServer.renderToStaticMarkup(
     <div className="otp-ui-parkAndRideOverlay__marker">P</div>
