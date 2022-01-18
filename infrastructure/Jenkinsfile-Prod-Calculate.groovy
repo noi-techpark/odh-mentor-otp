@@ -23,7 +23,7 @@ pipeline {
         GBFS_VERSION = 1
         GTFS_RT_URL = "https://efa.sta.bz.it/gtfs-r/"
         GTFS_FEED_ID = 1
-        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.bz.it/v1"
+        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.bz.it"
         PARKING_BASEURL = "https://parking.otp.opendatahub.bz.it"
         DRT_BASEURL = "https://drt.otp.opendatahub.bz.it"
         CHARGER_BASEURL = "https://charger.otp.opendatahub.bz.it"
