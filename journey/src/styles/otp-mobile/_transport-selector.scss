@@ -18,19 +18,24 @@
         justify-content: start;
         padding: 12px 6px;
         text-transform: uppercase;                
-        background-color: $brand-primary-light;
         box-shadow: none;
         border: 0;
-        opacity:.1;
+        background-color: $brand-primary-transp;
+        span {
+          color: #fff;
+          font-weight: bold;
+        }
+        svg path {
+          fill: #fff;
+        }
 
         &.active {
             opacity: 1;
             background-color: $brand-primary-dark;
-            color: #fff;
-
-            svg path {
-            fill: currentColor;
+            span {
+              color: #fff;
             }
+
         }  
       }
     }

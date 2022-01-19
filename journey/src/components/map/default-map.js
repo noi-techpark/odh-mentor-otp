@@ -269,6 +269,13 @@ class DefaultMap extends Component {
                       };
                   storeItem('mapBounds', bounds);
                 }}
+                onMoveStart={e => {
+                  const cont = e.target.getContainer();
+                  const ctrLayer = cont.querySelector('.leaflet-control-layers-expanded')
+                  if (ctrLayer) {
+                    ctrLayer.classList.remove("leaflet-control-layers-expanded");
+                  }
+                }}
               >
                 {/* The default overlays */}
                 <BoundsUpdatingOverlay />
