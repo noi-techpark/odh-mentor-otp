@@ -258,7 +258,7 @@ class SettingsSelectorPanel extends Component {
               {/* TODO: Handle different micromobility networks */}
               {selectedModes.some(isMicromobility) &&
                 !selectedModes.some(isTransit) && (
-                  <SubmodeSelector style={{color:'white'}}
+                  <SubmodeSelector
                     label={t("mode")}
                     inline
                     modes={scooterModes}
