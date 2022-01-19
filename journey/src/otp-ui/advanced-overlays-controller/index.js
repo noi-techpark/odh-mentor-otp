@@ -13,6 +13,7 @@ class AdvancedOverlaysController extends Component {
     }
 
     componentDidMount() {
+
         const {
             overlays,
             onFilterRequest
@@ -20,7 +21,7 @@ class AdvancedOverlaysController extends Component {
 
         const $mainContainer = document.querySelector('.leaflet-control-layers-overlays')
 
-/* TODO        const $close = document.createElement('a');
+/*       const $close = document.createElement('a');
         $close.textContent = '×';
         $close.className = 'close-button';
         $mainContainer.appendChild($close);*/

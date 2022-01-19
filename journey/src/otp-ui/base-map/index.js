@@ -149,6 +149,8 @@ class BaseMap extends Component {
     // Find layer index
     const index = baseLayers.findIndex(l => l.name === e.name);
     const layer = baseLayers[index];
+
+
     // Call prop if exists.
     if (typeof onBaseLayerChange === "function") {
       onBaseLayerChange({ index, layer });
@@ -172,6 +174,10 @@ class BaseMap extends Component {
   handleMoveEnd = e => {
     this.forwardAll("onMoveEnd", e);
   };
+
+  handleMoveStart = e => {
+    this.forwardAll("onMoveStart", e);
+  }
 
   registerOverlay = overlay => {
     this.overlays.push(overlay);
@@ -225,6 +231,7 @@ class BaseMap extends Component {
         onOverlayRemove={this.handleOverlayRemoved}
         onViewportChanged={this.handleViewportChanged}
         onMoveEnd={this.handleMoveEnd}
+        onMoveStart={this.handleMoveStart}
         whenReady={onLoad}
       >
         {/* Add the mapbox wordmark if the current base layer's URL appears to
