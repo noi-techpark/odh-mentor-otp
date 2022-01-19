@@ -5,8 +5,13 @@ import { withNamespaces } from "react-i18next"
 import { Button } from "react-bootstrap"
 
 import {
+  hasRental,
+  hasHail,
+  isBicycle,
+  isBicycleRent,
   isMicromobility,
-  isTransit
+  isTransit,
+  isWalk
 } from "../../core-utils/itinerary";
 import {
   configuredCompanyType,
@@ -237,7 +242,9 @@ class SettingsSelectorPanel extends Component {
               )}
 
               {/* The bike trip type selector */}
-              {/* TODO: Handle different bikeshare networks */}
+              {/*
+              //PATCH issue #111
+               TODO: Handle different bikeshare networks }
               {selectedModes.some(isBike) && !selectedModes.some(isTransit) && (
                 <SubmodeSelector
                   label={t("mode")}
@@ -245,13 +252,13 @@ class SettingsSelectorPanel extends Component {
                   modes={bikeModes}
                   onChange={this.handleMainModeChange}
                 />
-              )}
+              )*/}
 
               {/* The micromobility trip type selector */}
               {/* TODO: Handle different micromobility networks */}
               {selectedModes.some(isMicromobility) &&
                 !selectedModes.some(isTransit) && (
-                  <SubmodeSelector
+                  <SubmodeSelector style={{color:'white'}}
                     label={t("mode")}
                     inline
                     modes={scooterModes}

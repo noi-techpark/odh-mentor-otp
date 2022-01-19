@@ -60,6 +60,7 @@
             .btn-group .btn br {
                 display: none;
             }
+
         }
 
         .otp-ui-settingsSelectorPanel,
@@ -70,7 +71,10 @@
 
             .btn-group {
               display: flex;
-    
+
+              a.btn {
+                color: #fff;
+              }
               .btn {
                 float: none;
                 min-width: 90px;
@@ -92,7 +96,7 @@
 
                 &.active {
                   background-color: $brand-primary;
-                  color: #fff;
+
     
                   svg path {
                     fill: currentColor;
