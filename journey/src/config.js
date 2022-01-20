@@ -39,7 +39,7 @@ export function configure (otpConfig) {
             {t('tnc')}
           </a> •{' '}
           <a href='https://openmove.com' target='_blank'>{t('privacy_policy')}</a>
-        </div>
+          </div>
       </div>
       ),
       LegIcon: TriMetLegIcon,

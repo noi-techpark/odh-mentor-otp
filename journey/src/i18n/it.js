@@ -64,7 +64,7 @@ export const TRANSLATIONS_IT = {
   "route_view_details": "Seleziona una linea da mostrare su mappa e vedere più informazioni su questa linea.",
   "trip": "Corsa",
   "stop": "Fermata",
-  "stop_id": "Fermata ID",
+  "stop_id": "ID Fermata",
   "plan_trip": "Pianifica Viaggio",
   "no_plan_trip": "Non puoi pianificare un viaggio",
   "hide_settings": "Nascondi Impostazioni",

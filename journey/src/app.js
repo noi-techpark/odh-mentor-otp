@@ -81,6 +81,9 @@ class JourneyWebapp extends Component {
       brandNavbar = brandByDomain[ location.hostname ]['brandNavbar'];
       brandNavbarLogo = brandByDomain[ location.hostname ]['brandNavbarLogo'];
       brandLogo = logos[ brandNavbarLogo ] || null;
+      setTimeout(()=> {
+        document.title = brandByDomain[ location.hostname ]['title'] || ''
+      });
     }
 
     /** desktop view **/

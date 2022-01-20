@@ -5,6 +5,22 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 
+//<RANKING>
+_.str = require("underscore.string");
+const wdlevenshtein = require('weighted-damerau-levenshtein');
+
+function textDistance(text, result) {
+	//return _.str.levenshtein(text, hit._source.name.default)
+
+	/*//https://github.com/mrshu/node-weighted-damerau-levenshtein/blob/master/index.js#L19
+	insWeight : 1;
+	delWeight : 1;
+	subWeight : 1;
+	useDamerau : true;*/
+	return wdlevenshtein(text, result, {insWeight:2, subWeight:0.5})
+}
+//</RANKING>
+
 const ParallelRequest = require('parallel-http-request');
 
 process.env.PELIAS_CONFIG='./pelias.json';
@@ -26,8 +42,8 @@ const servicesApp = express();
 //
 //TODO add support to param lang un endpoints urls 
 // 
-/*apiApp.use(function (req, res, next) {
-	console.log('MIDDLE:', req.method, req.originalUrl);
+/*apiApp.use((req, res, next) => {
+	console.log('[GEOCODER] request:', req.method, req.originalUrl);
 	next();
 });*/
 
@@ -46,7 +62,7 @@ servicesApp.get('/here', async(req, res) => {
 	
 	const response = await api.here(req.query.text);
 
-	console.log('HERE api equest', req.query.text, JSON.stringify(response,null,4))
+	console.log('HERE api request', req.query.text, JSON.stringify(response,null,4))
 	//res.json(response);
 	res.json(formatters.here(response));
 })
@@ -58,6 +74,10 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	//console.clear();
 	//console.log('ELASTIC REQUEST', JSON.stringify(req.body, null, 4))
 	
+	//
+	//TODO HERE FILTER REVERSE GEOCODING
+	//
+
 	let musts = _.get(req.body, "query.bool.must");
 	
 	if (!musts || musts.length===0) {
@@ -110,13 +130,15 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	else {
 		combineResults(text, lang, jsonres => {
 			
+			jsonres = orderResult(text, jsonres)
+
 			res.json(jsonres);
 
 		});
 	}
 });
 
-//DEBUG http://localhost:8087/testSearch?text=roma
+//DEBUG http://localhost:8087/testSearch?text=hotel
 servicesApp.get('/testSearch', (req,res) => {
 	
 	console.log('[GEOCODER] /testSearch',req.query);
@@ -126,7 +148,19 @@ servicesApp.get('/testSearch', (req,res) => {
 	if(!_.isEmpty(req.query.text)) {
 		
 		combineResults(req.query.text, lang, jsonres => {
-			res.json(jsonres);
+
+			jsonres = orderResult(req.query.text, jsonres)
+
+			res.json({
+				rawResult: jsonres.hits.hits.map(hit => {
+					return {
+						name: hit._source.name.default,
+						//layer: hit._source.layer,
+						rank: textDistance(req.query.text, hit._source.name.default)
+					}
+				}),
+				peliasResult: jsonres
+			});
 		});
 	}
 });
@@ -147,6 +181,13 @@ const serverApi = apiApp.listen( config.server.port, () => {
 		serverApi.close();
 	});
 });
+
+function orderResult(text, res) {
+	res.hits.hits = _.sortBy(res.hits.hits, hit => {
+		return textDistance(text, hit._source.name.default)
+	});
+	return res;
+}
 
 function tmpl(str, data) {
 	const tmplReg = /\{\{([\w_\-]+)\}\}/g
@@ -224,7 +265,7 @@ function combineResults(text, lang, cb) {
 				const hereResponse = await api.here(text, lang);
 				const hereResults = formatters.here(hereResponse);
 
-				console.log(`[GEOCODER] response Endpoint: 'here' results`, _.size(hereResults));
+				console.log(`[GEOCODER] response Endpoint: 'HERE' results`, _.size(hereResults));
 				//console.log(JSON.stringify(_.get(hereResponse,'body.Response.View[0].Result'),null,4));
 
 				//add here first

@@ -76,7 +76,8 @@ const getMarkerCarSharing = memoize(badgeCounter => {
   return divIcon({
     className: "",
     iconSize: [overlayCarSharingConf.iconWidth, overlayCarSharingConf.iconHeight],
-    popupAnchor: [0, -overlayCarSharingConf.iconHeight / 2],
+    iconAnchor: [overlayCarSharingConf.iconWidth/2, overlayCarSharingConf.iconHeight],
+    popupAnchor: [0, -overlayCarSharingConf.iconHeight],
     html: ReactDOMServer.renderToStaticMarkup(
       <BadgeIcon width={overlayCarSharingConf.iconWidth} type={badgeType}>
         <MarkerCarSharing
@@ -99,7 +100,8 @@ const getMarkerBikeSharing = memoize(badgeCounter => {
   return divIcon({
     className: "",
     iconSize: [overlayBikeSharingConf.iconWidth, overlayBikeSharingConf.iconHeight],
-    popupAnchor: [0, -overlayBikeSharingConf.iconHeight / 2],
+    iconAnchor: [overlayBikeSharingConf.iconWidth / 2, overlayBikeSharingConf.iconHeight],
+    popupAnchor: [0, -overlayBikeSharingConf.iconHeight],
     html: ReactDOMServer.renderToStaticMarkup(
       <BadgeIcon width={overlayBikeSharingConf.iconWidth} type={badgeType}>
         <MarkerBikeSharing
@@ -117,7 +119,8 @@ const getStationMarkerByColor = memoize(() =>
   divIcon({
     className: "",
     iconSize: [20, 20],
-    popupAnchor: [0, -10],
+    iconAnchor: [10, 20],
+    popupAnchor: [0, -20],
     html: ReactDOMServer.renderToStaticMarkup(
       <MapMarkerAlt width={20} height={20} />
     )
@@ -355,6 +358,7 @@ class VehicleRentalOverlay extends MapLayer {
       return L.divIcon({
         className: 'marker-cluster-svg',
         iconSize: [overlayCarSharingConf.iconWidth, overlayCarSharingConf.iconHeight],
+        iconAnchor: [overlayCarSharingConf.iconWidth/2, overlayCarSharingConf.iconHeight],
         html: ReactDOMServer.renderToStaticMarkup(
           <MarkerCluster
               text={text}

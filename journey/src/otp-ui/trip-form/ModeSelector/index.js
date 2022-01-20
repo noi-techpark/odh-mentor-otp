@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { withNamespaces } from "react-i18next"
 import { ButtonGroup, Panel } from "react-bootstrap"
 import { modeSelectorOptionsType } from "../../core-utils/types";
-import { hasTransit, isTransit } from "../../core-utils/itinerary";
+import { hasTransit, isTransit, isBicycleRent } from "../../core-utils/itinerary";
 
 import ModeButton from "../ModeButton";
 import OpenMoveModeIcon from "../../icons/openmove-mode-icon"
+
 
 /**
  * ModeSelector is the control container where the OTP user selects
@@ -104,8 +105,9 @@ const ModeSelector = props => {
   return (
     <div className={`otp-ui-modeSelector ${className || ''}`} style={style}>
       <ButtonGroup>
-        {primary && makeButton(primary) } &nbsp; 
-        {/* makeButton({
+        {primary && makeButton(primary) }
+        {/* PATCH hide in mentor
+         makeButton({
             id: 'CAR_RENT',
             selected: false,
             showTitle: 'carsharing',
@@ -113,15 +115,22 @@ const ModeSelector = props => {
             icon: OpenMoveModeIcon({mode:'car_rent', width: 28, height: 28}),
             enabled: false
         }) */}
+
+        &nbsp;
+
         { makeButton({
             id: 'BICYCLE_RENT',
-            selected: false,
+            //PATCH issue #111 selected: false
+            selected: isBicycleRent(currentSelectionId),
             showTitle: 'bikesharing',
             title: t('bikesharing'),
             icon: OpenMoveModeIcon({mode:'bicycle_rent', width: 28, height: 28}),
         }) }
-        &nbsp; 
+
+        &nbsp;
+
         {tertiary && tertiary.map(makeButton)}
+
       </ButtonGroup>
 
       <Panel 

@@ -12,6 +12,11 @@
     svg path:not([fill="#fff"]) {
       fill: $text-color;
     }
+
+    small {
+      font-size: small;
+      opacity: 0.8
+    }
   }
 
   &__popupTitle {
