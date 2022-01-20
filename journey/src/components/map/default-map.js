@@ -20,7 +20,7 @@ import BoundsUpdatingOverlay from './bounds-updating-overlay'
 import EndpointsOverlay from './connected-endpoints-overlay'
 import ParkAndRideOverlay from './connected-park-and-ride-overlay'
 import RouteViewerOverlay from './connected-route-viewer-overlay'
-import StopViewerOverlay from './connected-stop-viewer-overlay'
+//TODO maybe remove import StopViewerOverlay from './connected-stop-viewer-overlay'
 import StopsOverlay from './connected-stops-overlay'
 import TransitiveOverlay from './connected-transitive-overlay'
 import TripViewerOverlay from './connected-trip-viewer-overlay'
@@ -31,10 +31,13 @@ import ZipcarOverlay from '../../otp-ui/overlay-zipcar'
 import ParkingOverlay from '../../otp-ui/overlay-parking'
 import DrtOverlay from '../../otp-ui/overlay-drt'
 import ChargerOverlay from '../../otp-ui/overlay-charger'
+import TrafficOverlay from '../../otp-ui/overlay-traffic'
 
+import LocationFilter from '../../otp-ui/location-filter'
 import ElevationPointMarker from './elevation-point-marker'
 import PointPopup from './point-popup'
-import LocationFilter from "../../otp-ui/location-filter"
+
+
 import { storeItem, getItem } from '../../otp-ui/core-utils/storage'
 
 const MapContainer = styled.div`
@@ -266,17 +269,23 @@ class DefaultMap extends Component {
                       };
                   storeItem('mapBounds', bounds);
                 }}
+                onMoveStart={e => {
+                  const cont = e.target.getContainer();
+                  const ctrLayer = cont.querySelector('.leaflet-control-layers-expanded')
+                  if (ctrLayer) {
+                    ctrLayer.classList.remove("leaflet-control-layers-expanded");
+                  }
+                }}
               >
                 {/* The default overlays */}
                 <BoundsUpdatingOverlay />
+                {/*TODO maybe remove <StopViewerOverlay />*/}
                 <EndpointsOverlay />
                 <RouteViewerOverlay />
-                <StopViewerOverlay />
                 <TransitiveOverlay />
                 <TripViewerOverlay />
                 <ElevationPointMarker />
 
-                {/* The configurable overlays */}
                 {mapConfig.overlays && mapConfig.overlays.map((overlayConfig, k) => {
                   switch (overlayConfig.type) {
                     case 'bike-rental': return (
@@ -361,6 +370,14 @@ class DefaultMap extends Component {
                         name={t(overlayConfig.name)}
                       />
                     )
+                    case 'traffic': return (
+                      <TrafficOverlay
+                        key={k}
+                        {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
+                        name={t(overlayConfig.name)}
+                      />
+                    )
                     case 'charger': return (
                       <ChargerOverlay
                         key={k}
@@ -373,6 +390,7 @@ class DefaultMap extends Component {
                     default: return null
                   }
                 })}
+
               </BaseMap>
             </MapContainer>
         }

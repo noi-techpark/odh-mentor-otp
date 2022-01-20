@@ -20,6 +20,7 @@ const inputFile = process.argv[2];
 const ENV = process.env;
 
 function addHttp(url) {
+	if(!url) return '';
     if (url.indexOf("http://") == 0 || url.indexOf("https://") == 0) {
         return url;
     }
@@ -56,11 +57,17 @@ function tmpl(str, data) {
 
 try {
 
-	ENV.API_HOST = addHttp(ENV.API_HOST);
+	if(ENV.API_HOST) {
 
-    //process.stdout.write( tmpl(fs.readFileSync(inputFile, "utf-8"), ENV) );
+		ENV.API_HOST = addHttp(ENV.API_HOST);
 
-    process.stdout.write( stripComments(tmpl(fs.readFileSync(inputFile, "utf-8"), ENV)) );
+	    //process.stdout.write( tmpl(fs.readFileSync(inputFile, "utf-8"), ENV) );
+
+	    process.stdout.write( stripComments(tmpl(fs.readFileSync(inputFile, "utf-8"), ENV)) );
+	}
+    else {
+    	console.error('Environment Variable API_HOST is required!');
+    }
 
 } catch (e) {
     console.log(e);

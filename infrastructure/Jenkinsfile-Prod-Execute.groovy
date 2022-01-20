@@ -11,6 +11,7 @@ pipeline {
         DOCKER_IMAGE_PARKING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-parking'
         DOCKER_IMAGE_ECHARGING = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-echarging'
         DOCKER_IMAGE_DRT = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-drt'
+        DOCKER_IMAGE_TRAFFIC = '755952719952.dkr.ecr.eu-west-1.amazonaws.com/odh-mentor-otp-execute-traffic'
         DOCKER_TAG = "prod-execute-$BUILD_NUMBER"
 
         EFS_FOLDER = "/opt/odh-mentor-otp-prod/"
@@ -24,6 +25,7 @@ pipeline {
         DOCKER_PARKING_PORT = "1085"
         DOCKER_DRT_PORT = "1086"
         DOCKER_ECHARGING_PORT = "1087"
+        DOCKER_TRAFFIC_PORT = "1088"
 
         JAVA_MX = "16G"
         BUILD_GRAPH = "False"
@@ -39,11 +41,12 @@ pipeline {
         HERE_APPID=credentials("otp-here-appid-prod")
         HERE_APPCODE=credentials("otp-here-appcode-prod")
 
-        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.bz.it/v1"
+        GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.bz.it"
         PARKING_BASEURL = "https://parking.otp.opendatahub.bz.it"
         DRT_BASEURL = "https://drt.otp.opendatahub.bz.it"
         CHARGER_BASEURL = "https://charger.otp.opendatahub.bz.it"
         CARSHARING_BASEURL = "https://carsharing.otp.opendatahub.bz.it"
+        TRAFFIC_BASEURL = "https://traffic.otp.opendatahub.bz.it"
         GOOGLE_ANALYTICS_ID = "UA-81346533-1"
         OTP_OFFICIAL = "False"
         GBFS_VERSION=1
@@ -75,6 +78,7 @@ pipeline {
                     echo 'DOCKER_IMAGE_PARKING=${DOCKER_IMAGE_PARKING}' >> .env
                     echo 'DOCKER_IMAGE_DRT=${DOCKER_IMAGE_DRT}' >> .env
                     echo 'DOCKER_IMAGE_ECHARGING=${DOCKER_IMAGE_ECHARGING}' >> .env
+                    echo 'DOCKER_IMAGE_TRAFFIC=${DOCKER_IMAGE_TRAFFIC}' >> .env
                     echo 'DOCKER_TAG=${DOCKER_TAG}' >> .env
 
                     echo 'SERVER_PORT_OTP=${SERVER_PORT_OTP}' >> .env
@@ -101,6 +105,7 @@ pipeline {
                     echo 'PARKING_BASEURL="${PARKING_BASEURL}"' >> .env
                     echo 'DRT_BASEURL="${DRT_BASEURL}"' >> .env
                     echo 'CHARGER_BASEURL="${CHARGER_BASEURL}"' >> .env
+                    echo 'TRAFFIC_BASEURL="${TRAFFIC_BASEURL}"' >> .env
                     echo 'GOOGLE_ANALYTICS_ID="${GOOGLE_ANALYTICS_ID}"' >> .env
                     echo 'CARSHARING_BASEURL="${CARSHARING_BASEURL}"' >> .env
                     echo 'DOCKER_GEOCODER_PORT=${DOCKER_GEOCODER_PORT}' >> .env
@@ -115,6 +120,7 @@ pipeline {
                     echo 'DOCKER_GBFS_PORT=${DOCKER_GBFS_PORT}' >> .env
                     echo 'DOCKER_DRT_PORT=${DOCKER_DRT_PORT}' >> .env
                     echo 'DOCKER_ECHARGING_PORT=${DOCKER_ECHARGING_PORT}' >> .env
+                    echo 'DOCKER_TRAFFIC_PORT=${DOCKER_TRAFFIC_PORT}' >> .env
                     
                     echo 'GTFS_URL="${GTFS_URL}"' >> .env
                     echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env

@@ -206,6 +206,8 @@ export const TRANSLATIONS_EN = {
   "carsharing_vehicles_models": "Vehicle models",
   "vehicles": "Vehicles",
   "ondemand": "OnDemand",
+  "traffic": "Traffic",
+  "traffic_travel_time": "Travel Time",
   "free_slots": "free slots",
   "free_sockets": "free sockets",
   "socket": "Socket",

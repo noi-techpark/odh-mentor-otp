@@ -1,0 +1,18 @@
+server:
+  port: 8094
+  polling_interval: 20
+
+endpoints:
+  default:
+    hostname: mobility.api.opendatahub.bz.it
+    port: 443
+    #headers:
+    # User-Agent: OpenMove-Traffic-Client
+    #
+  geometries:
+    path: /v2/flat,edge/LinkStation/?limit=-1&distinct=true&select=egeometry,ecode,etype&where=eactive.eq.true
+
+  stations:
+    path: /v2/tree/LinkStation/*/latest?limit=-1&distinct=true&select=tmeasurements&where=sactive.eq.true,or(and(tname.eq.%22Bluetooth%20Elapsed%20time%20%5C(test%5C)%22))
+    linkStationPeriod: 600
+    ##linkStationPeriod: 900

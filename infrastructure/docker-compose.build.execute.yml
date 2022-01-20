@@ -15,6 +15,7 @@ services:
         - DRT_BASEURL=${DRT_BASEURL}
         - CHARGER_BASEURL=${CHARGER_BASEURL}
         - CARSHARING_BASEURL=${CARSHARING_BASEURL}
+        - TRAFFIC_BASEURL=${TRAFFIC_BASEURL}
         - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
   otp:
     image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
@@ -53,4 +54,8 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/drt/Dockerfile
-
+  traffic:
+    image: ${DOCKER_IMAGE_TRAFFIC}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/traffic/Dockerfile

@@ -11,7 +11,7 @@ import {
 import { getCompanyIcon } from "../icons/companies";
 
 export function isBike(mode) {
-  return isBicycle(mode) || isBicycleRent(mode);
+  return isBicycle(mode);//PATCH issue #111 || isBicycleRent(mode);
 }
 
 const supportedExclusiveModes = [

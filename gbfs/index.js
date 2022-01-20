@@ -587,7 +587,10 @@ app.get('/:context/:version/station_status.json', function (req, res) {
                                     }
                                 }
                             }
-                            obj.num_docks_available = dockAvailable;
+                            //obj.num_docks_available = dockAvailable;
+                            obj.num_docks_available = Math.max(0, dockAvailable);
+                            //PATCH issue #109
+
                             obj.num_bikes_available = bikeAvailable;
                             obj.num_docks_disabled = dockDisabled;
                             // obj.vehicle_docks_available = [{

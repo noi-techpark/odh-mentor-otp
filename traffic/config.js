@@ -1,32 +1,31 @@
-
 const path = require('path');
-const url = require('url');
 const fs = require('fs');
 
-const dotenv = require('dotenv');
 const _ = require('lodash');
 const yaml = require('js-yaml');
 
-//TODO use for debug const dotenv = require('dotenv');
-dotenv.config();
+const dotenv = require('dotenv');
 
 const CONFIGFILE = path.join(__dirname, 'config.yml');
 const ENV = process.env;
 
 function tmpl(str, data) {
+	//const tmplReg = /\$\{(.+?)\}/g
 	const tmplReg = /\$\{([\w_\-]+)\}/g
+	//const tmplReg = /\{ *([\w_\-]+) *\}/g
 
 	return str.replace(tmplReg, function (str, key) {
 		var value = data[key];
 		if (value === undefined)
 			value = "${"+key+"}";
 		return value;
-	});	
+	});
 }
+
 
 try {
 	const configFile = fs.readFileSync(CONFIGFILE, 'utf8');
-	
+
 	const configEnv = tmpl(configFile, ENV);
 
 	configYml = yaml.safeLoad(configEnv, {
@@ -41,18 +40,15 @@ catch (e) {
 
 const defaultConfig = {
 	server: {
-		port: 8088,
-		default_lang: 'en',
-		mintextlength: 3
+		port: 8089,
+		polling_interval: 10 //minutes
 	},
 	endpoints: {
 		default: {
-			//hostname: 'localhost',
 			port: 80,
-			size: 10,
 			method: 'GET',
 			headers: {
-				'User-Agent': "OpenMove-Geocoder-Client"
+				'User-Agent': "OpenMove-Traffic-Client"
 			}
 		}
 	}
@@ -60,24 +56,11 @@ const defaultConfig = {
 
 var configYml = _.defaultsDeep(configYml, defaultConfig)
 
-if(process.env.PORT) {
-	configYml.server.port = process.env.PORT;
-}
-
 //normalize defaults
-configYml.endpoints = _.mapValues(configYml.endpoints, econf => {
-	
-	let val = _.defaults(econf, configYml.endpoints.default);
-
-	let u = url.parse(""+val.hostname);
-
-	val.hostname = u.hostname || val.hostname;
-
-	return val;
+configYml.endpoints = _.mapValues(configYml.endpoints, (c)=>{
+	return _.defaults(c, configYml.endpoints.default);
 });
 
 delete configYml.endpoints.default;
-
-console.log('GEOCODER CONFIG',JSON.stringify(configYml,null,4))
 
 module.exports = configYml;

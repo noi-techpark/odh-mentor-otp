@@ -4,11 +4,12 @@ ARG API_HOST=http://localhost
 ARG	API_PATH=/otp/routers/default
 ARG	API_PORT=8080
 ARG FOLDER=/
-ARG GEOCODER_BASEURL=http://localhost/geocoder/v1
+ARG GEOCODER_BASEURL=http://localhost/geocoder
 ARG PARKING_BASEURL=http://localhost/parking
 ARG DRT_BASEURL=http://localhost/drt
 ARG CHARGER_BASEURL=http://localhost/charger
 ARG CARSHARING_BASEURL=http://localhost/carsharing
+ARG TRAFFIC_BASEURL=http://localhost/traffic
 ARG GOOGLE_ANALYTICS_ID=''
 
 ENV API_HOST=$API_HOST \
@@ -20,6 +21,7 @@ ENV API_HOST=$API_HOST \
 	DRT_BASEURL=$DRT_BASEURL \
 	CHARGER_BASEURL=$CHARGER_BASEURL \
 	CARSHARING_BASEURL=$CARSHARING_BASEURL \
+	TRAFFIC_BASEURL=$TRAFFIC_BASEURL \
 	GOOGLE_ANALYTICS_ID=$GOOGLE_ANALYTICS_ID
 
 RUN apk add --no-cache \
