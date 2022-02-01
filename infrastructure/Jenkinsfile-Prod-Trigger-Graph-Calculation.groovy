@@ -16,6 +16,7 @@ pipeline {
         stage('Wait for server to start') {
             steps {
                 sh 'aws ec2 wait instance-running --instance-ids ${INSTANCE_ID}'
+                sh 'sleep 30'
             }
         }
         stage('Start Calc Pipeline') {
