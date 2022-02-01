@@ -67,7 +67,7 @@ setInterval(getData, config.server.polling_interval * 60 * 1000);
 
 function getLinkGeometries() {
     const req = https.request(config.endpoints.geometries, res => {
-            console.log(`TRAFFIC geometries: statusCode: ${res.statusCode}`)
+            console.log(`TRAFFIC getLinkGeometries, response: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
@@ -88,7 +88,7 @@ function getLinkGeometries() {
 
 function getStations() {
     const req = https.request(config.endpoints.stations, res => {
-            console.log(`TRAFFIC stations: statusCode: ${res.statusCode}`)
+            console.log(`TRAFFIC getStations, response: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
