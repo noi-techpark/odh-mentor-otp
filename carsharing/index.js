@@ -38,7 +38,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 }
 
 function getData(){
-    console.log('polling new data...')
+    //console.debug('polling new data...')
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     getCars();
