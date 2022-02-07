@@ -3,7 +3,6 @@ const https = require('https');
 const _ = require('lodash');
 const fs = require('fs');
 const cors = require('cors');
-//const config = require('./config');
 const yaml = require('js-yaml');
 
 const pkg = require('./package.json')
@@ -17,12 +16,12 @@ config.endpoints = _.mapValues(config.endpoints, conf => {
 });
 //delete config.endpoints.default;
 
-var app = express();
-
 var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
+
+var app = express();
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
@@ -169,7 +168,7 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version,
+        version: pkg.version,
         stations: carStations
     });
 });
@@ -200,7 +199,7 @@ app.get('/carsharing/vehicles.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version,
+        version: pkg.version,
         vehicles: carVehicles
     });
 });

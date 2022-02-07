@@ -164,7 +164,7 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: "1.0",
+        version: pkg.version,
         data: {
             stations: chargeStations
        }
@@ -237,5 +237,5 @@ app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
 
 app.listen(config.listen_port, function () {
     console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`service ${pkg.name} v${pkg.version} listening at http://localhost:${config.listen_port}`);
+    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
 });
