@@ -4,8 +4,18 @@ const express = require('express')
 , cors = require('cors')
 , protobuf = require("protobufjs")
 , polyline = require('@mapbox/polyline')
-, {createGtfsFlex} = require('./csv')
-, config = require('./config');
+, {createGtfsFlex} = require('./csv');
+
+const pkg = require('./package.json')
+    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , dotenv = require('dotenv').config()
+    , config = require('@stefcud/configyml');
+
+//normalize endpoints default
+config.endpoints = _.mapValues(config.endpoints, conf => {
+    return _.defaults(conf, config.endpoints.default);
+});
+//delete config.endpoints.default;
 
 var corsOptions = {
   origin: '*',
@@ -16,7 +26,7 @@ var app = express();
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
 
-console.log("Start DRT OpenData Hub...")
+console.log(`Starting ${serviceName}...`);
 
 console.log("Config:\n", config);
 
@@ -188,7 +198,7 @@ app.get('/drt/vehicles.json', cors(corsOptions), async function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: "1.0",
+        version: pkg.version,
         data: {
             vehicles: generateEntitiesVehicle(vehicle)
         }
@@ -202,7 +212,7 @@ app.get('/drt/stops.json', cors(corsOptions), async function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: "1.0",
+        version: pkg.version,
         data: {
             stops: generateEntitiesStop(stops)
         }
@@ -217,7 +227,7 @@ app.get('/drt/itinerary.json', cors(corsOptions), async function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: "1.0",
+        version: pkg.version,
         data: {
             itinerary: generateEntitiesTrip(itineraries)
         }
@@ -233,7 +243,7 @@ app.get('/drt/all.json', cors(corsOptions), async function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: "1.0",
+        version: pkg.version,
         data: {
             vehicles: generateEntitiesVehicle(vehicle),
             stops: generateEntitiesStop(stops),
@@ -242,17 +252,18 @@ app.get('/drt/all.json', cors(corsOptions), async function (req, res) {
     });
 });
 
-
-
 app.get('/drt/flex', cors(corsOptions), async function (req, res) {
 
     const {'data': stops} = await getDataStop();
 
     const mStops = generateEntitiesStop(stops);
     const buffer = await createGtfsFlex(mStops);
+
+    const filename = `${config.gtfsflex_filename}`.replace('%T',new Date().getTime())
+
     res.writeHead(200, {
         'Content-Type': 'application/zip',
-        'Content-disposition': `attachment; filename=${config.server.filename}-${new Date().getTime()}.zip`
+        'Content-disposition': `attachment; filename=${filename}`
     });
     res.write(buffer);
     res.end();
@@ -270,7 +281,7 @@ app.get('/drt/vehicles.proto', cors(corsOptions), async function (req, res) {
     res.end();
 });
 
-app.listen(config.server.port, function () {
+app.listen(config.listen_port, function () {
     console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`listening at http://localhost:${config.server.port}`);
+    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
 });

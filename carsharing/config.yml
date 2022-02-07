@@ -17,7 +17,7 @@ endpoints:
     port: 443
     #path: /v2
     headers:
-     User-Agent: OpenMove-Carsharing-Client
+      User-Agent: OpenMove-Carsharing-Client
 
   stations:
     path: /v2/flat%2Cnode/CarsharingStation?distinct=true&limit=500
@@ -26,6 +26,6 @@ endpoints:
 
 uri:
     meran:
-        web: https://www.comune.merano.bz.it
+      web: https://www.comune.merano.bz.it
     bozen:
-        web: https://bolzano.ecospazio.it
+      web: https://bolzano.ecospazio.it

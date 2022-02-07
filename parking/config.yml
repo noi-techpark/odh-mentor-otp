@@ -3,9 +3,9 @@ environments:
   #default environment if NODE_ENV is not defined
 
 prod:
-  listen_port: 8093
+  listen_port: 8092
 dev:
-  listen_port: 9093
+  listen_port: 9092
   polling_interval: 2
 
 polling_interval: 120
