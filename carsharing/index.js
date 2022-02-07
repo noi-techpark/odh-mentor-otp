@@ -3,8 +3,19 @@ const https = require('https');
 const _ = require('lodash');
 const fs = require('fs');
 const cors = require('cors');
-const config = require('./config');
+//const config = require('./config');
 const yaml = require('js-yaml');
+
+const {version} = require('./package.json');
+
+const dotenv = require('dotenv').config()
+    , config = require('@stefcud/configyml');
+
+//normalize endpoints default
+config.endpoints = _.mapValues(config.endpoints, conf => {
+    return _.defaults(conf, config.endpoints.default);
+});
+//delete config.endpoints.default;
 
 var app = express();
 
@@ -27,12 +38,13 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 }
 
 function getData(){
+    console.log('polling new data...')
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     getCars();
 }
 getData();
-setInterval(getData, config.server.polling_interval * 1000);
+setInterval(getData, config.polling_interval * 1000);
 
 function getStations(){
     const req = https.request(config.endpoints.stations, res => {
@@ -157,7 +169,7 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: "1.0",
+        version,
         stations: carStations
     });
 });
@@ -188,7 +200,7 @@ app.get('/carsharing/vehicles.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: "1.0",
+        version,
         vehicles: carVehicles
     });
 });
@@ -265,7 +277,7 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
 });
 
 
-app.listen(config.server.port, function () {
+app.listen(config.listen_port, function () {
     console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`listening at http://localhost:${config.server.port}`);
+    console.log(`listening at http://localhost:${config.listen_port}`);
 });

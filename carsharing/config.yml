@@ -1,14 +1,21 @@
-server:
-  port: 8091
-  polling_interval: 100
+environments:
+  default: prod
+  #default environment if NODE_ENV is not defined
+prod:
+  listen_port: 8091
+
+#polling_interval: 100
+polling_interval: 3
 
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
+    method: GET
     port: 443
     #path: /v2
-    #headers:
-    # User-Agent: OpenMove-Bikesharing-Client
+    headers:
+     User-Agent: OpenMove-Bikesharing-Client
+
   stations:
     path: /v2/flat%2Cnode/CarsharingStation?distinct=true&limit=500
   cars:
@@ -17,4 +24,4 @@ uri:
     meran:
         web: https://www.comune.merano.bz.it
     bozen:
-        web: https://bolzano.ecospazio.it/
+        web: https://bolzano.ecospazio.it
