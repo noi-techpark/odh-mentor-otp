@@ -1,6 +1,6 @@
 {
   "name": "openmove-otp-ui",
-  "version": "0.2.0",
+  "version": "2.0.0",
   "description": "Openmove deployment of otp-react-redux",
   "main": "index.js",
   "scripts": {

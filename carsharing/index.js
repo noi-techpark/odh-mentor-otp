@@ -6,9 +6,9 @@ const cors = require('cors');
 //const config = require('./config');
 const yaml = require('js-yaml');
 
-const {version} = require('./package.json');
-
-const dotenv = require('dotenv').config()
+const pkg = require('./package.json')
+    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , dotenv = require('dotenv').config()
     , config = require('@stefcud/configyml');
 
 //normalize endpoints default
@@ -28,7 +28,7 @@ var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
     carReceived;
 
-console.log("Start Carsharing OpenData Hub...")
+console.log(`Starting ${serviceName}...`);
 
 console.log("Config:\n", config);
 
@@ -279,5 +279,5 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
 
 app.listen(config.listen_port, function () {
     console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`listening at http://localhost:${config.listen_port}`);
+    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
 });

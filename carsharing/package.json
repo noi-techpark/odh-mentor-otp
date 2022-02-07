@@ -1,14 +1,14 @@
 {
   "name": "openmove-carsharing",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon -e js,yml ./index.js"
   },
-  "author": "Federico Bertolini <federico.bertolini@openmove.com>",
-  "license": "ISC",
+  "author": "OpenMove <info@openmove.com>",
+  "license": "MIT",
   "dependencies": {
     "@stefcud/configyml": "^0.0.3",
     "dotenv": "^16.0.0",

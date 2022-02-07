@@ -2,8 +2,18 @@ const express = require('express');
 const https = require('https');
 const _ = require('lodash');
 const cors = require('cors')
-const config = require('./config');
 const yaml = require('js-yaml');
+
+const pkg = require('./package.json')
+    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , dotenv = require('dotenv').config()
+    , config = require('@stefcud/configyml');
+
+//normalize endpoints default
+config.endpoints = _.mapValues(config.endpoints, conf => {
+    return _.defaults(conf, config.endpoints.default);
+});
+//delete config.endpoints.default;
 
 var corsOptions = {
   origin: '*',
@@ -16,7 +26,7 @@ var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
     plugsReceived;
 
-console.log("Start Charger OpenData Hub...")
+console.log(`Starting ${serviceName}...`);
 
 console.log("Config:\n", config);
 
@@ -31,7 +41,7 @@ function getData(){
     getPlugs();
 }
 getData();
-setInterval(getData, config.server.polling_interval * 60 * 1000);
+setInterval(getData, config.polling_interval * 1000);
 
 function getStations(){
     const req = https.request(config.endpoints.stations, res => {
@@ -225,7 +235,7 @@ app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
     res.end(ymlText);
 });
 
-app.listen(config.server.port, function () {
+app.listen(config.listen_port, function () {
     console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`listening at http://localhost:${config.server.port}`);
+    console.log(`service ${pkg.name} v${pkg.version} listening at http://localhost:${config.listen_port}`);
 });
