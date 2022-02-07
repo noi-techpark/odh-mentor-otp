@@ -17,7 +17,7 @@ endpoints:
     port: 443
     #path: /v2
     headers:
-     User-Agent: OpenMove-Bikesharing-Client
+     User-Agent: OpenMove-Carsharing-Client
 
   stations:
     path: /v2/flat%2Cnode/CarsharingStation?distinct=true&limit=500

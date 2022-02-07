@@ -7,8 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon -e js,yml ./index.js"
   },
-  "author": "Federico Bertolini <federico.bertolini@openmove.com>",
-  "license": "ISC",
+  "author": "OpenMove <info@openmove.com>",
+  "license": "MIT",
   "dependencies": {
     "@mapbox/polyline": "^1.1.1",
     "axios": "^0.22.0",

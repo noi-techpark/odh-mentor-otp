@@ -7,14 +7,15 @@
     "start": "node index.js",
     "dev": "nodemon -e js,yml ./index.js"
   },
-  "author": "Stefano Cudini <stefano.cudini@gmail.com>",
-  "license": "ISC",
+  "author": "OpenMove <info@openmove.com>",
+  "license": "MIT",
   "dependencies": {
+    "@stefcud/configyml": "^0.0.3",
+    "dotenv": "^16.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
     "express": "^4.17.1",
-    "https": "^1.0.0",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20"
   }
