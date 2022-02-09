@@ -2,7 +2,22 @@ const express = require('express');
 const https = require('https');
 const _ = require('lodash');
 const csv2json = require('csvtojson');
-const config = require('./config');
+
+const pkg = require('./package.json')
+    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , dotenv = require('dotenv').config()
+    , config = require('@stefcud/configyml');
+
+//normalize endpoints default
+config.endpoints = _.mapValues(config.endpoints, conf => {
+    return _.defaults(conf, config.endpoints.default);
+});
+//delete config.endpoints.default;
+
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 var app = express();
 
@@ -11,11 +26,13 @@ var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     baysReceived,
     bikesReceived;
 
-console.log("Start GBFS OpenData Hub...")
+console.log(`Starting ${serviceName}...`);
 
 console.log("Config:\n", config);
 
 const GBFS_VERSION = "2.1";
+//TODO move to fonfig
+
 let meranStations = [];
 
 csv2json()
@@ -29,16 +46,16 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
     return;
 }
 
-function getData(){
+function getData() {
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     getBays();
     getBikes();
 }
 getData();
-setInterval(getData, config.server.polling_interval * 1000);
+setInterval(getData, config.polling_interval * 1000);
 
-function getStations(){
+function getStations() {
     const req = https.request(config.endpoints.stations, res => {
             //console.log(`STATIONS: statusCode: ${res.statusCode}`)
             var str = "";
@@ -60,7 +77,7 @@ function getStations(){
     req.end()
 }
 
-function getBikes(){
+function getBikes() {
     const req = https.request(config.endpoints.bikes, res => {
             //console.log(`BIKES: statusCode: ${res.statusCode}`)
             var str = "";
@@ -82,7 +99,7 @@ function getBikes(){
     req.end()
 }
 
-function getBays(){
+function getBays() {
     const req = https.request(config.endpoints.bays, res => {
             //console.log(`BAYS: statusCode: ${res.statusCode}`)
             var str = "";
@@ -214,8 +231,7 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
         protocol = "https";
     }
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: version >= 2.1 ? ""+version : undefined,
@@ -251,8 +267,7 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
         res.status(500).send({ error: "wrong context" });
         return;
     }
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: version >= 2.1 ? ""+version : undefined,
@@ -292,8 +307,7 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
         res.status(500).send({ error: "wrong context" });
         return;
     }
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: version >= 2.1 ? ""+version : undefined,
@@ -508,8 +522,7 @@ app.get('/:context/:version/station_information.json', function (req, res) {
 
 
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: version >= 2.1 ? ""+version : undefined,
@@ -655,8 +668,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         }
     }
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: version >= 2.1 ? ""+version : undefined,
@@ -704,8 +716,7 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
         }
     }
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: version >= 2.1 ? ""+version : undefined,
@@ -742,8 +753,7 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
         });
     }
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version: version >= 2.1 ? ""+version : undefined,
@@ -753,8 +763,7 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
     });
 });
 
-app.listen(config.server.port, function () {
+app.listen(config.listen_port, function () {
     console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`listening at http://localhost:${config.server.port}`);
+    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
 });
-
