@@ -140,7 +140,7 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
 app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, res) {
 //source: https://mobility.api.opendatahub.bz.it/v2/tree/LinkStation/*/latest?limit=-1&distinct=true&select=tmeasurements&where=sactive.eq.true,or(and(tname.eq.%22Bluetooth%20Elapsed%20time%20%5C(test%5C)%22))
 
-    console.log('[TRAFFIC] request /traffic/linkstations.json')
+    console.log('[traffic] request /traffic/linkstations.json')
     var linkstations = [];
     const stationsById = {};
 

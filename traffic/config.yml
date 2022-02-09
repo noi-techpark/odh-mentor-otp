@@ -8,7 +8,7 @@ dev:
   listen_port: 9094
   polling_interval: 2
 
-polling_interval: 20
+polling_interval: 60
 
 endpoints:
   default:
