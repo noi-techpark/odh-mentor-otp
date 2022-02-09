@@ -40,9 +40,9 @@ COPY router-config.json /conf/
 COPY envconfig.js /conf/
 
 COPY ./gtfs2bbox /gtfs2bbox
-COPY ./gtfs-import /gtfs-import
+COPY ./gtfs-import-task /gtfs-import-task
 
-RUN chmod 755 /gtfs-import/gtfs-download.sh
+RUN chmod 755 /gtfs-import-task/gtfs-download.sh
 
 RUN cd /gtfs2bbox && \
 	npm install
