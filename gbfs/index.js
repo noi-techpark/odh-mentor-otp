@@ -357,7 +357,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     if(context === "bz"){
         systemId += "_bz";
         systemName += " Bolzano";
-        if(config.uri && config.uri.bozen){
+        if(config.uri && config.uri.bozen) {
             androidUri = config.uri.bozen.android;
             iosUri = config.uri.bozen.ios;
     	    url = config.uri.bozen.web;
@@ -377,7 +377,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     if(context === "papin"){
         systemId += "_papin";
         systemName += " Papin";
-        if(config.uri && config.uri.papin){
+        if(config.uri && config.uri.papin) {
             androidUri = config.uri.papin.android;
             iosUri = config.uri.papin.ios;
             url = config.uri.papin.web;

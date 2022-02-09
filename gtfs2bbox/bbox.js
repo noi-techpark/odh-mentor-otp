@@ -11,7 +11,7 @@ var points = [];
 var pp = [];
 
 const prec = 6;
-const bufferInKm = parseInt(process.argv[3]) || 10;	//TODO as external param
+const bufferInKm = +(process.argv[3]) || 10;	//TODO as external param
 
 function bboxFlip(bb) {
 	return [bb[1],bb[0], bb[3],bb[2]];
