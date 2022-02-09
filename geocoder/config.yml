@@ -5,7 +5,7 @@ environments:
 prod:
   listen_port: 8088
 dev:
-  listen_port: 8088
+  listen_port: 9088
   min_text_length: 1
 
 pelias_listen_port: 8087

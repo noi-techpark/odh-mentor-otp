@@ -14,7 +14,7 @@ const pkg = require('./package.json')
 config.endpoints = _.mapValues(config.endpoints, conf => {
     return _.defaults(conf, config.endpoints.default);
 });
-//delete config.endpoints.default;
+delete config.endpoints.default;
 
 var corsOptions = {
     origin: '*',

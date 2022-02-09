@@ -20,7 +20,7 @@ const pkg = require('./package.json')
 config.endpoints = _.mapValues(config.endpoints, conf => {
     return _.defaults(conf, config.endpoints.default);
 });
-//delete config.endpoints.default;
+delete config.endpoints.default;
 
 var corsOptions = {
   origin: '*',
@@ -257,9 +257,9 @@ function combineResults(text, lang, cb) {
 			
 			if(_.isFunction(formatters[ req.id ])) {
 
-				let response = resp[i++].body;
-				
-				let eRes = formatters[ req.id ]( response, lang );
+				let response = resp[i++];
+
+				let eRes = formatters[ req.id ]( response.body, lang );
 			
 				console.log(`[geocoder] response Endpoint: '${req.id}' results`, _.size(eRes));
 
