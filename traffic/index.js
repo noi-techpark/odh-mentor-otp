@@ -2,22 +2,50 @@ const express = require('express')
     , https = require('https')
     , _ = require('lodash')
     , cors = require('cors')
-    , config = require('./config');
+    , linkStationsConfig = require('./linkstation-config');
 
-//ORIGINAL DATA:
-//  https://github.com/noi-techpark/it.bz.opendatahub.analytics/blob/master/src/main/webapp/linkstation-config.json
+const pkg = require('./package.json')
+    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , dotenv = require('dotenv').config()
+    , config = require('@stefcud/configyml');
 
-const linkStationsConfig = require('./linkstation-config');
-/*
-  '<linkId>': [
-    [ 600, 0, 150 ],
-    [ 600, 151, 350 ],
-    [ 600, 351, 999999 ]
-  ],
-  ...
-*/
+//normalize endpoints default
+config.endpoints = _.mapValues(config.endpoints, conf => {
+    return _.defaults(conf, config.endpoints.default);
+});
+//delete config.endpoints.default;
 
-function linkStationGetLevel(linkId, value, mPeriod) {
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+var app = express();
+
+var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
+    linkStationsReceived,
+    stationsReceived;
+
+console.log(`Starting ${serviceName}...`);
+
+console.log("Config:\n", config);
+
+if(!config.endpoints || _.isEmpty(config.endpoints)) {
+    console.error('Config endpoints not defined!');
+    return;
+}
+
+function getData() {
+    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    //TODO pass filter by bounding box
+    getLinkGeometries();
+    getStations();
+}
+getData();
+setInterval(getData, config.polling_interval * 1000);
+
+
+function getLinkStationLevel(linkId, value, mPeriod) {
     //return level of traffic from 0(not measured) to 3
     //TODO periods is only 600 now
     const vals = linkStationsConfig[ linkId ] || [];
@@ -35,35 +63,6 @@ function linkStationGetLevel(linkId, value, mPeriod) {
     }
     return 0;
 }
-
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
-
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
-    linkStationsReceived,
-    stationsReceived;
-
-console.log("Start Traffic OpenData Hub...")
-
-console.log("Config:\n", config);
-
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
-function getData() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
-    //TODO pass filter by bounding box
-    getLinkGeometries();
-    getStations();
-}
-getData();
-setInterval(getData, config.server.polling_interval * 60 * 1000);
 
 function getLinkGeometries() {
     const req = https.request(config.endpoints.geometries, res => {
@@ -175,7 +174,7 @@ app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, re
                     properties: {
                         period: mPeriod,
                         value,
-                        level: linkStationGetLevel(link.ecode, value, mPeriod)
+                        level: getLinkStationLevel(link.ecode, value, mPeriod)
                     }
                 });
             }
@@ -196,7 +195,7 @@ app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, re
     });
 });
 
-app.listen(config.server.port, function () {
+app.listen(config.listen_port, function () {
     console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`listening at http://localhost:${config.server.port}`);
+    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
 });

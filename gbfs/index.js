@@ -36,7 +36,7 @@ function getData(){
     getBikes();
 }
 getData();
-setInterval(getData, config.server.polling_interval * 60 * 1000);
+setInterval(getData, config.server.polling_interval * 1000);
 
 function getStations(){
     const req = https.request(config.endpoints.stations, res => {
