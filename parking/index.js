@@ -5,7 +5,8 @@ const cors = require('cors');
 const circleToPolygon = require('./circle-polygon');
 
 const pkg = require('./package.json')
-    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , version = pkg.version
+    , serviceName = `service ${pkg.name} v${version}`
     , dotenv = require('dotenv').config()
     , config = require('@stefcud/configyml');
 
@@ -110,7 +111,7 @@ app.get('/parking/stations.json', cors(corsOptions),  function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         data: {
             stations: parkingStations
        }
@@ -165,7 +166,7 @@ app.get('/parking/sensors.json', cors(corsOptions), function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         data: {
             sensors: parkingSensors
        }
@@ -250,7 +251,7 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         data: {
             stations: _.concat(
                 parkingStationsAll,
@@ -259,6 +260,13 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
             )
        }
     });
+});
+
+app.get(['/','/parking'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
 });
 
 app.listen(config.listen_port, function () {

@@ -7,7 +7,8 @@ const express = require('express')
 , {createGtfsFlex} = require('./csv');
 
 const pkg = require('./package.json')
-    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , version = pkg.version
+    , serviceName = `service ${pkg.name} v${version}`
     , dotenv = require('dotenv').config()
     , config = require('@stefcud/configyml');
 
@@ -198,7 +199,7 @@ app.get('/drt/vehicles.json', cors(corsOptions), async function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         data: {
             vehicles: generateEntitiesVehicle(vehicle)
         }
@@ -212,7 +213,7 @@ app.get('/drt/stops.json', cors(corsOptions), async function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         data: {
             stops: generateEntitiesStop(stops)
         }
@@ -227,7 +228,7 @@ app.get('/drt/itinerary.json', cors(corsOptions), async function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         data: {
             itinerary: generateEntitiesTrip(itineraries)
         }
@@ -243,7 +244,7 @@ app.get('/drt/all.json', cors(corsOptions), async function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         data: {
             vehicles: generateEntitiesVehicle(vehicle),
             stops: generateEntitiesStop(stops),
@@ -279,6 +280,13 @@ app.get('/drt/vehicles.proto', cors(corsOptions), async function (req, res) {
     res.writeHead(200, {'Content-Type': 'application/protobuf'});
     res.write(buffer);
     res.end();
+});
+
+app.get(['/','/drt'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
 });
 
 app.listen(config.listen_port, function () {

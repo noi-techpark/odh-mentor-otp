@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon -e js,yml ./index.js"
+    "dev": "NODE_ENV=dev nodemon -e js,yml ./index.js"
   },
   "author": "OpenMove <info@openmove.com>",
   "license": "MIT",

@@ -6,7 +6,8 @@ const cors = require('cors');
 const yaml = require('js-yaml');
 
 const pkg = require('./package.json')
-    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , version = pkg.version
+    , serviceName = `service ${pkg.name} v${version}`
     , dotenv = require('dotenv').config()
     , config = require('@stefcud/configyml');
 
@@ -168,7 +169,7 @@ app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         stations: carStations
     });
 });
@@ -199,7 +200,7 @@ app.get('/carsharing/vehicles.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         vehicles: carVehicles
     });
 });
@@ -275,6 +276,12 @@ app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
     res.end(ymlText);
 });
 
+app.get(['/','/carsharing'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
+});
 
 app.listen(config.listen_port, function () {
     console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );

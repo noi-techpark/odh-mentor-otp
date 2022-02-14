@@ -6,5 +6,4 @@ COPY drt/ ./
 
 RUN npm install
 
-EXPOSE 8095
 CMD ["node", "index.js"]

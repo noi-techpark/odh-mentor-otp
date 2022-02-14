@@ -6,5 +6,4 @@ COPY carsharing/ ./
 
 RUN npm install
 
-EXPOSE 8091
 CMD ["node", "index.js"]

@@ -12,7 +12,8 @@ const apiApp = require('pelias-api/app');
 const AddressParser = require('pelias-parser/parser/AddressParser');
 
 const pkg = require('./package.json')
-    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , version = pkg.version
+    , serviceName = `service ${pkg.name} v${version}`
     , dotenv = require('dotenv').config()
     , config = require('@stefcud/configyml');
 
@@ -182,9 +183,17 @@ const serverParser = servicesApp.listen(config.pelias_listen_port, () => {
 	});
 });
 
+//TODO
+/*apiApp.get(['/',/geocoder'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
+});*/
+
 const serverApi = apiApp.listen( config.listen_port, () => {
     console.log( apiApp._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-	console.log(`[geocoder] listening on ${config.listen_port}`)
+    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
 	process.on('SIGTERM', () => {
 		console.error('[geocoder] closing...')
 		serverApi.close();

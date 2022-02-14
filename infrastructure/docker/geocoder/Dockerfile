@@ -6,5 +6,4 @@ COPY geocoder/ ./
 
 RUN npm install
 
-EXPOSE 8088
 CMD ["node", "index.js"]

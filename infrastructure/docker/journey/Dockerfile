@@ -42,6 +42,5 @@ RUN	yarn build && mv dist/* /var/www/html/
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 
-EXPOSE 80
 ENTRYPOINT ["/bin/bash"]
 CMD ["/docker-entrypoint.sh"]

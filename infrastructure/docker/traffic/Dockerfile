@@ -6,5 +6,4 @@ COPY traffic/ ./
 
 RUN npm install
 
-EXPOSE 8094
 CMD ["node", "index.js"]

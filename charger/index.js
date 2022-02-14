@@ -5,7 +5,8 @@ const cors = require('cors')
 const yaml = require('js-yaml');
 
 const pkg = require('./package.json')
-    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , version = pkg.version
+    , serviceName = `service ${pkg.name} v${version}`
     , dotenv = require('dotenv').config()
     , config = require('@stefcud/configyml');
 
@@ -164,7 +165,7 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: pkg.version,
+        version,
         data: {
             stations: chargeStations
        }
@@ -233,6 +234,13 @@ app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
     })
     res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
     res.end(ymlText);
+});
+
+app.get(['/','/charger'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
 });
 
 app.listen(config.listen_port, function () {

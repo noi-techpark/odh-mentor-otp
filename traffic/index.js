@@ -5,7 +5,8 @@ const express = require('express')
     , linkStationsConfig = require('./linkstation-config');
 
 const pkg = require('./package.json')
-    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , version = pkg.version
+    , serviceName = `service ${pkg.name} v${version}`
     , dotenv = require('dotenv').config()
     , config = require('@stefcud/configyml');
 
@@ -130,7 +131,7 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: "1.0",
+        version,
         data: {
             stations
         }
@@ -188,11 +189,18 @@ app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, re
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: "1.0",
+        version,
         data: {
             linkstations
         }
     });
+});
+
+app.get(['/','/traffic'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
 });
 
 app.listen(config.listen_port, function () {

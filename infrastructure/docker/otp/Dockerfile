@@ -50,6 +50,5 @@ RUN cd /gtfs2bbox && \
 RUN chmod 755 /usr/local/bin/*
 RUN chmod 755 /docker-entrypoint.sh
 
-EXPOSE 8080
 ENTRYPOINT ["/bin/bash"]
 CMD ["/docker-entrypoint.sh"]

@@ -4,7 +4,8 @@ const _ = require('lodash');
 const csv2json = require('csvtojson');
 
 const pkg = require('./package.json')
-    , serviceName = `service ${pkg.name} v${pkg.version}`
+    , version = pkg.version
+    , serviceName = `service ${pkg.name} v${version}`
     , dotenv = require('dotenv').config()
     , config = require('@stefcud/configyml');
 
@@ -128,10 +129,10 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -174,7 +175,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         }
     ];
 
-    if(version >= 2.1 ){
+    if(reqVersion >= 2.1 ){
         feeds.push({
             name: "gbfs_versions.json",
             url: url+"/gbfs_versions.json"
@@ -194,7 +195,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             en: {
                feeds: feeds
@@ -209,10 +210,10 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version < 2.1 ){
+    if(reqVersion < 2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -234,7 +235,7 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             versions: [
                 {
@@ -256,10 +257,10 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -270,7 +271,7 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             regions: [
                 {
@@ -296,10 +297,10 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version < 2.1 ){
+    if(reqVersion < 2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -310,7 +311,7 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             vehicle_types: [
                 {
@@ -337,10 +338,10 @@ app.get('/:context/:version/system_information.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -391,7 +392,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     var obj = {
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             system_id: systemId,
             language: "it",
@@ -431,10 +432,10 @@ app.get('/:context/:version/station_information.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -525,7 +526,7 @@ app.get('/:context/:version/station_information.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             stations: stations
         }
@@ -538,10 +539,10 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -671,7 +672,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             stations: stations
         }
@@ -684,10 +685,10 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -719,7 +720,7 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             bikes: bikes
         }
@@ -732,10 +733,10 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -756,11 +757,18 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             rental_hours: rental_hours
         }
     });
+});
+
+app.get(['/','/gbfs'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
 });
 
 app.listen(config.listen_port, function () {
