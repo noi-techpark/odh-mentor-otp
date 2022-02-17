@@ -29,14 +29,23 @@ defined in docker-compose.yml, both of these services are defined by the same do
 
 ```journey/``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
 
+```carsharing```
+
+```charger```
+
+```drt```
+
 ```gbfs/``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
 
 ```geocoder/``` nodejs simplified implementation of Pelias Geocoder
 
+```parking```
+
+```traffic```
 
 #### Scripts and Configurations
 
-The configuration structure used by services is defined by [<serviceDirectory>/config.yml](config.md)
+The configuration structure used by services is defined by [\<serviceDirectory\>/config.yml](config.md)
 
 ```docker-entrypoint.sh``` download and build data graph
 
@@ -51,6 +60,8 @@ The configuration structure used by services is defined by [<serviceDirectory>/c
 ```osm.url``` a pregenerated urls list of downloadable Openstreetmap data for SouthTyrol area.
 
 ```gtfs2bbox/``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
+
+```gtfs-import-task/```
 
 ### Docker Environment
 
