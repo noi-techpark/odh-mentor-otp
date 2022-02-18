@@ -30,7 +30,7 @@ endpoints:
 
 uri:
   meran:
-    android: https://play.google.com/store/apps/details?id=de.moqo.work&hl=en_US"
+    android: https://play.google.com/store/apps/details?id=de.moqo.work&hl=en_US
     ios: https://apps.apple.com/de/app/moqo/id1385011262
     web: https://www.comune.merano.bz.it/it/Bikesharing
   bozen:

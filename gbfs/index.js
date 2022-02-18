@@ -151,7 +151,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         protocol = "https";
     }
 
-    var url = protocol + '://' + host + "/" + context + "/"+version;
+    var url = protocol + '://' + host + "/" + context + "/"+reqVersion;
     var feeds = [
         {
             name: "system_information",
@@ -166,22 +166,22 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
             url: url+"/station_status.json"
         },
         {
-            name: "system_regions.json",
+            name: "system_regions",
             url: url+"/system_regions.json"
         },
         {
-            name: "system_hours.json",
+            name: "system_hours",
             url: url+"/system_hours.json"
         }
     ];
 
     if(reqVersion >= 2.1 ){
         feeds.push({
-            name: "gbfs_versions.json",
+            name: "gbfs_versions",
             url: url+"/gbfs_versions.json"
         });
         feeds.push({
-            name: "vehicle_types.json",
+            name: "vehicle_types",
             url: url+"/vehicle_types.json"
         });
     }
@@ -276,15 +276,15 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
             regions: [
                 {
                     region_id: "BZ",
-                    region_name: "Bolzano - Bozen"
+                    name: "Bolzano - Bozen"
                 },
                 {
                     region_id: "ME",
-                    region_name: "Merano - Meran"
+                    name: "Merano - Meran"
                 },
                 {
                     region_id: "PAPIN",
-                    region_name: "Papin - Rent a bike"
+                    name: "Papin - Rent a bike"
                 }
             ]
         }
@@ -406,11 +406,17 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     if(hasApp) {
          obj.data.rental_apps = {};
         if(androidUri){
-            obj.data.rental_apps.android = {store_uri: androidUri};
+            obj.data.rental_apps.android = {
+                store_uri: androidUri,
+                discovery_uri: 'unknown://uri'
+            };
         }
 
         if(iosUri){
-            obj.data.rental_apps.ios = {store_uri: iosUri};
+            obj.data.rental_apps.ios = {
+                store_uri: iosUri,
+                discovery_uri: 'unknown://uri'
+            };
         }
     }
 
@@ -511,10 +517,10 @@ app.get('/:context/:version/station_information.json', function (req, res) {
                 region_id: "ME",
 	            is_virtual_station: true,
     			station_area: {
-    				type: "Polygon",
-    				coordinates: station.polygon.split(", ").map(item => {
-    					return item.replace(/(\(|\))/g, '').split(",").map(elem => {return parseFloat(elem);});
-    				})
+    				type: "MultiPolygon",
+    				coordinates: [[station.polygon.split(", ").map(item => {
+    					return item.replace(/(\(|\))/g, '').split(",").map(elem => {return parseFloat(elem);}).reverse();
+    				})]]
     			}
             };
             stations.push(obj);
@@ -558,7 +564,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
                 var station = stationsReceived[i];
                 if(station.sactive && station.savailable && station.sorigin === "BIKE_SHARING_BOLZANO"){
                     var obj = {
-                        station_id: station.scode,
+                        station_id: station.scode ? station.scode : 'unknown',
                         is_renting: true,
                         is_installed: true,
                         is_returning: true,
@@ -607,16 +613,16 @@ app.get('/:context/:version/station_status.json', function (req, res) {
 
                             obj.num_bikes_available = bikeAvailable;
                             obj.num_docks_disabled = dockDisabled;
-                            // obj.vehicle_docks_available = [{
-                            //     vehicle_type_ids: ["bike", "e-bike"],
-                            //     count: dockAvailable
-                            // }];
+                            obj.vehicle_docks_available = [{
+                                vehicle_type_ids: ["bike", "e-bike"],
+                                count: Math.max(0, dockAvailable)
+                            }];
                             obj.vehicle_types_available = [{
-                                vehicle_type_ids: ["bike"],
+                                vehicle_type_id: "bike",
                                 count: bikeAvailableStandard
                             },
                             {
-                                vehicle_type_ids: ["e-bike"],
+                                vehicle_type_id: "e-bike",
                                 count: bikeAvailableElectric
                             }
 
@@ -658,10 +664,11 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         for(var k = 0; k < meranStations.length; k++){
             var station = meranStations[k];
             var obj = {
-                station_id: station.id,
+                station_id: station.id ? station.id : 'unknown',
                 num_bikes_available: 0,
                 is_renting: false,
                 is_returning: true,
+                is_installed: false,
                 num_docks_available: 1000,
                 last_reported: lastUpdate
             };
@@ -710,7 +717,7 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
                         is_reserved: bike.smetadata["future-availability"] == 0,
                         is_disabled: bike.smetadata["in-maintenance"] == 1,
                         vehicle_type_id: "bike",
-                        station_id: station ? station.id: null
+                        station_id: station ? station.id: 'unknown'
                     });
                 }
             }
