@@ -26,24 +26,24 @@ ENV API_HOST=$API_HOST \
 
 #TODO ENV NODE_ENV=production
 #before resolve npm dependecies
-RUN env | sort
-# RUN apk add --no-cache \
-# 	bash \
-# 	nginx && \
-# 	mkdir -p /run/nginx && \
-# 	mkdir -p /var/www/html
 
-# RUN mkdir -p /journey
+RUN apk add --no-cache \
+	bash \
+	nginx && \
+	mkdir -p /run/nginx && \
+	mkdir -p /var/www/html
 
-# COPY ./journey /journey
+RUN mkdir -p /journey
 
-# WORKDIR /journey
+COPY ./journey /journey
 
-# RUN yarn install
+WORKDIR /journey
 
-# RUN yarn build && mv dist/* /var/www/html/
+RUN yarn install
 
-# COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
+RUN yarn build && mv dist/* /var/www/html/
+
+COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 
 ENTRYPOINT ["/bin/bash"]
 CMD ["/docker-entrypoint.sh"]
