@@ -12,8 +12,7 @@ ARG CARSHARING_BASEURL=http://localhost/carsharing
 ARG TRAFFIC_BASEURL=http://localhost/traffic
 ARG GOOGLE_ANALYTICS_ID=''
 
-ENV NODE_ENV=production \
-	API_HOST=$API_HOST \
+ENV API_HOST=$API_HOST \
 	API_PATH=$API_PATH \
 	API_PORT=$API_PORT \
 	FOLDER=$FOLDER \
@@ -24,6 +23,9 @@ ENV NODE_ENV=production \
 	CARSHARING_BASEURL=$CARSHARING_BASEURL \
 	TRAFFIC_BASEURL=$TRAFFIC_BASEURL \
 	GOOGLE_ANALYTICS_ID=$GOOGLE_ANALYTICS_ID
+
+#TODO ENV NODE_ENV=production
+#before resolve npm dependecies
 
 RUN apk add --no-cache \
 	bash \
@@ -37,7 +39,7 @@ COPY ./journey /journey
 
 WORKDIR /journey
 
-RUN NODE_ENV=production yarn install
+RUN yarn install
 
 RUN yarn build && mv dist/* /var/www/html/
 
