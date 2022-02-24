@@ -12,7 +12,8 @@ ARG CARSHARING_BASEURL=http://localhost/carsharing
 ARG TRAFFIC_BASEURL=http://localhost/traffic
 ARG GOOGLE_ANALYTICS_ID=''
 
-ENV API_HOST=$API_HOST \
+ENV NODE_ENV=production \
+	API_HOST=$API_HOST \
 	API_PATH=$API_PATH \
 	API_PORT=$API_PORT \
 	FOLDER=$FOLDER \
@@ -36,9 +37,9 @@ COPY ./journey /journey
 
 WORKDIR /journey
 
-RUN yarn install
+RUN NODE_ENV=production yarn install
 
-RUN	yarn build && mv dist/* /var/www/html/
+RUN yarn build && mv dist/* /var/www/html/
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 
