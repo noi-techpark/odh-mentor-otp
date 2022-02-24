@@ -4,7 +4,7 @@
   "description": "This project contains a Docker images for stable [OpenTripPlanner](http://opentripplanner.org) releases and tools to auto download Openstreetmap data related to a certain gtfs file.",
   "main": "envconfig.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cleandeps": "find . -maxdepth 3 -name node_modules -exec rm -fr {} \\;"
   },
   "repository": {
     "type": "git",

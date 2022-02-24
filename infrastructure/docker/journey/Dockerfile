@@ -24,6 +24,9 @@ ENV API_HOST=$API_HOST \
 	TRAFFIC_BASEURL=$TRAFFIC_BASEURL \
 	GOOGLE_ANALYTICS_ID=$GOOGLE_ANALYTICS_ID
 
+#TODO ENV NODE_ENV=production
+#before resolve npm dependecies
+
 RUN apk add --no-cache \
 	bash \
 	nginx && \
@@ -38,7 +41,7 @@ WORKDIR /journey
 
 RUN yarn install
 
-RUN	yarn build && mv dist/* /var/www/html/
+RUN yarn build && mv dist/* /var/www/html/
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 
