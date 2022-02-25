@@ -8,6 +8,6 @@ server {
 		root /var/www/html;
 	}
 }
-" > /etc/nginx/conf.d/default.conf
+" > /etc/nginx/http.d/default.conf
 
 /usr/sbin/nginx -g "daemon off;"
