@@ -1,5 +1,6 @@
 
-const config = require('./config');
+const dotenv = require('dotenv').config()
+    , config = require('@stefcud/configyml');
 
 console.log(config);
 
@@ -12,7 +13,7 @@ var Ftp = new JSFtp({
   //user: "user", // defaults to "anonymous"
   //pass: "1234" // defaults to "@anonymous"
 });
-
+/*
 Ftp.md5(config.endpoint.path, (err, checksum) => {
   if (err) {
     console.log(err);
@@ -21,4 +22,4 @@ Ftp.md5(config.endpoint.path, (err, checksum) => {
     // Prints something like
     // 7F1EE68D2344001A050752B669242182
   }
-});
+});*/
