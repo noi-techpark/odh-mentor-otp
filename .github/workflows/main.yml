@@ -5,6 +5,9 @@ on:
   pull_request:
 
 env:
+  API_HOST: http://localhost
+  API_PATH: /otp/routers/openmove
+  API_PORT: 8080
   DOCKER_IMAGE_OTP: odh-mentor-otp
   DOCKER_IMAGE_JOURNEY: odh-mentor-otp-journey
   DOCKER_IMAGE_GBFS: odh-mentor-otp-gbfs
