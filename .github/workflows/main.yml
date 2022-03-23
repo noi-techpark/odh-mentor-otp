@@ -16,6 +16,7 @@ env:
   DOCKER_IMAGE_PARKING: odh-mentor-otp-parking
   DOCKER_IMAGE_ECHARGING: odh-mentor-otp-echarging
   DOCKER_IMAGE_DRT: odh-mentor-otp-drt
+  DOCKER_IMAGE_TRAFFIC: odh-mentor-otp-traffic
   DOCKER_TAG: ${{ github.sha }}
 
 jobs:
@@ -23,19 +24,6 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      
-      # - name: Create .env file
-      #   uses: noi-techpark/github-actions/env-file@v2
-      #   env:
-      #     X_DOCKER_IMAGE_OTP: odh-mentor-otp
-      #     X_DOCKER_IMAGE_JOURNEY: odh-mentor-otp-journey
-      #     X_DOCKER_IMAGE_GBFS: odh-mentor-otp-gbfs
-      #     X_DOCKER_IMAGE_GEOCODER: odh-mentor-otp-geocoder
-      #     X_DOCKER_IMAGE_CARSHARING: odh-mentor-otp-carsharing
-      #     X_DOCKER_IMAGE_PARKING: odh-mentor-otp-parking
-      #     X_DOCKER_IMAGE_ECHARGING: odh-mentor-otp-echarging
-      #     X_DOCKER_IMAGE_DRT: odh-mentor-otp-drt
-      #     X_DOCKER_TAG: ${{ github.sha }}
 
       - name: Build docker file
         uses: noi-techpark/github-actions/docker-build@v2
