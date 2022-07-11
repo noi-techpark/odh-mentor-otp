@@ -88,3 +88,9 @@ const render = App => ReactDOM.render(
 hot(
   render(JourneyWebapp)
 )
+
+// analytics
+if (otpConfig.analytics && otpConfig.analytics.google) {
+  ReactGA.initialize(otpConfig.analytics.google.globalSiteTag)
+  ReactGA.pageview(window.location.pathname + window.location.search)
+}
