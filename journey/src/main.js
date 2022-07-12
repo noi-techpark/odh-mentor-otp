@@ -90,7 +90,7 @@ hot(
 )
 
 // analytics
-if (otpConfig.analytics && otpConfig.analytics.google) {
+if (otpConfig.analytics?.google?.globalSiteTag) {
   ReactGA.initialize(otpConfig.analytics.google.globalSiteTag)
   ReactGA.pageview(window.location.pathname + window.location.search)
 }
