@@ -54,9 +54,9 @@ const getDistanceFromLatLonInMeters = (lat1, lon1, lat2, lon2) => {
   const deg2rad = deg => deg * (Math.PI/180);
   let R = 6371 * 1000
     , dLat = deg2rad(lat2-lat1)
-    , dLon = deg2rad(lon2-lon1) 
+    , dLon = deg2rad(lon2-lon1)
     , a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
           Math.sin(dLon/2) * Math.sin(dLon/2)
     , c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
     , d = R * c;
@@ -253,7 +253,7 @@ class VehicleRentalOverlay extends MapLayer {
                       {
                         station.groupVehicles && station.groupVehicles.map( groupVehicle => {
                           if (groupVehicle.modelId) {
-                            
+
                             const ava = groupVehicle.free > 0 ? 'bg-success': 'bg-danger';
 
                             return (
@@ -305,11 +305,13 @@ class VehicleRentalOverlay extends MapLayer {
     }
 
     return (
-      <Marker icon={icon} key={station.id} position={[station.y || station.lat, station.x || station.lon]}>
+      <Marker icon={icon} key={station.id} position={[station.y || station.lat, station.x || station.lon]} onClick={(e)=>{ e.target.openPopup()}}>
         {this.renderPopupForStation(station)}
       </Marker>
     );
   };
+
+
 
   render() {
     const { stations, companies, activeFilters } = this.props;
@@ -335,14 +337,14 @@ class VehicleRentalOverlay extends MapLayer {
         let nearest = null;
         let lastDistance = null;
         for(let i = 0; i <  filteredStations.length; i++){
-          const mstation = filteredStations[i];          
-          if(mstation.isFloatingBike === false 
+          const mstation = filteredStations[i];
+          if(mstation.isFloatingBike === false
             && mstation.networks[0] == station.networks[0]
             ){
               const distance = getDistanceFromLatLonInMeters(station.y, station.x, mstation.y, mstation.x);
               if (lastDistance == null || distance < lastDistance){
                 nearest = i;
-                lastDistance = distance;        
+                lastDistance = distance;
               }
           }
         }
@@ -354,7 +356,7 @@ class VehicleRentalOverlay extends MapLayer {
     }
 
     const markerClusterIcon = cluster => {
-      const text = cluster.getChildCount();    
+      const text = cluster.getChildCount();
       return L.divIcon({
         className: 'marker-cluster-svg',
         iconSize: [overlayCarSharingConf.iconWidth, overlayCarSharingConf.iconHeight],
@@ -368,7 +370,9 @@ class VehicleRentalOverlay extends MapLayer {
           )
       });
     }
-    
+
+
+
     return (
       <LayerGroup>
       <MarkerClusterGroup

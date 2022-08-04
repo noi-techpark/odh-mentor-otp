@@ -55,7 +55,7 @@ const stopMarkerIcon = memoize(stop => {
           iconColor={overlayStopConf.iconColor}
           markerColor={overlayStopConf.iconMarkerColor}
         />
-      }      
+      }
       </>
     ),
     className: ''
@@ -94,8 +94,10 @@ class StopMarker extends Component {
   };
 
   onClickMarker = (e) => {
+    e.target.openPopup()
     const { stop, leafletPath } = this.props;
     let { id, name, lat, lon, stops } = stop;
+
     //console.log('onClickMarker',e);
 
     if (Array.isArray(stops) && stops.length>1) {
@@ -123,6 +125,9 @@ class StopMarker extends Component {
     //name = `${name} (${id})`
     //
     return (
+
+
+
       <Marker
         /* eslint-disable-next-line react/jsx-props-no-spreading */
         {...leafletPath}
@@ -157,6 +162,7 @@ class StopMarker extends Component {
         </Popup>
       }
       </Marker>
+
     );
   }
 }
