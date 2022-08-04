@@ -1,4 +1,5 @@
-FROM node:14.16.0-alpine3.11
+FROM node:16.14.0-alpine3.14
+#for next upgrades https://github.com/openmove/odh-mentor-otp/issues/126
 
 ARG API_HOST=http://localhost
 ARG	API_PATH=/otp/routers/default
@@ -24,6 +25,9 @@ ENV API_HOST=$API_HOST \
 	TRAFFIC_BASEURL=$TRAFFIC_BASEURL \
 	GOOGLE_ANALYTICS_ID=$GOOGLE_ANALYTICS_ID
 
+#TODO ENV NODE_ENV=production
+#before resolve npm dependecies
+
 RUN apk add --no-cache \
 	bash \
 	nginx && \
@@ -38,10 +42,9 @@ WORKDIR /journey
 
 RUN yarn install
 
-RUN	yarn build && mv dist/* /var/www/html/
+RUN yarn build && mv dist/* /var/www/html/
 
 COPY ./infrastructure/docker/journey/docker-entrypoint.sh /docker-entrypoint.sh
 
-EXPOSE 80
 ENTRYPOINT ["/bin/bash"]
 CMD ["/docker-entrypoint.sh"]

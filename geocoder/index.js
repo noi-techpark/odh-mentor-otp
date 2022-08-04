@@ -1,17 +1,40 @@
 
-const https = require('https');
+process.env.PELIAS_CONFIG='./pelias.json';
 
+const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
-
-//<RANKING>
 _.str = require("underscore.string");
+const ParallelRequest = require('parallel-http-request');
 const wdlevenshtein = require('weighted-damerau-levenshtein');
+const apiApp = require('pelias-api/app');
+const AddressParser = require('pelias-parser/parser/AddressParser');
 
+const pkg = require('./package.json')
+    , version = pkg.version
+    , serviceName = `service ${pkg.name} v${version}`
+    , dotenv = require('dotenv').config()
+    , config = require('@stefcud/configyml');
+
+//normalize endpoints default
+config.endpoints = _.mapValues(config.endpoints, conf => {
+    return _.defaults(conf, config.endpoints.default);
+});
+delete config.endpoints.default;
+
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+const formatters = require('./formatters')(config);
+const api = require('./api')(config);
+
+
+//ranking algorithm
 function textDistance(text, result) {
 	//return _.str.levenshtein(text, hit._source.name.default)
-
 	/*//https://github.com/mrshu/node-weighted-damerau-levenshtein/blob/master/index.js#L19
 	insWeight : 1;
 	delWeight : 1;
@@ -19,31 +42,18 @@ function textDistance(text, result) {
 	useDamerau : true;*/
 	return wdlevenshtein(text, result, {insWeight:2, subWeight:0.5})
 }
-//</RANKING>
-
-const ParallelRequest = require('parallel-http-request');
-
-process.env.PELIAS_CONFIG='./pelias.json';
-
-const apiApp = require('pelias-api/app');
-const AddressParser = require('pelias-parser/parser/AddressParser');
-
-const config = require('./config');
-const formatters = require('./formatters');
-
-const api = require('./api');
-
-const PORT_SERVICES = 8087;
-//same port in pelias.json
 
 const servicesApp = express();
 
+console.log(`Starting ${serviceName}...`);
+
+console.log("Config:\n", config);
 //TODO manage parameter lang for any requests
 //
 //TODO add support to param lang un endpoints urls 
 // 
 /*apiApp.use((req, res, next) => {
-	console.log('[GEOCODER] request:', req.method, req.originalUrl);
+	console.log('[geocoder] request:', req.method, req.originalUrl);
 	next();
 });*/
 
@@ -110,7 +120,7 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 				l2 = ll2.pop();
 				l2 = l2.split('.').pop();
 			}
-			lang = l1 || l2 || config.server.default_lang;
+			lang = l1 || l2 || config.default_lang;
 		}
 	});
 
@@ -119,11 +129,11 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 
 	let text = texts.join(' ');
 
-	console.log('[GEOCODER] Pelias Search: "', text,'" lang:',lang);//JSON.stringify(req.body,null,2))
+	console.log('[geocoder] Pelias Search: "', text,'" lang:',lang);//JSON.stringify(req.body,null,2))
 
 	//console.log('ELASTIC SEARCH: "'+text+'"')
 
-	if(!_.isString(text) || text.length < config.server.mintextlength) {
+	if(!_.isString(text) || text.length < Number(config.min_text_length)) {
 		
 		res.json( formatters.elasticsearch([]) )
 	}
@@ -141,9 +151,9 @@ servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 //DEBUG http://localhost:8087/testSearch?text=hotel
 servicesApp.get('/testSearch', (req,res) => {
 	
-	console.log('[GEOCODER] /testSearch',req.query);
+	console.log('[geocoder] /testSearch',req.query);
 
-	let lang = req.query.lang || config.server.default_lang;
+	let lang = req.query.lang || config.default_lang;
 	
 	if(!_.isEmpty(req.query.text)) {
 		
@@ -165,19 +175,27 @@ servicesApp.get('/testSearch', (req,res) => {
 	}
 });
 
-const serverParser = servicesApp.listen(PORT_SERVICES, () => {
-	//console.log('[GEOCODER-SERVICES] listening on %s:%s', PORT_SERVICES)
+const serverParser = servicesApp.listen(config.pelias_listen_port, () => {
+	console.log('[geocoder-pelias-services] listening on %s:%s', config.pelias_listen_port)
 	process.on('SIGTERM', () => {
-		console.error('[GEOCODER-SERVICES] closing...')
+		console.error('[geocoder-pelias-services] closing...')
 		serverParser.close();
 	});
 });
 
-const serverApi = apiApp.listen( config.server.port, () => {
+//TODO
+/*apiApp.get(['/',/geocoder'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
+});*/
+
+const serverApi = apiApp.listen( config.listen_port, () => {
     console.log( apiApp._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-	console.log(`[GEOCODER] listening on ${config.server.port}`)
+    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
 	process.on('SIGTERM', () => {
-		console.error('[GEOCODER] closing...')
+		console.error('[geocoder] closing...')
 		serverApi.close();
 	});
 });
@@ -207,7 +225,7 @@ function makeUrl(opt, text, lang) {
 		text: encodeURI(text),
 		//text: text,
 		size: opt.size,
-		lang: lang || config.server.default_lang
+		lang: lang || config.default_lang
 	});
 	return url;
 }
@@ -217,7 +235,7 @@ function combineResults(text, lang, cb) {
 
 	cb = cb || _.noop;
 
-	lang = lang || config.server.default_lang
+	lang = lang || config.default_lang
 
 	//docs https://github.com/aalfiann/parallel-http-request
 	var request = new ParallelRequest();
@@ -236,7 +254,7 @@ function combineResults(text, lang, cb) {
 
 	var requests = request.getCollection();
 
-	console.log(`[GEOCODER] search: "${text}" parallel remote requests...`);
+	console.log(`[geocoder] search: "${text}" parallel remote requests...`);
 
 	request.send( resp => {
 
@@ -244,15 +262,15 @@ function combineResults(text, lang, cb) {
 
 		requests.forEach( req => {
 
-			//console.log('[GEOCODER] request',req.url)
+			console.log('[geocoder] request',req.url)
 			
 			if(_.isFunction(formatters[ req.id ])) {
 
-				let response = resp[i++].body;
-				
-				let eRes = formatters[ req.id ]( response, lang );
+				let response = resp[i++];
+
+				let eRes = formatters[ req.id ]( response.body, lang );
 			
-				console.log(`[GEOCODER] response Endpoint: '${req.id}' results`, _.size(eRes));
+				console.log(`[geocoder] response Endpoint: '${req.id}' results`, _.size(eRes));
 
 				results.push(eRes);
 			}
@@ -265,7 +283,7 @@ function combineResults(text, lang, cb) {
 				const hereResponse = await api.here(text, lang);
 				const hereResults = formatters.here(hereResponse);
 
-				console.log(`[GEOCODER] response Endpoint: 'HERE' results`, _.size(hereResults));
+				console.log(`[geocoder] response Endpoint: 'HERE' results`, _.size(hereResults));
 				//console.log(JSON.stringify(_.get(hereResponse,'body.Response.View[0].Result'),null,4));
 
 				//add here first

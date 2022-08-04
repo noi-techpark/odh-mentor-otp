@@ -1,6 +1,5 @@
+'use strict';
 
-
-"use strict";
 const defaultEarthRadius = 6378137; // equatorial Earth radius
 
 function toRadians(angleInDegrees) {

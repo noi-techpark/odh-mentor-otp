@@ -1,8 +1,19 @@
-server:
-  port: 8088
-  #TODO cache_ttl: 0
-  default_lang: 'en'
-  mintextlength: 3
+environments:
+  default: prod
+  #default environment if NODE_ENV is not defined
+
+prod:
+  listen_port: 8088
+dev:
+  listen_port: 9088
+  min_text_length: 1
+
+pelias_listen_port: 8087
+#internal pelias microservices(//same port of file ./pelias.json)
+
+#TODO cache_ttl: 0
+default_lang: 'en'
+min_text_length: 3
 
 endpoints:
   default:

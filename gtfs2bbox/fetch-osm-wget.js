@@ -14,7 +14,7 @@ if(!fs.existsSync(outdir))
 function humanBytes(bytes) {
     if (bytes === 0) return bytes;      
     var sizes = ['Bytes','KB','MB','GB','TB'],
-        i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        i = +(Math.floor(Math.log(bytes) / Math.log(1024)));
     return Math.round(bytes / Math.pow(1024, i), 1) + ' ' + sizes[i];
 }
 

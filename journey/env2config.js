@@ -9,7 +9,6 @@ usage:
 	cat config.template.yml | VAR1=test node envtmpl.js > config.valued.yml
 */
 const fs = require('fs');
-const url = require('url');
 
 const dotenv = require('dotenv');
 //only for debugging

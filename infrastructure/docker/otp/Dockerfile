@@ -1,4 +1,4 @@
-FROM node:14.16.0-alpine3.11
+FROM node:16.14.0-alpine3.14
 
 ARG OTP_VERSION=1.5.2
 ARG GTFS_URL_UPDATETIME="0 2 * * *"
@@ -40,9 +40,9 @@ COPY router-config.json /conf/
 COPY envconfig.js /conf/
 
 COPY ./gtfs2bbox /gtfs2bbox
-COPY ./gtfs-import /gtfs-import
+COPY ./gtfs-import-task /gtfs-import-task
 
-RUN chmod 755 /gtfs-import/gtfs-download.sh
+RUN chmod 755 /gtfs-import-task/gtfs-download.sh
 
 RUN cd /gtfs2bbox && \
 	npm install
@@ -50,6 +50,5 @@ RUN cd /gtfs2bbox && \
 RUN chmod 755 /usr/local/bin/*
 RUN chmod 755 /docker-entrypoint.sh
 
-EXPOSE 8080
 ENTRYPOINT ["/bin/bash"]
 CMD ["/docker-entrypoint.sh"]

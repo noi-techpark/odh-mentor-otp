@@ -1,4 +1,4 @@
-FROM node:14.16.0-alpine3.11
+FROM node:16.14.0-alpine3.14
 
 WORKDIR /home
 
@@ -6,5 +6,4 @@ COPY parking/ ./
 
 RUN npm install
 
-EXPOSE 8092
 CMD ["node", "index.js"]
