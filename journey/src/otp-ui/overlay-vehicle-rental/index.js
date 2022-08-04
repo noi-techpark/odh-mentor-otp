@@ -305,7 +305,11 @@ class VehicleRentalOverlay extends MapLayer {
     }
 
     return (
-      <Marker icon={icon} key={station.id} position={[station.y || station.lat, station.x || station.lon]} onClick={(e)=>{ e.target.openPopup()}}>
+      <Marker
+        icon={icon}
+        key={station.id}
+        position={[station.y || station.lat, station.x || station.lon]}
+        onClick={(e)=>{ e.target.openPopup()}}>
         {this.renderPopupForStation(station)}
       </Marker>
     );

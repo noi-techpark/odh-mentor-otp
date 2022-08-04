@@ -125,9 +125,6 @@ class StopMarker extends Component {
     //name = `${name} (${id})`
     //
     return (
-
-
-
       <Marker
         /* eslint-disable-next-line react/jsx-props-no-spreading */
         {...leafletPath}
