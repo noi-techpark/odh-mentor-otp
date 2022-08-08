@@ -68,7 +68,7 @@ const store = createStore(
 )
 
 const instance = createInstance({
-  urlBase: 'https://digital.matomo.cloud',
+  urlBase: 'https://digital.matomo.cloud/',
   siteId: 20,
 })
 

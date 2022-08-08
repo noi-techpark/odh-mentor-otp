@@ -73,11 +73,16 @@ class JourneyWebapp extends Component {
   componentDidMount () {
     console.log("componentDidMount fired")
     const { trackPageView } = useMatomo()
-    trackPageView();
-  }
-
-  componentDidUpdate () {
-    console.log("componentDidUpdate fired")
+    trackPageView({
+      documentTitle: 'Page title', // optional
+      href: 'https://LINK.TO.PAGE', // optional
+      customDimensions: [
+        {
+          id: 1,
+          value: 'loggedIn',
+        },
+      ], // optional
+    });
   }
 
   render () {
