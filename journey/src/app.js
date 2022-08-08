@@ -13,7 +13,6 @@ import AppMenu from './components/app/app-menu'
 
 import i18n from './i18n'
 
-
 import { setMapCenter, setMapZoom } from './actions/config'
 
 import mergeDeep from './util/mergeDeep'
@@ -22,6 +21,8 @@ import interreg from './images/interreg.png'
 import openmove from './images/openmove.png'
 import merano from './images/merano.png'
 import bolzano from './images/ComuneBolzano.png'
+
+import { useMatomo } from '@datapunt/matomo-tracker-react'
 
 const logos = {
   interreg,
@@ -69,7 +70,18 @@ if (!LegIcon || !ModeIcon) {
 }
 class JourneyWebapp extends Component {
 
+  componentDidMount () {
+    console.log("componentDidMount fired")
+    const { trackPageView } = useMatomo()
+    trackPageView();
+  }
+
+  componentDidUpdate () {
+    console.log("componentDidUpdate fired")
+  }
+
   render () {
+    console.log("render fired")
     const { t } = this.props;
     const {brandByDomain} = otpConfig;
     let {branding, brandNavbar, brandNavbarLogo} = otpConfig;
