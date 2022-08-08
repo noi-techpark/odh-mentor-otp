@@ -26,6 +26,8 @@ import './styles/index.scss'
 import i18n from "./i18n";
 import JourneyWebapp from './app'
 
+import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react'
+
 // load the OTP configuration
 const otpConfig = require(YAML_CONFIG)
 // const { whyDidYouUpdate } = require('why-did-you-update')
@@ -65,11 +67,22 @@ const store = createStore(
   compose(applyMiddleware(...middleware))
 )
 
+const instance = createInstance({
+  urlBase: 'https://digital.matomo.cloud/',
+  siteId: 20,
+  // trackerUrl: 'https://digital.matomo.cloud/tracking.php', // optional, default value: `${urlBase}matomo.php`
+  // srcUrl: 'https://digital.matomo.cloud/tracking.js', // optional, default value: `${urlBase}matomo.js`
+  // disabled: false, // optional, false by default. Makes all tracking calls no-ops if set to true.
+  // linkTracking: true, // optional, default value: true
+})
+
 // render the app
 const render = App => ReactDOM.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
-      <App />
+      <MatomoProvider value={instance}>
+        <App />
+      </MatomoProvider>
     </I18nextProvider>
   </Provider>,
   document.getElementById('main')
