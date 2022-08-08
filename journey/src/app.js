@@ -70,7 +70,7 @@ if (!LegIcon || !ModeIcon) {
 }
 class JourneyWebapp extends Component {
 
-  componentDidMount () {
+/*  componentDidMount () {
     console.log("componentDidMount fired")
     const { trackPageView } = useMatomo()
     trackPageView({
@@ -84,9 +84,10 @@ class JourneyWebapp extends Component {
       ], // optional
     });
   }
+  */
 
   render () {
-    console.log("render fired")
+    //console.log("render fired")
     const { t } = this.props;
     const {brandByDomain} = otpConfig;
     let {branding, brandNavbar, brandNavbarLogo} = otpConfig;
