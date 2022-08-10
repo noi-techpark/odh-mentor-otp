@@ -22,7 +22,8 @@ import openmove from './images/openmove.png'
 import merano from './images/merano.png'
 import bolzano from './images/ComuneBolzano.png'
 
-import { useMatomo } from '@datapunt/matomo-tracker-react'
+import MatomoIntegration from './util/matomo-integration';
+
 
 const logos = {
   interreg,
@@ -68,90 +69,89 @@ const {getItineraryFooter, LegIcon, ModeIcon} = jsConfig
 if (!LegIcon || !ModeIcon) {
   throw new Error('LegIcon and ModeIcon must be defined in config.js')
 }
-const JourneyWebapp = ({t}) => {
+class JourneyWebapp extends Component {
 
-  const { trackPageView } = useMatomo()
+  render () {
+    const { t } = this.props;
+    const {brandByDomain} = otpConfig;
+    let {branding, brandNavbar, brandNavbarLogo} = otpConfig;
 
-  React.useEffect(() => {
-    trackPageView()
-  }, [])
+    let brandLogo = null;
 
-  const {brandByDomain} = otpConfig;
-  let {branding, brandNavbar, brandNavbarLogo} = otpConfig;
+    if (brandByDomain && (location.hostname in brandByDomain)) {
+      branding = brandByDomain[ location.hostname ]['branding'];
+      brandNavbar = brandByDomain[ location.hostname ]['brandNavbar'];
+      brandNavbarLogo = brandByDomain[ location.hostname ]['brandNavbarLogo'];
+      brandLogo = logos[ brandNavbarLogo ] || null;
+      setTimeout(()=> {
+        document.title = brandByDomain[ location.hostname ]['title'] || ''
+      });
+    }
 
-  let brandLogo = null;
+    /** desktop view **/
+    const desktopView = (
+      <div className='otp'>
+        <Navbar fluid collapseOnSelect fixedTop>
+          <Navbar.Header>
+          { brandLogo &&
+            <img className='brandLogo' src={brandLogo} />
+          }
+            <Navbar.Brand> {brandNavbar} <span>BETA</span></Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav pullRight>
+              <AppMenu />
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
 
-  if (brandByDomain && (location.hostname in brandByDomain)) {
-    branding = brandByDomain[ location.hostname ]['branding'];
-    brandNavbar = brandByDomain[ location.hostname ]['brandNavbar'];
-    brandNavbarLogo = brandByDomain[ location.hostname ]['brandNavbarLogo'];
-    brandLogo = logos[ brandNavbarLogo ] || null;
-    setTimeout(()=> {
-      document.title = brandByDomain[ location.hostname ]['title'] || ''
-    });
-  }
-
-  /** desktop view **/
-  const desktopView = (
-    <div className='otp'>
-      <Navbar fluid collapseOnSelect fixedTop>
-        <Navbar.Header>
-        { brandLogo &&
-          <img className='brandLogo' src={brandLogo} />
-        }
-          <Navbar.Brand> {brandNavbar} <span>BETA</span></Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav pullRight>
-            <AppMenu />
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-
-      <div className='main-container'>
-        <div className='sidebar'>
-          {/* <main> is needed for accessibility checks. */}
-          <main>
-            <DefaultMainPanel
-              itineraryClass={LineItinerary}
-              itineraryFooter={getItineraryFooter(t)}
-              LegIcon={LegIcon}
-              ModeIcon={ModeIcon}
-            />
-          </main>
-        </div>
-        <div className='map-container'>
-          <Map mapConfig={otpConfig.map}/>
+        <div className='main-container'>
+          <div className='sidebar'>
+            {/* <main> is needed for accessibility checks. */}
+            <main>
+              <DefaultMainPanel
+                itineraryClass={LineItinerary}
+                itineraryFooter={getItineraryFooter(t)}
+                LegIcon={LegIcon}
+                ModeIcon={ModeIcon}
+              />
+            </main>
+          </div>
+          <div className='map-container'>
+            <Map mapConfig={otpConfig.map}/>
+          </div>
         </div>
       </div>
-    </div>
-  )
-    
+    )
 
-  /** mobile view **/
-  const mobileView = (
-    // <main> is needed for accessibility checks.
-    <main>
-      <MobileMain
-        map={(<Map mapConfig={otpConfig.map}/>)}
-        itineraryClass={LineItinerary}
-        itineraryFooter={getItineraryFooter(t)}
-        LegIcon={LegIcon}
-        ModeIcon={ModeIcon}
-      />
-    </main>
-  )
+    /** mobile view **/
+    const mobileView = (
+      // <main> is needed for accessibility checks.
+      <main>
+        <MobileMain
+          map={(<Map mapConfig={otpConfig.map}/>)}
+          itineraryClass={LineItinerary}
+          itineraryFooter={getItineraryFooter(t)}
+          LegIcon={LegIcon}
+          ModeIcon={ModeIcon}
+        />
+      </main>
+    )
 
-  /** the main webapp **/
-  return (
-    <ResponsiveWebapp
-      desktopView={desktopView}
-      // Pass the LegIcon here for use in the print view.
-      LegIcon={LegIcon}
-      mobileView={mobileView}
-    />
-  )
+    /** the main webapp **/
+    return (
+      <>
+        <ResponsiveWebapp
+          desktopView={desktopView}
+          // Pass the LegIcon here for use in the print view.
+          LegIcon={LegIcon}
+          mobileView={mobileView}
+        />
+        <MatomoIntegration />
+      </>
+    )
+  }
 }
 
 export default withNamespaces()(JourneyWebapp);
