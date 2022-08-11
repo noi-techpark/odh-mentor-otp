@@ -148,7 +148,7 @@ class JourneyWebapp extends Component {
           LegIcon={LegIcon}
           mobileView={mobileView}
         />
-        <MatomoIntegration />
+        <MatomoIntegration t={t} />
       </>
     )
   }
