@@ -61,6 +61,9 @@ pipeline {
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
         JENKINS_TRIGGER_PSWD=credentials("otp-jenkins-trigger-pswd")
         JENKINS_TRIGGER_USER=credentials("otp-jenkins-trigger-user")
+        
+        MATOMO_BASE_URL="https://digital.matomo.cloud/"
+        MATOMO_SITE_ID="20"
     }
 
     stages {
