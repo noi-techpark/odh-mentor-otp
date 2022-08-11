@@ -61,6 +61,9 @@ pipeline {
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
         JENKINS_TRIGGER_PSWD=credentials("otp-jenkins-trigger-pswd")
         JENKINS_TRIGGER_USER=credentials("otp-jenkins-trigger-user")
+        
+        MATOMO_BASE_URL="https://digital.matomo.cloud/"
+        MATOMO_SITE_ID="20"
     }
 
     stages {
@@ -121,6 +124,8 @@ pipeline {
                     echo 'DOCKER_DRT_PORT=${DOCKER_DRT_PORT}' >> .env
                     echo 'DOCKER_ECHARGING_PORT=${DOCKER_ECHARGING_PORT}' >> .env
                     echo 'DOCKER_TRAFFIC_PORT=${DOCKER_TRAFFIC_PORT}' >> .env
+                    echo 'MATOMO_BASE_URL=${MATOMO_BASE_URL}' >> .env
+                    echo 'MATOMO_SITE_ID=${MATOMO_SITE_ID}' >> .env
                     
                     echo 'GTFS_URL="${GTFS_URL}"' >> .env
                     echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env

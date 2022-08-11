@@ -20,3 +20,5 @@ CARSHARING_BASEURL=http://localhost:9091
 DRT_BASEURL=http://localhost:9095
 TRAFFIC_BASEURL=http://localhost:9094
 GOOGLE_ANALYTICS_ID=UA-XXXXX-Y
+MATOMO_BASE_URL=https://digital.matomo.cloud/
+MATOMO_SITE_ID=20
