@@ -45,9 +45,13 @@ configByDomain:
 reportIssue:
   mailto: support@openmove.com
 
-# analytics:
-#   google:
-#     globalSiteTag: ${GOOGLE_ANALYTICS_ID}
+analytics:
+  matomo:
+    baseUrl: ${MATOMO_BASE_URL}
+    siteId: ${MATOMO_SITE_ID}
+  # google:
+  #   globalSiteTag: ${GOOGLE_ANALYTICS_ID}
+
 
 # Default OTP API
 api:

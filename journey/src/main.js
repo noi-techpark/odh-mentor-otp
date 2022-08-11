@@ -67,9 +67,11 @@ const store = createStore(
   compose(applyMiddleware(...middleware))
 )
 
-const instance = createInstance({
-  urlBase: 'https://digital.matomo.cloud/',
-  siteId: 20,
+let matomoInstance = null;
+
+if (otpConfig.analytics?.matomo) matomoInstance = createInstance({
+  urlBase: otpConfig.analytics.matomo.baseUrl,
+  siteId: otpConfig.analytics.matomo.siteId,
   // trackerUrl: 'https://digital.matomo.cloud/tracking.php', // optional, default value: `${urlBase}matomo.php`
   // srcUrl: 'https://digital.matomo.cloud/tracking.js', // optional, default value: `${urlBase}matomo.js`
   // disabled: false, // optional, false by default. Makes all tracking calls no-ops if set to true.
@@ -79,11 +81,17 @@ const instance = createInstance({
 // render the app
 const render = App => ReactDOM.render(
   <Provider store={store}>
-    <I18nextProvider i18n={i18n}>
-      <MatomoProvider value={instance}>
-        <App />
+    {matomoInstance ? (
+      <MatomoProvider value={matomoInstance}>
+        <I18nextProvider i18n={i18n}>
+          <App />
+        </I18nextProvider>
       </MatomoProvider>
-    </I18nextProvider>
+    ) : (
+      <I18nextProvider i18n={i18n}>
+          <App />
+      </I18nextProvider>
+    )}
   </Provider>,
   document.getElementById('main')
 )
@@ -107,5 +115,3 @@ if (otpConfig.analytics?.google?.globalSiteTag) {
   ReactGA.initialize(otpConfig.analytics.google.globalSiteTag)
   ReactGA.pageview(window.location.pathname + window.location.search)
 }
-
-
