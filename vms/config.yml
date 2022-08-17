@@ -1,0 +1,27 @@
+environments:
+  default: prod
+  #default environment if NODE_ENV is not defined
+
+prod:
+  listen_port: 8096
+dev:
+  listen_port: 9096
+  polling_interval: 2
+
+polling_interval: 120
+
+endpoints:
+  default:
+    hostname: mobility.api.opendatahub.bz.it
+    port: 443
+    #path: /v2
+    headers:
+      User-Agent: OpenMove-Parking-Client
+
+  # stations:
+  #   path: /v2/flat%2Cnode/ParkingStation/free/latest?distinct=true&limit=-1&where=mperiod.eq.300
+  # sensors:
+  #   path: /v2/flat%2Cnode/ParkingSensor/*/latest?distinct=true&limit=-1
+  stations:
+    path: /v2/*/VMS/?limit=-1&distinct=true&select=*&where=
+  #https://mobility.api.opendatahub.com/v2/*/VMS/*?where=scode.eq.%22A22:100:1%22
