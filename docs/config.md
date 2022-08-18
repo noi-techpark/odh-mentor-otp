@@ -19,7 +19,7 @@ endpoints:
     port: 443
     #path: /v2
     headers:
-      User-Agent: OpenMove-xxx-Client
+      User-Agent: OpenMove-Api-Client
 
   stations:
     path: /v2/path/to/retrieve/data.json

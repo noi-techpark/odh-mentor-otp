@@ -17,7 +17,7 @@ endpoints:
     port: 443
     #path: /v2
     headers:
-      User-Agent: OpenMove-GBFS-Client
+      User-Agent: OpenMove-Api-Client
 
   stations:
     path: /v2/flat%2Cnode/BikesharingStation?distinct=true

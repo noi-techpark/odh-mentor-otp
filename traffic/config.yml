@@ -16,7 +16,7 @@ endpoints:
     port: 443
     #path: /v2
     headers:
-      User-Agent: OpenMove-Traffic-Client
+      User-Agent: OpenMove-Api-Client
 
   geometries:
     path: /v2/flat,edge/LinkStation/?limit=-1&distinct=true&select=egeometry,ecode,etype&where=eactive.eq.true
