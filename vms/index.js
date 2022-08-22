@@ -46,7 +46,29 @@ setInterval(getData, config.polling_interval * 1000);
 
 function getStations(){
     const req = https.request(config.endpoints.stations, res => {
-            //console.log(`STATIONS: statusCode: ${res.statusCode}`)
+            var str = "";
+            res.on('data', function (chunk) {
+                str += chunk;
+            });
+
+            res.on('end', function () {
+                let tmp = JSON.parse(str);
+                stationsReceived = tmp.data;
+            });
+        })
+
+    req.on('error', error => {
+        console.error(error)
+    })
+
+    req.end()
+}
+
+function getOneStation(scode){
+
+    const url = config.endpoints.station
+
+    const req = https.request(url, res => {
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
@@ -90,6 +112,21 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
         version,
         data: {
             stations
+        }
+    });
+});
+
+app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
+
+    const scode = req.params.scode
+        , station = getOneStation(scode);
+
+    res.json({
+        last_updated: lastUpdate,
+        ttl: 0,
+        version,
+        data: {
+            station
         }
     });
 });
