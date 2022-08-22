@@ -68,9 +68,16 @@ function getOneStation(scode=''){
 
     return new Promise((resolve, reject) => {
 
-        const url = config.endpoints.station.path + scode;
+        if(scode==='') {
+            reject(null)
+            return
+        }
 
-        const req = https.request(url, res => {
+        config.endpoints.station.path += scode;
+
+//console.log('REQUEST', config.endpoints.station)
+
+        const req = https.request(config.endpoints.station, res => {
                 var str = "";
                 res.on('data', function (chunk) {
                     str += chunk;
@@ -78,6 +85,7 @@ function getOneStation(scode=''){
 
                 res.on('end', function () {
                     let tmp = JSON.parse(str);
+                    //console.log('RESPONSE',JSON.stringify(tmp))
                     resolve(tmp.data)
                 });
             })
@@ -122,15 +130,17 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
 app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
 
     const scode = req.params.scode
-        , station = getOneStation(scode);
 
-    res.json({
-        last_updated: lastUpdate,
-        ttl: 0,
-        version,
-        data: {
-            station
-        }
+    getOneStation(scode).then(station => {
+
+        res.json({
+            last_updated: lastUpdate,
+            ttl: 0,
+            version,
+            data: {
+                station
+            }
+        });
     });
 });
 
