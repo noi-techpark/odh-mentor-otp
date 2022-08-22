@@ -54,8 +54,7 @@ function getStations(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
+                stationsReceived = tmp.data;
             });
         })
 
@@ -67,12 +66,12 @@ function getStations(){
 }
 
 app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
-    var parkingStations = [];
+    var stations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
             var station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata){
-                parkingStations.push({
+                stations.push({
                     station_id: station.scode,
                     name: station.sname,
                     lat: station.scoordinate.y,
@@ -90,8 +89,8 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
         ttl: 0,
         version,
         data: {
-            stations: parkingStations
-       }
+            stations
+        }
     });
 });
 

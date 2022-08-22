@@ -20,8 +20,8 @@ endpoints:
 
   # stations:
   #   path: /v2/flat%2Cnode/ParkingStation/free/latest?distinct=true&limit=-1&where=mperiod.eq.300
-  # sensors:
-  #   path: /v2/flat%2Cnode/ParkingSensor/*/latest?distinct=true&limit=-1
   stations:
-    #path: /v2/*/VMS/?limit=-1&distinct=true&select=*&where=
-    path: /v2/*/VMS/*?where=scode.eq.%22A22:100:1%22
+    path: /v2/tree/VMS/?limit=-1&distinct=true&select=scoordinate%2Cscode%2Cstype&where=
+    #path: /v2/*/VMS/*?where=scode.eq.%22A22:100:1%22
+  station:
+    path: /v2/flat%2Cnode/ParkingSensor/*/latest?distinct=true&limit=-1
