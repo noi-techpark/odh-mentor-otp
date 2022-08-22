@@ -64,27 +64,30 @@ function getStations(){
     req.end()
 }
 
-function getOneStation(scode){
+function getOneStation(scode=''){
 
-    const url = config.endpoints.station
+    return new Promise((resolve, reject) => {
 
-    const req = https.request(url, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
+        const url = config.endpoints.station.path + scode;
 
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                stationsReceived = tmp.data;
-            });
+        const req = https.request(url, res => {
+                var str = "";
+                res.on('data', function (chunk) {
+                    str += chunk;
+                });
+
+                res.on('end', function () {
+                    let tmp = JSON.parse(str);
+                    resolve(tmp.data)
+                });
+            })
+
+        req.on('error', error => {
+            reject(error)
         })
 
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
+        req.end();
+    });
 }
 
 app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {

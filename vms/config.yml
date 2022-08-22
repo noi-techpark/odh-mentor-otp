@@ -24,4 +24,5 @@ endpoints:
     path: /v2/tree/VMS/?limit=-1&distinct=true&select=scoordinate%2Cscode%2Cstype&where=
     #path: /v2/*/VMS/*?where=scode.eq.%22A22:100:1%22
   station:
-    path: "/v2/*/VMS/*?where=scode.eq.${scode}"
+    path: "/v2/*/VMS/*?where=scode.eq."
+    #TODO use template
