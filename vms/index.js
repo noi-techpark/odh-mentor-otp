@@ -23,8 +23,7 @@ var corsOptions = {
 var app = express();
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
-    stationsReceived,
-    sensorsReceived;
+    stationsReceived;
 
 console.log(`Starting ${serviceName}...`);
 
@@ -40,7 +39,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 function getData(){
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
-    console.log('POLLING',stationsReceived)
+    //console.log('POLLING',stationsReceived)
 }
 getData();
 setInterval(getData, config.polling_interval * 1000);
@@ -54,7 +53,7 @@ function getStations(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                stationsReceived = tmp.data['VMS']['stations'];
+                stationsReceived = tmp.data;
             });
         })
 
@@ -100,17 +99,28 @@ function getOneStation(scode=''){
 }
 
 app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
-    var stations = [];
+    const stations = [];
     if(stationsReceived){
-        for(var i = 0; i < stationsReceived.length; i++){
-            var station = stationsReceived[i];
-            if(station.sactive && station.scoordinate && station.smetadata){
+console.log(stationsReceived)
+        for(let i = 0; i < stationsReceived.length; i++){
+            let station = stationsReceived[i];
+            if(station.sactive && station.scoordinate && station.smetadata) {
+                console.log('ADDED')
                 stations.push({
                     station_id: station.scode,
                     name: station.sname,
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
-                    origin: station.sorigin
+                    origin: station.sorigin,
+                    type: station.stype + '_' +station.smetadata.pmv_type,
+                    direction: Number(station.smetadata.direction_id)
+/*   smetadata: {
+      pmv_type: '9',
+      position_m: '49650',
+      segment_end: '0',
+      direction_id: '1',
+      segment_start: '0'
+    }, */
                 })
             }
         }
@@ -120,7 +130,7 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
         ttl: 0,
         version,
         data: {
-            stations
+            stations: stations
         }
     });
 });
