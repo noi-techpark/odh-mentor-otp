@@ -101,11 +101,9 @@ function getOneStation(scode=''){
 app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
     const stations = [];
     if(stationsReceived){
-console.log(stationsReceived)
         for(let i = 0; i < stationsReceived.length; i++){
             let station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata) {
-                console.log('ADDED')
                 stations.push({
                     station_id: station.scode,
                     name: station.sname,
@@ -114,13 +112,6 @@ console.log(stationsReceived)
                     origin: station.sorigin,
                     type: station.stype + '_' +station.smetadata.pmv_type,
                     direction: Number(station.smetadata.direction_id)
-/*   smetadata: {
-      pmv_type: '9',
-      position_m: '49650',
-      segment_end: '0',
-      direction_id: '1',
-      segment_start: '0'
-    }, */
                 })
             }
         }
