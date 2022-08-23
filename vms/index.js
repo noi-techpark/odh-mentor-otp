@@ -110,10 +110,7 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
                     name: station.sname,
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
-                    address: station.smetadata.mainaddress,
-                    city: station.smetadata.municipality,
-                    capacity: station.smetadata.capacity || 0,
-                    free: station.mvalue || 0
+                    origin: station.sorigin
                 })
             }
         }

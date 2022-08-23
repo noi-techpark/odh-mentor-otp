@@ -21,7 +21,7 @@ endpoints:
   # stations:
   #   path: /v2/flat%2Cnode/ParkingStation/free/latest?distinct=true&limit=-1&where=mperiod.eq.300
   stations:
-    path: /v2/tree/VMS/?distinct=true&select=scoordinate%2Cscode%2Cstype&where=&limit=5
+    path: /v2/tree/VMS/?distinct=true&select=*&where=sactive.eq.true&limit=10
     #path: /v2/*/VMS/*?where=scode.eq.%22A22:100:1%22
   station:
     path: /v2/tree/VMS/*?where=scode.eq.
