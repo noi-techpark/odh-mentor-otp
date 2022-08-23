@@ -40,6 +40,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 function getData(){
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
+    console.log('POLLING',stationsReceived)
 }
 getData();
 setInterval(getData, config.polling_interval * 1000);
@@ -53,7 +54,7 @@ function getStations(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                stationsReceived = tmp.data;
+                stationsReceived = tmp.data['VMS']['stations'];
             });
         })
 
