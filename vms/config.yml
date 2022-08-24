@@ -27,6 +27,7 @@ endpoints:
     path: "/v2/flat/VMS/*?&distinct=true&where=scode.eq."
     #TODO use template
 
-
+##bbox a22
+#&where=scoordinate.bbc.(10,46,12.8,47.2)
 #codes:
 #https://github.com/noi-techpark/bdp-commons/blob/main/data-collectors/vms-a22/src/main/resources/it/bz/noi/a22/vms/streetcodes.csv
