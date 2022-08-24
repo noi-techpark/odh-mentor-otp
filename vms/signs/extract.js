@@ -5,7 +5,7 @@ csvtojson({
       noheader: true,
       checkType: true,
       delimiter: ';',
-      headers: ['code','title','bin']
+      headers: ['code','title','img']
 })
 .fromFile("./codes.csv")
 .then( json => {
