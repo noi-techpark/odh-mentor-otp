@@ -128,19 +128,24 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
 
 app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
 
-    const scode = req.params.scode
+    const scode = req.params.scode;
 
-    getOneStation(scode).then(station => {
+    if (scode) {
+        getOneStation(scode).then(station => {
 
-        res.json({
-            last_updated: lastUpdate,
-            ttl: 0,
-            version,
-            data: {
-                station
-            }
+            res.json({
+                last_updated: lastUpdate,
+                ttl: 0,
+                version,
+                data: {
+                    station
+                }
+            });
         });
-    });
+    }
+    else {
+        res.status(400);
+    }
 });
 
 app.get(['/','/vms'], async (req, res) => {
