@@ -24,5 +24,9 @@ endpoints:
     path: /v2/flat/VMS/?distinct=true&select=*&where=&limit=-1
     #path: /v2/*/VMS/*?where=scode.eq.%22A22:100:1%22
   station:
-    path: /v2/tree/VMS/*?where=scode.eq.
+    path: "/v2/tree/VMS/*?where=scode.eq."
     #TODO use template
+
+
+#codes:
+#https://github.com/noi-techpark/bdp-commons/blob/main/data-collectors/vms-a22/src/main/resources/it/bz/noi/a22/vms/streetcodes.csv
