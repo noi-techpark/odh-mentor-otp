@@ -9,5 +9,5 @@ csvtojson({
 })
 .fromFile("./codes.csv")
 .then( json => {
-    console.log(json);
+    console.log(JSON.stringify(json,null,2));
 })
