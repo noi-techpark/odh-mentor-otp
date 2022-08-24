@@ -129,7 +129,7 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
 app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
 
     const scode = req.params.scode;
-
+console.log(`request station:>>>${scode}<<<`);
     if (scode) {
         getOneStation(scode).then(station => {
 
