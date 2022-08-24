@@ -98,6 +98,41 @@ function getOneStation(scode=''){
     });
 }
 
+
+function getSign(scode=''){
+
+    return new Promise((resolve, reject) => {
+
+        if(scode==='') {
+            reject(null)
+            return
+        }
+
+        config.endpoints.station.path += scode;
+
+//console.log('REQUEST', config.endpoints.station)
+
+        const req = https.request(config.endpoints.station, res => {
+                var str = "";
+                res.on('data', function (chunk) {
+                    str += chunk;
+                });
+
+                res.on('end', function () {
+                    let tmp = JSON.parse(str);
+                    //console.log('RESPONSE',JSON.stringify(tmp))
+                    resolve(tmp.data)
+                });
+            })
+
+        req.on('error', error => {
+            reject(error)
+        })
+
+        req.end();
+    });
+}
+
 app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
     const stations = [];
     if(stationsReceived){
@@ -129,10 +164,32 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
 app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
 
     const scode = req.params.scode;
-console.log(`request station:>>>${scode}<<<`);
+
     if (scode) {
         getOneStation(scode).then(station => {
 
+            res.json({
+                last_updated: lastUpdate,
+                ttl: 0,
+                version,
+                data: {
+                    station
+                }
+            });
+        });
+    }
+    else {
+        res.status(400);
+    }
+});
+
+app.get('/vms/sign/:scode', cors(corsOptions),  function (req, res) {
+
+    const scode = req.params.scode;
+
+    if (scode) {
+        getSign(scode).then(station => {
+            res.setHeader('content-type', 'image/png');
             res.json({
                 last_updated: lastUpdate,
                 ttl: 0,
