@@ -1,6 +1,9 @@
 
+const fs = require('fs')
+
 const csvtojson = require('../node_modules/csvtojson');
-const fs = require('fs');
+
+const detect = require('../node_modules/detect-file-type');
 
 csvtojson({
       noheader: true,
@@ -10,22 +13,35 @@ csvtojson({
 })
 .fromFile("./codes.csv")
 .then( json => {
-    console.log(JSON.stringify(json,null,2));
 
-    json.forEach(item => {
+    //console.log(JSON.stringify(json,null,2));
+
+    json.forEach(async item => {
         /*"code": 0,
         "title": "Spento",
         "img":*/
-        const filename = `./images/${item.code}.png`;
 
         const data =  Buffer.from(item.img, 'base64');
 
-        fs.writeFile(filename, data, err => {
-            if (err)
-                console.log(err);
-            else {
-                console.log('created',filename)
+        detect.fromBuffer(data, (err,res) => {
+            if(res) {
+
+                const {ext,mime} =  res;
+
+                const filename = `./images/${item.code}.${ext}`;
+
+                if (!fs.existsSync(filename)) {
+
+                    fs.writeFile(filename, data, err => {
+                        if (err)
+                            console.log(err);
+                        else {
+                            console.log('created',filename, mime)
+                        }
+                    })
+                }
             }
-        })
+        });
+
     })
 })
