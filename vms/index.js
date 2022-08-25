@@ -22,6 +22,21 @@ var corsOptions = {
 
 var app = express();
 
+if (config.envId == 'dev') {
+    app.set('json spaces', 2);
+}
+
+const codes = require('./signs/codes.json');
+
+const mapCodes = {};
+
+codes.forEach(item => {
+    item.img = `images/${item.code}.png`;
+    mapCodes[item.code] = item;
+});
+
+
+
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived;
 
@@ -36,7 +51,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 
 //TODO up to here MOVE in LIB module
 
-function getData(){
+function getData() {
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     //console.log('POLLING',stationsReceived)
@@ -44,24 +59,20 @@ function getData(){
 getData();
 setInterval(getData, config.polling_interval * 1000);
 
-function getStations(){
-    const req = https.request(config.endpoints.stations, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
+function getStations() {
+    https.request(config.endpoints.stations, res => {
+        var str = "";
+        res.on('data', function (chunk) {
+            str += chunk;
+        });
 
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                stationsReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
+        res.on('end', function () {
+            let tmp = JSON.parse(str);
+            stationsReceived = tmp.data;
+        });
+    }).on('error', error => {
         console.error(error)
-    })
-
-    req.end()
+    }).end();
 }
 
 function getOneStation(scode=''){
@@ -75,48 +86,52 @@ function getOneStation(scode=''){
 
         config.endpoints.station.path = _.template(config.endpoints.station.path)({scode});
 
-        const req = https.request(config.endpoints.station, res => {
-                var str = "";
-                res.on('data', function (chunk) {
-                    str += chunk;
-                });
+        https.request(config.endpoints.station, res => {
+            var str = "";
+            res.on('data', function (chunk) {
+                str += chunk;
+            });
 
-                res.on('end', function () {
-                    let tmp = JSON.parse(str);
-
-                    if (tmp.data.length > 0)  {
-                        tmp.data[0].tmetadata = {};
-                        //big unuseful field
-                    }
-
-                    console.log('==========',tmp)
-
-                    resolve(tmp.data)
-                });
-            })
-
-        req.on('error', error => {
+            res.on('end', function () {
+                let tmp = JSON.parse(str);
+                if (tmp.data.length > 0)  {
+                    tmp.data[0].tmetadata = {};
+                    //big unuseful field
+                }
+                resolve(tmp.data);
+            });
+        }).on('error', error => {
             reject(error)
-        })
-
-        req.end();
+        }).end();
     });
 }
-
+console.log(mapCodes)
 app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
     const stations = [];
     if(stationsReceived){
         for(let i = 0; i < stationsReceived.length; i++){
             let station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata) {
+
+                const type = `${station.smetadata.pmv_type}`;
+
+
+                const img = mapCodes[type] ? mapCodes[type].img : undefined;
+                //TODO default code
+                //
+                const title = mapCodes[type] ? mapCodes[type].title : undefined;
+
                 stations.push({
                     station_id: station.scode,
                     name: station.sname,
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
                     origin: station.sorigin,
-                    type: station.smetadata.pmv_type,
-                    direction: Number(station.smetadata.direction_id)
+                    direction: Number(station.smetadata.direction_id),
+                    //position: station.smetadata.position_m,
+                    type,
+                    title,
+                    img
                 })
             }
         }
@@ -155,20 +170,16 @@ app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
 
 app.use('/vms/images', express.static('signs/images'));
 
-/*app.get('/vms/signs.json', cors(corsOptions),  function (req, res) {
-
-    getSign(scode).then(station => {
-
-        res.json({
-            last_updated: lastUpdate,
-            ttl: 0,
-            version,
-            data: {
-                station
-            }
-        });
+app.get('/vms/signs.json', cors(corsOptions),  function (req, res) {
+    res.json({
+        last_updated: lastUpdate,
+        ttl: 0,
+        version,
+        data: {
+            signs: codes
+        }
     });
-});*/
+});
 
 
 
