@@ -145,7 +145,7 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
                     origin: station.sorigin,
-                    type: station.stype + '_' +station.smetadata.pmv_type,
+                    type: station.smetadata.pmv_type,
                     direction: Number(station.smetadata.direction_id)
                 })
             }
@@ -205,13 +205,7 @@ app.get('/vms/sign/:scode', cors(corsOptions),  function (req, res) {
     }
 });
 
-app.use('/signs', express.static('signs/images', {
-  etag: false,
-  maxAge: '1000',
-/*  setHeaders: function(res, path) {
-    res.set('cache-control', 'no-cache')
-  }*/
-}));
+app.use('/vms/images', express.static('signs/images'));
 
 app.get(['/','/vms'], async (req, res) => {
   res.send({
