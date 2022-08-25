@@ -205,6 +205,14 @@ app.get('/vms/sign/:scode', cors(corsOptions),  function (req, res) {
     }
 });
 
+app.use('/signs', express.static('signs/images', {
+  etag: false,
+  maxAge: '1000',
+/*  setHeaders: function(res, path) {
+    res.set('cache-control', 'no-cache')
+  }*/
+}));
+
 app.get(['/','/vms'], async (req, res) => {
   res.send({
     status: 'OK',
