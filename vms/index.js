@@ -117,9 +117,11 @@ function getOneStation(scode=''){
             return
         }
 
-        config.endpoints.station.path = _.template(config.endpoints.station.path)({scode});
+        const reqOpts = Object.assign({}, config.endpoints.station, {
+            path: _.template(config.endpoints.station.path)({scode})
+        });
 
-        https.request(config.endpoints.station, res => {
+        https.request(reqOpts, res => {
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;

@@ -50,7 +50,7 @@
             }): new L.Icon.Default()
           })
           .bindTooltip(layer => {
-              return L.Util.template(`{station_id}<br>{name}<br> type:{type}`, layer.feature.properties);
+              return L.Util.template(`{station_id}<br>{name}<br> type:{pmv_type}`, layer.feature.properties);
           })
           .on('click', e => {
             const el = L.DomUtil.get('code');
@@ -64,6 +64,7 @@
             fetch(url)
             .then(resp => resp.json() )
             .then(dd => {
+              console.log(dd.data.station[0].scode)
               const jj = JSON.stringify(dd,null,2);
               el.innerText = jj;
             });
