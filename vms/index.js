@@ -3,6 +3,8 @@ const https = require('https');
 const _ = require('lodash');
 const cors = require('cors');
 
+const GeoJSON = require('geojson');
+
 const pkg = require('./package.json')
     , version = pkg.version
     , serviceName = `service ${pkg.name} v${version}`
@@ -39,6 +41,8 @@ codes.forEach(item => {
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived;
+
+const stations = [];
 
 console.log(`Starting ${serviceName}...`);
 
@@ -105,21 +109,20 @@ function getOneStation(scode=''){
         }).end();
     });
 }
-console.log(mapCodes)
-app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
-    const stations = [];
-    if(stationsReceived){
+
+app.get('/vms/stations.json', cors(corsOptions), (req, res) => {
+
+    if(stationsReceived && stations.length === 0) {
         for(let i = 0; i < stationsReceived.length; i++){
             let station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata) {
 
                 const type = `${station.smetadata.pmv_type}`;
 
-
-                const img = mapCodes[type] ? mapCodes[type].img : undefined;
+                const img = mapCodes[type] ? mapCodes[type].img : '';
                 //TODO default code
                 //
-                const title = mapCodes[type] ? mapCodes[type].title : undefined;
+                const title = mapCodes[type] ? mapCodes[type].title : '';
 
                 stations.push({
                     station_id: station.scode,
@@ -141,10 +144,20 @@ app.get('/vms/stations.json', cors(corsOptions),  function (req, res) {
         ttl: 0,
         version,
         data: {
-            stations: stations
+            stations
         }
     });
 });
+
+app.get('/vms/stations.geojson', cors(corsOptions), (req, res) => {
+
+    const geo = GeoJSON.parse(stations, {
+        Point: ['lat', 'lon']
+    });
+
+    res.json(geo);
+});
+
 //one station details
 app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
 
@@ -169,6 +182,8 @@ app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
 });
 
 app.use('/vms/images', express.static('signs/images'));
+
+app.use('/vms/map.html', express.static('map.html'));
 
 app.get('/vms/signs.json', cors(corsOptions),  function (req, res) {
     res.json({

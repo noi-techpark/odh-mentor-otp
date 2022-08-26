@@ -17,6 +17,7 @@
     "detect-file-type": "^0.2.8",
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
+    "geojson": "^0.5.0",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20"
   }
