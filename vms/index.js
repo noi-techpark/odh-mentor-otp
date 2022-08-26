@@ -84,7 +84,7 @@ function formatData() {
                     origin: station.sorigin,
                     direction: Number(station.smetadata.direction_id),
                     //position: station.smetadata.position_m,
-                    type,
+                    pmv_type: type,
                     title,
                     img
                 })

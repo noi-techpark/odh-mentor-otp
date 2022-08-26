@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <html>
 <head>
-  <title></title>
+  <title>VMS map</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" rel="stylesheet" type="text/css" />
   <style>
@@ -9,10 +9,21 @@
     width: 800px;
     height: 600px;
   }
+  #code {
+    position: fixed;
+    right: 5px;
+    top: 5px;
+    width: 600px;
+    height: 600px;
+    background: #ddd;
+    font-size: small;
+    display: block;
+  }
   </style>
 </head>
 <body>
   <div id="map"></div>
+  <pre id="code"></pre>
   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
   <script>
 
@@ -34,11 +45,28 @@
         },
         pointToLayer: (feature, latlng) => {
           return L.marker(latlng, {
-            icon: L.divIcon({
+            icon: feature.properties.img ? L.divIcon({
               html: L.Util.template(`<img height="30px" width="30px" src="${baseUrl}{img}">`, feature.properties)
-            })
-          }).bindTooltip(layer => {
-              return L.Util.template(`{name} - type:{type} <br><a href="{station_id}">info</a>`, layer.feature.properties);
+            }): new L.Icon.Default()
+          })
+          .bindTooltip(layer => {
+              return L.Util.template(`{station_id}<br>{name}<br> type:{type}`, layer.feature.properties);
+          })
+          .on('click', e => {
+            const el = L.DomUtil.get('code');
+
+            el.innerText = '';
+
+            const url = L.Util.template(`${baseUrl}{station_id}/station.json`, e.target.feature.properties);
+
+            console.log(url);
+
+            fetch(url)
+            .then(resp => resp.json() )
+            .then(dd => {
+              const jj = JSON.stringify(dd,null,2);
+              el.innerText = jj;
+            });
           });
         }
     }).addTo(map);
