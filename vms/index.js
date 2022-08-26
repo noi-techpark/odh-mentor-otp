@@ -63,16 +63,45 @@ function getData() {
 getData();
 setInterval(getData, config.polling_interval * 1000);
 
+function formatData() {
+    if(stationsReceived && stations.length === 0) {
+        for(let i = 0; i < stationsReceived.length; i++){
+            let station = stationsReceived[i];
+            if(station.sactive && station.scoordinate && station.smetadata) {
+
+                const type = `${station.smetadata.pmv_type}`;
+
+                const img = mapCodes[type] ? mapCodes[type].img : '';
+                //TODO default code
+                //
+                const title = mapCodes[type] ? mapCodes[type].title : '';
+
+                stations.push({
+                    station_id: station.scode,
+                    name: station.sname,
+                    lat: station.scoordinate.y,
+                    lon: station.scoordinate.x,
+                    origin: station.sorigin,
+                    direction: Number(station.smetadata.direction_id),
+                    //position: station.smetadata.position_m,
+                    type,
+                    title,
+                    img
+                })
+            }
+        }
+    }
+}
+
 function getStations() {
     https.request(config.endpoints.stations, res => {
         var str = "";
         res.on('data', function (chunk) {
             str += chunk;
-        });
-
-        res.on('end', function () {
+        }).on('end', function () {
             let tmp = JSON.parse(str);
             stationsReceived = tmp.data;
+            formatData();
         });
     }).on('error', error => {
         console.error(error)
@@ -112,33 +141,6 @@ function getOneStation(scode=''){
 
 app.get('/vms/stations.json', cors(corsOptions), (req, res) => {
 
-    if(stationsReceived && stations.length === 0) {
-        for(let i = 0; i < stationsReceived.length; i++){
-            let station = stationsReceived[i];
-            if(station.sactive && station.scoordinate && station.smetadata) {
-
-                const type = `${station.smetadata.pmv_type}`;
-
-                const img = mapCodes[type] ? mapCodes[type].img : '';
-                //TODO default code
-                //
-                const title = mapCodes[type] ? mapCodes[type].title : '';
-
-                stations.push({
-                    station_id: station.scode,
-                    name: station.sname,
-                    lat: station.scoordinate.y,
-                    lon: station.scoordinate.x,
-                    origin: station.sorigin,
-                    direction: Number(station.smetadata.direction_id),
-                    //position: station.smetadata.position_m,
-                    type,
-                    title,
-                    img
-                })
-            }
-        }
-    }
     res.json({
         last_updated: lastUpdate,
         ttl: 0,

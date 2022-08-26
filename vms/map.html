@@ -38,7 +38,7 @@
               html: L.Util.template(`<img height="30px" width="30px" src="${baseUrl}{img}">`, feature.properties)
             })
           }).bindTooltip(layer => {
-              return L.Util.template(`{name} - type:{type}`, layer.feature.properties);
+              return L.Util.template(`{name} - type:{type} <br><a href="{station_id}">info</a>`, layer.feature.properties);
           });
         }
     }).addTo(map);
