@@ -1,5 +1,5 @@
 [test]
-docker02.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+docker03.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 mentor01.opendatahub.testingmachine.eu ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [prod]
