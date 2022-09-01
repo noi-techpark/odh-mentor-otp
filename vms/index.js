@@ -2,7 +2,8 @@ const express = require('express');
 const https = require('https');
 const _ = require('lodash');
 const cors = require('cors');
-const circleToPolygon = require('./circle-polygon');
+
+const GeoJSON = require('geojson');
 
 const pkg = require('./package.json')
     , version = pkg.version
@@ -23,9 +24,25 @@ var corsOptions = {
 
 var app = express();
 
+if (config.envId == 'dev') {
+    app.set('json spaces', 2);
+}
+
+const codes = require('./signs/codes.json');
+
+const mapCodes = {};
+
+codes.forEach(item => {
+    item.img = `images/${item.code}.png`;
+    mapCodes[item.code] = item;
+});
+
+
+
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
-    stationsReceived,
-    sensorsReceived;
+    stationsReceived;
+
+const stations = [];
 
 console.log(`Starting ${serviceName}...`);
 
@@ -36,233 +53,160 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
     return;
 }
 
-function getData(){
+//TODO up to here MOVE in LIB module
+
+function getData() {
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
-    getSensors();
+    //console.log('POLLING',stationsReceived)
 }
 getData();
 setInterval(getData, config.polling_interval * 1000);
 
-function getStations(){
-    const req = https.request(config.endpoints.stations, res => {
-            //console.log(`STATIONS: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getSensors(){
-    const req = https.request(config.endpoints.sensors, res => {
-            //console.log(`BIKES: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                var sensors = _.uniqBy(tmp.data,'scode');
-                //PATCH remove duplicates
-                sensorsReceived = sensors
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-app.get('/parking/stations.json', cors(corsOptions),  function (req, res) {
-    var parkingStations = [];
-    if(stationsReceived){
-        for(var i = 0; i < stationsReceived.length; i++){
-            var station = stationsReceived[i];
-            if(station.sactive && station.scoordinate && station.smetadata){
-                parkingStations.push({
-                    station_id: station.scode,
-                    name: station.sname,
-                    lat: station.scoordinate.y,
-                    lon: station.scoordinate.x,
-                    address: station.smetadata.mainaddress,
-                    city: station.smetadata.municipality,
-                    capacity: station.smetadata.capacity || 0,
-                    free: station.mvalue || 0
-                })
-            }
-        }
-    }
-    res.json({
-        last_updated: lastUpdate,
-        ttl: 0,
-        version,
-        data: {
-            stations: parkingStations
-       }
-    });
-});
-
-app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
-    var parkingStations = [];
-    if(stationsReceived){
-        for(var i = 0; i < stationsReceived.length; i++){
-            var station = stationsReceived[i];
+function formatData() {
+    if(stationsReceived && stations.length === 0) {
+        for(let i = 0; i < stationsReceived.length; i++){
+            let station = stationsReceived[i];
             if(station.sactive && station.scoordinate && station.smetadata) {
 
-                parkingStations.push({
-                    id: station.scode,
-                    name: station.sname,
-                    status: "ACTIVE",
-                    capacity: station.smetadata.capacity || 0,
-                    free: station.mvalue || 0,
-                    geometry: circleToPolygon(
-                        [station.scoordinate.x, station.scoordinate.y],
-                        Number(config.geometryCircleRadius),
-                        {}
-                    )
-                })
-            }
-        }
-    }
-    res.json({
-        results: parkingStations
-    });
-});
+                const type = `${station.smetadata.pmv_type}`;
 
-app.get('/parking/sensors.json', cors(corsOptions), function (req, res) {
-    var parkingSensors = [];
-    if(sensorsReceived){
-        for(var i = 0; i < sensorsReceived.length; i++){
-            var sensor = sensorsReceived[i];
-            if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
-                parkingSensors.push({
-                    sensor_id: sensor.scode,
-                    name: sensor.sname,
-                    lat: sensor.scoordinate.y,
-                    lon: sensor.scoordinate.x,
-                    address: sensor.smetadata.group,
-                    city: sensor.smetadata.municipality,
-                    free: sensor.mvalue === 1 ? false : true
-                })
-            }
-        }
-    }
-    res.json({
-        last_updated: lastUpdate,
-        ttl: 0,
-        version,
-        data: {
-            sensors: parkingSensors
-       }
-    });
-});
+                const img = mapCodes[type] ? mapCodes[type].img : '';
+                //TODO default code
+                //
+                const title = mapCodes[type] ? mapCodes[type].title : '';
 
-app.get('/parking/all.json', cors(corsOptions), function (req, res) {
-    var parkingStationsAll = [];
-    if(stationsReceived){
-        for(var i = 0; i < stationsReceived.length; i++){
-            var station = stationsReceived[i];
-            if(station.sactive && station.scoordinate && station.smetadata){
-                parkingStationsAll.push({
-                    type: 'station',
+                stations.push({
                     station_id: station.scode,
                     name: station.sname,
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
-                    address: station.smetadata.mainaddress,
-                    city: station.smetadata.municipality,
-                    capacity: station.smetadata.capacity || 0,
-                    free: station.mvalue || 0
-                });
+                    origin: station.sorigin,
+                    direction: Number(station.smetadata.direction_id),
+                    //position: station.smetadata.position_m,
+                    pmv_type: type,
+                    title,
+                    img
+                })
             }
         }
     }
-    var parkingSensorsAll = [];
-    if(sensorsReceived){
-        for(var i = 0; i < sensorsReceived.length; i++){
-            var sensor = sensorsReceived[i];
-            if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
-                parkingSensorsAll.push({
-                    type: 'sensor',
-                    station_id: sensor.scode+'-'+Math.random(),                    
-                    group_name: sensor.smetadata.group,
-                    group_id: _.snakeCase(sensor.smetadata.group),
-                    name: sensor.sname,
-                    lat: sensor.scoordinate.y,
-                    lon: sensor.scoordinate.x,
-                    address: sensor.smetadata.group,
-                    city: sensor.smetadata.municipality,
-                    free: sensor.mvalue === 1 ? false : true
-                });
-            }
+}
+
+function getStations() {
+    https.request(config.endpoints.stations, res => {
+        var str = "";
+        res.on('data', function (chunk) {
+            str += chunk;
+        }).on('end', function () {
+            let tmp = JSON.parse(str);
+            stationsReceived = tmp.data;
+            formatData();
+        });
+    }).on('error', error => {
+        console.error(error)
+    }).end();
+}
+
+function getOneStation(scode=''){
+
+    return new Promise((resolve, reject) => {
+
+        if(scode==='') {
+            reject(null)
+            return
         }
-    }
 
-    let parkingSensors = [];
-    let sensorGroups = [];
+        const reqOpts = Object.assign({}, config.endpoints.station, {
+            path: _.template(config.endpoints.station.path)({scode})
+        });
 
-    if (config.returnGroupSensors) {
-        const MIN_GROUP_SENSORS = Number(config.minGroupSensors) || 4;
-        const parkingSensorsGroups = _.chain(parkingSensorsAll)
-            .groupBy('group_id')
-            .value();
-        for (const groupId in parkingSensorsGroups) {
-            let group = parkingSensorsGroups[groupId];
+        https.request(reqOpts, res => {
+            var str = "";
+            res.on('data', function (chunk) {
+                str += chunk;
+            }).on('end', function () {
+                const tmp = JSON.parse(str);
 
-            if(group.length < MIN_GROUP_SENSORS) {
-                sensorGroups.push({
-                        type: 'sensorGroup',
-                        station_id: groupId,
-                        name: group[0].group_name,
-                        group_name: group[0].group_name,
-                        lat: group[0].lat,
-                        lon: group[0].lon,
-                        capacity: group.length,
-                        sensors: group
-                    })
-            }
-            else {
-                for(const sensor of group) {
-                    parkingSensors.push(sensor);
-                }
-            }
-        }
-    }
-    else {
-        parkingSensors = parkingSensorsAll;
-    }
+                const opath = [
+                    'VMS',
+                    'stations',
+                     scode,
+                    'sdatatypes',
+                    'esposizione',
+                    'tmetadata'
+                    ];
+                _.set(tmp.data, opath, {});
+                //remove unuseful big field
+
+                resolve(tmp.data);
+            });
+        }).on('error', error => {
+            reject(error)
+        }).end();
+    });
+}
+
+app.get('/vms/stations.json', cors(corsOptions), (req, res) => {
 
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
         version,
         data: {
-            stations: _.concat(
-                parkingStationsAll,
-                parkingSensors,
-                sensorGroups
-            )
-       }
+            stations
+        }
     });
 });
 
-app.get(['/','/parking'], async (req, res) => {
+app.get('/vms/stations.geojson', cors(corsOptions), (req, res) => {
+
+    const geo = GeoJSON.parse(stations, {
+        Point: ['lat', 'lon']
+    });
+
+    res.json(geo);
+});
+
+//one station details
+app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
+
+    const scode = req.params.scode;
+
+    if (scode) {
+        getOneStation(scode).then(data => {
+
+            res.json({
+                last_updated: lastUpdate,
+                ttl: 0,
+                version,
+                data
+            });
+        });
+    }
+    else {
+        res.status(400);
+    }
+});
+
+app.use('/vms/images', express.static('signs/images'));
+
+app.use('/vms/map.html', express.static('map.html'));
+
+app.get('/vms/signs.json', cors(corsOptions),  function (req, res) {
+    res.json({
+        last_updated: lastUpdate,
+        ttl: 0,
+        version,
+        data: {
+            signs: codes
+        }
+    });
+});
+
+
+
+app.get(['/','/vms'], async (req, res) => {
   res.send({
     status: 'OK',
     version
