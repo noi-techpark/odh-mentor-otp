@@ -193,7 +193,7 @@ const serverParser = servicesApp.listen(config.pelias_listen_port, () => {
 
 const serverApi = apiApp.listen( config.listen_port, () => {
     console.log( apiApp._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
+    console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
 	process.on('SIGTERM', () => {
 		console.error('[geocoder] closing...')
 		serverApi.close();

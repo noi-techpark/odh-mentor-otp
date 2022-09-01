@@ -245,5 +245,5 @@ app.get(['/','/charger'], async (req, res) => {
 
 app.listen(config.listen_port, function () {
     console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
+    console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
 });
