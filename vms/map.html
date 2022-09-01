@@ -27,7 +27,7 @@
   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
   <script>
 
-  const baseUrl= '/vms/';
+  const baseUrl= location.origin+ '/vms/';
 
   const map = L.map('map', {
     closePopupOnClick: false
@@ -50,12 +50,12 @@
             }): new L.Icon.Default()
           })
           .bindTooltip(layer => {
-              return L.Util.template(`{station_id}<br>{name}<br> type:{pmv_type}`, layer.feature.properties);
+              return L.Util.template(`{station_id}<br>{name}<br> pmv_type: {pmv_type}`, layer.feature.properties);
           })
           .on('click', e => {
             const el = L.DomUtil.get('code');
 
-            el.innerText = '';
+            //el.innerText = '';
 
             const url = L.Util.template(`${baseUrl}{station_id}/station.json`, e.target.feature.properties);
 
@@ -64,7 +64,7 @@
             fetch(url)
             .then(resp => resp.json() )
             .then(dd => {
-              console.log(dd.data.station[0].scode)
+              console.log(dd)
               const jj = JSON.stringify(dd,null,2);
               el.innerText = jj;
             });

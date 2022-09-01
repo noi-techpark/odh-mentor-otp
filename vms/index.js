@@ -125,14 +125,20 @@ function getOneStation(scode=''){
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
-            });
+            }).on('end', function () {
+                const tmp = JSON.parse(str);
 
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                if (tmp.data.length > 0)  {
-                    tmp.data[0].tmetadata = {};
-                    //big unuseful field
-                }
+                const opath = [
+                    'VMS',
+                    'stations',
+                     scode,
+                    'sdatatypes',
+                    'esposizione',
+                    'tmetadata'
+                    ];
+                _.set(tmp.data, opath, {});
+                //remove unuseful big field
+
                 resolve(tmp.data);
             });
         }).on('error', error => {
@@ -168,15 +174,13 @@ app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
     const scode = req.params.scode;
 
     if (scode) {
-        getOneStation(scode).then(station => {
+        getOneStation(scode).then(data => {
 
             res.json({
                 last_updated: lastUpdate,
                 ttl: 0,
                 version,
-                data: {
-                    station
-                }
+                data
             });
         });
     }
