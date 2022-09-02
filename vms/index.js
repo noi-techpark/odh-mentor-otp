@@ -11,6 +11,11 @@ const pkg = require('./package.json')
     , dotenv = require('dotenv').config()
     , config = require('@stefcud/configyml');
 
+
+if (config.noauth) {
+    delete config.endpoints.default.headers.Authorization;
+}
+
 //normalize endpoints default
 config.endpoints = _.mapValues(config.endpoints, conf => {
     return _.defaults(conf, config.endpoints.default);
@@ -38,7 +43,6 @@ codes.forEach(item => {
 });
 
 
-
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived;
 
@@ -46,7 +50,7 @@ const stations = [];
 
 console.log(`Starting ${serviceName}...`);
 
-console.log("Config:\n", config);
+console.log("Config:\n", JSON.stringify(config,null,2));
 
 if(!config.endpoints || _.isEmpty(config.endpoints)) {
     console.error('Config endpoints not defined!');
@@ -94,17 +98,27 @@ function formatData() {
 }
 
 function getStations() {
+
+    console.log('REQUEST',config.endpoints.stations);
+
     https.request(config.endpoints.stations, res => {
         var str = "";
-        res.on('data', function (chunk) {
+        console.log('RESPONSE',res.statusCode)
+        res.on('data', chunk => {
             str += chunk;
-        }).on('end', function () {
-            let tmp = JSON.parse(str);
-            stationsReceived = tmp.data;
-            formatData();
+        }).on('end', () => {
+            try {
+                let tmp = JSON.parse(str);
+                stationsReceived = tmp.data;
+                formatData();
+            }
+            catch(err) {
+                console.log('RESPONSE empty')
+                //console.log('[',str,']');
+            }
         });
     }).on('error', error => {
-        console.error(error)
+        console.error('RESPONSE ERR',error)
     }).end();
 }
 

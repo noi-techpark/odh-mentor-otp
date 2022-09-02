@@ -28,7 +28,7 @@ curl -X POST -L "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-
 --data-urlencode 'grant_type=password' \
 --data-urlencode "username=${API_USER}" \
 --data-urlencode "password=${API_PASS}" \
---data-urlencode "client_id=${CLIENT_ID}" | jq . | tee token.json
+--data-urlencode "client_id=${CLIENT_ID}" | jq . | tee .token.json
 # | jq .access_token | tr -d '\"' > .token
 #--data-urlencode 'client_secret=the_client_secret'
 #cat .token
@@ -36,6 +36,10 @@ curl -X POST -L "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-
 jq .access_token token.json | tr -d '"' > .token
 jq .refresh_token token.json | tr -d '"' > .token_ref
 
+sed -i -ze 's/\n$//' .token
+echo "TOKEN=$(cat .token)" >> .env
+
+#
 ##get data
 # curl -v -X GET "${API_HOST}/v2/flat,node/VMS/*/latest?limit=5" \
 #     -H "content-type: application/json"
