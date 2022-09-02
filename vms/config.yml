@@ -17,14 +17,15 @@ endpoints:
     #path: /v2
     headers:
       User-Agent: OpenMove-Api-Client
+    token: ${TOKEN}
 
   # stations:
   #   path: /v2/flat%2Cnode/ParkingStation/free/latest?distinct=true&limit=-1&where=mperiod.eq.300
   stations:
     path: /v2/flat/VMS/?distinct=true&select=*&where=&limit=-1
-    #path: /v2/*/VMS/*?where=scode.eq.%22A22:100:1%22
   station:
     path: "/v2/tree/VMS/*?where=scode.eq.<%=scode%>"
+    #path: /v2/tree/VMS/*?where=scode.eq.%22A22:100:1%22
     #use always `tree` for one instance
 
 ##bbox a22
