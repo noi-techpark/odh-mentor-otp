@@ -10,9 +10,9 @@ fi
 
 if [ -f .token_ref ]
 then
-	TOKEN_REF=$(cat .token)
-	cat .token_ref
-	exit
+	TOKEN_REF=$(cat .token_ref)
+	#cat .token_ref
+	#exit
 fi
 #echo "$API_USER - $API_PASS"
 
@@ -29,3 +29,6 @@ CLIENT_ID=odh-generic-client
 
 jq .access_token token.json | tr -d '"' > .token
 jq .refresh_token token.json | tr -d '"' > .token_ref
+
+sed -i -ze 's/\n$//' .token
+echo "TOKEN=$(cat .token)" >> .env

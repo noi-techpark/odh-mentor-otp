@@ -71,6 +71,9 @@ function formatData() {
     if(stationsReceived && stations.length === 0) {
         for(let i = 0; i < stationsReceived.length; i++){
             let station = stationsReceived[i];
+
+console.log(station)
+
             if(station.sactive && station.scoordinate && station.smetadata) {
 
                 const type = `${station.smetadata.pmv_type}`;
@@ -114,7 +117,6 @@ function getStations() {
             }
             catch(err) {
                 console.log('RESPONSE empty')
-                //console.log('[',str,']');
             }
         });
     }).on('error', error => {

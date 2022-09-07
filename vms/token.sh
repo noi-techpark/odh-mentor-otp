@@ -33,8 +33,8 @@ curl -X POST -L "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-
 #--data-urlencode 'client_secret=the_client_secret'
 #cat .token
 
-jq .access_token token.json | tr -d '"' > .token
-jq .refresh_token token.json | tr -d '"' > .token_ref
+jq .access_token .token.json | tr -d '"' > .token
+jq .refresh_token .token.json | tr -d '"' > .token_ref
 
 sed -i -ze 's/\n$//' .token
 echo "TOKEN=$(cat .token)" >> .env
