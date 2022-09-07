@@ -67,12 +67,34 @@ function getData() {
 getData();
 setInterval(getData, config.polling_interval * 1000);
 
+function filterMetadata(tmp,scode) {
+
+    const opath = scode ? [
+        'VMS',
+        'stations',
+         scode,
+        'sdatatypes',
+        'esposizione',
+        'tmetadata'
+        ] : 'tmetadata';
+
+    if (_.isArray(tmp.data)) {
+        tmp.data.forEach(e => {
+            _.set(e, opath, {});
+        })
+    }
+    _.set(tmp.data, opath, {});
+    //remove unuseful big field
+    console.log('FILTER',JSON.stringify(tmp,null,4))
+    return tmp;
+}
+
 function formatData() {
     if(stationsReceived && stations.length === 0) {
         for(let i = 0; i < stationsReceived.length; i++){
             let station = stationsReceived[i];
 
-console.log(station)
+//console.log(station)
 
             if(station.sactive && station.scoordinate && station.smetadata) {
 
@@ -112,11 +134,15 @@ function getStations() {
         }).on('end', () => {
             try {
                 let tmp = JSON.parse(str);
+
+                filterMetadata(tmp);
+
                 stationsReceived = tmp.data;
+
                 formatData();
             }
             catch(err) {
-                console.log('RESPONSE empty')
+                console.log('RESPONSE empty',err)
             }
         });
     }).on('error', error => {
@@ -144,16 +170,7 @@ function getOneStation(scode=''){
             }).on('end', function () {
                 const tmp = JSON.parse(str);
 
-                const opath = [
-                    'VMS',
-                    'stations',
-                     scode,
-                    'sdatatypes',
-                    'esposizione',
-                    'tmetadata'
-                    ];
-                _.set(tmp.data, opath, {});
-                //remove unuseful big field
+                filterMetadata(tmp,scode)
 
                 resolve(tmp.data);
             });
