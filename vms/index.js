@@ -106,7 +106,7 @@ function getStations() {
 
     https.request(config.endpoints.stations, res => {
         var str = "";
-        console.log('RESPONSE',res.statusCode)
+        console.log('RESPONSE',res.statusCode, config.endpoints.stations.path)
         res.on('data', chunk => {
             str += chunk;
         }).on('end', () => {
