@@ -21,14 +21,15 @@ CLIENT_ID=odh-generic-client
 #CLIENT_ID=odh-mobility-v2
 
 #PAYLOAD="grant_type=password&username=$API_USER&password=$API_PASS&client_id=$CLIENTID"
-~$ curl -X POST -L "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/token" \
+curl -X POST -L "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/token" \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'grant_type=refresh_token' \
 --data-urlencode "refresh_token=${TOKEN_REF}" \
---data-urlencode "lient_id=${CLIENT_ID}"
+--data-urlencode "client_id=${CLIENT_ID}"
 
-jq .access_token token.json | tr -d '"' > .token
-jq .refresh_token token.json | tr -d '"' > .token_ref
+jq .access_token .token.json | tr -d '"' > .token
+jq .refresh_token .token.json | tr -d '"' > .token_ref
 
 sed -i -ze 's/\n$//' .token
+sed -i '/TOKEN/d' .env
 echo "TOKEN=$(cat .token)" >> .env

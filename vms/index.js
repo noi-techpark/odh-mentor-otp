@@ -151,6 +151,9 @@ function getStations() {
                 }
             });
         }
+        else {
+            throw new Error(`statusCode ${res.statusCode}`)
+        }
     }).on('error', error => {
         console.error('RESPONSE ERR',error)
     }).end();
