@@ -26,7 +26,7 @@ endpoints:
   #   path: /v2/flat%2Cnode/ParkingStation/free/latest?distinct=true&limit=-1&where=mperiod.eq.300
   stations:
     #path: /v2/flat%2Cnode/VMS/*?distinct=true&select=*&where=&limit=-1
-    path: /v2/flat,node/VMS/*/latest?select=tmeasurements,scoordinate,smetadata,scode,sname&where=sactive.eq.true,and(sorigin.eq.A22)&limit=200
+    path: /v2/flat,node/VMS/*/latest?select=tmeasurements,scoordinate,smetadata,scode,sname,mvalue,sorigin&where=sactive.eq.true,and(sorigin.eq.A22)&limit=200
     #for A22 add: ,and(sorigin.eq.A22)
   station:
     path: "/v2/tree/VMS/*?where=scode.eq.<%=scode%>&select=*"
