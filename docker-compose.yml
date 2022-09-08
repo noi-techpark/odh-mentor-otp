@@ -135,7 +135,7 @@ services:
       - BUILD_GRAPH=False
       - OTP_OFFICIAL=False
       - GTFS_FILE=latestGTFS.zip
-      - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit.zip
+      - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
       - GTFS_URL_UPDATETIME=0 * * * *
       - GTFS_URL_UPDATEHOOK=''
     volumes:
@@ -174,5 +174,4 @@ services:
     volumes:
       - /opt/odh-mentor-otp/:/data/
       #- infrastructure/docker/docker-entrypoint.sh:/docker-entrypoint.sh
-      #uncomment to test script
-    restart: "no"
+      #uncomment to test script    
