@@ -55,7 +55,7 @@ pipeline {
         DRT_HOST="https://drt.otp.opendatahub.bz.it/"
         CHARGER_HOST="https://charger.otp.opendatahub.bz.it/"
         
-        GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit.zip"
+        GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
         GTFS_URL_UPDATETIME="0 4 * * *"
         GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.prod-deploy.trigger/build?token="
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
@@ -71,7 +71,7 @@ pipeline {
             steps {
                 sh """
                     rm -f .env
-                    cp .env.example .env
+                    cp dotenv.example .env
                     echo 'COMPOSE_PROJECT_NAME=${DOCKER_PROJECT_NAME}' > .env
                     echo 'DOCKER_IMAGE_OTP=${DOCKER_IMAGE_OTP}' >> .env
                     echo 'DOCKER_IMAGE_JOURNEY=${DOCKER_IMAGE_JOURNEY}' >> .env
