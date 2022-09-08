@@ -79,24 +79,23 @@ function filterMetadata(tmp,scode) {
         ] : 'tmetadata';
 
     if (_.isArray(tmp.data)) {
-        tmp.data.forEach(e => {
+        for(let e of tmp.data) {
             _.set(e, opath, {});
-        })
+        }
     }
     _.set(tmp.data, opath, {});
     //remove unuseful big field
-    console.log('FILTER',JSON.stringify(tmp,null,4))
+    //console.log('FILTER',JSON.stringify(tmp,null,4))
     return tmp;
 }
 
 function formatData() {
     if(stationsReceived && stations.length === 0) {
+        //console.log(stationsReceived)
         for(let i = 0; i < stationsReceived.length; i++){
             let station = stationsReceived[i];
 
-//console.log(station)
-
-            if(station.sactive && station.scoordinate && station.smetadata) {
+            if(station.scoordinate) {
 
                 const type = `${station.smetadata.pmv_type}`;
 
@@ -104,6 +103,8 @@ function formatData() {
                 //TODO default code
                 //
                 const title = mapCodes[type] ? mapCodes[type].title : '';
+
+console.log('STATION PUSH',station)
 
                 stations.push({
                     station_id: station.scode,
@@ -114,6 +115,8 @@ function formatData() {
                     direction: Number(station.smetadata.direction_id),
                     //position: station.smetadata.position_m,
                     pmv_type: type,
+                    value: station.mvalue,
+                    time: station.mvalidtime,
                     title,
                     img
                 })
@@ -128,23 +131,26 @@ function getStations() {
 
     https.request(config.endpoints.stations, res => {
         var str = "";
+
         console.log('RESPONSE',res.statusCode, config.endpoints.stations.path)
-        res.on('data', chunk => {
-            str += chunk;
-        }).on('end', () => {
-            try {
-                let tmp = JSON.parse(str);
+        if (res.statusCode===200) {
+            res.on('data', chunk => {
+                str += chunk;
+            }).on('end', () => {
+                try {
+                    let tmp = JSON.parse(str);
+    console.log(tmp)
+                    filterMetadata(tmp);
 
-                filterMetadata(tmp);
-
-                stationsReceived = tmp.data;
-
-                formatData();
-            }
-            catch(err) {
-                console.log('RESPONSE empty',err)
-            }
-        });
+                    stationsReceived = tmp.data;
+                    console.log('stationsReceived',_.size(stationsReceived))
+                    formatData();
+                }
+                catch(err) {
+                    console.log('RESPONSE empty',err)
+                }
+            });
+        }
     }).on('error', error => {
         console.error('RESPONSE ERR',error)
     }).end();
@@ -187,7 +193,7 @@ app.get('/vms/stations.json', cors(corsOptions), (req, res) => {
         ttl: 0,
         version,
         data: {
-            stations
+            stationsReceived
         }
     });
 });
@@ -224,7 +230,7 @@ app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
 
 app.use('/vms/images', express.static('signs/images'));
 
-app.use('/vms/map.html', express.static('map.html'));
+app.use('/vms/map', express.static('map.html'));
 
 app.get('/vms/signs.json', cors(corsOptions),  function (req, res) {
     res.json({
