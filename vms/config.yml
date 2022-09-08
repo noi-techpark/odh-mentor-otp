@@ -37,6 +37,8 @@ endpoints:
 #&where=scoordinate.bbc.(10,46,12.8,47.2)
 #codes:
 #https://github.com/noi-techpark/bdp-commons/blob/main/data-collectors/vms-a22/src/main/resources/it/bz/noi/a22/vms/streetcodes.csv
+
+#https://drive.google.com/file/d/1Tfa-bOm-skr_Rml4rGUuuOZuCV4bYutF/view
 pmv_types:
   1: TIPO A
   2: LAVAGNE
@@ -57,5 +59,6 @@ directions_types:
   1: Sud
   2: Nord
   3: Entrambe
-  4: Non definito
+  4: ''
   #4 (o altro valore numerico) = Non definito
+

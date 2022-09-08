@@ -98,7 +98,7 @@ function formatData() {
 
                 const type = config.pmv_types[ station.smetadata.pmv_type ];
 
-                const direction = config.directions_types[ station.smetadata.direction_id ];
+                const direction = config.directions_types[ station.smetadata.direction_id ] || '';
 
                 const value = `${station.mvalue}`.trim();
 
