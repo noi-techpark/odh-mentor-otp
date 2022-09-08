@@ -44,13 +44,22 @@
             return {color: feature.properties.color};
         },
         pointToLayer: (feature, latlng) => {
-          return L.marker(latlng, {
-            icon: feature.properties.img ? L.divIcon({
+
+          const icon = feature.properties.img ? L.divIcon({
               html: L.Util.template(`<img height="30px" width="30px" src="${baseUrl}{img}">`, feature.properties)
-            }): new L.Icon.Default()
-          })
+            }) : new L.Icon.Default();
+
+          let permanent = false;
+
+          if(!isNaN(Number(feature.properties.value.trim()))) {
+            permanent = true
+          }
+
+          return L.marker(latlng, {icon})
           .bindTooltip(layer => {
-              return L.Util.template(`{station_id}<br>{name}<br> pmv_type: {pmv_type}`, layer.feature.properties);
+              return L.Util.template(`{station_id}<br>{name}<br> {value} <br>type: {type}`, layer.feature.properties);
+          }, {
+            permanent
           })
           .on('click', e => {
             const el = L.DomUtil.get('code');

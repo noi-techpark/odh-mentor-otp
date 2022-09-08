@@ -39,10 +39,9 @@ const mapCodes = {};
 
 codes.forEach(item => {
     item.img = `images/${item.code}.png`;
-    mapCodes[item.code] = item;
+    mapCodes[`${item.code}`] = item;
 });
-
-
+console.log(mapCodes)
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived;
 
@@ -97,14 +96,19 @@ function formatData() {
 
             if(station.scoordinate) {
 
-                const type = `${station.smetadata.pmv_type}`;
+                const type = config.pmv_types[ station.smetadata.pmv_type ];
 
-                const img = mapCodes[type] ? mapCodes[type].img : '';
+                const direction = config.directions_types[ station.smetadata.direction_id ];
+
+                const value = `${station.mvalue}`.trim();
+
+                const img = mapCodes[value] ? mapCodes[value].img : '';
                 //TODO default code
                 //
-                const title = mapCodes[type] ? mapCodes[type].title : '';
 
-console.log('STATION PUSH',station)
+                const title = mapCodes[value] ? mapCodes[value].title : value;
+
+//console.log('STATION PUSH',station)
 
                 stations.push({
                     station_id: station.scode,
@@ -112,22 +116,23 @@ console.log('STATION PUSH',station)
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
                     origin: station.sorigin,
-                    direction: Number(station.smetadata.direction_id),
+                    direction,
                     //position: station.smetadata.position_m,
-                    pmv_type: type,
-                    value: station.mvalue,
+                    type,
                     time: station.mvalidtime,
+                    value,
                     title,
                     img
                 })
             }
         }
+        console.log('STATIONS',stations.length)
     }
 }
 
 function getStations() {
 
-    console.log('REQUEST',config.endpoints.stations);
+    console.log('REQUEST',config.endpoints.stations.path);
 
     https.request(config.endpoints.stations, res => {
         var str = "";
@@ -196,7 +201,7 @@ app.get('/vms/stations.json', cors(corsOptions), (req, res) => {
         ttl: 0,
         version,
         data: {
-            stationsReceived
+            stations
         }
     });
 });
