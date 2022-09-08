@@ -54,7 +54,7 @@ pipeline {
         DRT_HOST="https://drt.otp.opendatahub.testingmachine.eu/"
         CHARGER_HOST="https://charger.otp.opendatahub.testingmachine.eu/"
         
-        GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
+        GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit.zip"
         GTFS_URL_UPDATETIME="0 2 * * *"
         GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.test-deploy.trigger/build?token="
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
