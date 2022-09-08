@@ -25,10 +25,10 @@ curl -X POST -L "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'grant_type=refresh_token' \
 --data-urlencode "refresh_token=${TOKEN_REF}" \
---data-urlencode "client_id=${CLIENT_ID}"
+--data-urlencode "client_id=${CLIENT_ID}" | jq . | tee .token.json
 
 jq .access_token .token.json | tr -d '"' > .token
-jq .refresh_token .token.json | tr -d '"' > .token_ref
+#jq .refresh_token .token.json | tr -d '"' > .token_ref
 
 sed -i -ze 's/\n$//' .token
 sed -i '/TOKEN/d' .env
