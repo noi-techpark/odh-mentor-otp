@@ -13,8 +13,8 @@ var points = [];
 var pp = [];
 
 const prec = 6;
-const bufferInKm = parseInt(process.argv[3]) || 30;	//TODO as external param
-const gridSize = parseInt(process.argv[4]) || 40;
+const bufferInKm = +(process.argv[3]) || 30;	//TODO as external param
+const gridSize = +(process.argv[4]) || 40;
 
 function bboxFlip(bb) {
 	return [bb[1],bb[0], bb[3],bb[2]];

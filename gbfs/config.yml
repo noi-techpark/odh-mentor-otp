@@ -1,17 +1,23 @@
-server:
-  port: 8089
-  polling_interval: 10
+environments:
+  default: prod
+  #default environment if NODE_ENV is not defined
+
+prod:
+  listen_port: 8089
+dev:
+  listen_port: 9089
+  polling_interval: 2
+
+polling_interval: 600
+#10 min
 
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
     port: 443
     #path: /v2
-    #headers:
-    # User-Agent: OpenMove-Bikesharing-Client
-    #example of custom host and port for specific endpoint
-    #hostname: ${STATIONS_HOST}
-    #port: ${STATIONS_PORT}
+    headers:
+      User-Agent: OpenMove-GBFS-Client
 
   stations:
     path: /v2/flat%2Cnode/BikesharingStation?distinct=true
@@ -23,11 +29,11 @@ endpoints:
     path: /v2/flat%2Cnode/Bicycle?distinct=true&limit=500
 
 uri:
-    meran:
-        android: https://play.google.com/store/apps/details?id=de.moqo.work&hl=en_US"
-        ios: https://apps.apple.com/de/app/moqo/id1385011262
-        web: https://www.comune.merano.bz.it/it/Bikesharing
-    bozen:
-        web: https://bolzano.ecospazio.it/
-    papin:
-        web: https://www.papinsport.com/
+  meran:
+    android: https://play.google.com/store/apps/details?id=de.moqo.work&hl=en_US
+    ios: https://apps.apple.com/de/app/moqo/id1385011262
+    web: https://www.comune.merano.bz.it/it/Bikesharing
+  bozen:
+    web: https://bolzano.ecospazio.it/
+  papin:
+    web: https://www.papinsport.com/

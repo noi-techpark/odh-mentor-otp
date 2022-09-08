@@ -6,6 +6,3 @@
 **/node_modules
 journey/dist
 journey/src/config.yml
-journey/.env
-journey/docs
-geocoder/.env

@@ -12,7 +12,7 @@ This project contains a Docker images for stable [OpenTripPlanner](http://opentr
   - [Docker environment](#docker)
 - [Information](#information)
 
-![journey web app](journey/docs/multi_modal_bike_ride.png)
+![journey web app](docs/images/multi_modal_bike_ride.png)
 
 ## Getting started
 

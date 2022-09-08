@@ -13,7 +13,6 @@ import AppMenu from './components/app/app-menu'
 
 import i18n from './i18n'
 
-
 import { setMapCenter, setMapZoom } from './actions/config'
 
 import mergeDeep from './util/mergeDeep'
@@ -22,6 +21,9 @@ import interreg from './images/interreg.png'
 import openmove from './images/openmove.png'
 import merano from './images/merano.png'
 import bolzano from './images/ComuneBolzano.png'
+
+import MatomoIntegration from './util/matomo-integration';
+
 
 const logos = {
   interreg,
@@ -139,12 +141,15 @@ class JourneyWebapp extends Component {
 
     /** the main webapp **/
     return (
-      <ResponsiveWebapp
-        desktopView={desktopView}
-        // Pass the LegIcon here for use in the print view.
-        LegIcon={LegIcon}
-        mobileView={mobileView}
-      />
+      <>
+        <ResponsiveWebapp
+          desktopView={desktopView}
+          // Pass the LegIcon here for use in the print view.
+          LegIcon={LegIcon}
+          mobileView={mobileView}
+        />
+        <MatomoIntegration t={t} />
+      </>
     )
   }
 }

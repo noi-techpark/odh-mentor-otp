@@ -1,15 +1,23 @@
-server:
-  port: 8095
-  polling_interval: 20
-  filename: 'gtfs-flex'
+environments:
+  default: prod
+  #default environment if NODE_ENV is not defined
+
+prod:
+  listen_port: 8095
+dev:
+  listen_port: 9095
+
+gtfsflex_filename: 'gtfs-flex-%T.zip'
+# %T is Unix Epoch
 
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
     port: 443
     #path: /v2
-    #headers:
-    # User-Agent: OpenMove-Drt-Client
+    headers:
+      User-Agent: OpenMove-Drt-Client
+
   vehicles:
     path: /v2/flat,node/ON_DEMAND_VEHICLE/*/latest
   stops:
@@ -18,10 +26,10 @@ endpoints:
     path: /v2/flat,node/ON_DEMAND_ITINERARY/*/latest
 
 #TODO use in csv.js
-gtfsFlex:
-  agency_id: DRT
-  agency_name: Call Bus
-  agency_url: https://www.sasabz.it/callbus
-  agency_timezone: Europe/Rome
-  agency_lang: it
-  agency_phone: "+390471706633"
+# gtfs_flex_agency:
+#   id: DRT
+#   name: Call Bus
+#   url: https://www.sasabz.it/callbus
+#   timezone: Europe/Rome
+#   lang: it
+#   phone: "+390471706633"

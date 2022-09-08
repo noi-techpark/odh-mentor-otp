@@ -1,14 +1,23 @@
-server:
-  port: 8094
-  polling_interval: 20
+environments:
+  default: prod
+  #default environment if NODE_ENV is not defined
+
+prod:
+  listen_port: 8094
+dev:
+  listen_port: 9094
+  polling_interval: 2
+
+polling_interval: 60
 
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
     port: 443
-    #headers:
-    # User-Agent: OpenMove-Traffic-Client
-    #
+    #path: /v2
+    headers:
+      User-Agent: OpenMove-Traffic-Client
+
   geometries:
     path: /v2/flat,edge/LinkStation/?limit=-1&distinct=true&select=egeometry,ecode,etype&where=eactive.eq.true
 

@@ -55,12 +55,15 @@ pipeline {
         DRT_HOST="https://drt.otp.opendatahub.bz.it/"
         CHARGER_HOST="https://charger.otp.opendatahub.bz.it/"
         
-        GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
+        GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit.zip"
         GTFS_URL_UPDATETIME="0 4 * * *"
         GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.prod-deploy.trigger/build?token="
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
         JENKINS_TRIGGER_PSWD=credentials("otp-jenkins-trigger-pswd")
         JENKINS_TRIGGER_USER=credentials("otp-jenkins-trigger-user")
+        
+        MATOMO_BASE_URL="https://digital.matomo.cloud/"
+        MATOMO_SITE_ID="20"
     }
 
     stages {
@@ -121,6 +124,8 @@ pipeline {
                     echo 'DOCKER_DRT_PORT=${DOCKER_DRT_PORT}' >> .env
                     echo 'DOCKER_ECHARGING_PORT=${DOCKER_ECHARGING_PORT}' >> .env
                     echo 'DOCKER_TRAFFIC_PORT=${DOCKER_TRAFFIC_PORT}' >> .env
+                    echo 'MATOMO_BASE_URL=${MATOMO_BASE_URL}' >> .env
+                    echo 'MATOMO_SITE_ID=${MATOMO_SITE_ID}' >> .env
                     
                     echo 'GTFS_URL="${GTFS_URL}"' >> .env
                     echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env

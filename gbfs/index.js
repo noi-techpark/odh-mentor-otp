@@ -2,7 +2,23 @@ const express = require('express');
 const https = require('https');
 const _ = require('lodash');
 const csv2json = require('csvtojson');
-const config = require('./config');
+
+const pkg = require('./package.json')
+    , version = pkg.version
+    , serviceName = `service ${pkg.name} v${version}`
+    , dotenv = require('dotenv').config()
+    , config = require('@stefcud/configyml');
+
+//normalize endpoints default
+config.endpoints = _.mapValues(config.endpoints, conf => {
+    return _.defaults(conf, config.endpoints.default);
+});
+delete config.endpoints.default;
+
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 var app = express();
 
@@ -11,11 +27,13 @@ var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     baysReceived,
     bikesReceived;
 
-console.log("Start GBFS OpenData Hub...")
+console.log(`Starting ${serviceName}...`);
 
 console.log("Config:\n", config);
 
 const GBFS_VERSION = "2.1";
+//TODO move to fonfig
+
 let meranStations = [];
 
 csv2json()
@@ -29,16 +47,16 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
     return;
 }
 
-function getData(){
+function getData() {
     lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     getBays();
     getBikes();
 }
 getData();
-setInterval(getData, config.server.polling_interval * 60 * 1000);
+setInterval(getData, config.polling_interval * 1000);
 
-function getStations(){
+function getStations() {
     const req = https.request(config.endpoints.stations, res => {
             //console.log(`STATIONS: statusCode: ${res.statusCode}`)
             var str = "";
@@ -60,7 +78,7 @@ function getStations(){
     req.end()
 }
 
-function getBikes(){
+function getBikes() {
     const req = https.request(config.endpoints.bikes, res => {
             //console.log(`BIKES: statusCode: ${res.statusCode}`)
             var str = "";
@@ -82,7 +100,7 @@ function getBikes(){
     req.end()
 }
 
-function getBays(){
+function getBays() {
     const req = https.request(config.endpoints.bays, res => {
             //console.log(`BAYS: statusCode: ${res.statusCode}`)
             var str = "";
@@ -111,10 +129,10 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -133,7 +151,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         protocol = "https";
     }
 
-    var url = protocol + '://' + host + "/" + context + "/"+version;
+    var url = protocol + '://' + host + "/" + context + "/"+reqVersion;
     var feeds = [
         {
             name: "system_information",
@@ -148,22 +166,22 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
             url: url+"/station_status.json"
         },
         {
-            name: "system_regions.json",
+            name: "system_regions",
             url: url+"/system_regions.json"
         },
         {
-            name: "system_hours.json",
+            name: "system_hours",
             url: url+"/system_hours.json"
         }
     ];
 
-    if(version >= 2.1 ){
+    if(reqVersion >= 2.1 ){
         feeds.push({
-            name: "gbfs_versions.json",
+            name: "gbfs_versions",
             url: url+"/gbfs_versions.json"
         });
         feeds.push({
-            name: "vehicle_types.json",
+            name: "vehicle_types",
             url: url+"/vehicle_types.json"
         });
     }
@@ -177,7 +195,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             en: {
                feeds: feeds
@@ -192,10 +210,10 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version < 2.1 ){
+    if(reqVersion < 2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -214,11 +232,10 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
         protocol = "https";
     }
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             versions: [
                 {
@@ -240,10 +257,10 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -251,24 +268,23 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
         res.status(500).send({ error: "wrong context" });
         return;
     }
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             regions: [
                 {
                     region_id: "BZ",
-                    region_name: "Bolzano - Bozen"
+                    name: "Bolzano - Bozen"
                 },
                 {
                     region_id: "ME",
-                    region_name: "Merano - Meran"
+                    name: "Merano - Meran"
                 },
                 {
                     region_id: "PAPIN",
-                    region_name: "Papin - Rent a bike"
+                    name: "Papin - Rent a bike"
                 }
             ]
         }
@@ -281,10 +297,10 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version < 2.1 ){
+    if(reqVersion < 2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -292,11 +308,10 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
         res.status(500).send({ error: "wrong context" });
         return;
     }
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             vehicle_types: [
                 {
@@ -323,10 +338,10 @@ app.get('/:context/:version/system_information.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -343,7 +358,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     if(context === "bz"){
         systemId += "_bz";
         systemName += " Bolzano";
-        if(config.uri && config.uri.bozen){
+        if(config.uri && config.uri.bozen) {
             androidUri = config.uri.bozen.android;
             iosUri = config.uri.bozen.ios;
     	    url = config.uri.bozen.web;
@@ -363,7 +378,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     if(context === "papin"){
         systemId += "_papin";
         systemName += " Papin";
-        if(config.uri && config.uri.papin){
+        if(config.uri && config.uri.papin) {
             androidUri = config.uri.papin.android;
             iosUri = config.uri.papin.ios;
             url = config.uri.papin.web;
@@ -377,7 +392,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     var obj = {
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             system_id: systemId,
             language: "it",
@@ -391,11 +406,17 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     if(hasApp) {
          obj.data.rental_apps = {};
         if(androidUri){
-            obj.data.rental_apps.android = {store_uri: androidUri};
+            obj.data.rental_apps.android = {
+                store_uri: androidUri,
+                discovery_uri: 'unknown://uri'
+            };
         }
 
         if(iosUri){
-            obj.data.rental_apps.ios = {store_uri: iosUri};
+            obj.data.rental_apps.ios = {
+                store_uri: iosUri,
+                discovery_uri: 'unknown://uri'
+            };
         }
     }
 
@@ -417,10 +438,10 @@ app.get('/:context/:version/station_information.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -496,10 +517,10 @@ app.get('/:context/:version/station_information.json', function (req, res) {
                 region_id: "ME",
 	            is_virtual_station: true,
     			station_area: {
-    				type: "Polygon",
-    				coordinates: station.polygon.split(", ").map(item => {
-    					return item.replace(/(\(|\))/g, '').split(",").map(elem => {return parseFloat(elem);});
-    				})
+    				type: "MultiPolygon",
+    				coordinates: [[station.polygon.split(", ").map(item => {
+    					return item.replace(/(\(|\))/g, '').split(",").map(elem => {return parseFloat(elem);}).reverse();
+    				})]]
     			}
             };
             stations.push(obj);
@@ -508,11 +529,10 @@ app.get('/:context/:version/station_information.json', function (req, res) {
 
 
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             stations: stations
         }
@@ -525,10 +545,10 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -544,7 +564,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
                 var station = stationsReceived[i];
                 if(station.sactive && station.savailable && station.sorigin === "BIKE_SHARING_BOLZANO"){
                     var obj = {
-                        station_id: station.scode,
+                        station_id: station.scode ? station.scode : 'unknown',
                         is_renting: true,
                         is_installed: true,
                         is_returning: true,
@@ -593,16 +613,16 @@ app.get('/:context/:version/station_status.json', function (req, res) {
 
                             obj.num_bikes_available = bikeAvailable;
                             obj.num_docks_disabled = dockDisabled;
-                            // obj.vehicle_docks_available = [{
-                            //     vehicle_type_ids: ["bike", "e-bike"],
-                            //     count: dockAvailable
-                            // }];
+                            obj.vehicle_docks_available = [{
+                                vehicle_type_ids: ["bike", "e-bike"],
+                                count: Math.max(0, dockAvailable)
+                            }];
                             obj.vehicle_types_available = [{
-                                vehicle_type_ids: ["bike"],
+                                vehicle_type_id: "bike",
                                 count: bikeAvailableStandard
                             },
                             {
-                                vehicle_type_ids: ["e-bike"],
+                                vehicle_type_id: "e-bike",
                                 count: bikeAvailableElectric
                             }
 
@@ -644,10 +664,11 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         for(var k = 0; k < meranStations.length; k++){
             var station = meranStations[k];
             var obj = {
-                station_id: station.id,
+                station_id: station.id ? station.id : 'unknown',
                 num_bikes_available: 0,
                 is_renting: false,
                 is_returning: true,
+                is_installed: false,
                 num_docks_available: 1000,
                 last_reported: lastUpdate
             };
@@ -655,11 +676,10 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         }
     }
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             stations: stations
         }
@@ -672,10 +692,10 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -697,18 +717,17 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
                         is_reserved: bike.smetadata["future-availability"] == 0,
                         is_disabled: bike.smetadata["in-maintenance"] == 1,
                         vehicle_type_id: "bike",
-                        station_id: station ? station.id: null
+                        station_id: station ? station.id: 'unknown'
                     });
                 }
             }
         }
     }
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             bikes: bikes
         }
@@ -721,10 +740,10 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
         req.params.version = 1;
     }
 
-    let version = +(req.params.version);
+    let reqVersion = +(req.params.version);
 
 
-    if(version != 1 && version !=2.1 ){
+    if(reqVersion != 1 && reqVersion !=2.1 ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -742,19 +761,24 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
         });
     }
 
-    res.json(
-    {
+    res.json({
         last_updated: lastUpdate,
         ttl: 0,
-        version: version >= 2.1 ? ""+version : undefined,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             rental_hours: rental_hours
         }
     });
 });
 
-app.listen(config.server.port, function () {
-    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`listening at http://localhost:${config.server.port}`);
+app.get(['/','/gbfs'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
 });
 
+app.listen(config.listen_port, function () {
+    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
+});

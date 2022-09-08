@@ -1,3 +1,7 @@
+#
+# Require a .env file contains all environment vars
+# look contents of file _dot.env.example
+#
 version: '3'
 
 networks:
@@ -15,63 +19,35 @@ services:
       context: ./
       dockerfile: infrastructure/docker/journey/Dockerfile
       args:
-        #hostnames from browser point of view
-        API_HOST: http://localhost
-        API_PATH: /otp/routers/openmove
-        API_PORT: 8080
-        GEOCODER_BASEURL: http://localhost:8088
-        PARKING_BASEURL: http://localhost:8092
-        DRT_BASEURL: http://localhost:8095
-        CHARGER_BASEURL: http://localhost:8093
-        CARSHARING_BASEURL: http://localhost:8091
-        TRAFFIC_BASEURL: http://localhost:8094
-        GOOGLE_ANALYTICS_ID: 'UA-XXXXX-Y'
-        # debug
+        API_HOST: $API_HOST
+        API_PATH: $API_PATH
+        API_PORT: $API_PORT
+        CARSHARING_BASEURL: $CARSHARING_BASEURL
+        CHARGER_BASEURL: $CHARGER_BASEURL
+        DRT_BASEURL: $DRT_BASEURL
+        GEOCODER_BASEURL: $GEOCODER_BASEURL
+        PARKING_BASEURL: $PARKING_BASEURL
+        TRAFFIC_BASEURL: $TRAFFIC_BASEURL
+        ## debug of remote instance
         #API_HOST: https://otp.opendatahub.testingmachine.eu
         #API_PORT: 443
         #API_PATH: /otp/routers/openmove
         #GEOCODER_BASEURL: https://geocoder.otp.opendatahub.testingmachine.eu/v1
         #PARKING_BASEURL: https://parking.otp.opendatahub.testingmachine.eu
+        #DRT_BASEURL:  https://drt.otp.opendatahub.testingmachine.eu
         #CHARGER_BASEURL: https://charger.otp.opendatahub.testingmachine.eu
         #CARSHARING_BASEURL: https://carsharing.otp.opendatahub.testingmachine.eu
         #TRAFFIC_BASEURL: https://traffic.otp.opendatahub.testingmachine.eu
-    depends_on:
-     - geocoder
-     - otp
-     - parking
-     - charger
-     - carsharing
-     - traffic
-     - drt
-
-  geocoder:
-    container_name: openmove-geocoder
-    ports:
-      - "8088:8088"
-    image: openmove_geocoder:latest
-    build:
-      context: ./
-      dockerfile: infrastructure/docker/geocoder/Dockerfile
-    #TODO ONLY FOR DEBUG
-    #volumes:
-    #  - ./config.yml:/home/config.yml
-    #  - ./index.js:/home/index.js
-    environment:
-      API_HOST: otp
-      API_PATH: /otp/routers/openmove
-      API_PORT: 8080    
-      HERE_APPID: ''
-      HERE_APPCODE: ''
-      HERE_APIKEY: ''
-
-  gbfs:
-    container_name: openmove-gbfs
-    ports:
-      - "8089:8089"
-    image: openmove_gbfs:latest
-    build:
-      context: ./
-      dockerfile: infrastructure/docker/gbfs/Dockerfile
+        ##
+        #GOOGLE_ANALYTICS_ID: $GOOGLE_ANALYTICS_ID
+    # depends_on:
+    #  - geocoder
+    #  - otp
+    #  - parking
+    #  - charger
+    #  - carsharing
+    #  - traffic
+    #  - drt
 
   carsharing:
     container_name: openmove-carsharing
@@ -81,15 +57,6 @@ services:
     build:
       context: ./
       dockerfile: infrastructure/docker/carsharing/Dockerfile
-
-  parking:
-    container_name: openmove-parking
-    ports:
-      - "8092:8092"
-    image: openmove_parking:latest
-    build:
-      context: ./
-      dockerfile: infrastructure/docker/parking/Dockerfile
 
   charger:
     container_name: openmove-charger
@@ -108,6 +75,43 @@ services:
       build:
         context: ./
         dockerfile: infrastructure/docker/drt/Dockerfile
+  gbfs:
+      container_name: openmove-gbfs
+      ports:
+        - "8089:8089"
+      image: openmove_gbfs:latest
+      build:
+        context: ./
+        dockerfile: infrastructure/docker/gbfs/Dockerfile
+
+  geocoder:
+    container_name: openmove-geocoder
+    ports:
+      - "8088:8088"
+    image: openmove_geocoder:latest
+    build:
+      context: ./
+      dockerfile: infrastructure/docker/geocoder/Dockerfile
+    #TODO ONLY FOR DEBUG
+    #volumes:
+    #  - ./config.yml:/home/config.yml
+    #  - ./index.js:/home/index.js
+    environment:
+      API_HOST: otp
+      API_PATH: /otp/routers/openmove
+      API_PORT: 8080
+      HERE_APPID: ''
+      HERE_APPCODE: ''
+      HERE_APIKEY: ''
+
+  parking:
+    container_name: openmove-parking
+    ports:
+      - "8092:8092"
+    image: openmove_parking:latest
+    build:
+      context: ./
+      dockerfile: infrastructure/docker/parking/Dockerfile
 
   traffic:
     container_name: openmove-traffic
@@ -131,7 +135,7 @@ services:
       - BUILD_GRAPH=False
       - OTP_OFFICIAL=False
       - GTFS_FILE=latestGTFS.zip
-      - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip
+      - GTFS_URL=ftp://ftp.sta.bz.it/gtfs/google_transit.zip
       - GTFS_URL_UPDATETIME=0 * * * *
       - GTFS_URL_UPDATEHOOK=''
     volumes:

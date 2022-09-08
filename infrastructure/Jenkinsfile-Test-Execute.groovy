@@ -27,7 +27,7 @@ pipeline {
         DOCKER_ECHARGING_PORT = "1087"
         DOCKER_TRAFFIC_PORT = "1088"
 
-        JAVA_MX = "14G"
+        JAVA_MX = "7G"
         BUILD_GRAPH = "False"
         DOWNLOAD_DATA = "False"
         BACKUP_GRAPH = "False"
@@ -54,12 +54,15 @@ pipeline {
         DRT_HOST="https://drt.otp.opendatahub.testingmachine.eu/"
         CHARGER_HOST="https://charger.otp.opendatahub.testingmachine.eu/"
         
-        GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
+        GTFS_URL="ftp://ftp.sta.bz.it/gtfs/google_transit.zip"
         GTFS_URL_UPDATETIME="0 2 * * *"
         GTFS_URL_UPDATEHOOK="https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.test-deploy.trigger/build?token="
         JENKINSURL_TOKEN=credentials("calculate.test-deploy.trigger-authtoken")
         JENKINS_TRIGGER_PSWD=credentials("otp-jenkins-trigger-pswd")
         JENKINS_TRIGGER_USER=credentials("otp-jenkins-trigger-user")
+        
+        MATOMO_BASE_URL="https://digital.matomo.cloud/"
+        MATOMO_SITE_ID="20"
     }
 
     stages {
@@ -67,7 +70,7 @@ pipeline {
             steps {
                 sh """
                     rm -f .env
-                    cp .env.example .env
+                    cp dotenv.example .env
                     echo 'COMPOSE_PROJECT_NAME=${DOCKER_PROJECT_NAME}' > .env
                     echo 'DOCKER_IMAGE_OTP=${DOCKER_IMAGE_OTP}' >> .env
                     echo 'DOCKER_IMAGE_JOURNEY=${DOCKER_IMAGE_JOURNEY}' >> .env
@@ -119,6 +122,8 @@ pipeline {
                     echo 'DOCKER_DRT_PORT=${DOCKER_DRT_PORT}' >> .env
                     echo 'DOCKER_ECHARGING_PORT=${DOCKER_ECHARGING_PORT}' >> .env
                     echo 'DOCKER_TRAFFIC_PORT=${DOCKER_TRAFFIC_PORT}' >> .env
+                    echo 'MATOMO_BASE_URL=${MATOMO_BASE_URL}' >> .env
+                    echo 'MATOMO_SITE_ID=${MATOMO_SITE_ID}' >> .env
                     
                     echo 'GTFS_URL="${GTFS_URL}"' >> .env
                     echo 'GTFS_URL_UPDATETIME="${GTFS_URL_UPDATETIME}"' >> .env
