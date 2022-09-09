@@ -157,7 +157,7 @@ function getStations() {
             });
         }
         else {
-            throw new Error(`statusCode ${res.statusCode} run ./token.sh or ./token_refresh.sh`)
+            console.error(`statusCode ${res.statusCode} run ./token.sh or ./token_refresh.sh`)
         }
     }).on('error', error => {
         console.error('RESPONSE ERR',error);
