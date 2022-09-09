@@ -81,7 +81,7 @@ class BaseMap extends Component {
 
   constructor(props) {
     super(props);
-    
+
     this.state = {
       layerIndex: props.defaultBaseLayerIndex
     };
@@ -155,15 +155,15 @@ class BaseMap extends Component {
     if (typeof onBaseLayerChange === "function") {
       onBaseLayerChange({ index, layer });
     }
-    // Update active index in state.    
+    // Update active index in state.
     this.setState({ layerIndex: index });
   };
 
-  handleOverlayAdded = e => {    
+  handleOverlayAdded = e => {
     this.forwardOne("onOverlayAdded", e);
   };
 
-  handleOverlayRemoved = e => {    
+  handleOverlayRemoved = e => {
     this.forwardOne("onOverlayRemoved", e);
   };
 
@@ -278,6 +278,7 @@ class BaseMap extends Component {
                       tileSize={512}
                       zoomOffset={-1}
                       detectRetina={layer.detectRetina}
+
                     />
                   ) : (
                     <TileLayer
@@ -285,6 +286,7 @@ class BaseMap extends Component {
                       attribution={layer.attribution}
                       maxZoom={layer.maxZoom}
                       detectRetina={layer.detectRetina}
+
                     />
                   )}
                 </LayersControl.BaseLayer>

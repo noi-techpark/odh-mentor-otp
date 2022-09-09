@@ -40,14 +40,14 @@ services:
         #TRAFFIC_BASEURL: https://traffic.otp.opendatahub.testingmachine.eu
         ##
         #GOOGLE_ANALYTICS_ID: $GOOGLE_ANALYTICS_ID
-    # depends_on:
-    #  - geocoder
-    #  - otp
-    #  - parking
-    #  - charger
-    #  - carsharing
-    #  - traffic
-    #  - drt
+    depends_on:
+     - geocoder
+     - otp
+     - parking
+     - charger
+     - carsharing
+     - traffic
+     - drt
 
   carsharing:
     container_name: openmove-carsharing
