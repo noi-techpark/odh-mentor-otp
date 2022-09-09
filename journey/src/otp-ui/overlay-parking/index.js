@@ -99,7 +99,7 @@ class ParkingOverlay extends MapLayer {
           badgeType = 'danger';
           badgeCounter = null;
         }
-        
+
         iconWidth = overlayParkingConf.iconWidth;
         iconHeight = overlayParkingConf.iconHeight;
       }
@@ -129,7 +129,7 @@ class ParkingOverlay extends MapLayer {
         popupAnchor: [0, -iconHeight],
         html: ReactDOMServer.renderToStaticMarkup(
           <BadgeIcon type={badgeType} width={iconWidth}>
-          { data.type === 'station' && 
+          { data.type === 'station' &&
             <MarkerParking
               width={iconWidth}
               height={iconHeight}
@@ -137,7 +137,7 @@ class ParkingOverlay extends MapLayer {
               markerColor={overlayParkingConf.iconMarkerColor}
             />
           }
-          { data.type === 'sensor' && 
+          { data.type === 'sensor' &&
             <MarkerParkingSensor
               width={iconWidth}
               height={iconHeight}
@@ -145,7 +145,7 @@ class ParkingOverlay extends MapLayer {
               markerColor={overlayParkingConf.iconMarkerColor}
             />
           }
-          { data.type === 'sensorGroup' && 
+          { data.type === 'sensorGroup' &&
             <MarkerParkingSensor
               width={iconWidth}
               height={iconHeight}
@@ -157,10 +157,10 @@ class ParkingOverlay extends MapLayer {
         )
       });
     }
-    
+
     const clusterIcon = cluster => {
       const text = cluster.getChildCount();
-     
+
       return L.divIcon({
         className: 'marker-cluster-svg',
         iconSize: [overlayParkingConf.iconWidth, overlayParkingConf.iconHeight],
@@ -190,6 +190,7 @@ class ParkingOverlay extends MapLayer {
                 icon={markerIcon(station)}
                 key={station.station_id}
                 position={[station.lat, station.lon]}
+                onClick={(e)=>{ e.target.openPopup()}}
               >
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
@@ -222,6 +223,7 @@ class ParkingOverlay extends MapLayer {
               icon={markerIcon(station)}
               key={station.station_id}
               position={[station.lat, station.lon]}
+              onClick={(e)=>{ e.target.openPopup()}}
             >
               <Popup>
                 <div className="otp-ui-mapOverlayPopup">
@@ -246,7 +248,7 @@ class ParkingOverlay extends MapLayer {
                   }
 
                   {
-                    station.type === 'sensorGroup' && 
+                    station.type === 'sensorGroup' &&
                     <div className="otp-ui-mapOverlayPopup__popupAvailableSlots">
                         {
                           station.sensors.map( sensor => {
@@ -260,7 +262,7 @@ class ParkingOverlay extends MapLayer {
                               </div>
                             );
                           })
-                        }   
+                        }
                     </div>
                   }
 
