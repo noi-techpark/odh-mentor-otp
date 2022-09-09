@@ -108,7 +108,7 @@ function formatData() {
 
                 const title = mapCodes[value] ? mapCodes[value].title : value;
 
-//console.log('STATION PUSH',station)
+console.log('STATION PUSH',station)
 
                 stations.push({
                     station_id: station.scode,
@@ -157,7 +157,7 @@ function getStations() {
             });
         }
         else {
-            console.error(`statusCode ${res.statusCode} run ./token.sh or ./token_refresh.sh`)
+            console.error(`Error to retrieve data, statusCode ${res.statusCode} try to run ./token.sh or ./token_refresh.sh`)
         }
     }).on('error', error => {
         console.error('RESPONSE ERR',error);
@@ -185,6 +185,8 @@ function getOneStation(scode=''){
                 const tmp = JSON.parse(str);
 
                 filterMetadata(tmp,scode)
+
+console.log('getOneStation',JSON.stringify(tmp,null,4))
 
                 resolve(tmp.data);
             });

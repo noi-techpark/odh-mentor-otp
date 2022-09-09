@@ -5,19 +5,24 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" rel="stylesheet" type="text/css" />
   <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
   #map {
-    width: 800px;
+    width: 50%;
     height: 600px;
   }
   #code {
     position: fixed;
     right: 5px;
-    top: 5px;
-    width: 600px;
-    height: 600px;
+    top: 0;
+    width: 50%;
+    min-height: 600px;
     background: #ddd;
     font-size: small;
     display: block;
+    z-index: 1000;
   }
   </style>
 </head>
@@ -45,23 +50,17 @@
         },
         pointToLayer: (feature, latlng) => {
 
-          const icon = feature.properties.img ? L.divIcon({
+/*          const icon = feature.properties.img ? L.divIcon({
               html: L.Util.template(`<img height="30px" width="30px" src="${baseUrl}{img}">`, feature.properties)
-            }) : new L.Icon.Default();
+            }) : new L.Icon.Default();*/
 
-          let permanent = false;
+          let hasText = false
 
-          if(!isNaN(Number(feature.properties.value.trim()))) {
-            permanent = true
+          if(isNaN(Number(feature.properties.value.trim()))) {
+            hasText = true
           }
 
-          return L.marker(latlng, {icon})
-          .bindTooltip(layer => {
-              return L.Util.template(`{station_id}<br>{name}<br> {value} <br>type: {type}`, layer.feature.properties);
-          }, {
-            permanent
-          })
-          .on('click', e => {
+          const mark = L.marker(latlng).on('click', e => {
             const el = L.DomUtil.get('code');
 
             //el.innerText = '';
@@ -78,6 +77,17 @@
               el.innerText = jj;
             });
           });
+
+          if(hasText)
+          mark.bindTooltip(layer => {
+              return L.Util.template(`type: {type}`, layer.feature.properties);
+          }, {
+            permanent: true
+          }).bindPopup(layer => {
+            return L.Util.template(`{station_id}<br>{name}<br> {value} <br>type: {type}`, layer.feature.properties);
+          })
+
+          return mark
         }
     }).addTo(map);
   });
