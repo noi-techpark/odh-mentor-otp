@@ -174,5 +174,4 @@ services:
     volumes:
       - /opt/odh-mentor-otp/:/data/
       #- infrastructure/docker/docker-entrypoint.sh:/docker-entrypoint.sh
-      #uncomment to test script
-    restart: "no"
+      #uncomment to test script    

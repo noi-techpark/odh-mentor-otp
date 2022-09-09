@@ -27,7 +27,7 @@ pipeline {
         DOCKER_ECHARGING_PORT = "1087"
         DOCKER_TRAFFIC_PORT = "1088"
 
-        JAVA_MX = "14G"
+        JAVA_MX = "7G"
         BUILD_GRAPH = "False"
         DOWNLOAD_DATA = "False"
         BACKUP_GRAPH = "False"
