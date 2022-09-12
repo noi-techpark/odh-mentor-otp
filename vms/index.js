@@ -38,10 +38,11 @@ const codes = require('./signs/codes.json');
 const mapCodes = {};
 
 codes.forEach(item => {
-    item.img = `images/${item.code}.png`;
+    if(item.code!='N' && item.code!='S')
+        item.img = `images/${item.code}.png`;
     mapCodes[`${item.code}`] = item;
 });
-console.log(mapCodes)
+
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived;
 
@@ -103,26 +104,25 @@ function formatData() {
 
                 let value = `${station.mvalue}`.trim();
 
-                if (value.indexOf('|')) {
-                    value = value.split('|')[0]
-                }//bilingual it|de
+                let text = value,
+                    img = '';
 
+                if (mapCodes[value]) {
+                    text = mapCodes[value].title;
+                    img = mapCodes[value].img;
+                }
 
-              /*  if(isNaN(Number(value))) {
-                     hasText = true
-                }*/
-                const img = mapCodes[ value ] ? mapCodes[value].img : '';
-                //TODO default code
-                //
+                if (value.indexOf('|')) {       //bilingual it|de
+                    value = value.split('|')[0];
+                }
 
-                const title = mapCodes[value] ? mapCodes[value].title : value;
                 /*La policy A22 è quello di prevedere un carosello
                 solo in Alto Adige dove la messaggistica è bilingue. Si propone di salvare in ogni caso il
                 messaggio concatenato associato a tutte le pagine presenti, usando un carattere delimitatore
                 tra una pagina e l’altra (es. “|”).
                 */
 
-//console.log('STATION PUSH',station)
+console.log('STATION PUSH',station)
 
                 stations.push({
                     station_id: station.scode,
@@ -130,17 +130,19 @@ function formatData() {
                     lat: station.scoordinate.y,
                     lon: station.scoordinate.x,
                     origin: station.sorigin,
+                    time: station.mvalidtime,
                     direction,
                     //position: station.smetadata.position_m,
                     type,
                     type_name,
-                    time: station.mvalidtime,
-                    value,
-                    title,
+                    text,
                     img
                 })
             }
         }
+
+        //normalize by coorindates
+        //
         console.log('STATIONS',stations.length)
     }
 }
