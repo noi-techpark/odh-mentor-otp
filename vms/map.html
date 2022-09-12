@@ -50,11 +50,13 @@
         },
         pointToLayer: (feature, latlng) => {
 
-/*          const icon = feature.properties.img ? L.divIcon({
-              html: L.Util.template(`<img height="30px" width="30px" src="${baseUrl}{img}">`, feature.properties)
-            }) : new L.Icon.Default();*/
+          if (feature.properties.text==='') return;
 
-          const mark = L.marker(latlng)
+          const icon = feature.properties.img ? L.divIcon({
+            html: L.Util.template(`<img height="30px" width="30px" src="${baseUrl}{img}">`, feature.properties)
+          }) : new L.Icon.Default();
+
+          const mark = L.marker(latlng, {icon})
           .on('popupopen', e => {
             const el = L.DomUtil.get('code');
             const url = L.Util.template(`${baseUrl}{station_id}/station.json`, e.target.feature.properties);
@@ -66,31 +68,21 @@
               const jj = JSON.stringify(dd,null,2);
               el.innerText = jj;
             });
-          });
+          })
+          .bindPopup(layer => {
+              const {type, type_name, station_id, name, text, direction} = layer.feature.properties;
+              return `${type_name}<br>${name}<br><pre>${text}</pre><br> direzione: ${direction}`;
+            });
 
-          let hasText = false
-
-          if(isNaN(Number(feature.properties.value.trim()))) {
-            hasText = true
-          }
-
-          if(hasText) {
+/*          if (feature.properties.img) {
             mark.bindTooltip(layer => {
-                const {type,value} = layer.feature.properties;
-                console.log(type, value)
-                return L.Util.template(`${type}: ${value}`);
+                const {type, type_name, name, text} = layer.feature.properties;
+                return L.Util.template(`${type_name}<br>${text}`);
             }, {
               permanent: true
             })
           }
-
-          mark.bindPopup(layer => {
-              const {type,station_id,name,value,title,img} = layer.feature.properties;
-              return `type: ${type}<br>${station_id}<br>${name}<br> value:<pre>${value}</pre>"${title}"`+
-              `<br><img src="${img}" />`;
-            })
-
-
+*/
           return mark
         }
     }).addTo(map);
