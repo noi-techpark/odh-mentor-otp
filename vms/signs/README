@@ -1,2 +1,5 @@
 #codes:
 #https://github.com/noi-techpark/bdp-commons/blob/main/data-collectors/vms-a22/src/main/resources/it/bz/noi/a22/vms/streetcodes.csv
+
+node extract.js > codes.json
+

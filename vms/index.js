@@ -96,19 +96,33 @@ function formatData() {
 
             if(station.scoordinate) {
 
-                const type = config.pmv_types[ station.smetadata.pmv_type ];
+                const type = station.smetadata.pmv_type;
+                const type_name = config.pmv_types[ station.smetadata.pmv_type ];
 
                 const direction = config.directions_types[ station.smetadata.direction_id ] || '';
 
-                const value = `${station.mvalue}`.trim();
+                let value = `${station.mvalue}`.trim();
 
-                const img = mapCodes[value] ? mapCodes[value].img : '';
+                if (value.indexOf('|')) {
+                    value = value.split('|')[0]
+                }//bilingual it|de
+
+
+              /*  if(isNaN(Number(value))) {
+                     hasText = true
+                }*/
+                const img = mapCodes[ value ] ? mapCodes[value].img : '';
                 //TODO default code
                 //
 
                 const title = mapCodes[value] ? mapCodes[value].title : value;
+                /*La policy A22 è quello di prevedere un carosello
+                solo in Alto Adige dove la messaggistica è bilingue. Si propone di salvare in ogni caso il
+                messaggio concatenato associato a tutte le pagine presenti, usando un carattere delimitatore
+                tra una pagina e l’altra (es. “|”).
+                */
 
-console.log('STATION PUSH',station)
+//console.log('STATION PUSH',station)
 
                 stations.push({
                     station_id: station.scode,
@@ -119,6 +133,7 @@ console.log('STATION PUSH',station)
                     direction,
                     //position: station.smetadata.position_m,
                     type,
+                    type_name,
                     time: station.mvalidtime,
                     value,
                     title,
@@ -173,6 +188,10 @@ function getOneStation(scode=''){
             return
         }
 
+        const result = _.find(stationsReceived,{'scode':scode})
+console.log(result)
+        resolve(result)
+/*
         const reqOpts = Object.assign({}, config.endpoints.station, {
             path: _.template(config.endpoints.station.path)({scode})
         });
@@ -192,7 +211,7 @@ console.log('getOneStation',JSON.stringify(tmp,null,4))
             });
         }).on('error', error => {
             reject(error)
-        }).end();
+        }).end();*/
     });
 }
 

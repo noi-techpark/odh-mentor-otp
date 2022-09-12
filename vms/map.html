@@ -10,14 +10,14 @@
       margin: 0;
     }
   #map {
-    width: 50%;
+    width: 70%;
     height: 600px;
   }
   #code {
     position: fixed;
     right: 5px;
     top: 0;
-    width: 50%;
+    width: 30%;
     min-height: 600px;
     background: #ddd;
     font-size: small;
@@ -54,21 +54,11 @@
               html: L.Util.template(`<img height="30px" width="30px" src="${baseUrl}{img}">`, feature.properties)
             }) : new L.Icon.Default();*/
 
-          let hasText = false
-
-          if(isNaN(Number(feature.properties.value.trim()))) {
-            hasText = true
-          }
-
-          const mark = L.marker(latlng).on('click', e => {
+          const mark = L.marker(latlng)
+          .on('popupopen', e => {
             const el = L.DomUtil.get('code');
-
-            //el.innerText = '';
-
             const url = L.Util.template(`${baseUrl}{station_id}/station.json`, e.target.feature.properties);
-
-            console.log(url);
-
+            el.innerText = '';
             fetch(url)
             .then(resp => resp.json() )
             .then(dd => {
@@ -78,14 +68,28 @@
             });
           });
 
-          if(hasText)
-          mark.bindTooltip(layer => {
-              return L.Util.template(`type: {type}`, layer.feature.properties);
-          }, {
-            permanent: true
-          }).bindPopup(layer => {
-            return L.Util.template(`{station_id}<br>{name}<br> {value} <br>type: {type}`, layer.feature.properties);
-          })
+          let hasText = false
+
+          if(isNaN(Number(feature.properties.value.trim()))) {
+            hasText = true
+          }
+
+          if(hasText) {
+            mark.bindTooltip(layer => {
+                const {type,value} = layer.feature.properties;
+                console.log(type, value)
+                return L.Util.template(`${type}: ${value}`);
+            }, {
+              permanent: true
+            })
+          }
+
+          mark.bindPopup(layer => {
+              const {type,station_id,name,value,title,img} = layer.feature.properties;
+              return `type: ${type}<br>${station_id}<br>${name}<br> value:<pre>${value}</pre>"${title}"`+
+              `<br><img src="${img}" />`;
+            })
+
 
           return mark
         }

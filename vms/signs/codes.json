@@ -1,954 +1,954 @@
 [
   {
-    "code": 0,
+    "code": "0",
     "title": "Spento"
   },
   {
-    "code": 2,
+    "code": "2",
     "title": "Limite di velocita 40 km/h"
   },
   {
-    "code": 3,
+    "code": "3",
     "title": "Limite di velocita 80 km/h"
   },
   {
-    "code": 6,
+    "code": "6",
     "title": "Strettoia a destra"
   },
   {
-    "code": 10,
+    "code": "10",
     "title": "Impianto SOS fuori servizio"
   },
   {
-    "code": 11,
+    "code": "11",
     "title": "Carburante esaurito"
   },
   {
-    "code": 12,
+    "code": "12",
     "title": "Uscita obbligatoria"
   },
   {
-    "code": 15,
+    "code": "15",
     "title": "Nebbia"
   },
   {
-    "code": 17,
+    "code": "17",
     "title": "Sgombraneve in azione"
   },
   {
-    "code": 18,
+    "code": "18",
     "title": "Chiusura corsia di marcia"
   },
   {
-    "code": 19,
+    "code": "19",
     "title": "Chiusura corsia di sorpasso"
   },
   {
-    "code": 21,
+    "code": "21",
     "title": "Divieto veicoli sup. 3,5 t"
   },
   {
-    "code": 22,
+    "code": "22",
     "title": "Divieto di transito"
   },
   {
-    "code": 23,
+    "code": "23",
     "title": "Coda"
   },
   {
-    "code": 24,
+    "code": "24",
     "title": "Segnaletica in rifacimento"
   },
   {
-    "code": 25,
+    "code": "25",
     "title": "Incidente"
   },
   {
-    "code": 26,
+    "code": "26",
     "title": "Pericolo generico (fisso)"
   },
   {
-    "code": 27,
+    "code": "27",
     "title": "Vento Forte"
   },
   {
-    "code": 29,
+    "code": "29",
     "title": "Pericolo generico (temporaneo)"
   },
   {
-    "code": 30,
+    "code": "30",
     "title": "Svincolo chiuso"
   },
   {
-    "code": 32,
+    "code": "32",
     "title": "Lavori in corso"
   },
   {
-    "code": 33,
+    "code": "33",
     "title": "Strettoia a sinistra"
   },
   {
-    "code": 34,
+    "code": "34",
     "title": "Limite di velocita 60 km/h"
   },
   {
-    "code": 35,
+    "code": "35",
     "title": "Sgombraneve in azione (per. gen.)"
   },
   {
-    "code": 36,
+    "code": "36",
     "title": "Pioggia (per. gen.)"
   },
   {
-    "code": 37,
+    "code": "37",
     "title": "Mezzi operativi in azione"
   },
   {
-    "code": 38,
+    "code": "38",
     "title": "Catene"
   },
   {
-    "code": 39,
+    "code": "39",
     "title": "Uscita obbligatoria mezzi pesanti"
   },
   {
-    "code": 40,
+    "code": "40",
     "title": "Aeromobili"
   },
   {
-    "code": 41,
+    "code": "41",
     "title": "Apertura corsia dinamica"
   },
   {
-    "code": 42,
+    "code": "42",
     "title": "Aeroporto"
   },
   {
-    "code": 43,
+    "code": "43",
     "title": "Autostrada"
   },
   {
-    "code": 44,
+    "code": "44",
     "title": "Alt - stazione"
   },
   {
-    "code": 45,
+    "code": "45",
     "title": "Area di servizio"
   },
   {
-    "code": 46,
+    "code": "46",
     "title": "Corsia dinamica aperta"
   },
   {
-    "code": 47,
+    "code": "47",
     "title": "ALT - Polizia"
   },
   {
-    "code": 48,
+    "code": "48",
     "title": "ALT - Dogana"
   },
   {
-    "code": 49,
+    "code": "49",
     "title": "Autoarticolato"
   },
   {
-    "code": 50,
+    "code": "50",
     "title": "Autocarro"
   },
   {
-    "code": 51,
+    "code": "51",
     "title": "Corsia dinamica in apertura"
   },
   {
-    "code": 52,
+    "code": "52",
     "title": "A22"
   },
   {
-    "code": 53,
+    "code": "53",
     "title": "A4"
   },
   {
-    "code": 54,
+    "code": "54",
     "title": "Animali selvatici"
   },
   {
-    "code": 55,
+    "code": "55",
     "title": "A1"
   },
   {
-    "code": 56,
+    "code": "56",
     "title": "Autocarri in rallentamento"
   },
   {
-    "code": 57,
+    "code": "57",
     "title": "Animali domestici vaganti"
   },
   {
-    "code": 58,
+    "code": "58",
     "title": "Altri pericoli (sfondo bianco)"
   },
   {
-    "code": 59,
+    "code": "59",
     "title": "Bar"
   },
   {
-    "code": 60,
+    "code": "60",
     "title": "Banchina pericolosa"
   },
   {
-    "code": 61,
+    "code": "61",
     "title": "Corsia dinamica aperta ( occupazione corsie )"
   },
   {
-    "code": 62,
+    "code": "62",
     "title": "Chiusura corsia dinamica"
   },
   {
-    "code": 63,
+    "code": "63",
     "title": "Corsia dinamica chiusa"
   },
   {
-    "code": 64,
+    "code": "64",
     "title": "Corsia dinamica chiusa ( occupazione corsie)"
   },
   {
-    "code": 65,
+    "code": "65",
     "title": "Chiusura corsia marcia (2)"
   },
   {
-    "code": 66,
+    "code": "66",
     "title": "Chiusura corsia sorpasso (2)"
   },
   {
-    "code": 67,
+    "code": "67",
     "title": "Corsia dinamica in chiusura"
   },
   {
-    "code": 68,
+    "code": "68",
     "title": "Cambio corsia"
   },
   {
-    "code": 69,
+    "code": "69",
     "title": "Scambio carreggiata (2)"
   },
   {
-    "code": 70,
+    "code": "70",
     "title": "Confluenza a destra"
   },
   {
-    "code": 71,
+    "code": "71",
     "title": "Caduta massi destra"
   },
   {
-    "code": 72,
+    "code": "72",
     "title": "Caduta massi sinistra"
   },
   {
-    "code": 73,
+    "code": "73",
     "title": "Coda allo svincolo"
   },
   {
-    "code": 74,
+    "code": "74",
     "title": "Confluenza a sinistra"
   },
   {
-    "code": 75,
+    "code": "75",
     "title": "Corsie chiuse"
   },
   {
-    "code": 76,
+    "code": "76",
     "title": "Curva a destra"
   },
   {
-    "code": 77,
+    "code": "77",
     "title": "Curva a sinistra"
   },
   {
-    "code": 78,
+    "code": "78",
     "title": "Direzioni consentite diritto e destra"
   },
   {
-    "code": 79,
+    "code": "79",
     "title": "Direzioni consentite diritto e sinistra"
   },
   {
-    "code": 80,
+    "code": "80",
     "title": "Direzione consigliata autocarri"
   },
   {
-    "code": 81,
+    "code": "81",
     "title": "Direzione autocarri obbligatoria"
   },
   {
-    "code": 82,
+    "code": "82",
     "title": "Direzione autocarri consigliata"
   },
   {
-    "code": 83,
+    "code": "83",
     "title": "Deviazione a bretella"
   },
   {
-    "code": 84,
+    "code": "84",
     "title": "Divieto sorpasso caravan"
   },
   {
-    "code": 85,
+    "code": "85",
     "title": "Distanza minima 70"
   },
   {
-    "code": 86,
+    "code": "86",
     "title": "Divieto di sorpasso 12 T"
   },
   {
-    "code": 87,
+    "code": "87",
     "title": "Divieto di sorpasso 35 Q"
   },
   {
-    "code": 88,
+    "code": "88",
     "title": "Diviesto di sorpasso 75 Q"
   },
   {
-    "code": 89,
+    "code": "89",
     "title": "Doppia circolazione"
   },
   {
-    "code": 90,
+    "code": "90",
     "title": "Divieto sorpasso - caravan"
   },
   {
-    "code": 91,
+    "code": "91",
     "title": "Doppio senso"
   },
   {
-    "code": 92,
+    "code": "92",
     "title": "Direzione destra"
   },
   {
-    "code": 93,
+    "code": "93",
     "title": "Direzione sinistra"
   },
   {
-    "code": 95,
+    "code": "95",
     "title": "Divieto sorpasso auto"
   },
   {
-    "code": 96,
+    "code": "96",
     "title": "Divieto sorpasso autocarri"
   },
   {
-    "code": 97,
+    "code": "97",
     "title": "Deviazione obbligatoria autocarri"
   },
   {
-    "code": 98,
+    "code": "98",
     "title": "Distanza minima consentita"
   },
   {
-    "code": 99,
+    "code": "99",
     "title": "Divieto accesso autocarri"
   },
   {
-    "code": 100,
+    "code": "100",
     "title": "Divieto veicoli trasporto esplosivi"
   },
   {
-    "code": 101,
+    "code": "101",
     "title": "Divieto transito merci pericolose"
   },
   {
-    "code": 102,
+    "code": "102",
     "title": "Divieto accesso autobus"
   },
   {
-    "code": 103,
+    "code": "103",
     "title": "Divieto transito mezzi > 3,5 t"
   },
   {
-    "code": 104,
+    "code": "104",
     "title": "Divieto transito mezzi > 7,5 t"
   },
   {
-    "code": 105,
+    "code": "105",
     "title": "Divieto di transito autocarri"
   },
   {
-    "code": 106,
+    "code": "106",
     "title": "Doppio senso di circolazione"
   },
   {
-    "code": 107,
+    "code": "107",
     "title": "Dare precedenza"
   },
   {
-    "code": 108,
+    "code": "108",
     "title": "Diritto di precedenza"
   },
   {
-    "code": 109,
+    "code": "109",
     "title": "Divieto di sosta"
   },
   {
-    "code": 110,
+    "code": "110",
     "title": "Divieto di fermata"
   },
   {
-    "code": 111,
+    "code": "111",
     "title": "Fine autostrada"
   },
   {
-    "code": 112,
+    "code": "112",
     "title": "Esposizione - Fiera"
   },
   {
-    "code": 113,
+    "code": "113",
     "title": "Fine del divieto di sorpasso"
   },
   {
-    "code": 114,
+    "code": "114",
     "title": "Frontiera"
   },
   {
-    "code": 115,
+    "code": "115",
     "title": "Fine limite 110 km/h"
   },
   {
-    "code": 116,
+    "code": "116",
     "title": "Fondo stradale"
   },
   {
-    "code": 117,
+    "code": "117",
     "title": "Fine limite 50 km/h"
   },
   {
-    "code": 118,
+    "code": "118",
     "title": "Fine divieto"
   },
   {
-    "code": 119,
+    "code": "119",
     "title": "Fine limite velocità"
   },
   {
-    "code": 120,
+    "code": "120",
     "title": "Fine del divieto di sorpasso per veicoli > 3.5 t"
   },
   {
-    "code": 121,
+    "code": "121",
     "title": "Galleria"
   },
   {
-    "code": 122,
+    "code": "122",
     "title": "Incanalarsi"
   },
   {
-    "code": 123,
+    "code": "123",
     "title": "Informazioni"
   },
   {
-    "code": 124,
+    "code": "124",
     "title": "Interasse autostradale"
   },
   {
-    "code": 125,
+    "code": "125",
     "title": "Italia"
   },
   {
-    "code": 126,
+    "code": "126",
     "title": "Itinerario obbligatorio merci pericolose"
   },
   {
-    "code": 127,
+    "code": "127",
     "title": "Limitazioni di traffico"
   },
   {
-    "code": 128,
+    "code": "128",
     "title": "Limite velocità 100"
   },
   {
-    "code": 129,
+    "code": "129",
     "title": "Limite velocita 110"
   },
   {
-    "code": 130,
+    "code": "130",
     "title": "Limite velocita 130"
   },
   {
-    "code": 131,
+    "code": "131",
     "title": "Limite velocita 50"
   },
   {
-    "code": 132,
+    "code": "132",
     "title": "Limite velocita 70"
   },
   {
-    "code": 133,
+    "code": "133",
     "title": "Limite velocita 90"
   },
   {
-    "code": 134,
+    "code": "134",
     "title": "Materiale instabile su strada"
   },
   {
-    "code": 135,
+    "code": "135",
     "title": "Materiale instabile (2)"
   },
   {
-    "code": 136,
+    "code": "136",
     "title": "Mondiali di ciclismo"
   },
   {
-    "code": 137,
+    "code": "137",
     "title": "Nebbia (2)"
   },
   {
-    "code": 138,
+    "code": "138",
     "title": "Neve (2)"
   },
   {
-    "code": 139,
+    "code": "139",
     "title": "Obbligo cinture"
   },
   {
-    "code": 140,
+    "code": "140",
     "title": "Obbligo destra"
   },
   {
-    "code": 141,
+    "code": "141",
     "title": "Obbligo dritto"
   },
   {
-    "code": 142,
+    "code": "142",
     "title": "Obbligo sinistra"
   },
   {
-    "code": 143,
+    "code": "143",
     "title": "Parcheggio"
   },
   {
-    "code": 144,
+    "code": "144",
     "title": "Passaggi consentiti"
   },
   {
-    "code": 145,
+    "code": "145",
     "title": "Passaggio obbligatorio"
   },
   {
-    "code": 146,
+    "code": "146",
     "title": "Pericolo allagamenti"
   },
   {
-    "code": 147,
+    "code": "147",
     "title": "Pericolo animali"
   },
   {
-    "code": 148,
+    "code": "148",
     "title": "Pericolo code"
   },
   {
-    "code": 149,
+    "code": "149",
     "title": "Pericolo incendio"
   },
   {
-    "code": 150,
+    "code": "150",
     "title": "Pericolo incidenti"
   },
   {
-    "code": 151,
+    "code": "151",
     "title": "Pericolo mezzi pulizia meccanica"
   },
   {
-    "code": 152,
+    "code": "152",
     "title": "Pericolo neve"
   },
   {
-    "code": 153,
+    "code": "153",
     "title": "Piazzola + SOS"
   },
   {
-    "code": 154,
+    "code": "154",
     "title": "POLIZIA"
   },
   {
-    "code": 155,
+    "code": "155",
     "title": "Ponte"
   },
   {
-    "code": 156,
+    "code": "156",
     "title": "Preavviso deviazione autocarri consigliata"
   },
   {
-    "code": 157,
+    "code": "157",
     "title": "Preavviso deviazione consigliata autocarri"
   },
   {
-    "code": 158,
+    "code": "158",
     "title": "Preavviso di confine di stato"
   },
   {
-    "code": 159,
+    "code": "159",
     "title": "Preavviso uscita"
   },
   {
-    "code": 160,
+    "code": "160",
     "title": "Preavviso uscita a sinistra"
   },
   {
-    "code": 161,
+    "code": "161",
     "title": "Preavviso uscita autocarri obbligatoria"
   },
   {
-    "code": 162,
+    "code": "162",
     "title": "Preavviso uscita autocarri (2)"
   },
   {
-    "code": 163,
+    "code": "163",
     "title": "Radio Informazioni Stradali"
   },
   {
-    "code": 164,
+    "code": "164",
     "title": "Rifacimento segnaletica"
   },
   {
-    "code": 165,
+    "code": "165",
     "title": "Rifornimento"
   },
   {
-    "code": 166,
+    "code": "166",
     "title": "Rifornimento benzina verde"
   },
   {
-    "code": 167,
+    "code": "167",
     "title": "Ristorante"
   },
   {
-    "code": 168,
+    "code": "168",
     "title": "ROLA - Interporto"
   },
   {
-    "code": 169,
+    "code": "169",
     "title": "Segnale di corsie chiuse"
   },
   {
-    "code": 170,
+    "code": "170",
     "title": "Segnale mobile di protezione"
   },
   {
-    "code": 171,
+    "code": "171",
     "title": "Senso vietato"
   },
   {
-    "code": 172,
+    "code": "172",
     "title": "SOS"
   },
   {
-    "code": 173,
+    "code": "173",
     "title": "Stadio"
   },
   {
-    "code": 174,
+    "code": "174",
     "title": "Stop"
   },
   {
-    "code": 175,
+    "code": "175",
     "title": "Strada deformata"
   },
   {
-    "code": 176,
+    "code": "176",
     "title": "Strada deformata per lavori"
   },
   {
-    "code": 177,
+    "code": "177",
     "title": "Strada deformata (2)"
   },
   {
-    "code": 178,
+    "code": "178",
     "title": "Strada sdrucciolevole (fisso)"
   },
   {
-    "code": 179,
+    "code": "179",
     "title": "Strada sdrucciolevole (neve)"
   },
   {
-    "code": 180,
+    "code": "180",
     "title": "Strada sdrucciolevole (pioggia)"
   },
   {
-    "code": 181,
+    "code": "181",
     "title": "Strettoia simmetrica"
   },
   {
-    "code": 182,
+    "code": "182",
     "title": "Test1"
   },
   {
-    "code": 183,
+    "code": "183",
     "title": "Test2"
   },
   {
-    "code": 184,
+    "code": "184",
     "title": "Transito vietato veicoli trainanti rimorchio"
   },
   {
-    "code": 185,
+    "code": "185",
     "title": "Trasporto merci pericolose"
   },
   {
-    "code": 186,
+    "code": "186",
     "title": "Uscita autostradale"
   },
   {
-    "code": 187,
+    "code": "187",
     "title": "Uso corsie"
   },
   {
-    "code": 188,
+    "code": "188",
     "title": "Uso corsie disponibili"
   },
   {
-    "code": 189,
+    "code": "189",
     "title": "Validità"
   },
   {
-    "code": 190,
+    "code": "190",
     "title": "Variazione corsie disponibili aumento"
   },
   {
-    "code": 191,
+    "code": "191",
     "title": "Variazione corsie disponibili diminuzione"
   },
   {
-    "code": 193,
+    "code": "193",
     "title": "Viatec 08"
   },
   {
-    "code": 200,
+    "code": "200",
     "title": "Neve generico"
   },
   {
-    "code": 201,
+    "code": "201",
     "title": "Neve IT"
   },
   {
-    "code": 202,
+    "code": "202",
     "title": "Neve D"
   },
   {
-    "code": 203,
+    "code": "203",
     "title": "Chiusa carreggiata (1)"
   },
   {
-    "code": 204,
+    "code": "204",
     "title": "Pericolo mezzi in azione (2)"
   },
   {
-    "code": 205,
+    "code": "205",
     "title": "Uscita chiusa (2)"
   },
   {
-    "code": 206,
+    "code": "206",
     "title": "Uscita obbligatoria (2)"
   },
   {
-    "code": 207,
+    "code": "207",
     "title": "Lavori 1500 m"
   },
   {
-    "code": 208,
+    "code": "208",
     "title": "Lavori 2000 m"
   },
   {
-    "code": 209,
+    "code": "209",
     "title": "Lavori 3000 m"
   },
   {
-    "code": 210,
+    "code": "210",
     "title": "3 Corsie"
   },
   {
-    "code": 211,
+    "code": "211",
     "title": "Preavviso pullman"
   },
   {
-    "code": 212,
+    "code": "212",
     "title": "Semichiusura temporanea"
   },
   {
-    "code": 213,
+    "code": "213",
     "title": "Divieto sorpasso 12 T"
   },
   {
-    "code": 214,
+    "code": "214",
     "title": "Zona industriale"
   },
   {
-    "code": 215,
+    "code": "215",
     "title": "Zona industriale"
   },
   {
-    "code": 216,
+    "code": "216",
     "title": "Piazzola"
   },
   {
-    "code": 217,
+    "code": "217",
     "title": "Divieto di sosta"
   },
   {
-    "code": 218,
+    "code": "218",
     "title": "Divieto di transito"
   },
   {
-    "code": 219,
+    "code": "219",
     "title": "Corsia in apertura (giallo)"
   },
   {
-    "code": 220,
+    "code": "220",
     "title": "Corsia in apertura 400 MT (giallo)"
   },
   {
-    "code": 221,
+    "code": "221",
     "title": "Corsia in apertura 800 MT (giallo)"
   },
   {
-    "code": 222,
+    "code": "222",
     "title": "Corsia in apertura (verde)"
   },
   {
-    "code": 223,
+    "code": "223",
     "title": "Corsia in apertura 400 MT (verde)"
   },
   {
-    "code": 224,
+    "code": "224",
     "title": "Corsia in apertura 800 MT (verde)"
   },
   {
-    "code": 225,
+    "code": "225",
     "title": "Corsia in chiusura (giallo)"
   },
   {
-    "code": 226,
+    "code": "226",
     "title": "Corsia in chiusura 500 MT (giallo)"
   },
   {
-    "code": 227,
+    "code": "227",
     "title": "Corsia in chiusura 1500 MT (giallo)"
   },
   {
-    "code": 228,
+    "code": "228",
     "title": "Corsia in chiusura (verde)"
   },
   {
-    "code": 229,
+    "code": "229",
     "title": "Corsia in chiusura 500 MT (verde)"
   },
   {
-    "code": 230,
+    "code": "230",
     "title": "Corsia in chiusura 1500 MT (verde)"
   },
   {
-    "code": 231,
+    "code": "231",
     "title": "Alpini 2012"
   },
   {
-    "code": 236,
+    "code": "236",
     "title": "Alpini 2012 (NERO)"
   },
   {
-    "code": 237,
+    "code": "237",
     "title": "Carreggiata chiusa (3)"
   },
   {
-    "code": 238,
+    "code": "238",
     "title": "Carreggiata chiusa (4)"
   },
   {
-    "code": 239,
+    "code": "239",
     "title": "Distanza - 150 M"
   },
   {
-    "code": 240,
+    "code": "240",
     "title": "Distanza - 350 M"
   },
   {
-    "code": 241,
+    "code": "241",
     "title": "Distanza - 500 M"
   },
   {
-    "code": 242,
+    "code": "242",
     "title": "Distanza - 700 M"
   },
   {
-    "code": 243,
+    "code": "243",
     "title": "Distanza - 1000 M"
   },
   {
-    "code": 244,
+    "code": "244",
     "title": "Distanza - 1500 M"
   },
   {
-    "code": 245,
+    "code": "245",
     "title": "Distanza - 2000 M"
   },
   {
-    "code": 246,
+    "code": "246",
     "title": "Distanza - 2500 M"
   },
   {
-    "code": 247,
+    "code": "247",
     "title": "Distanza - 3000 M"
   },
   {
-    "code": 248,
+    "code": "248",
     "title": "Distanza - 3500 M"
   },
   {
-    "code": 249,
+    "code": "249",
     "title": "Distanza - 4000 M"
   },
   {
-    "code": 250,
+    "code": "250",
     "title": "Distanza - 4500 M"
   },
   {
-    "code": 251,
+    "code": "251",
     "title": "Distanza - 5000 M"
   },
   {
-    "code": 252,
+    "code": "252",
     "title": "Corsia in apertura 2000 MT (giallo)"
   },
   {
-    "code": 253,
+    "code": "253",
     "title": "Corsia in apertura 2000 MT (verde)"
   },
   {
-    "code": 254,
+    "code": "254",
     "title": "Divieto di sorpasso mezzi pesanti > 3.5 T"
   },
   {
-    "code": 255,
+    "code": "255",
     "title": "SPENTO"
   },
   {
-    "code": 256,
+    "code": "256",
     "title": "LIBERO"
   },
   {
-    "code": 257,
+    "code": "257",
     "title": "OCCUPATO"
   },
   {
-    "code": 258,
+    "code": "258",
     "title": "Fine limite 100"
   },
   {
-    "code": 259,
+    "code": "259",
     "title": "Fine limite 110"
   },
   {
-    "code": 260,
+    "code": "260",
     "title": "Velocita consigliata 100"
   },
   {
-    "code": 261,
+    "code": "261",
     "title": "Velocita consigliata 110"
   },
   {
