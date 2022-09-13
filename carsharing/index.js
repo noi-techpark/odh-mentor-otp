@@ -32,6 +32,12 @@ console.log(`Starting ${serviceName}...`);
 
 console.log("Config:\n", config);
 
+/*const {getConfig} = require('../base');
+
+console.log('getConfig',getConfig())
+return*/
+//TODO REMOVE
+
 if(!config.endpoints || _.isEmpty(config.endpoints)) {
     console.error('Config endpoints not defined!');
     return;
