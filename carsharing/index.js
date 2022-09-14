@@ -5,51 +5,17 @@ const fs = require('fs');
 const cors = require('cors');
 const yaml = require('js-yaml');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    //, config = require('@stefcud/configyml');
+const {config, serviceName, version} = require('../base');
 
-const {getConfig, getService} = require('../base');
+const app = express();
 
-const config = getConfig(__dirname);
+var lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
 
-/*
-const configyml = require('@stefcud/configyml');
-const config = configyml();
-
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
-*/
-var corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
-
-var app = express();
-
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
-    stationsReceived,
-    carReceived;
-
-console.log(`Starting ${serviceName}...`);
-
+console.log(`Starting ${serviceName}... ${version}`);
 console.log("Config:\n", config);
-return
-/*const {getConfig} = require('../base');
 
-console.log('getConfig',getConfig())
-return*/
-//TODO REMOVE
-
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
+var stationsReceived,
+    carReceived;
 
 function getData(){
     //console.debug('polling new data...')
@@ -112,7 +78,7 @@ function getModelId(car) {
     }
 }
 
-app.get('/carsharing/stations.json', cors(corsOptions), function (req, res) {
+app.get('/carsharing/stations.json', cors(config.cors), function (req, res) {
     var carStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -225,7 +191,7 @@ app.get('/carsharing/regions.json', function (req, res) {
     res.json(region);
 });
 
-app.get('/carsharing/filters.yml', cors(corsOptions), function (req, res) {
+app.get('/carsharing/filters.yml', cors(config.cors), function (req, res) {
     const chargeStations = [];
     const chargeFilters = {};
 
