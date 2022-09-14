@@ -9,7 +9,9 @@ const pkg = require('./package.json')
     , version = pkg.version
     , serviceName = `service ${pkg.name} v${version}`
     , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+    //, config = require('@stefcud/configyml');
+
+const config = require('@stefcud/configyml')({basepath: __dirname})
 
 //normalize endpoints default
 config.endpoints = _.mapValues(config.endpoints, conf => {
@@ -31,7 +33,7 @@ var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
 console.log(`Starting ${serviceName}...`);
 
 console.log("Config:\n", config);
-
+return
 /*const {getConfig} = require('../base');
 
 console.log('getConfig',getConfig())
