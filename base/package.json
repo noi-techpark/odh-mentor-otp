@@ -6,7 +6,7 @@
   "author": "Stefano Cudini stefano.cudini@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "@stefcud/configyml": "^0.0.3",
+    "@stefcud/configyml": "^0.0.5",
     "dotenv": "^16.0.0",
     "cors": "^2.8.5",
     "js-yaml": "^3.14.0",

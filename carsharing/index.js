@@ -11,7 +11,8 @@ const pkg = require('./package.json')
     , dotenv = require('dotenv').config()
     //, config = require('@stefcud/configyml');
 
-const config = require('@stefcud/configyml')({basepath: __dirname})
+const configyml = require('@stefcud/configyml');
+const config = configyml();
 
 //normalize endpoints default
 config.endpoints = _.mapValues(config.endpoints, conf => {
