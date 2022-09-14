@@ -11,6 +11,11 @@ const pkg = require('./package.json')
     , dotenv = require('dotenv').config()
     //, config = require('@stefcud/configyml');
 
+const {getConfig, getService} = require('../base');
+
+const config = getConfig(__dirname);
+
+/*
 const configyml = require('@stefcud/configyml');
 const config = configyml();
 
@@ -19,7 +24,7 @@ config.endpoints = _.mapValues(config.endpoints, conf => {
     return _.defaults(conf, config.endpoints.default);
 });
 delete config.endpoints.default;
-
+*/
 var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204

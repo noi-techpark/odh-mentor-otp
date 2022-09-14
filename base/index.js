@@ -3,7 +3,7 @@ const _ = require('lodash');
 const cors = require('cors');
 
 const dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+    , configyml = require('@stefcud/configyml');
 
 //normalize endpoints default
 config.endpoints = _.mapValues(config.endpoints, conf => {
@@ -19,10 +19,8 @@ var corsOptions = {
 
 module.exports = {
 
-    getConfig: () => {
-        return {
-            cors: corsOptions
-        };
+    getConfig: (basepath) => {
+        return configyml({basepath})
     },
 
     getService: () => {
