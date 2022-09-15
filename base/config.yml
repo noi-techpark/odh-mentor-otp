@@ -14,11 +14,11 @@ cors:
   optionsSuccessStatus: 200
   #some legacy browsers (IE11, various SmartTVs) choke on 2
 
-# endpoints:
-#   default:
-#     hostname: mobility.api.opendatahub.bz.it
-#     method: GET
-#     port: 443
-#     #path: /v2
-#     headers:
-#       User-Agent: OpenMove-Api-Client
+endpoints:
+  default:
+    hostname: mobility.api.opendatahub.bz.it
+    method: GET
+    port: 443
+    #path: /v2
+    headers:
+      User-Agent: OpenMove-Api-Client

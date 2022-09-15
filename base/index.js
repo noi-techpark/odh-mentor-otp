@@ -14,6 +14,8 @@ var corsOptions = {
 }
 //const dotenv = require('dotenv').config();
 
+const configDefault = configyml({basepath: __dirname});
+
 const config = configyml({basepath});
 
 //normalize endpoints default
@@ -32,6 +34,7 @@ config.cors = {
 module.exports = {
 
     config,
+    configDefault,
     serviceName,
     version,
 

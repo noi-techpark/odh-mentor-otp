@@ -12,7 +12,9 @@ const app = express();
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
 
 console.log(`Starting ${serviceName}... ${version}`);
-console.log("Config:\n", config);
+console.log("Config:\n", config)
+
+console.log('DEFAULT:', configDefault);
 
 var stationsReceived,
     carReceived;

@@ -29,3 +29,5 @@ uri:
       web: https://www.comune.merano.bz.it
     bozen:
       web: https://bolzano.ecospazio.it
+
+test_env: ${ENV_VAR_TEST}
