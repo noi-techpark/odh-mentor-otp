@@ -14,7 +14,6 @@ app.use(cors);
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
 
 console.log(`Starting ${serviceName}...`);
-
 console.log("Config:\n", config);
 
 if(!config.endpoints || _.isEmpty(config.endpoints)) {

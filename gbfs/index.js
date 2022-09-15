@@ -3,24 +3,11 @@ const https = require('https');
 const _ = require('lodash');
 const csv2json = require('csvtojson');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {serviceName, version, config, cors} = require('../base');
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
+const app = express();
 
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
+app.use(cors);
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
@@ -28,7 +15,6 @@ var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     bikesReceived;
 
 console.log(`Starting ${serviceName}...`);
-
 console.log("Config:\n", config);
 
 const GBFS_VERSION = "2.1";

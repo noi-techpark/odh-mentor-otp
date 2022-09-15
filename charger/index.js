@@ -14,7 +14,6 @@ var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     plugsReceived;
 
 console.log(`Starting ${serviceName}...`);
-
 console.log("Config:\n", config);
 
 if(!config.endpoints || _.isEmpty(config.endpoints)) {

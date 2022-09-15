@@ -14,10 +14,6 @@ polling_interval: 600
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
-    port: 443
-    #path: /v2
-    headers:
-      User-Agent: OpenMove-Api-Client
 
   stations:
     path: /v2/flat%2Cnode/BikesharingStation?distinct=true
