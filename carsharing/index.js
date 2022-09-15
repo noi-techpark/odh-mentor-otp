@@ -2,19 +2,19 @@ const express = require('express');
 const https = require('https');
 const _ = require('lodash');
 const fs = require('fs');
-const cors = require('cors');
+
 const yaml = require('js-yaml');
 
-const {config, serviceName, version} = require('../base');
+const {serviceName, version, config, cors} = require('../base');
 
 const app = express();
+
+app.use(cors);
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
 
 console.log(`Starting ${serviceName}... ${version}`);
-console.log("Config:\n", config)
-
-console.log('DEFAULT:', configDefault);
+console.log("Config:\n", config);
 
 var stationsReceived,
     carReceived;
@@ -80,7 +80,7 @@ function getModelId(car) {
     }
 }
 
-app.get('/carsharing/stations.json', cors(config.cors), function (req, res) {
+app.get('/carsharing/stations.json', function (req, res) {
     var carStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -193,7 +193,7 @@ app.get('/carsharing/regions.json', function (req, res) {
     res.json(region);
 });
 
-app.get('/carsharing/filters.yml', cors(config.cors), function (req, res) {
+app.get('/carsharing/filters.yml', function (req, res) {
     const chargeStations = [];
     const chargeFilters = {};
 

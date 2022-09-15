@@ -12,24 +12,17 @@ var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-//const dotenv = require('dotenv').config();
 
 const configDefault = configyml({basepath: __dirname});
 
 const config = configyml({basepath});
 
-//normalize endpoints default
 config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
+    return _.defaults(conf, config.endpoints.default, configDefault.endpoints.default);
 });
-
 delete config.endpoints.default;
 
-//TODO pick from  config.yml
-config.cors = {
-    origin: '*',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+config.cors = _.defaults(config.cors, configDefault.cors);
 
 module.exports = {
 
@@ -37,6 +30,7 @@ module.exports = {
     configDefault,
     serviceName,
     version,
+    cors: cors(config.cors),
 
 /*    onInit: app => {
         console.log(`Starting ${serviceName}...`);
