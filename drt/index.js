@@ -1,29 +1,15 @@
 const express = require('express')
 , axios = require('axios').default
 , _ = require('lodash')
-, cors = require('cors')
 , protobuf = require("protobufjs")
 , polyline = require('@mapbox/polyline')
 , {createGtfsFlex} = require('./csv');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {serviceName, version, config, cors} = require('../base');
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
+const app = express();
 
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
+app.use(cors);
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
 
@@ -192,7 +178,7 @@ function generateEntitiesTrip(itineraries){
     return polyline.encode(all)
 }
 
-app.get('/drt/vehicles.json', cors(corsOptions), async function (req, res) {
+app.get('/drt/vehicles.json', async function (req, res) {
 
     const {'data': vehicle} = await getDataVehicle();
 
@@ -206,7 +192,7 @@ app.get('/drt/vehicles.json', cors(corsOptions), async function (req, res) {
     });
 });
 
-app.get('/drt/stops.json', cors(corsOptions), async function (req, res) {
+app.get('/drt/stops.json', async function (req, res) {
 
     const {'data': stops} = await getDataStop();
 
@@ -220,7 +206,7 @@ app.get('/drt/stops.json', cors(corsOptions), async function (req, res) {
     });
 });
 
-app.get('/drt/itinerary.json', cors(corsOptions), async function (req, res) {
+app.get('/drt/itinerary.json', async function (req, res) {
 
     const {'data': itineraries} = await getDataItineraries();
     
@@ -235,7 +221,7 @@ app.get('/drt/itinerary.json', cors(corsOptions), async function (req, res) {
     });
 });
 
-app.get('/drt/all.json', cors(corsOptions), async function (req, res) {
+app.get('/drt/all.json', async function (req, res) {
 
     const {'data': vehicle} = await getDataVehicle();
     const {'data': stops} = await getDataStop();
@@ -253,7 +239,7 @@ app.get('/drt/all.json', cors(corsOptions), async function (req, res) {
     });
 });
 
-app.get('/drt/flex', cors(corsOptions), async function (req, res) {
+app.get('/drt/flex', async function (req, res) {
 
     const {'data': stops} = await getDataStop();
 
@@ -270,7 +256,7 @@ app.get('/drt/flex', cors(corsOptions), async function (req, res) {
     res.end();
 });
 
-app.get('/drt/vehicles.proto', cors(corsOptions), async function (req, res) {
+app.get('/drt/vehicles.proto', async function (req, res) {
 
     const {'data': vehicle} = await getDataVehicle();
 

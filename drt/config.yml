@@ -13,10 +13,6 @@ gtfsflex_filename: 'gtfs-flex-%T.zip'
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
-    port: 443
-    #path: /v2
-    headers:
-      User-Agent: OpenMove-Api-Client
 
   vehicles:
     path: /v2/flat,node/ON_DEMAND_VEHICLE/*/latest
