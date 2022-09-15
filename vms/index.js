@@ -1,37 +1,14 @@
 const express = require('express');
 const https = require('https');
 const _ = require('lodash');
-const cors = require('cors');
 
 const GeoJSON = require('geojson');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {serviceName, version, config, cors} = require('../base');
 
+const app = express();
 
-if (config.noauth) {
-    delete config.endpoints.default.headers.Authorization;
-}
-
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
-
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
-
-if (config.envId == 'dev') {
-    app.set('json spaces', 2);
-}
+app.use(cors);
 
 const codes = require('./signs/codes.json');
 
@@ -217,7 +194,7 @@ console.log('getOneStation',JSON.stringify(tmp,null,4))
     });
 }
 
-app.get('/vms/stations.json', cors(corsOptions), (req, res) => {
+app.get('/vms/stations.json', (req, res) => {
 
     res.json({
         last_updated: lastUpdate,
@@ -229,7 +206,7 @@ app.get('/vms/stations.json', cors(corsOptions), (req, res) => {
     });
 });
 
-app.get('/vms/stations.geojson', cors(corsOptions), (req, res) => {
+app.get('/vms/stations.geojson', (req, res) => {
 
     const geo = GeoJSON.parse(stations, {
         Point: ['lat', 'lon']
@@ -239,7 +216,7 @@ app.get('/vms/stations.geojson', cors(corsOptions), (req, res) => {
 });
 
 //one station details
-app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
+app.get('/vms/:scode/station.json',  function (req, res) {
 
     const scode = req.params.scode;
 
@@ -263,7 +240,7 @@ app.use('/vms/images', express.static('signs/images'));
 
 app.use('/vms/map', express.static('map.html'));
 
-app.get('/vms/signs.json', cors(corsOptions),  function (req, res) {
+app.get('/vms/signs.json',  function (req, res) {
     res.json({
         last_updated: lastUpdate,
         ttl: 0,
@@ -273,8 +250,6 @@ app.get('/vms/signs.json', cors(corsOptions),  function (req, res) {
         }
     });
 });
-
-
 
 app.get(['/','/vms'], async (req, res) => {
   res.send({

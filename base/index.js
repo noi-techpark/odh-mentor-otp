@@ -24,6 +24,11 @@ delete config.endpoints.default;
 
 config.cors = _.defaults(config.cors, configDefault.cors);
 
+
+//TODO return app
+//if (config.envId == 'dev') {
+//    app.set('json spaces', 2);
+//}
 module.exports = {
 
     config,
