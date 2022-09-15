@@ -1,27 +1,13 @@
 const express = require('express');
 const https = require('https');
 const _ = require('lodash');
-const cors = require('cors');
 const circleToPolygon = require('./circle-polygon');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {serviceName, version, config, cors} = require('../base');
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
+const app = express();
 
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
+app.use(cors);
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
@@ -89,7 +75,7 @@ function getSensors(){
     req.end()
 }
 
-app.get('/parking/stations.json', cors(corsOptions),  function (req, res) {
+app.get('/parking/stations.json',  function (req, res) {
     var parkingStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -118,7 +104,7 @@ app.get('/parking/stations.json', cors(corsOptions),  function (req, res) {
     });
 });
 
-app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
+app.get('/parking/park-ride.json',  function (req, res) {
     var parkingStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -145,7 +131,7 @@ app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
     });
 });
 
-app.get('/parking/sensors.json', cors(corsOptions), function (req, res) {
+app.get('/parking/sensors.json', function (req, res) {
     var parkingSensors = [];
     if(sensorsReceived){
         for(var i = 0; i < sensorsReceived.length; i++){
@@ -173,7 +159,7 @@ app.get('/parking/sensors.json', cors(corsOptions), function (req, res) {
     });
 });
 
-app.get('/parking/all.json', cors(corsOptions), function (req, res) {
+app.get('/parking/all.json', function (req, res) {
     var parkingStationsAll = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
