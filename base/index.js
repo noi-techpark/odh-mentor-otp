@@ -44,7 +44,7 @@ module.exports = {
 
     goListen: app => {
 
-    app.listen(config.listen_port, onListen(app) );
+        app.listen(config.listen_port, onListen(app) );
         const {name, version} = require('./package.json');
         const serviceName = `service ${name} v${version}`;
         return () => {
