@@ -1,27 +1,13 @@
 const express = require('express');
 const https = require('https');
 const _ = require('lodash');
-const cors = require('cors')
 const yaml = require('js-yaml');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {serviceName, version, config, cors} = require('../base');
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
+const app = express();
 
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
+app.use(cors);
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
@@ -98,7 +84,7 @@ function isInBbox(bb, p){
     return false;
 }
 
-app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
+app.get('/charger/stations.json', function (req, res) {
     var chargeStations = [];
     let bbox = null;
     if(req.query && req.query.bbox){
@@ -172,7 +158,7 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
     });
 });
 
-app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
+app.get('/charger/filters.yml', function (req, res) {
     const chargeStations = [];
     const chargeFilters = {};
 

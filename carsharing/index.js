@@ -2,7 +2,6 @@ const express = require('express');
 const https = require('https');
 const _ = require('lodash');
 const fs = require('fs');
-
 const yaml = require('js-yaml');
 
 const {serviceName, version, config, cors} = require('../base');
