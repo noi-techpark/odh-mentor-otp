@@ -1,27 +1,13 @@
 const express = require('express')
     , https = require('https')
     , _ = require('lodash')
-    , cors = require('cors')
     , linkStationsConfig = require('./linkstation-config');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {serviceName, version, config, cors} = require('../base');
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
+const app = express();
 
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
+app.use(cors);
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     linkStationsReceived,
@@ -114,7 +100,7 @@ function getStations() {
     req.end()
 }
 
-app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
+app.get('/traffic/stations.json',  function (req, res) {
     var stations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -138,7 +124,7 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
     }); 
 });
 
-app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, res) {
+app.get('/traffic/linkstations.json', async function (req, res) {
 //source: https://mobility.api.opendatahub.bz.it/v2/tree/LinkStation/*/latest?limit=-1&distinct=true&select=tmeasurements&where=sactive.eq.true,or(and(tname.eq.%22Bluetooth%20Elapsed%20time%20%5C(test%5C)%22))
 
     console.log('[traffic] request /traffic/linkstations.json')
