@@ -8,8 +8,9 @@ const _ = require('lodash');
 _.str = require("underscore.string");
 const ParallelRequest = require('parallel-http-request');
 const wdlevenshtein = require('weighted-damerau-levenshtein');
-const apiApp = require('pelias-api/app');
 const AddressParser = require('pelias-parser/parser/AddressParser');
+
+const apiApp = require('pelias-api/app');
 
 const {serviceName, version, config, cors} = require('../base');
 
