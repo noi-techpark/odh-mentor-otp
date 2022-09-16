@@ -1,9 +1,8 @@
 
-process.env.PELIAS_CONFIG='./pelias.json';
+process.env.PELIAS_CONFIG = './pelias.json';
 
 const https = require('https');
 const express = require('express');
-const bodyParser = require('body-parser');
 const _ = require('lodash');
 _.str = require("underscore.string");
 const ParallelRequest = require('parallel-http-request');
@@ -21,7 +20,7 @@ app.use(cors);
 console.log(`Starting ${serviceName}...`);
 console.log("Config:\n", config);
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 const formatters = require('./formatters')(config);
 const api = require('./api')(config);
