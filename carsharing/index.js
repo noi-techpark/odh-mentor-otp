@@ -1,8 +1,10 @@
+
 const express = require('express');
-const https = require('https');
 const _ = require('lodash');
-const fs = require('fs');
 const yaml = require('js-yaml');
+
+const fs = require('fs');
+const https = require('https');
 
 const {serviceName, version, config, cors} = require('../base');
 
@@ -10,7 +12,7 @@ const app = express();
 
 app.use(cors);
 
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+var last_updated = Math.trunc((new Date()).getTime() / 1000 );
 
 console.log(`Starting ${serviceName}... ${version}\nConfig:\n`, config);
 
@@ -19,7 +21,7 @@ var stationsReceived,
 
 function getData(){
     //console.debug('polling new data...')
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    last_updated = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     getCars();
 }
@@ -147,7 +149,7 @@ app.get('/carsharing/stations.json', function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         stations: carStations
@@ -178,7 +180,7 @@ app.get('/carsharing/vehicles.json', function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         vehicles: carVehicles

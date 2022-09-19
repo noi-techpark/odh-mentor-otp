@@ -20,7 +20,7 @@ codes.forEach(item => {
     mapCodes[`${item.code}`] = item;
 });
 
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
+var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived;
 
 const stations = [];
@@ -37,7 +37,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 //TODO up to here MOVE in LIB module
 
 function getData() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    last_updated = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     //console.log('POLLING',stationsReceived)
 }
@@ -197,7 +197,7 @@ console.log('getOneStation',JSON.stringify(tmp,null,4))
 app.get('/vms/stations.json', (req, res) => {
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -224,7 +224,7 @@ app.get('/vms/:scode/station.json',  function (req, res) {
         getOneStation(scode).then(data => {
 
             res.json({
-                last_updated: lastUpdate,
+                last_updated,
                 ttl: 0,
                 version,
                 data
@@ -242,7 +242,7 @@ app.use('/vms/map', express.static('map.html'));
 
 app.get('/vms/signs.json',  function (req, res) {
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {

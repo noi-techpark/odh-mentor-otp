@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors);
 
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
+var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
     plugsReceived;
 
@@ -21,7 +21,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 }
 
 function getData(){
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    last_updated = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     getPlugs();
 }
@@ -147,7 +147,7 @@ app.get('/charger/stations.json', function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {

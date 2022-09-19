@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors);
 
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
+var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
     baysReceived,
     bikesReceived;
@@ -33,7 +33,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 }
 
 function getData() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    last_updated = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     getBays();
     getBikes();
@@ -178,14 +178,14 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         });
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             en: {
                feeds: feeds
-           }
-       }
+            }
+        }
     });
 });
 
@@ -218,7 +218,7 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
@@ -254,7 +254,7 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
         return;
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
@@ -294,7 +294,7 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
         return;
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
@@ -375,7 +375,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     }
 
     var obj = {
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
@@ -515,7 +515,7 @@ app.get('/:context/:version/station_information.json', function (req, res) {
 
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
@@ -554,7 +554,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
                         is_installed: true,
                         is_returning: true,
                         num_docks_available: 0,
-                        last_reported: lastUpdate
+                        last_reported: last_updated
                     };
 
                     if(station.smetadata.bikes){
@@ -635,7 +635,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
                         is_returning: true,
                         num_docks_available: 100,
                         num_bikes_available: 100,
-                        last_reported: lastUpdate
+                        last_reported: last_updated
                     };
                     stations.push(obj);
                 }
@@ -655,14 +655,14 @@ app.get('/:context/:version/station_status.json', function (req, res) {
                 is_returning: true,
                 is_installed: false,
                 num_docks_available: 1000,
-                last_reported: lastUpdate
+                last_reported: last_updated
             };
             stations.push(obj);
         }
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
@@ -710,7 +710,7 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
@@ -747,7 +747,7 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {

@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors);
 
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
+var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
     stationsReceived,
     sensorsReceived;
 
@@ -23,7 +23,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 }
 
 function getData(){
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    last_updated = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
     getSensors();
 }
@@ -95,7 +95,7 @@ app.get('/parking/stations.json',  function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -150,7 +150,7 @@ app.get('/parking/sensors.json', function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -235,7 +235,7 @@ app.get('/parking/all.json', function (req, res) {
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {

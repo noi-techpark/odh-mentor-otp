@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors);
 
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
+var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
     linkStationsReceived,
     stationsReceived;
 
@@ -21,7 +21,7 @@ if(!config.endpoints || _.isEmpty(config.endpoints)) {
 }
 
 function getData() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    last_updated = Math.trunc((new Date()).getTime() / 1000 );
     //TODO pass filter by bounding box
     getLinkGeometries();
     getStations();
@@ -113,7 +113,7 @@ app.get('/traffic/stations.json',  function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -171,7 +171,7 @@ app.get('/traffic/linkstations.json', async function (req, res) {
     });
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {

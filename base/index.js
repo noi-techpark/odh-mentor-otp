@@ -38,11 +38,10 @@ module.exports = {
     },*/
 
     goListen: app => {
-
         app.listen(config.listen_port, onListen(app) );
         const {name, version} = require('./package.json');
         const serviceName = `service ${name} v${version}`;
-        return () => {
+        return function () {
             console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
             console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
         }

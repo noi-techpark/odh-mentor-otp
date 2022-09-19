@@ -11,7 +11,7 @@ const app = express();
 
 app.use(cors);
 
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+var last_updated = Math.trunc((new Date()).getTime() / 1000 );
 
 console.log(`Starting ${serviceName}...\nConfig:`, config);
 
@@ -45,17 +45,17 @@ async function generateProto(vehicles){
 };
 
 async function getDataVehicle() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    last_updated = Math.trunc((new Date()).getTime() / 1000 );
     return await getVehicle();
 }
 
 async function getDataStop() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    last_updated = Math.trunc((new Date()).getTime() / 1000 );
     return await getStops();
 }
 
 async function getDataItineraries() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
+    last_updated = Math.trunc((new Date()).getTime() / 1000 );
     return await getTrips();
 }
 
@@ -181,7 +181,7 @@ app.get('/drt/vehicles.json', async function (req, res) {
     const {'data': vehicle} = await getDataVehicle();
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -195,7 +195,7 @@ app.get('/drt/stops.json', async function (req, res) {
     const {'data': stops} = await getDataStop();
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -210,7 +210,7 @@ app.get('/drt/itinerary.json', async function (req, res) {
     
    
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -226,7 +226,7 @@ app.get('/drt/all.json', async function (req, res) {
     const {'data': itineraries} = await getDataItineraries();
     
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
