@@ -69,14 +69,16 @@ const store = createStore(
 
 let matomoInstance = null;
 
-if (otpConfig.analytics?.matomo) matomoInstance = createInstance({
-  urlBase: otpConfig.analytics.matomo.baseUrl,
-  siteId: otpConfig.analytics.matomo.siteId,
-  // trackerUrl: 'https://digital.matomo.cloud/tracking.php', // optional, default value: `${urlBase}matomo.php`
-  // srcUrl: 'https://digital.matomo.cloud/tracking.js', // optional, default value: `${urlBase}matomo.js`
-  // disabled: false, // optional, false by default. Makes all tracking calls no-ops if set to true.
-  // linkTracking: true, // optional, default value: true
-})
+if (otpConfig.analytics?.matomo?.baseUrl && otpConfig.analytics?.matomo?.siteId) {
+  matomoInstance = createInstance({
+    urlBase: otpConfig.analytics.matomo.baseUrl,
+    siteId: otpConfig.analytics.matomo.siteId,
+    // trackerUrl: 'https://digital.matomo.cloud/tracking.php', // optional, default value: `${urlBase}matomo.php`
+    // srcUrl: 'https://digital.matomo.cloud/tracking.js', // optional, default value: `${urlBase}matomo.js`
+    // disabled: false, // optional, false by default. Makes all tracking calls no-ops if set to true.
+    // linkTracking: true, // optional, default value: true
+  });
+}
 
 // render the app
 const render = App => ReactDOM.render(
