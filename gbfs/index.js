@@ -519,7 +519,7 @@ app.get('/:context/:version/station_information.json', function (req, res) {
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
-            stations: stations
+            stations
         }
     });
 });
@@ -666,7 +666,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
-            stations: stations
+            stations
         }
     });
 });
@@ -714,7 +714,7 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
-            bikes: bikes
+            bikes
         }
     });
 });
@@ -751,7 +751,7 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
-            rental_hours: rental_hours
+            rental_hours
         }
     });
 });

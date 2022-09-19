@@ -100,7 +100,7 @@ app.get('/parking/stations.json',  function (req, res) {
         version,
         data: {
             stations: parkingStations
-       }
+        }
     });
 });
 
@@ -155,7 +155,7 @@ app.get('/parking/sensors.json', function (req, res) {
         version,
         data: {
             sensors: parkingSensors
-       }
+        }
     });
 });
 
@@ -244,7 +244,7 @@ app.get('/parking/all.json', function (req, res) {
                 parkingSensors,
                 sensorGroups
             )
-       }
+        }
     });
 });
 

@@ -152,7 +152,7 @@ app.get('/charger/stations.json', function (req, res) {
         version,
         data: {
             stations: chargeStations
-       }
+        }
     });
 });
 
