@@ -14,8 +14,7 @@ var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     baysReceived,
     bikesReceived;
 
-console.log(`Starting ${serviceName}...`);
-console.log("Config:\n", config);
+console.log(`Starting ${serviceName}...\nConfig:`, config);
 
 const GBFS_VERSION = "2.1";
 //TODO move to fonfig

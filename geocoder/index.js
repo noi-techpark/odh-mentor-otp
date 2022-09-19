@@ -17,8 +17,7 @@ const app = express();
 
 app.use(cors);
 
-console.log(`Starting ${serviceName}...`);
-console.log("Config:\n", config);
+console.log(`Starting ${serviceName}...\nConfig:`, config);
 
 app.use(express.json());
 

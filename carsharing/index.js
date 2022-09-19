@@ -12,8 +12,7 @@ app.use(cors);
 
 var lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
 
-console.log(`Starting ${serviceName}... ${version}`);
-console.log("Config:\n", config);
+console.log(`Starting ${serviceName}... ${version}\nConfig:\n`, config);
 
 var stationsReceived,
     carReceived;

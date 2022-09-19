@@ -8,11 +8,6 @@ const _ = require('lodash')
     , {name, version} = require(`${basepath}/package.json`)
     , serviceName = `service ${name} v${version}`;
 
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
 const configDefault = configyml({basepath: __dirname});
 
 const config = configyml({basepath});

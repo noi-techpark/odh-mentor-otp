@@ -13,9 +13,7 @@ var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
     linkStationsReceived,
     stationsReceived;
 
-console.log(`Starting ${serviceName}...`);
-
-console.log("Config:\n", config);
+console.log(`Starting ${serviceName}...\nConfig:`, config);
 
 if(!config.endpoints || _.isEmpty(config.endpoints)) {
     console.error('Config endpoints not defined!');
