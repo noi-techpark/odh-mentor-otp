@@ -51,7 +51,7 @@ services:
 
   test:
     container_name: test
-    image: nginx:latest
+    image: node:16.14.0-alpine3.14
     depends_on:
      - carsharing
      - charger
