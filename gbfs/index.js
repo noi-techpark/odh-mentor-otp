@@ -223,7 +223,7 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
         data: {
             versions: [
-                {
+              {
                 version: "1.0",
                 url:url+"/1/gbfs.json"
               },
@@ -300,17 +300,17 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
         data: {
             vehicle_types: [
                 {
-                vehicle_type_id: "bike",
-                form_factor: "bicycle",
-                propulsion_type: "human",
-                name: "Bicycle"
+                    vehicle_type_id: "bike",
+                    form_factor: "bicycle",
+                    propulsion_type: "human",
+                    name: "Bicycle"
                 },
                 {
-                vehicle_type_id: "e-bike",
-                form_factor: "bicycle",
-                propulsion_type: "electric_assist",
-                name: "E-Bike",
-                max_range_meters: 20000
+                    vehicle_type_id: "e-bike",
+                    form_factor: "bicycle",
+                    propulsion_type: "electric_assist",
+                    name: "E-Bike",
+                    max_range_meters: 20000
                 }
             ]
         }
@@ -374,7 +374,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
         hasApp = true;
     }
 
-    var obj = {
+/*    var obj = {
         last_updated,
         ttl: 0,
         version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
@@ -386,26 +386,43 @@ app.get('/:context/:version/system_information.json', function (req, res) {
             url: url,
             purchase_url: url
         }
-    }
+    }*/
 
+    let rental_apps;
     if(hasApp) {
-         obj.data.rental_apps = {};
         if(androidUri){
-            obj.data.rental_apps.android = {
-                store_uri: androidUri,
-                discovery_uri: 'unknown://uri'
+            rental_apps = {
+                android: {
+                    store_uri: androidUri,
+                    discovery_uri: 'unknown://uri'
+                }
             };
         }
 
         if(iosUri){
-            obj.data.rental_apps.ios = {
-                store_uri: iosUri,
-                discovery_uri: 'unknown://uri'
+            rental_apps = {
+                ios: {
+                    store_uri: iosUri,
+                    discovery_uri: 'unknown://uri'
+                }
             };
         }
     }
 
-    res.json(obj);
+    res.json({
+        last_updated,
+        ttl: 0,
+        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        data: {
+            system_id: systemId,
+            language: "it",
+            name: systemName,
+            timezone: "Europe/Rome",
+            url: url,
+            purchase_url: url,
+            rental_apps
+        }
+    });
 });
 
 function toHex(str) {
