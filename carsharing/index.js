@@ -153,6 +153,7 @@ app.get('/carsharing/stations.json', function (req, res) {
         ttl: 0,
         version,
         stations: carStations
+        //OTP FORMAT
     });
 });
 
@@ -184,6 +185,7 @@ app.get('/carsharing/vehicles.json', function (req, res) {
         ttl: 0,
         version,
         vehicles: carVehicles
+        //OTP FORMAT
     });
 });
 
