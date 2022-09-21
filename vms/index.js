@@ -29,11 +29,6 @@ console.log(`Starting ${serviceName}...`);
 
 console.log("Config:\n", JSON.stringify(config,null,2));
 
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
 //TODO up to here MOVE in LIB module
 
 function getData() {

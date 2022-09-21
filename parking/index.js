@@ -17,11 +17,6 @@ console.log(`Starting ${serviceName}...`);
 
 console.log("Config:\n", config);
 
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
 function getData(){
     last_updated = Math.trunc((new Date()).getTime() / 1000 );
     getStations();

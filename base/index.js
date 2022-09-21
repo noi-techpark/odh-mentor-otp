@@ -19,6 +19,19 @@ delete config.endpoints.default;
 
 config.cors = _.defaults(config.cors, configDefault.cors);
 
+var last_updated = Math.trunc((new Date()).getTime() / 1000 );
+
+function polling(getData) {
+
+    function poll() {
+        last_updated = Math.trunc((new Date()).getTime() / 1000 );
+        getData(last_updated);
+    }
+    poll(last_updated);
+    let intervalObj = setInterval(poll, config.polling_interval * 1000);
+
+    return last_updated;
+}
 
 //TODO return app
 //if (config.envId == 'dev') {
@@ -31,13 +44,13 @@ module.exports = {
     serviceName,
     version,
     cors: cors(config.cors),
+    polling,
 
 /*    onInit: app => {
         console.log(`Starting ${serviceName}...`);
         console.log("Config:\n", config);
     },*/
-
-    goListen: app => {
+/*    goListen: app => {
         app.listen(config.listen_port, onListen(app) );
         const {name, version} = require('./package.json');
         const serviceName = `service ${name} v${version}`;
@@ -45,5 +58,5 @@ module.exports = {
             console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
             console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
         }
-    }
+    }*/
 };

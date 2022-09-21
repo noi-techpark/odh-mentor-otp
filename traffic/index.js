@@ -15,11 +15,6 @@ var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
 
 console.log(`Starting ${serviceName}...\nConfig:`, config);
 
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
 function getData() {
     last_updated = Math.trunc((new Date()).getTime() / 1000 );
     //TODO pass filter by bounding box

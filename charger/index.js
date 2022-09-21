@@ -3,30 +3,24 @@ const https = require('https');
 const _ = require('lodash');
 const yaml = require('js-yaml');
 
-const {serviceName, version, config, cors} = require('../base');
+const {serviceName, version, config, cors, polling} = require('../base');
 
 const app = express();
 
 app.use(cors);
 
-var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
+console.log(`Starting ${serviceName}...\nConfig:`, config);
+
+var last_updated,
     stationsReceived,
     plugsReceived;
 
-console.log(`Starting ${serviceName}...\nConfig:`, config);
-
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
-function getData(){
-    last_updated = Math.trunc((new Date()).getTime() / 1000 );
+polling( lastUpdated => {
+    last_updated = lastUpdated;
+    console.log('polling results...', last_updated, _.size(stationsReceived))
     getStations();
     getPlugs();
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
+});
 
 function getStations(){
     const req = https.request(config.endpoints.stations, res => {

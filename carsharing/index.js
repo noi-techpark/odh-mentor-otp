@@ -6,27 +6,24 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const https = require('https');
 
-const {serviceName, version, config, cors} = require('../base');
+const {serviceName, version, config, cors, polling} = require('../base');
 
 const app = express();
 
 app.use(cors);
 
-var last_updated = Math.trunc((new Date()).getTime() / 1000 );
-
 console.log(`Starting ${serviceName}... ${version}\nConfig:\n`, config);
 
-var stationsReceived,
+var last_updated,
+    stationsReceived,
     carReceived;
 
-function getData(){
-    //console.debug('polling new data...')
-    last_updated = Math.trunc((new Date()).getTime() / 1000 );
+polling( lastUpdated => {
+    last_updated = lastUpdated;
+    console.log('polling results...', last_updated, _.size(stationsReceived))
     getStations();
     getCars();
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
+});
 
 function getStations(){
     const req = https.request(config.endpoints.stations, res => {

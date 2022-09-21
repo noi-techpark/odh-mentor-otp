@@ -15,11 +15,6 @@ var last_updated = Math.trunc((new Date()).getTime() / 1000 );
 
 console.log(`Starting ${serviceName}...\nConfig:`, config);
 
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
 async function generateProto(vehicles){
     const root = await protobuf.load("gtfs-realtime.proto");
     const GtfsRT = root.lookupType("transit_realtime.FeedMessage");

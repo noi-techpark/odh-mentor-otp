@@ -27,11 +27,6 @@ csv2json()
     meranStations= jsonObj;
 })
 
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
 function getData() {
     last_updated = Math.trunc((new Date()).getTime() / 1000 );
     getStations();
