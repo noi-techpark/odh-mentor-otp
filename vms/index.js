@@ -18,7 +18,7 @@ var last_updated,
 
 polling( lastUpdated => {
     last_updated = lastUpdated;
-    console.log('polling results...', last_updated, _.size(stationsReceived))
+
     getStations();
 });
 
