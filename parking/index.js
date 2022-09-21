@@ -1,4 +1,4 @@
-const express = require('express');
+
 const https = require('https');
 const _ = require('lodash');
 const circleToPolygon = require('./circle-polygon');

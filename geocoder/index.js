@@ -2,7 +2,6 @@
 process.env.PELIAS_CONFIG = './pelias.json';
 
 const https = require('https');
-const express = require('express');
 const _ = require('lodash');
 _.str = require("underscore.string");
 const ParallelRequest = require('parallel-http-request');
@@ -13,12 +12,10 @@ const apiApp = require('pelias-api/app');
 
 const {app, version, config, polling, listenLog} = require('../base');
 
-const app = express();
-
-console.log(`Starting ${serviceName}...\nConfig:`, config);
-
+const express = require('express');
 app.use(express.json());
-
+//TODO move in base
+//
 const formatters = require('./formatters')(config);
 const api = require('./api')(config);
 
@@ -176,8 +173,6 @@ const serverParser = app.listen(config.pelias_listen_port, () => {
 });*/
 
 const serverApi = apiApp.listen( config.listen_port, function() {
-  console.log( apiApp._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-  console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
 	process.on('SIGTERM', () => {
 		console.error('[geocoder] closing...')
 		serverApi.close();
