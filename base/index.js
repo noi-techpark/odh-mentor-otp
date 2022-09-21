@@ -2,6 +2,7 @@
 const basepath = process.cwd();
 
 const _ = require('lodash')
+    , express = require('express')
     , cors = require('cors')
     , dotenv = require('dotenv').config()
     , configyml = require('@stefcud/configyml')
@@ -33,18 +34,27 @@ function polling(getData) {
     return last_updated;
 }
 
+const app = express();
+
+app.use(cors(config.cors));
+
+console.log(`Starting ${serviceName}... ${version}\nConfig:\n`, config);
+
 //TODO return app
 //if (config.envId == 'dev') {
 //    app.set('json spaces', 2);
 //}
 module.exports = {
-
+    app,
     config,
     configDefault,
     serviceName,
     version,
-    cors: cors(config.cors),
     polling,
+    listenLog: function () {
+        console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+        console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
+    }
 
 /*    onInit: app => {
         console.log(`Starting ${serviceName}...`);

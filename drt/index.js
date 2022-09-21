@@ -5,15 +5,9 @@ const express = require('express')
 , polyline = require('@mapbox/polyline')
 , {createGtfsFlex} = require('./csv');
 
-const {serviceName, version, config, cors, polling} = require('../base');
-
-const app = express();
-
-app.use(cors);
+const {app, version, config, polling, listenLog} = require('../base');
 
 var last_updated = Math.trunc((new Date()).getTime() / 1000 );
-
-console.log(`Starting ${serviceName}...\nConfig:`, config);
 
 async function generateProto(vehicles){
     const root = await protobuf.load("gtfs-realtime.proto");
@@ -268,7 +262,5 @@ app.get(['/','/drt'], async (req, res) => {
   });
 });
 
-app.listen(config.listen_port, function () {
-    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
-});
+app.listen(config.listen_port, listenLog);
+

@@ -3,13 +3,7 @@ const https = require('https');
 const _ = require('lodash');
 const csvtojson = require('csvtojson');
 
-const {serviceName, version, config, cors, polling} = require('../base');
-
-const app = express();
-
-app.use(cors);
-
-console.log(`Starting ${serviceName}...\nConfig:`, config);
+const {app, version, config, polling, listenLog} = require('../base');
 
 var last_updated,
     stationsReceived,
@@ -18,7 +12,6 @@ var last_updated,
 
 polling( lastUpdated => {
     last_updated = lastUpdated;
-
     getStations();
     getBays();
     getBikes();
@@ -773,7 +766,4 @@ app.get(['/','/gbfs'], async (req, res) => {
   });
 });
 
-app.listen(config.listen_port, function () {
-    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
-});
+app.listen(config.listen_port, listenLog);
