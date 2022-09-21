@@ -24,6 +24,8 @@ endpoints:
   bikes:
     path: /v2/flat%2Cnode/Bicycle?distinct=true&limit=500
 
+gbfs_version: 2.1
+
 uri:
   meran:
     android: https://play.google.com/store/apps/details?id=de.moqo.work&hl=en_US

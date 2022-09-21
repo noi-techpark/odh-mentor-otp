@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const GeoJSON = require('geojson');
 
-const {serviceName, version, config, cors} = require('../base');
+const {serviceName, version, config, cors, polling} = require('../base');
 
 const app = express();
 

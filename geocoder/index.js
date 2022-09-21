@@ -11,7 +11,7 @@ const AddressParser = require('pelias-parser/parser/AddressParser');
 
 const apiApp = require('pelias-api/app');
 
-const {serviceName, version, config, cors} = require('../base');
+const {serviceName, version, config, cors, polling} = require('../base');
 
 const app = express();
 

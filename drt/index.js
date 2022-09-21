@@ -5,7 +5,7 @@ const express = require('express')
 , polyline = require('@mapbox/polyline')
 , {createGtfsFlex} = require('./csv');
 
-const {serviceName, version, config, cors} = require('../base');
+const {serviceName, version, config, cors, polling} = require('../base');
 
 const app = express();
 

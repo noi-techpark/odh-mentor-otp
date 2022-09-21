@@ -3,7 +3,7 @@ const https = require('https');
 const _ = require('lodash');
 const circleToPolygon = require('./circle-polygon');
 
-const {serviceName, version, config, cors} = require('../base');
+const {serviceName, version, config, cors, polling} = require('../base');
 
 const app = express();
 
