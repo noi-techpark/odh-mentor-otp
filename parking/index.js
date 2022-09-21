@@ -9,21 +9,18 @@ const app = express();
 
 app.use(cors);
 
-var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
+console.log(`Starting ${serviceName}...\nConfig:`, config);
+
+var last_updated,
     stationsReceived,
     sensorsReceived;
 
-console.log(`Starting ${serviceName}...`);
-
-console.log("Config:\n", config);
-
-function getData(){
-    last_updated = Math.trunc((new Date()).getTime() / 1000 );
+polling( lastUpdated => {
+    last_updated = lastUpdated;
+    console.log('polling results...', last_updated, _.size(stationsReceived))
     getStations();
     getSensors();
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
+});
 
 function getStations(){
     const req = https.request(config.endpoints.stations, res => {

@@ -10,6 +10,18 @@ const app = express();
 
 app.use(cors);
 
+console.log(`Starting ${serviceName}...\nConfig:`, config);
+
+var last_updated,
+    stationsReceived,
+    stations = [];
+
+polling( lastUpdated => {
+    last_updated = lastUpdated;
+    console.log('polling results...', last_updated, _.size(stationsReceived))
+    getStations();
+});
+
 const codes = require('./signs/codes.json');
 
 const mapCodes = {};
@@ -19,25 +31,6 @@ codes.forEach(item => {
         item.img = `images/${item.code}.png`;
     mapCodes[`${item.code}`] = item;
 });
-
-var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
-    stationsReceived;
-
-const stations = [];
-
-console.log(`Starting ${serviceName}...`);
-
-console.log("Config:\n", JSON.stringify(config,null,2));
-
-//TODO up to here MOVE in LIB module
-
-function getData() {
-    last_updated = Math.trunc((new Date()).getTime() / 1000 );
-    getStations();
-    //console.log('POLLING',stationsReceived)
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
 
 function filterMetadata(tmp,scode) {
 

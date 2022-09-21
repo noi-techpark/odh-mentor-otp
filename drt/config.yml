@@ -7,9 +7,6 @@ prod:
 dev:
   listen_port: 9095
 
-gtfsflex_filename: 'gtfs-flex-%T.zip'
-# %T is Unix Epoch
-
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
@@ -20,6 +17,9 @@ endpoints:
     path: /v2/flat,node/ON_DEMAND_STOP
   trips:
     path: /v2/flat,node/ON_DEMAND_ITINERARY/*/latest
+
+gtfsflex_filename: 'gtfs-flex-%T.zip'
+# %T is Unix Epoch
 
 #TODO use in csv.js
 # gtfs_flex_agency:

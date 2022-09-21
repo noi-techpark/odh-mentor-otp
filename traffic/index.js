@@ -9,21 +9,18 @@ const app = express();
 
 app.use(cors);
 
-var last_updated = Math.trunc((new Date()).getTime() / 1000 ),
-    linkStationsReceived,
-    stationsReceived;
-
 console.log(`Starting ${serviceName}...\nConfig:`, config);
 
-function getData() {
-    last_updated = Math.trunc((new Date()).getTime() / 1000 );
-    //TODO pass filter by bounding box
-    getLinkGeometries();
-    getStations();
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
+var last_updated,
+    stationsReceived,
+    linkStationsReceived;
 
+polling( lastUpdated => {
+    last_updated = lastUpdated;
+    console.log('polling results...', last_updated, _.size(stationsReceived))
+    getStations();
+    getLinkGeometries();
+});
 
 function getLinkStationLevel(linkId, value, mPeriod) {
     //return level of traffic from 0(not measured) to 3
@@ -46,7 +43,6 @@ function getLinkStationLevel(linkId, value, mPeriod) {
 
 function getLinkGeometries() {
     const req = https.request(config.endpoints.geometries, res => {
-            console.log(`TRAFFIC getLinkGeometries, response: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
@@ -67,7 +63,6 @@ function getLinkGeometries() {
 
 function getStations() {
     const req = https.request(config.endpoints.stations, res => {
-            console.log(`TRAFFIC getStations, response: ${res.statusCode}`)
             var str = "";
             res.on('data', function (chunk) {
                 str += chunk;
