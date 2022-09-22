@@ -42,6 +42,14 @@ if (config.envId == 'dev') {
    app.set('json spaces', 2);
 }
 
+/*TODO in all modules
+app.get(['/','/carsharing'], async (req, res) => {
+  res.send({
+    status: 'OK',
+    version
+  });
+});*/
+
 console.log(`Starting ${serviceName}... ${version}\nConfig:\n`, config);
 
 module.exports = {
@@ -52,7 +60,7 @@ module.exports = {
     version,
     polling,
     listenLog: function () {
-        console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+        console.log('module paths', app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
         console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
     }
 

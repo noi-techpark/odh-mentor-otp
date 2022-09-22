@@ -80,7 +80,7 @@ function formatData() {
                 tra una pagina e l’altra (es. “|”).
                 */
 
-console.log('STATION PUSH',station)
+                //console.log('STATION PUSH',station)
 
                 stations.push({
                     station_id: station.scode,
@@ -219,7 +219,7 @@ app.get('/vms/:scode/station.json',  function (req, res) {
 
 app.use('/vms/images', express.static('signs/images'));
 
-app.use('/vms/map', express.static('map.html'));
+app.use('/vms/tests', express.static('tests'));
 
 app.get('/vms/signs.json',  function (req, res) {
     res.json({
