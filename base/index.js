@@ -2,6 +2,7 @@
 const basepath = process.cwd();
 
 const _ = require('lodash')
+    , yaml = require('js-yaml')
     , express = require('express')
     , cors = require('cors')
     , dotenv = require('dotenv').config()
@@ -53,6 +54,10 @@ app.get(['/','/carsharing'], async (req, res) => {
 console.log(`Starting ${serviceName}... ${version}\nConfig:\n`, config);
 
 module.exports = {
+    express,
+    yaml,
+    _,
+
     app,
     config,
     configDefault,

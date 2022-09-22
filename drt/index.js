@@ -1,11 +1,9 @@
-const express = require('express')
-, axios = require('axios').default
-, _ = require('lodash')
-, protobuf = require("protobufjs")
-, polyline = require('@mapbox/polyline')
-, {createGtfsFlex} = require('./csv');
+const axios = require('axios').default
+    , protobuf = require("protobufjs")
+    , polyline = require('@mapbox/polyline')
+    , {createGtfsFlex} = require('./csv');
 
-const {app, version, config, polling, listenLog} = require('../base');
+const {app, version, config, polling, listenLog, _, express, yaml} = require('../base');
 
 var last_updated = Math.trunc((new Date()).getTime() / 1000 );
 

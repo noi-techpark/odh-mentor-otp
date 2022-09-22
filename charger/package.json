@@ -10,8 +10,5 @@
   "author": "OpenMove <info@openmove.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
-    "js-yaml": "^3.14.0",
-    "lodash": "^4.17.20"
   }
 }

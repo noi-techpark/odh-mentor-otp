@@ -1,11 +1,8 @@
 
-const _ = require('lodash');
-const yaml = require('js-yaml');
-
 const fs = require('fs');
 const https = require('https');
 
-const {app, version, config, polling, listenLog} = require('../base');
+const {app, version, config, polling, listenLog, _, express, yaml} = require('../base');
 
 var last_updated,
     stationsReceived,

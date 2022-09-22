@@ -1,9 +1,7 @@
-const express = require('express')
-    , https = require('https')
-    , _ = require('lodash')
+const https = require('https')
     , linkStationsConfig = require('./linkstation-config');
 
-const {app, version, config, polling, listenLog} = require('../base');
+const {app, version, config, polling, listenLog, _, express, yaml} = require('../base');
 
 var last_updated,
     stationsReceived,
@@ -14,25 +12,6 @@ polling( lastUpdated => {
     getStations();
     getLinkGeometries();
 });
-
-function getLinkStationLevel(linkId, value, mPeriod) {
-    //return level of traffic from 0(not measured) to 3
-    //TODO periods is only 600 now
-    const vals = linkStationsConfig[ linkId ] || [];
-
-    for (let level = 0; level < vals.length; level++) {
-
-        const [period, minval, maxval] = vals[ level ];
-
-        if (period != mPeriod) continue;
-        //TODO check if this makes sense
-
-        if (value >= minval && value <= maxval ) {
-            return level + 1;
-        }
-    }
-    return 0;
-}
 
 function getLinkGeometries() {
     const req = https.request(config.endpoints.geometries, res => {
@@ -79,6 +58,25 @@ function getStations() {
     })
 
     req.end()
+}
+
+function getLinkStationLevel(linkId, value, mPeriod) {
+    //return level of traffic from 0(not measured) to 3
+    //TODO periods is only 600 now
+    const vals = linkStationsConfig[ linkId ] || [];
+
+    for (let level = 0; level < vals.length; level++) {
+
+        const [period, minval, maxval] = vals[ level ];
+
+        if (period != mPeriod) continue;
+        //TODO check if this makes sense
+
+        if (value >= minval && value <= maxval ) {
+            return level + 1;
+        }
+    }
+    return 0;
 }
 
 app.get('/traffic/stations.json',  function (req, res) {

@@ -1,9 +1,8 @@
 
 const https = require('https');
-const _ = require('lodash');
 const circleToPolygon = require('./circle-polygon');
 
-const {app, version, config, polling, listenLog} = require('../base');
+const {app, version, config, polling, listenLog, _, express, yaml} = require('../base');
 
 var last_updated,
     stationsReceived,

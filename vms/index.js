@@ -1,10 +1,9 @@
-const express = require('express');
+
 const https = require('https');
-const _ = require('lodash');
 
 const GeoJSON = require('geojson');
 
-const {app, version, config, polling, listenLog} = require('../base');
+const {app, version, config, polling, listenLog, _, express, yaml} = require('../base');
 
 var last_updated,
     stationsReceived,

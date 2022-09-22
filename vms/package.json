@@ -10,9 +10,6 @@
   "author": "OpenMove <info@openmove.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
-    "js-yaml": "^3.14.0",
-    "lodash": "^4.17.20",
     "geojson": "^0.5.0",
     "csvtojson": "^2.0.10",
     "detect-file-type": "^0.2.8"
