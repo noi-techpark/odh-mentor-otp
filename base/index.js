@@ -38,12 +38,12 @@ const app = express();
 
 app.use(cors(config.cors));
 
+if (config.envId == 'dev') {
+   app.set('json spaces', 2);
+}
+
 console.log(`Starting ${serviceName}... ${version}\nConfig:\n`, config);
 
-//TODO return app
-//if (config.envId == 'dev') {
-//    app.set('json spaces', 2);
-//}
 module.exports = {
     app,
     config,

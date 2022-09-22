@@ -53,7 +53,7 @@ app.get('/here', async(req, res) => {
 	
 	const response = await api.here(req.query.text);
 
-	console.log('HERE api request', req.query.text, JSON.stringify(response,null,4))
+	//console.log('HERE api request', req.query.text, JSON.stringify(response,null,4))
 	//res.json(response);
 	res.json(formatters.here(response));
 })
