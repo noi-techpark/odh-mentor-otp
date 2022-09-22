@@ -22,8 +22,7 @@ function getStations(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
+                stationsReceived = tmp.data;
             });
         })
 
@@ -43,8 +42,7 @@ function getPlugs(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var plugs = tmp.data;
-                plugsReceived = plugs;
+                plugsReceived = tmp.data;
             });
         })
 

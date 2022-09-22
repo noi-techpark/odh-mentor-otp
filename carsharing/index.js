@@ -24,8 +24,7 @@ function getStations(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
+                stationsReceived = tmp.data;
             });
         })
 
@@ -46,9 +45,7 @@ function getCars(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var cars = tmp.data;
-                //console.log('GETCARS',JSON.stringify(tmp.data,null,2))
-                carReceived = cars;
+                carReceived = tmp.data;
             });
         })
 

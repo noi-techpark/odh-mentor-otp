@@ -36,8 +36,7 @@ function getStations() {
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
+                stationsReceived = tmp.data;
             });
         })
 
@@ -58,8 +57,7 @@ function getBays() {
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var bays = tmp.data;
-                baysReceived = bays;
+                baysReceived = tmp.data;
             });
         })
 
@@ -80,8 +78,7 @@ function getBikes() {
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var bikes = tmp.data;
-                bikesReceived = bikes;
+                bikesReceived = tmp.data;
             });
         })
 

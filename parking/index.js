@@ -24,8 +24,7 @@ function getStations(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
+                stationsReceived = tmp.data;
             });
         })
 
@@ -46,9 +45,8 @@ function getSensors(){
 
             res.on('end', function () {
                 let tmp = JSON.parse(str);
-                var sensors = _.uniqBy(tmp.data,'scode');
                 //PATCH remove duplicates
-                sensorsReceived = sensors
+                sensorsReceived = _.uniqBy(tmp.data,'scode');
             });
         })
 
