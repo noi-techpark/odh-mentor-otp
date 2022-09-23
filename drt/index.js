@@ -24,11 +24,12 @@ async function getDataItineraries() {
 }
 
 async function getVehicle() {
-    return await axios({
+/*    return await axios({
         method: config.endpoints.vehicles.method,
         url: `${config.endpoints.vehicles.port === 443 ? 'https' : 'http'}://${config.endpoints.vehicles.hostname}${config.endpoints.vehicles.path}`,
         responseType: 'json'        
-    })
+    })*/
+    return fetchData(config.endpoints.vehicles)
 }
 
 async function getStops() {
@@ -49,14 +50,14 @@ async function getTrips() {
 
 app.get('/drt/vehicles.json', async function (req, res) {
 
-    const {'data': vehicle} = await getDataVehicle();
+    const vehicles = generateEntitiesVehicle(await getDataVehicle());
 
     res.json({
         last_updated,
         ttl: 0,
         version,
         data: {
-            vehicles: generateEntitiesVehicle(vehicle)
+            vehicles
         }
     });
 });
@@ -91,7 +92,8 @@ app.get('/drt/itinerary.json', async function (req, res) {
 
 app.get('/drt/all.json', async function (req, res) {
 
-    const {'data': vehicle} = await getDataVehicle();
+    const vehicles = generateEntitiesVehicle(await getDataVehicle());
+
     const {'data': stops} = await getDataStop();
     const {'data': itineraries} = await getDataItineraries();
     
@@ -100,7 +102,7 @@ app.get('/drt/all.json', async function (req, res) {
         ttl: 0,
         version,
         data: {
-            vehicles: generateEntitiesVehicle(vehicle),
+            vehicles,
             stops: generateEntitiesStop(stops),
             itinerary: generateEntitiesTrip(itineraries)
         }
@@ -126,9 +128,7 @@ app.get('/drt/flex', async function (req, res) {
 
 app.get('/drt/vehicles.proto', async function (req, res) {
 
-    const {'data': vehicle} = await getDataVehicle();
-
-    const entities = generateEntitiesVehicle(vehicle);
+    const entities = generateEntitiesVehicle(await getDataVehicle());
     const buffer = await generateProto(entities);
 
     res.writeHead(200, {'Content-Type': 'application/protobuf'});
