@@ -1,6 +1,4 @@
 
-const https = require('https');
-
 const GeoJSON = require('geojson');
 
 const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
@@ -11,7 +9,14 @@ var last_updated,
 
 polling( lastUpdated => {
     last_updated = lastUpdated;
-    getStations();
+
+    fetchData(config.endpoints.stations).then(data => {
+        filterMetadata(data);
+
+        stationsReceived = data;
+        console.log('stationsReceived',_.size(stationsReceived))
+        formatData();
+    });
 });
 
 const codes = require('./signs/codes.json');
@@ -24,7 +29,7 @@ codes.forEach(item => {
     mapCodes[`${item.code}`] = item;
 });
 
-function filterMetadata(tmp,scode) {
+function filterMetadata(data,scode) {
 
     const opath = scode ? [
         'VMS',
@@ -35,15 +40,15 @@ function filterMetadata(tmp,scode) {
         'tmetadata'
         ] : 'tmetadata';
 
-    if (_.isArray(tmp.data)) {
-        for(let e of tmp.data) {
+    if (_.isArray(data)) {
+        for(let e of data) {
             _.set(e, opath, {});
         }
     }
-    _.set(tmp.data, opath, {});
+    _.set(data, opath, {});
     //remove unuseful big field
     //console.log('FILTER',JSON.stringify(tmp,null,4))
-    return tmp;
+    return data;
 }
 
 function formatData() {
@@ -104,40 +109,6 @@ function formatData() {
     }
 }
 
-function getStations() {
-
-    console.log('REQUEST',config.endpoints.stations.path);
-
-    https.request(config.endpoints.stations, res => {
-        var str = "";
-
-        console.log('RESPONSE',res.statusCode, config.endpoints.stations.path)
-        if (res.statusCode===200) {
-            res.on('data', chunk => {
-                str += chunk;
-            }).on('end', () => {
-                try {
-                    let tmp = JSON.parse(str);
-
-                    filterMetadata(tmp);
-
-                    stationsReceived = tmp.data;
-                    console.log('stationsReceived',_.size(stationsReceived))
-                    formatData();
-                }
-                catch(err) {
-                    console.log('RESPONSE empty',err)
-                }
-            });
-        }
-        else {
-            console.error(`Error to retrieve data, statusCode ${res.statusCode} try to run ./token.sh or ./token_refresh.sh`)
-        }
-    }).on('error', error => {
-        console.error('RESPONSE ERR',error);
-    }).end();
-}
-
 function getOneStation(scode=''){
 
     return new Promise((resolve, reject) => {
@@ -148,29 +119,10 @@ function getOneStation(scode=''){
         }
 
         const result = _.find(stationsReceived,{'scode':scode})
-console.log(result)
-        resolve(result)
-/*
-        const reqOpts = Object.assign({}, config.endpoints.station, {
-            path: _.template(config.endpoints.station.path)({scode})
-        });
 
-        https.request(reqOpts, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            }).on('end', function () {
-                const tmp = JSON.parse(str);
+        //console.log(result)
 
-                filterMetadata(tmp,scode)
-
-console.log('getOneStation',JSON.stringify(tmp,null,4))
-
-                resolve(tmp.data);
-            });
-        }).on('error', error => {
-            reject(error)
-        }).end();*/
+        resolve(result);
     });
 }
 

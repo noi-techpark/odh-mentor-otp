@@ -38,9 +38,9 @@ function polling(getData) {
 function fetchData(endpoint) {
     return new Promise((resolve, reject) => {
         const req = https.request(endpoint, res => {
-            if (res.statusCode!==200) {
-                console.error(`Error to retrieve data, statusCode ${res.statusCode} try to run ./token.sh or ./token_refresh.sh`)
-                reject(new Error(`http reponse code ${res.statusCode}`))
+            if (res.statusCode===401) {
+                console.error(`Error to retrieve data, ${res.statusCode} try to run ./token.sh or ./token_refresh.sh`)
+                //reject(new Error(`http reponse code ${res.statusCode}`))
                 return
             }
             var str = "";
