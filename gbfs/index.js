@@ -2,7 +2,7 @@
 const https = require('https');
 const csvtojson = require('csvtojson');
 
-const {app, version, config, polling, listenLog, _, express, yaml} = require('../base');
+const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
 var last_updated,
     stationsReceived,

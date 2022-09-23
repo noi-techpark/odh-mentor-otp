@@ -1,18 +1,18 @@
 
-const basepath = process.cwd();
+const https = require('https');
 
 const _ = require('lodash')
     , yaml = require('js-yaml')
     , express = require('express')
     , cors = require('cors')
     , dotenv = require('dotenv').config()
-    , configyml = require('@stefcud/configyml')
+    , configyml = require('@stefcud/configyml');
+
+const basepath = process.cwd() //path of module that includes this
     , {name, version} = require(`${basepath}/package.json`)
-    , serviceName = `service ${name} v${version}`;
-
-const configDefault = configyml({basepath: __dirname});
-
-const config = configyml({basepath});
+    , serviceName = `service ${name} v${version}`
+    , configDefault = configyml({basepath: __dirname})
+    , config = configyml({basepath});
 
 config.endpoints = _.mapValues(config.endpoints, conf => {
     return _.defaults(conf, config.endpoints.default, configDefault.endpoints.default);
@@ -33,6 +33,33 @@ function polling(getData) {
     let intervalObj = setInterval(poll, config.polling_interval * 1000);
 
     return last_updated;
+}
+
+function fetchData(endpoint) {
+    return new Promise((resolve, reject) => {
+        const req = https.request(endpoint, res => {
+                var str = "";
+                res.on('data', chunk => {
+                    str += chunk;
+                });
+                res.on('end', () => {
+                    /*let tmp = JSON.parse(str);
+                    stationsReceived = tmp.data;*/
+                    try {
+                        const {data} = JSON.parse(str);
+                        resolve(data);
+                    }
+                    catch(err) {
+                        reject(new Error("Not JSON content-type"))
+                    }
+                });
+            });
+
+        req.on('error', error => {
+            console.error(error)
+        })
+        req.end()
+    });
 }
 
 const app = express();
@@ -64,6 +91,7 @@ module.exports = {
     serviceName,
     version,
     polling,
+    fetchData,
     listenLog: function () {
         console.log('module paths', app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
         console.log(`${serviceName} listening at http://localhost:${this.address().port}`);

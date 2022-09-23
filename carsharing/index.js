@@ -1,8 +1,7 @@
 
 const fs = require('fs');
-const https = require('https');
 
-const {app, version, config, polling, listenLog, _, express, yaml} = require('../base');
+const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
 var last_updated,
     stationsReceived,
@@ -10,51 +9,16 @@ var last_updated,
 
 polling( lastUpdated => {
     last_updated = lastUpdated;
-    getStations();
-    getCars();
+
+    fetchData(config.endpoints.stations).then(data => {
+        stationsReceived = data;
+    });
+    fetchData(config.endpoints.cars).then(data => {
+        carReceived = data;
+    });
+    console.log('stationsReceived',stationsReceived && stationsReceived.length)
+    console.log('carReceived',carReceived && carReceived.length)
 });
-
-function getStations(){
-    const req = https.request(config.endpoints.stations, res => {
-            //console.log(`STATIONS: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                stationsReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getCars(){
-    const req = https.request(config.endpoints.cars, res => {
-            //console.log(`BIKES: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                carReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
 
 function getModelId(car) {
     if(car.smetadata && car.smetadata.brand) {
