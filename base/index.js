@@ -53,7 +53,8 @@ function fetchData(endpoint) {
                     resolve(data);
                 }
                 catch(err) {
-                    reject(new Error("Not JSON content-type"))
+                    console.error(`Error "${err}" to connect endpoint ${endpoint.hostname}${endpoint.path}`);
+                    //reject(err)
                 }
             });
         });
