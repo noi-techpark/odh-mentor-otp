@@ -38,25 +38,29 @@ function polling(getData) {
 function fetchData(endpoint) {
     return new Promise((resolve, reject) => {
         const req = https.request(endpoint, res => {
-                var str = "";
-                res.on('data', chunk => {
-                    str += chunk;
-                });
-                res.on('end', () => {
-                    /*let tmp = JSON.parse(str);
-                    stationsReceived = tmp.data;*/
-                    try {
-                        const {data} = JSON.parse(str);
-                        resolve(data);
-                    }
-                    catch(err) {
-                        reject(new Error("Not JSON content-type"))
-                    }
-                });
+            if (res.statusCode!==200) {
+                console.error(`Error to retrieve data, statusCode ${res.statusCode} try to run ./token.sh or ./token_refresh.sh`)
+                reject(new Error(`http reponse code ${res.statusCode}`))
+                return
+            }
+            var str = "";
+            res.on('data', chunk => {
+                str += chunk;
             });
+            res.on('end', () => {
+                try {
+                    const {data} = JSON.parse(str);
+                    resolve(data);
+                }
+                catch(err) {
+                    reject(new Error("Not JSON content-type"))
+                }
+            });
+        });
 
-        req.on('error', error => {
-            console.error(error)
+        req.on('error', err => {
+            console.error(`Error "${err.code}" to connect endpoint ${endpoint.hostname}${endpoint.path}`);
+            //reject(err)
         })
         req.end()
     });
@@ -74,6 +78,7 @@ if (config.envId == 'dev') {
 app.get(['/','/carsharing'], async (req, res) => {
   res.send({
     status: 'OK',
+    //TODO status error if polling failed
     version
   });
 });*/
