@@ -2,6 +2,7 @@ environments:
   default: prod
 #   #default environment if NODE_ENV is not defined
 
+## override in each module
 # prod:
 #   listen_port: 8080
 # dev:
