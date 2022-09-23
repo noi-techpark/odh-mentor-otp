@@ -11,7 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "@mapbox/polyline": "^1.1.1",
-    "axios": "^0.22.0",
     "csv-writer": "^1.6.0",
     "protobufjs": "^6.11.2",
     "tmp": "^0.2.1",
