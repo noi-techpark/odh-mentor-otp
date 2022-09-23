@@ -19,11 +19,11 @@ polling( lastUpdated => {
     });
 });
 
-const codes = require('./signs/codes.json');
+const signs = require('./signs/codes.json');
 
 const mapCodes = {};
 
-codes.forEach(item => {
+signs.forEach(item => {
     if(item.code!='N' && item.code!='S')
         item.img = `images/${item.code}.png`;
     mapCodes[`${item.code}`] = item;
@@ -178,7 +178,7 @@ app.get('/vms/signs.json',  function (req, res) {
         ttl: 0,
         version,
         data: {
-            signs: codes
+            signs
         }
     });
 });

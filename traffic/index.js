@@ -1,6 +1,4 @@
 
-const linkStationsConfig = require('./linkstation-config');
-
 const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
 var last_updated,
@@ -30,6 +28,8 @@ polling( lastUpdated => {
         linkStationsReceived = data;
     });
 });
+
+const linkStationsConfig = require('./linkstation-config');
 
 function getLinkStationLevel(linkId, value, mPeriod) {
     //return level of traffic from 0(not measured) to 3
