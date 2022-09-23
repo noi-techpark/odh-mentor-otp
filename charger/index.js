@@ -1,6 +1,4 @@
 
-const https = require('https');
-
 const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
 var last_updated,
@@ -9,49 +7,14 @@ var last_updated,
 
 polling( lastUpdated => {
     last_updated = lastUpdated;
-    getStations();
-    getPlugs();
+
+    fetchData(config.endpoints.stations).then(data => {
+        stationsReceived = data;
+    });
+    fetchData(config.endpoints.plugs).then(data => {
+        plugsReceived = data;
+    });
 });
-
-function getStations(){
-    const req = https.request(config.endpoints.stations, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                stationsReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getPlugs(){
-    const req = https.request(config.endpoints.plugs, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                plugsReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
 
 function isInBbox(bb, p){
     //ix, iy are the bottom left coordinates

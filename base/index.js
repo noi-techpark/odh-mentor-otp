@@ -57,13 +57,12 @@ function fetchData(endpoint) {
                     //reject(err)
                 }
             });
-        });
-
-        req.on('error', err => {
+        })
+        .on('error', err => {
             console.error(`Error "${err.code}" to connect endpoint ${endpoint.hostname}${endpoint.path}`);
             //reject(err)
         })
-        req.end()
+        .end();
     });
 }
 

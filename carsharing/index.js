@@ -16,8 +16,6 @@ polling( lastUpdated => {
     fetchData(config.endpoints.cars).then(data => {
         carReceived = data;
     });
-    console.log('stationsReceived',stationsReceived && stationsReceived.length)
-    console.log('carReceived',carReceived && carReceived.length)
 });
 
 function getModelId(car) {
