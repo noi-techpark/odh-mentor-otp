@@ -8,7 +8,6 @@ const _ = require('lodash')
     , cors = require('cors')
     , dotenv = require('dotenv').config()
     , configyml = require('@stefcud/configyml');
-    _.str = require("underscore.string");
 
 const basepath = process.cwd() //path of module that includes this
     , {name, version} = require(`${basepath}/package.json`)
@@ -68,9 +67,16 @@ function fetchData(endpoint) {
     });
 }
 
+
 function listenLog() {
     console.log('listen paths', app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
     console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
+    /*
+    //TODO manage sigterm
+    process.on('SIGTERM', () => {
+        console.error('[geocoder-pelias-services] closing...')
+        serverParser.close();
+    });*/
 }
 
 const app = express();
