@@ -1,19 +1,25 @@
 
-const https = require('https');
 const csvtojson = require('csvtojson');
 
 const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
 var last_updated,
     stationsReceived,
-    baysReceived,
-    bikesReceived;
+    bikesReceived,
+    baysReceived;
 
 polling( lastUpdated => {
     last_updated = lastUpdated;
-    getStations();
-    getBays();
-    getBikes();
+
+    fetchData(config.endpoints.stations).then(data => {
+        stationsReceived = data;
+    });
+    fetchData(config.endpoints.bikes).then(data => {
+        bikesReceived = data;
+    });
+    fetchData(config.endpoints.bays).then(data => {
+        baysReceived = data;
+    });
 });
 
 const {gbfs_version} = config;
@@ -25,69 +31,6 @@ csvtojson()
 .then( json => {
     meranStations = json;
 });
-
-function getStations() {
-    const req = https.request(config.endpoints.stations, res => {
-            //console.log(`STATIONS: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                stationsReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getBays() {
-    const req = https.request(config.endpoints.bays, res => {
-            //console.log(`BAYS: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                baysReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error("ERROR", error)
-    })
-
-    req.end()
-}
-
-function getBikes() {
-    const req = https.request(config.endpoints.bikes, res => {
-            //console.log(`BIKES: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                bikesReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
 
 app.get('/:context/:version/gbfs.json', function (req, res) {
     let context = req.params.context;

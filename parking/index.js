@@ -1,5 +1,4 @@
 
-const https = require('https');
 const circleToPolygon = require('./circle-polygon');
 
 const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
@@ -10,52 +9,14 @@ var last_updated,
 
 polling( lastUpdated => {
     last_updated = lastUpdated;
-    getStations();
-    getSensors();
+
+    fetchData(config.endpoints.stations).then(data => {
+        stationsReceived = data;
+    });
+    fetchData(config.endpoints.sensors).then(data => {
+        sensorsReceived = data;
+    });
 });
-
-function getStations(){
-    const req = https.request(config.endpoints.stations, res => {
-            //console.log(`STATIONS: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                stationsReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getSensors(){
-    const req = https.request(config.endpoints.sensors, res => {
-            //console.log(`BIKES: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                //PATCH remove duplicates
-                sensorsReceived = _.uniqBy(tmp.data,'scode');
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
 
 app.get('/parking/stations.json',  function (req, res) {
     var parkingStations = [];
@@ -116,8 +77,11 @@ app.get('/parking/park-ride.json',  function (req, res) {
 app.get('/parking/sensors.json', function (req, res) {
     var parkingSensors = [];
     if(sensorsReceived){
-        for(var i = 0; i < sensorsReceived.length; i++){
-            var sensor = sensorsReceived[i];
+
+        const sensorsUniq = _.uniqBy(sensorsReceived,'scode');
+
+        for(var i = 0; i < sensorsUniq.length; i++){
+            var sensor = sensorsUniq[i];
             if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
                 parkingSensors.push({
                     sensor_id: sensor.scode,
@@ -163,8 +127,11 @@ app.get('/parking/all.json', function (req, res) {
     }
     var parkingSensorsAll = [];
     if(sensorsReceived){
-        for(var i = 0; i < sensorsReceived.length; i++){
-            var sensor = sensorsReceived[i];
+
+        const sensorsUniq = _.uniqBy(sensorsReceived,'scode');
+
+        for(var i = 0; i < sensorsUniq.length; i++){
+            var sensor = sensorsUniq[i];
             if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
                 parkingSensorsAll.push({
                     type: 'sensor',

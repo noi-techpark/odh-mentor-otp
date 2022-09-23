@@ -1,5 +1,5 @@
-const https = require('https')
-    , linkStationsConfig = require('./linkstation-config');
+
+const linkStationsConfig = require('./linkstation-config');
 
 const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
@@ -7,58 +7,29 @@ var last_updated,
     stationsReceived,
     linkStationsReceived;
 
-polling( lastUpdated => {
+/*polling( lastUpdated => {
     last_updated = lastUpdated;
     getStations();
     getLinkGeometries();
+});*/
+
+polling( lastUpdated => {
+    last_updated = lastUpdated;
+
+    fetchData(config.endpoints.stations).then(data => {
+
+        const {stations} = data.LinkStation;
+        stationsReceived = Object.keys(stations).map(key => {
+            return {
+                id: key,
+                values: stations[key]['sdatatypes']['Bluetooth Elapsed time (test)']['tmeasurements']
+            }
+        });
+    });
+    fetchData(config.endpoints.geometries).then(data => {
+        linkStationsReceived = data;
+    });
 });
-
-function getLinkGeometries() {
-    const req = https.request(config.endpoints.geometries, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                linkStationsReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getStations() {
-    const req = https.request(config.endpoints.stations, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-
-                let stations = tmp['data']['LinkStation']['stations'];
-                stationsReceived = Object.keys(stations).map(key => {
-                    return {
-                        id: key,
-                        values: stations[key]['sdatatypes']['Bluetooth Elapsed time (test)']['tmeasurements']
-                    }
-                });
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
 
 function getLinkStationLevel(linkId, value, mPeriod) {
     //return level of traffic from 0(not measured) to 3
