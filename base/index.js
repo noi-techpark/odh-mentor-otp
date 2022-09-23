@@ -1,5 +1,6 @@
 
 const https = require('https');
+//TODO replace with something else or undici
 
 const _ = require('lodash')
     , yaml = require('js-yaml')
@@ -7,6 +8,7 @@ const _ = require('lodash')
     , cors = require('cors')
     , dotenv = require('dotenv').config()
     , configyml = require('@stefcud/configyml');
+    _.str = require("underscore.string");
 
 const basepath = process.cwd() //path of module that includes this
     , {name, version} = require(`${basepath}/package.json`)
@@ -66,6 +68,11 @@ function fetchData(endpoint) {
     });
 }
 
+function listenLog() {
+    console.log('listen paths', app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+    console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
+}
+
 const app = express();
 
 app.use(cors(config.cors));
@@ -86,33 +93,13 @@ app.get(['/','/carsharing'], async (req, res) => {
 console.log(`Starting ${serviceName}... ${version}\nConfig:\n`, config);
 
 module.exports = {
-    express,
-    yaml,
-    _,
-
     app,
     config,
-    configDefault,
     serviceName,
     version,
     polling,
     fetchData,
-    listenLog: function () {
-        console.log('module paths', app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-        console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
-    }
-
-/*    onInit: app => {
-        console.log(`Starting ${serviceName}...`);
-        console.log("Config:\n", config);
-    },*/
-/*    goListen: app => {
-        app.listen(config.listen_port, onListen(app) );
-        const {name, version} = require('./package.json');
-        const serviceName = `service ${name} v${version}`;
-        return function () {
-            console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-            console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
-        }
-    }*/
+    listenLog,
+    //libs
+    express, yaml, _
 };

@@ -11,6 +11,7 @@
     "express": "^4.17.1",
     "cors": "^2.8.5",
     "js-yaml": "^3.14.0",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "underscore.string": "^3.3.5"
   }
 }

@@ -1,23 +1,17 @@
 
-process.env.PELIAS_CONFIG = './pelias.json';
-
-const https = require('https');
-const _ = require('lodash');
-_.str = require("underscore.string");
 const ParallelRequest = require('parallel-http-request');
 const wdlevenshtein = require('weighted-damerau-levenshtein');
-const AddressParser = require('pelias-parser/parser/AddressParser');
 
+process.env.PELIAS_CONFIG = './pelias.json';
+const AddressParser = require('pelias-parser/parser/AddressParser');
 const apiApp = require('pelias-api/app');
 
-const {app, version, config, polling, listenLog} = require('../base');
+const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
-const express = require('express');
 app.use(express.json());
-//TODO move in base
-//
+
 const formatters = require('./formatters')(config);
-const api = require('./api')(config);
+const services = require('./services')(config);
 
 //ranking algorithm
 function textDistance(text, result) {
@@ -51,7 +45,7 @@ app.get(/^\/placeholder(.*)$/,  (req, res)=> {
 
 app.get('/here', async(req, res) => {
 	
-	const response = await api.here(req.query.text);
+	const response = await services.here(req.query.text);
 
 	//console.log('HERE api request', req.query.text, JSON.stringify(response,null,4))
 	//res.json(response);
@@ -156,14 +150,6 @@ app.get('/testSearch', (req,res) => {
 	}
 });
 
-const serverParser = app.listen(config.pelias_listen_port, () => {
-	console.log('[geocoder-pelias-services] listening on %s:%s', config.pelias_listen_port)
-	process.on('SIGTERM', () => {
-		console.error('[geocoder-pelias-services] closing...')
-		serverParser.close();
-	});
-});
-
 //TODO
 /*apiApp.get(['/',/geocoder'], async (req, res) => {
   res.send({
@@ -172,12 +158,15 @@ const serverParser = app.listen(config.pelias_listen_port, () => {
   });
 });*/
 
-const serverApi = apiApp.listen( config.listen_port, function() {
+const serverParser = app.listen(config.pelias_listen_port, () => {
+	console.log('[geocoder-pelias-services] listening on %s', config.pelias_listen_port)
 	process.on('SIGTERM', () => {
-		console.error('[geocoder] closing...')
-		serverApi.close();
+		console.error('[geocoder-pelias-services] closing...')
+		serverParser.close();
 	});
 });
+
+const serverApi = apiApp.listen( config.listen_port, listenLog);
 
 function orderResult(text, res) {
 	res.hits.hits = _.sortBy(res.hits.hits, hit => {
@@ -186,6 +175,7 @@ function orderResult(text, res) {
 	return res;
 }
 
+//TODO replace with _.template
 function tmpl(str, data) {
 	const tmplReg = /\{\{([\w_\-]+)\}\}/g
 	return str.replace(tmplReg, function (str, key) {
@@ -259,7 +249,7 @@ function combineResults(text, lang, cb) {
 
 		if (config.endpoints.here) {
 			(async (cbb, poiResults) => {		//prepend here results
-				const hereResponse = await api.here(text, lang);
+				const hereResponse = await services.here(text, lang);
 				const hereResults = formatters.here(hereResponse);
 
 				console.log(`[geocoder] response Endpoint: 'HERE' results`, _.size(hereResults));
