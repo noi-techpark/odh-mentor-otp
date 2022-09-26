@@ -13,10 +13,6 @@ polling_interval: 60
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
-    port: 443
-    #path: /v2
-    headers:
-      User-Agent: OpenMove-Api-Client
 
   geometries:
     path: /v2/flat,edge/LinkStation/?limit=-1&distinct=true&select=egeometry,ecode,etype&where=eactive.eq.true

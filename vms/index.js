@@ -1,73 +1,35 @@
-const express = require('express');
-const https = require('https');
-const _ = require('lodash');
-const cors = require('cors');
 
 const GeoJSON = require('geojson');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
+var last_updated,
+    stationsReceived,
+    stations = [];
 
-if (config.noauth) {
-    delete config.endpoints.default.headers.Authorization;
-}
+polling( lastUpdated => {
+    last_updated = lastUpdated;
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
+    fetchData(config.endpoints.stations).then(data => {
+        filterMetadata(data);
+
+        stationsReceived = data;
+        console.log('stationsReceived',_.size(stationsReceived))
+        formatData();
+    });
 });
-delete config.endpoints.default;
 
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
-
-if (config.envId == 'dev') {
-    app.set('json spaces', 2);
-}
-
-const codes = require('./signs/codes.json');
+const signs = require('./signs/codes.json');
 
 const mapCodes = {};
 
-codes.forEach(item => {
+signs.forEach(item => {
     if(item.code!='N' && item.code!='S')
         item.img = `images/${item.code}.png`;
     mapCodes[`${item.code}`] = item;
 });
 
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
-    stationsReceived;
-
-const stations = [];
-
-console.log(`Starting ${serviceName}...`);
-
-console.log("Config:\n", JSON.stringify(config,null,2));
-
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
-//TODO up to here MOVE in LIB module
-
-function getData() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
-    getStations();
-    //console.log('POLLING',stationsReceived)
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
-
-function filterMetadata(tmp,scode) {
+function filterMetadata(data,scode) {
 
     const opath = scode ? [
         'VMS',
@@ -78,15 +40,15 @@ function filterMetadata(tmp,scode) {
         'tmetadata'
         ] : 'tmetadata';
 
-    if (_.isArray(tmp.data)) {
-        for(let e of tmp.data) {
+    if (_.isArray(data)) {
+        for(let e of data) {
             _.set(e, opath, {});
         }
     }
-    _.set(tmp.data, opath, {});
+    _.set(data, opath, {});
     //remove unuseful big field
     //console.log('FILTER',JSON.stringify(tmp,null,4))
-    return tmp;
+    return data;
 }
 
 function formatData() {
@@ -122,7 +84,7 @@ function formatData() {
                 tra una pagina e l’altra (es. “|”).
                 */
 
-console.log('STATION PUSH',station)
+                //console.log('STATION PUSH',station)
 
                 stations.push({
                     station_id: station.scode,
@@ -147,40 +109,6 @@ console.log('STATION PUSH',station)
     }
 }
 
-function getStations() {
-
-    console.log('REQUEST',config.endpoints.stations.path);
-
-    https.request(config.endpoints.stations, res => {
-        var str = "";
-
-        console.log('RESPONSE',res.statusCode, config.endpoints.stations.path)
-        if (res.statusCode===200) {
-            res.on('data', chunk => {
-                str += chunk;
-            }).on('end', () => {
-                try {
-                    let tmp = JSON.parse(str);
-
-                    filterMetadata(tmp);
-
-                    stationsReceived = tmp.data;
-                    console.log('stationsReceived',_.size(stationsReceived))
-                    formatData();
-                }
-                catch(err) {
-                    console.log('RESPONSE empty',err)
-                }
-            });
-        }
-        else {
-            console.error(`Error to retrieve data, statusCode ${res.statusCode} try to run ./token.sh or ./token_refresh.sh`)
-        }
-    }).on('error', error => {
-        console.error('RESPONSE ERR',error);
-    }).end();
-}
-
 function getOneStation(scode=''){
 
     return new Promise((resolve, reject) => {
@@ -191,36 +119,17 @@ function getOneStation(scode=''){
         }
 
         const result = _.find(stationsReceived,{'scode':scode})
-console.log(result)
-        resolve(result)
-/*
-        const reqOpts = Object.assign({}, config.endpoints.station, {
-            path: _.template(config.endpoints.station.path)({scode})
-        });
 
-        https.request(reqOpts, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            }).on('end', function () {
-                const tmp = JSON.parse(str);
+        //console.log(result)
 
-                filterMetadata(tmp,scode)
-
-console.log('getOneStation',JSON.stringify(tmp,null,4))
-
-                resolve(tmp.data);
-            });
-        }).on('error', error => {
-            reject(error)
-        }).end();*/
+        resolve(result);
     });
 }
 
-app.get('/vms/stations.json', cors(corsOptions), (req, res) => {
+app.get('/vms/stations.json', (req, res) => {
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -229,7 +138,7 @@ app.get('/vms/stations.json', cors(corsOptions), (req, res) => {
     });
 });
 
-app.get('/vms/stations.geojson', cors(corsOptions), (req, res) => {
+app.get('/vms/stations.geojson', (req, res) => {
 
     const geo = GeoJSON.parse(stations, {
         Point: ['lat', 'lon']
@@ -239,7 +148,7 @@ app.get('/vms/stations.geojson', cors(corsOptions), (req, res) => {
 });
 
 //one station details
-app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
+app.get('/vms/:scode/station.json',  function (req, res) {
 
     const scode = req.params.scode;
 
@@ -247,7 +156,7 @@ app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
         getOneStation(scode).then(data => {
 
             res.json({
-                last_updated: lastUpdate,
+                last_updated,
                 ttl: 0,
                 version,
                 data
@@ -261,20 +170,18 @@ app.get('/vms/:scode/station.json', cors(corsOptions),  function (req, res) {
 
 app.use('/vms/images', express.static('signs/images'));
 
-app.use('/vms/map', express.static('map.html'));
+app.use('/vms/tests', express.static('tests'));
 
-app.get('/vms/signs.json', cors(corsOptions),  function (req, res) {
+app.get('/vms/signs.json',  function (req, res) {
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
-            signs: codes
+            signs
         }
     });
 });
-
-
 
 app.get(['/','/vms'], async (req, res) => {
   res.send({
@@ -283,7 +190,4 @@ app.get(['/','/vms'], async (req, res) => {
   });
 });
 
-app.listen(config.listen_port, function () {
-    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
-});
+app.listen(config.listen_port, listenLog);

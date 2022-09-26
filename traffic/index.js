@@ -1,50 +1,35 @@
-const express = require('express')
-    , https = require('https')
-    , _ = require('lodash')
-    , cors = require('cors')
-    , linkStationsConfig = require('./linkstation-config');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
+var last_updated,
+    stationsReceived,
+    linkStationsReceived;
 
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
-
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
-    linkStationsReceived,
-    stationsReceived;
-
-console.log(`Starting ${serviceName}...`);
-
-console.log("Config:\n", config);
-
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
-function getData() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
-    //TODO pass filter by bounding box
-    getLinkGeometries();
+/*polling( lastUpdated => {
+    last_updated = lastUpdated;
     getStations();
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
+    getLinkGeometries();
+});*/
 
+polling( lastUpdated => {
+    last_updated = lastUpdated;
+
+    fetchData(config.endpoints.stations).then(data => {
+
+        const {stations} = data.LinkStation;
+        stationsReceived = Object.keys(stations).map(key => {
+            return {
+                id: key,
+                values: stations[key]['sdatatypes']['Bluetooth Elapsed time (test)']['tmeasurements']
+            }
+        });
+    });
+    fetchData(config.endpoints.geometries).then(data => {
+        linkStationsReceived = data;
+    });
+});
+
+const linkStationsConfig = require('./linkstation-config');
 
 function getLinkStationLevel(linkId, value, mPeriod) {
     //return level of traffic from 0(not measured) to 3
@@ -65,56 +50,7 @@ function getLinkStationLevel(linkId, value, mPeriod) {
     return 0;
 }
 
-function getLinkGeometries() {
-    const req = https.request(config.endpoints.geometries, res => {
-            console.log(`TRAFFIC getLinkGeometries, response: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                linkStationsReceived = tmp.data;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getStations() {
-    const req = https.request(config.endpoints.stations, res => {
-            console.log(`TRAFFIC getStations, response: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-
-                let stations = tmp['data']['LinkStation']['stations'];
-                stationsReceived = Object.keys(stations).map(key => {
-                    return {
-                        id: key,
-                        values: stations[key]['sdatatypes']['Bluetooth Elapsed time (test)']['tmeasurements']
-                    }
-                });
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
+app.get('/traffic/stations.json',  function (req, res) {
     var stations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -129,7 +65,7 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -138,7 +74,7 @@ app.get('/traffic/stations.json', cors(corsOptions),  function (req, res) {
     }); 
 });
 
-app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, res) {
+app.get('/traffic/linkstations.json', async function (req, res) {
 //source: https://mobility.api.opendatahub.bz.it/v2/tree/LinkStation/*/latest?limit=-1&distinct=true&select=tmeasurements&where=sactive.eq.true,or(and(tname.eq.%22Bluetooth%20Elapsed%20time%20%5C(test%5C)%22))
 
     console.log('[traffic] request /traffic/linkstations.json')
@@ -187,7 +123,7 @@ app.get('/traffic/linkstations.json', cors(corsOptions), async function (req, re
     });
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -203,7 +139,4 @@ app.get(['/','/traffic'], async (req, res) => {
   });
 });
 
-app.listen(config.listen_port, function () {
-    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
-});
+app.listen(config.listen_port, listenLog);

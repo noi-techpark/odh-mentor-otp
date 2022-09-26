@@ -13,11 +13,6 @@ polling_interval: 120
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
-    method: GET
-    port: 443
-    #path: /v2
-    headers:
-      User-Agent: OpenMove-Api-Client
 
   stations:
     path: /v2/flat%2Cnode/EChargingStation/*/latest?distinct=true&limit=-1&where=scoordinate.bbc.(10,46,12.8,47.2)

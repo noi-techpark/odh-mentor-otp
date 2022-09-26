@@ -1,95 +1,24 @@
-const express = require('express');
-const https = require('https');
-const _ = require('lodash');
-const cors = require('cors');
+
 const circleToPolygon = require('./circle-polygon');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
-
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
-
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
+var last_updated,
     stationsReceived,
     sensorsReceived;
 
-console.log(`Starting ${serviceName}...`);
+polling( lastUpdated => {
+    last_updated = lastUpdated;
 
-console.log("Config:\n", config);
+    fetchData(config.endpoints.stations).then(data => {
+        stationsReceived = data;
+    });
+    fetchData(config.endpoints.sensors).then(data => {
+        sensorsReceived = data;
+    });
+});
 
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
-function getData(){
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
-    getStations();
-    getSensors();
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
-
-function getStations(){
-    const req = https.request(config.endpoints.stations, res => {
-            //console.log(`STATIONS: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getSensors(){
-    const req = https.request(config.endpoints.sensors, res => {
-            //console.log(`BIKES: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                var sensors = _.uniqBy(tmp.data,'scode');
-                //PATCH remove duplicates
-                sensorsReceived = sensors
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-app.get('/parking/stations.json', cors(corsOptions),  function (req, res) {
+app.get('/parking/stations.json',  function (req, res) {
     var parkingStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -109,16 +38,16 @@ app.get('/parking/stations.json', cors(corsOptions),  function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
             stations: parkingStations
-       }
+        }
     });
 });
 
-app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
+app.get('/parking/park-ride.json',  function (req, res) {
     var parkingStations = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -145,11 +74,14 @@ app.get('/parking/park-ride.json', cors(corsOptions),  function (req, res) {
     });
 });
 
-app.get('/parking/sensors.json', cors(corsOptions), function (req, res) {
+app.get('/parking/sensors.json', function (req, res) {
     var parkingSensors = [];
     if(sensorsReceived){
-        for(var i = 0; i < sensorsReceived.length; i++){
-            var sensor = sensorsReceived[i];
+
+        const sensorsUniq = _.uniqBy(sensorsReceived,'scode');
+
+        for(var i = 0; i < sensorsUniq.length; i++){
+            var sensor = sensorsUniq[i];
             if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
                 parkingSensors.push({
                     sensor_id: sensor.scode,
@@ -164,16 +96,16 @@ app.get('/parking/sensors.json', cors(corsOptions), function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
             sensors: parkingSensors
-       }
+        }
     });
 });
 
-app.get('/parking/all.json', cors(corsOptions), function (req, res) {
+app.get('/parking/all.json', function (req, res) {
     var parkingStationsAll = [];
     if(stationsReceived){
         for(var i = 0; i < stationsReceived.length; i++){
@@ -195,8 +127,11 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
     }
     var parkingSensorsAll = [];
     if(sensorsReceived){
-        for(var i = 0; i < sensorsReceived.length; i++){
-            var sensor = sensorsReceived[i];
+
+        const sensorsUniq = _.uniqBy(sensorsReceived,'scode');
+
+        for(var i = 0; i < sensorsUniq.length; i++){
+            var sensor = sensorsUniq[i];
             if(sensor.sactive && sensor.scoordinate && sensor.smetadata){
                 parkingSensorsAll.push({
                     type: 'sensor',
@@ -249,7 +184,7 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
@@ -258,7 +193,7 @@ app.get('/parking/all.json', cors(corsOptions), function (req, res) {
                 parkingSensors,
                 sensorGroups
             )
-       }
+        }
     });
 });
 
@@ -269,7 +204,4 @@ app.get(['/','/parking'], async (req, res) => {
   });
 });
 
-app.listen(config.listen_port, function () {
-    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
-});
+app.listen(config.listen_port, listenLog);

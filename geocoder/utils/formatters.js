@@ -1,6 +1,4 @@
 
-const _ = require('lodash');
-
 //an elasticsearch hit result
 //in Pelias 'venue' is a Point Of Interest
 //
@@ -39,7 +37,7 @@ function createHit(ff) {
     };
 }
 
-module.exports = config => {
+module.exports = (config, _) => {
     return {
         'elasticsearch': function(hits) {
             return {

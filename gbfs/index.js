@@ -1,126 +1,36 @@
-const express = require('express');
-const https = require('https');
-const _ = require('lodash');
-const csv2json = require('csvtojson');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const csvtojson = require('csvtojson');
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
+const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
-
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
+var last_updated,
     stationsReceived,
-    baysReceived,
-    bikesReceived;
+    bikesReceived,
+    baysReceived;
 
-console.log(`Starting ${serviceName}...`);
+polling( lastUpdated => {
+    last_updated = lastUpdated;
 
-console.log("Config:\n", config);
+    fetchData(config.endpoints.stations).then(data => {
+        stationsReceived = data;
+    });
+    fetchData(config.endpoints.bikes).then(data => {
+        bikesReceived = data;
+    });
+    fetchData(config.endpoints.bays).then(data => {
+        baysReceived = data;
+    });
+});
 
-const GBFS_VERSION = "2.1";
-//TODO move to fonfig
+const {gbfs_version} = config;
 
 let meranStations = [];
 
-csv2json()
+csvtojson()
 .fromFile("./bikestations_meran.csv")
-.then((jsonObj)=>{
-    meranStations= jsonObj;
-})
-
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
-function getData() {
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
-    getStations();
-    getBays();
-    getBikes();
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
-
-function getStations() {
-    const req = https.request(config.endpoints.stations, res => {
-            //console.log(`STATIONS: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getBikes() {
-    const req = https.request(config.endpoints.bikes, res => {
-            //console.log(`BIKES: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                var bikes = tmp.data;
-                bikesReceived = bikes;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getBays() {
-    const req = https.request(config.endpoints.bays, res => {
-            //console.log(`BAYS: statusCode: ${res.statusCode}`)
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                var bays = tmp.data;
-                baysReceived = bays;
-            });
-        })
-
-    req.on('error', error => {
-        console.error("ERROR", error)
-    })
-
-    req.end()
-}
+.then( json => {
+    meranStations = json;
+});
 
 app.get('/:context/:version/gbfs.json', function (req, res) {
     let context = req.params.context;
@@ -132,7 +42,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
     let reqVersion = +(req.params.version);
 
 
-    if(reqVersion != 1 && reqVersion !=2.1 ){
+    if(reqVersion != 1 && reqVersion != gbfs_version ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -175,7 +85,7 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         }
     ];
 
-    if(reqVersion >= 2.1 ){
+    if(reqVersion >= gbfs_version ){
         feeds.push({
             name: "gbfs_versions",
             url: url+"/gbfs_versions.json"
@@ -193,14 +103,14 @@ app.get('/:context/:version/gbfs.json', function (req, res) {
         });
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
-        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
         data: {
             en: {
                feeds: feeds
-           }
-       }
+            }
+        }
     });
 });
 
@@ -213,7 +123,7 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
     let reqVersion = +(req.params.version);
 
 
-    if(reqVersion < 2.1 ){
+    if(reqVersion < gbfs_version ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -233,18 +143,18 @@ app.get('/:context/:version/gbfs_versions.json', function (req, res) {
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
-        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
         data: {
             versions: [
-                {
+              {
                 version: "1.0",
                 url:url+"/1/gbfs.json"
               },
               {
-                version: "2.1",
-                url:url+"/2.1/gbfs.json"
+                version: gbfs_version,
+                url:url+`/${gbfs_version}/gbfs.json`
               }
             ]
         }
@@ -260,7 +170,7 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
     let reqVersion = +(req.params.version);
 
 
-    if(reqVersion != 1 && reqVersion !=2.1 ){
+    if(reqVersion != 1 && reqVersion != gbfs_version ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -269,9 +179,9 @@ app.get('/:context/:version/system_regions.json', function (req, res) {
         return;
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
-        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
         data: {
             regions: [
                 {
@@ -300,7 +210,7 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
     let reqVersion = +(req.params.version);
 
 
-    if(reqVersion < 2.1 ){
+    if(reqVersion < gbfs_version ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -309,23 +219,23 @@ app.get('/:context/:version/vehicle_types.json', function (req, res) {
         return;
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
-        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
         data: {
             vehicle_types: [
                 {
-                vehicle_type_id: "bike",
-                form_factor: "bicycle",
-                propulsion_type: "human",
-                name: "Bicycle"
+                    vehicle_type_id: "bike",
+                    form_factor: "bicycle",
+                    propulsion_type: "human",
+                    name: "Bicycle"
                 },
                 {
-                vehicle_type_id: "e-bike",
-                form_factor: "bicycle",
-                propulsion_type: "electric_assist",
-                name: "E-Bike",
-                max_range_meters: 20000
+                    vehicle_type_id: "e-bike",
+                    form_factor: "bicycle",
+                    propulsion_type: "electric_assist",
+                    name: "E-Bike",
+                    max_range_meters: 20000
                 }
             ]
         }
@@ -341,7 +251,7 @@ app.get('/:context/:version/system_information.json', function (req, res) {
     let reqVersion = +(req.params.version);
 
 
-    if(reqVersion != 1 && reqVersion !=2.1 ){
+    if(reqVersion != 1 && reqVersion != gbfs_version ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -389,10 +299,10 @@ app.get('/:context/:version/system_information.json', function (req, res) {
         hasApp = true;
     }
 
-    var obj = {
-        last_updated: lastUpdate,
+/*    var obj = {
+        last_updated,
         ttl: 0,
-        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
         data: {
             system_id: systemId,
             language: "it",
@@ -401,26 +311,43 @@ app.get('/:context/:version/system_information.json', function (req, res) {
             url: url,
             purchase_url: url
         }
-    }
+    }*/
 
+    let rental_apps;
     if(hasApp) {
-         obj.data.rental_apps = {};
         if(androidUri){
-            obj.data.rental_apps.android = {
-                store_uri: androidUri,
-                discovery_uri: 'unknown://uri'
+            rental_apps = {
+                android: {
+                    store_uri: androidUri,
+                    discovery_uri: 'unknown://uri'
+                }
             };
         }
 
         if(iosUri){
-            obj.data.rental_apps.ios = {
-                store_uri: iosUri,
-                discovery_uri: 'unknown://uri'
+            rental_apps = {
+                ios: {
+                    store_uri: iosUri,
+                    discovery_uri: 'unknown://uri'
+                }
             };
         }
     }
 
-    res.json(obj);
+    res.json({
+        last_updated,
+        ttl: 0,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
+        data: {
+            system_id: systemId,
+            language: "it",
+            name: systemName,
+            timezone: "Europe/Rome",
+            url: url,
+            purchase_url: url,
+            rental_apps
+        }
+    });
 });
 
 function toHex(str) {
@@ -441,7 +368,7 @@ app.get('/:context/:version/station_information.json', function (req, res) {
     let reqVersion = +(req.params.version);
 
 
-    if(reqVersion != 1 && reqVersion !=2.1 ){
+    if(reqVersion != 1 && reqVersion != gbfs_version ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -530,11 +457,11 @@ app.get('/:context/:version/station_information.json', function (req, res) {
 
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
-        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
         data: {
-            stations: stations
+            stations
         }
     });
 });
@@ -548,7 +475,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
     let reqVersion = +(req.params.version);
 
 
-    if(reqVersion != 1 && reqVersion !=2.1 ){
+    if(reqVersion != 1 && reqVersion != gbfs_version ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -569,7 +496,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
                         is_installed: true,
                         is_returning: true,
                         num_docks_available: 0,
-                        last_reported: lastUpdate
+                        last_reported: last_updated
                     };
 
                     if(station.smetadata.bikes){
@@ -650,7 +577,7 @@ app.get('/:context/:version/station_status.json', function (req, res) {
                         is_returning: true,
                         num_docks_available: 100,
                         num_bikes_available: 100,
-                        last_reported: lastUpdate
+                        last_reported: last_updated
                     };
                     stations.push(obj);
                 }
@@ -670,18 +597,18 @@ app.get('/:context/:version/station_status.json', function (req, res) {
                 is_returning: true,
                 is_installed: false,
                 num_docks_available: 1000,
-                last_reported: lastUpdate
+                last_reported: last_updated
             };
             stations.push(obj);
         }
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
-        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
         data: {
-            stations: stations
+            stations
         }
     });
 });
@@ -695,7 +622,7 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
     let reqVersion = +(req.params.version);
 
 
-    if(reqVersion != 1 && reqVersion !=2.1 ){
+    if(reqVersion != 1 && reqVersion != gbfs_version ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -725,11 +652,11 @@ app.get('/:context/:version/free_bike_status.json', function (req, res) {
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
-        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
         data: {
-            bikes: bikes
+            bikes
         }
     });
 });
@@ -743,7 +670,7 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
     let reqVersion = +(req.params.version);
 
 
-    if(reqVersion != 1 && reqVersion !=2.1 ){
+    if(reqVersion != 1 && reqVersion != gbfs_version ){
         res.status(500).send({ error: "wrong version" });
         return;
     }
@@ -762,11 +689,11 @@ app.get('/:context/:version/system_hours.json', function (req, res) {
     }
 
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
-        version: reqVersion >= 2.1 ? ""+reqVersion : undefined,
+        version: reqVersion >= gbfs_version ? ""+reqVersion : undefined,
         data: {
-            rental_hours: rental_hours
+            rental_hours
         }
     });
 });
@@ -778,7 +705,4 @@ app.get(['/','/gbfs'], async (req, res) => {
   });
 });
 
-app.listen(config.listen_port, function () {
-    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`${serviceName} listening at http://localhost:${this.address().port}`);
-});
+app.listen(config.listen_port, listenLog);

@@ -10,21 +10,17 @@ dev:
 
 polling_interval: 120
 
-geometryCircleRadius: 100
-#generated circle geometry for parking in meters
-returnGroupSensors: false
-minGroupSensors: 4
-#minimum count of sensors for a group to show in same marker
-
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
-    port: 443
-    #path: /v2
-    headers:
-      User-Agent: OpenMove-Api-Client
 
   stations:
     path: /v2/flat%2Cnode/ParkingStation/free/latest?distinct=true&limit=-1&where=mperiod.eq.300
   sensors:
     path: /v2/flat%2Cnode/ParkingSensor/*/latest?distinct=true&limit=-1
+
+geometryCircleRadius: 100
+#generated circle geometry for parking in meters
+returnGroupSensors: false
+minGroupSensors: 4
+#minimum count of sensors for a group to show in same marker

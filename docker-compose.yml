@@ -49,6 +49,18 @@ services:
      - traffic
      - drt
 
+  test:
+    container_name: test
+    image: node:16.14.0-alpine3.14
+    depends_on:
+     - carsharing
+     - charger
+     - drt
+     - gbfs
+     - geocoder
+     - parking
+     - traffic
+
   carsharing:
     container_name: openmove-carsharing
     ports:
@@ -75,6 +87,7 @@ services:
       build:
         context: ./
         dockerfile: infrastructure/docker/drt/Dockerfile
+
   gbfs:
       container_name: openmove-gbfs
       ports:
