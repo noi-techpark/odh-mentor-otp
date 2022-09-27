@@ -1,90 +1,20 @@
-const express = require('express');
-const https = require('https');
-const _ = require('lodash');
-const cors = require('cors')
-const yaml = require('js-yaml');
 
-const pkg = require('./package.json')
-    , version = pkg.version
-    , serviceName = `service ${pkg.name} v${version}`
-    , dotenv = require('dotenv').config()
-    , config = require('@stefcud/configyml');
+const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 
-//normalize endpoints default
-config.endpoints = _.mapValues(config.endpoints, conf => {
-    return _.defaults(conf, config.endpoints.default);
-});
-delete config.endpoints.default;
-
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-var app = express();
-
-var lastUpdate = Math.trunc((new Date()).getTime() / 1000 ),
+var last_updated,
     stationsReceived,
     plugsReceived;
 
-console.log(`Starting ${serviceName}...`);
+polling( lastUpdated => {
+    last_updated = lastUpdated;
 
-console.log("Config:\n", config);
-
-if(!config.endpoints || _.isEmpty(config.endpoints)) {
-    console.error('Config endpoints not defined!');
-    return;
-}
-
-function getData(){
-    lastUpdate = Math.trunc((new Date()).getTime() / 1000 );
-    getStations();
-    getPlugs();
-}
-getData();
-setInterval(getData, config.polling_interval * 1000);
-
-function getStations(){
-    const req = https.request(config.endpoints.stations, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                var stations = tmp.data;
-                stationsReceived = stations;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
-
-function getPlugs(){
-    const req = https.request(config.endpoints.plugs, res => {
-            var str = "";
-            res.on('data', function (chunk) {
-                str += chunk;
-            });
-
-            res.on('end', function () {
-                let tmp = JSON.parse(str);
-                var plugs = tmp.data;
-                plugsReceived = plugs;
-            });
-        })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.end()
-}
+    fetchData(config.endpoints.stations).then(data => {
+        stationsReceived = data;
+    });
+    fetchData(config.endpoints.plugs).then(data => {
+        plugsReceived = data;
+    });
+});
 
 function isInBbox(bb, p){
     //ix, iy are the bottom left coordinates
@@ -98,7 +28,7 @@ function isInBbox(bb, p){
     return false;
 }
 
-app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
+app.get('/charger/stations.json', function (req, res) {
     var chargeStations = [];
     let bbox = null;
     if(req.query && req.query.bbox){
@@ -163,16 +93,16 @@ app.get('/charger/stations.json', cors(corsOptions), function (req, res) {
         }
     }
     res.json({
-        last_updated: lastUpdate,
+        last_updated,
         ttl: 0,
         version,
         data: {
             stations: chargeStations
-       }
+        }
     });
 });
 
-app.get('/charger/filters.yml', cors(corsOptions), function (req, res) {
+app.get('/charger/filters.yml', function (req, res) {
     const chargeStations = [];
     const chargeFilters = {};
 
@@ -243,7 +173,4 @@ app.get(['/','/charger'], async (req, res) => {
   });
 });
 
-app.listen(config.listen_port, function () {
-    console.log( app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
-    console.log(`${serviceName} listening at http://localhost:${config.listen_port}`);
-});
+app.listen(config.listen_port, listenLog);

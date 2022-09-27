@@ -139,7 +139,7 @@ class DefaultMap extends Component {
         this.setState({ forceRefresh: false })
       }, 50)
     }
-  }  
+  }
 
   componentDidMount () {
     const overlayFilters = {}
@@ -203,9 +203,9 @@ class DefaultMap extends Component {
         />
       ),
       location: [mapPopupLocation.lat, mapPopupLocation.lon]
-    }    
+    }
 
-    const storedOverlays = getItem('mapOverlayVisible') || []    
+    const storedOverlays = getItem('mapOverlayVisible') || []
 
     if (storedOverlays.length === 0) {
       this.props.mapConfig.overlays.map(item => {
@@ -240,7 +240,7 @@ class DefaultMap extends Component {
                 onBaseLayerChange={e => {
                   storeItem('mapStyleIndex', e.index)
                 }}
-                onOverlayAdded={e => {                  
+                onOverlayAdded={e => {
                   const visibleOverlays = getItem('mapOverlayVisible') || []
 
                   if (visibleOverlays.indexOf(e.name) === -1) {
@@ -250,7 +250,7 @@ class DefaultMap extends Component {
                 }}
                 onOverlayRemoved={e => {
                   const visibleOverlays = getItem('mapOverlayVisible') || []
-                  const indexElement = visibleOverlays.indexOf(e.name)                  
+                  const indexElement = visibleOverlays.indexOf(e.name)
 
                   if (indexElement !== -1) {
                     visibleOverlays.splice(indexElement, 1)
@@ -291,8 +291,8 @@ class DefaultMap extends Component {
                     case 'bike-rental': return (
                       <VehicleRentalOverlay
                         key={k}
-                        {...overlayConfig}     
-                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}                   
+                        {...overlayConfig}
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
                         refreshVehicles={bikeRentalQuery}
                         stations={bikeRentalStations}
@@ -358,7 +358,7 @@ class DefaultMap extends Component {
                       <ParkingOverlay
                         key={k}
                         {...overlayConfig}
-                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1} 
+                        visible={storedOverlays.indexOf(t(overlayConfig.name)) !== -1}
                         name={t(overlayConfig.name)}
                       />
                     )

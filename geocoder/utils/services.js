@@ -1,11 +1,8 @@
 
-
-const _ = require('lodash');
-
 const heremap = require("heremap");
 //https://github.com/devbab/heremap#hm_geocode
 
-module.exports = config => {
+module.exports = (config, _) => {
 	return {
 		'here': async(text = '', lang) => {
 
@@ -27,12 +24,12 @@ module.exports = config => {
 			if(config.endpoints.here.boundary.rect) {
 				const {maxLat, minLon, minLat, maxLon} = config.endpoints.here.boundary.rect
 				bbox = `${maxLat},${minLon};${minLat},${maxLon}`;
-		/*boundary:
-	      rect:
-	        minLon: 10.470121
-	        maxLon: 12.255011
-	        minLat: 46.188280
-	        maxLat: 47.088780*/
+				/*boundary:
+			      rect:
+			        minLon: 10.470121
+			        maxLon: 12.255011
+			        minLat: 46.188280
+			        maxLat: 47.088780*/
 				// TopLeft.Latitude,TopLeft.Longitude; BottomRight.Latitude,BottomRight.Longitude
 			}
 

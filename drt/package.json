@@ -1,6 +1,6 @@
 {
   "name": "openmove-drt",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,17 +10,8 @@
   "author": "OpenMove <info@openmove.com>",
   "license": "MIT",
   "dependencies": {
-    "@stefcud/configyml": "^0.0.3",
-    "dotenv": "^16.0.0",
     "@mapbox/polyline": "^1.1.1",
-    "axios": "^0.22.0",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
     "csv-writer": "^1.6.0",
-    "csvtojson": "^2.0.10",
-    "express": "^4.17.1",
-    "js-yaml": "^3.14.0",
-    "lodash": "^4.17.20",
     "protobufjs": "^6.11.2",
     "tmp": "^0.2.1",
     "uuidv4": "^6.2.12",

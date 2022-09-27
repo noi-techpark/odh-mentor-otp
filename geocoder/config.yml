@@ -27,7 +27,7 @@ endpoints:
     size: 5
     #method: 'GET'
     headers:
-      User-Agent: OpenMove-Geocoder-Client
+      User-Agent: OpenMove-Api-Client
       Referer: https://journey.opendatahub.bz.it
     layer: venue
 
