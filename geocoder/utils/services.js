@@ -14,21 +14,26 @@ const heremap = {
 		const {api_key} = heremap.opts;
 
 		var latitude = params.lat,
-	        longitude = params.lon,
-	        limit = params.maxresults,
-	        country = params.country,
+			longitude = params.lon,
+			limit = params.maxresults,
+			country = params.country,
 			{maxLat, minLon, minLat, maxLon} = params.bbox,
-			bbox = `${maxLat},${minLon},${minLat},${maxLon}`;
-	        lang = params.language,
-	        url = 'https://autosuggest.search.hereapi.com/v1/autosuggest?'+
-	        	  `apiKey=${api_key}&lang=${lang}&q=${text}&limit=${limit}`+
-	        	  '&result_types=address,place'+
-	        	  `&in=bbox:${bbox}&in=countryCode:${country}`;
-	        	  //&at=${latitude},${longitude}
-
+			//bbox = `${maxLat},${minLon},${minLat},${maxLon}`,
+			bbox = `${minLon},${minLat},${maxLon},${maxLat}`,
+			lang = params.language,
+			text = encodeURIComponent(text),
+			url = 'https://autosuggest.search.hereapi.com/v1/autosuggest?'
+				+`&apiKey=${api_key}`
+				+`&q=${text}`
+				//+`&lang=${lang}`
+				+'&result_types=address,place'
+				+`&in=bbox:${bbox}`
+				//+`&in=countryCode:${country}`
+				+`&limit=${limit}`;
 
 		// https://stackoverflow.com/questions/68664953/here-autosuggest-get-complete-address-informations
-console.log('HERE_REQUEST',url)
+		console.log('HERE_REQUEST',url)
+
 		return new Promise((resolve, reject) => {
 	        const req = https.request(url, res => {
 	            if (res.statusCode===401) {
@@ -42,7 +47,7 @@ console.log('HERE_REQUEST',url)
 	            res.on('end', () => {
 	                try {
 	                    const data = JSON.parse(str);
-	                    console.log('RETURN',data.items[0])
+	                    console.log('RETURN',JSON.stringify(data,null,4))
 	                    resolve({});
 	                }
 	                catch(err) {
@@ -64,14 +69,14 @@ module.exports = (config, _) => {
 	return {
 		'here': async(text = '', lang) => {
 
-			if (!_.get(config,'endpoints.here.appId') ||
+/*			if (!_.get(config,'endpoints.here.appId') ||
 				!_.get(config,'endpoints.here.appCode') ||
 				config.endpoints.here.appId === '${HERE_APPID}' ||
 				config.endpoints.here.appCode === '${HERE_APPCODE}'
 	    	) {
 				console.warn("[geocoder] error in Endpoint: 'here' api appId/appCode/ not found");
 				return [];
-			}
+			}*/
 
 			heremap.config({
 			  app_id: config.endpoints.here.appId,
@@ -102,6 +107,7 @@ module.exports = (config, _) => {
 				//console.log('HERE REQUEST OPTS',params)
 				return await heremap.geocode(text, params);
 			}catch(err) {
+				console.log(err)
 				return []
 			}
 		}
