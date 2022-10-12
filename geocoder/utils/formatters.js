@@ -67,7 +67,7 @@ module.exports = (config, _) => {
             //const items = _.get(data,'body.Response.View[0].Result');
             const items = _.get(data,'items');
 
-            console.log('HERE RETURN',JSON.stringify(items,null,4))
+            //console.log('HERE RETURN',JSON.stringify(items,null,4))
 
             return _.compact(_.map(items, item => {
 
@@ -79,9 +79,8 @@ module.exports = (config, _) => {
                 let lat = _.get(item,"position.lat")
                     , lon = _.get(item,"position.lng")
                     , text = _.get(item,"address.label");
-console.log(item.id,lat,lon,text)
-                if (lat && lon) {
 
+                if (lat && lon) {
                     return createHit({
                         id: item.id,
                         text,
