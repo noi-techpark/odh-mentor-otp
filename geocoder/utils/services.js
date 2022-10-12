@@ -26,7 +26,7 @@ const heremap = {
 				+`&apiKey=${api_key}`
 				+`&q=${text}`
 				//+`&lang=${lang}`
-				+'&result_types=address,place'
+				//+'&result_types=address,place'
 				+`&in=bbox:${bbox}`
 				//+`&in=countryCode:${country}`
 				+`&limit=${limit}`;
@@ -47,8 +47,7 @@ const heremap = {
 	            res.on('end', () => {
 	                try {
 	                    const data = JSON.parse(str);
-	                    console.log('RETURN',JSON.stringify(data,null,4))
-	                    resolve({});
+	                    resolve(data);
 	                }
 	                catch(err) {
 	                    console.error(`Error "${err}" to connect endpoint ${endpoint.hostname}${endpoint.path}`);
