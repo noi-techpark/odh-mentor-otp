@@ -37,7 +37,7 @@ endpoints:
     ##provided by npm heremap
     appId: ${HERE_APPID}
     appCode: ${HERE_APPCODE}
-    #apiKey: ${HERE_APIKEY}
+    apiKey: ${HERE_APIKEY}
     size: 5
     layer: address
     boundary:
