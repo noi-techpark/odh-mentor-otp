@@ -14,10 +14,6 @@ polling_interval: 600
 endpoints:
   default:
     hostname: mobility.api.opendatahub.bz.it
-    port: 443
-    #path: /v2
-    headers:
-      User-Agent: OpenMove-GBFS-Client
 
   stations:
     path: /v2/flat%2Cnode/BikesharingStation?distinct=true
@@ -27,6 +23,8 @@ endpoints:
 
   bikes:
     path: /v2/flat%2Cnode/Bicycle?distinct=true&limit=500
+
+gbfs_version: 2.1
 
 uri:
   meran:

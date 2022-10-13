@@ -27,7 +27,7 @@ endpoints:
     size: 5
     #method: 'GET'
     headers:
-      User-Agent: OpenMove-Geocoder-Client
+      User-Agent: OpenMove-Api-Client
       Referer: https://journey.opendatahub.bz.it
     layer: venue
 
@@ -37,7 +37,7 @@ endpoints:
     ##provided by npm heremap
     appId: ${HERE_APPID}
     appCode: ${HERE_APPCODE}
-    #apiKey: ${HERE_APIKEY}
+    apiKey: ${HERE_APIKEY}
     size: 5
     layer: address
     boundary:

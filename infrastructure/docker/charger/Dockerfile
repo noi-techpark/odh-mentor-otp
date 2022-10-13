@@ -2,8 +2,10 @@ FROM node:16.14.0-alpine3.14
 
 WORKDIR /home
 
-COPY charger/ ./
+COPY base /base
+RUN cd /base && npm install
 
+COPY charger/ ./
 RUN npm install
 
 CMD ["node", "index.js"]

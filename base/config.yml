@@ -1,0 +1,25 @@
+environments:
+  default: prod
+#   #default environment if NODE_ENV is not defined
+
+## override in each module
+# prod:
+#   listen_port: 8080
+# dev:
+#   listen_port: 9090
+#   polling_interval: 2
+
+# polling_interval: 120
+cors:
+  origin: '*'
+  optionsSuccessStatus: 200
+  #some legacy browsers (IE11, various SmartTVs) choke on 2
+
+endpoints:
+  default:
+    hostname: mobility.api.opendatahub.bz.it
+    method: GET
+    port: 443
+    #path: /v2
+    headers:
+      User-Agent: OpenMove-Api-Client

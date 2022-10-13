@@ -5,4 +5,5 @@ endpoint:
   hostname: ftp.sta.bz.it
   port: 21
   path: /gtfs/google_transit_shp.zip
-  # User-Agent: OpenMove-Geocoder-Client
+  headers:
+    User-Agent: OpenMove-Api-Clien

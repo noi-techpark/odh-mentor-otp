@@ -1,18 +1,10 @@
-# Mentor
-
-This project contains a Docker images for stable [OpenTripPlanner](http://opentripplanner.org) releases and tools to auto download Openstreetmap data related to a certain gtfs file.
-
-[![CI](https://github.com/noi-techpark/odh-mentor-otp/actions/workflows/ci.yml/badge.svg)](https://github.com/noi-techpark/odh-mentor-otp/actions/workflows/ci.yml)
 
 ## Table of contents
 
 - [Gettings started](#getting-started)
   - [Prerequisites](#prerequisites)
-  - [Source code](#source-code)
   - [Docker environment](#docker)
 - [Information](#information)
-
-![journey web app](docs/images/multi_modal_bike_ride.png)
 
 ## Getting started
 
@@ -23,23 +15,37 @@ To build the project, the following prerequisites must be met:
 - Docker
 - Docker-compose
 
-If you want to run the application using [Docker](https://www.docker.com/), the environment is already set up with all dependencies for you. You only have to install [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
+If you want to run the application using [Docker](https://www.docker.com/). \
+The environment is already set up with all dependencies for you. You only have to install [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 
-### Source code
 
-Get a copy of the repository:
+## Services
 
-```bash
-git clone https://github.com/noi-techpark/odh-mentor-otp.git
-```
+defined in docker-compose.yml, both of these services are defined by the same docker image which behaves differently according to the defined environment parameters.
 
-Change directory:
+```build``` build a new OTP graph by gtfs file in /opt/odh-mentor-otp/ directory, automatically stopped on finish, ```docker logs``` notice if the building was successful.
 
-```bash
-cd odh-mentor-otp
-```
+```otp``` run a new instance of OTP by /opt/odh-mentor-otp/, distribute API rest and default UI on port 8080, need restart: "always"
 
-#### Scripts and sub folders
+```journey/``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
+
+```carsharing```
+
+```charger```
+
+```drt```
+
+```gbfs/``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
+
+```geocoder/``` nodejs simplified implementation of Pelias Geocoder
+
+```parking```
+
+```traffic```
+
+#### Scripts and Configurations
+
+The configuration structure used by services is defined by [\<serviceDirectory\>/config.yml](config.md)
 
 ```docker-entrypoint.sh``` download and build data graph
 
@@ -53,13 +59,9 @@ cd odh-mentor-otp
 
 ```osm.url``` a pregenerated urls list of downloadable Openstreetmap data for SouthTyrol area.
 
-```journey/``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
-
-```gbfs/``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
-
 ```gtfs2bbox/``` nodejs tool to calculate bounding boxes of Openstreetmap intersects GTFS data for downloading, create a list of overpass downloadable urls
 
-```geocoder/``` nodejs simplified implementation of Pelias Geocoder
+```gtfs-import-task/```
 
 ### Docker Environment
 
@@ -108,7 +110,6 @@ in addition to those of *otp* vars
 
 ```CHARGER_HOST``` host path to charger service
 
-
 #### geocoder
 
 ```API_HOST``` deployed hostname of OpenTripPlanner api default: ```localhost``` (name of deployed)
@@ -145,18 +146,16 @@ Below is a list of Docker args variables for each container:
 
 ```GOOGLE_ANALYTICS_ID``` google analytics tracking code UA-XXXXX-Y
 
-Then you can start the application using the following command:
+#### Compatibility
+
+In OpenTripPlanner is not allowed running a graph built with a different version.
+In case you change the OpenTripPlanner version or switch from/to [openmove/OpenTripPlanner](https://github.com/openmove/OpenTripPlanner) Version **you have to rebuild the graph**.
 
 #### First build Graph and Cache
 
 ```bash
 docker-compose up build
 ```
-
-#### Compatibility
-
-In OpenTripPlanner is not allowed running a graph built with a different version.
-In case you change the OpenTripPlanner version or switch from/to Ufficial/IBI-Group Version **you have to rebuild the graph**.  
 
 #### Execute OTP instance
 
@@ -165,48 +164,8 @@ docker-compose up otp
 ```
 After the graph has been built, the planner is available at port *8080*.
 
-
-#### Services
-
-defined in docker-compose.yml, both of these services are defined by the same docker image which behaves differently according to the defined environment parameters.
-
-```build``` build a new OTP graph by gtfs file in /opt/odh-mentor-otp/ directory, automatically stopped on finish, ```docker logs``` notice if the building was successful.
-
-```otp``` run a new instance of OTP by /opt/odh-mentor-otp/, distribute API rest and default UI on port 8080, need restart: "always"
-
 #### Volumes
 
 ```/opt/odh-mentor-otp/:/data/``` the path used in reading and writing in which the Osm, Altimetric data are downloaded. It must contains the GTFS zip file before building the graph. Here where the graph generated will be written by OTP, in path:
 ```/opt/odh-mentor-otp/openmove/Graph.obj```
 
-## Information
-
-### Guidelines
-
-Find [here](https://opendatahub.readthedocs.io/en/latest/guidelines.html) guidelines for developers.
-
-### Support
-
-ToDo: For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
-
-### Contributing
-
-If you'd like to contribute, please follow the following instructions:
-
-- Fork the repository.
-
-- Checkout a topic branch from the `development` branch.
-
-- Make sure the tests are passing.
-
-- Create a pull request against the `development` branch.
-
-A more detailed description can be found here: [https://github.com/noi-techpark/documentation/blob/master/contributors.md](https://github.com/noi-techpark/documentation/blob/master/contributors.md).
-
-### Documentation
-
-More documentation can be found at [https://opendatahub.readthedocs.io/en/latest/index.html](https://opendatahub.readthedocs.io/en/latest/index.html).
-
-### Boilerplate
-
-The project uses this boilerplate: [https://github.com/noi-techpark/java-boilerplate](https://github.com/noi-techpark/java-boilerplate).

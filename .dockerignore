@@ -3,6 +3,7 @@
 **/*.zip
 **/*.tif
 **/.env
+**/.token*
 **/node_modules
 journey/dist
 journey/src/config.yml

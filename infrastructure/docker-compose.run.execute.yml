@@ -53,6 +53,7 @@ services:
       API_PATH: ${API_PATH}
       HERE_APPID: ${HERE_APPID}
       HERE_APPCODE: ${HERE_APPCODE}
+      HERE_APIKEY: ${HERE_APIKEY}
   carsharing:
     image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
     restart: unless-stopped

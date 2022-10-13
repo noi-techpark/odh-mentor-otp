@@ -1,6 +1,4 @@
 
-const _ = require('lodash');
-
 //an elasticsearch hit result
 //in Pelias 'venue' is a Point Of Interest
 //
@@ -39,7 +37,7 @@ function createHit(ff) {
     };
 }
 
-module.exports = config => {
+module.exports = (config, _) => {
     return {
         'elasticsearch': function(hits) {
             return {
@@ -66,21 +64,28 @@ module.exports = config => {
 
             lang = lang || config.default_lang;
 
-            const items = _.get(data,'body.Response.View[0].Result');
+            //const items = _.get(data,'body.Response.View[0].Result');
+            const items = _.get(data,'items');
 
-            return _.compact(_.map(items, (item)=> {
+            //console.log('HERE RETURN',JSON.stringify(items,null,4))
 
-                let lat = _.get(item,"Location.DisplayPosition.Latitude"),
+            return _.compact(_.map(items, item => {
+
+/*                let lat = _.get(item,"Location.DisplayPosition.Latitude"),
                 lon = _.get(item,"Location.DisplayPosition.Longitude"),
                 a = _.get(item,"Location.Address"),
-                text = _.compact([a.Street, a.HouseNumber, a.City]).join(', ');
+                text = _.compact([a.Street, a.HouseNumber, a.City]).join(', ');*/
+
+                let lat = _.get(item,"position.lat")
+                    , lon = _.get(item,"position.lng")
+                    , text = _.get(item,"address.label");
 
                 if (lat && lon) {
                     return createHit({
-                        id: _.get(item,'Location.LocationId'),
-                        text: text,
-                        lat: lat,
-                        lon: lon,
+                        id: item.id,
+                        text,
+                        lat,
+                        lon,
                         source: 'here',
                         layer: config.endpoints.here.layer
                     });
