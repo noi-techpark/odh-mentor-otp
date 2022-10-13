@@ -40,6 +40,7 @@ pipeline {
 
         HERE_APPID=credentials("otp-here-appid-prod")
         HERE_APPCODE=credentials("otp-here-appcode-prod")
+        HERE_APIKEY=credentials("otp-here-apikey-prod")
 
         GEOCODER_BASEURL = "https://geocoder.otp.opendatahub.bz.it"
         PARKING_BASEURL = "https://parking.otp.opendatahub.bz.it"
@@ -100,6 +101,7 @@ pipeline {
 
                     echo 'HERE_APPID=${HERE_APPID}' >> .env
                     echo 'HERE_APPCODE=${HERE_APPCODE}' >> .env
+                    echo 'HERE_APIKEY=${HERE_APIKEY}' >> .env
 
                     echo 'OTP_RR_BRANCH=${OTP_RR_BRANCH}' >> .env
                     echo 'OTP_UI_BRANCH=${OTP_UI_BRANCH}' >> .env
