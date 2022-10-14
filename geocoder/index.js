@@ -93,6 +93,7 @@ app.post(/^\/pelias(.*)$/, (req, res)=> {
 });
 
 //DEBUG http://localhost:8087/testSearch?text=hotel
+//TODO rename in '/v1/autocomplete'
 app.get('/testSearch', (req,res) => {
 	
 	console.log('[geocoder] /testSearch',req.query);
@@ -110,7 +111,8 @@ app.get('/testSearch', (req,res) => {
 					return {
 						name: hit._source.name.default,
 						//layer: hit._source.layer,
-						rank: textDistance(req.query.text, hit._source.name.default)
+						rank: textDistance(req.query.text, hit._source.name.default),
+						loc: [hit._source.center_point.lat, hit._source.center_point.lon]
 					}
 				}),
 				peliasResult: jsonres
@@ -118,6 +120,8 @@ app.get('/testSearch', (req,res) => {
 		});
 	}
 });
+
+app.use('/tests', express.static('tests'));
 
 //TODO
 /*apiApp.get(['/',/geocoder'], async (req, res) => {
