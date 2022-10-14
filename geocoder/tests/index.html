@@ -4,7 +4,7 @@
   <title>VMS map</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" rel="stylesheet" type="text/css" />
-  <link href="https://unpkg.com/leaflet-search@3.0.2/dist/leaflet-search.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://unpkg.com/leaflet-search@3.0.3/dist/leaflet-search.min.css" rel="stylesheet" type="text/css" />
   <style>
     body {
       padding: 0;
@@ -30,76 +30,29 @@
 <body>
   <div id="map"></div>
   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-search@3.0.2/dist/leaflet-search.src.js"></script>
+  <script src="https://unpkg.com/leaflet-search@3.0.3/dist/leaflet-search.src.js"></script>
   <script>
 
-  const baseUrl = location.origin+ '/testSearch';
+  const baseUrl = location.origin+ '/v1/autocomplete';
 
   const map = L.map('map').setView([46.672623,11.159704], 10);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-  map.addControl(new L.Control.Search({
+  map.addControl(window.SEARCH = new L.Control.Search({
     //markerLocation: true,
-    propertyName: 'name',
+    propertyName: 'properties.label',
+    propertyLoc: ['geometry.coordinates.1','geometry.coordinates.0'],
     sourceData: (text, callResponse) => {
       var url = `${baseUrl}?text=${text}`
       return fetch(url)
         .then(response => response.json())
         .then(data => {
-          console.log(data)
-          callResponse(data.rawResult);
+          console.log(data.features)
+          callResponse(data.features);
         });
     }
   }));
-
-  fetch(`${baseUrl}stations.geojson`)
-  .then(response => response.json())
-  .then(data => {
-
-    L.geoJSON(data, {
-        style: feature => {
-            return {color: feature.properties.color};
-        },
-        pointToLayer: (feature, latlng) => {
-
-          if (feature.properties.text==='') return;
-
-          const icon = feature.properties.img ? L.divIcon({
-            html: L.Util.template(`<img height="30px" width="30px" src="${baseUrl}{img}">`, feature.properties)
-          }) : new L.Icon.Default();
-
-          const mark = L.marker(latlng, {icon})
-          .on('popupopen', e => {
-            const el = L.DomUtil.get('code');
-            const url = L.Util.template(`${baseUrl}{station_id}/station.json`, e.target.feature.properties);
-            el.innerText = '';
-            fetch(url)
-            .then(resp => resp.json() )
-            .then(dd => {
-              console.log(dd)
-              const jj = JSON.stringify(dd,null,2);
-              el.innerText = jj;
-            });
-          })
-          .bindPopup(layer => {
-              const {type, type_name, station_id, name, text, direction} = layer.feature.properties;
-              return `${type_name}<br>${name}<br><pre>${text}</pre><br> direzione: ${direction}`;
-            });
-
-/*          if (feature.properties.img) {
-            mark.bindTooltip(layer => {
-                const {type, type_name, name, text} = layer.feature.properties;
-                return L.Util.template(`${type_name}<br>${text}`);
-            }, {
-              permanent: true
-            })
-          }
-*/
-          return mark
-        }
-    }).addTo(map);
-  });
   </script>
 </body>
 </html>
