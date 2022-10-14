@@ -1,7 +1,4 @@
 
-//const heremap = require("heremap");
-//https://github.com/devbab/heremap#hm_geocode
-
 const https = require('https');
 
 const heremap = {

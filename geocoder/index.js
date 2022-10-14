@@ -1,93 +1,36 @@
 
-process.env.PELIAS_CONFIG = './pelias.json';//PATCH for pelias-api
-const AddressParser = require('pelias-parser/parser/AddressParser');
-const apiApp = require('pelias-api/app');
-
-const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
+const {resolve} = require('path');
+const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require(resolve(__dirname,'../base'));
 
 const {formatters, services, combineResults, textDistance, orderResult} = require('./utils')(config, _);
 
+process.env.PELIAS_CONFIG = __dirname+'/pelias.json';
+//PATCH for pelias-api that require this file
+const AddressParser = require('pelias-parser/parser/AddressParser');
+const peliasParser = require('pelias-parser/server/routes/parse');
+const peliasApiApp = require('pelias-api/app');
+
 app.use(express.json());
 
-app.locals.parser = { address: new AddressParser() }
-//HACK from pelias-parser/server/...
+app.locals.parser = { address: new AddressParser() };
+//HACK for endpoint /v1/search?text=...
 
-//TODO manage parameter lang for any requests
+app.get('/libpostal/parse', peliasParser);
+app.get(/^\/placeholder(.*)$/, (req, res) => { res.json({}); });
+app.get(/^\/pip(.*)$/, (req, res) => { res.json({}); });
 
-app.get('/libpostal/parse', require('pelias-parser/server/routes/parse'))
+//ElasticSearch internal proxy
+app.post(/^\/pelias(.*)$/, (req, res) => {
 
-app.get(/^\/placeholder(.*)$/, (req, res) => {
-	res.json({});
-});
-
-app.get('/here', async(req, res) => {
-	
-	const response = await services.here(req.query.text);
-
-	res.json(formatters.here(response));
-})
-
-//ElasticSearch proxy
-app.post(/^\/pelias(.*)$/, (req, res)=> {
-
-	//TODO HERE FILTER REVERSE GEOCODING
-
-	let musts = _.get(req.body, "query.bool.must");
-	
-	if (!musts || musts.length===0) {
-		res.json( formatters.elasticsearch([]) );
-		return false;
-	}
-	//UN USEFUL let q_search = _.get(req.body, "query.bool.must[0].match['name.default'].query");
-	let texts = [],
-		lang;
-
-	_.forEach(musts, (m, k) => {
-		
-		//texts search
-		let q1 = _.get(m, "constant_score.filter.multi_match.query");
-		let q2 = _.get(m, "multi_match.query");
-		texts.push(q1 || q2);
-
-		if(!lang) {
-			//word
-			let ll = _.get(m, "constant_score.filter.multi_match.fields")
-				, l1;
-			if(_.isArray(ll)) {
-				l1 = ll.pop();
-				l1 = l1.split('.').pop();
-			}
-			//phrase
-			let ll2 = _.get(m, "multi_match.fields")
-				, l2;
-			if(_.isArray(ll2)) {
-				l2 = ll2.pop();
-				l2 = l2.split('.').pop();
-			}
-			lang = l1 || l2 || config.default_lang;
-		}
-	});
-
-	//let q = _.get(req.body, "query.bool.must[0].constant_score.filter.multi_match.query");
-	//	let q2 = _.get(req.body, "query.bool.must[1].constant_score.filter.multi_match.query");
-
-	let text = texts.join(' ');
-
-	console.log('[geocoder] Pelias Search: "', text,'" lang:',lang);//JSON.stringify(req.body,null,2))
-
-	//console.log('ELASTIC SEARCH: "'+text+'"')
+	const {text, lang} = formatters.elasticsearchRequest(req, res);
 
 	if(!_.isString(text) || text.length < Number(config.min_text_length)) {
-		
+
 		res.json( formatters.elasticsearch([]) )
 	}
 	else {
 		combineResults(text, lang, jsonres => {
-			
-			jsonres = orderResult(text, jsonres)
-
-			res.json(jsonres);
-
+			res.json(orderResult(text, jsonres));
 		});
 	}
 });
@@ -131,8 +74,12 @@ app.use('/tests', express.static('tests'));
   });
 });*/
 
-const serverParser = app.listen(config.pelias_listen_port, () => {
-	console.log('[geocoder-pelias-services] listening on %s', config.pelias_listen_port)
+const serverParser = app.listen(config.pelias_listen_port, function() {
+		console.log('internal services paths', app._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+    console.log(`listening at http://localhost:${this.address().port}`);
 });
 
-const serverApi = apiApp.listen( config.listen_port, listenLog);
+const serverApi = peliasApiApp.listen( config.listen_port, function() {
+		console.log('pelias Api paths', peliasApiApp._router.stack.filter(r => r.route).map(r => `${Object.keys(r.route.methods)[0]} ${r.route.path}`) );
+    console.log(`listening at http://localhost:${this.address().port}`);
+});

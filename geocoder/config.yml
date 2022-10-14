@@ -32,9 +32,6 @@ endpoints:
     layer: venue
 
   here:
-    #hostname: api.here.com
-    #path: /6.2/geocode.json
-    ##provided by npm heremap
     appId: ${HERE_APPID}
     appCode: ${HERE_APPCODE}
     apiKey: ${HERE_APIKEY}
