@@ -11,10 +11,14 @@ import { accountLinks, getAuth0Config } from '../../util/auth'
 
 import interreg from '../../images/interreg.png'
 import openmove from '../../images/openmove.png'
+import merano from "../../images/merano.png";
+import bolzano from "../../images/ComuneBolzano.png";
 
 const logos = {
   interreg,
-  openmove
+  openmove,
+  bolzano,
+  merano
 }
 
 class MobileNavigationBar extends Component {
@@ -34,6 +38,7 @@ class MobileNavigationBar extends Component {
   }
 
   render () {
+
     const {
       config,
       auth0Config,
@@ -70,7 +75,7 @@ class MobileNavigationBar extends Component {
                   <Navbar.Link href="#" onClick={this._backButtonPressed}>
                     <FontAwesome name='arrow-left' tag="i" />
                   </Navbar.Link>
-                  {' '}
+
                 </>
             }
             {config.brandNavbar} <span>BETA</span>
