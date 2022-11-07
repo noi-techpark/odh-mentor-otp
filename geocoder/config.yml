@@ -8,9 +8,6 @@ dev:
   listen_port: 9088
   min_text_length: 1
 
-pelias_listen_port: 8087
-#internal pelias microservices(//same port of file ./pelias.json)
-
 #TODO cache_ttl: 0
 default_lang: 'en'
 min_text_length: 3
@@ -32,9 +29,6 @@ endpoints:
     layer: venue
 
   here:
-    #hostname: api.here.com
-    #path: /6.2/geocode.json
-    ##provided by npm heremap
     appId: ${HERE_APPID}
     appCode: ${HERE_APPCODE}
     apiKey: ${HERE_APIKEY}

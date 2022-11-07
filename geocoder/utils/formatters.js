@@ -37,29 +37,76 @@ function createHit(ff) {
     };
 }
 
+function elasticsearch(hits) {
+    return {
+        "took" : 1,
+        "timed_out" : false,
+        "_shards" : {
+            "total" : 1,
+            "successful" : 1,
+            "skipped" : 0,
+            "failed" : 0
+        },
+        "hits" : {
+            "total" : {
+                "value" : hits.length,
+                "relation" : "eq"
+            },
+            "max_score" : 1.0,
+            "hits" : hits
+        }
+    };
+}
+
 module.exports = (config, _) => {
     return {
-        'elasticsearch': function(hits) {
-            return {
-                "took" : 1,
-                "timed_out" : false,
-                "_shards" : {
-                    "total" : 1,
-                    "successful" : 1,
-                    "skipped" : 0,
-                    "failed" : 0
-                },
-                "hits" : {
-                    "total" : {
-                        "value" : hits.length,
-                        "relation" : "eq"
-                    },
-                    "max_score" : 1.0,
-                    "hits" : hits
-                }
-            };
-        },
+        elasticsearch,
+        elasticsearchRequest: function(req, res) {
 
+            const texts = [];
+
+            let text, lang;
+
+            const musts = _.get(req.body, "query.bool.must");
+
+            if (!musts || musts.length===0) {
+                return {text, lang};
+            }
+            //UN USEFUL let q_search = _.get(req.body, "query.bool.must[0].match['name.default'].query");
+
+            _.forEach(musts, (m, k) => {
+
+                //texts search
+                let q1 = _.get(m, "constant_score.filter.multi_match.query");
+                let q2 = _.get(m, "multi_match.query");
+                texts.push(q1 || q2);
+
+                if(!lang) {
+                    //word
+                    let ll = _.get(m, "constant_score.filter.multi_match.fields")
+                        , l1;
+                    if(_.isArray(ll)) {
+                        l1 = ll.pop();
+                        l1 = l1.split('.').pop();
+                    }
+                    //phrase
+                    let ll2 = _.get(m, "multi_match.fields")
+                        , l2;
+                    if(_.isArray(ll2)) {
+                        l2 = ll2.pop();
+                        l2 = l2.split('.').pop();
+                    }
+                    lang = l1 || l2 || config.default_lang;
+                }
+            });
+
+            //let q = _.get(req.body, "query.bool.must[0].constant_score.filter.multi_match.query");
+            //  let q2 = _.get(req.body, "query.bool.must[1].constant_score.filter.multi_match.query");
+
+            text = texts.join(' ');
+
+            return {text, lang};
+        },
         'here': function(data, lang) {
 
             lang = lang || config.default_lang;
