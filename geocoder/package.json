@@ -16,7 +16,6 @@
     "weighted-damerau-levenshtein": "^0.1.2",
     "parallel-http-request": "^1.1.3",
     "pelias-parser": "^1.57.0",
-    "pelias-api": "^5.20.0",
-    "heremap": "^2.2.6"
+    "pelias-api": "^5.20.0"
   }
 }

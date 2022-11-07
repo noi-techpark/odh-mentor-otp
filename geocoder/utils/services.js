@@ -1,7 +1,4 @@
 
-//const heremap = require("heremap");
-//https://github.com/devbab/heremap#hm_geocode
-
 const https = require('https');
 
 const heremap = {
@@ -32,7 +29,7 @@ const heremap = {
 				+`&limit=${limit}`;
 
 		// https://stackoverflow.com/questions/68664953/here-autosuggest-get-complete-address-informations
-		console.log('HERE_REQUEST',url)
+		//console.log('HERE_REQUEST',url)
 
 		return new Promise((resolve, reject) => {
 	        const req = https.request(url, res => {
