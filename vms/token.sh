@@ -23,7 +23,7 @@ CLIENT_ID=odh-generic-client
 
 #PAYLOAD="grant_type=password&username=$API_USER&password=$API_PASS&client_id=$CLIENTID"
 
-curl -X POST -L "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/token" \
+curl -X POST -L "https://auth.opendatahub.com/auth/realms/noi/protocol/openid-connect/token" \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'grant_type=password' \
 --data-urlencode "username=${API_USER}" \
