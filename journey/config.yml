@@ -35,6 +35,12 @@ brandByDomain:
     brandNavbar: ''
     brandNavbarLogo: interreg
 
+  journey.opendatahub.com:
+    branding: Mentor
+    title: Mentor
+    brandNavbar: ''
+    brandNavbarLogo: interreg
+
 configByDomain:
   mobility.bz.it:
     map:
