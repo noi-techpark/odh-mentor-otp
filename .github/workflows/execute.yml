@@ -32,6 +32,18 @@ jobs:
       - name: Create .env file
         uses: noi-techpark/github-actions/env-file@v2
         env:
+          X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
+          X_DOCKER_IMAGE_OTP: ${{ env.DOCKER_IMAGE_OTP }}
+          X_DOCKER_IMAGE_JOURNEY: ${{ env.DOCKER_IMAGE_JOURNEY }}
+          X_DOCKER_IMAGE_GBFS: ${{ env.DOCKER_IMAGE_GBFS }}
+          X_DOCKER_IMAGE_GEOCODER: ${{ env.DOCKER_IMAGE_GEOCODER }}
+          X_DOCKER_IMAGE_CARSHARING: ${{ env.DOCKER_IMAGE_CARSHARING }}
+          X_DOCKER_IMAGE_PARKING: ${{ env.DOCKER_IMAGE_PARKING }}
+          X_DOCKER_IMAGE_ECHARGING: ${{ env.DOCKER_IMAGE_ECHARGING }}
+          X_DOCKER_IMAGE_DRT: ${{ env.DOCKER_IMAGE_DRT }}
+          X_DOCKER_IMAGE_TRAFFIC: ${{ env.DOCKER_IMAGE_TRAFFIC }}          
+          X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
+          
           X_EFS_FOLDER: "/opt/odh-mentor-otp-test/"
 
           X_SERVER_PORT_OTP: 1080
