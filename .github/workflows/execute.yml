@@ -34,38 +34,39 @@ jobs:
         env:
           X_EFS_FOLDER: /opt/odh-mentor-otp-test/"
 
-          X_SERVER_PORT_OTP: 1080"
-          X_SERVER_PORT_JOURNEY: 1081"
+          X_SERVER_PORT_OTP: "1080"
+          X_SERVER_PORT_JOURNEY: "1081"
           X_GBFS_HOST : "https://gbfs.otp.opendatahub.testingmachine.eu/"
-          X_DOCKER_GBFS_PORT: 1082"
-          X_DOCKER_GEOCODER_PORT: 1083"
-          X_DOCKER_CARSHARING_PORT: 1084"
-          X_DOCKER_PARKING_PORT: 1085"
-          X_DOCKER_DRT_PORT: 1086"
-          X_DOCKER_ECHARGING_PORT: 1087"
-          X_DOCKER_TRAFFIC_PORT: 1088"
+          X_DOCKER_GBFS_PORT: "1082"
+          X_DOCKER_GEOCODER_PORT: "1083"
+          X_DOCKER_CARSHARING_PORT: "1084"
+          X_DOCKER_PARKING_PORT: "1085"
+          X_DOCKER_DRT_PORT: "1086"
+          X_DOCKER_ECHARGING_PORT: "1087"
+          X_DOCKER_TRAFFIC_PORT: "1088"
 
-          X_JAVA_MX: 14G"
-          X_BUILD_GRAPH: False"
-          X_DOWNLOAD_DATA: False"
-          X_BACKUP_GRAPH: False"
+          X_JAVA_MX: "14G"
+          X_BUILD_GRAPH: "False"
+          X_DOWNLOAD_DATA: "False"
+          X_BACKUP_GRAPH: "False"
 
-          X_OTP_RR_BRANCH: mentor-meran"
-          X_OTP_UI_BRANCH: master"
-          X_API_HOST: https://otp.opendatahub.testingmachine.eu"
-          X_API_PORT: 443"
-          X_API_PATH: /otp/routers/openmove"
+          X_OTP_RR_BRANCH: "mentor-meran"
+          X_OTP_UI_BRANCH: "master"
+          X_API_HOST: "https://otp.opendatahub.testingmachine.eu"
+          X_API_PORT: "443"
+          X_API_PATH: "/otp/routers/openmove"
 
-          X_HERE_APPID: credentials("otp-here-appid-test")
-          X_HERE_APPCODE: credentials("otp-here-appcode-test")
+          X_HERE_APPID: ${{ secrets.HERE_APPID_TEST }}
+          X_HERE_APPCODE: ${{ secrets.HERE_APPCODE_TEST }}
+          X_HERE_APIKEY:  ${{ secrets.HERE_APIKEY_TEST }}
 
-          X_GEOCODER_BASEURL: https://geocoder.otp.opendatahub.testingmachine.eu"
-          X_PARKING_BASEURL: https://parking.otp.opendatahub.testingmachine.eu"
-          X_DRT_BASEURL: https://drt.otp.opendatahub.testingmachine.eu"
-          X_CHARGER_BASEURL: https://charger.otp.opendatahub.testingmachine.eu"
-          X_CARSHARING_BASEURL: https://carsharing.otp.opendatahub.testingmachine.eu"
-          X_TRAFFIC_BASEURL: https://traffic.otp.opendatahub.testingmachine.eu"
-          X_OTP_OFFICIAL: False"
+          X_GEOCODER_BASEURL: "https://geocoder.otp.opendatahub.testingmachine.eu"
+          X_PARKING_BASEURL: "https://parking.otp.opendatahub.testingmachine.eu"
+          X_DRT_BASEURL: "https://drt.otp.opendatahub.testingmachine.eu"
+          X_CHARGER_BASEURL: "https://charger.otp.opendatahub.testingmachine.eu"
+          X_CARSHARING_BASEURL: "https://carsharing.otp.opendatahub.testingmachine.eu"
+          X_TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.testingmachine.eu"
+          X_OTP_OFFICIAL: "False"
           X_GBFS_VERSION: 1
           X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.testingmachine.eu/"
           X_PARKING_HOST: "https://parking.otp.opendatahub.testingmachine.eu/"
@@ -76,6 +77,9 @@ jobs:
           X_GTFS_URL_UPDATETIME: "0 2 * * *"
           X_GTFS_URL_UPDATEHOOK: "https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.test-deploy.trigger/build?token: "
 
+          X_GTFS_RT_URL: "https://efa.sta.bz.it/gtfs-r/"
+          X_GTFS_FEED_ID: 1
+          
           X_MATOMO_BASE_URL: "https://digital.matomo.cloud/"
           X_MATOMO_SITE_ID: 20
 
