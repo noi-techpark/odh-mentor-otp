@@ -1,0 +1,96 @@
+name: CI/CD
+
+on: 
+  push:
+  pull_request:
+
+env:
+  PROJECT_NAME: "odh-mentor-otp"
+  API_HOST: http://localhost
+  API_PATH: /otp/routers/openmove
+  API_PORT: 8080
+  DOCKER_IMAGE_OTP: odh-mentor-otp
+  DOCKER_IMAGE_JOURNEY: odh-mentor-otp-journey
+  DOCKER_IMAGE_GBFS: odh-mentor-otp-gbfs
+  DOCKER_IMAGE_GEOCODER: odh-mentor-otp-geocoder
+  DOCKER_IMAGE_CARSHARING: odh-mentor-otp-carsharing
+  DOCKER_IMAGE_PARKING: odh-mentor-otp-parking
+  DOCKER_IMAGE_ECHARGING: odh-mentor-otp-echarging
+  DOCKER_IMAGE_DRT: odh-mentor-otp-drt
+  DOCKER_IMAGE_TRAFFIC: odh-mentor-otp-traffic
+  DOCKER_TAG: ${{ github.sha }}
+
+jobs:
+  execute-test:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    concurrency: deploy-test
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        env:
+          X_EFS_FOLDER: /opt/odh-mentor-otp-test/"
+
+          X_SERVER_PORT_OTP: 1080"
+          X_SERVER_PORT_JOURNEY: 1081"
+          X_GBFS_HOST : "https://gbfs.otp.opendatahub.testingmachine.eu/"
+          X_DOCKER_GBFS_PORT: 1082"
+          X_DOCKER_GEOCODER_PORT: 1083"
+          X_DOCKER_CARSHARING_PORT: 1084"
+          X_DOCKER_PARKING_PORT: 1085"
+          X_DOCKER_DRT_PORT: 1086"
+          X_DOCKER_ECHARGING_PORT: 1087"
+          X_DOCKER_TRAFFIC_PORT: 1088"
+
+          X_JAVA_MX: 14G"
+          X_BUILD_GRAPH: False"
+          X_DOWNLOAD_DATA: False"
+          X_BACKUP_GRAPH: False"
+
+          X_OTP_RR_BRANCH: mentor-meran"
+          X_OTP_UI_BRANCH: master"
+          X_API_HOST: https://otp.opendatahub.testingmachine.eu"
+          X_API_PORT: 443"
+          X_API_PATH: /otp/routers/openmove"
+
+          X_HERE_APPID: credentials("otp-here-appid-test")
+          X_HERE_APPCODE: credentials("otp-here-appcode-test")
+
+          X_GEOCODER_BASEURL: https://geocoder.otp.opendatahub.testingmachine.eu"
+          X_PARKING_BASEURL: https://parking.otp.opendatahub.testingmachine.eu"
+          X_DRT_BASEURL: https://drt.otp.opendatahub.testingmachine.eu"
+          X_CHARGER_BASEURL: https://charger.otp.opendatahub.testingmachine.eu"
+          X_CARSHARING_BASEURL: https://carsharing.otp.opendatahub.testingmachine.eu"
+          X_TRAFFIC_BASEURL: https://traffic.otp.opendatahub.testingmachine.eu"
+          X_OTP_OFFICIAL: False"
+          X_GBFS_VERSION: 1
+          X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.testingmachine.eu/"
+          X_PARKING_HOST: "https://parking.otp.opendatahub.testingmachine.eu/"
+          X_DRT_HOST: "https://drt.otp.opendatahub.testingmachine.eu/"
+          X_CHARGER_HOST: "https://charger.otp.opendatahub.testingmachine.eu/"
+
+          X_GTFS_URL: "ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
+          X_GTFS_URL_UPDATETIME: "0 2 * * *"
+          X_GTFS_URL_UPDATEHOOK: "https://jenkins.testingmachine.eu/job/it.bz.opendatahub.otp/job/calculate.test-deploy.trigger/build?token: "
+
+          X_MATOMO_BASE_URL: "https://digital.matomo.cloud/"
+          X_MATOMO_SITE_ID: 20
+
+      - name: Build and push 
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy application
+        uses: noi-techpark/github-actions/docker-deploy@v2
+        with:
+          hosts: 'test'
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          docker-username: 'noi-techpark-bot'
+          docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          project-name: ${{ env.PROJECT_NAME }}
