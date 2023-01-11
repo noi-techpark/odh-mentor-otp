@@ -23,7 +23,8 @@ env:
 jobs:
   execute-test:
     runs-on: ubuntu-20.04
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/github-actions'
+    needs: test
     concurrency: deploy-test
     steps:
       - name: Checkout source code
