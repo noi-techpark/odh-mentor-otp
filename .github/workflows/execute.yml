@@ -34,16 +34,16 @@ jobs:
         env:
           X_EFS_FOLDER: "/opt/odh-mentor-otp-test/"
 
-          X_SERVER_PORT_OTP: "1080"
-          X_SERVER_PORT_JOURNEY: "1081"
+          X_SERVER_PORT_OTP: 1080
+          X_SERVER_PORT_JOURNEY: 1081
           X_GBFS_HOST : "https://gbfs.otp.opendatahub.testingmachine.eu/"
-          X_DOCKER_GBFS_PORT: "1082"
-          X_DOCKER_GEOCODER_PORT: "1083"
-          X_DOCKER_CARSHARING_PORT: "1084"
-          X_DOCKER_PARKING_PORT: "1085"
-          X_DOCKER_DRT_PORT: "1086"
-          X_DOCKER_ECHARGING_PORT: "1087"
-          X_DOCKER_TRAFFIC_PORT: "1088"
+          X_DOCKER_GBFS_PORT: 1082
+          X_DOCKER_GEOCODER_PORT: 1083
+          X_DOCKER_CARSHARING_PORT: 1084
+          X_DOCKER_PARKING_PORT: 1085
+          X_DOCKER_DRT_PORT: 1086
+          X_DOCKER_ECHARGING_PORT: 1087
+          X_DOCKER_TRAFFIC_PORT: 1088
 
           X_JAVA_MX: "14G"
           X_BUILD_GRAPH: "False"
