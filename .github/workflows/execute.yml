@@ -9,15 +9,16 @@ env:
   API_HOST: http://localhost
   API_PATH: /otp/routers/openmove
   API_PORT: 8080
-  DOCKER_IMAGE_OTP: odh-mentor-otp
-  DOCKER_IMAGE_JOURNEY: odh-mentor-otp-journey
-  DOCKER_IMAGE_GBFS: odh-mentor-otp-gbfs
-  DOCKER_IMAGE_GEOCODER: odh-mentor-otp-geocoder
-  DOCKER_IMAGE_CARSHARING: odh-mentor-otp-carsharing
-  DOCKER_IMAGE_PARKING: odh-mentor-otp-parking
-  DOCKER_IMAGE_ECHARGING: odh-mentor-otp-echarging
-  DOCKER_IMAGE_DRT: odh-mentor-otp-drt
-  DOCKER_IMAGE_TRAFFIC: odh-mentor-otp-traffic
+  DOCKER_IMAGE_OTP: ghcr.io/${{ github.repository }}/odh-mentor-otp
+  DOCKER_IMAGE_JOURNEY: ghcr.io/${{ github.repository }}/odh-mentor-otp-journey
+  DOCKER_IMAGE_GBFS: ghcr.io/${{ github.repository }}/odh-mentor-otp-gbfs
+  DOCKER_IMAGE_GEOCODER: ghcr.io/${{ github.repository }}/odh-mentor-otp-geocoder
+  DOCKER_IMAGE_CARSHARING: ghcr.io/${{ github.repository }}/odh-mentor-otp-carsharing
+  DOCKER_IMAGE_PARKING: ghcr.io/${{ github.repository }}/odh-mentor-otp-parking
+  DOCKER_IMAGE_ECHARGING: ghcr.io/${{ github.repository }}/odh-mentor-otp-echarging
+  DOCKER_IMAGE_DRT: ghcr.io/${{ github.repository }}/odh-mentor-otp-drt
+  DOCKER_IMAGE_TRAFFIC: ghcr.io/${{ github.repository }}/odh-mentor-otp-traffic
+  DOCKER_TAG: ${{ github.sha }}
   DOCKER_TAG: ${{ github.sha }}
 
 jobs:
