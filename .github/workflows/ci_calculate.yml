@@ -19,7 +19,7 @@ jobs:
     concurrency: deploy-test
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v2
+        uses: noi-techpark/github-actions/checkout@v2
 
       - name: Build and push 
         uses: noi-techpark/github-actions/docker-build-and-push@v2
