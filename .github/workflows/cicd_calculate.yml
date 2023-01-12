@@ -1,8 +1,8 @@
 name: "CI/CD calculate"
 
-on: 
-  push:
-  pull_request:
+  # on: 
+  #   push:
+  #   pull_request:
 
 env:
   PROJECT_NAME: "odh-mentor-otp"
@@ -37,7 +37,6 @@ jobs:
           X_DOWNLOAD_DATA: "False"
           X_BACKUP_GRAPH: "True"
 
-          X_GBFS_HOST: "https://gbfs.otp.opendatahub.testingmachine.eu"
           X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.testingmachine.eu"
           X_PARKING_HOST: "https://parking.otp.opendatahub.testingmachine.eu"
           X_DRT_HOST: "https://drt.otp.opendatahub.testingmachine.eu"
@@ -54,7 +53,6 @@ jobs:
           X_DRT_BASEURL: "https://drt.otp.opendatahub.testingmachine.eu"
           X_CHARGER_BASEURL: "https://charger.otp.opendatahub.testingmachine.eu"
           X_TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.testingmachine.eu"
-          X_OTP_OFFICIAL: "False"
 
       - name: Build and push 
         uses: noi-techpark/github-actions/docker-build-and-push@v2

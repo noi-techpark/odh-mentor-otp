@@ -1,8 +1,8 @@
 name: CI/CD
 
-on: 
-  push:
-  pull_request:
+  # on: 
+  #   push:
+  #   pull_request:
 
 env:
   PROJECT_NAME: "odh-mentor-otp"
