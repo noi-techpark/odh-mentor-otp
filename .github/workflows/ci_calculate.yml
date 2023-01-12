@@ -1,8 +1,8 @@
-name: "CI/CD calculate"
+name: "Build and push calculate"
 
 on: 
   workflow_dispatch:
-  push:
+#  push:
 
 env:
   PROJECT_NAME: "odh-mentor-otp"
@@ -60,14 +60,3 @@ jobs:
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
           docker-compose-file: docker-compose.build.calculate.yml
-
-      - name: Deploy application
-        uses: noi-techpark/github-actions/docker-deploy@v2
-        with:
-          hosts: 'calculate-test'
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          docker-username: 'noi-techpark-bot'
-          docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          project-name: ${{ env.PROJECT_NAME }}
-          playbook-file: deploy.calculate.test.yml
-

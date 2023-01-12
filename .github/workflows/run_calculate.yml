@@ -1,0 +1,30 @@
+name: "Deploy and run calculate"
+
+on: 
+  workflow_dispatch:
+#  push:
+
+env:
+  PROJECT_NAME: "odh-mentor-otp"
+  API_HOST: http://localhost
+  API_PATH: /otp/routers/openmove
+  API_PORT: 8080
+  DOCKER_IMAGE_OTP: ghcr.io/${{ github.repository }}/odh-mentor-otp-calculate
+  DOCKER_TAG: ${{ github.sha }}
+
+jobs:
+  execute-test:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/github-actions'
+    concurrency: deploy-test
+    steps:
+      - name: Deploy application
+        uses: noi-techpark/github-actions/docker-deploy@v2
+        with:
+          hosts: 'calculate-test'
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          docker-username: 'noi-techpark-bot'
+          docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          project-name: ${{ env.PROJECT_NAME }}
+          playbook-file: deploy.calculate.test.yml
+
