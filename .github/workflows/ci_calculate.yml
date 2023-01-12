@@ -2,7 +2,7 @@ name: "Build and push calculate"
 
 on: 
   workflow_dispatch:
-#  push:
+  push:
 
 env:
   PROJECT_NAME: "odh-mentor-otp"
