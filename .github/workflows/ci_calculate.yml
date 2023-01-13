@@ -16,7 +16,7 @@ jobs:
   ci-calculate-test:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/github-actions'
-    concurrency: deploy-test
+    concurrency: build-calc-test
     steps:
       - name: Checkout source code
         uses: noi-techpark/github-actions/checkout@v2
