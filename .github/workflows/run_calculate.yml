@@ -1,6 +1,8 @@
 name: "Deploy and run calculate"
 
 on: 
+# This job is triggered only manually if needed.
+# we have to register on push to make the event show up., but it does not actually do anything on push (note "if" condition below in job)
   workflow_dispatch:
   push:
 
@@ -16,6 +18,7 @@ jobs:
   run-calculate-test:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/github-actions'
+    if: github.event_name == 'workflow_dispatch' # only run if manually triggered
     concurrency: deploy-test
     steps:
       - name: Spin up EC2 instance
