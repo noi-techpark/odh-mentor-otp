@@ -17,8 +17,7 @@ env:
 jobs:
   run-calculate-test:
     runs-on: ubuntu-20.04
-    if: github.ref == 'refs/heads/github-actions'
-    if: github.event_name == 'workflow_dispatch' # only run if manually triggered
+    if: github.ref == 'refs/heads/github-actions' && github.event_name == 'workflow_dispatch' 
     concurrency: build-calc-test
     steps:
       - name: Spin up EC2 instance
