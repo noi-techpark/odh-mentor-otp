@@ -18,7 +18,8 @@ env:
   DOCKER_IMAGE_ECHARGING: ghcr.io/${{ github.repository }}/odh-mentor-otp-echarging
   DOCKER_IMAGE_DRT: ghcr.io/${{ github.repository }}/odh-mentor-otp-drt
   DOCKER_IMAGE_TRAFFIC: ghcr.io/${{ github.repository }}/odh-mentor-otp-traffic
-  DOCKER_TAG: ${{ github.sha }}
+  #DOCKER_TAG: ${{ github.sha }}
+  DOCKER_TAG: "1f351ed9cdaf163ccb26245560faed2c9cac8cf3"
 
 jobs:
   execute-test:
@@ -97,12 +98,12 @@ jobs:
           X_MATOMO_BASE_URL: "https://digital.matomo.cloud/"
           X_MATOMO_SITE_ID: 20
 
-      - name: Build and push 
-        uses: noi-techpark/github-actions/docker-build-and-push@v2
-        with:
-          docker-username: ${{ github.actor }}
-          docker-password: ${{ secrets.GITHUB_TOKEN }}
-          docker-compose-file: docker-compose.build.execute.yml
+      # - name: Build and push 
+      #   uses: noi-techpark/github-actions/docker-build-and-push@v2
+      #   with:
+      #     docker-username: ${{ github.actor }}
+      #     docker-password: ${{ secrets.GITHUB_TOKEN }}
+      #     docker-compose-file: docker-compose.build.execute.yml
 
       - name: Deploy application
         uses: noi-techpark/github-actions/docker-deploy@v2
