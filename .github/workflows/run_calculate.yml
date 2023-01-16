@@ -28,6 +28,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
 
+      # this used to be a wait (120 sec) to have the efs volume be mounted. If this makes problems, return to a wait 120
       - name: Wait for instance to start up
         run: |
           aws ec2 wait instance-running --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}

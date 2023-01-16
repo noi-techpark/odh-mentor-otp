@@ -18,8 +18,7 @@ env:
   DOCKER_IMAGE_ECHARGING: ghcr.io/${{ github.repository }}/odh-mentor-otp-echarging
   DOCKER_IMAGE_DRT: ghcr.io/${{ github.repository }}/odh-mentor-otp-drt
   DOCKER_IMAGE_TRAFFIC: ghcr.io/${{ github.repository }}/odh-mentor-otp-traffic
-  #DOCKER_TAG: ${{ github.sha }}
-  DOCKER_TAG: "1f351ed9cdaf163ccb26245560faed2c9cac8cf3"
+  DOCKER_TAG: ${{ github.sha }}
 
 jobs:
   execute-test:
