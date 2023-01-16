@@ -97,12 +97,12 @@ jobs:
           X_MATOMO_BASE_URL: "https://digital.matomo.cloud/"
           X_MATOMO_SITE_ID: 20
 
-      # - name: Build and push 
-      #   uses: noi-techpark/github-actions/docker-build-and-push@v2
-      #   with:
-      #     docker-username: ${{ github.actor }}
-      #     docker-password: ${{ secrets.GITHUB_TOKEN }}
-      #     docker-compose-file: docker-compose.build.execute.yml
+      - name: Build and push 
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+          docker-compose-file: docker-compose.build.execute.yml
 
       - name: Deploy application
         uses: noi-techpark/github-actions/docker-deploy@v2
