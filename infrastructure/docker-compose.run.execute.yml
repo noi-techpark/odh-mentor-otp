@@ -4,35 +4,17 @@ services:
   journey:
     image: ${DOCKER_IMAGE_JOURNEY}:${DOCKER_TAG}
     restart: unless-stopped
-    environment:
-      OTP_RR_BRANCH: ${OTP_RR_BRANCH}
-      OTP_UI_BRANCH: ${OTP_UI_BRANCH}
-      API_HOST: ${API_HOST}
-      API_PORT: ${API_PORT}
-      API_PATH: ${API_PATH}
+    env_file:
+      - .env
     ports:
       - ${SERVER_PORT_JOURNEY}:80
 
   otp:
     image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
     restart: unless-stopped
-    environment:
-      JAVA_MX: ${JAVA_MX}
-      BUILD_GRAPH: ${BUILD_GRAPH}
-      DOWNLOAD_DATA: ${DOWNLOAD_DATA}
-      BACKUP_GRAPH: ${BACKUP_GRAPH}
-      GBFS_HOST: ${GBFS_HOST}
-      GBFS_VERSION: ${GBFS_VERSION}
-      CARSHARING_HOST: ${CARSHARING_HOST}
-      PARKING_HOST: ${PARKING_HOST}
-      DRT_HOST: ${DRT_HOST}
-      CHARGER_HOST: ${CHARGER_HOST}      
-      UPDATERS: "True"
-      OTP_OFFICIAL: ${OTP_OFFICIAL}
-      GTFS_URL_UPDATEHOOK: ${GTFS_URL_UPDATEHOOK}
-      GTFS_UPDATEHOOK_USER: ${GTFS_UPDATEHOOK_USER}
-      GTFS_RT_URL: ${GTFS_RT_URL}
-      GTFS_FEED_ID: ${GTFS_FEED_ID}
+    env_file:
+      - .env
+
     volumes:
       - ${EFS_FOLDER}:/data/
     ports:
@@ -49,13 +31,8 @@ services:
     restart: unless-stopped
     ports:
       - ${DOCKER_GEOCODER_PORT}:8088
-    environment:
-      API_HOST: ${API_HOST}
-      API_PORT: ${API_PORT}
-      API_PATH: ${API_PATH}
-      HERE_APPID: ${HERE_APPID}
-      HERE_APPCODE: ${HERE_APPCODE}
-      HERE_APIKEY: ${HERE_APIKEY}
+    env_file:
+      - .env
   carsharing:
     image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
     restart: unless-stopped
