@@ -126,17 +126,17 @@ jobs:
           
           X_EFS_FOLDER: "/opt/odh-mentor-otp-prod/"
 
-          X_GBFS_HOST : "https://gbfs.otp.opendatahub.bz.iz/"
+          X_GBFS_HOST : "https://gbfs.otp.opendatahub.bz.it/"
 
           X_JAVA_MX: "16G"
           X_BUILD_GRAPH: "True"
           X_DOWNLOAD_DATA: "False"
           X_BACKUP_GRAPH: "True"
 
-          X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.bz.iz"
-          X_PARKING_HOST: "https://parking.otp.opendatahub.bz.iz"
-          X_DRT_HOST: "https://drt.otp.opendatahub.bz.iz"
-          X_CHARGER_HOST: "https://charger.otp.opendatahub.bz.iz"
+          X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.bz.it"
+          X_PARKING_HOST: "https://parking.otp.opendatahub.bz.it"
+          X_DRT_HOST: "https://drt.otp.opendatahub.bz.it"
+          X_CHARGER_HOST: "https://charger.otp.opendatahub.bz.it"
           X_UPDATERS: "True"
           X_GTFS_FILE: "latestGTFS.zip"
           X_OTP_OFFICIAL: "False"
@@ -144,11 +144,11 @@ jobs:
           X_GTFS_RT_URL: "https://efa.sta.bz.it/gtfs-r/"
           X_GTFS_FEED_ID: 1
 
-          X_GEOCODER_BASEURL: "https://geocoder.otp.opendatahub.bz.iz"
-          X_PARKING_BASEURL: "https://parking.otp.opendatahub.bz.iz"
-          X_DRT_BASEURL: "https://drt.otp.opendatahub.bz.iz"
-          X_CHARGER_BASEURL: "https://charger.otp.opendatahub.bz.iz"
-          X_TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.bz.iz"
+          X_GEOCODER_BASEURL: "https://geocoder.otp.opendatahub.bz.it"
+          X_PARKING_BASEURL: "https://parking.otp.opendatahub.bz.it"
+          X_DRT_BASEURL: "https://drt.otp.opendatahub.bz.it"
+          X_CHARGER_BASEURL: "https://charger.otp.opendatahub.bz.it"
+          X_TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.bz.it"
 
       - name: Deploy / run calculation
         uses: noi-techpark/github-actions/docker-deploy@v2
@@ -161,6 +161,7 @@ jobs:
           playbook-file: deploy.calculate.prod.yml
 
       - name: Spin down EC2 instance
+        if: always()
         run: |
           aws ec2 stop-instances --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
         env:
