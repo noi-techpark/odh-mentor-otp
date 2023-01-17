@@ -25,6 +25,19 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
     concurrency: deploy-test
+    env:
+      API_HOST: "https://otp.opendatahub.testingmachine.eu"
+      API_PORT: "443"
+      API_PATH: "/otp/routers/openmove"
+      GEOCODER_BASEURL: "https://geocoder.otp.opendatahub.testingmachine.eu"
+      PARKING_BASEURL: "https://parking.otp.opendatahub.testingmachine.eu"
+      DRT_BASEURL: "https://drt.otp.opendatahub.testingmachine.eu"
+      CHARGER_BASEURL: "https://charger.otp.opendatahub.testingmachine.eu"
+      CARSHARING_BASEURL: "https://carsharing.otp.opendatahub.testingmachine.eu"
+      TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.testingmachine.eu"
+      MATOMO_BASE_URL: "https://digital.matomo.cloud/"
+      MATOMO_SITE_ID: 20
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
@@ -64,20 +77,22 @@ jobs:
 
           X_OTP_RR_BRANCH: "mentor-meran"
           X_OTP_UI_BRANCH: "master"
-          X_API_HOST: "https://otp.opendatahub.testingmachine.eu"
-          X_API_PORT: "443"
-          X_API_PATH: "/otp/routers/openmove"
+
+          X_API_HOST: ${{ env.API_HOST }}
+          X_API_PORT: ${{ env.API_PORT }}
+          X_API_PATH: ${{ env.API_PATH }}
 
           X_HERE_APPID: ${{ secrets.HERE_APPID_TEST }}
           X_HERE_APPCODE: ${{ secrets.HERE_APPCODE_TEST }}
           X_HERE_APIKEY:  ${{ secrets.HERE_APIKEY_TEST }}
 
-          X_GEOCODER_BASEURL: "https://geocoder.otp.opendatahub.testingmachine.eu"
-          X_PARKING_BASEURL: "https://parking.otp.opendatahub.testingmachine.eu"
-          X_DRT_BASEURL: "https://drt.otp.opendatahub.testingmachine.eu"
-          X_CHARGER_BASEURL: "https://charger.otp.opendatahub.testingmachine.eu"
-          X_CARSHARING_BASEURL: "https://carsharing.otp.opendatahub.testingmachine.eu"
-          X_TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.testingmachine.eu"
+          X_GEOCODER_BASEURL: ${{ env.GEOCODER_BASEURL }}
+          X_PARKING_BASEURL: ${{ env.PARKING_BASEURL }}
+          X_DRT_BASEURL: ${{ env.DRT_BASEURL }}
+          X_CHARGER_BASEURL: ${{ env.CHARGER_BASEURL }}
+          X_CARSHARING_BASEURL: ${{ env.CARSHARING_BASEURL }}
+          X_TRAFFIC_BASEURL: ${{ env.TRAFFIC_BASEURL }}
+
           X_OTP_OFFICIAL: "False"
           X_GBFS_VERSION: 1
           X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.testingmachine.eu/"
@@ -94,8 +109,9 @@ jobs:
           X_GTFS_RT_URL: "https://efa.sta.bz.it/gtfs-r/"
           X_GTFS_FEED_ID: 1
           
-          X_MATOMO_BASE_URL: "https://digital.matomo.cloud/"
-          X_MATOMO_SITE_ID: 20
+          # disable in test
+          # X_MATOMO_BASE_URL: ${{ env.MATOMO_BASE_URL }}
+          # X_MATOMO_SITE_ID: ${{ env.MATOMO_SITE_ID }}
 
       - name: Build and push 
         uses: noi-techpark/github-actions/docker-build-and-push@v2
@@ -118,6 +134,19 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/prod'
     concurrency: deploy-prod
+    env:
+      API_HOST: "https://otp.opendatahub.bz.it"
+      API_PORT: "443"
+      API_PATH: "/otp/routers/openmove"
+      GEOCODER_BASEURL: "https://geocoder.otp.opendatahub.bz.it"
+      PARKING_BASEURL: "https://parking.otp.opendatahub.bz.it"
+      DRT_BASEURL: "https://drt.otp.opendatahub.bz.it"
+      CHARGER_BASEURL: "https://charger.otp.opendatahub.bz.it"
+      CARSHARING_BASEURL: "https://carsharing.otp.opendatahub.bz.it"
+      TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.bz.it"
+      MATOMO_BASE_URL: "https://digital.matomo.cloud/"
+      MATOMO_SITE_ID: 20
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
@@ -157,20 +186,22 @@ jobs:
 
           X_OTP_RR_BRANCH: "mentor-meran"
           X_OTP_UI_BRANCH: "master"
-          X_API_HOST: "https://otp.opendatahub.bz.it"
-          X_API_PORT: "443"
-          X_API_PATH: "/otp/routers/openmove"
+
+          X_API_HOST: ${{ env.API_HOST }}
+          X_API_PORT: ${{ env.API_PORT }}
+          X_API_PATH: ${{ env.API_PATH }}
 
           X_HERE_APPID: ${{ secrets.HERE_APPID_TEST }}
           X_HERE_APPCODE: ${{ secrets.HERE_APPCODE_TEST }}
           X_HERE_APIKEY:  ${{ secrets.HERE_APIKEY_TEST }}
 
-          X_GEOCODER_BASEURL: "https://geocoder.otp.opendatahub.bz.it"
-          X_PARKING_BASEURL: "https://parking.otp.opendatahub.bz.it"
-          X_DRT_BASEURL: "https://drt.otp.opendatahub.bz.it"
-          X_CHARGER_BASEURL: "https://charger.otp.opendatahub.bz.it"
-          X_CARSHARING_BASEURL: "https://carsharing.otp.opendatahub.bz.it"
-          X_TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.bz.it"
+          X_GEOCODER_BASEURL: ${{ env.GEOCODER_BASEURL }}
+          X_PARKING_BASEURL: ${{ env.PARKING_BASEURL }}
+          X_DRT_BASEURL: ${{ env.DRT_BASEURL }}
+          X_CHARGER_BASEURL: ${{ env.CHARGER_BASEURL }}
+          X_CARSHARING_BASEURL: ${{ env.CARSHARING_BASEURL }}
+          X_TRAFFIC_BASEURL: ${{ env.TRAFFIC_BASEURL }}
+
           X_OTP_OFFICIAL: "False"
           X_GBFS_VERSION: 1
           X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.bz.it/"
