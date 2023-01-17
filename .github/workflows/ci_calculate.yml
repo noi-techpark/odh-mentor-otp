@@ -13,10 +13,10 @@ env:
   DOCKER_TAG: ${{ github.sha }}
 
 jobs:
-  ci-calculate-test:
+  ci-calculate:
     runs-on: ubuntu-20.04
-    if: github.ref == 'refs/heads/github-actions'
-    concurrency: build-calc-test
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/prod'
+    concurrency: build-calc
     steps:
       - name: Checkout source code
         uses: noi-techpark/github-actions/checkout@v2
