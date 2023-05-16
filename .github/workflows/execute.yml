@@ -135,15 +135,15 @@ jobs:
     if: github.ref == 'refs/heads/prod'
     concurrency: deploy-prod
     env:
-      API_HOST: "https://otp.opendatahub.bz.it"
+      API_HOST: "https://otp.opendatahub.com"
       API_PORT: "443"
       API_PATH: "/otp/routers/openmove"
-      GEOCODER_BASEURL: "https://geocoder.otp.opendatahub.bz.it"
-      PARKING_BASEURL: "https://parking.otp.opendatahub.bz.it"
-      DRT_BASEURL: "https://drt.otp.opendatahub.bz.it"
-      CHARGER_BASEURL: "https://charger.otp.opendatahub.bz.it"
-      CARSHARING_BASEURL: "https://carsharing.otp.opendatahub.bz.it"
-      TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.bz.it"
+      GEOCODER_BASEURL: "https://geocoder.otp.opendatahub.com"
+      PARKING_BASEURL: "https://parking.otp.opendatahub.com"
+      DRT_BASEURL: "https://drt.otp.opendatahub.com"
+      CHARGER_BASEURL: "https://charger.otp.opendatahub.com"
+      CARSHARING_BASEURL: "https://carsharing.otp.opendatahub.com"
+      TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.com"
       MATOMO_BASE_URL: "https://digital.matomo.cloud/"
       MATOMO_SITE_ID: 20
 
@@ -170,7 +170,7 @@ jobs:
 
           X_SERVER_PORT_OTP: 1080
           X_SERVER_PORT_JOURNEY: 1081
-          X_GBFS_HOST : "https://gbfs.otp.opendatahub.bz.it/"
+          X_GBFS_HOST : "https://gbfs.otp.opendatahub.com/"
           X_DOCKER_GBFS_PORT: 1082
           X_DOCKER_GEOCODER_PORT: 1083
           X_DOCKER_CARSHARING_PORT: 1084
@@ -204,10 +204,10 @@ jobs:
 
           X_OTP_OFFICIAL: "False"
           X_GBFS_VERSION: 1
-          X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.bz.it/"
-          X_PARKING_HOST: "https://parking.otp.opendatahub.bz.it/"
-          X_DRT_HOST: "https://drt.otp.opendatahub.bz.it/"
-          X_CHARGER_HOST: "https://charger.otp.opendatahub.bz.it/"
+          X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.com/"
+          X_PARKING_HOST: "https://parking.otp.opendatahub.com/"
+          X_DRT_HOST: "https://drt.otp.opendatahub.com/"
+          X_CHARGER_HOST: "https://charger.otp.opendatahub.com/"
 
           X_GTFS_URL: "ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
           X_GTFS_URL_UPDATETIME: "0 4 * * *"
