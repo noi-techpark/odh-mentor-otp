@@ -46,9 +46,16 @@ else
   
   echo "${DATE} run rebuild hook..." >> $LOGFILE   
 
-  #curl -s $GTFS_URL_UPDATEHOOK
-
-  RESP=$(curl --user $GTFS_UPDATEHOOK_USER --write-out '%{http_code}' --silent --output /dev/null $GTFS_URL_UPDATEHOOK)
+  # Call github action, which in turn launches the calculate job
+  RESP=$(curl \
+    --write-out '%{http_code}' \
+    --silent --output /dev/null  \
+    -X POST \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer $GTFS_WORKFLOW_AUTH_TOKEN"\
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    $GTFS_WORKFLOW_DISPATCH_URL \
+    -d "{\"ref\":\"${GTFS_WORKFLOW_BRANCH}\"}")
 
   echo "hook http response: ${RESP}" >> $LOGFILE
 fi
