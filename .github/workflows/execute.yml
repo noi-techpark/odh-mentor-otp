@@ -166,7 +166,7 @@ jobs:
           X_DOCKER_IMAGE_TRAFFIC: ${{ env.DOCKER_IMAGE_TRAFFIC }}          
           X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
           
-          X_EFS_FOLDER: "/opt/odh-mentor-otp/"
+          X_EFS_FOLDER: "/opt/odh-mentor-otp-prod/"
 
           X_SERVER_PORT_OTP: 1080
           X_SERVER_PORT_JOURNEY: 1081
