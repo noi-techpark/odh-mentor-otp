@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 /**
  * Takes component's default props and its instance props and returns the
  * merged messages props. The returned object will ensure that the default

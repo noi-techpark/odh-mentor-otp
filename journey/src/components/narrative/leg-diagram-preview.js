@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import LegDiagramPreviewLayout from '../../otp-ui/itinerary-body/src/AccessLegBody/leg-diagram-preview'
 import { connect } from 'react-redux'
 

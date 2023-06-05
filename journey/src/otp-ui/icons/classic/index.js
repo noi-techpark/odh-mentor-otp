@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import ClassicBike from "./classic-bike";
 import ClassicBus from "./classic-bus";
 import ClassicCar from "./classic-car";

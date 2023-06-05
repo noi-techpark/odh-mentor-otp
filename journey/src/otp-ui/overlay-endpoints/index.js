@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { locationType } from "../core-utils/types";
 import PropTypes from "prop-types";
 import React from "react";

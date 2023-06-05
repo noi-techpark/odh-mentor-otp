@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import memoize from 'lodash.memoize'
 import coreUtils from '../../otp-ui/core-utils'
 import PropTypes from 'prop-types'

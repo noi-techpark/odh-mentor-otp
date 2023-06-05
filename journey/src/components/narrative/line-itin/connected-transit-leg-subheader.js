@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import TransitLegSubheader from '../../../otp-ui/itinerary-body/otp-react-redux/transit-leg-subheader'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'

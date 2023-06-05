@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { select, event } from 'd3-selection'
 import { zoom } from 'd3-zoom'
 import coreUtils from '../../otp-ui/core-utils'

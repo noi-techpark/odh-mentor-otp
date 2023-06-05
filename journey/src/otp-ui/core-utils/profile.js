@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 export function filterProfileOptions(response) {
   // Filter out similar options. TODO: handle on server?
   const optStrs = [];

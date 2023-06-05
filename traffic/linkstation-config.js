@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: CC0-1.0
+
 /*
 original data: https://github.com/noi-techpark/it.bz.opendatahub.analytics/blob/master/src/main/webapp/linkstation-config.json
  */

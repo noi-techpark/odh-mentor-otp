@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const circleToPolygon = require('./circle-polygon');
 const {uuid} = require('uuidv4');

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 /**
  * Looks up an operator from the provided configuration.
  * @param  {string} feedId - the feed ID, which can be obtained by splitting the

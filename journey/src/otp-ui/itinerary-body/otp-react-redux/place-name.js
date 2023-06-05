@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { configType, placeType } from "../../core-utils/types";
 import { getPlaceName } from "../../core-utils/itinerary";
 import PropTypes from "prop-types";

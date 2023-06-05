@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 if (typeof (fetch) === 'undefined') require('isomorphic-fetch')
 
 const API_USER_PATH = '/api/secure/user'

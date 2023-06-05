@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: CC0-1.0
+
 export const TRANSLATIONS_EN = {
   "default_lang": "en",
   "privacy_policy": "Privacy Policy",

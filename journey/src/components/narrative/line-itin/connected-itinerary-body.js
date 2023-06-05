@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import isEqual from 'lodash.isequal'
 import TransitLegSummary from '../../../otp-ui/itinerary-body/defaults/transit-leg-summary'
 import ItineraryBody from '../../../otp-ui/itinerary-body'

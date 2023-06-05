@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 export const AUTH0_AUDIENCE = 'https://otp-middleware'
 export const AUTH0_SCOPE = ''
 export const DEFAULT_APP_TITLE = 'OpenTripPlanner'

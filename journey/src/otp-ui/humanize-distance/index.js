@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 export function humanizeDistanceStringImperial(meters, abbreviate) {
   const feet = meters * 3.28084;
   if (feet < 528)

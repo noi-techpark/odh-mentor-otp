@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # OpenTripPlanner
 
 This project is a Openmove fork of [OpenTripPlanner](http://opentripplanner.org) release:

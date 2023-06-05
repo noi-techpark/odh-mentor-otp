@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import React, { Component } from 'react'
 import { Alert, Checkbox, ControlLabel, FormControl, FormGroup, Radio } from 'react-bootstrap'
 import styled from 'styled-components'
