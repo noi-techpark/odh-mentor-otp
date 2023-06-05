@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import React from "react";
 
 const MarkerLocationFrom = ({ width = 41, height = 41, iconColor = '#000', markerColor = '#fff', ...props }) => (

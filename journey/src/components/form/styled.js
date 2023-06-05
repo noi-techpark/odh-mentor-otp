@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import styled, { css } from 'styled-components'
 import { DateTimeSelector, SettingsSelectorPanel } from '../../otp-ui/trip-form'
 import * as TripFormClasses from '../../otp-ui/trip-form/styled'

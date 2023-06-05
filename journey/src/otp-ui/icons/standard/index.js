@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import StandardBike from "./standard-bike";
 import StandardBus from "./standard-bus";
 import StandardGondola from "./standard-gondola";

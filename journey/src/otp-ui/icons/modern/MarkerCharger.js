@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import React from "react";
 
 const MarkerCharger = ({ title, width = 54, height = 62, markerColor = '#000', iconColor = '#fff', ...props }) => (

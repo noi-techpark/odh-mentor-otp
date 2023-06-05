@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 /**
  * the GTFS spec indicates that the route color should not have a leading hash
  * symbol, so add one if the routeColor exists and doesn't start with a hash

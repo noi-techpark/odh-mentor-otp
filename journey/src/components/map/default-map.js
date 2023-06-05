@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import BaseMap from '../../otp-ui/base-map'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'

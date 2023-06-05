@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 const https = require('https');
 //TODO replace with something else or undici

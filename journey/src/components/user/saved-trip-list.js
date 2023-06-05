@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import clone from 'clone'
 import React, { Component } from 'react'
 import { Button, ButtonGroup, Glyphicon, Panel } from 'react-bootstrap'

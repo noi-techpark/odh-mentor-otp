@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import React from "react";
 
 {/* <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 18.641 16.56"></svg> */}

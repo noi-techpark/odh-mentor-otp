@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # get token
 #https://docs.opendatahub.com/en/latest/guidelines/authentication.html#grant-token
 

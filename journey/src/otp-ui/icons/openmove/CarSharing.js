@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import React from "react";
 
 const CarSharing = ({ title, width = 18, height = 17, iconColor = '#000', ...props }) => (

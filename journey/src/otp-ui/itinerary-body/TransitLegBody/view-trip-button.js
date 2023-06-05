@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withNamespaces } from 'react-i18next'

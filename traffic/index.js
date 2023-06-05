@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 const {app, version, config, polling, fetchData, listenLog, _, express, yaml} = require('../base');
 

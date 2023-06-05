@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import React from "react";
 
 const MarkerCarSharing = ({ title, width = 55, height = 63.48, markerColor = '#000', iconColor = '#fff', ...props }) => (

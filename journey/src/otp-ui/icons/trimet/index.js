@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import Accessible from "./Accessible";
 import AerialTram from "./AerialTram";
 import Alert from "./Alert";

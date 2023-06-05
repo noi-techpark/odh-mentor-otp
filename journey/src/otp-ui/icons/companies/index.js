@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import Biketown from "./biketown-icon";
 import Bird from "./bird-icon";
 import Bolt from "./bolt-icon";

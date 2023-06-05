@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import StopsOverlay from '../../otp-ui/overlay-stops'
 import StopMarker from './connected-stop-marker'
 import { connect } from 'react-redux'

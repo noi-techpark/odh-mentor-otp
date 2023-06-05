@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { ConnectedRouter } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import isEqual from 'lodash.isequal'
