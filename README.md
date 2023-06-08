@@ -8,6 +8,7 @@ SPDX-License-Identifier: CC0-1.0
 
 This project contains a Docker images for stable [OpenTripPlanner](http://opentripplanner.org) releases and tools to auto download Openstreetmap data related to a certain gtfs file.
 
+![REUSE Compliance](https://github.com/noi-techpark/odh-mentor-otp/actions/workflows/reuse.yml/badge.svg)
 [![CI](https://github.com/noi-techpark/odh-mentor-otp/actions/workflows/ci.yml/badge.svg)](https://github.com/noi-techpark/odh-mentor-otp/actions/workflows/ci.yml)
 
 ## Table of contents
