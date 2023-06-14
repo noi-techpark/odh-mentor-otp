@@ -19,7 +19,7 @@ http://localhost:8087/testSearch?text=magic
 sample mapping fields from this:
 
 // 20201111010909
-// https://tourism.opendatahub.bz.it/api/Accommodation?language=de&poitype=447&active=true&fields=Id,AccoDetail.de.Name,Latitude,Longitude&pagesize=100
+// https://tourism.opendatahub.com/api/Accommodation?language=de&poitype=447&active=true&fields=Id,AccoDetail.de.Name,Latitude,Longitude&pagesize=100
 
 {
   "OnlineResults": -1,
