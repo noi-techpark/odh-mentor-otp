@@ -194,7 +194,7 @@ Find [here](https://opendatahub.readthedocs.io/en/latest/guidelines.html) guidel
 
 ### Support
 
-ToDo: For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+ToDo: For support, please contact [info@opendatahub.com](mailto:info@opendatahub.com).
 
 ### Contributing
 
