@@ -55,7 +55,7 @@ class ModalCredits extends Component {
                 </a>
               </li>
               <li>
-                <a href="https://opendatahub.bz.it/" target="_blank">
+                <a href="https://opendatahub.com/" target="_blank">
                   <img src={imageLogo14} />
                 </a>
               </li>

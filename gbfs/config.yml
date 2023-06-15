@@ -17,7 +17,7 @@ polling_interval: 600
 
 endpoints:
   default:
-    hostname: mobility.api.opendatahub.bz.it
+    hostname: mobility.api.opendatahub.com
 
   stations:
     path: /v2/flat%2Cnode/BikesharingStation?distinct=true

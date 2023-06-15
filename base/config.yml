@@ -21,7 +21,7 @@ cors:
 
 endpoints:
   default:
-    hostname: mobility.api.opendatahub.bz.it
+    hostname: mobility.api.opendatahub.com
     method: GET
     port: 443
     #path: /v2

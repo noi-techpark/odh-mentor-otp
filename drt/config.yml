@@ -13,7 +13,7 @@ dev:
 
 endpoints:
   default:
-    hostname: mobility.api.opendatahub.bz.it
+    hostname: mobility.api.opendatahub.com
 
   vehicles:
     path: /v2/flat,node/ON_DEMAND_VEHICLE/*/latest

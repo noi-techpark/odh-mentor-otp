@@ -21,7 +21,7 @@ endpoints:
     #priority: 1
     #TODO parameter by sorted results
     #size: 10 result size for each endpoints
-    hostname: tourism.opendatahub.bz.it
+    hostname: tourism.opendatahub.com
     port: 443
     #hostname: localhost
     #port: 9090
@@ -29,7 +29,7 @@ endpoints:
     #method: 'GET'
     headers:
       User-Agent: OpenMove-Api-Client
-      Referer: https://journey.opendatahub.bz.it
+      Referer: https://journey.opendatahub.com
     layer: venue
 
   here:
