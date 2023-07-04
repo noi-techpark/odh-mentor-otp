@@ -113,6 +113,9 @@ jobs:
           # X_MATOMO_BASE_URL: ${{ env.MATOMO_BASE_URL }}
           # X_MATOMO_SITE_ID: ${{ env.MATOMO_SITE_ID }}
 
+      - name: use mobility.api.opendatahub.testingmachine.eu for testing
+        run: sed -i 's/mobility.api.opendatahub.com/mobility.api.opendatahub.testingmachine.eu/' */config.yml
+
       - name: Build and push 
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
