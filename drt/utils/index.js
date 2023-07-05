@@ -70,7 +70,7 @@ function generateEntitiesStop(data) {
                     id: item.scode,
                     name: item.sname
                 },
-                area: item.smetadata.groups.length == 0 ? -1 : tem.smetadata.groups[0].id,
+                area: item.smetadata.groups.length == 0 ? -1 : item.smetadata.groups[0].id,
            }
         );
     }
