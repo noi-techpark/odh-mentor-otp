@@ -59,10 +59,6 @@ function generateEntitiesStop(data) {
     let count = -1;
 
     for (const item of data) {
-        let groupIdIncrement = 0;
-        if (item.smetadata.region.name === 'Meran') {
-            groupIdIncrement = 42;
-        }
         entities.push(
             {
                 position: {
@@ -76,7 +72,7 @@ function generateEntitiesStop(data) {
                     id: item.scode,
                     name: item.sname
                 },
-                area: item.smetadata.groups.length == 0 ? count : item.smetadata.groups[0].id + groupIdIncrement,
+                area: item.smetadata.groups.length === 0 ? 0 : item.smetadata.groups[0].id,
             }
         );
         count -= 1;
