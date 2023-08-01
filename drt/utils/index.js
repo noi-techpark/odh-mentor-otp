@@ -56,7 +56,13 @@ function generateEntitiesVehicle(data) {
 function generateEntitiesStop(data) {
     const entities = [];
 
+    let count = -1;
+
     for (const item of data) {
+        let groupIdIncrement = 0;
+        if (item.smetadata.region.name === 'Meran') {
+            groupIdIncrement = 42;
+        }
         entities.push(
             {
                 position: {
@@ -70,9 +76,10 @@ function generateEntitiesStop(data) {
                     id: item.scode,
                     name: item.sname
                 },
-                area: item.smetadata.groups.length == 0 ? "undefined" : item.smetadata.region[0].name + ":" + item.smetadata.groups[0].id,
+                area: item.smetadata.groups.length == 0 ? count : item.smetadata.groups[0].id + groupIdIncrement,
             }
         );
+        count -= 1;
     }
 
     return entities;
