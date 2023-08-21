@@ -40,7 +40,7 @@ class DrtOverlay extends MapLayer {
     setLocation: PropTypes.func
   }
 
-  _startRefreshing () {
+  _startRefreshing() {
     // ititial station retrieval
     this.props.drtLocationsQuery(this.props.api)
 
@@ -50,11 +50,11 @@ class DrtOverlay extends MapLayer {
     }, Number(overlayDrtConf.pollingInterval)) // defaults to every 30 sec. TODO: make this configurable?*/
   }
 
-  _stopRefreshing () {
+  _stopRefreshing() {
     if (this._refreshTimer) clearInterval(this._refreshTimer)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.registerOverlay(this)
 
     if (this.props.visible) {
@@ -70,11 +70,11 @@ class DrtOverlay extends MapLayer {
     this._stopRefreshing()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._stopRefreshing()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
       this._startRefreshing()
     } else if (prevProps.visible && !this.props.visible) {
@@ -82,17 +82,17 @@ class DrtOverlay extends MapLayer {
     }
   }
 
-  createLeafletElement () {}
+  createLeafletElement() { }
 
-  updateLeafletElement () {}
+  updateLeafletElement() { }
 
-  render () {
+  render() {
     const { locations, t } = this.props
     if (!locations ||
-        !locations.vehicles ||
-        !locations.stops ||
-        locations.vehicles.length === 0 ||
-        locations.stops.length === 0) return <LayerGroup />
+      !locations.vehicles ||
+      !locations.stops ||
+      locations.vehicles.length === 0 ||
+      locations.stops.length === 0) return <LayerGroup />
 
     const getAreaColor = (data) => {
       if (overlayDrtConf.areas)
@@ -131,16 +131,16 @@ class DrtOverlay extends MapLayer {
       iconVehicleWidth = 30;
       iconVehicleHeight = 30;
 
-/*      if (data.vehicle) {
-        if (data.free > 0 ) {
-          badgeType = 'success';
-        } else if (data.free == 1) {
-          badgeType = 'danger';
-        }
-        else {
-          badgeType = 'warning';
-        }
-      }*/
+      /*      if (data.vehicle) {
+              if (data.free > 0 ) {
+                badgeType = 'success';
+              } else if (data.free == 1) {
+                badgeType = 'danger';
+              }
+              else {
+                badgeType = 'warning';
+              }
+            }*/
 
       return divIcon({
         className: "",
@@ -148,21 +148,21 @@ class DrtOverlay extends MapLayer {
         popupAnchor: [0, -iconHeight / 2],
         html: ReactDOMServer.renderToStaticMarkup(
           <>
-          { data.stop &&
-            <MarkerDrtStop
-              width={iconWidth}
-              height={iconHeight}
-              iconColor={overlayDrtConf.iconColor}
-              markerColor={getAreaColor(data)}
-            />
-          }
-          { data.vehicle &&
-            <MarkerDrtVehicle
-              width={iconVehicleWidth}
-              height={iconVehicleHeight}
-              iconColor={overlayDrtConf.iconVehicleColor}
-            />
-          }
+            {data.stop &&
+              <MarkerDrtStop
+                width={iconWidth}
+                height={iconHeight}
+                iconColor={overlayDrtConf.iconColor}
+                markerColor={getAreaColor(data)}
+              />
+            }
+            {data.vehicle &&
+              <MarkerDrtVehicle
+                width={iconVehicleWidth}
+                height={iconVehicleHeight}
+                iconColor={overlayDrtConf.iconVehicleColor}
+              />
+            }
           </>
         )
       });
@@ -170,96 +170,102 @@ class DrtOverlay extends MapLayer {
 
     return (
       <LayerGroup>
-      <FeatureGroup>
-        {
-          locations.stops.map( stop => {
-          stop.name = stop.stop.name;
-          return (
-            <Marker
-              icon={markerIcon(stop)}
-              key={stop.stop.id}
-              position={[stop.lat, stop.lon]}
-            >
-              <Popup>
-                <div className="otp-ui-mapOverlayPopup">
-                  <div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <BusDrt /> <span bsStyle="link">{t('stop')} {t('ondemand')}</span>
-                  </div>
+        <FeatureGroup>
+          {
+            locations.stops.map(stop => {
+              stop.name = stop.stop.name;
+              return (
+                <Marker
+                  icon={markerIcon(stop)}
+                  key={stop.stop.id}
+                  position={[stop.lat, stop.lon]}
+                >
+                  <Popup>
+                    <div className="otp-ui-mapOverlayPopup">
+                      <div className="otp-ui-mapOverlayPopup__popupHeader">
+                        <BusDrt /> <span bsStyle="link">{t('stop')} {t('ondemand')}</span>
+                      </div>
 
-                  <div className="otp-ui-mapOverlayPopup__popupTitle">{stop.stop.name}</div>
-                  <small>{getAreaName(stop)}</small>
+                      <div className="otp-ui-mapOverlayPopup__popupTitle">{stop.stop.name}</div>
+                      <small>{getAreaName(stop)}</small>
 
-                  <div className='popup-row'>
-                    <FromToLocationPicker
-                      location={stop}
-                      setLocation={this.props.setLocation}
-                    />
-                  </div>
-                </div>
-              </Popup>
-            </Marker>
-          )
-        })}
-      </FeatureGroup>
-      <FeatureGroup>
-        {
-          locations.vehicles.map( vehicle => {
-          return (
-            <Marker
-              icon={markerIcon(vehicle)}
-              key={vehicle.vehicle.id}
-              position={[vehicle.position.latitude, vehicle.position.longitude]}
-            >
-              <Popup>
-                <div className="otp-ui-mapOverlayPopup">
-                  <div className="otp-ui-mapOverlayPopup__popupHeader">
-                    <span>&nbsp;{vehicle.vehicle.id}</span>
-                  </div>
-
-                  <div className="otp-ui-mapOverlayPopup__popupTitle">
-                    {vehicle.vehicle.name}
-                  </div>
-
-                  <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
-                    <CircularProgressbar
-                      value={vehicle.free}
-                      minValue={0}
-                      maxValue={vehicle.capacity}
-                      text={vehicle.free+' '}
-                      className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
-                    />
-                    <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">
-                      {t('capacity')}: {vehicle.capacity}
-                      {/*                      <br />
-                      {t('free_slots')}: {vehicle.free}*/}
+                      <div className='popup-row'>
+                        <FromToLocationPicker
+                          location={stop}
+                          setLocation={this.props.setLocation}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  </Popup>
+                </Marker>
+              )
+            })}
+        </FeatureGroup>
+        <FeatureGroup>
+          {
+            locations.vehicles.map(vehicle => {
+              return (
+                <Marker
+                  icon={markerIcon(vehicle)}
+                  key={vehicle.vehicle.id}
+                  position={[vehicle.position.latitude, vehicle.position.longitude]}
+                >
+                  <Popup>
+                    <div className="otp-ui-mapOverlayPopup">
+                      <div className="otp-ui-mapOverlayPopup__popupHeader">
+                        <span>&nbsp;{vehicle.vehicle.id}</span>
+                      </div>
 
-                </div>
-              </Popup>
-            </Marker>
-          )
-        })}
-      </FeatureGroup>
-      
-      <FeatureGroup>
-        <Polyline
-          positions={getPolyline(locations.itinerary)}
-          color={overlayDrtConf.pathColor}
-          dashArray={overlayDrtConf.pathDash}
-          opacity={0.7}
-          weight={6}
-        >
-          <Popup>
-            <div className="otp-ui-mapOverlayPopup">
-              <div className="otp-ui-mapOverlayPopup__popupHeader">
-                <BusDrt /> <span bsStyle="link">{t('itinerary')} {t('ondemand')}</span>
-              </div>
-            {/*//TODO info about itinerary */}
-            </div>
-          </Popup>
-        </Polyline>
-      </FeatureGroup>
+                      <div className="otp-ui-mapOverlayPopup__popupTitle">
+                        {vehicle.vehicle.name}
+                      </div>
+
+                      <div className="otp-ui-mapOverlayPopup__popupAvailableInfo">
+                        <CircularProgressbar
+                          value={vehicle.free}
+                          minValue={0}
+                          maxValue={vehicle.capacity}
+                          text={vehicle.free + ' '}
+                          className="otp-ui-mapOverlayPopup__popupAvailableInfoProgress"
+                        />
+                        <div className="otp-ui-mapOverlayPopup__popupAvailableInfoTitle">
+                          {t('capacity')}: {vehicle.capacity}
+                          {/*                      <br />
+                      {t('free_slots')}: {vehicle.free}*/}
+                        </div>
+                      </div>
+
+                    </div>
+                  </Popup>
+                </Marker>
+              )
+            })}
+        </FeatureGroup>
+
+        {
+          locations.itinerary.map(itinerary => {
+            return (
+              <FeatureGroup>
+                <Polyline
+                  positions={getPolyline(itinerary)}
+                  color={overlayDrtConf.pathColor}
+                  dashArray={overlayDrtConf.pathDash}
+                  opacity={0.7}
+                  weight={6}
+                >
+                  <Popup>
+                    <div className="otp-ui-mapOverlayPopup">
+                      <div className="otp-ui-mapOverlayPopup__popupHeader">
+                        <BusDrt /> <span bsStyle="link">{t('itinerary')} {t('ondemand')}</span>
+                      </div>
+                      {/*//TODO info about itinerary */}
+                    </div>
+                  </Popup>
+                </Polyline>
+              </FeatureGroup>
+            )
+          }
+
       </LayerGroup>
     )
   }
