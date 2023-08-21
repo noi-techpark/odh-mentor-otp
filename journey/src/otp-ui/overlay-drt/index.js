@@ -241,11 +241,11 @@ class DrtOverlay extends MapLayer {
               )
             })}
         </FeatureGroup>
+        <FeatureGroup>
 
-        {
-          locations.itinerary.map(itinerary => {
-            return (
-              <FeatureGroup>
+          {
+            locations.itinerary.map(itinerary => {
+              return (
                 <Polyline
                   positions={getPolyline(itinerary)}
                   color={overlayDrtConf.pathColor}
@@ -262,9 +262,10 @@ class DrtOverlay extends MapLayer {
                     </div>
                   </Popup>
                 </Polyline>
-              </FeatureGroup>
-            )
+              )
+            })
           }
+        </FeatureGroup>
 
       </LayerGroup>
     )
