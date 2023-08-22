@@ -87,7 +87,7 @@ function generateEntitiesTrip(data) {
         if (elem.sactive === true) {
             for (const step of elem.mvalue.itineraryRemaining) {
                 if (step.type === 'ROUTE') {
-                    all.push(step.routeEncoded);
+                    all.push(polyline.encode(polyline.decode(step.routeEncoded, 6)));
                 }
             }
         }
