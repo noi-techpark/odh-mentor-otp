@@ -115,12 +115,6 @@ class DrtOverlay extends MapLayer {
       }
     }
 
-    const uuidv4 = () => {
-      return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-      );
-    }
-
     const getPolyline = (itinerary) => {
       return polyline.decode(itinerary)
     }
@@ -248,7 +242,6 @@ class DrtOverlay extends MapLayer {
             })}
         </FeatureGroup>
         <FeatureGroup>
-
           {
             locations.itinerary.map(itinerary => {
               return (
@@ -258,7 +251,6 @@ class DrtOverlay extends MapLayer {
                   dashArray={overlayDrtConf.pathDash}
                   opacity={0.7}
                   weight={6}
-                  key={uuidv4()}
                 >
                   <Popup>
                     <div className="otp-ui-mapOverlayPopup">
