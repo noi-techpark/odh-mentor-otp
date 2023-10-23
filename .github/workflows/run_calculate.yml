@@ -29,15 +29,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
 
-      # this used to be a wait (120 sec) to have the efs volume be mounted. If this makes problems, return to a wait 120
-      - name: Wait for instance to start up
-        run: |
-          aws ec2 wait instance-running --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-
       - name: Checkout source code
         uses: noi-techpark/github-actions/checkout@v2
 
@@ -73,6 +64,18 @@ jobs:
           X_DRT_BASEURL: "https://drt.otp.opendatahub.testingmachine.eu"
           X_CHARGER_BASEURL: "https://charger.otp.opendatahub.testingmachine.eu"
           X_TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.testingmachine.eu"
+
+      - name: Wait for instance to start up
+        run: |
+          aws ec2 wait instance-running --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+
+      # sometimes we try to log in before the OS is up, so let's wait 20 sec just to be sure
+      - name: Wait for system to boot
+        run: sleep 20
 
       - name: Deploy / run calculation
         uses: noi-techpark/github-actions/docker-deploy@v2
