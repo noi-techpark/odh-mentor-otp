@@ -73,9 +73,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
 
-      # sometimes we try to log in before the OS is up, so let's wait 20 sec just to be sure
+      # sometimes we try to log in before the OS is up, so let's wait 60 sec just to be sure
       - name: Wait for system to boot
-        run: sleep 20
+        run: sleep 60
 
       - name: Deploy / run calculation
         uses: noi-techpark/github-actions/docker-deploy@v2
