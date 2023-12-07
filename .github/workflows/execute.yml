@@ -100,7 +100,8 @@ jobs:
           X_DRT_HOST: "https://drt.otp.opendatahub.testingmachine.eu/"
           X_CHARGER_HOST: "https://charger.otp.opendatahub.testingmachine.eu/"
 
-          X_GTFS_URL: "ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
+          #X_GTFS_URL: "ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
+          X_GTFS_URL: "ftp://ftp.sta.bz.it/gtfs/google_transit.zip"
           X_GTFS_URL_UPDATETIME: "0 2 * * *"
           X_GTFS_WORKFLOW_AUTH_TOKEN: ${{ secrets.GH_WORKFLOW_ACCESS_TOKEN }}
           X_GTFS_WORKFLOW_DISPATCH_URL: "https://api.github.com/repos/noi-techpark/odh-mentor-otp/actions/workflows/run_calculate.yml/dispatches"
@@ -212,7 +213,8 @@ jobs:
           X_DRT_HOST: "https://drt.otp.opendatahub.com/"
           X_CHARGER_HOST: "https://charger.otp.opendatahub.com/"
 
-          X_GTFS_URL: "ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
+          #X_GTFS_URL: "ftp://ftp.sta.bz.it/gtfs/google_transit_shp.zip"
+          X_GTFS_URL: "ftp://ftp.sta.bz.it/gtfs/google_transit.zip"
           X_GTFS_URL_UPDATETIME: "0 4 * * *"
           X_GTFS_WORKFLOW_AUTH_TOKEN: ${{ secrets.GH_WORKFLOW_ACCESS_TOKEN }}
           X_GTFS_WORKFLOW_DISPATCH_URL: "https://api.github.com/repos/noi-techpark/odh-mentor-otp/actions/workflows/run_calculate.yml/dispatches"

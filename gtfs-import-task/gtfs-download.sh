@@ -33,7 +33,10 @@ if [ -f "${HASH_FILE}" ]; then
   OLD=$(cat $HASH_FILE)
 fi
 
-if [ "${SHA}" = "${OLD}" ]; then
+if [ ! -f /tmp/gtfs_$NEW_UUID.zip ]; then
+    echo "New gtfs file not found!" >> $LOGFILE
+
+elif [ "${SHA}" = "${OLD}" ]; then
   
   echo "${DATE} gtfs not changed!" >> $LOGFILE
   
