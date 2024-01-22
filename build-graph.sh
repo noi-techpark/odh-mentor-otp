@@ -11,7 +11,7 @@ SOUTH_TYROL_PBF=data/south-tyrol.osm.pbf
 
 OTP_IMAGE=docker.io/opentripplanner/opentripplanner:2.5.0_2024-01-19T14-50
 
-wget https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf -O ${NORTH_EASTH_PBF} --no-clobber
+wget -q --show-progress --no-clobber https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf -O ${NORTH_EASTH_PBF}
 osmium extract ${NORTH_EASTH_PBF} --polygon south-tyrol.geojson -o ${SOUTH_TYROL_PBF} --overwrite
 
 docker run \
