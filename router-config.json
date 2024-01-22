@@ -1,4 +1,7 @@
 {
+  "routingDefaults" : {
+    "numItineraries": 5
+  },
   "transit": {
     "dynamicSearchWindow": {
       "minWindow": "4h",

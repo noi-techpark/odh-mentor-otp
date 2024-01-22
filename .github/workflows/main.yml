@@ -30,8 +30,8 @@ jobs:
 
       - name: Build graph
         run: |
-          apt install osmium-tool wget
-          ./build-graph
+          sudo apt install osmium-tool wget
+          ./build-graph.sh
 
       - name: Build docker file
         uses: noi-techpark/github-actions/docker-build@v2
