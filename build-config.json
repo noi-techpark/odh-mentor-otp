@@ -1,6 +1,25 @@
 {
-	"useTransfersTxt": false,
-	"embedRouterConfig": true,
-	"parentStopLinking": true,
-	"stopClusterMode": "parentStation"
+  "embedRouterConfig": true,
+  "areaVisibility": true,
+  "transitFeeds": [
+    {
+      "source": "https://gtfs.api.opendatahub.com/v1/dataset/sta-time-tables/raw",
+      "type": "gtfs",
+      "feedId": "sta"
+    }
+    /*
+     this feed is not GTFS-compliant yet: https://github.com/noi-techpark/odh-mentor-otp/issues/168#issuecomment-1904328702
+    ,{
+      "source": "https://gtfs.api.opendatahub.com/v1/dataset/skyalps-flight-data/raw",
+      "type": "gtfs",
+      "feedId": "skyalps"
+    }*/
+  ],
+  "osm": [
+    {
+      "source": "data/south-tyrol.osm.pbf",
+      "timeZone": "Europe/Rome",
+      "osmTagMapping": "default"
+    }
+  ]
 }

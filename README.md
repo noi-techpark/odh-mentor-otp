@@ -50,17 +50,13 @@ cd odh-mentor-otp
 
 ```docker-entrypoint.sh``` download and build data graph
 
-```otp.sh``` a script to run otp by command line
-
-```otp-unofficial.sh``` a script to run otp unofficial version by command line
-
 ```router-config.json``` define OTP updaters(GTFS-RT) and router settings from environment vars
 
 ```build-config.json``` default OTP build config from environment vars
 
-```osm.url``` a pregenerated urls list of downloadable Openstreetmap data for SouthTyrol area.
+```south-tyrol.geojson``` the geographic extend that is extracted and processed by OTP
 
-```journey/``` static javascript client side react/redux UI component to interact with Opentriplanner instance.
+```journey/``` static javascript client side react/redux UI component to interact with OpenTripPlanner instance.
 
 ```gbfs/``` service that fetch bikesharing data from ODH and provide them as GBFS for otp.
 
