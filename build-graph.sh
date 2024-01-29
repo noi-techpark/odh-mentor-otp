@@ -12,13 +12,14 @@ SOUTH_TYROL_PBF=data/south-tyrol.osm.pbf
 # elevation
 SRTM_URL="http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_03.zip"
 SRTM_ZIP=data/srtm_39_03.zip
+SRTM_TIFF=data/srtm_39_03.tif
 
 # OTP
 OTP_IMAGE=docker.io/opentripplanner/opentripplanner:2.5.0_2024-01-19T14-50
 
 # when on github actions then install the required tools
 if [ -n "${CI+isset}" ]; then
-  sudo apt-get -q install osmium-tool wget
+  sudo apt-get -qq install osmium-tool wget gdal-bin python3-gdal
 fi
 
 mkdir -p data
@@ -30,11 +31,14 @@ fi
 # cut out South Tyrol from the large South East Italy extract
 osmium extract ${NORTH_EAST_PBF} --polygon south-tyrol.geojson -o ${SOUTH_TYROL_PBF} --overwrite
 
+# download elevation data
 if [ ! -f "${SRTM_ZIP}" ]; then
   wget --progress=bar:force:noscroll ${SRTM_URL} -O ${SRTM_ZIP}
 fi
 
 unzip -o ${SRTM_ZIP} -d data
+# fix srtm data with gdal
+gdal_edit.py -unsetnodata ${SRTM_TIFF}
 
 
 # actually do graph build
