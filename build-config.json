@@ -19,10 +19,5 @@
       "timeZone": "Europe/Rome",
       "osmTagMapping": "default"
     }
-  ],
-  "dem": [
-    {
-      "source": "data/srtm_39_03.zip"
-    }
   ]
 }
