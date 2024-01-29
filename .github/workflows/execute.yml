@@ -116,6 +116,9 @@ jobs:
       - name: use mobility.api.opendatahub.testingmachine.eu for testing
         run: sed -i 's/mobility.api.opendatahub.com/mobility.api.opendatahub.testingmachine.eu/' */config.yml
 
+      - name: Build graph
+        run: sh build-graph.sh 
+
       - name: Build and push 
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
@@ -223,6 +226,9 @@ jobs:
           
           X_MATOMO_BASE_URL: "https://digital.matomo.cloud/"
           X_MATOMO_SITE_ID: 20
+
+      - name: Build graph
+        run: sh build-graph.sh 
 
       - name: Build and push 
         uses: noi-techpark/github-actions/docker-build-and-push@v2
