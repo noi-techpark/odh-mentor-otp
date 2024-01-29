@@ -6,14 +6,12 @@
       "source": "https://gtfs.api.opendatahub.com/v1/dataset/sta-time-tables/raw",
       "type": "gtfs",
       "feedId": "sta"
-    }
-    /*
-     this feed is not GTFS-compliant yet: https://github.com/noi-techpark/odh-mentor-otp/issues/168#issuecomment-1904328702
-    ,{
+    },
+    {
       "source": "https://gtfs.api.opendatahub.com/v1/dataset/skyalps-flight-data/raw",
       "type": "gtfs",
       "feedId": "skyalps"
-    }*/
+    }
   ],
   "osm": [
     {
