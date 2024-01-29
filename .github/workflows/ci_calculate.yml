@@ -21,6 +21,9 @@ jobs:
       - name: Checkout source code
         uses: noi-techpark/github-actions/checkout@v2
 
+      - name: Build graph
+        run: sh build-graph.sh 
+
       - name: Build and push 
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
