@@ -30,7 +30,6 @@ jobs:
 
       - name: Build graph
         run: |
-          sudo apt install osmium-tool wget
           ./build-graph.sh
 
       - name: Build docker file
