@@ -13,6 +13,21 @@
       "type": "stop-time-updater",
       "url": "https://mobility.api.opendatahub.testingmachine.eu/v2/GTFS-RT",
       "feedId": "sta"
+    },
+    {
+      "type" : "vehicle-rental",
+      "sourceType" : "gbfs",
+      "url" : "https://gbfs.otp.opendatahub.com/bz/2.1/gbfs.json"
+    },
+    {
+      "type" : "vehicle-rental",
+      "sourceType" : "gbfs",
+      "url" : "https://gbfs.otp.opendatahub.com/me/2.1/gbfs.json"
+    },
+    {
+      "type" : "vehicle-rental",
+      "sourceType" : "gbfs",
+      "url" : "https://gbfs.otp.opendatahub.com/papin/2.1/gbfs.json"
     }
   ]
 }
