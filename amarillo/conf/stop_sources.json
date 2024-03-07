@@ -1,0 +1,4 @@
+[
+    {"url": "stops/stops_gtfs.csv", "vicinity": 50},
+    {"url": "stops/parkings_osm.csv", "vicinity": 500}
+]

@@ -162,7 +162,37 @@ services:
       - JAVA_MX=4G
     depends_on:
       #TODO - drt
+      - amarillo
       - gbfs
       - parking
       - charger
       - carsharing
+  
+  amarillo:
+    container_name: openmove-amarillo
+    image: openmove_amarillo:latest
+    build:
+      context: ./
+      dockerfile: infrastructure/docker/amarillo/Dockerfile
+    environment:
+      - AMARILLO_BASEURL=${AMARILLO_BASEURL:?missing/empty}
+      - ADMIN_TOKEN=${AMARILLO_ADMIN_TOKEN:?missing/empty}
+    ports:
+      - 9095:80
+    volumes:
+      - /opt/odh-mentor-otp/amarillo/:/app/data/
+      # Assumption: latestGTFS.zip is in /opt/otp-mentor-otp (?)
+      - /opt/odh-mentor-otp/:/data/
+      
+    depends_on:
+      - graphhopper
+
+  graphhopper:
+    container_name: openmove-graphhopper
+    image: israelhikingmap/graphhopper:8.0
+    command: --host 0.0.0.0 --url https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
+    environment:
+      - JAVA_OPTS=-Xmx4g
+    volumes:
+      - /opt/odh-mentor-otp/:/data/
+
