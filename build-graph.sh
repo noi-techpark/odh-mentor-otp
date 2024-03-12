@@ -6,6 +6,9 @@
 
 WGET="wget --progress=bar:force:noscroll"
 
+GTFS_URL=https://gtfs.api.opendatahub.testingmachine.eu/v1/dataset/sta-time-tables/raw
+GTFS_ZIP=data/sta_gtfs.zip
+
 # OSM
 NORTH_EAST_URL=https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
 NORTH_EAST_PBF=data/italy-nord-est.osm.pbf
@@ -36,6 +39,12 @@ if [ ! -f "${ELEVATION_ZIP}" ]; then
   unzip -o ${ELEVATION_ZIP} -d data
 fi
 
+
+# get STA gtfs
+if [ ! -f "${GTFS_ZIP}" ]; then
+  ${WGET} ${GTFS_URL} -O ${GTFS_ZIP}
+  unzip -o ${GTFS_ZIP} -d data
+fi
 
 # actually do graph build
 docker run \
