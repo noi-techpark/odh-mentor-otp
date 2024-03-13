@@ -13,6 +13,9 @@ SOUTH_TYROL_PBF=data/south-tyrol.osm.pbf
 # elevation
 ELEVATION_URL=https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_03.zip
 ELEVATION_ZIP=data/srtm_39_03.zip
+# STA gtfs
+GTFS_URL=https://gtfs.api.opendatahub.testingmachine.eu/v1/dataset/sta-time-tables/raw
+GTFS_ZIP=data/sta_gtfs.zip
 
 # OTP
 OTP_IMAGE=docker.io/opentripplanner/opentripplanner:2.5.0_2024-01-19T14-50
@@ -34,6 +37,12 @@ osmium extract ${NORTH_EAST_PBF} --polygon south-tyrol.geojson -o ${SOUTH_TYROL_
 if [ ! -f "${ELEVATION_ZIP}" ]; then
   ${WGET} ${ELEVATION_URL} -O ${ELEVATION_ZIP}
   unzip -o ${ELEVATION_ZIP} -d data
+fi
+
+# STA gtfs
+if [ ! -f "${GTFS_ZIP}" ]; then
+  ${WGET} ${GTFS_URL} -O ${GTFS_ZIP}
+  unzip -o ${GTFS_ZIP} -d data
 fi
 
 

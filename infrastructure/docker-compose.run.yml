@@ -14,9 +14,6 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-
-    volumes:
-      - ${EFS_FOLDER}:/data/
     ports:
       - ${SERVER_PORT_OTP}:8080
 
