@@ -26,7 +26,6 @@ env:
 jobs:
   deploy-test:
     runs-on: ubuntu-22.04
-    needs: test
     concurrency: deploy-test
     env:
       API_HOST: "https://otp.opendatahub.testingmachine.eu"
