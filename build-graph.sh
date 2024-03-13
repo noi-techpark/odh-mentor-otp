@@ -40,10 +40,10 @@ if [ ! -f "${ELEVATION_ZIP}" ]; then
 fi
 
 # STA gtfs
-if [ ! -f "${GTFS_ZIP}" ]; then
-  ${WGET} ${GTFS_URL} -O ${GTFS_ZIP}
-  unzip -o ${GTFS_ZIP} -d data
-fi
+# if [ ! -f "${GTFS_ZIP}" ]; then
+#   ${WGET} ${GTFS_URL} -O ${GTFS_ZIP}
+#   unzip -o ${GTFS_ZIP} -d data
+# fi
 
 
 # actually do graph build
