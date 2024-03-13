@@ -16,14 +16,11 @@ services:
         - CHARGER_BASEURL=${CHARGER_BASEURL}
         - CARSHARING_BASEURL=${CARSHARING_BASEURL}
         - TRAFFIC_BASEURL=${TRAFFIC_BASEURL}
-        - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
   otp:
     image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
     build:
       context: ../
       dockerfile: infrastructure/docker/otp/Dockerfile
-      args:
-        - GTFS_URL_UPDATETIME=${GTFS_URL_UPDATETIME}
   gbfs:
     image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
     build:
