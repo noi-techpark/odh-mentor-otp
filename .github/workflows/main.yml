@@ -59,8 +59,6 @@ jobs:
           X_DOCKER_IMAGE_TRAFFIC: ${{ env.DOCKER_IMAGE_TRAFFIC }}          
           X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
           
-          X_EFS_FOLDER: "/opt/odh-mentor-otp-test/"
-
           X_SERVER_PORT_OTP: 1080
           X_SERVER_PORT_JOURNEY: 1081
           X_GBFS_HOST : "https://gbfs.otp.opendatahub.testingmachine.eu/"
@@ -73,12 +71,6 @@ jobs:
           X_DOCKER_TRAFFIC_PORT: 1088
 
           X_JAVA_MX: "14G"
-          X_BUILD_GRAPH: "False"
-          X_DOWNLOAD_DATA: "False"
-          X_BACKUP_GRAPH: "False"
-
-          X_OTP_RR_BRANCH: "mentor-meran"
-          X_OTP_UI_BRANCH: "master"
 
           X_API_HOST: ${{ env.API_HOST }}
           X_API_PORT: ${{ env.API_PORT }}
@@ -95,22 +87,12 @@ jobs:
           X_CARSHARING_BASEURL: ${{ env.CARSHARING_BASEURL }}
           X_TRAFFIC_BASEURL: ${{ env.TRAFFIC_BASEURL }}
 
-          X_OTP_OFFICIAL: "False"
           X_GBFS_VERSION: 1
           X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.testingmachine.eu/"
           X_PARKING_HOST: "https://parking.otp.opendatahub.testingmachine.eu/"
           X_DRT_HOST: "https://drt.otp.opendatahub.testingmachine.eu/"
           X_CHARGER_HOST: "https://charger.otp.opendatahub.testingmachine.eu/"
 
-          X_GTFS_URL: "https://gtfs.api.opendatahub.testingmachine.eu/v1/dataset/sta-time-tables/raw"
-          X_GTFS_URL_UPDATETIME: "0 2 * * *"
-          X_GTFS_WORKFLOW_AUTH_TOKEN: ${{ secrets.GH_WORKFLOW_ACCESS_TOKEN }}
-          X_GTFS_WORKFLOW_DISPATCH_URL: "https://api.github.com/repos/noi-techpark/odh-mentor-otp/actions/workflows/run_calculate.yml/dispatches"
-          X_GTFS_WORKFLOW_BRANCH: ${{ github.ref }}
-
-          X_GTFS_RT_URL: "https://efa.sta.bz.it/gtfs-r/"
-          X_GTFS_FEED_ID: 1
-          
           # disable in test
           # X_MATOMO_BASE_URL: ${{ env.MATOMO_BASE_URL }}
           # X_MATOMO_SITE_ID: ${{ env.MATOMO_SITE_ID }}
