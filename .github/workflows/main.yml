@@ -1,4 +1,4 @@
-name: [nightly] CI/CD 
+name: nightly CI/CD 
 
 on:
   push:
