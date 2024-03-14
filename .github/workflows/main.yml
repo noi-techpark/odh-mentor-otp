@@ -21,7 +21,6 @@ env:
   DOCKER_IMAGE_ECHARGING: ghcr.io/${{ github.repository }}/odh-mentor-otp-echarging
   DOCKER_IMAGE_DRT: ghcr.io/${{ github.repository }}/odh-mentor-otp-drt
   DOCKER_IMAGE_TRAFFIC: ghcr.io/${{ github.repository }}/odh-mentor-otp-traffic
-  DOCKER_TAG: ${{ github.sha }}
 
 jobs:
   deploy-test:
@@ -39,6 +38,7 @@ jobs:
       TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.testingmachine.eu"
       MATOMO_BASE_URL: "https://digital.matomo.cloud/"
       MATOMO_SITE_ID: 20
+      DOCKER_TAG: ${{ github.sha }}-test
 
     steps:
       - name: Checkout source code
@@ -135,6 +135,8 @@ jobs:
   #     TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.com"
   #     MATOMO_BASE_URL: "https://digital.matomo.cloud/"
   #     MATOMO_SITE_ID: 20
+  #     DOCKER_TAG: ${{ github.sha }}-prod
+
 
   #   steps:
   #     - name: Checkout source code
