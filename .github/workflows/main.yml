@@ -14,6 +14,7 @@ env:
   API_PORT: 8080
   DOCKER_IMAGE_OTP: ghcr.io/${{ github.repository }}/odh-mentor-otp
   DOCKER_IMAGE_JOURNEY: ghcr.io/${{ github.repository }}/odh-mentor-otp-journey
+  DOCKER_IMAGE_OTP_REACT_REDUX: ghcr.io/${{ github.repository }}/odh-mentor-otp-react-redux
   DOCKER_IMAGE_GBFS: ghcr.io/${{ github.repository }}/odh-mentor-otp-gbfs
   DOCKER_IMAGE_GEOCODER: ghcr.io/${{ github.repository }}/odh-mentor-otp-geocoder
   DOCKER_IMAGE_CARSHARING: ghcr.io/${{ github.repository }}/odh-mentor-otp-carsharing
@@ -50,7 +51,7 @@ jobs:
           X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
           X_DOCKER_IMAGE_OTP: ${{ env.DOCKER_IMAGE_OTP }}
           X_DOCKER_IMAGE_JOURNEY: ${{ env.DOCKER_IMAGE_JOURNEY }}
-          X_DOCKER_IMAGE_OTP_REACT_REDUX: ${{ env.DOCKER_IMAGE_JOURNEY }}
+          X_DOCKER_IMAGE_OTP_REACT_REDUX: ${{ env.DOCKER_IMAGE_OTP_REACT_REDUX }}
           X_DOCKER_IMAGE_GBFS: ${{ env.DOCKER_IMAGE_GBFS }}
           X_DOCKER_IMAGE_GEOCODER: ${{ env.DOCKER_IMAGE_GEOCODER }}
           X_DOCKER_IMAGE_CARSHARING: ${{ env.DOCKER_IMAGE_CARSHARING }}
