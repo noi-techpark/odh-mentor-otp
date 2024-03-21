@@ -1,4 +1,4 @@
 [
-    {"url": "stops/stops_gtfs.csv", "vicinity": 50},
-    {"url": "stops/parkings_osm.csv", "vicinity": 500}
+    {"id": "gtfs-stops", "url": "/data/latestGTFS.zip", "type": "gtfs", "vicinity": 50},
+    {"id": "osm-stops", "area_selector": "[\"boundary\"=\"administrative\"][\"ISO3166-2\"=\"IT-BZ\"]", "type": "overpass", "vicinity": 500}
 ]
