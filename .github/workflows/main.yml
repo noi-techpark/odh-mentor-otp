@@ -113,7 +113,7 @@ jobs:
           key: input-data
 
       - name: Build graph
-        run: sh build-graph.sh 
+        run: bash build-graph.sh
 
       - name: Build and push
         if: github.repository_owner == 'noi-techpark'

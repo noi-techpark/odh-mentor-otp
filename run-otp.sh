@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-. .otp-version
+source .otp-version
 
 docker run \
   -it \
