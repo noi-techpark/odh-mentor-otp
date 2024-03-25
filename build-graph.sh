@@ -19,13 +19,16 @@ OTP_IMAGE=docker.io/opentripplanner/opentripplanner:2.5.0_2024-01-19T14-50
 
 # when on github actions then install the required tools
 if [ -n "${CI+isset}" ]; then
-  sudo apt-get -qq install osmium-tool wget
+  sudo apt-get -qq install osmium-tool pyosmium wget
 fi
 
 mkdir -p data
 
 if [ ! -f "${NORTH_EAST_PBF}" ]; then
   ${WGET} ${NORTH_EAST_URL} -O ${NORTH_EAST_PBF}
+else
+  echo "Checking for updates for existing OSM file"
+  pyosmium-up-to-date ${NORTH_EAST_PBF}
 fi
 
 # cut out South Tyrol from the large North East Italy extract
