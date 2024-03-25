@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
+source .otp-version
+
 WGET="wget --progress=bar:force:noscroll"
 
 # OSM
@@ -13,9 +15,6 @@ SOUTH_TYROL_PBF=data/south-tyrol.osm.pbf
 # elevation
 ELEVATION_URL=https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_03.zip
 ELEVATION_ZIP=data/srtm_39_03.zip
-
-# OTP
-OTP_IMAGE=docker.io/opentripplanner/opentripplanner:2.5.0_2024-01-19T14-50
 
 # when on github actions then install the required tools
 if [ -n "${CI+isset}" ]; then
@@ -32,6 +31,7 @@ else
 fi
 
 # cut out South Tyrol from the large North East Italy extract
+echo "Extracting ${SOUTH_TYROL_PBF} from ${NORTH_EAST_PBF}"
 osmium extract ${NORTH_EAST_PBF} --polygon south-tyrol.geojson -o ${SOUTH_TYROL_PBF} --overwrite
 
 if [ ! -f "${ELEVATION_ZIP}" ]; then
