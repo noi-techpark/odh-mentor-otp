@@ -1,4 +1,5 @@
-FROM docker.io/opentripplanner/opentripplanner:2.5.0_2024-01-19T14-50
+# Simon, do you know how we could use the value from .otp-version here?
+FROM opentripplanner/opentripplanner:2.6.0_2024-03-21T15-09
 
 WORKDIR /var/otp
 

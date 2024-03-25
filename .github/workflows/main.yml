@@ -113,9 +113,10 @@ jobs:
           key: input-data
 
       - name: Build graph
-        run: sh build-graph.sh 
+        run: bash build-graph.sh
 
-      - name: Build and push 
+      - name: Build and push
+        if: github.repository_owner == 'noi-techpark'
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
           docker-username: ${{ github.actor }}
@@ -123,6 +124,7 @@ jobs:
           docker-compose-file: docker-compose.build.yml
 
       - name: Deploy application
+        if: github.repository_owner == 'noi-techpark'
         uses: noi-techpark/github-actions/docker-deploy@v2
         with:
           hosts: 'test'

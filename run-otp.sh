@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash -e
 
 # SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 #
 # SPDX-License-Identifier: CC0-1.0
 
-OTP_IMAGE=docker.io/opentripplanner/opentripplanner:2.5.0_2024-01-19T14-50
+source .otp-version
 
 docker run \
   -it \
