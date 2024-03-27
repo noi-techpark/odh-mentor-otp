@@ -59,7 +59,7 @@ services:
   traffic:
     image: ${DOCKER_IMAGE_TRAFFIC}:${DOCKER_TAG}
     build:
-    context: ../
+      context: ../
       dockerfile: infrastructure/docker/traffic/Dockerfile
   amarillo:
     image: ${DOCKER_IMAGE_AMARILLO}:${DOCKER_TAG}
