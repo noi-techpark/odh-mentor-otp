@@ -110,7 +110,8 @@ jobs:
           path: |
             data/italy-nord-est.osm.pbf
             data/srtm*
-          key: input-data
+          key: input-data-${{ github.run_number }}
+          restore-keys: input-data
 
       - name: Build graph
         run: bash build-graph.sh
