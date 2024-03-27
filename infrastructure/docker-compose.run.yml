@@ -22,7 +22,7 @@ services:
       - .env
     ports:
       - ${SERVER_PORT_OTP}:8080
-
+  
   gbfs:
     image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
     restart: unless-stopped
@@ -61,3 +61,10 @@ services:
     restart: unless-stopped
     ports:
       - ${DOCKER_TRAFFIC_PORT}:8094
+  amarillo:
+    image: ${DOCKER_IMAGE_AMARILLO}:${DOCKER_TAG}
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - ${DOCKER_AMARILLO_PORT}:80

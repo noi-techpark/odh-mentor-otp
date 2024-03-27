@@ -22,6 +22,7 @@ env:
   DOCKER_IMAGE_ECHARGING: ghcr.io/${{ github.repository }}/odh-mentor-otp-echarging
   DOCKER_IMAGE_DRT: ghcr.io/${{ github.repository }}/odh-mentor-otp-drt
   DOCKER_IMAGE_TRAFFIC: ghcr.io/${{ github.repository }}/odh-mentor-otp-traffic
+  DOCKER_IMAGE_AMARILLO: ghcr.io/${{ github.repository }}/odh-mentor-otp-amarillo
 
 jobs:
   deploy-test:
@@ -37,6 +38,7 @@ jobs:
       CHARGER_BASEURL: "https://charger.otp.opendatahub.testingmachine.eu"
       CARSHARING_BASEURL: "https://carsharing.otp.opendatahub.testingmachine.eu"
       TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.testingmachine.eu"
+      AMARILLO_BASEURL: "https://amarillo.otp.opendatahub.testingmachine.eu"
       MATOMO_BASE_URL: "https://digital.matomo.cloud/"
       MATOMO_SITE_ID: 20
       DOCKER_TAG: ${{ github.sha }}-test
@@ -59,6 +61,7 @@ jobs:
           X_DOCKER_IMAGE_ECHARGING: ${{ env.DOCKER_IMAGE_ECHARGING }}
           X_DOCKER_IMAGE_DRT: ${{ env.DOCKER_IMAGE_DRT }}
           X_DOCKER_IMAGE_TRAFFIC: ${{ env.DOCKER_IMAGE_TRAFFIC }}          
+          X_DOCKER_IMAGE_AMARILLO: ${{ env.DOCKER_IMAGE_AMARILLO }}          
           X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
           
           X_SERVER_PORT_OTP: 1080
@@ -72,7 +75,8 @@ jobs:
           X_DOCKER_ECHARGING_PORT: 1087
           X_DOCKER_TRAFFIC_PORT: 1088
           X_SERVER_PORT_OTP_REACT_REDUX: 1089
-
+          X_DOCKER_AMARILLO_PORT: 1090
+          
 
           X_JAVA_MX: "14G"
 
@@ -90,6 +94,7 @@ jobs:
           X_CHARGER_BASEURL: ${{ env.CHARGER_BASEURL }}
           X_CARSHARING_BASEURL: ${{ env.CARSHARING_BASEURL }}
           X_TRAFFIC_BASEURL: ${{ env.TRAFFIC_BASEURL }}
+          X_AMARILLO_BASEURL: ${{ env.AMARILLO_BASEURL }}
 
           X_GBFS_VERSION: 1
           X_CARSHARING_HOST: "https://carsharing.otp.opendatahub.testingmachine.eu/"
