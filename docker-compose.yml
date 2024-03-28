@@ -169,7 +169,7 @@ services:
       - carsharing
   
   amarillo:
-    container_name: openmove-amarillo
+    container_name: amarillo
     image: openmove_amarillo:latest
     build:
       context: ./
@@ -188,7 +188,7 @@ services:
       - graphhopper
 
   graphhopper:
-    container_name: openmove-graphhopper
+    container_name: graphhopper 
     image: israelhikingmap/graphhopper:8.0
     command: --host 0.0.0.0 --url https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
     environment:
