@@ -170,7 +170,6 @@ services:
   
   amarillo:
     container_name: amarillo
-    image: openmove_amarillo:latest
     build:
       context: ./
       dockerfile: infrastructure/docker/amarillo/Dockerfile
