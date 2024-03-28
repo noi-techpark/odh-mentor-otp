@@ -70,8 +70,8 @@ services:
       - ${DOCKER_AMARILLO_PORT}:80
     volumes:
       - /opt/odh-mentor-otp/amarillo/:/app/data/
-    networks:
-      - otp
+    depends_on:
+      - graphhopper
   graphhopper:
     image: israelhikingmap/graphhopper:8.0
     command: --host 0.0.0.0 --url https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
@@ -79,8 +79,3 @@ services:
       - JAVA_OPTS=-Xmx4g
     volumes:
       - /opt/odh-mentor-otp/graphhopper/:/data/
-    networks:
-      - otp
-
-networks:
-  otp:
