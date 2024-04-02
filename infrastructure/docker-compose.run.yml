@@ -74,7 +74,7 @@ services:
   graphhopper:
     image: israelhikingmap/graphhopper:8.0
     command: --host 0.0.0.0 --url https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
-  healthcheck:
+    healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8989/health"]
       interval: 5s
       timeout: 3s
