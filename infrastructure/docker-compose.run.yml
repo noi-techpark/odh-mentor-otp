@@ -7,11 +7,11 @@ services:
     ports:
       - ${SERVER_PORT_JOURNEY}:80
 
-  # otp-react-redux:
-  #   image: ${DOCKER_IMAGE_OTP_REACT_REDUX}:${DOCKER_TAG}
-  #   restart: unless-stopped
-  #   ports:
-  #     - ${SERVER_PORT_OTP_REACT_REDUX}:80
+  otp-react-redux:
+    image: ${DOCKER_IMAGE_OTP_REACT_REDUX}:${DOCKER_TAG}
+    restart: unless-stopped
+    ports:
+      - ${SERVER_PORT_OTP_REACT_REDUX}:80
 
   otp:
     image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
