@@ -125,7 +125,7 @@ jobs:
 
       - name: Build and push
         if: github.repository_owner == 'noi-techpark'
-        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        uses: noi-techpark/github-actions/docker-build-and-push@v3
         with:
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
@@ -133,7 +133,7 @@ jobs:
 
       - name: Deploy application
         if: github.repository_owner == 'noi-techpark'
-        uses: noi-techpark/github-actions/docker-deploy@v2
+        uses: noi-techpark/github-actions/docker-deploy@v3
         with:
           hosts: 'test'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
