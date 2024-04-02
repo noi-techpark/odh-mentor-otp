@@ -16,11 +16,11 @@ services:
         - CHARGER_BASEURL=${CHARGER_BASEURL}
         - CARSHARING_BASEURL=${CARSHARING_BASEURL}
         - TRAFFIC_BASEURL=${TRAFFIC_BASEURL}
-  otp-react-redux:
-    image: ${DOCKER_IMAGE_OTP_REACT_REDUX}:${DOCKER_TAG}
-    build:
-      context: ../
-      dockerfile: infrastructure/docker/otp-react-redux/Dockerfile
+  # otp-react-redux:
+  #   image: ${DOCKER_IMAGE_OTP_REACT_REDUX}:${DOCKER_TAG}
+  #   build:
+  #     context: ../
+  #     dockerfile: infrastructure/docker/otp-react-redux/Dockerfile
   otp:
     image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
     build:
