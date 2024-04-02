@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   journey:
     image: ${DOCKER_IMAGE_JOURNEY}:${DOCKER_TAG}
