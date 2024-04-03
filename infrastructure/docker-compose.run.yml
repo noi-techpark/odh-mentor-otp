@@ -21,22 +21,13 @@ services:
     ports:
       - ${SERVER_PORT_OTP}:8080
     depends_on:
-      geocoder:
-        condition: service_healthy
-      otp:
-        condition: service_healthy
-      parking:
-        condition: service_healthy
-      charger:
-        condition: service_healthy
-      carsharing:
-        condition: service_healthy
-      traffic:
-        condition: service_healthy
-      drt:
-        condition: service_healthy
-      amarillo:
-        condition: service_healthy
+     - geocoder
+     - amarillo
+     - parking
+     - charger
+     - carsharing
+     - traffic
+     - drt
   
   gbfs:
     image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
