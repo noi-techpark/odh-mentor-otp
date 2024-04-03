@@ -11,6 +11,11 @@
       "source": "https://gtfs.api.opendatahub.com/v1/dataset/skyalps-flight-data/raw",
       "type": "gtfs",
       "feedId": "skyalps"
+    },
+    {
+      "source": "https://amarillo.otp.opendatahub.testingmachine.eu/gtfs/amarillo.altoadige.gtfs.zip",
+      "type": "gtfs",
+      "feedId": "amarillo"
     }
   ],
   "osm": [
