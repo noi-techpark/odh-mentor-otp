@@ -378,6 +378,7 @@ map:
     labeledModes:
       - BUS
       - RAIL
+      - CARPOOL
     styles:
       labels:
         font-size: 14px
@@ -489,8 +490,7 @@ modes:
       # most notably in the enhanced stop viewer bubble
       color: blue
     - mode: CARPOOL
-      label: Carpooling
-      color: green
+      label: Carpool
     - mode: TRAM
       # For each GTFS mode, you can customize the label displayed in the UI.
       label: MAX & Streetcar
