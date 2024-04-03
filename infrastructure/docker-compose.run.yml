@@ -51,7 +51,7 @@ services:
       - ${DOCKER_GEOCODER_PORT}:8088
     env_file:
       - .env
-      
+
   carsharing:
     image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
     restart: unless-stopped
@@ -100,10 +100,9 @@ services:
     command: --host 0.0.0.0 --url https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8989/health"]
-      interval: 5s
+      interval: 20s
       timeout: 3s
-      start_period: 60s
-      retries: 3
+      start_period: 150s
     environment:
       - JAVA_OPTS=-Xmx4g
     volumes:
