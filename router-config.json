@@ -33,6 +33,11 @@
       "type" : "vehicle-rental",
       "sourceType" : "gbfs",
       "url" : "https://leonard.io/gbfs/noi/gbfs.json"
+    },
+    {
+      "type": "stop-time-updater",
+      "url": "https://amarillo.otp.opendatahub.testingmachine.eu/gtfs/amarillo.altoadige.gtfsrt.pbf",
+      "feedId": "amarillo"
     }
   ]
 }
