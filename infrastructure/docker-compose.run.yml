@@ -20,6 +20,23 @@ services:
       - .env
     ports:
       - ${SERVER_PORT_OTP}:8080
+    depends_on:
+      geocoder:
+        condition: service_healthy
+      otp:
+        condition: service_healthy
+      parking:
+        condition: service_healthy
+      charger:
+        condition: service_healthy
+      carsharing:
+        condition: service_healthy
+      traffic:
+        condition: service_healthy
+      drt:
+        condition: service_healthy
+      amarillo:
+        condition: service_healthy
   
   gbfs:
     image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
@@ -34,31 +51,37 @@ services:
       - ${DOCKER_GEOCODER_PORT}:8088
     env_file:
       - .env
+      
   carsharing:
     image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
     restart: unless-stopped
     ports:
       - ${DOCKER_CARSHARING_PORT}:8091
+
   parking:
     image: ${DOCKER_IMAGE_PARKING}:${DOCKER_TAG}
     restart: unless-stopped
     ports:
       - ${DOCKER_PARKING_PORT}:8092
+
   drt:
     image: ${DOCKER_IMAGE_DRT}:${DOCKER_TAG}
     restart: unless-stopped
     ports:
       - ${DOCKER_DRT_PORT}:8095
+
   charger:
     image: ${DOCKER_IMAGE_ECHARGING}:${DOCKER_TAG}
     restart: unless-stopped
     ports:
       - ${DOCKER_ECHARGING_PORT}:8093
+
   traffic:
     image: ${DOCKER_IMAGE_TRAFFIC}:${DOCKER_TAG}
     restart: unless-stopped
     ports:
       - ${DOCKER_TRAFFIC_PORT}:8094
+
   amarillo:
     image: ${DOCKER_IMAGE_AMARILLO}:${DOCKER_TAG}
     restart: unless-stopped
@@ -71,6 +94,7 @@ services:
     depends_on:
       graphhopper:
         condition: service_healthy
+
   graphhopper:
     image: israelhikingmap/graphhopper:8.0
     command: --host 0.0.0.0 --url https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
