@@ -48,22 +48,6 @@ services:
      - traffic
      - drt
 
-  otp-react-redux:
-    container_name: otp-react-redux
-    ports:
-      - "8999:80"
-    build:
-      context: ./
-      dockerfile: infrastructure/docker/otp-react-redux/Dockerfile
-    depends_on:
-     - geocoder
-     - otp
-     - parking
-     - charger
-     - carsharing
-     - traffic
-     - drt
-
   test:
     container_name: test
     image: node:16.14.0-alpine3.14
