@@ -13,5 +13,5 @@
 #########################
 
 POST https://amarillo.otp.opendatahub.testingmachine.eu/agency/ummadum/sync
-X-API-Key: {{ $dotenv AMARILLO_ADMIN_TOKEN }}
+X-API-Key: {{ $dotenv ADMIN_TOKEN }}
 Accept: application/json
