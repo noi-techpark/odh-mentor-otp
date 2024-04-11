@@ -38,6 +38,12 @@
       "type": "stop-time-updater",
       "url": "https://amarillo.otp.opendatahub.testingmachine.eu/gtfs/amarillo.altoadige.gtfsrt.pbf",
       "feedId": "amarillo"
+    },
+    {
+      "type" : "vehicle-parking",
+      "feedId" : "noi",
+      "sourceType" : "noi-open-data-hub",
+      "url" : "https://parking.otp.opendatahub.com/parking/all.json"
     }
   ]
 }
