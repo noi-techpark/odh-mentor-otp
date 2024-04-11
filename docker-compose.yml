@@ -48,18 +48,6 @@ services:
      - traffic
      - drt
 
-  test:
-    container_name: test
-    image: node:16.14.0-alpine3.14
-    depends_on:
-     - carsharing
-     - charger
-     - drt
-     - gbfs
-     - geocoder
-     - parking
-     - traffic
-
   carsharing:
     container_name: carsharing
     ports:
