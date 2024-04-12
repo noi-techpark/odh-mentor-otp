@@ -20,7 +20,7 @@ services:
      - amarillo
      - parking
      - charger
-     - carsharing
+     - carsharing-cron
      - traffic
      - drt
   
