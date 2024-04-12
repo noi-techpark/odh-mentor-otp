@@ -61,3 +61,5 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/carsharing/cron/Dockerfile
+      args:
+        - CARSHARING_BASEURL=${CARSHARING_BASEURL}
