@@ -38,12 +38,6 @@ services:
     env_file:
       - .env
 
-  carsharing:
-    image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
-    restart: unless-stopped
-    ports:
-      - ${DOCKER_CARSHARING_PORT}:8091
-
   parking:
     image: ${DOCKER_IMAGE_PARKING}:${DOCKER_TAG}
     restart: unless-stopped
@@ -93,3 +87,20 @@ services:
       - JAVA_OPTS=-Xmx4g
     volumes:
       - /opt/odh-mentor-otp/graphhopper/:/data/
+
+  carsharing-cron:
+    image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
+    restart: unless-stopped
+    volumes:
+       - carsharing-gbfs:/app/out/noi
+
+  carsharing-nginx:
+    image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
+    restart: unless-stopped
+    volumes:
+       - carsharing-gbfs:/usr/share/nginx/html
+    ports:
+      - "${DOCKER_CARSHARING_PORT}:80"
+
+volumes:
+  carsharing-gbfs:

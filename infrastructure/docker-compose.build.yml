@@ -31,11 +31,6 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/geocoder/Dockerfile
-  carsharing:
-    image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
-    build:
-      context: ../
-      dockerfile: infrastructure/docker/carsharing/Dockerfile
   parking:
     image: ${DOCKER_IMAGE_PARKING}:${DOCKER_TAG}
     build:
@@ -61,3 +56,8 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/amarillo/Dockerfile
+  carsharing:
+    image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/carsharing/cron/Dockerfile

@@ -44,18 +44,9 @@ services:
      - otp
      - parking
      - charger
-     - carsharing
+     - carsharing-cron
      - traffic
      - drt
-
-  carsharing:
-    container_name: carsharing
-    ports:
-      - "8091:8091"
-    image: openmove_carsharing:latest
-    build:
-      context: ./
-      dockerfile: infrastructure/docker/carsharing/Dockerfile
 
   charger:
     container_name: charger
@@ -138,7 +129,7 @@ services:
       - gbfs
       - parking
       - charger
-      - carsharing
+      - carsharing-cron
   
   amarillo:
     container_name: amarillo
@@ -147,7 +138,7 @@ services:
       dockerfile: infrastructure/docker/amarillo/Dockerfile
     environment:
       - AMARILLO_BASEURL=${AMARILLO_BASEURL:?missing/empty}
-      - ADMIN_TOKEN=${AMARILLO_ADMIN_TOKEN:?missing/empty}
+      - ADMIN_TOKEN=${ADMIN_TOKEN:?missing/empty}
     ports:
       - 9095:80
     volumes:
@@ -166,4 +157,23 @@ services:
       - JAVA_OPTS=-Xmx4g
     volumes:
       - /opt/odh-mentor-otp/:/data/
+  
+  carsharing-cron:
+    container_name: carsharing-cron
+    build:
+      context: ./
+      dockerfile: infrastructure/docker/carsharing/cron/Dockerfile
+    restart: unless-stopped
+    volumes:
+       - carsharing-gbfs:/app/out/noi
 
+  carsharing-ngnix:
+    container_name: carsharing-ngnix
+    ports:
+      - "8091:80"
+    image: nginx:1.25.4-alpine
+    volumes:
+       - carsharing-gbfs:/usr/share/nginx/html
+
+volumes:
+  carsharing-gbfs:
