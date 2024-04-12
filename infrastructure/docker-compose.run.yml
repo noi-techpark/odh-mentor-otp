@@ -95,7 +95,7 @@ services:
        - carsharing-gbfs:/app/out/noi
 
   carsharing-nginx:
-    image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
+    image: nginx:1.25.4-alpine
     restart: unless-stopped
     volumes:
        - carsharing-gbfs:/usr/share/nginx/html
