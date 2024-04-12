@@ -32,7 +32,7 @@
     {
       "type" : "vehicle-rental",
       "sourceType" : "gbfs",
-      "url" : "https://leonard.io/gbfs/noi/gbfs.json"
+      "url" : "https://carsharing.otp.opendatahub.testingmachine.eu/gbfs.json"
     },
     {
       "type": "stop-time-updater",
