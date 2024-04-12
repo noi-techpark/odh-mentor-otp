@@ -1,4 +1,4 @@
-FROM ghcr.io/mobidata-bw/x2gbfs:2024-04-02T16-37\
+FROM ghcr.io/mobidata-bw/x2gbfs:2024-04-02T16-37
 
 ARG CARSHARING_BASEURL=https://carsharing.otp.opendatahub.testingmachine.eu
 
