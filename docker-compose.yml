@@ -162,7 +162,7 @@ services:
     container_name: carsharing-cron
     build:
       context: ./
-      dockerfile: infrastructure/docker/carsharing/cron/Dockerfile
+      dockerfile: infrastructure/docker/carsharing/Dockerfile
     restart: unless-stopped
     volumes:
        - carsharing-gbfs:/app/out/noi
