@@ -6,8 +6,6 @@
 # Require a .env file contains all environment vars
 # look contents of file _dot.env.example
 #
-version: '3'
-
 services:
   journey:
     container_name: journey
