@@ -4,7 +4,6 @@ ARG CARSHARING_BASEURL=https://carsharing.otp.opendatahub.testingmachine.eu
 
 ENV CARSHARING_BASEURL=$CARSHARING_BASEURL
 
-# create a "fake" cron job with sleep 60
-# and with docker compose "restart: unless-stopped" 
-ENTRYPOINT python -m x2gbfs.x2gbfs -p noi -b ${CARSHARING_BASEURL} && sleep 60
+# create a "fake" cron job with sleep 60 and endless while loop
+ENTRYPOINT while true; do python -m x2gbfs.x2gbfs -p noi -b ${CARSHARING_BASEURL}; sleep 60; done;
 
