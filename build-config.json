@@ -1,6 +1,7 @@
 {
   "embedRouterConfig": true,
   "areaVisibility": true,
+  "staticParkAndRide": false,
   "transitFeeds": [
     {
       "source": "https://gtfs.api.opendatahub.com/v1/dataset/sta-time-tables/raw",

@@ -45,4 +45,4 @@ docker run \
   -v .:/var/opentripplanner/:z \
   --rm \
   -e JAVA_TOOL_OPTIONS="-Xmx6G" \
-  ${OTP_IMAGE} --build --save
+  "${OTP_IMAGE}" --abortOnUnknownConfig --build --save
