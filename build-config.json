@@ -1,6 +1,7 @@
 {
   "embedRouterConfig": true,
   "areaVisibility": true,
+  "staticParkAndRide": false,
   "transitFeeds": [
     {
       "source": "https://gtfs.api.opendatahub.com/v1/dataset/sta-time-tables/raw",
@@ -16,6 +17,12 @@
       "source": "https://amarillo.otp.opendatahub.testingmachine.eu/gtfs/amarillo.altoadige.gtfs.zip",
       "type": "gtfs",
       "feedId": "amarillo"
+    },
+    {
+      "source": "data/parking-netex.zip",
+      "type": "netex",
+      "feedId": "parking",
+      "ignoreParking": false
     }
   ],
   "osm": [
