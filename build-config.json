@@ -17,6 +17,12 @@
       "source": "https://amarillo.otp.opendatahub.testingmachine.eu/gtfs/amarillo.altoadige.gtfs.zip",
       "type": "gtfs",
       "feedId": "amarillo"
+    },
+    {
+      "source": "data/parking-netex.zip",
+      "type": "netex",
+      "feedId": "parking",
+      "ignoreParking": false
     }
   ],
   "osm": [
