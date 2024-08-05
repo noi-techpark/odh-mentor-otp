@@ -112,10 +112,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            data/italy-nord-est.osm.pbf
             data/srtm*
-          key: input-data-${{ github.run_number }}
-          restore-keys: input-data
+          key: elevation
 
       - name: Build graph
         run: bash build-graph.sh
