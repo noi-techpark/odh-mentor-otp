@@ -109,7 +109,7 @@ jobs:
         run: sed -i 's/mobility.api.opendatahub.com/mobility.api.opendatahub.testingmachine.eu/' */config.yml
 
       # elevation data does not change so we cache it forever
-      - name: Cache OSM and elevation data
+      - name: Cache elevation data
         uses: actions/cache@v4
         with:
           path: |
@@ -125,7 +125,7 @@ jobs:
         run: |
           echo "OSM_CACHE_VERSION=$(date +%Y-%m)" >> $GITHUB_ENV
 
-      - name: Cache OSM and elevation data
+      - name: Cache OSM extract
         uses: actions/cache@v4
         with:
           path: |
