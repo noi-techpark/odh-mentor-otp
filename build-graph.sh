@@ -45,7 +45,7 @@ fi
 
 # download parking data and put it into a zip
 rm -f ${PARKING_NETEX_XML} ${PARKING_NETEX_ZIP}
-wget ${PARKING_NETEX_URL} -O ${PARKING_NETEX_XML}
+${WGET} ${PARKING_NETEX_URL} -O ${PARKING_NETEX_XML}
 
 zip --junk-paths ${PARKING_NETEX_ZIP} ${PARKING_NETEX_XML}
 

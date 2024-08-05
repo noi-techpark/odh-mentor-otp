@@ -8,6 +8,74 @@
       "maxWindow": "16h"
     }
   },
+  "vectorTiles": {
+    "layers": [
+      {
+        "name": "stops",
+        "type": "Stop",
+        "mapper": "Digitransit",
+        "maxZoom": 20,
+        "minZoom": 14,
+        "cacheMaxSeconds": 600
+      },
+      // flex zones
+      {
+        "name": "areaStops",
+        "type": "AreaStop",
+        "mapper": "OTPRR",
+        "maxZoom": 20,
+        "minZoom": 14,
+        "cacheMaxSeconds": 600
+      },
+      {
+        "name": "stations",
+        "type": "Station",
+        "mapper": "Digitransit",
+        "maxZoom": 20,
+        "minZoom": 12,
+        "cacheMaxSeconds": 600
+      },
+      // all rental places: stations and free-floating vehicles
+      {
+        "name": "citybikes",
+        "type": "VehicleRental",
+        "mapper": "Digitransit",
+        "maxZoom": 20,
+        "minZoom": 14,
+        "cacheMaxSeconds": 60,
+        "expansionFactor": 0.25
+      },
+      // just free-floating vehicles
+      {
+        "name": "rentalVehicles",
+        "type": "VehicleRentalVehicle",
+        "mapper": "DigitransitRealtime",
+        "maxZoom": 20,
+        "minZoom": 14,
+        "cacheMaxSeconds": 60
+      },
+      // just rental stations
+      {
+        "name": "rentalStations",
+        "type": "VehicleRentalStation",
+        "mapper": "Digitransit",
+        "maxZoom": 20,
+        "minZoom": 14,
+        "cacheMaxSeconds": 600
+      },
+      // no real-time, translatable fields are translated based on accept-language header
+      // and contains less fields than the Stadtnavi mapper
+      {
+        "name": "vehicleParking",
+        "type": "VehicleParking",
+        "mapper": "Digitransit",
+        "maxZoom": 20,
+        "minZoom": 14,
+        "cacheMaxSeconds": 600,
+        "expansionFactor": 0.25
+      }
+    ]
+  },
   "updaters": [
     {
       "type": "stop-time-updater",

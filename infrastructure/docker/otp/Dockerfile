@@ -3,7 +3,7 @@ FROM opentripplanner/opentripplanner:2.6.0_2024-08-01T06-53
 
 WORKDIR /var/otp
 
-ADD router-config.json /var/otp/
+ADD router-config.json otp-config.json /var/otp/
 ADD graph.obj /var/otp/
 
 ENTRYPOINT java $JAVA_OPTS -cp @/app/jib-classpath-file @/app/jib-main-class-file /var/otp/ --load --serve
