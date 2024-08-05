@@ -16,6 +16,6 @@ jobs:
           path: |
             data/srtm*
             data/italy-nord-est.osm.pbf
-          key: input-data-${{ env.GITHUB_REF_NAME }}
+          key: input-data-${{ github.GITHUB_REF_NAME }}
 
       - run: ./build-graph.sh
