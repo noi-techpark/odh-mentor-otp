@@ -2,11 +2,13 @@
   "embedRouterConfig": true,
   "areaVisibility": true,
   "staticParkAndRide": false,
+  "transitModelTimeZone": "Europe/Rome",
   "transitFeeds": [
     {
       "source": "data/sta-netex.xml.zip",
       "type": "netex",
-      "feedId": "sta"
+      "feedId": "sta",
+      "groupFilePattern": "(.*)\\.xml"
     },
     {
       "source": "https://gtfs.api.opendatahub.com/v1/dataset/skyalps-flight-data/raw",

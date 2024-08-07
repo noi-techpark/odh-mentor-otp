@@ -16,7 +16,7 @@ SOUTH_TYROL_PBF=data/south-tyrol.osm.pbf
 ELEVATION_URL=https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_03.zip
 ELEVATION_ZIP=data/srtm_39_03.zip
 # transit data
-TRANSIT_NETEX_URL="ftp://ftp01.sta.bz.it/netex/2024/plan/EU_Profil/NX-PI_01_it_apb_LINE_apb__$(date +%Y%m%d).xml.zip"
+TRANSIT_NETEX_URL="ftp://ftp01.sta.bz.it/netex/$(date +%Y)/plan/EU_Profil/NX-PI_01_it_apb_LINE_apb__$(date +%Y%m%d).xml.zip"
 TRANSIT_NETEX_ZIP=data/sta-netex.xml.zip
 # parking
 PARKING_NETEX_URL=https://transmodel.api.opendatahub.com/netex/parking
