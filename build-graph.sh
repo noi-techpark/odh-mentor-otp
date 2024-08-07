@@ -6,7 +6,7 @@
 
 source .otp-version
 
-WGET="wget --progress=bar:force:noscroll"
+CURL="curl --location --fail --show-error -#"
 
 # OSM
 NORTH_EAST_URL=https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
@@ -15,6 +15,9 @@ SOUTH_TYROL_PBF=data/south-tyrol.osm.pbf
 # elevation
 ELEVATION_URL=https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_03.zip
 ELEVATION_ZIP=data/srtm_39_03.zip
+# transit data
+TRANSIT_NETEX_URL="ftp://ftp01.sta.bz.it/netex/2024/plan/EU_Profil/NX-PI_01_it_apb_LINE_apb__$(date +%Y%m%d).xml.zip"
+TRANSIT_NETEX_ZIP=data/sta-netex.xml.zip
 # parking
 PARKING_NETEX_URL=https://transmodel.api.opendatahub.com/netex/parking
 PARKING_NETEX_XML=data/shared-data.xml
@@ -28,7 +31,8 @@ fi
 mkdir -p data
 
 if [ ! -f "${NORTH_EAST_PBF}" ]; then
-  ${WGET} ${NORTH_EAST_URL} -O ${NORTH_EAST_PBF}
+  echo "Downloading OSM data for NE Italy from ${NORTH_EAST_URL}"
+  ${CURL} ${NORTH_EAST_URL} -o ${NORTH_EAST_PBF}
 else
   echo "Checking for updates for existing OSM file"
   pyosmium-up-to-date ${NORTH_EAST_PBF}
@@ -39,13 +43,16 @@ echo "Extracting ${SOUTH_TYROL_PBF} from ${NORTH_EAST_PBF}"
 osmium extract ${NORTH_EAST_PBF} --polygon south-tyrol.geojson -o ${SOUTH_TYROL_PBF} --overwrite
 
 if [ ! -f "${ELEVATION_ZIP}" ]; then
-  ${WGET} ${ELEVATION_URL} -O ${ELEVATION_ZIP}
+  ${CURL} ${ELEVATION_URL} -o ${ELEVATION_ZIP}
   unzip -o ${ELEVATION_ZIP} -d data
 fi
 
+echo "Downloading NeTEx transit data from ${TRANSIT_NETEX_URL}"
+${CURL} "${TRANSIT_NETEX_URL}" -o ${TRANSIT_NETEX_ZIP}
+
 # download parking data and put it into a zip
 rm -f ${PARKING_NETEX_XML} ${PARKING_NETEX_ZIP}
-${WGET} ${PARKING_NETEX_URL} -O ${PARKING_NETEX_XML}
+${CURL} ${PARKING_NETEX_URL} -o ${PARKING_NETEX_XML}
 
 zip --junk-paths ${PARKING_NETEX_ZIP} ${PARKING_NETEX_XML}
 
