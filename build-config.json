@@ -19,7 +19,7 @@
       "feedId": "amarillo"
     },
     {
-      "source": "data/parking-netex.zip",
+      "source": "data/parking-netex.xml.zip",
       "type": "netex",
       "feedId": "parking",
       "ignoreParking": false

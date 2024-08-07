@@ -21,7 +21,7 @@ TRANSIT_NETEX_ZIP=data/sta-netex.xml.zip
 # parking
 PARKING_NETEX_URL=https://transmodel.api.opendatahub.com/netex/parking
 PARKING_NETEX_XML=data/shared-data.xml
-PARKING_NETEX_ZIP=data/parking-netex.zip
+PARKING_NETEX_ZIP=data/parking-netex.xml.zip
 
 # when on github actions then install the required tools
 if [ -n "${CI+isset}" ]; then
