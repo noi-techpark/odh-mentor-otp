@@ -133,7 +133,8 @@ jobs:
           key: osm-${{ env.OSM_CACHE_VERSION }}
 
       - name: Build graph
-        run: bash build-graph.sh
+        # the script uses error handling with +e, so please don't run it with bash prepended in this line
+        run: ./build-graph.sh
 
       - name: Build and push
         if: github.repository_owner == 'noi-techpark'
