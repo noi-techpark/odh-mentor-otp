@@ -111,7 +111,7 @@
       "type": "vehicle-parking",
       "feedId": "parking",
       "sourceType": "siri-fm",
-      "url": "https://transmodel.api.opendatahub.com/siri-lite/fm/parking"
+      "url": "https://transmodel.api.opendatahub.com/siri-lite/facility-monitoring/parking"
     }
   ]
 }
