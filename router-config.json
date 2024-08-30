@@ -106,6 +106,12 @@
       "type": "stop-time-updater",
       "url": "https://amarillo.otp.opendatahub.testingmachine.eu/gtfs/amarillo.altoadige.gtfsrt.pbf",
       "feedId": "amarillo"
+    },
+    {
+      "type": "vehicle-parking",
+      "feedId": "parking",
+      "sourceType": "siri-fm",
+      "url": "https://transmodel.api.opendatahub.com/siri-lite/facility-monitoring/parking"
     }
   ]
 }
