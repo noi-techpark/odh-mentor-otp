@@ -5,7 +5,8 @@
   "transitModelTimeZone": "Europe/Rome",
   "transitFeeds": [
     {
-      "source": "data/sta-netex.xml.zip",
+      // we rehost the NeTEx file because the original FTP server has issues
+      "source": "https://leonard.io/otp/alto-adige-netex-epip.xml.zip",
       "type": "netex",
       "feedId": "sta",
       "groupFilePattern": "(.*)\\.xml"

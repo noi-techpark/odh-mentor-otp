@@ -47,8 +47,8 @@ if [ ! -f "${ELEVATION_ZIP}" ]; then
   unzip -o ${ELEVATION_ZIP} -d data
 fi
 
-echo "Downloading NeTEx transit data from ${TRANSIT_NETEX_URL}"
-${CURL} "${TRANSIT_NETEX_URL}" -o ${TRANSIT_NETEX_ZIP}
+#echo "Downloading NeTEx transit data from ${TRANSIT_NETEX_URL}"
+#${CURL} "${TRANSIT_NETEX_URL}" -o ${TRANSIT_NETEX_ZIP}
 
 # download parking data and put it into a zip
 rm -f ${PARKING_NETEX_XML} ${PARKING_NETEX_ZIP}
