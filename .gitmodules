@@ -1,3 +1,3 @@
 [submodule "web-demo/otp-react-redux"]
-	path = web-demo/src/vendor/otp-react-redux
+	path = web-demo/lib/vendor/otp-react-redux
 	url = https://github.com/opentripplanner/otp-react-redux.git
