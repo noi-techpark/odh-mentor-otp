@@ -9,7 +9,7 @@
       "unit": "jest __tests__/",
       "lint": "lint-staged",
       "lint-all": "eslint lib __tests__ a11y --quiet",
-      "postinstall": "patch-package && cd lib/vendor/otp-react-redux && yarn install",
+      "postinstall": "patch-package",
       "prepublishOnly": "pinst --disable",
       "postpublish": "pinst --enable",
       "prestart": "yarn",
