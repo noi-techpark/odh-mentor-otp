@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 /**
  * To customize certain UI features, create a file like this one and specify it
  * during build/start to override this default version of the file:

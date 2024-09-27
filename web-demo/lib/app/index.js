@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 /* eslint-disable prettier/prettier */
 /* eslint-disable sort-imports-es6-autofix/sort-imports-es6 */
 import DateTimeModal from '@otp-react-redux/lib/components/form/date-time-modal'

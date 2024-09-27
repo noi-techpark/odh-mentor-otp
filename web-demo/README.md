@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MIT
+-->
+
 # Web app based on otp-react-redux
 
 <img src="https://github.com/opentripplanner/otp-react-redux/raw/master/otprr.png" width="500" />

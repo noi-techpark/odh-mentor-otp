@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 // import this polyfill in order to make webapp compatible with IE 11
 import 'es6-math'
 
