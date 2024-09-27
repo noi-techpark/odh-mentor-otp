@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 import PropTypes from 'prop-types'
 import React from 'react'
 // FIXME: This dependency is restricting typescripting of this file

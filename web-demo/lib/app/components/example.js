@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 /* eslint-disable react/prop-types */
 // TODO: Typescript (config object)
 import { connect } from 'react-redux'

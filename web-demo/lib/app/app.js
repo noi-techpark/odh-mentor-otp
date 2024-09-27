@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 // TODO: Typescript
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Briefcase } from '@styled-icons/fa-solid/Briefcase'
