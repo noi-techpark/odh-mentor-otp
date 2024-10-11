@@ -1,4 +1,4 @@
-FROM ghcr.io/mfdz/amarillo:1.0
+FROM ghcr.io/mfdz/amarillo:main
 
 # Currently, we don't download gtfs, as we assume it's mounted at /data/latestGTFS.zip
 # RUN apt-get update && apt-get install -y wget zip && rm -r /var/lib/apt/lists/*
