@@ -17,7 +17,7 @@
       "feedId": "skyalps"
     },
     {
-      "source": "http://amarillo:80/gtfs/amarillo.altoadige.gtfs.zip",
+      "source": "https://amarillo.otp.opendatahub.testingmachine.eu/gtfs/amarillo.altoadige.gtfs.zip",
       "type": "gtfs",
       "feedId": "amarillo"
     },
