@@ -104,7 +104,7 @@
     },
     {
       "type": "stop-time-updater",
-      "url": "http://amarillo:80/gtfs/amarillo.altoadige.gtfsrt.pbf",
+      "url": "https://amarillo.otp.opendatahub.testingmachine.eu/gtfs/amarillo.altoadige.gtfsrt.pbf",
       "feedId": "amarillo"
     },
     {
