@@ -13,6 +13,7 @@ env:
   API_PATH: /otp/routers/openmove
   API_PORT: 8080
   DOCKER_IMAGE_OTP: ghcr.io/${{ github.repository }}/odh-mentor-otp
+  DOCKER_IMAGE_OTP_REACT: ghcr.io/${{ github.repository }}/odh-mentor-otp-react
   DOCKER_IMAGE_JOURNEY: ghcr.io/${{ github.repository }}/odh-mentor-otp-journey
   DOCKER_IMAGE_GBFS: ghcr.io/${{ github.repository }}/odh-mentor-otp-gbfs
   DOCKER_IMAGE_GEOCODER: ghcr.io/${{ github.repository }}/odh-mentor-otp-geocoder
@@ -51,6 +52,7 @@ jobs:
         env:
           X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
           X_DOCKER_IMAGE_OTP: ${{ env.DOCKER_IMAGE_OTP }}
+          X_DOCKER_IMAGE_OTP_REACT: ${{ env.DOCKER_IMAGE_OTP_REACT }}
           X_DOCKER_IMAGE_JOURNEY: ${{ env.DOCKER_IMAGE_JOURNEY }}
           X_DOCKER_IMAGE_GBFS: ${{ env.DOCKER_IMAGE_GBFS }}
           X_DOCKER_IMAGE_GEOCODER: ${{ env.DOCKER_IMAGE_GEOCODER }}
@@ -64,6 +66,7 @@ jobs:
           
           X_SERVER_PORT_OTP: 1080
           X_SERVER_PORT_JOURNEY: 1081
+          X_SERVER_PORT_OTP_REACT: 1079
           X_GBFS_HOST : "https://gbfs.otp.opendatahub.testingmachine.eu/"
           X_DOCKER_GBFS_PORT: 1082
           X_DOCKER_GEOCODER_PORT: 1083
@@ -74,7 +77,6 @@ jobs:
           X_DOCKER_TRAFFIC_PORT: 1088
           X_DOCKER_AMARILLO_PORT: 1092
           
-
           X_JAVA_MX: "14G"
 
           X_API_HOST: ${{ env.API_HOST }}

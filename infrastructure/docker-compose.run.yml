@@ -7,6 +7,13 @@ services:
     ports:
       - ${SERVER_PORT_JOURNEY}:80
 
+  otp-react:
+    image: ${DOCKER_IMAGE_OTP_REACT}:${DOCKER_TAG}
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - ${SERVER_PORT_OTP_REACT}:80
 
   otp:
     image: ${DOCKER_IMAGE_OTP}:${DOCKER_TAG}
