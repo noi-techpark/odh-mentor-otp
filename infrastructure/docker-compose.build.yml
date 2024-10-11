@@ -21,6 +21,11 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/otp/Dockerfile
+  otp-react:
+    image: ${DOCKER_IMAGE_OTP_REACT}:${DOCKER_TAG}
+    build:
+      context: ../
+      dockerfile: infrastructure/docker/otp-react/Dockerfile
   gbfs:
     image: ${DOCKER_IMAGE_GBFS}:${DOCKER_TAG}
     build:
