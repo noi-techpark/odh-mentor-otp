@@ -46,6 +46,8 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Create .env file
         uses: noi-techpark/github-actions/env-file@v2
