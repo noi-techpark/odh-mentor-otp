@@ -13,7 +13,9 @@ NORTH_EAST_URL=https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pb
 NORTH_EAST_PBF=data/italy-nord-est.osm.pbf
 SOUTH_TYROL_PBF=data/south-tyrol.osm.pbf
 # elevation
-ELEVATION_URL=https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_03.zip
+# this URL is way too overloaded, so we mirror it
+# ELEVATION_URL=https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_03.zip
+ELEVATION_URL=https://leonard.io/srtm/srtm_39_03.zip
 ELEVATION_ZIP=data/srtm_39_03.zip
 # transit data
 TRANSIT_NETEX_URL="https://rapuser:rappass@web01.sta.bz.it/netex/api/v4/downloadVersion?level=4&agencyCode=IT-ITH1"
