@@ -5,8 +5,7 @@
   "transitModelTimeZone": "Europe/Rome",
   "transitFeeds": [
     {
-      // we rehost the NeTEx file because the original FTP server has issues
-      "source": "https://leonard.io/otp/alto-adige-netex-epip.xml.zip",
+      "source": "data/sta-netex.xml.zip",
       "type": "netex",
       "feedId": "sta",
       "groupFilePattern": "(.*)\\.xml"
@@ -16,11 +15,11 @@
       "type": "gtfs",
       "feedId": "skyalps"
     },
-    {
+    /*{
       "source": "https://amarillo.otp.opendatahub.testingmachine.eu/gtfs/amarillo.altoadige.gtfs.zip",
       "type": "gtfs",
       "feedId": "amarillo"
-    },
+    },*/
     {
       "source": "data/parking-netex.xml.zip",
       "type": "netex",
