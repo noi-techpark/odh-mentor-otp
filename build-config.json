@@ -5,7 +5,6 @@
   "transitModelTimeZone": "Europe/Rome",
   "transitFeeds": [
     {
-      // we rehost the NeTEx file because the original FTP server has issues
       "source": "data/sta-netex.xml.zip",
       "type": "netex",
       "feedId": "sta",
