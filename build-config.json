@@ -6,7 +6,7 @@
   "transitFeeds": [
     {
       // we rehost the NeTEx file because the original FTP server has issues
-      "source": "https://leonard.io/otp/alto-adige-netex-epip.xml.zip",
+      "source": "data/sta-netex.xml.zip",
       "type": "netex",
       "feedId": "sta",
       "groupFilePattern": "(.*)\\.xml"
