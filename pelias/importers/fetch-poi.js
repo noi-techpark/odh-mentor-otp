@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 routeRANK <info@routerank.com>
+//
+// SPDX-License-Identifier: MIT
+
 let fs = require('fs');
 
 // Retrieve all stops and additional information

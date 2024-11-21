@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 routeRANK <info@routerank.com>
+//
+// SPDX-License-Identifier: MIT
+
 const fs = require('fs');
 
 const DATA_DIR = __dirname + "/../data/csv-importer";

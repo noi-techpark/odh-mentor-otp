@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 routeRANK <info@routerank.com>
+#
+# SPDX-License-Identifier: MIT
+
 STOP_JSON_FILE=./data/csv-importer/stops.json
 STOP_CSV=./data/csv-importer/stops.csv
 

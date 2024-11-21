@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 routeRANK <info@routerank.com>
+
+SPDX-License-Identifier: MIT
+-->
+
 # Italian area
 
 This project is configured to download/prepare/build a complete Pelias installation for South-Tyrol.

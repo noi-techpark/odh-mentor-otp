@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 routeRANK <info@routerank.com>
+#
+# SPDX-License-Identifier: MIT
+
 curl "https://tourism.api.opendatahub.com/v1/ODHActivityPoi?pagesize=50000" > ./data/csv-importer/touristic-poi-all.json
 curl "https://tourism.api.opendatahub.com/v1/STA/ODHActivityPoi?language=en&referer=SuedtirolMobilWeb&fields=Id%2CDetail.en.Title%2CContactInfos.en.City&pagesize=20000" > ./data/csv-importer/touristic-poi-filtered-set.json
 
