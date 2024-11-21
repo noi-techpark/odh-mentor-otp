@@ -1,4 +1,6 @@
 <!--
+SPDX-FileCopyrightText: 2024 Conveyal <support@conveyal.com>
+
 SPDX-License-Identifier: MIT
 -->
 

@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2024 Conveyal <support@conveyal.com>
+//
 // SPDX-License-Identifier: MIT
 
 // import this polyfill in order to make webapp compatible with IE 11
