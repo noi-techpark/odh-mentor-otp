@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  PROJECT_NAME: "odh-mentor-otp"
+  PROJECT_NAME: "odh-mentor-otp-calculate"
   API_HOST: http://localhost
   API_PATH: /otp/routers/openmove
   API_PORT: 8080
@@ -21,14 +21,6 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' 
     concurrency: build-calc-test
     steps:
-      - name: Spin up EC2 instance
-        run: |
-          aws ec2 start-instances --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-
       - name: Checkout source code
         uses: noi-techpark/github-actions/checkout@v2
 
@@ -65,18 +57,6 @@ jobs:
           X_CHARGER_BASEURL: "https://charger.otp.opendatahub.testingmachine.eu"
           X_TRAFFIC_BASEURL: "https://traffic.otp.opendatahub.testingmachine.eu"
 
-      - name: Wait for instance to start up
-        run: |
-          aws ec2 wait instance-running --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-
-      # sometimes we try to log in before the OS is up, so let's wait 60 sec just to be sure
-      - name: Wait for system to boot
-        run: sleep 60
-
       - name: Deploy / run calculation
         uses: noi-techpark/github-actions/docker-deploy@v2
         with:
@@ -87,36 +67,11 @@ jobs:
           project-name: ${{ env.PROJECT_NAME }}
           playbook-file: deploy.calculate.test.yml
 
-      - name: Spin down EC2 instance
-        run: |
-          aws ec2 stop-instances --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-
   run-calculate-prod:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/prod' && github.event_name == 'workflow_dispatch' 
     concurrency: build-calc-prod
     steps:
-      - name: Spin up EC2 instance
-        run: |
-          aws ec2 start-instances --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-
-      # this used to be a wait (120 sec) to have the efs volume be mounted. If this makes problems, return to a wait 120
-      - name: Wait for instance to start up
-        run: |
-          aws ec2 wait instance-running --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-
       - name: Checkout source code
         uses: noi-techpark/github-actions/checkout@v2
 
@@ -131,7 +86,7 @@ jobs:
 
           X_GBFS_HOST : "https://gbfs.otp.opendatahub.com/"
 
-          X_JAVA_MX: "16G"
+          X_JAVA_MX: "4G"
           X_BUILD_GRAPH: "True"
           X_DOWNLOAD_DATA: "False"
           X_BACKUP_GRAPH: "True"
@@ -162,13 +117,4 @@ jobs:
           docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           project-name: ${{ env.PROJECT_NAME }}
           playbook-file: deploy.calculate.prod.yml
-
-      - name: Spin down EC2 instance
-        if: always()
-        run: |
-          aws ec2 stop-instances --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
 

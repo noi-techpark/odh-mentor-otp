@@ -5,7 +5,7 @@ on:
   push:
 
 env:
-  PROJECT_NAME: "odh-mentor-otp"
+  PROJECT_NAME: "odh-mentor-otp-calculate"
   API_HOST: http://localhost
   API_PATH: /otp/routers/openmove
   API_PORT: 8080
