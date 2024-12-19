@@ -9,9 +9,18 @@
   <!-- Identity template to copy every node and attribute by default -->
   <xsl:mode on-no-match="shallow-copy"/>
 
-  <!-- Replace the ids of ScheduledStopPoints from this format
+  <!--
+    Replace the IDs of ScheduledStopPoints from this format
 
+      it:apb:ScheduledStopPoint:it-22101-7010-51-32073:
 
+    to this
+
+      it:22101:7010:51:32073
+
+    .
+
+    This because the SIRI feeds use the latter format, and we need to match up the two sources.
   -->
   <xsl:template match="//n:ScheduledStopPoint/@id">
     <xsl:attribute name="id">
