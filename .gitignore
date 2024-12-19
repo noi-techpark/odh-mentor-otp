@@ -11,3 +11,7 @@ journey/tmp
 geocoder/.env
 
 graph.obj
+
+*.xml
+*.zip
+saxon
