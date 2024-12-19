@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+# SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 CURL="curl --location --fail --show-error -#"
 
 # Configuration
