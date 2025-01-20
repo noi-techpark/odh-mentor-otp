@@ -28,7 +28,8 @@ SAXON_URL="https://github.com/Saxonica/Saxon-HE/releases/download/SaxonHE12-5/Sa
 SAXON_ZIP="saxon.zip"
 SAXON_JAR="saxon/saxon-he-12.5.jar"
 XSL_FILE="transform-scheduled-stop-point-ids.xsl"
-SSIDS_TRANSFORMED_XML="sta.netex.correct-ssids.xml"
+
+SSIDS_TRANSFORMED_XML="data/sta.netex.correct-ssids.xml"
 
 # parking
 PARKING_NETEX_URL=https://transmodel.api.opendatahub.com/netex/parking
@@ -71,14 +72,16 @@ if [ ! -f "${SAXON_JAR}" ]; then
   unzip $SAXON_ZIP -d saxon
 fi
 
-ls -lah
-ls -lah data
 # the scheduled stop point ids and the SIRI StopPointRefs do not match, so we have to transform
 # the NeTEx feed so that they do: https://github.com/noi-techpark/odh-mentor-otp/issues/215
 echo "Running Saxon transformation..."
 java -jar "$SAXON_JAR" -s:"${TRANSIT_NETEX_XML}" -xsl:"$XSL_FILE" -o:"$SSIDS_TRANSFORMED_XML"
 
+
 zip ${TRANSIT_NETEX_ZIP} ${SSIDS_TRANSFORMED_XML}
+
+ls -lah
+ls -lah data
 
 # download parking data and put it into a zip
 rm -f ${PARKING_NETEX_XML} ${PARKING_NETEX_ZIP}
