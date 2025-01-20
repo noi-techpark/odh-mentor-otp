@@ -78,9 +78,15 @@
   },
   "updaters": [
     {
-      "type": "stop-time-updater",
-      "url": "https://mobility.api.opendatahub.testingmachine.eu/v2/GTFS-RT",
-      "feedId": "sta"
+      "type": "siri-et-lite",
+      "feedId": "sta",
+      "url": "https://efa.sta.bz.it/siri-lite/estimated-timetable/xml",
+      "fuzzyTripMatching": true
+    },
+    {
+      "type": "siri-sx-lite",
+      "feedId": "sta",
+      "url": "https://efa.sta.bz.it/siri-lite/situation-exchange/xml"
     },
     {
       "type" : "vehicle-rental",
