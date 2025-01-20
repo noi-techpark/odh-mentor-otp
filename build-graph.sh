@@ -71,10 +71,12 @@ if [ ! -f "${SAXON_JAR}" ]; then
   unzip $SAXON_ZIP -d saxon
 fi
 
+ls -lah
+ls -lah data
 # the scheduled stop point ids and the SIRI StopPointRefs do not match, so we have to transform
 # the NeTEx feed so that they do: https://github.com/noi-techpark/odh-mentor-otp/issues/215
 echo "Running Saxon transformation..."
-java -jar "$SAXON_JAR" -s:"$INPUT_XML" -xsl:"$XSL_FILE" -o:"$SSIDS_TRANSFORMED_XML"
+java -jar "$SAXON_JAR" -s:"${TRANSIT_NETEX_ZIP}" -xsl:"$XSL_FILE" -o:"$SSIDS_TRANSFORMED_XML"
 
 zip ${TRANSIT_NETEX_ZIP} ${SSIDS_TRANSFORMED_XML}
 
