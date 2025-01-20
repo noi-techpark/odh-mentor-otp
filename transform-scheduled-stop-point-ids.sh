@@ -16,7 +16,7 @@ OUTPUT_XML="output.xml"
 
 if [ ! -f "${SAXON_JAR}" ]; then
   $CURL $SAXON_URL -o $SAXON_ZIP
-  unzip $SAXON_ZIP
+  unzip $SAXON_ZIP -d saxon
 fi
 
 echo "Running Saxon transformation..."
