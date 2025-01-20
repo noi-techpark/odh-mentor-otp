@@ -140,6 +140,13 @@ jobs:
         # the script uses error handling with +e, so please don't run it with bash prepended in this line
         run: ./build-graph.sh
 
+
+      - name: Store artifact for sta.netex.correct-ssids.xml
+        uses: actions/upload-artifact@v3
+        with:
+          name: sta-netex-correct-ssids
+          path: data/sta.netex.correct-ssids.xml
+
       - name: Build and push
         if: github.repository_owner == 'noi-techpark'
         uses: noi-techpark/github-actions/docker-build-and-push@v2
