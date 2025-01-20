@@ -142,7 +142,7 @@ jobs:
 
 
       - name: Store artifact for sta.netex.correct-ssids.xml
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sta-netex-correct-ssids
           path: data/sta.netex.correct-ssids.xml
