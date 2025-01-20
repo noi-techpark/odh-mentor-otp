@@ -1,4 +1,4 @@
 # SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 #
 # SPDX-License-Identifier: CC0-1.0
-export OTP_IMAGE="opentripplanner/opentripplanner:2.7.0_2024-11-19T11-28"
+export OTP_IMAGE="opentripplanner/opentripplanner:2.7.0_2025-01-20T10-51"
