@@ -15,7 +15,7 @@ SPDX-License-Identifier: CC0-1.0
   <xsl:mode on-no-match="shallow-copy"/>
 
   <!--
-    Replace the IDs of ScheduledStopPoints from this format
+    Transform the IDs of ScheduledStopPoints from this format
 
       it:apb:ScheduledStopPoint:it-22101-7010-51-32073:
 
@@ -25,7 +25,7 @@ SPDX-License-Identifier: CC0-1.0
 
     .
 
-    This because the SIRI feeds use the latter format, and we need to match up the two sources.
+    This is because the SIRI feeds use the latter format, and we need to match up the two sources.
   -->
   <xsl:template match="//n:ScheduledStopPoint/@id">
     <xsl:attribute name="id">

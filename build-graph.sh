@@ -77,11 +77,7 @@ fi
 echo "Running Saxon transformation..."
 java -jar "$SAXON_JAR" -s:"${TRANSIT_NETEX_XML}" -xsl:"$XSL_FILE" -o:"$SSIDS_TRANSFORMED_XML"
 
-
 zip ${TRANSIT_NETEX_ZIP} ${SSIDS_TRANSFORMED_XML}
-
-ls -lah
-ls -lah data
 
 # download parking data and put it into a zip
 rm -f ${PARKING_NETEX_XML} ${PARKING_NETEX_ZIP}
