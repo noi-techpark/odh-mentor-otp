@@ -24,10 +24,11 @@ import React from 'react'
 // import OTP-RR components
 import {
   BatchResultsScreen,
-  BatchRoutingPanel,
+  DestinationPanel,
+  // BatchRoutingPanel,
   BatchSearchScreen,
   DefaultItinerary,
-  ResponsiveWebapp,
+  NoiResponsiveWebapp,
   Map
 } from './index'
 
@@ -180,7 +181,8 @@ const components = {
 
   ItineraryPreviewSupplement,
 
-  MainPanel: BatchRoutingPanel,
+  MainPanel: DestinationPanel,
+  // MainPanel: BatchRoutingPanel,
 
   MapWindows: isCallTakerModuleEnabled ? jsConfig.MapWindows : null,
 
@@ -202,7 +204,7 @@ const components = {
 
 const Webapp = () => (
   <ErrorBoundary>
-    <ResponsiveWebapp components={{ ...components, ...jsConfig }} />
+    <NoiResponsiveWebapp components={{ ...components, ...jsConfig }} />
   </ErrorBoundary>
 )
 
