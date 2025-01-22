@@ -18,7 +18,7 @@ SOUTH_TYROL_PBF=data/south-tyrol.osm.pbf
 ELEVATION_URL=https://leonard.io/srtm/srtm_39_03.zip
 ELEVATION_ZIP=data/srtm_39_03.zip
 # transit data
-TRANSIT_NETEX_URL="https://rapuser:rappass@web01.sta.bz.it/netex/api/v4/downloadVersion?level=4&agencyCode=IT-ITH1"
+TRANSIT_NETEX_URL="https://rapuser:rappass@web01.sta.bz.it/netex/api/v4/downloadVersion?level=99&agencyCode=IT-ITH1"
 TRANSIT_NETEX_XML=data/sta-netex.xml
 TRANSIT_NETEX_GZ=${TRANSIT_NETEX_XML}.gz
 TRANSIT_NETEX_ZIP=${TRANSIT_NETEX_XML}.zip
