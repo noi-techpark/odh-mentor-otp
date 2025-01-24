@@ -11,6 +11,8 @@ import NarrativeItineraries from '@otp-react-redux/lib/components/narrative/narr
 import SwitchButton from '@otp-react-redux/lib/components/form/switch-button'
 import UserSettings from '@otp-react-redux/lib/components/form/user-settings'
 import ViewerContainer from '@otp-react-redux/lib/components/viewers/viewer-container'
+import { Button } from '@otp-react-redux/lib/components/form/batch-styled'
+import NoiNearbyView from '../viewers/nearby/noi-nearby-view'
 
 interface Props {
   activeSearch: any
@@ -26,6 +28,7 @@ class RoutingPanel extends Component<Props> {
   state = {
     planTripClicked: false
   }
+  step = 0
 
   handleSubmit = (e: FormEvent) => e.preventDefault()
 
@@ -33,17 +36,77 @@ class RoutingPanel extends Component<Props> {
     this.setState({ planTripClicked: true })
   }
 
-  render() {
-    const { activeSearch, intl, mobile, showUserSettings } = this.props
+  goToStep = (s: number) => {
+    // this.setState({ step: s })
+    this.step = s;
+    console.log(this.step)
+  }
+
+  renderDestination = () => {
+    const { intl, mobile } = this.props
     const { planTripClicked } = this.state
     const mapAction = mobile
-      ? intl.formatMessage({
-          id: 'common.searchForms.tap'
-        })
-      : intl.formatMessage({
-          id: 'common.searchForms.click'
-        })
+    return (
+      <ViewerContainer
+        className="batch-routing-panel"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%'
+        }}
+      >
+        <InvisibleA11yLabel>
+          <h1>
+            <FormattedMessage id="components.BatchSearchScreen.header" />
+          </h1>
+        </InvisibleA11yLabel>
+        <form
+          className="form"
+          onSubmit={this.handleSubmit}
+          style={{ padding: '10px' }}
+        >
+          <span className="batch-routing-panel-location-fields">
+            <LocationField
+              inputPlaceholder={intl.formatMessage(
+                { id: 'common.searchForms.enterDestination' },
+                { mapAction }
+              )}
+              isRequired
+              locationType="to"
+              selfValidate={planTripClicked}
+              showClearButton={!mobile}
+            />
+            <div className="switch-button-container">
+              <SwitchButton />
+            </div>
+          </span>
+          <BatchSettings onPlanTripClick={this.handlePlanTripClick} />
+        </form>
+        <form
+            className="form"
+            onSubmit={this.goToStep(1)}
+            style={{ padding: '10px' }}>
+          <Button type="submit"> Next </Button>
+        </form>
 
+        <NoiNearbyView />
+        <div
+          className="desktop-narrative-container"
+          style={{
+            flexGrow: 1,
+            overflowY: 'hidden'
+          }}
+        >
+          <NarrativeItineraries />
+        </div>
+      </ViewerContainer>
+    )
+  }
+
+  renderRouting = () => {
+    const { intl, mobile } = this.props
+    const { planTripClicked } = this.state
+    const mapAction = mobile
     return (
       <ViewerContainer
         className="batch-routing-panel"
@@ -90,6 +153,12 @@ class RoutingPanel extends Component<Props> {
           </span>
           <BatchSettings onPlanTripClick={this.handlePlanTripClick} />
         </form>
+        <form
+            className="form"
+            onSubmit={this.goToStep(0)}
+            style={{ padding: '10px' }}>
+          <Button> Back </Button>
+        </form>
 
         <div
           className="desktop-narrative-container"
@@ -103,6 +172,10 @@ class RoutingPanel extends Component<Props> {
       </ViewerContainer>
     )
   }
+
+  render() {
+    return this.step == 0 ? this.renderDestination() : this.renderRouting()
+  }
 }
 
 // connect to the redux store
@@ -115,7 +188,8 @@ const mapStateToProps = (state: any) => {
       getPersistenceMode(state.otp.config.persistence).isLocalStorage)
   return {
     activeSearch: getActiveSearch(state),
-    showUserSettings
+    showUserSettings,
+    currentQuery: state.otp.currentQuery
   }
 }
 

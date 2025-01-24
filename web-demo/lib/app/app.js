@@ -24,7 +24,7 @@ import React from 'react'
 // import OTP-RR components
 import {
   BatchResultsScreen,
-  DestinationPanel,
+  RoutingPanel,
   // BatchRoutingPanel,
   BatchSearchScreen,
   DefaultItinerary,
@@ -181,7 +181,7 @@ const components = {
 
   ItineraryPreviewSupplement,
 
-  MainPanel: DestinationPanel,
+  MainPanel: RoutingPanel,
   // MainPanel: BatchRoutingPanel,
 
   MapWindows: isCallTakerModuleEnabled ? jsConfig.MapWindows : null,

@@ -7,9 +7,8 @@ import { getPersistenceMode } from '@otp-react-redux/lib/util/user'
 import InvisibleA11yLabel from '@otp-react-redux/lib/components/util/invisible-a11y-label'
 import LocationField from '@otp-react-redux/lib/components/form/connected-location-field'
 import ViewerContainer from '@otp-react-redux/lib/components/viewers/viewer-container'
-import { Button } from '@opentripplanner/endpoints-overlay/lib/styled'
+import { Button } from '@otp-react-redux/lib/components/form/batch-styled'
 
-// import NearbyView from '@otp-react-redux/lib/components/viewers/nearby/nearby-view'
 import NoiNearbyView from '../viewers/nearby/noi-nearby-view'
 
 interface Props {

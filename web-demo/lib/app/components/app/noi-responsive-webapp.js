@@ -42,7 +42,6 @@ import PopupWrapper from '@otp-react-redux/lib/components/app/popup'
 import SessionTimeout from '@otp-react-redux/lib/components/app/session-timeout'
 
 import LocationField from '@otp-react-redux/lib/components/form/connected-location-field'
-import RoutingPanel from './routing-panel'
 
 const { isMobile } = coreUtils.ui
 
@@ -255,25 +254,7 @@ class NoiResponsiveWebapp extends Component {
           </Grid>
           : null
         }
-        {query.to && query.from ?
-          <Grid>
-            <Row className="main-row">
-              <Col className="sidebar" md={4} sm={6}>
-                {/* Note: the main tag provides a way for users of screen readers to skip to the
-                    primary page content (tabindex = -1 needed for programmatic navigation skip). */}
-                <main tabIndex={-1}>
-                  <RoutingPanel />
-                </main>
-              </Col>
-              {MainControls && <MainControls />}
-              <Col className="map-container" md={8} sm={6}>
-                {MapWindows && <MapWindows />}
-                <Map />
-              </Col>
-            </Row>
-          </Grid>
-          : null
-        }
+
         {sessionTimeoutSeconds && <SessionTimeout />}
       </div>
     )
