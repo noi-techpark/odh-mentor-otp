@@ -8,7 +8,10 @@ import * as apiActions from '@otp-react-redux/lib/actions/api'
 import * as mapActions from '@otp-react-redux/lib/actions/map'
 import * as uiActions from '@otp-react-redux/lib/actions/ui'
 import { AppReduxState } from '@otp-react-redux/lib/util/state-types'
-import { SetLocationHandler, ZoomToPlaceHandler } from '@otp-react-redux/lib/components/util/types'
+import {
+  SetLocationHandler,
+  ZoomToPlaceHandler
+} from '@otp-react-redux/lib/components/util/types'
 import Loading from '@otp-react-redux/lib/components/narrative/loading'
 import MobileContainer from '@otp-react-redux/lib/components/mobile/container'
 import MobileNavigationBar from '@otp-react-redux/lib/components/mobile/navigation-bar'
@@ -34,7 +37,7 @@ type CurrentPosition = { coords?: { latitude: number; longitude: number } }
 
 type Props = {
   currentPosition?: CurrentPosition
-  defaultLatLon: LatLonObj | null
+  defaultLatLon: LatLonObj | null,
   displayedCoords?: LatLonObj
   entityId?: string
   fetchNearby: (latLon: LatLonObj, radius?: number) => void
@@ -48,6 +51,7 @@ type Props = {
   setLocation: SetLocationHandler
   setMainPanelContent: (content: number) => void
   setViewedNearbyCoords: (location: Location | null) => void
+  validLocations: string[]
   zoomToPlace: ZoomToPlaceHandler
 }
 
@@ -114,6 +118,7 @@ function NoiNearbyView({
   setHighlightedLocation,
   setMainPanelContent,
   setViewedNearbyCoords,
+  validLocations,
   zoomToPlace
 }: Props): JSX.Element {
   const map = useMap().default
@@ -123,13 +128,15 @@ function NoiNearbyView({
   const finalNearbyCoords = useMemo(
     () =>
       getNearbyCoordsFromUrlOrLocationOrMapCenter(
-        nearbyViewCoords,
+        currentPosition,
         currentPosition,
         map,
         defaultLatLon
       ),
     [nearbyViewCoords, currentPosition, map]
   )
+
+  console.log(finalNearbyCoords, nearbyViewCoords, currentPosition);
 
   // Make sure the highlighted location is cleaned up when leaving nearby
   useEffect(() => {
@@ -206,27 +213,31 @@ function NoiNearbyView({
 
   const nearbyItemList =
     nearby?.map &&
-    nearby?.map((n: any) => (
-      <li
-        className={
-          (n.place.gtfsId ?? n.place.id) === entityId ? 'highlighted' : ''
-        }
-        key={n.place.id}
-      >
-        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-        <div
-          className="nearby-view-card"
-          onBlur={onMouseLeave}
-          onFocus={() => onMouseEnter(n.place)}
-          onMouseEnter={() => onMouseEnter(n.place)}
-          onMouseLeave={onMouseLeave}
-          /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
-          tabIndex={0}
+    nearby
+      ?.filter((n: any) => {
+        return validLocations.includes(n.place.__typename)
+      })
+      .map((n: any) => (
+        <li
+          className={
+            (n.place.gtfsId ?? n.place.id) === entityId ? 'highlighted' : ''
+          }
+          key={n.place.id}
         >
-          {getNearbyItem({ ...n.place, distance: n.distance })}
-        </div>
-      </li>
-    ))
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+          <div
+            className="nearby-view-card"
+            onBlur={onMouseLeave}
+            onFocus={() => onMouseEnter(n.place)}
+            onMouseEnter={() => onMouseEnter(n.place)}
+            onMouseLeave={onMouseLeave}
+            /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+            tabIndex={0}
+          >
+            {getNearbyItem({ ...n.place, distance: n.distance })}
+          </div>
+        </li>
+      ))
 
   useEffect(() => {
     if (!staleData) {
@@ -294,7 +305,7 @@ const mapStateToProps = (state: AppReduxState) => {
   const { nearbyViewCoords } = ui
   const { nearby } = transitIndex
   const { entityId } = state.router.location.query
-  const { currentPosition } = location
+  const currentPosition = state.otp.currentQuery.to;
   const defaultLatLon =
     map?.initLat && map?.initLon ? { lat: map.initLat, lon: map.initLon } : null
   return {

@@ -43,7 +43,7 @@ import createOtpReducer from '@otp-react-redux/lib/reducers/create-otp-reducer'
 import createUserReducer from '@otp-react-redux/lib/reducers/create-user-reducer'
 import otpUtils from '@otp-react-redux/lib/util'
 
-// import BatchRoutingPanel from '@otp-react-redux/lib/components/app/batch-routing-panel'
+import BatchRoutingPanel from '@otp-react-redux/lib/components/app/batch-routing-panel'
 import NoiResponsiveWebapp from './components/app/noi-responsive-webapp'
 import RoutingPanel from './components/app/routing-panel'
 import DestinationPanel from './components/app/destination-panel'
@@ -101,7 +101,7 @@ export {
 
   // batch routing components
   BatchResultsScreen,
-  // BatchRoutingPanel,
+  BatchRoutingPanel,
   BatchSearchScreen,
   RoutingPanel,
   DestinationPanel,

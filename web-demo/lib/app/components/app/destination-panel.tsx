@@ -2,16 +2,36 @@ import { connect } from 'react-redux'
 import { FormattedMessage, injectIntl, IntlShape } from 'react-intl'
 import React, { Component, FormEvent } from 'react'
 
-import { getActiveSearch, getShowUserSettings } from '@otp-react-redux/lib/util/state'
+import {
+  getActiveSearch,
+  getShowUserSettings
+} from '@otp-react-redux/lib/util/state'
 import { getPersistenceMode } from '@otp-react-redux/lib/util/user'
 import InvisibleA11yLabel from '@otp-react-redux/lib/components/util/invisible-a11y-label'
 import LocationField from '@otp-react-redux/lib/components/form/connected-location-field'
 import ViewerContainer from '@otp-react-redux/lib/components/viewers/viewer-container'
 import { Button } from '@otp-react-redux/lib/components/form/batch-styled'
 
+import BatchSettings from '@otp-react-redux/lib/components/form/batch-settings'
+import NarrativeItineraries from '@otp-react-redux/lib/components/narrative/narrative-itineraries'
+import SwitchButton from '@otp-react-redux/lib/components/form/switch-button'
+
+import UserSettings from '@otp-react-redux/lib/components/form/user-settings'
+
+import PoiViewer from '../poi-viewer'
+
+import * as apiActions from '@otp-react-redux/lib/actions/api'
+import * as mapActions from '@otp-react-redux/lib/actions/map'
+import * as uiActions from '@otp-react-redux/lib/actions/ui'
+import {
+  MainPanelContent,
+  MobileScreens
+} from '@otp-react-redux/lib/actions/ui-constants'
+
 import NoiNearbyView from '../viewers/nearby/noi-nearby-view'
 
 interface Props {
+  query: any
   activeSearch: any
   intl: IntlShape
   mobile?: boolean
@@ -33,8 +53,12 @@ class DestinationPanel extends Component<Props> {
   }
 
   render() {
-    const { activeSearch, intl, mobile, showUserSettings } = this.props
+    const { activeSearch, intl, mobile, query, showUserSettings } = this.props
     const { planTripClicked } = this.state
+
+    let validLocationsStop = ['RentalVehicle', 'VehicleParking', 'BikeRentalStation'];
+    let validLocationsPoi = ['Stop', 'RentalVehicle', 'VehicleParking', 'BikeRentalStation'];
+
     const mapAction = mobile
       ? intl.formatMessage({
           id: 'common.searchForms.tap'
@@ -45,7 +69,7 @@ class DestinationPanel extends Component<Props> {
 
     return (
       <ViewerContainer
-        className="batch-routing-panel"
+        className="destination-panel"
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -63,21 +87,63 @@ class DestinationPanel extends Component<Props> {
           style={{ padding: '10px' }}
         >
           <span className="batch-routing-panel-location-fields">
-            <LocationField
-              inputPlaceholder={intl.formatMessage(
-                { id: 'common.searchForms.enterDestination' },
-                { mapAction }
-              )}
-              isRequired
-              locationType="to"
-              selfValidate={planTripClicked}
-              showClearButton={!mobile}
-            />
+            {planTripClicked && (
+              <LocationField
+                inputPlaceholder={intl.formatMessage(
+                  { id: 'common.searchForms.enterStartLocation' },
+                  { mapAction }
+                )}
+                isRequired
+                locationType="from"
+                selfValidate={planTripClicked}
+                showClearButton={!mobile}
+              />
+            )}
+            {planTripClicked && (
+              <LocationField
+                inputPlaceholder={intl.formatMessage(
+                  { id: 'common.searchForms.enterDestination' },
+                  { mapAction }
+                )}
+                isRequired
+                locationType="to"
+                selfValidate={planTripClicked}
+                showClearButton={!mobile}
+              />
+            )}
+            {planTripClicked && (
+              <div className="switch-button-container">
+                <SwitchButton />
+              </div>
+            )}
           </span>
+          {planTripClicked && (
+            <BatchSettings onPlanTripClick={this.handlePlanTripClick} />
+          )}
         </form>
-        <Button> Test </Button>
-
-        <NoiNearbyView />
+        {!planTripClicked && query.to && (<div>
+          <PoiViewer
+            handlePlanTripClick={this.handlePlanTripClick}
+            hideBackButton
+            selectedPlace={query.to}
+          />
+        </div>)}
+        {/* !activeSearch && showUserSettings && (
+          <UserSettings style={{ margin: '0 10px', overflowY: 'auto' }} />
+        ) */}
+        {activeSearch && (
+          <div
+            className="desktop-narrative-container"
+            style={{
+              flexGrow: 1,
+              overflowY: 'hidden'
+            }}
+          >
+            <NarrativeItineraries />
+          </div>
+        )}
+        {!planTripClicked && <NoiNearbyView validLocations={query.to.rawGeocodedFeature.properties.layer === 'stops' ? 
+        validLocationsStop : validLocationsPoi } />}
       </ViewerContainer>
     )
   }
@@ -92,9 +158,22 @@ const mapStateToProps = (state: any) => {
     (state.user.loggedInUser?.hasConsentedToTerms ||
       getPersistenceMode(state.otp.config.persistence).isLocalStorage)
   return {
-    activeSearch: getActiveSearch(state),
-    showUserSettings
+    showUserSettings,
+    query: state.otp.currentQuery,
+    activeSearch: getActiveSearch(state)
   }
 }
+const mapDispatchToProps = {
+  fetchNearby: apiActions.fetchNearby,
+  setHighlightedLocation: uiActions.setHighlightedLocation,
+  setLocation: mapActions.setLocation,
+  setMainPanelContent: uiActions.setMainPanelContent,
+  setViewedNearbyCoords: uiActions.setViewedNearbyCoords,
+  viewNearby: uiActions.viewNearby,
+  zoomToPlace: mapActions.zoomToPlace
+}
 
-export default connect(mapStateToProps)(injectIntl(DestinationPanel))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(DestinationPanel))

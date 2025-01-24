@@ -21,11 +21,13 @@ import Bugsnag from '@bugsnag/js'
 import BugsnagPluginReact from '@bugsnag/plugin-react'
 import React from 'react'
 
+
 // import OTP-RR components
 import {
   BatchResultsScreen,
+  DestinationPanel,
   RoutingPanel,
-  // BatchRoutingPanel,
+  BatchRoutingPanel,
   BatchSearchScreen,
   DefaultItinerary,
   NoiResponsiveWebapp,
@@ -181,7 +183,7 @@ const components = {
 
   ItineraryPreviewSupplement,
 
-  MainPanel: RoutingPanel,
+  MainPanel: DestinationPanel,
   // MainPanel: BatchRoutingPanel,
 
   MapWindows: isCallTakerModuleEnabled ? jsConfig.MapWindows : null,

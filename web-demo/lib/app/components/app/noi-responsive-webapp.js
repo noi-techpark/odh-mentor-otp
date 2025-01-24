@@ -86,6 +86,7 @@ class NoiResponsiveWebapp extends Component {
       // current one AND trip is not being replanned already. This will
       // determine whether a search needs to be made, the mobile view needs
       // updating, etc.
+      console.log('form changed', prevProps.query, query);
       formChanged(prevProps.query, query)
     }
 
@@ -225,17 +226,31 @@ class NoiResponsiveWebapp extends Component {
             <Row className="main-row">
               {MainControls && <MainControls />}
               <Col className="map-container" md={12} sm={6}>
+              <div style={
+                {
+                  padding: "20px 20px 20px 20px",
+                  borderRadius: "10px",
+                  backgroundColor: "white",
+                  border: "1px white solid",
+                  opacity: 1,
+                  zIndex: 19,
+                  position:"absolute",
+                  float:"left",
+                  top: "50px",
+                  left: "50px",
+                  width:"400px"
+                }
+              }>
                 <LocationField
                   locationType="to"
                 />
+              </div>
                 {MapWindows && <MapWindows />}
                 <Map />
               </Col>
             </Row>
           </Grid>
-          : null
-        }
-        {query.to && !query.from ?
+          : 
           <Grid>
             <Row className="main-row">
               <Col className="sidebar" md={4} sm={6}>
@@ -247,13 +262,32 @@ class NoiResponsiveWebapp extends Component {
               </Col>
               {MainControls && <MainControls />}
               <Col className="map-container" md={8} sm={6}>
+                <div style={
+                  {
+                    padding: "20px 20px 20px 20px",
+                    borderRadius: "10px",
+                    backgroundColor: "white",
+                    border: "1px white solid",
+                    opacity: 1,
+                    zIndex: 19,
+                    position:"absolute",
+                    float:"left",
+                    top: "50px",
+                    left: "50px",
+                    width:"400px"
+                  }
+                }>
+                  <LocationField
+                    locationType="to"
+                  />
+                </div>
                 {MapWindows && <MapWindows />}
                 <Map />
               </Col>
             </Row>
           </Grid>
-          : null
         }
+        
 
         {sessionTimeoutSeconds && <SessionTimeout />}
       </div>

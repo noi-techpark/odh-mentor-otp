@@ -16,10 +16,11 @@ import React from 'react'
 
 import {
   BatchResultsScreen,
-  // BatchRoutingPanel,
+  BatchRoutingPanel,
   RoutingPanel,
   BatchSearchScreen,
-  MetroItinerary
+  MetroItinerary,
+  DestinationPanel
 } from './index'
 
 const ItineraryBody = MetroItinerary
@@ -60,7 +61,7 @@ export function configure(otpConfig) {
     ItineraryBody,
     ItineraryFooter,
     LegIcon,
-    MainPanel: RoutingPanel,
+    MainPanel: DestinationPanel,
     // MainPanel: BatchRoutingPanel,
     MobileResultsScreen: BatchResultsScreen,
     MobileSearchScreen: BatchSearchScreen,
