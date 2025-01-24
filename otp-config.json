@@ -1,5 +1,7 @@
 {
   "otpFeatures": {
-    "SandboxAPIMapboxVectorTilesApi": true
+    "SandboxAPIMapboxVectorTilesApi": true,
+    // Prometheus metrics
+    "ActuatorAPI": true
   }
 }
