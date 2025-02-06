@@ -15,8 +15,8 @@ const _ = require('lodash')
 const basepath = process.cwd() //path of module that includes this
     , {name, version} = require(`${basepath}/package.json`)
     , serviceName = `service ${name} v${version}`
-    , configDefault = configyml({basepath: __dirname})
-    , config = configyml({basepath});
+    , configDefault = configyml.load({basepath: __dirname})
+    , config = configyml.load({basepath});
 
 config.endpoints = _.mapValues(config.endpoints, conf => {
     return _.defaults(conf, config.endpoints.default, configDefault.endpoints.default);

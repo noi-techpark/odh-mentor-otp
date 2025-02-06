@@ -35,7 +35,7 @@ let environments
 let config
 
 
-function load (env) {
+function load(env) {
 
   config = loadConfig()
 
@@ -56,7 +56,7 @@ function load (env) {
 }
 
 
-function loadConfigFile (file) {
+function loadConfigFile(file) {
 
   try {
 
@@ -77,7 +77,7 @@ function loadConfigFile (file) {
 }
 
 
-function loadConfig () {
+function loadConfig() {
 
   if (fs.existsSync('config.yml')) {
 
@@ -110,11 +110,11 @@ function loadConfig () {
 }
 
 
-function getEnvIdFromBranch () {
+function getEnvIdFromBranch() {
 
   try {
 
-    let branch = sh.exec('git name-rev HEAD --name-only', {silent: true}).stdout
+    let branch = sh.exec('git name-rev HEAD --name-only', { silent: true }).stdout
 
 
     branch = _.last(_.split(branch, '/'))
@@ -139,30 +139,30 @@ function getEnvIdFromBranch () {
 }
 
 
-function getEnvId (obj, env) {
+function getEnvId(obj, env) {
 
   return env ||
 
-        args.env ||
+    args.env ||
 
-        flow(
+    flow(
 
-          pick(keys(obj)),
+      pick(keys(obj)),
 
-          keys,
+      keys,
 
-          head
+      head
 
-        )(args) ||
+    )(args) ||
 
-        process.env.ENVIRONMENT_ID ||
+    process.env.ENVIRONMENT_ID ||
 
-        getEnvIdFromBranch()
+    getEnvIdFromBranch()
 
 }
 
 
-function substitute (file, p) {
+function substitute(file, p) {
 
   let success = false
 
@@ -178,12 +178,12 @@ function substitute (file, p) {
 
   })
 
-  return {success: success, replace: replaced}
+  return { success: success, replace: replaced }
 
 }
 
 
-function transform (file, obj) {
+function transform(file, obj) {
 
   let changed = false
 
@@ -235,19 +235,19 @@ function transform (file, obj) {
 
   })
 
-  return {changed: changed, result: resultant}
+  return { changed: changed, result: resultant }
 
 }
 
 
-function log () {
+function log() {
 
   console.log('CONFIG:', envId || '-', environmentType || '-')
 
 }
 
 
-function requireSettings (settings) {
+function requireSettings(settings) {
 
   let erredSettings = []
 
@@ -280,9 +280,9 @@ function requireSettings (settings) {
 }
 
 
-function swapVariables (configFile) {
+function swapVariables(configFile) {
 
-  function readAndSwap (obj) {
+  function readAndSwap(obj) {
 
     let altered = false
 
