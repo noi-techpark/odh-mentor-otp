@@ -23,7 +23,7 @@ import {
   NearbySidebarContainer,
   Scrollable
 } from '@otp-react-redux/lib/components/viewers/nearby/styled'
-import FromToPicker from '@otp-react-redux/lib/components/viewers/nearby/from-to-picker'
+import NoiFromToPicker from './noi-from-to-picker'
 import RentalStation from '@otp-react-redux/lib/components/viewers/nearby/rental-station'
 import Stop from '@otp-react-redux/lib/components/viewers/nearby/stop'
 import Vehicle from '@otp-react-redux/lib/components/viewers/nearby/vehicle-rent'
@@ -53,10 +53,11 @@ type Props = {
   setViewedNearbyCoords: (location: Location | null) => void
   validLocations: string[]
   zoomToPlace: ZoomToPlaceHandler
+  handlePlanTripClick: () => void
 }
 
-const getNearbyItem = (place: any) => {
-  const fromTo = <FromToPicker place={place} />
+const getNearbyItem = (place: any, handlePlanTripClick: any) => {
+  const fromTo = <NoiFromToPicker handlePlanTripClick={handlePlanTripClick} place={place} />
 
   switch (place.__typename) {
     case 'RentalVehicle':
@@ -119,7 +120,8 @@ function NoiNearbyView({
   setMainPanelContent,
   setViewedNearbyCoords,
   validLocations,
-  zoomToPlace
+  zoomToPlace,
+  handlePlanTripClick
 }: Props): JSX.Element {
   const map = useMap().default
   const intl = useIntl()
@@ -234,7 +236,7 @@ function NoiNearbyView({
             /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
             tabIndex={0}
           >
-            {getNearbyItem({ ...n.place, distance: n.distance })}
+            {getNearbyItem({ ...n.place, distance: n.distance }, handlePlanTripClick)}
           </div>
         </li>
       ))

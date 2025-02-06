@@ -250,7 +250,7 @@ class NoiResponsiveWebapp extends Component {
               </Col>
             </Row>
           </Grid>
-          : 
+          :
           <Grid>
             <Row className="main-row">
               <Col className="sidebar" md={4} sm={6}>
@@ -261,33 +261,35 @@ class NoiResponsiveWebapp extends Component {
                 </main>
               </Col>
               {MainControls && <MainControls />}
-              <Col className="map-container" md={8} sm={6}>
-                <div style={
-                  {
-                    padding: "20px 20px 20px 20px",
-                    borderRadius: "10px",
-                    backgroundColor: "white",
-                    border: "1px white solid",
-                    opacity: 1,
-                    zIndex: 19,
-                    position:"absolute",
-                    float:"left",
-                    top: "50px",
-                    left: "50px",
-                    width:"400px"
-                  }
-                }>
-                  <LocationField
-                    locationType="to"
-                  />
-                </div>
-                {MapWindows && <MapWindows />}
-                <Map />
-              </Col>
+              {!query.from ?
+                <Col className="map-container" md={8} sm={6}>
+                  <div style={
+                    {
+                      padding: "20px 20px 20px 20px",
+                      borderRadius: "10px",
+                      backgroundColor: "white",
+                      border: "1px white solid",
+                      opacity: 1,
+                      zIndex: 19,
+                      position:"absolute",
+                      float:"left",
+                      top: "50px",
+                      left: "50px",
+                      width:"400px"
+                    }
+                  }>
+                    <LocationField
+                      locationType="to"
+                    />
+                  </div>
+                  {MapWindows && <MapWindows />}
+                  <Map />
+                </Col>
+              : null }
             </Row>
           </Grid>
         }
-        
+
 
         {sessionTimeoutSeconds && <SessionTimeout />}
       </div>

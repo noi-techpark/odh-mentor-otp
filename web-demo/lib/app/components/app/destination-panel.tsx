@@ -142,8 +142,11 @@ class DestinationPanel extends Component<Props> {
             <NarrativeItineraries />
           </div>
         )}
-        {!planTripClicked && <NoiNearbyView validLocations={query.to.rawGeocodedFeature.properties.layer === 'stops' ? 
-        validLocationsStop : validLocationsPoi } />}
+        {!planTripClicked &&
+          <NoiNearbyView
+            handlePlanTripClick={this.handlePlanTripClick}
+            validLocations={query.to.rawGeocodedFeature?.properties?.layer === 'stops' ? validLocationsStop : validLocationsPoi }
+          />}
       </ViewerContainer>
     )
   }

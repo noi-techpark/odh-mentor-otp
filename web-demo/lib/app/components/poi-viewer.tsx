@@ -34,11 +34,12 @@ import {
   CardTitle
 } from '@otp-react-redux/lib/components/viewers/nearby/styled'
 import FavoriteStopToggle from '@otp-react-redux/lib/components/viewers/favorite-stop-toggle'
-import FromToPicker from '@otp-react-redux/lib/components/viewers/nearby/from-to-picker'
 import StopCardHeader from '@otp-react-redux/lib/components/viewers/nearby/stop-card-header'
 import StopScheduleTable from '@otp-react-redux/lib/components/viewers/stop-schedule-table'
 import TimezoneWarning from '@otp-react-redux/lib/components/viewers/timezone-warning'
 import { P } from '@styled-icons/fa-solid'
+
+import NoiFromToPicker from './viewers/nearby/noi-from-to-picker'
 
 interface Props {
   calendarMax: string
@@ -120,7 +121,7 @@ const HeaderCard = styled.div`
   }
 `
 
-const StyledFromToPicker = styled(FromToPicker)`
+const StyledFromToPicker = styled(NoiFromToPicker)`
   button {
     color: inherit;
   }
@@ -138,8 +139,16 @@ class PoiViewer extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     let { selectedPlace, transitIndex } = props
-    if (selectedPlace) {
-      if (selectedPlace.rawGeocodedFeature.properties.source === 'otp') {
+    if (selectedPlace && selectedPlace.rawGeocodedFeature) {
+      if (!selectedPlace.rawGeocodedFeature.properties) {
+        let poiData = selectedPlace.rawGeocodedFeature;
+        console.log(poiData);
+        this.state = {
+            date: getCurrentDate(props.homeTimezone),
+            poiData,
+            poiId: selectedPlace.rawGeocodedFeature.source_id
+        };
+      } else if (selectedPlace.rawGeocodedFeature.properties.source === 'otp') {
         let poiData = selectedPlace.rawGeocodedFeature.properties.addendum.stop;
         console.log(poiData);
         this.state = {
@@ -264,7 +273,7 @@ class PoiViewer extends Component<Props, State> {
             actionText={
                 <FormattedMessage id="components.StopViewer.viewSchedule" />
             }
-            
+
               // FIXME: What icon should we use?
               onZoomClick={this._zoomToStop}
               stopData={stopData}
