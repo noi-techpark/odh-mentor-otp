@@ -11,7 +11,7 @@ import LocationField from '@otp-react-redux/lib/components/form/connected-locati
 import PlanTripButton from '@otp-react-redux/lib/components/form/plan-trip-button'
 import SwitchButton from '@otp-react-redux/lib/components/form/switch-button'
 import DefaultMap from './components/map/default-map'
-import Map from '@otp-react-redux/lib/components/map/map'
+import Map from './components/map/map'
 import DefaultItinerary from '@otp-react-redux/lib/components/narrative/default/default-itinerary'
 import MetroItinerary from '@otp-react-redux/lib/components/narrative/metro/metro-itinerary'
 import NarrativeItineraries from '@otp-react-redux/lib/components/narrative/narrative-itineraries'

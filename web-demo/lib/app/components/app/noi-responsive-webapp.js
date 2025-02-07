@@ -285,7 +285,11 @@ class NoiResponsiveWebapp extends Component {
                   {MapWindows && <MapWindows />}
                   <Map />
                 </Col>
-              : null }
+              : <Col className="map-container" md={8} sm={6}>
+              
+              {MapWindows && <MapWindows />}
+              <Map />
+            </Col> }
             </Row>
           </Grid>
         }

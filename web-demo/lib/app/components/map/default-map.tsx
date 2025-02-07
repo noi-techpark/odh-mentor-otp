@@ -16,13 +16,20 @@ import {
   vehicleRentalQuery
 } from '@otp-react-redux/lib/actions/api'
 import { ComponentContext } from '@otp-react-redux/lib/util/contexts'
-import { getActiveItinerary, getActiveSearch } from '@otp-react-redux/lib/util/state'
+import {
+  getActiveItinerary,
+  getActiveSearch
+} from '@otp-react-redux/lib/util/state'
 import { getCurrentPosition } from '@otp-react-redux/lib/actions/location'
 import { MainPanelContent } from '@otp-react-redux/lib/actions/ui-constants'
-import { setLocation, setMapPopupLocationAndGeocode } from '@otp-react-redux/lib/actions/map'
+import {
+  setLocation,
+  setMapPopupLocationAndGeocode
+} from '@otp-react-redux/lib/actions/map'
 import { setViewedStop } from '@otp-react-redux/lib/actions/ui'
 import { updateOverlayVisibility } from '@otp-react-redux/lib/actions/config'
 
+import OTPVectorLayers from './custom-otp-layers-collection'
 import ElevationPointMarker from '@otp-react-redux/lib/components/map/elevation-point-marker'
 import EndpointsOverlay from '@otp-react-redux/lib/components/map/connected-endpoints-overlay'
 import TaxiLayer from './taxi-layer'
@@ -39,6 +46,7 @@ import TransitVehicleOverlay from '@otp-react-redux/lib/components/map/connected
 import TripViewerOverlay from '@otp-react-redux/lib/components/map/connected-trip-viewer-overlay'
 import VehicleRentalOverlay from '@otp-react-redux/lib/components/map/connected-vehicle-rental-overlay'
 import withMap from '@otp-react-redux/lib/components/map/with-map'
+
 
 const MapContainer = styled.div`
   height: 100%;
@@ -399,19 +407,22 @@ class DefaultMap extends Component {
                   />
                 )
               case 'otp2':
+                console.log('overlayConfig', overlayConfig)
                 // This must be a method that returns an array of JSX
                 // as the base-map requires that every toggleable layer
                 // is its own component, and not a subcomponent of another component
-                return generateOTP2TileLayers(
-                  overlayConfig.layers.map((l) => ({
-                    ...l,
-                    name: getLayerName(l, config, intl) || l.network || l.type
-                  })),
-                  vectorTilesEndpoint,
-                  setLocation,
-                  setViewedStop,
-                  null,
-                  config.companies
+                return (
+                  <OTPVectorLayers
+                    {...namedLayerProps}
+                    visible={true}
+                    tilejsonUrl={
+                      vectorTilesEndpoint +
+                      '/' +
+                      overlayConfig.layers.map((l) => l.type).join(',') +
+                      '/tilejson.json'
+                    }
+                    layerNames={overlayConfig.layers.map((l) => l.type)}
+                  />
                 )
               default:
                 return null

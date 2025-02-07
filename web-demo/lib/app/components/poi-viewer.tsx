@@ -281,7 +281,7 @@ class PoiViewer extends Component<Props, State> {
             />
           ) : (
             <CardHeader>
-                <CardTitle as="h1">{stopData.name}</CardTitle>
+                <CardTitle as="h1">{stopData?.name}</CardTitle>
             </CardHeader>
           )}
         </HeaderCard>

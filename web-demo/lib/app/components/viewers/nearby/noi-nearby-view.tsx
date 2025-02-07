@@ -217,7 +217,7 @@ function NoiNearbyView({
     nearby?.map &&
     nearby
       ?.filter((n: any) => {
-        return validLocations.includes(n.place.__typename)
+        return validLocations.includes(n.place.__typename) && (n.place.__typename !== 'Stop' || n.place.stoptimesForPatterns.length > 0);
       })
       .map((n: any) => (
         <li

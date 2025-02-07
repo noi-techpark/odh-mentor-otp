@@ -146,10 +146,14 @@ map:
       url: https://mobility.api.opendatahub.com/v2/flat,node/ON_DEMAND_VEHICLE/*/latest?where=sorigin.eq.%22smart-taxi-merano%22
     - type: otp2
       layers:
-        - type: stops
-        - type: rentalVehicles
+        #- type: citybikes # overlaps with rental stations
+        - type: rentalVehicles # no free floating at the moment
         - type: rentalStations
         - type: vehicleParking
+        - type: stops
+        #- type: areaStops # couldn't find any
+        - type: stations # couldn't find any
+        
   ### Optional transitive.js (route rendering) properties:
   ### - labeledModes: an array of OTP modes for which the route label should be
   ###                 rendered on the map. Example of OTP modes: BUS, RAIL, ...
