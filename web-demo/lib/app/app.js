@@ -31,7 +31,8 @@ import {
   BatchSearchScreen,
   DefaultItinerary,
   NoiResponsiveWebapp,
-  Map
+  Map,
+  DefaultMap
 } from './index'
 
 // Loads a yaml config file which is set in the webpack section of the craco.config.js file.
@@ -201,8 +202,12 @@ const components = {
   TermsOfService,
 
   TermsOfStorage,
-  Map: Map
+
+  Map: Map,
+
+  DefaultMap: DefaultMap
 }
+console.log(DefaultMap);
 
 const Webapp = () => (
   <ErrorBoundary>

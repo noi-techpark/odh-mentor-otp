@@ -142,6 +142,8 @@ map:
       url: //tiles.stadiamaps.com/styles/stamen_toner_lite.json
       attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
   overlays:
+    - type: taxi_noi
+      url: https://mobility.api.opendatahub.com/v2/flat,node/ON_DEMAND_VEHICLE/*/latest?where=sorigin.eq.%22smart-taxi-merano%22
     - type: otp2
       layers:
         - type: stops
