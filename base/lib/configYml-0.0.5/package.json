@@ -1,0 +1,54 @@
+{
+  "name": "@stefcud/configyml",
+  "version": "0.0.5",
+  "description": "Simple Yaml Config for NodeJs",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard | snazzy && mocha",
+    "coverage": "nyc --reporter=lcov --reporter=text mocha",
+    "coveralls": "nyc --reporter=text-lcov mocha | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefanocudini/configyml.git"
+  },
+  "keywords": [
+    "Config",
+    "Yaml",
+    "Yml",
+    "Configuration",
+    "Settings",
+    "Parameters",
+    "config.yml"
+  ],
+  "author": "Stefano Cudini stefano.cudini@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stefanocudini/configyml/issues"
+  },
+  "homepage": "https://github.com/stefanocudini/configyml#readme",
+  "standard": {
+    "globals": [
+      "describe",
+      "it",
+      "before",
+      "after"
+    ]
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.1",
+    "decache": "^3.1.0",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "should": "^9.0.2",
+    "sinon": "^1.17.4",
+    "snazzy": "^7.0.0",
+    "standard": "^11.0.1"
+  },
+  "dependencies": {
+    "js-yaml": "^3.6.1",
+    "lodash": "^4.13.1",
+    "shelljs": "^0.8.4",
+    "yargs": "^4.7.1"
+  }
+}

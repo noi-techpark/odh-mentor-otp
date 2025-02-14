@@ -23,3 +23,7 @@ License: MIT
 Files: web-demo/.gitignore web-demo/.babelrc
 Copyright: (c) 2017 Conveyal
 License: MIT
+
+Files: base/lib/*
+Copyright: (c) 2023 Stefano Cudini
+License: MIT
