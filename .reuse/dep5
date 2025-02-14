@@ -11,10 +11,6 @@ Files: drt/utils/gtfs-realtime.proto
 Copyright: (c) NOI Techpark <digital@noi.bz.it>
 License: AGPL-3.0-or-later
 
-Files: base/lib/configyml/*
-Copyright: (c) Stefano Cudini
-License: MIT
-
 Files: journey/src/styles/components/_leaflet.scss
 Copyright: (c) 2010-2023, Volodymyr Agafonkin
            (c) 2010-2011, CloudMade
