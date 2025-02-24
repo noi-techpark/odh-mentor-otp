@@ -84,13 +84,16 @@ services:
 
   graphhopper:
     image: israelhikingmap/graphhopper:8.0
-    command: --host 0.0.0.0 --url https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
+    # Disable direct download because it's very slow.
+    # command: --host 0.0.0.0 --url https://download.geofabrik.de/europe/italy/nord-est-latest.osm.pbf
+    # The local file is just the link above, but downloaded manually.
+    command: --host 0.0.0.0 -i /data/nord_est_latest.osm.pbf
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8989/health"]
-      interval: 20s
+      interval: 10s
       timeout: 3s
       # the .pdf download is very slow sometimes
-      start_period: 1000s
+      # start_period: 1000s
     environment:
       - JAVA_OPTS=-Xmx4g
     volumes:
