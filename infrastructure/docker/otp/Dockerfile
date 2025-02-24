@@ -1,5 +1,5 @@
 # Simon, do you know how we could use the value from .otp-version here?
-FROM lehrenfried/opentripplanner:siri-scheduled-stop-point
+FROM opentripplanner/opentripplanner:2.7.0_2025-02-21T08-35
 
 WORKDIR /var/otp
 
