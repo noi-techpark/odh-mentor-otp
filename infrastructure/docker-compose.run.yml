@@ -89,7 +89,8 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8989/health"]
       interval: 20s
       timeout: 3s
-      start_period: 150s
+      # the .pdf download is very slow sometimes
+      start_period: 1000s
     environment:
       - JAVA_OPTS=-Xmx4g
     volumes:
