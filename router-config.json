@@ -58,7 +58,7 @@
       {
         "name": "rentalStations",
         "type": "VehicleRentalStation",
-        "mapper": "Digitransit",
+        "mapper": "DigitransitRealtime",
         "maxZoom": 20,
         "minZoom": 14,
         "cacheMaxSeconds": 600
@@ -68,7 +68,7 @@
       {
         "name": "vehicleParking",
         "type": "VehicleParking",
-        "mapper": "Digitransit",
+        "mapper": "Stadtnavi",
         "maxZoom": 20,
         "minZoom": 14,
         "cacheMaxSeconds": 600,
