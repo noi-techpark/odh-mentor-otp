@@ -786,13 +786,29 @@ repair-inputs: | $(STATE_DIR) ## Delete every input/ file that fails verify-inpu
 # The one token serves both requests. DBP sends no ETag and no Last-Modified and ignores a range
 # request, so the data set's own version id out of its public API is what says whether the zip
 # changed; it reaches $(FEEDVER) on stdin, where argv would show it to every user on the box.
+#
+# The response is captured and then parsed, not piped into the parser: make runs a recipe without
+# pipefail, so the exit status of curl | python3 is python's. A curl that fetched nothing leaves
+# the parser reading an empty stdin, and the recipe reports a JSONDecodeError while curl's own
+# line -- the one naming the host it could not resolve -- scrolls past above it.
+#
+# The credential guards are hoisted out of the request for the same reason: inside $(shell) they
+# would end the substitution rather than the recipe, and their message would be followed by the
+# unreachable-endpoint one below.
 define fetch_austria
-@token=$$(curl -fsS -X POST -d client_id=$(MV_CLIENT_ID) -d grant_type=password -d scope=openid \
-		--data-urlencode "username=$${MV_USERNAME:?export MV_USERNAME and MV_PASSWORD}" \
-		--data-urlencode "password=$${MV_PASSWORD:?export MV_USERNAME and MV_PASSWORD}" \
-		"$(MV_TOKEN_URL)" \
-	  | python3 -c 'import sys,json; print(json.load(sys.stdin)["access_token"])') \
-	&& ver=$$(printf '%s\n' "$$token" | $(FEEDVER) dbp $(1) | awk '{print $$2}') \
+@: $${MV_USERNAME:?export MV_USERNAME and MV_PASSWORD}; \
+ : $${MV_PASSWORD:?export MV_USERNAME and MV_PASSWORD}; \
+ resp=$$(curl -fsS -X POST -d client_id=$(MV_CLIENT_ID) -d grant_type=password -d scope=openid \
+		--data-urlencode "username=$$MV_USERNAME" \
+		--data-urlencode "password=$$MV_PASSWORD" \
+		"$(MV_TOKEN_URL)") || { echo >&2; \
+	  echo "$(MV_TOKEN_URL) did not answer -- curl's own line is the one above." >&2; exit 1; }; \
+ token=$$(printf '%s' "$$resp" \
+	  | python3 -c 'import sys,json; print(json.load(sys.stdin)["access_token"])' 2>/dev/null) \
+	|| { echo >&2; \
+	  echo "$(MV_TOKEN_URL) answered without an access_token. It sent:" >&2; \
+	  printf '%s' "$$resp" | head -c 200 >&2; echo >&2; exit 1; }; \
+ ver=$$(printf '%s\n' "$$token" | $(FEEDVER) dbp $(1) | awk '{print $$2}') \
 	&& $(FETCH) $${ver:+--validator "$$ver"} "$(call MV_FILE_URL,$(1))" $(2) \
 	     -H "Authorization: Bearer $$token"
 endef
