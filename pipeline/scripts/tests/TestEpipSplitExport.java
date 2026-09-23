@@ -308,6 +308,44 @@ public class TestEpipSplitExport {
         Check.equals(Set.of("NOI"), participants, "and the same ParticipantRef");
     }
 
+    /// Frame identifiers across a multi-shard fan-out. The profile makes the frame-id structure
+    /// mandatory and bounds its topic to letters, digits and hyphen, which is what the shard suffix
+    /// has to survive: it reaches the minter as `00_0001`.
+    ///
+    /// The toolkit's own TestDbToZip pins the shape on one entry. Only a split export shows that
+    /// every shard's frames carry it and that two shards do not collide on one id.
+    public static void testFrameIdsAcrossShards(TestStore ts) throws Exception {
+        Zip zip = export(ts, "--shards", "2", "--journeys-per-file", "1");
+
+        Set<String> frameIds = new TreeSet<>();
+        for (Map.Entry<String, Document> e : zip.byName().entrySet()) {
+            List<String> inThisEntry = new ArrayList<>();
+            for (String tag : new String[] {"CompositeFrame", "ServiceFrame", "TimetableFrame",
+                    "ResourceFrame", "SiteFrame", "ServiceCalendarFrame"}) {
+                for (Element el : iter(e.getValue(), tag)) {
+                    String id = el.getAttribute("id");
+                    Check.that(id.startsWith("epd:"),
+                            e.getKey() + ": " + tag + " id is in the EPIP codespace: " + id);
+                    Check.that(!id.contains("_0001") && !id.contains("_shared"),
+                            e.getKey() + ": the shard topic is hyphenated, not underscored: " + id);
+                    inThisEntry.add(id);
+                    frameIds.add(id);
+                }
+            }
+            // Per ENTRY, not across the zip: the CompositeFrame id repeats in every entry by
+            // design, since each is an independent delivery of the same offer.
+            Check.equals(inThisEntry.size(), new TreeSet<>(inThisEntry).size(),
+                    e.getKey() + ": no two frames of one entry share an id: " + inThisEntry);
+        }
+        // The bin-packing puts this fixture's single line component in shard 0, so shard 1 is empty
+        // and contributes no frame -- the same reason testPatternJourneyColocationAcrossShards
+        // expects one shared group entry. What the topic has to carry is the shard AND the file.
+        Check.that(frameIds.contains("epd:::ServiceFrame_EU_PI_NETWORK:00-0001"),
+                "the numbered frame's topic is shard-and-sequence: " + frameIds);
+        Check.that(frameIds.contains("epd:::ServiceFrame_EU_PI_NETWORK:00-shared"),
+                "and the shared group frame's names the shard: " + frameIds);
+    }
+
     static final String NETEX = """
 <ServiceFrame id="sf" version="1">
   <serviceLinks>

@@ -485,12 +485,27 @@ EPIP_DESCRIPTION ?= South Tyrol and cross-border public transport
 EPIP_PUBLICATION_TIMESTAMP ?=
 EPIP_FRAME_VERSION ?=
 
-# The flag list, empty-safe: an unset variable contributes no flag at all rather than an empty one.
+# The codespace a generated id falls back to when the object it came from carries no class token to
+# derive one from. Unset, the toolkit uses the EPIP data codespace the profile reserves for it, which
+# is what a publisher with no identifier scheme of its own should ship.
+EPIP_CODESPACE ?=
+
+# The country and local codes in a frame identifier. Empty here on purpose: the merged store spans
+# IT, AT and CH, so there is no single country to name, and an empty field keeps its placeholder
+# colon. A single-country export can fill them.
+EPIP_CODESPACE_COUNTRY ?=
+EPIP_CODESPACE_LOCAL ?=
+
+# The flag lists, empty-safe: an unset variable contributes no flag at all rather than an empty one.
 EPIP_ENVELOPE_FLAGS := \
     $(if $(EPIP_PARTICIPANT_REF),--participant-ref "$(EPIP_PARTICIPANT_REF)") \
     $(if $(EPIP_DESCRIPTION),--description "$(EPIP_DESCRIPTION)") \
     $(if $(EPIP_PUBLICATION_TIMESTAMP),--publication-timestamp $(EPIP_PUBLICATION_TIMESTAMP)) \
-    $(if $(EPIP_FRAME_VERSION),--frame-version $(EPIP_FRAME_VERSION))
+    $(if $(EPIP_FRAME_VERSION),--frame-version $(EPIP_FRAME_VERSION)) \
+    $(if $(EPIP_CODESPACE_COUNTRY),--codespace-country $(EPIP_CODESPACE_COUNTRY)) \
+    $(if $(EPIP_CODESPACE_LOCAL),--codespace-local $(EPIP_CODESPACE_LOCAL))
+
+EPIP_CODESPACE_FLAG := $(if $(EPIP_CODESPACE),--codespace $(EPIP_CODESPACE))
 
 # ---- OTP graph -------------------------------------------------------------------------------
 # The OTP this loads is the `noi-pipeline` branch of an OpenTripPlanner checkout, which carries
@@ -584,6 +599,7 @@ help: ## Show this help
 	@echo "  EPIP_SHARDS = $(EPIP_SHARDS)   EPIP_JOURNEYS_PER_FILE = $(EPIP_JOURNEYS_PER_FILE)"
 	@echo "  envelope  = $(EPIP_ENVELOPE_FLAGS)"
 	@echo "              set EPIP_PUBLICATION_TIMESTAMP and EPIP_FRAME_VERSION for a reproducible zip"
+	@echo "  codespace = $(if $(EPIP_CODESPACE),$(EPIP_CODESPACE),epd (the profile's own))"
 	@echo
 	@echo "One credential, taken from the environment and never stored here: the Austrian feeds"
 	@echo "need a data.mobilitaetsverbuende.at login."
@@ -1067,7 +1083,7 @@ $(DATA_DIR)/flix-epip.lmdb: XMX_EPIP_COUNTRY := 4g
 $(DATA_DIR)/%-epip.lmdb: $(DATA_DIR)/%-cons.lmdb | $(TOOLKIT_JAR)
 	$(call stage,epip-$*,converting $(notdir $<) -> $(notdir $@) ($(EPIP_JOURNEY_WORKERS) journey workers))
 	rm -rf $@ $@.tmp
-	$(call drv,epip-db-to-db,EPIP_COUNTRY) $< $@.tmp
+	$(call drv,epip-db-to-db,EPIP_COUNTRY) $< $@.tmp $(EPIP_CODESPACE_FLAG)
 	mv $@.tmp $@
 	$(call stage_done,epip-$*)
 

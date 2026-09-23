@@ -28,6 +28,7 @@ import toolkit.store.Store;
 import toolkit.store.Txn;
 import toolkit.transform.common.LineAuthorities;
 import toolkit.transform.common.ScheduledStopPoints;
+import toolkit.transform.epip.GeneratorDefaults;
 import transformers.feedfix.CodeNames;
 
 import java.util.ArrayList;
@@ -57,7 +58,11 @@ public class ItRapDbToDb {
             stopFixed.put(sp.getId(), sp);
         }
 
-        List<Object> authorityOverlay = LineAuthorities.backfillLineAuthorities(src, stx);
+        // The per-feed run of the same pass the EPIP conversion runs nationally. The codespace is
+        // only reached for an Operator whose id carries no class token, which a RAP feed's do, so
+        // this takes the profile's default rather than growing an EPIP_CODESPACE flag of its own.
+        List<Object> authorityOverlay = LineAuthorities.backfillLineAuthorities(src, stx,
+                GeneratorDefaults.PRODUCTION.codespace());
         Map<String, Line> lineFixed = new LinkedHashMap<>();
         Map<String, Network> netFixed = new LinkedHashMap<>();
         List<Authority> newAuthorities = new ArrayList<>();
