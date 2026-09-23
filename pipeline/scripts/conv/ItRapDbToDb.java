@@ -17,6 +17,7 @@ import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import noi.netex.model.Authority;
 import noi.netex.model.EntityInVersionStructure;
 import noi.netex.model.EntityStructure;
+import noi.netex.model.FlexibleLine;
 import noi.netex.model.Line;
 import noi.netex.model.Network;
 import noi.netex.model.PassengerStopAssignment;
@@ -48,6 +49,7 @@ public class ItRapDbToDb {
         List<ObjectRow> spRows = rows(src, stx, StopPlace.class);
         List<ObjectRow> psaRows = rows(src, stx, PassengerStopAssignment.class);
         List<ObjectRow> lineRows = rows(src, stx, Line.class);
+        List<ObjectRow> flexRows = rows(src, stx, FlexibleLine.class);
         List<ObjectRow> netRows = rows(src, stx, Network.class);
 
         Map<String, StopPlace> stopFixed = new LinkedHashMap<>();
@@ -63,11 +65,16 @@ public class ItRapDbToDb {
         // this takes the profile's default rather than growing an EPIP_CODESPACE flag of its own.
         List<Object> authorityOverlay = LineAuthorities.backfillLineAuthorities(src, stx,
                 GeneratorDefaults.PRODUCTION.codespace());
-        Map<String, Line> lineFixed = new LinkedHashMap<>();
-        Map<String, Network> netFixed = new LinkedHashMap<>();
+        // A FlexibleLine is not a Line — they are siblings under Line_VersionStructure — so it needs
+        // its own branch and its own overlay. Folding it into the Line one would cast it to
+        // Authority here, and overlay it under a class index that holds no such row there.
+        Map<String, Object> lineFixed = new LinkedHashMap<>();
+        Map<String, Object> flexFixed = new LinkedHashMap<>();
+        Map<String, Object> netFixed = new LinkedHashMap<>();
         List<Authority> newAuthorities = new ArrayList<>();
         for (Object o : authorityOverlay) {
             if (o instanceof Line l) lineFixed.put(l.getId(), l);
+            else if (o instanceof FlexibleLine f) flexFixed.put(f.getId(), f);
             else if (o instanceof Network n) netFixed.put(n.getId(), n);
             else newAuthorities.add((Authority) o);
         }
@@ -81,6 +88,7 @@ public class ItRapDbToDb {
         planOverlay(src, spRows, StopPlace.class, stopOverlay, Set.of(), skip, reinserted, overlayInserts);
         planOverlay(src, psaRows, PassengerStopAssignment.class, Map.of(), Set.of(), skip, reinserted, overlayInserts);
         planOverlay(src, lineRows, Line.class, lineFixed, Set.of(), skip, reinserted, overlayInserts);
+        planOverlay(src, flexRows, FlexibleLine.class, flexFixed, Set.of(), skip, reinserted, overlayInserts);
         planOverlay(src, netRows, Network.class, netFixed, Set.of(), skip, reinserted, overlayInserts);
 
         List<Object> newInserts = new ArrayList<>(newAuthorities);
