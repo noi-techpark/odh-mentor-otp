@@ -638,9 +638,14 @@ all: $(GRAPH) ## Build everything up to graph.obj (street + transit)
 #
 # The options go before the URL. Everything after the destination is handed to curl, which is what
 # carries the Austrian bearer header, and curl rejects a --validator it was never meant to see.
+#
+# The fetch is silenced because $(5) is a shell substitution, not a value: $(rap_validator) expands
+# to its whole awk-and-fallback lookup, which is 205 of the 382 characters make would echo in front
+# of every feed. What the line carried is already on the two around it -- $(call stage) names the
+# feed and its asset, and a $(FETCH) that fails names the destination it was filling.
 define fetch_src
 $(call stage,$(1),$(2))
-$(FETCH) $(5) "$(3)" $(4)
+@$(FETCH) $(5) "$(3)" $(4)
 $(call stage_done,$(1))
 endef
 
