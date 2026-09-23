@@ -505,6 +505,9 @@ EPIP_ENVELOPE_FLAGS := \
     $(if $(EPIP_CODESPACE_COUNTRY),--codespace-country $(EPIP_CODESPACE_COUNTRY)) \
     $(if $(EPIP_CODESPACE_LOCAL),--codespace-local $(EPIP_CODESPACE_LOCAL))
 
+# Passed to BOTH the transform and the export. Each mints ids for objects the other never sees, so
+# giving it to one alone leaves the frame identifiers and the contents they govern under different
+# prefixes -- a document that still validates, so nothing downstream reports it.
 EPIP_CODESPACE_FLAG := $(if $(EPIP_CODESPACE),--codespace $(EPIP_CODESPACE))
 
 # ---- OTP graph -------------------------------------------------------------------------------
@@ -1125,7 +1128,7 @@ xb: $(XB_DB) ## Re-run only the cross-border coupling against the existing epip.
 # below).
 $(NETEX_ZIP): $(XB_DB) | $(OTP_DIR) $(TOOLKIT_JAR)
 	$(call stage,export,split-serialising $(notdir $<) -> $(notdir $@) ($(EPIP_SHARDS) shards, $(EPIP_JOURNEYS_PER_FILE) journeys/file))
-	$(call drv,epip-db-to-xml,EXPORT) $< $@ --shards $(EPIP_SHARDS) --journeys-per-file $(EPIP_JOURNEYS_PER_FILE) $(EPIP_ENVELOPE_FLAGS)
+	$(call drv,epip-db-to-xml,EXPORT) $< $@ --shards $(EPIP_SHARDS) --journeys-per-file $(EPIP_JOURNEYS_PER_FILE) $(EPIP_ENVELOPE_FLAGS) $(EPIP_CODESPACE_FLAG)
 	$(call stage_done,export)
 
 # ===== graph inputs ===========================================================================
