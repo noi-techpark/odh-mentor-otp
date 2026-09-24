@@ -3,7 +3,8 @@ package conv;
 // Per-operator RAP preparation in a single clone+overlay pass:
 //   1. backfill StopPlace centroids from child Quays;
 //   2. take a stop's name back out of ShortName where its Name holds only the stop's code;
-//   3. backfill Line authorities, synthesising Authorities from Operators as needed.
+//   3. backfill Line authorities, synthesising Authorities from Operators as needed;
+//   4. nest the frame-level groups of lines into the feed's Network.
 //
 // 1 and 2 both overlay StopPlace, and a row decoded twice gives two objects, so 2 runs over 1's
 // objects rather than over a second decode of the same rows.
@@ -11,6 +12,12 @@ package conv;
 // The authority backfill has to stay per operator: its soleAuthority shortcut assumes 0 or 1
 // Authorities in scope, and nationally there are hundreds, most of them synthesised here rather
 // than published.
+//
+// So does 4, for the same kind of reason: a RAP feed declares its groups of lines beside the
+// Network rather than inside it, and NeTEx expresses that relationship by containment alone -- a
+// GroupOfLines carries no reference back to its Network. One operator's feed carries one Network,
+// so that Network is the one its groups belong to; nationally there is one per feed and the question
+// has no answer. 4 therefore cannot move into the toolkit, which only ever sees the merged store.
 
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
@@ -18,6 +25,8 @@ import noi.netex.model.Authority;
 import noi.netex.model.EntityInVersionStructure;
 import noi.netex.model.EntityStructure;
 import noi.netex.model.FlexibleLine;
+import noi.netex.model.GroupOfLines;
+import noi.netex.model.GroupsOfLinesInFrame_RelStructure;
 import noi.netex.model.Line;
 import noi.netex.model.Network;
 import noi.netex.model.PassengerStopAssignment;
@@ -30,6 +39,7 @@ import toolkit.store.Txn;
 import toolkit.transform.common.LineAuthorities;
 import toolkit.transform.common.ScheduledStopPoints;
 import toolkit.transform.epip.GeneratorDefaults;
+import toolkit.util.Log;
 import transformers.feedfix.CodeNames;
 
 import java.util.ArrayList;
@@ -51,6 +61,7 @@ public class ItRapDbToDb {
         List<ObjectRow> lineRows = rows(src, stx, Line.class);
         List<ObjectRow> flexRows = rows(src, stx, FlexibleLine.class);
         List<ObjectRow> netRows = rows(src, stx, Network.class);
+        List<ObjectRow> golRows = rows(src, stx, GroupOfLines.class);
 
         Map<String, StopPlace> stopFixed = new LinkedHashMap<>();
         for (StopPlace sp : ScheduledStopPoints.backfillStopplaceCentroidsFromQuays(src, stx)) {
@@ -79,6 +90,39 @@ public class ItRapDbToDb {
             else newAuthorities.add((Authority) o);
         }
 
+        // 4. The group-of-lines hierarchy, AFTER the backfill on purpose: the backfill leaves a Line
+        // alone when its group already resolves to an authority-bearing Network, so nesting first
+        // would stop it giving these Lines the direct authorityRef they carry today. Both survive
+        // this way -- the profile lists AuthorityRef and RepresentByGroupRef as separate fields.
+        //
+        // The frame-level rows go: the groups are the Network's children now, and leaving the rows
+        // behind would have the export emit each group twice, once nested and once in the frame's
+        // own container.
+        Set<String> nestedGroups = new java.util.LinkedHashSet<>();
+        Map<String, Network> networks = byId(netRows, Network.class);
+        Map<String, GroupOfLines> groups = byId(golRows, GroupOfLines.class);
+        if (networks.size() == 1 && !groups.isEmpty()) {
+            String netId = networks.keySet().iterator().next();
+            Network net = netFixed.get(netId) instanceof Network repaired
+                    ? repaired : networks.get(netId);
+            GroupsOfLinesInFrame_RelStructure container = net.getGroupsOfLines();
+            if (container == null) {
+                container = new GroupsOfLinesInFrame_RelStructure();
+                net.setGroupsOfLines(container);
+            }
+            for (GroupOfLines g : groups.values()) {
+                container.getGroupOfLines().add(g);
+                nestedGroups.add(g.getId());
+            }
+            netFixed.put(netId, net);
+            Log.info("[it-rap-db-to-db] nested %d groups of lines into %s",
+                    nestedGroups.size(), netId);
+        } else if (!groups.isEmpty()) {
+            Log.info("[it-rap-db-to-db] %d groups of lines left at frame level: %d Networks in "
+                    + "scope, so which one owns them is not decidable here",
+                    groups.size(), networks.size());
+        }
+
         Map<String, Object> stopOverlay = new LinkedHashMap<>(stopFixed);
 
         LongOpenHashSet skip = new LongOpenHashSet();       // rows the clone must not copy
@@ -90,6 +134,7 @@ public class ItRapDbToDb {
         planOverlay(src, lineRows, Line.class, lineFixed, Set.of(), skip, reinserted, overlayInserts);
         planOverlay(src, flexRows, FlexibleLine.class, flexFixed, Set.of(), skip, reinserted, overlayInserts);
         planOverlay(src, netRows, Network.class, netFixed, Set.of(), skip, reinserted, overlayInserts);
+        planOverlay(src, golRows, GroupOfLines.class, Map.of(), nestedGroups, skip, reinserted, overlayInserts);
 
         List<Object> newInserts = new ArrayList<>(newAuthorities);
 
@@ -103,6 +148,16 @@ public class ItRapDbToDb {
         if (!patch.isEmpty()) {
             dst.insertAnyObjects(dtx, toolkit.harness.CloneSupport.loadPatchObjects(src, stx, patch));
         }
+    }
+
+    /// The rows' objects by id, one per id — a class map may hold several versions of one.
+    private static <T> Map<String, T> byId(List<ObjectRow> rows, Class<T> clazz) {
+        Map<String, T> out = new LinkedHashMap<>();
+        for (ObjectRow r : rows) {
+            T obj = clazz.cast(r.object());
+            out.putIfAbsent(((EntityStructure) obj).getId(), obj);
+        }
+        return out;
     }
 
     private static List<ObjectRow> rows(Store db, Txn txn, Class<?> clazz) {
