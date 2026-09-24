@@ -562,6 +562,11 @@ GRAPH         := $(OTP_DIR)/graph.obj
 # can get shorter from here, and after `graph` (OTP, ~2,400 s) the biggest thing on it is `xb`.
 #
 # Stage banners: these steps run for hours. Per-stage timing files keep it safe under `make -j`.
+#
+# The marker is removed on completion, so one left in $(STATE_DIR) is a stage that started and did
+# not finish. That is the only thing that names a failure under -j: make reports the target and
+# then lets the other jobs drain, so the log ends on whichever stage finished last and the `***`
+# line is somewhere above it.
 define stage
 @mkdir -p $(STATE_DIR)
 @echo "=== $$(date '+%F %T') [$(1)] $(2)"
@@ -569,6 +574,7 @@ define stage
 endef
 define stage_done
 @echo "=== $$(date '+%F %T') [$(1)] done in $$(( $$(date +%s) - $$(cat $(STATE_DIR)/.t.$(1)) ))s"
+@rm -f $(STATE_DIR)/.t.$(1)
 endef
 
 # Unlink a failed recipe's target so a partial file never passes the next up-to-date check. The
