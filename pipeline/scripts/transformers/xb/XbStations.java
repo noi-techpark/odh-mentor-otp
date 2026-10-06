@@ -28,6 +28,7 @@ import noi.netex.model.StopPlaceRefStructure;
 import noi.netex.model.Zone_VersionStructure;
 import toolkit.store.Store;
 import toolkit.store.Txn;
+import toolkit.transform.common.TransportModes;
 import toolkit.util.Log;
 
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ public final class XbStations {
         public long levelsMoved;
         public long levelRefsCleared;
         public long assignmentsRepointed;
+        /// Survivors whose mode block came from a member rather than from themselves.
+        public long modesPromoted;
         public long railServed;
         // The pole-quay gate excludes most of the corpus from the bus-quay merge BEFORE any of its
         // own skip counters run, so its "merged 58" reads as a shortage of matches when it is
@@ -67,9 +70,9 @@ public final class XbStations {
         public void report() {
             Log.info("[xb-stations] consolidated %d StopPlaces into %d physical stations "
                     + "(%d quays and %d levels moved, %d orphaned LevelRefs cleared, "
-                    + "%d assignments re-pointed)",
+                    + "%d assignments re-pointed, %d modes promoted)",
                     mergedAway, clusters, quaysMoved, levelsMoved, levelRefsCleared,
-                    assignmentsRepointed);
+                    assignmentsRepointed, modesPromoted);
             Log.info("[xb-stations] %d rail-served StopPlaces; pole-quay eligibility: %d with none, "
                     + "%d with one, %d with two or more (only the last can enter the bus-quay merge)",
                     railServed, noPoleQuays, onePoleQuay, twoOrMorePoleQuays);
@@ -221,6 +224,11 @@ public final class XbStations {
             if (members.size() < 2) continue;
             counters.clusters++;
             StopPlace survivor = elect(members, uics);
+            // A publisher types a station after the service it runs there. STA surveyed every
+            // platform at Bolzano and types the station `tram`, so the election hands the fullest
+            // record a mode that puts a mainline station and all its platforms in the graph as tram
+            // stops. The mode is settled separately, over the whole cluster.
+            if (TransportModes.adoptHeaviestMode(survivor, members)) counters.modesPromoted++;
             for (StopPlace sp : members) {
                 if (sp == survivor) continue;
                 moveChildren(sp, survivor, counters);

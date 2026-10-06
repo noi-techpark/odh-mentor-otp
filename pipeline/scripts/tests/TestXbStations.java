@@ -175,6 +175,9 @@ public class TestXbStations {
     <StopPlace id="it:apb:StopPlace:it-22021-468:" version="1"><Name>Bolzano, Stazione</Name>
       <PrivateCode>468</PrivateCode>
       <Centroid><Location><Latitude>46.496637</Latitude><Longitude>11.358386</Longitude></Location></Centroid>
+      <TransportMode>tram</TransportMode>
+      <TramSubmode>unknown</TramSubmode>
+      <StopPlaceType>railStation</StopPlaceType>
       <quays>
         <Quay id="it:apb:Quay:it-22021-468-51:" version="1"><Name>Z1</Name><QuayType>railPlatform</QuayType><Centroid><Location><Latitude>46.496508</Latitude><Longitude>11.358524</Longitude></Location></Centroid></Quay>
         <Quay id="it:apb:Quay:it-22021-468-53:" version="1"><Name>Z3+4</Name><QuayType>railPlatform</QuayType><Centroid><Location><Latitude>46.496370</Latitude><Longitude>11.358688</Longitude></Location></Centroid></Quay>
@@ -183,6 +186,8 @@ public class TestXbStations {
     <StopPlace id="IT:ITI4:StopPlace:830002026_pass_0083" version="1"><Name>BOLZANO</Name>
       <PrivateCode>830002026_pass_0083</PrivateCode>
       <Centroid><Location><Latitude>46.496324</Latitude><Longitude>11.358568</Longitude></Location></Centroid>
+      <TransportMode>rail</TransportMode>
+      <StopPlaceType>railStation</StopPlaceType>
       <quays>
         <Quay id="IT::Quay:otherTRENITALIA:830002026" version="1"><Name>BOLZANO</Name><Centroid><Location><Latitude>46.496324</Latitude><Longitude>11.358568</Longitude></Location></Centroid></Quay>
       </quays>
@@ -254,6 +259,26 @@ public class TestXbStations {
         Check.equals(3, quays(survivor).size(), "its own two platforms plus the one it inherited");
         Check.equals(1L, c.counters().assignmentsRepointed,
                 "and the merged-away copy's assignment was re-pointed");
+    }
+
+    /// The fullest record is not always the one that knows what the station is. STA surveyed the
+    /// platforms and types the station `tram`, because a tram is what STA runs there; the mainline
+    /// copy it beats says `rail`. The station is typed by the heaviest mode that calls at it, and
+    /// the submode has to travel with the mode -- OTP reads the submodes before the mode, so a
+    /// TramSubmode left beside a rail TransportMode still maps the whole station to tram.
+    public static void testTheSurvivorTakesTheHeaviestModeInItsCluster(TestStore db)
+            throws Exception {
+        Consolidation c = consolidateSameCountry(db);
+
+        StopPlace survivor = byId(c.survivors(), "it:apb:StopPlace:it-22021-468:");
+        Check.equals(AllVehicleModesOfTransportEnumeration.RAIL, survivor.getTransportMode(),
+                "the mainline copy's rail beats the surveying publisher's tram");
+        Check.isNull(survivor.getTramSubmode(),
+                "and its TramSubmode went with it, or OTP would read tram anyway");
+        Check.equals(List.of(AllVehicleModesOfTransportEnumeration.TRAM),
+                survivor.getOtherTransportModes(),
+                "the mode that lost is still recorded as something that calls here");
+        Check.equals(1L, c.counters().modesPromoted, "one survivor took a member's mode block");
     }
 
     /// Only rail-served stops take part. The bus stop is 20 m away and must be untouched.
