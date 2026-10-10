@@ -37,6 +37,7 @@ public class AllTests {
         TestItMergeDbToDb.class,
         TestItRapDbToDb.class,
         TestItcTrailingLink.class,
+        TestLineCodes.class,
         TestNormalizeItIds.class,
         TestPassthrough.class,
         TestResolveMentzLineVersions.class,

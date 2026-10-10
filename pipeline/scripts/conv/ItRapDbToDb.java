@@ -4,7 +4,8 @@ package conv;
 //   1. backfill StopPlace centroids from child Quays;
 //   2. take a stop's name back out of ShortName where its Name holds only the stop's code;
 //   3. backfill Line authorities, synthesising Authorities from Operators as needed;
-//   4. nest the frame-level groups of lines into the feed's Network.
+//   4. nest the frame-level groups of lines into the feed's Network;
+//   5. repair a Line's PublicCode, which these feeds fill with an internal composite.
 //
 // 1 and 2 both overlay StopPlace, and a row decoded twice gives two objects, so 2 runs over 1's
 // objects rather than over a second decode of the same rows.
@@ -54,6 +55,7 @@ import toolkit.transform.common.ScheduledStopPoints;
 import toolkit.transform.epip.GeneratorDefaults;
 import toolkit.util.Log;
 import transformers.feedfix.CodeNames;
+import transformers.feedfix.LineCodes;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -118,6 +120,18 @@ public class ItRapDbToDb {
             else if (o instanceof FlexibleLine f) flexFixed.put(f.getId(), f);
             else if (o instanceof Network n) netFixed.put(n.getId(), n);
             else newAuthorities.add((Authority) o);
+        }
+
+        // The public-code repair rides here rather than in a stage of its own: this is already the
+        // first per-operator clone. It composes onto the authority backfill's objects, because a Line
+        // this and that pass both touch has to reach the overlay carrying both repairs.
+        //
+        // Italo's chain ends on this driver too and these rules cannot fire on it: its Lines carry no
+        // ShortName, PrivateCode or Description. Its own stage does its labelling.
+        Map<String, Line> linesPending = new LinkedHashMap<>();
+        lineFixed.forEach((id, l) -> linesPending.put(id, (Line) l));
+        for (Line l : LineCodes.repairLineCodes(src, stx, LineCodes.Policy.IT_RAP, linesPending)) {
+            lineFixed.put(l.getId(), l);
         }
 
         // 4. The group-of-lines hierarchy, AFTER the backfill on purpose: the backfill leaves a Line
