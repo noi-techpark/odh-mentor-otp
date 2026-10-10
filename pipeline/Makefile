@@ -860,7 +860,7 @@ $$(DATA_DIR)/it-rap-$(1)-$(2).lmdb: $$(INPUT_DIR)/it-rap-$(1)-$(2)-$(3).xml.gz |
 	rm -rf $$@ $$@.tmp $$@.raw.tmp $$@.ids.tmp
 	$$(call drv,netex-to-db,FEED) $$< $$@.raw.tmp
 	$$(call drv,normalize-it-ids,FEED) $$@.raw.tmp $$@.ids.tmp
-	$$(call drv,it-rap-db-to-db,FEED) $$@.ids.tmp $$@.tmp
+	$$(call drv,it-rap-db-to-db,FEED) $$@.ids.tmp $$@.tmp --tag $(2)
 	rm -rf $$@.raw.tmp $$@.ids.tmp && mv $$@.tmp $$@
 	$$(call stage_done,rap-$(1)-$(2))
 endef
@@ -901,7 +901,7 @@ $$(DATA_DIR)/it-oap-$(1).lmdb: $$(INPUT_DIR)/it-oap-$(1)-$(2).xml.gz $$(IT2_DB) 
 	$$(call drv,sort-italo-sequences,FEED) $$@.raw.tmp $$@.seq.tmp
 	$$(call drv,normalize-it-ids,FEED) $$@.seq.tmp $$@.ids.tmp --home IT:ITALO
 	$$(call drv,align-italo-stop-names,FEED) $$@.ids.tmp $$(IT2_DB) $$@.align.tmp
-	$$(call drv,it-rap-db-to-db,FEED) $$@.align.tmp $$@.tmp
+	$$(call drv,it-rap-db-to-db,FEED) $$@.align.tmp $$@.tmp --tag $(1)
 	rm -rf $$@.raw.tmp $$@.seq.tmp $$@.ids.tmp $$@.align.tmp && mv $$@.tmp $$@
 	$$(call stage_done,oap-$(1))
 endef

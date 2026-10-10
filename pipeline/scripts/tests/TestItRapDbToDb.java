@@ -19,6 +19,7 @@ import jakarta.xml.bind.JAXBElement;
 import noi.netex.model.Authority;
 import noi.netex.model.AuthorityRefStructure;
 import noi.netex.model.EntityStructure;
+import noi.netex.model.GroupOfLines;
 import noi.netex.model.GroupOfStopPlaces;
 import noi.netex.model.Line;
 import noi.netex.model.Network;
@@ -299,6 +300,137 @@ public class TestItRapDbToDb {
             Check.equals("Via Stazione", Mls.text(stops.get("IT:ITF3:StopPlace:named").getName()),
                     "a stop that already has a name keeps it");
         }
+    }
+
+    // ------------------------------------------------------- groups of lines, nested and qualified
+
+    /// One Network and two groups beside it, which is the shape every RAP operator publishes.
+    /// `Extraurbano` is the generic name 17 Puglia operators each use for a different set of lines;
+    /// `OP1:Notturne` is already operator-unique. Both are nested, both are qualified -- one rule,
+    /// no test for which ids happened to be safe.
+    static final String GROUPS = """
+        <ServiceFrame id="sf" version="1">
+          <Network id="IT:ITF4:Network:1" version="1"><Name>Net</Name></Network>
+          <groupsOfLines>
+            <GroupOfLines id="IT:ITF4:GroupOfLines:Extraurbano" version="1"><Name>Extraurbano</Name></GroupOfLines>
+            <GroupOfLines id="IT:ITF4:GOL:OP1:Notturne" version="1"><Name>Notturne</Name></GroupOfLines>
+          </groupsOfLines>
+          <lines>
+            <Line id="IT:ITF4:Line:1" version="1"><Name>One</Name><TransportMode>bus</TransportMode><RepresentedByGroupRef ref="IT:ITF4:GroupOfLines:Extraurbano" version="1"/></Line>
+            <Line id="IT:ITF4:Line:2" version="1"><Name>Two</Name><TransportMode>bus</TransportMode><RepresentedByGroupRef ref="IT:ITF4:GOL:OP1:Notturne" version="1"/></Line>
+          </lines>
+        </ServiceFrame>
+        """;
+
+    /// The same generic group id in TWO versions, which the old pass nested once and deleted twice.
+    static final String GROUPS_TWO_VERSIONS = """
+        <ServiceFrame id="sf" version="1">
+          <Network id="IT:ITF4:Network:1" version="1"><Name>Net</Name></Network>
+          <groupsOfLines>
+            <GroupOfLines id="IT:ITF4:GroupOfLines:Extraurbano" version="1"><Name>Extraurbano</Name></GroupOfLines>
+            <GroupOfLines id="IT:ITF4:GroupOfLines:Extraurbano" version="2"><Name>Extraurbano rev</Name></GroupOfLines>
+          </groupsOfLines>
+        </ServiceFrame>
+        """;
+
+    /// Group id to its Name, read out of the one Network's nested container.
+    private static Map<String, String> nestedGroups(TestStore target) throws Exception {
+        Map<String, String> out = new LinkedHashMap<>();
+        try (Txn txn = target.store.roTxn()) {
+            for (Object o : target.store.iterOnlyObjects(txn, Network.class)) {
+                Network net = (Network) o;
+                if (net.getGroupsOfLines() == null) continue;
+                for (var g : net.getGroupsOfLines().getGroupOfLines()) {
+                    out.put(g.getId() + "@" + g.getVersion(), Mls.text(g.getName()));
+                }
+            }
+        }
+        return out;
+    }
+
+    /// Line id to the group its representedByGroupRef names.
+    private static Map<String, String> groupRefs(TestStore target) throws Exception {
+        Map<String, String> out = new LinkedHashMap<>();
+        try (Txn txn = target.store.roTxn()) {
+            for (Object o : target.store.iterOnlyObjects(txn, Line.class)) {
+                Line line = (Line) o;
+                out.put(line.getId(), line.getRepresentedByGroupRef() == null
+                        ? null : line.getRepresentedByGroupRef().getRef());
+            }
+        }
+        return out;
+    }
+
+    /// How many GroupOfLines rows the frame still holds of its own.
+    private static int frameLevelGroups(TestStore target) throws Exception {
+        int n = 0;
+        try (Txn txn = target.store.roTxn()) {
+            for (Object ignored : target.store.iterOnlyObjects(txn, GroupOfLines.class)) n++;
+        }
+        return n;
+    }
+
+    private static TestStore runTagged(TestStore db, String frames, String tag) throws Exception {
+        db.loadNetex(frames);
+        return db.runDbToDb((s, stx, d, dtx) -> ItRapDbToDb.applyItRap(s, stx, d, dtx, tag));
+    }
+
+    public static void testANestedGroupIsQualifiedWithItsFeedTag(TestStore db) throws Exception {
+        TestStore target = runTagged(db, GROUPS, "IT-ITF4-AMET");
+
+        Check.equals(Set.of("IT:ITF4:GroupOfLines:Extraurbano:IT-ITF4-AMET@1",
+                        "IT:ITF4:GOL:OP1:Notturne:IT-ITF4-AMET@1"),
+                nestedGroups(target).keySet(),
+                "both groups are nested in the Network and both carry the feed's tag, which is the "
+                        + "same <id>:<tag> shape the regional merge would have produced");
+        Check.equals(0, frameLevelGroups(target),
+                "and none is left at frame level, where the export would emit it a second time");
+
+        Map<String, String> refs = groupRefs(target);
+        Check.equals("IT:ITF4:GroupOfLines:Extraurbano:IT-ITF4-AMET", refs.get("IT:ITF4:Line:1"),
+                "the Line's ref follows the rename: containment is the only link a Line has to its "
+                        + "Network, and an unrewritten ref would dangle");
+        Check.equals("IT:ITF4:GOL:OP1:Notturne:IT-ITF4-AMET", refs.get("IT:ITF4:Line:2"),
+                "and so does the ref to the id that was already operator-unique");
+    }
+
+    public static void testTwoFeedsPublishingOneGenericIdStayDistinct(TestStore db)
+            throws Exception {
+        Map<String, String> first = nestedGroups(runTagged(db, GROUPS, "IT-ITF4-AMET"));
+        Map<String, String> second;
+        try (TestStore other = TestStore.create("v2")) {
+            second = nestedGroups(runTagged(other, GROUPS, "IT-ITF4-COTRAP"));
+        }
+
+        Check.that(java.util.Collections.disjoint(first.keySet(), second.keySet()),
+                "two operators publishing `Extraurbano` for different sets of lines end up with "
+                        + "different ids, so the merge sees no collision and the embedding resolver "
+                        + "cannot wire one operator's Lines onto the other's group: "
+                        + first.keySet() + " vs " + second.keySet());
+    }
+
+    public static void testAGroupInTwoVersionsIsNestedWhole(TestStore db) throws Exception {
+        TestStore target = runTagged(db, GROUPS_TWO_VERSIONS, "IT-ITF4-AMET");
+
+        Check.equals(Map.of("IT:ITF4:GroupOfLines:Extraurbano:IT-ITF4-AMET@1", "Extraurbano",
+                        "IT:ITF4:GroupOfLines:Extraurbano:IT-ITF4-AMET@2", "Extraurbano rev"),
+                nestedGroups(target),
+                "both stored versions are nested: the rows all leave the frame, so nesting one of "
+                        + "them would drop the other outright");
+        Check.equals(0, frameLevelGroups(target), "and both frame rows are gone");
+    }
+
+    public static void testAnUntaggedRunNestsUnderThePublishedId(TestStore db) throws Exception {
+        db.loadNetex(GROUPS);
+        TestStore target = db.runDbToDb(ItRapDbToDb::applyItRap);
+
+        Check.equals(Set.of("IT:ITF4:GroupOfLines:Extraurbano@1", "IT:ITF4:GOL:OP1:Notturne@1"),
+                nestedGroups(target).keySet(),
+                "a feed whose operator is unknown nests under the published ids, which is what "
+                        + "every caller did before the tag existed");
+        Check.equals("IT:ITF4:GroupOfLines:Extraurbano",
+                groupRefs(target).get("IT:ITF4:Line:1"),
+                "and no ref is rewritten, there being no rename to follow");
     }
 
     /// The one Quay a fixture stop embeds.
