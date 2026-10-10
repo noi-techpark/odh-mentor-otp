@@ -133,13 +133,23 @@ EPIP_JOURNEY_WORKERS ?= 2
 JOPTS_obb-to-db              = -Dtoolkit.load.zipTxnBatch=$(ZIP_TXN_BATCH) -Dtoolkit.load.zipWorkers=$(ZIP_WORKERS)
 JOPTS_swiss-to-db            = -Dtoolkit.load.zipTxnBatch=$(ZIP_TXN_BATCH) -Dtoolkit.load.zipWorkers=$(ZIP_WORKERS)
 JOPTS_epip-db-to-db          = -Dtoolkit.epip.parallelJourneys=$(EPIP_JOURNEY_WORKERS) \
-                                    -Dtoolkit.epip.dayOffsetRewrite=on
+                                    -Dtoolkit.epip.dayOffsetRewrite=on \
+                                    -Dtoolkit.epip.journeyCodeCategories=$(JOURNEY_CODE_CATEGORIES)
 
 # $(call drv,<stage name>,<pinning>) -- joins the heap pinning and the -D knobs to the driver path.
 drv = $(JAVA) -Xmx$(XMX_$(2)) $(JVM) $(JOPTS_$(1)) -cp "$(JAVA_CP)" $(SCRIPTS)/$(JDRV_$(1))
 
 # Every store recipe builds into $@.tmp and renames, but deletes the old store first: epip.lmdb
 # alone is 42 GB and a full chain holds ~96 GB, so keeping both generations would not fit.
+
+# A rail journey takes its train number as its PublicCode on its own. These are the non-rail product
+# categories whose number is advertised too: a rail replacement runs by bus and keeps the number of
+# the train it stands in for. The ids are codespaced, so naming all of them is safe whichever shard
+# the EPIP conversion is running -- no other publisher can match them.
+#
+# A Mentz export carries train numbers far beyond rail, and on a funicular, a tram or a plain bus the
+# number counts courses within a day rather than naming a service. Those take no code.
+JOURNEY_CODE_CATEGORIES ?= at:obb:TypeOfProductCategory:SEV:,at:oov:TypeOfProductCategory:SEV:
 
 # ---- sources ---------------------------------------------------------------------------------
 # Swiss CKAN is per timetable year; /permalink redirects to the most recent export. The Austrian
