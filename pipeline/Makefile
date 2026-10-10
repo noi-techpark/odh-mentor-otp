@@ -102,6 +102,8 @@ JDRV_flatten-wrapped-names       = fix/FlattenWrappedNames.java
 JDRV_align-italo-stop-names      = fix/AlignItaloStopNames.java
 JDRV_sort-italo-sequences        = fix/SortItaloSequences.java
 JDRV_bind-quayless-assignments   = fix/BindQuaylessAssignments.java
+JDRV_at-line-products            = fix/AtLineProducts.java
+JDRV_ch-line-products            = fix/ChLineProducts.java
 
 # -D knobs. Each one below differs from the jar's default and leaves the output byte-identical.
 # Keyed by driver, each being read by exactly one code path. Restore the jar's defaults with
@@ -997,8 +999,9 @@ $(AT_DB): $(AT_ZIPS) | $(DATA_DIR) $(TOOLKIT_JAR)
 	$(call drv,drop-foreign-journeys,TIER1) $@.raw.tmp $@.drop.tmp
 	$(call drv,resolve-mentz-line-versions,MENTZ) $@.drop.tmp $@.mentz.tmp
 	$(call drv,sanitize-stop-assignments,TIER1) $@.mentz.tmp $@.sane.tmp
-	$(call drv,stitch-split-journeys,TIER1) $@.sane.tmp $@.tmp
-	rm -rf $@.raw.tmp $@.drop.tmp $@.mentz.tmp $@.sane.tmp && mv $@.tmp $@
+	$(call drv,stitch-split-journeys,TIER1) $@.sane.tmp $@.stitch.tmp
+	$(call drv,at-line-products,TIER1) $@.stitch.tmp $@.tmp
+	rm -rf $@.raw.tmp $@.drop.tmp $@.mentz.tmp $@.sane.tmp $@.stitch.tmp && mv $@.tmp $@
 	$(call stage_done,at)
 
 # The drop step removes the whole-network re-import of VVV (operator 81_VVV) -- at-vbg is
@@ -1012,8 +1015,9 @@ $(CH_DB): $(CH_SRC) | $(DATA_DIR) $(TOOLKIT_JAR)
 	$(call stage,swiss,loading $(notdir $<) -> $(notdir $@) (+ drop republished journeys))
 	rm -rf $@ $@.tmp $@.raw.tmp
 	$(call drv,swiss-to-db,TIER1) $< $@.raw.tmp
-	$(call drv,drop-foreign-journeys,TIER1) $@.raw.tmp $@.tmp
-	rm -rf $@.raw.tmp && mv $@.tmp $@
+	$(call drv,drop-foreign-journeys,TIER1) $@.raw.tmp $@.drop.tmp
+	$(call drv,ch-line-products,TIER1) $@.drop.tmp $@.tmp
+	rm -rf $@.raw.tmp $@.drop.tmp && mv $@.tmp $@
 	$(call stage_done,swiss)
 
 # One publication_delivery.xml in a zip, one codespace (FTG), no ServiceLinks, and a coordinate on
