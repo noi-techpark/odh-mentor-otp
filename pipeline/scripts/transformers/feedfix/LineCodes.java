@@ -22,6 +22,7 @@ package transformers.feedfix;
 // on them whichever stage meets them.
 
 import noi.netex.model.Line;
+import noi.netex.model.PrivateCodeStructure;
 import noi.netex.text.Codes;
 import noi.netex.text.Mls;
 import toolkit.store.Store;
@@ -42,6 +43,8 @@ public final class LineCodes {
     public enum Policy {
         /// IT-1 and IT-2: the Italian regional and national access-point feeds.
         IT_RAP,
+        /// The `route_id` private code behind a `FlixBus `-prefixed public code.
+        FLIX,
         /// One Line per train-number pair, named after the pair.
         ITALO
     }
@@ -76,6 +79,7 @@ public final class LineCodes {
                     code = takeShortNameAsPublicCode(target);
                     name = takeDescriptionAsName(target);
                 }
+                case FLIX -> code = takeRouteIdAsPublicCode(target);
                 case ITALO -> {
                     code = nameTheOperator(target);
                     name = spellTheTrainNumberPair(target);
@@ -119,6 +123,22 @@ public final class LineCodes {
         }
         Mls.setText(line.getName(), description);
         return true;
+    }
+
+    /// The FlixBus arm. The export carries the line's own code as a `route_id` private code and
+    /// prefixes the public one with the publisher; the suffix test is what keeps this off anything
+    /// else. Whether it fired.
+    static boolean takeRouteIdAsPublicCode(Line line) {
+        if (line.getPrivateCodes() == null) return false;
+        String code = Codes.text(line.getPublicCode());
+        if (code == null) return false;
+        for (PrivateCodeStructure pc : line.getPrivateCodes().getPrivateCode()) {
+            if (!"route_id".equals(pc.getType()) || pc.getValue() == null) continue;
+            if (!code.endsWith(" " + pc.getValue())) continue;
+            line.setPublicCode(Codes.of(pc.getValue()));
+            return true;
+        }
+        return false;
     }
 
     /// The Italo arm, half one: every Line carries the operator as its code, there being one Line

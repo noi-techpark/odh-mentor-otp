@@ -41,6 +41,23 @@ public class TestLineCodes {
         </ServiceFrame>
         """;
 
+    private static final String FLIX_FRAMES = """
+        <ServiceFrame id="sf" version="1">
+          <lines>
+            <Line id="FTG:Line:N177" version="1">
+              <privateCodes><PrivateCode type="route_id">N177</PrivateCode></privateCodes>
+              <Name>Düsseldorf - Genoa</Name><ShortName>FlixBus N177</ShortName>
+              <TransportMode>bus</TransportMode><PublicCode>FlixBus N177</PublicCode>
+            </Line>
+            <Line id="FTG:Line:OTHER" version="1">
+              <privateCodes><PrivateCode type="route_id">777</PrivateCode></privateCodes>
+              <Name>Somewhere - Elsewhere</Name>
+              <TransportMode>bus</TransportMode><PublicCode>Carrier 42</PublicCode>
+            </Line>
+          </lines>
+        </ServiceFrame>
+        """;
+
     public static void main(String[] args) {
         Runner.run(TestLineCodes.class);
     }
@@ -130,6 +147,18 @@ public class TestLineCodes {
         Line single = fixed.get("IT:ITALO:Line:9997-1-1");
         Check.equals("Italo", Codes.text(single.getPublicCode()), "a single number still gets the code");
         Check.equals("9997", Mls.text(single.getName()), "and its name is left as the one number");
+    }
+
+    public static void testFlixBusDropsThePublisherPrefix(TestStore db) throws Exception {
+        Map<String, Line> fixed = run(db, FLIX_FRAMES, LineCodes.Policy.FLIX);
+
+        Line n177 = fixed.get("FTG:Line:N177");
+        Check.equals("N177", Codes.text(n177.getPublicCode()),
+                "the route_id behind the publisher prefix becomes the public code");
+        Check.equals("Düsseldorf - Genoa", Mls.text(n177.getName()), "the name was already right");
+        Check.isNull(fixed.get("FTG:Line:OTHER"),
+                "a public code that does not END with the route_id is left alone: the suffix test is "
+                        + "what keeps this rule off everything else");
     }
 
     /// A Line two passes both touch has to reach the overlay as one object carrying both repairs.

@@ -105,6 +105,7 @@ JDRV_bind-quayless-assignments   = fix/BindQuaylessAssignments.java
 JDRV_at-line-products            = fix/AtLineProducts.java
 JDRV_ch-line-products            = fix/ChLineProducts.java
 JDRV_italo-line-codes            = fix/ItaloLineCodes.java
+JDRV_flix-line-codes             = fix/FlixLineCodes.java
 
 # -D knobs. Each one below differs from the jar's default and leaves the output byte-identical.
 # Keyed by driver, each being read by exactly one code path. Restore the jar's defaults with
@@ -1036,8 +1037,9 @@ $(FLIX_DB): $(FLIX_SRC) | $(DATA_DIR) $(TOOLKIT_JAR)
 	$(call stage,flixbus,loading $(notdir $<) -> $(notdir $@) (+ name unwrap))
 	rm -rf $@ $@.tmp $@.raw.tmp
 	$(call drv,netex-to-db,FEED) $< $@.raw.tmp
-	$(call drv,flatten-wrapped-names,FEED) $@.raw.tmp $@.tmp
-	rm -rf $@.raw.tmp && mv $@.tmp $@
+	$(call drv,flatten-wrapped-names,FEED) $@.raw.tmp $@.flat.tmp
+	$(call drv,flix-line-codes,FEED) $@.flat.tmp $@.tmp
+	rm -rf $@.raw.tmp $@.flat.tmp && mv $@.tmp $@
 	$(call stage_done,flixbus)
 
 # The long-distance rail db: Trenitalia and the OAP operators in one, at a radius the national pass
