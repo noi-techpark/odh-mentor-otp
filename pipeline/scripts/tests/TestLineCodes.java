@@ -115,6 +115,23 @@ public class TestLineCodes {
         }
     }
 
+    public static void testItaloTakesTheOperatorAndSpellsThePair(TestStore db) throws Exception {
+        Map<String, Line> fixed = run(db, IT_FRAMES, LineCodes.Policy.ITALO);
+
+        Line pair = fixed.get("IT:ITALO:Line:9963-9944-1-1");
+        Check.equals("Italo", Codes.text(pair.getPublicCode()),
+                "every Italo line carries the operator, there being no line number to carry");
+        Check.equals("9963 / 9944", Mls.text(pair.getName()), "and the pair read as a pair");
+
+        Line variant = fixed.get("IT:ITALO:Line:1045-9961--1-1-1");
+        Check.equals("1045 / 9961", Mls.text(variant.getName()),
+                "the trailing _#N is the variant counter the id also carries, so it goes first");
+
+        Line single = fixed.get("IT:ITALO:Line:9997-1-1");
+        Check.equals("Italo", Codes.text(single.getPublicCode()), "a single number still gets the code");
+        Check.equals("9997", Mls.text(single.getName()), "and its name is left as the one number");
+    }
+
     /// A Line two passes both touch has to reach the overlay as one object carrying both repairs.
     public static void testRepairsComposeOnAPendingObject(TestStore db) throws Exception {
         db.loadNetex(IT_FRAMES);

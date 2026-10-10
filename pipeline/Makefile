@@ -104,6 +104,7 @@ JDRV_sort-italo-sequences        = fix/SortItaloSequences.java
 JDRV_bind-quayless-assignments   = fix/BindQuaylessAssignments.java
 JDRV_at-line-products            = fix/AtLineProducts.java
 JDRV_ch-line-products            = fix/ChLineProducts.java
+JDRV_italo-line-codes            = fix/ItaloLineCodes.java
 
 # -D knobs. Each one below differs from the jar's default and leaves the output byte-identical.
 # Keyed by driver, each being read by exactly one code path. Restore the jar's defaults with
@@ -896,13 +897,14 @@ refetch-oap-$(1): | $$(INPUT_DIR) $$(STATE_DIR)
 
 $$(DATA_DIR)/it-oap-$(1).lmdb: $$(INPUT_DIR)/it-oap-$(1)-$(2).xml.gz $$(IT2_DB) | $$(DATA_DIR) $$(TOOLKIT_JAR)
 	$$(call stage,oap-$(1),loading OAP $(1) -> $$(notdir $$@))
-	rm -rf $$@ $$@.tmp $$@.raw.tmp $$@.seq.tmp $$@.ids.tmp $$@.align.tmp
+	rm -rf $$@ $$@.tmp $$@.raw.tmp $$@.seq.tmp $$@.lines.tmp $$@.ids.tmp $$@.align.tmp
 	$$(call drv,netex-to-db,FEED) $$< $$@.raw.tmp
 	$$(call drv,sort-italo-sequences,FEED) $$@.raw.tmp $$@.seq.tmp
-	$$(call drv,normalize-it-ids,FEED) $$@.seq.tmp $$@.ids.tmp --home IT:ITALO
+	$$(call drv,italo-line-codes,FEED) $$@.seq.tmp $$@.lines.tmp
+	$$(call drv,normalize-it-ids,FEED) $$@.lines.tmp $$@.ids.tmp --home IT:ITALO
 	$$(call drv,align-italo-stop-names,FEED) $$@.ids.tmp $$(IT2_DB) $$@.align.tmp
 	$$(call drv,it-rap-db-to-db,FEED) $$@.align.tmp $$@.tmp --tag $(1)
-	rm -rf $$@.raw.tmp $$@.seq.tmp $$@.ids.tmp $$@.align.tmp && mv $$@.tmp $$@
+	rm -rf $$@.raw.tmp $$@.seq.tmp $$@.lines.tmp $$@.ids.tmp $$@.align.tmp && mv $$@.tmp $$@
 	$$(call stage_done,oap-$(1))
 endef
 $(foreach f,$(OAP_FEEDS),$(eval $(call oap_op_rules,$(call oap_name,$(f)),$(call oap_id,$(f)))))

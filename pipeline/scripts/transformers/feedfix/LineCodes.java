@@ -4,7 +4,7 @@ package transformers.feedfix;
 //
 // OTP takes a route's short name off Line/PublicCode and its long name off Line/Name, so a feed that
 // fills PublicCode with an internal composite gives every route on it a badge no rider recognises.
-// The repairs key on the RELATIONSHIP between a Line's fields
+// Three shapes reach the merge, and the repairs key on the RELATIONSHIP between a Line's fields
 // rather than on parsing the composite -- the separator vocabulary is per publisher and open-ended
 // (`A_ATV`, `11_UL_terra_ACTVs.p.a`, `211_OP1`, `620083_pass_0083`) while the relationship is not.
 //
@@ -15,6 +15,11 @@ package transformers.feedfix;
 // Veneto's ACTV publishes it as <ShortName>_<class>_<medium>_<operator>, the medium distinguishing
 // land from water, so parsing would have to know `terra` from `mare` from `UL`. IT-1 needs to know
 // none of them.
+//
+// Italo is a policy rather than a derivation: it publishes one Line per train-number pair and names
+// it after the pair, so the pair becomes the line's name and the operator becomes its code. Its
+// Lines carry no ShortName, PrivateCode or Description at all, so the access-point rules cannot fire
+// on them whichever stage meets them.
 
 import noi.netex.model.Line;
 import noi.netex.text.Codes;
@@ -26,6 +31,7 @@ import toolkit.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public final class LineCodes {
 
@@ -35,8 +41,14 @@ public final class LineCodes {
     /// the rules written for it.
     public enum Policy {
         /// IT-1 and IT-2: the Italian regional and national access-point feeds.
-        IT_RAP
+        IT_RAP,
+        /// One Line per train-number pair, named after the pair.
+        ITALO
     }
+
+    /// Italo's trailing variant counter. The counter is also in the Line's id, which is what says it
+    /// marks a variant rather than a third train.
+    private static final Pattern ITALO_VARIANT = Pattern.compile("_#\\d+$");
 
     /// The Lines `policy` repaired, over `db` at `txn`, composed onto whatever `pending` already
     /// holds for an id. Decoding a row twice gives two objects, so an id `pending` covers is
@@ -63,6 +75,10 @@ public final class LineCodes {
                 case IT_RAP -> {
                     code = takeShortNameAsPublicCode(target);
                     name = takeDescriptionAsName(target);
+                }
+                case ITALO -> {
+                    code = nameTheOperator(target);
+                    name = spellTheTrainNumberPair(target);
                 }
             }
             if (code) codes++;
@@ -102,6 +118,25 @@ public final class LineCodes {
             return false;
         }
         Mls.setText(line.getName(), description);
+        return true;
+    }
+
+    /// The Italo arm, half one: every Line carries the operator as its code, there being one Line
+    /// per train-number pair and no line number to carry. Whether it fired.
+    static boolean nameTheOperator(Line line) {
+        if ("Italo".equals(Codes.text(line.getPublicCode()))) return false;
+        line.setPublicCode(Codes.of("Italo"));
+        return true;
+    }
+
+    /// The Italo arm, half two: the train-number pair read as a pair. A trailing `_#N` is the
+    /// variant counter the Line's id also carries, so it goes before the join. Whether it fired.
+    static boolean spellTheTrainNumberPair(Line line) {
+        String name = Mls.text(line.getName());
+        if (name == null || name.isBlank()) return false;
+        String spelled = ITALO_VARIANT.matcher(name).replaceFirst("").replace("_", " / ");
+        if (spelled.equals(name)) return false;
+        Mls.setText(line.getName(), spelled);
         return true;
     }
 
