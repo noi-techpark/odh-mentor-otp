@@ -5,6 +5,7 @@ package conv;
 //   2. take a stop's name back out of ShortName where its Name holds only the stop's code;
 //   3. backfill Line authorities, synthesising Authorities from Operators as needed;
 //   4. nest the frame-level groups of lines into the feed's Network;
+//  4b. group a Line that names no group by that Network;
 //   5. repair a Line's PublicCode, which these feeds fill with an internal composite.
 //
 // 1 and 2 both overlay StopPlace, and a row decoded twice gives two objects, so 2 runs over 1's
@@ -14,11 +15,12 @@ package conv;
 // Authorities in scope, and nationally there are hundreds, most of them synthesised here rather
 // than published.
 //
-// So does 4, for the same kind of reason: a RAP feed declares its groups of lines beside the
+// So do 4 and 4b, for the same kind of reason: a RAP feed declares its groups of lines beside the
 // Network rather than inside it, and NeTEx expresses that relationship by containment alone -- a
 // GroupOfLines carries no reference back to its Network. One operator's feed carries one Network,
-// so that Network is the one its groups belong to; nationally there is one per feed and the question
-// has no answer. 4 therefore cannot move into the toolkit, which only ever sees the merged store.
+// so that Network is the one its groups and its ungrouped Lines belong to; nationally there is one
+// per feed and neither question has an answer. They therefore cannot move into the toolkit, which
+// only ever sees the merged store.
 //
 // 4 also qualifies the group's id with --tag, and that is not cosmetic. Nesting is containment, and
 // an object the store holds only inside another owns no id-index row, so the regional merge cannot
@@ -143,17 +145,23 @@ public class ItRapDbToDb {
         // behind would have the export emit each group twice, once nested and once in the frame's
         // own container.
         Map<String, Network> networks = byId(netRows, Network.class);
+        // The feed's own Network, where it published exactly one -- the owner both 4 and 4b need,
+        // and the object the authority backfill may already have repaired. A national store holds
+        // hundreds and neither question has an answer there.
+        Network soleNetwork = null;
+        if (networks.size() == 1) {
+            String netId = networks.keySet().iterator().next();
+            soleNetwork = netFixed.get(netId) instanceof Network repaired
+                    ? repaired : networks.get(netId);
+        }
         // Old group id -> the id it was qualified to, for the Lines that name it below.
         Map<String, String> groupRenames = new LinkedHashMap<>();
-        boolean nested = networks.size() == 1 && !golRows.isEmpty();
+        boolean nested = soleNetwork != null && !golRows.isEmpty();
         if (nested) {
-            String netId = networks.keySet().iterator().next();
-            Network net = netFixed.get(netId) instanceof Network repaired
-                    ? repaired : networks.get(netId);
-            GroupsOfLinesInFrame_RelStructure container = net.getGroupsOfLines();
+            GroupsOfLinesInFrame_RelStructure container = soleNetwork.getGroupsOfLines();
             if (container == null) {
                 container = new GroupsOfLinesInFrame_RelStructure();
-                net.setGroupsOfLines(container);
+                soleNetwork.setGroupsOfLines(container);
             }
             // Every ROW, not one per id: the rows all leave the frame, so nesting one of them would
             // drop a second version of a group the feed publishes twice.
@@ -166,9 +174,9 @@ public class ItRapDbToDb {
                 }
                 container.getGroupOfLines().add(g);
             }
-            netFixed.put(netId, net);
+            netFixed.put(soleNetwork.getId(), soleNetwork);
             Log.info("[it-rap-db-to-db] nested %d groups of lines into %s, %d of them qualified "
-                    + "with %s", golRows.size(), netId, groupRenames.size(), tag);
+                    + "with %s", golRows.size(), soleNetwork.getId(), groupRenames.size(), tag);
         } else if (!golRows.isEmpty()) {
             Log.info("[it-rap-db-to-db] %d groups of lines left at frame level: %d Networks in "
                     + "scope, so which one owns them is not decidable here",
@@ -181,6 +189,29 @@ public class ItRapDbToDb {
                 + repointGroupRefs(flexRows, flexFixed, groupRenames);
         if (repointed > 0) {
             Log.info("[it-rap-db-to-db] %d lines re-pointed at a qualified group", repointed);
+        }
+
+        // 4b. The Lines that arrived in no group at all, which is most feeds: not one Line in the
+        // 107-Network national store named a Network, and the 27 that reached the export got there
+        // on nesting content alone, which is the export's fallback rather than a grouping a
+        // consumer can read. A feed's Network is what represents its Lines -- the profile types
+        // the field on GroupOfLinesRef and lets a NetworkRef stand in -- so pointing them at it is
+        // a statement the feed already makes by publishing one Network.
+        //
+        // AFTER the re-pointing: a Line that came grouped keeps the group it came with, qualified
+        // id and all. Only a Line naming nothing is given one.
+        //
+        // The ref carries the Network's id under a GroupOfLines-typed structure, so it resolves on
+        // the id-and-version tier rather than the exact one, and resolve() repairs the blob's
+        // declared class there. Typing it NetworkRefStructure would resolve a tier earlier but have
+        // JAXB marshal an xsi:type no source feed carries.
+        if (soleNetwork != null) {
+            long grouped = groupUngroupedLines(lineRows, lineFixed, soleNetwork)
+                    + groupUngroupedLines(flexRows, flexFixed, soleNetwork);
+            if (grouped > 0) {
+                Log.info("[it-rap-db-to-db] %d lines grouped by %s, the feed's only Network",
+                        grouped, soleNetwork.getId());
+            }
         }
 
         Map<String, Object> stopOverlay = new LinkedHashMap<>(stopFixed);
@@ -235,6 +266,27 @@ public class ItRapDbToDb {
             repointed++;
         }
         return repointed;
+    }
+
+    /// Point every Line of `rows` that names no group at `net`, writing onto the object `fixed`
+    /// already holds for that id where there is one so the two repairs reach the overlay together;
+    /// how many were grouped.
+    private static long groupUngroupedLines(List<ObjectRow> rows, Map<String, Object> fixed,
+                                            Network net) {
+        long grouped = 0;
+        for (ObjectRow r : rows) {
+            Line_VersionStructure row = (Line_VersionStructure) r.object();
+            Line_VersionStructure line = fixed.get(row.getId()) instanceof Line_VersionStructure held
+                    ? held : row;
+            if (line.getRepresentedByGroupRef() != null) continue;
+            GroupOfLinesRefStructure ref = new GroupOfLinesRefStructure();
+            ref.setRef(net.getId());
+            ref.setVersion(net.getVersion());
+            line.setRepresentedByGroupRef(ref);
+            fixed.put(line.getId(), line);
+            grouped++;
+        }
+        return grouped;
     }
 
     /// The rows' objects by id, one per id — a class map may hold several versions of one.

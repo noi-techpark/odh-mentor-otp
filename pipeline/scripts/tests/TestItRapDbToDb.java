@@ -19,9 +19,11 @@ import jakarta.xml.bind.JAXBElement;
 import noi.netex.model.Authority;
 import noi.netex.model.AuthorityRefStructure;
 import noi.netex.model.EntityStructure;
+import noi.netex.model.FlexibleLine;
 import noi.netex.model.GroupOfLines;
 import noi.netex.model.GroupOfStopPlaces;
 import noi.netex.model.Line;
+import noi.netex.model.Line_VersionStructure;
 import noi.netex.model.Network;
 import noi.netex.model.ObjectFactory;
 import noi.netex.model.PassengerStopAssignment;
@@ -348,14 +350,17 @@ public class TestItRapDbToDb {
         return out;
     }
 
-    /// Line id to the group its representedByGroupRef names.
+    /// Line id to the group its representedByGroupRef names. Both concrete line classes: the pass
+    /// groups a FlexibleLine on the same rule, and reading one class alone would not see it.
     private static Map<String, String> groupRefs(TestStore target) throws Exception {
         Map<String, String> out = new LinkedHashMap<>();
         try (Txn txn = target.store.roTxn()) {
-            for (Object o : target.store.iterOnlyObjects(txn, Line.class)) {
-                Line line = (Line) o;
-                out.put(line.getId(), line.getRepresentedByGroupRef() == null
-                        ? null : line.getRepresentedByGroupRef().getRef());
+            for (Class<?> c : List.of(Line.class, FlexibleLine.class)) {
+                for (Object o : target.store.iterOnlyObjects(txn, c)) {
+                    Line_VersionStructure line = (Line_VersionStructure) o;
+                    out.put(line.getId(), line.getRepresentedByGroupRef() == null
+                            ? null : line.getRepresentedByGroupRef().getRef());
+                }
             }
         }
         return out;
@@ -431,6 +436,81 @@ public class TestItRapDbToDb {
         Check.equals("IT:ITF4:GroupOfLines:Extraurbano",
                 groupRefs(target).get("IT:ITF4:Line:1"),
                 "and no ref is rewritten, there being no rename to follow");
+    }
+
+    // ----------------------------------------------- the Lines a feed publishes in no group at all
+
+    /// One Network, no groups beside it, and nothing naming the Network -- the shape of 80 of the
+    /// 107 feeds in the national store. A FlexibleLine rides along: it carries the same field.
+    static final String UNGROUPED = """
+        <ServiceFrame id="sf" version="1">
+          <Network id="IT:ITI1:Network:1" version="1"><Name>Net</Name></Network>
+          <lines>
+            <Line id="IT:ITI1:Line:1" version="1"><Name>One</Name><TransportMode>bus</TransportMode></Line>
+            <Line id="IT:ITI1:Line:2" version="1"><Name>Two</Name><TransportMode>bus</TransportMode></Line>
+            <FlexibleLine id="IT:ITI1:FlexibleLine:3" version="1"><Name>Three</Name><TransportMode>bus</TransportMode><FlexibleLineType>hailAndRideSections</FlexibleLineType></FlexibleLine>
+          </lines>
+        </ServiceFrame>
+        """;
+
+    /// One grouped Line and one ungrouped, so the two rules have to coexist on one feed.
+    static final String PART_GROUPED = """
+        <ServiceFrame id="sf" version="1">
+          <Network id="IT:ITF4:Network:1" version="1"><Name>Net</Name></Network>
+          <groupsOfLines>
+            <GroupOfLines id="IT:ITF4:GroupOfLines:Extraurbano" version="1"><Name>Extraurbano</Name></GroupOfLines>
+          </groupsOfLines>
+          <lines>
+            <Line id="IT:ITF4:Line:1" version="1"><Name>One</Name><TransportMode>bus</TransportMode><RepresentedByGroupRef ref="IT:ITF4:GroupOfLines:Extraurbano" version="1"/></Line>
+            <Line id="IT:ITF4:Line:2" version="1"><Name>Two</Name><TransportMode>bus</TransportMode></Line>
+          </lines>
+        </ServiceFrame>
+        """;
+
+    /// Two Networks in one store, which is what a merged tier looks like and where the question
+    /// "which Network owns this Line" stops having an answer.
+    static final String TWO_NETWORKS = """
+        <ServiceFrame id="sf" version="1">
+          <Network id="IT:ITI1:Network:1" version="1"><Name>One</Name></Network>
+          <additionalNetworks>
+            <Network id="IT:ITI1:Network:2" version="1"><Name>Two</Name></Network>
+          </additionalNetworks>
+          <lines>
+            <Line id="IT:ITI1:Line:1" version="1"><Name>One</Name><TransportMode>bus</TransportMode></Line>
+          </lines>
+        </ServiceFrame>
+        """;
+
+    public static void testAnUngroupedLineIsGroupedByTheFeedsNetwork(TestStore db) throws Exception {
+        TestStore target = runTagged(db, UNGROUPED, "IT-ITI1-20");
+
+        Map<String, String> refs = groupRefs(target);
+        Check.equals("IT:ITI1:Network:1", refs.get("IT:ITI1:Line:1"),
+                "a Line naming no group is represented by the feed's one Network, which is what "
+                        + "the export needs to carry that Network at all");
+        Check.equals("IT:ITI1:Network:1", refs.get("IT:ITI1:Line:2"),
+                "and so is every other such Line");
+        Check.equals("IT:ITI1:Network:1", refs.get("IT:ITI1:FlexibleLine:3"),
+                "including a FlexibleLine, which carries the same field under the same rule");
+    }
+
+    public static void testAGroupedLineKeepsTheGroupItCameWith(TestStore db) throws Exception {
+        TestStore target = runTagged(db, PART_GROUPED, "IT-ITF4-AMET");
+
+        Map<String, String> refs = groupRefs(target);
+        Check.equals("IT:ITF4:GroupOfLines:Extraurbano:IT-ITF4-AMET", refs.get("IT:ITF4:Line:1"),
+                "a Line that arrived grouped keeps that group, qualified id and all: the pass "
+                        + "supplies a group, it does not override one");
+        Check.equals("IT:ITF4:Network:1", refs.get("IT:ITF4:Line:2"),
+                "and only the ungrouped Line is given the Network");
+    }
+
+    public static void testTwoNetworksInScopeGroupNothing(TestStore db) throws Exception {
+        TestStore target = runTagged(db, TWO_NETWORKS, "IT-ITI1-20");
+
+        Check.isNull(groupRefs(target).get("IT:ITI1:Line:1"),
+                "with two Networks in scope the owner is undecidable, so the Line is left alone "
+                        + "rather than attached to whichever was scanned first");
     }
 
     /// The one Quay a fixture stop embeds.
