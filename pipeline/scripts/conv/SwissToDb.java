@@ -26,7 +26,7 @@ public class SwissToDb {
         return new ZipLoad.Options(
                 SwissToDb::swissMember,
                 null, // archive order: no name ordering
-                Map.of(StopPlace.class, MpLoadRules::mergeStopPlaceQuays,
+                Map.of(StopPlace.class, MpLoadRules::mergeStopPlaceChildren,
                         ValueSet.class, MpLoadRules::mergeValueSetValues),
                 null);
     }

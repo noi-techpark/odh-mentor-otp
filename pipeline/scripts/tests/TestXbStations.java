@@ -215,6 +215,53 @@ public class TestXbStations {
 </TimetableFrame>
 """;
 
+    /// Two publishers' copies of one station, each with a ground floor of its own and a quay on it,
+    /// and a basement both of them mint under one id.
+    static final String ONE_FLOOR = """
+<SiteFrame id="site" version="1">
+  <stopPlaces>
+    <StopPlace id="at:47:2187" version="1"><Name>Innsbruck Westbahnhof</Name>
+      <Centroid><Location><Latitude>47.263000</Latitude><Longitude>11.401000</Longitude></Location></Centroid>
+      <StopPlaceType>railStation</StopPlaceType>
+      <levels>
+        <Level id="L:a" version="1"><Name>Erdgeschoss</Name></Level>
+        <Level id="L:dup" version="1"><Name>Keller</Name></Level>
+      </levels>
+      <quays><Quay id="at:47:2187:1" version="1"><LevelRef ref="L:a" version="1"/><Centroid><Location><Latitude>47.263000</Latitude><Longitude>11.401000</Longitude></Location></Centroid></Quay></quays>
+    </StopPlace>
+    <StopPlace id="ch:2:StopPlace:8102187" version="1"><Name>Innsbruck Westbahnhof</Name>
+      <PrivateCode>8102187</PrivateCode>
+      <Centroid><Location><Latitude>47.263250</Latitude><Longitude>11.401000</Longitude></Location></Centroid>
+      <StopPlaceType>railStation</StopPlaceType>
+      <levels>
+        <Level id="L:b" version="1"><Name>Erdgeschoss</Name></Level>
+        <Level id="L:dup" version="1"><Name>Keller</Name></Level>
+      </levels>
+      <quays><Quay id="ch:2:Quay:2187" version="1"><LevelRef ref="L:b" version="1"/><Centroid><Location><Latitude>47.263250</Latitude><Longitude>11.401000</Longitude></Location></Centroid></Quay></quays>
+    </StopPlace>
+  </stopPlaces>
+</SiteFrame>
+<ServiceFrame id="sf" version="1">
+  <stopAssignments>
+    <PassengerStopAssignment id="psa:at" version="1" order="1"><ScheduledStopPointRef ref="ssp:at"/><StopPlaceRef ref="at:47:2187"/></PassengerStopAssignment>
+    <PassengerStopAssignment id="psa:ch" version="1" order="2"><ScheduledStopPointRef ref="ssp:ch"/><StopPlaceRef ref="ch:2:StopPlace:8102187"/></PassengerStopAssignment>
+  </stopAssignments>
+  <journeyPatterns>
+    <ServiceJourneyPattern id="Pat:ibk" version="1"><pointsInSequence>
+      <StopPointInJourneyPattern id="ibk1" version="1" order="1"><ScheduledStopPointRef ref="ssp:at" version="1"/></StopPointInJourneyPattern>
+      <StopPointInJourneyPattern id="ibk2" version="1" order="2"><ScheduledStopPointRef ref="ssp:ch" version="1"/></StopPointInJourneyPattern>
+    </pointsInSequence></ServiceJourneyPattern>
+  </journeyPatterns>
+</ServiceFrame>
+<TimetableFrame id="tf" version="1">
+  <vehicleJourneys>
+    <ServiceJourney id="at:47:Sj:ibk" version="1"><TransportMode>rail</TransportMode><ServiceJourneyPatternRef ref="Pat:ibk" version="1"/>
+      <passingTimes><TimetabledPassingTime id="ibkt1" version="1"><StopPointInJourneyPatternRef ref="ibk1" version="1" order="1"/><DepartureTime>08:00:00</DepartureTime></TimetabledPassingTime></passingTimes>
+    </ServiceJourney>
+  </vehicleJourneys>
+</TimetableFrame>
+""";
+
     /// The country the station physically sits in decides which copy survives, and it is voted from
     /// the members' REAL UIC codes. Here only the Swiss-published copy carries one — 8101187,
     /// Austria — so the vote says AT and the AUSTRIAN copy survives, on a code it does not itself
@@ -314,14 +361,7 @@ public class TestXbStations {
 
         StopPlace survivor = byId(c.survivors(), "at:47:1187");
         Check.equals(1L, c.counters().levelsMoved, "the Swiss copy's Level moved with its quays");
-        List<String> levelIds = new ArrayList<>();
-        if (survivor.getLevels() != null) {
-            for (Object o : survivor.getLevels().getLevelRefOrLevel()) {
-                Object v = o instanceof JAXBElement<?> el ? el.getValue() : o;
-                if (v instanceof Level level) levelIds.add(level.getId());
-            }
-        }
-        Check.equals(List.of("L:ch:1"), levelIds, "the survivor now defines it");
+        Check.equals(List.of("L:ch:1"), levelIds(survivor), "the survivor now defines it");
         Quay onLevel = quayById(survivor, "ch:2:Quay:1");
         Check.that(onLevel.getLevelRef() != null,
                 "so the moved quay's LevelRef still resolves and is KEPT");
@@ -338,6 +378,30 @@ public class TestXbStations {
         Check.equals(1L, c.counters().levelRefsCleared, "one orphan cleared");
         Check.isNull(quayById(survivor, "ch:2:Quay:2").getLevelRef(),
                 "the quay whose Level nobody defines loses its ref");
+    }
+
+    /// One floor under two publishers' ids is what a cross-border cluster carries: each publisher
+    /// mints its own, and the survivor has to end up with one of them named by every quay.
+    ///
+    /// The basement is in both copies under one id, which both publishers happening to mint the
+    /// same id produces. Moving it twice would put two `<Level>`s with that id in one `<levels>`,
+    /// and which of them a later pass removes is then arbitrary.
+    public static void testOneFloorUnderTwoIdsFoldsAndCarriesBothQuays(TestStore db)
+            throws Exception {
+        Consolidation c = consolidateOneFloor(db);
+
+        StopPlace survivor = byId(c.survivors(), "at:47:2187");
+        Check.equals(1L, c.counters().levelsMoved, "the floor only the Swiss copy had moved");
+        Check.equals(1L, c.counters().levelsFolded, "and the two ground floors became one");
+        Check.equals(List.of("L:a", "L:dup"), levelIds(survivor),
+                "the ground floor under the smaller of its two ids, and the shared basement once");
+        for (Quay q : quays(survivor)) {
+            Check.that(q.getLevelRef() != null, q.getId() + " keeps a level");
+            Check.equals("L:a", q.getLevelRef().getRef(),
+                    q.getId() + " names the ground floor that stayed");
+        }
+        Check.equals(0L, c.counters().levelRefsCleared,
+                "so the EPIP conformance repair has nothing to clear");
     }
 
     /// Two ids in the same namespace never merge, however close they sit.
@@ -443,6 +507,37 @@ public class TestXbStations {
                     "both copies are rail-served, or the cluster never forms: " + rail);
             return XbStations.consolidate(stopplaces, psas, rail);
         }
+    }
+
+    static Consolidation consolidateOneFloor(TestStore db) throws Exception {
+        db.loadNetex(ONE_FLOOR);
+        try (Txn txn = db.store.roTxn()) {
+            List<StopPlace> stopplaces = new ArrayList<>();
+            for (Object o : db.store.iterOnlyObjects(txn, StopPlace.class)) {
+                stopplaces.add((StopPlace) o);
+            }
+            List<PassengerStopAssignment> psas = new ArrayList<>();
+            for (Object o : db.store.iterOnlyObjects(txn, PassengerStopAssignment.class)) {
+                psas.add((PassengerStopAssignment) o);
+            }
+            stopplaces.sort(Comparator.comparing(StopPlace::getId));
+            psas.sort(Comparator.comparing(PassengerStopAssignment::getId));
+            Set<String> rail = XbStations.railServed(db.store, txn, psas);
+            Check.that(rail.contains("at:47:2187") && rail.contains("ch:2:StopPlace:8102187"),
+                    "both copies are rail-served, or the cluster never forms: " + rail);
+            return XbStations.consolidate(stopplaces, psas, rail);
+        }
+    }
+
+    /// The `<Level>` ids a Site defines, in document order.
+    static List<String> levelIds(StopPlace sp) {
+        List<String> out = new ArrayList<>();
+        if (sp.getLevels() == null) return out;
+        for (Object o : sp.getLevels().getLevelRefOrLevel()) {
+            Object v = o instanceof JAXBElement<?> el ? el.getValue() : o;
+            if (v instanceof Level level) out.add(level.getId());
+        }
+        return out;
     }
 
     static List<String> ids(List<StopPlace> sps) {
