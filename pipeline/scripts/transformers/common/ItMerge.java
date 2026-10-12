@@ -37,6 +37,7 @@ import noi.netex.model.VersionOfObjectRefStructure;
 import noi.netex.text.Mls;
 import toolkit.harness.CloneSupport;
 import toolkit.keycodec.NulKeyCodec;
+import toolkit.model.NetexUtils;
 import toolkit.model.RecursiveAttributes;
 import toolkit.store.ObjectRow;
 import toolkit.store.Store;
@@ -118,9 +119,53 @@ public class ItMerge {
                 + "\0" + Mls.textOrEmpty(c.getDescription()) + "\0" + c.getDataSourceRef();
     }
 
+    /// Put the embedded children of `container` whose ids DERIVE from `containerId` into `remap`
+    /// under their qualified ids, so the rename and the reference rewrite both follow from
+    /// [#applyRemap].
+    ///
+    /// The collision detector sees first-class rows only: an embedded object has no id-index row, so
+    /// `duplicateIdFullKeys` cannot reach one. Two publishers describing a single national stop id
+    /// therefore ship one Quay id twice, and qualifying their StopPlaces apart left the Quays
+    /// sharing it -- a QuayRef then binds to whichever container the closing resolve reaches first,
+    /// which is to say to an arbitrary one of two publishers' platforms.
+    ///
+    /// A child qualifies only where its id is `containerId` with the class token swapped, which is
+    /// the shape a Mentz or RAP export gives a Quay under its StopPlace. That test is what bounds
+    /// the rename to ids that DO collide: the other source holds the same container id, so it
+    /// derives the same child id from it. A child id the publisher chose independently is left
+    /// alone, because nothing here establishes that it collides -- and renaming an id that does not
+    /// is how a sibling source's reference to it stops resolving.
+    ///
+    /// The remap is keyed by id alone, so a second container in this source embedding an already
+    /// registered id is renamed too. Where that happens the pair shared an id before and shares the
+    /// qualified one after; this pass neither repairs nor worsens it.
+    static void registerEmbedded(Object container, String containerId, String tag,
+            Map<String, String> remap) {
+        if (containerId == null) return;
+        RecursiveAttributes.walk(container, new RecursiveAttributes.Visitor() {
+            @Override
+            public void reference(VersionOfObjectRefStructure ref) {}
+
+            @Override
+            public void node(Object o) {
+                if (!(o instanceof EntityStructure e) || e.getId() == null) return;
+                String derived = NetexUtils.swapClassToken(containerId, o.getClass().getSimpleName());
+                if (derived == null || !derived.equals(e.getId())) return;
+                remap.putIfAbsent(e.getId(), qualified(e.getId(), tag));
+            }
+        });
+    }
+
     /// rewrite every reference `obj` holds whose target id is in
-    /// `remap` (and, when `renameSelf`, its own id). The refs the walk yields are the
+    /// `remap`, and the id of `obj` itself when `renameSelf` and of every EMBEDDED child whose id
+    /// the remap names. The refs the walk yields are the
     /// live objects in the tree, so mutating in place is enough; insert re-extracts the index.
+    ///
+    /// An embedded child is renamed unconditionally of `renameSelf`, which governs the top-level id
+    /// alone. The match is on the bare id at any depth, so a child reached here is renamed wherever
+    /// it sits, not only under the container [#registerEmbedded] registered it from. That is the
+    /// price of an id-keyed remap and the reason registration is bounded to a derived id: what the
+    /// walk renames has to be an id the merge has established collides.
     static void applyRemap(Object obj, Map<String, String> remap, boolean renameSelf) {
         if (renameSelf && obj instanceof EntityStructure e && e.getId() != null) {
             String mapped = remap.get(e.getId());
@@ -136,7 +181,11 @@ public class ItMerge {
             }
 
             @Override
-            public void node(Object o) {}
+            public void node(Object o) {
+                if (!(o instanceof EntityStructure e) || e.getId() == null) return;
+                String mapped = remap.get(e.getId());
+                if (mapped != null) e.setId(mapped);
+            }
         });
     }
 
@@ -193,6 +242,9 @@ public class ItMerge {
                     }
 
                     Map<String, String> remap = new LinkedHashMap<>();
+                    // The remap also carries the embedded children a qualified container drags with
+                    // it, so its size is not the collision count the message reports.
+                    int collided = 0;
                     List<Class<?>> buffered = new ArrayList<>();
                     if (consolidateStops || synthesizeStops) {
                         for (Class<?> c : sdb.dbNames(rtx)) if (isBuffered(c)) buffered.add(c);
@@ -209,9 +261,12 @@ public class ItMerge {
                             bufKeys.add(sdb.fullKeyOf(clazz, row.localKey()));
                             EntityStructure obj = (EntityStructure) row.object();
                             if (qualify && seenBuffered.contains(classIdKey(cn, String.valueOf(obj.getId())))) {
-                                String newId = qualified(String.valueOf(obj.getId()), tag);
-                                remap.put(String.valueOf(obj.getId()), newId);
+                                String oldId = String.valueOf(obj.getId());
+                                String newId = qualified(oldId, tag);
+                                remap.put(oldId, newId);
                                 obj.setId(newId);
+                                collided++;
+                                registerEmbedded(obj, oldId, tag, remap);
                             }
                             pending.add(obj);
                         }
@@ -249,6 +304,8 @@ public class ItMerge {
                             for (Object o : dupObjs) {
                                 String oid = ((EntityStructure) o).getId();
                                 remap.put(oid, qualified(oid, tag));
+                                collided++;
+                                registerEmbedded(o, oid, tag, remap);
                             }
                         }
                         skip = new LongOpenHashSet(dups);
@@ -288,9 +345,9 @@ public class ItMerge {
                     // declarations leaves the remap empty, and falling through would report a
                     // qualifying merge as a no-qualify one.
                     if (qualify) {
-                        if (!remap.isEmpty()) {
+                        if (collided > 0) {
                             msg += String.format(" -- qualified %d colliding ids (tag %s)",
-                                    remap.size(), tag);
+                                    collided, tag);
                         }
                     } else if (!dups.isEmpty()) {
                         msg += String.format(" -- dropped %d duplicate ids (no-qualify)", dups.size());
@@ -411,6 +468,9 @@ public class ItMerge {
         // pass 1 — collisions with EARLIER sources only (so a source's own versions of an id are
         // never treated as colliding with each other).
         Map<String, String> remap = new LinkedHashMap<>();
+        // The remap also carries the embedded children a qualified container drags with it, so its
+        // size is not the collision count the message reports.
+        int collided = 0;
         Set<String> skip = new LinkedHashSet<>();
         Set<String> drop = new LinkedHashSet<>();   // repeated declarations, dropped in both modes
         Set<String> declRepeats;
@@ -424,8 +484,11 @@ public class ItMerge {
                 String key = classIdKey(cn, oid);
                 if (seen.contains(key)) {
                     if (obj instanceof Codespace && declRepeats.contains(oid)) drop.add(key);
-                    else if (qualify) remap.put(oid, qualified(oid, tag));
-                    else skip.add(key);
+                    else if (qualify) {
+                        remap.put(oid, qualified(oid, tag));
+                        collided++;
+                        registerEmbedded(obj, oid, tag, remap);
+                    } else skip.add(key);
                 }
             }
         }
@@ -489,7 +552,7 @@ public class ItMerge {
         }
         seen.addAll(local);
         String msg = String.format("[it-merge] copied %s object-level", src);
-        if (!remap.isEmpty()) msg += String.format(" -- qualified %d colliding ids (tag %s)", remap.size(), tag);
+        if (collided > 0) msg += String.format(" -- qualified %d colliding ids (tag %s)", collided, tag);
         if (!drop.isEmpty()) msg += String.format(" -- kept %d repeated declaration(s) once", drop.size());
         if (!skip.isEmpty()) msg += String.format(" -- dropped %d duplicate ids (no-qualify)", skip.size());
         Log.info("%s", msg);
