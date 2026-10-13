@@ -133,9 +133,11 @@ public final class LineCodes {
         String code = Codes.text(line.getPublicCode());
         if (code == null) return false;
         for (PrivateCodeStructure pc : line.getPrivateCodes().getPrivateCode()) {
-            if (!"route_id".equals(pc.getType()) || pc.getValue() == null) continue;
-            if (!code.endsWith(" " + pc.getValue())) continue;
-            line.setPublicCode(Codes.of(pc.getValue()));
+            if (!"route_id".equals(pc.getType())) continue;
+            String routeId = pc.getValue();
+            if (routeId == null || routeId.isBlank()) continue;
+            if (!code.endsWith(" " + routeId)) continue;
+            line.setPublicCode(Codes.of(routeId));
             return true;
         }
         return false;

@@ -335,6 +335,40 @@ public class TestItRapDbToDb {
         </ServiceFrame>
         """;
 
+    /// A group qualified out from under a referrer that is not a Line. repointGroupRefs reaches a
+    /// Line's typed representedByGroupRef and nothing else, so this one travels in the patch set.
+    static final String GROUP_NOTICED = """
+        <ServiceFrame id="sf" version="1">
+          <Network id="IT:ITF4:Network:1" version="1"><Name>Net</Name></Network>
+          <groupsOfLines>
+            <GroupOfLines id="IT:ITF4:GroupOfLines:Extraurbano" version="1"><Name>Extraurbano</Name></GroupOfLines>
+          </groupsOfLines>
+          <noticeAssignments>
+            <NoticeAssignment id="IT:ITF4:NoticeAssignment:1" version="1" order="1">
+              <NoticedObjectRef ref="IT:ITF4:GroupOfLines:Extraurbano" version="1"/>
+            </NoticeAssignment>
+          </noticeAssignments>
+        </ServiceFrame>
+        """;
+
+    /// The qualification moves the group's id, and a referrer that kept the published one names an
+    /// object the store no longer holds -- so the notice is attached to nothing.
+    public static void testANonLineReferrerFollowsTheQualifiedGroup(TestStore db) throws Exception {
+        TestStore target = runTagged(db, GROUP_NOTICED, "IT-ITF4-AMET");
+        String ref = null;
+        try (Txn txn = target.store.roTxn()) {
+            for (Object o : target.store.iterOnlyObjects(txn,
+                    noi.netex.model.NoticeAssignment.class)) {
+                var na = (noi.netex.model.NoticeAssignment) o;
+                if (na.getNoticedObjectRef() != null) ref = na.getNoticedObjectRef().getRef();
+            }
+        }
+        Check.equals("IT:ITF4:GroupOfLines:Extraurbano:IT-ITF4-AMET", ref,
+                "the NoticeAssignment names the group under its qualified id");
+        Check.equals(Map.of("IT:ITF4:GroupOfLines:Extraurbano:IT-ITF4-AMET@1", "Extraurbano"),
+                nestedGroups(target), "and that is the id the group was nested under");
+    }
+
     /// Group id to its Name, read out of the one Network's nested container.
     private static Map<String, String> nestedGroups(TestStore target) throws Exception {
         Map<String, String> out = new LinkedHashMap<>();

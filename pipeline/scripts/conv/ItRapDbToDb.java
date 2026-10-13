@@ -46,9 +46,11 @@ import noi.netex.model.Line_VersionStructure;
 import noi.netex.model.Network;
 import noi.netex.model.PassengerStopAssignment;
 import noi.netex.model.StopPlace;
+import noi.netex.model.VersionOfObjectRefStructure;
 import toolkit.harness.Args;
 import toolkit.harness.DbToDb;
 import toolkit.keycodec.NulKeyCodec;
+import toolkit.model.RecursiveAttributes;
 import toolkit.store.ObjectRow;
 import toolkit.store.Store;
 import toolkit.store.Txn;
@@ -61,6 +63,7 @@ import transformers.feedfix.LineCodes;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -235,15 +238,53 @@ public class ItRapDbToDb {
         List<Object> newInserts = new ArrayList<>(newAuthorities);
 
         // The clone drops an index row whose referenced side was skipped, so a resolved referrer
-        // outside the re-inserted set has to be re-inserted for its reference to re-extract.
-        LongOpenHashSet patch = toolkit.harness.CloneSupport.referrerFullKeys(src, stx, skip, reinserted);
+        // outside the re-inserted set has to be re-inserted for its reference to re-extract. The
+        // renamed group ids go in too: repointGroupRefs reaches a Line's typed
+        // representedByGroupRef and nothing else, and a referrer matched on the renamed id rather
+        // than on a skipped row is a referrer whose stored ref still names the published id --
+        // including one sitting in the unresolved map, which the id-less call never collected.
+        LongOpenHashSet patch = toolkit.harness.CloneSupport.referrerFullKeys(
+                src, stx, skip, reinserted, groupRenames.keySet());
 
         dst.cloneFrom(src, stx, dtx, skip.isEmpty() ? null : skip::contains, 0);
         dst.insertAnyObjects(dtx, overlayInserts);
         dst.insertAnyObjects(dtx, newInserts);
         if (!patch.isEmpty()) {
-            dst.insertAnyObjects(dtx, toolkit.harness.CloneSupport.loadPatchObjects(src, stx, patch));
+            dst.insertAnyObjects(dtx, repointed(
+                    toolkit.harness.CloneSupport.loadPatchObjects(src, stx, patch), groupRenames));
         }
+    }
+
+    /// Rewrite every reference each object holds whose target id `renames` names, as it goes past.
+    ///
+    /// The patch objects are loaded fresh from the source, so the rename the pass applied to the
+    /// group rows is not in them. References only: a patch object's own id is not a key of
+    /// `renames` -- the groups themselves leave through `skip` -- and renaming one would move a row
+    /// the pass never meant to touch.
+    private static Iterator<Object> repointed(Iterator<Object> objects, Map<String, String> renames) {
+        if (renames.isEmpty()) return objects;
+        return new Iterator<>() {
+            @Override
+            public boolean hasNext() {
+                return objects.hasNext();
+            }
+
+            @Override
+            public Object next() {
+                Object obj = objects.next();
+                RecursiveAttributes.walk(obj, new RecursiveAttributes.Visitor() {
+                    @Override
+                    public void reference(VersionOfObjectRefStructure ref) {
+                        String renamed = ref.getRef() == null ? null : renames.get(ref.getRef());
+                        if (renamed != null) ref.setRef(renamed);
+                    }
+
+                    @Override
+                    public void node(Object o) {}
+                });
+                return obj;
+            }
+        };
     }
 
     /// Point every Line of `rows` whose group ref names a key of `renames` at the renamed group,

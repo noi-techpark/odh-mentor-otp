@@ -161,6 +161,27 @@ public class TestLineCodes {
                         + "what keeps this rule off everything else");
     }
 
+    /// An empty route_id names no code. The suffix test reduces to `endsWith(" ")` on one, which any
+    /// code with a trailing space satisfies, and the line would be left with a blank public code --
+    /// a route OTP ships with no short name.
+    public static void testAnEmptyRouteIdLeavesThePublicCodeAlone(TestStore db) throws Exception {
+        Map<String, Line> fixed = run(db, """
+            <ServiceFrame id="sf" version="1">
+              <lines>
+                <Line id="FTG:Line:BLANK" version="1">
+                  <privateCodes><PrivateCode type="route_id"></PrivateCode></privateCodes>
+                  <Name>Somewhere - Elsewhere</Name>
+                  <TransportMode>bus</TransportMode><PublicCode>FlixBus </PublicCode>
+                </Line>
+              </lines>
+            </ServiceFrame>
+            """, LineCodes.Policy.FLIX);
+
+        Check.isNull(fixed.get("FTG:Line:BLANK"),
+                "an empty route_id is not a code, so the rule does not fire and the line is "
+                        + "not rewritten");
+    }
+
     /// A Line two passes both touch has to reach the overlay as one object carrying both repairs.
     public static void testRepairsComposeOnAPendingObject(TestStore db) throws Exception {
         db.loadNetex(IT_FRAMES);
