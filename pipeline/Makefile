@@ -104,6 +104,7 @@ JDRV_sort-italo-sequences        = fix/SortItaloSequences.java
 JDRV_bind-quayless-assignments   = fix/BindQuaylessAssignments.java
 JDRV_at-line-products            = fix/AtLineProducts.java
 JDRV_ch-line-products            = fix/ChLineProducts.java
+JDRV_ch-display-texts            = fix/ChDisplayTexts.java
 JDRV_italo-line-codes            = fix/ItaloLineCodes.java
 JDRV_flix-line-codes             = fix/FlixLineCodes.java
 
@@ -1029,12 +1030,13 @@ $(AT_DB): $(AT_ZIPS) | $(DATA_DIR) $(TOOLKIT_JAR)
 # 46,482 embedded Quays, 0 of them without a coordinate, against 26,065 in at.lmdb (24.4%) and
 # 32,091 in it.lmdb (12.1%). Re-add it if a future export starts carrying them.
 $(CH_DB): $(CH_SRC) | $(DATA_DIR) $(TOOLKIT_JAR)
-	$(call stage,swiss,loading $(notdir $<) -> $(notdir $@) (+ drop republished journeys))
-	rm -rf $@ $@.tmp $@.raw.tmp
+	$(call stage,swiss,loading $(notdir $<) -> $(notdir $@) (+ drop republished journeys + line products + display texts))
+	rm -rf $@ $@.tmp $@.raw.tmp $@.drop.tmp $@.prod.tmp
 	$(call drv,swiss-to-db,TIER1) $< $@.raw.tmp
 	$(call drv,drop-foreign-journeys,TIER1) $@.raw.tmp $@.drop.tmp
-	$(call drv,ch-line-products,TIER1) $@.drop.tmp $@.tmp
-	rm -rf $@.raw.tmp $@.drop.tmp && mv $@.tmp $@
+	$(call drv,ch-line-products,TIER1) $@.drop.tmp $@.prod.tmp
+	$(call drv,ch-display-texts,TIER1) $@.prod.tmp $@.tmp
+	rm -rf $@.raw.tmp $@.drop.tmp $@.prod.tmp && mv $@.tmp $@
 	$(call stage_done,swiss)
 
 # One publication_delivery.xml in a zip, one codespace (FTG), no ServiceLinks, and a coordinate on
