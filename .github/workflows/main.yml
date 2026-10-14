@@ -20,6 +20,7 @@ env:
   DOCKER_IMAGE_CARSHARING: ghcr.io/${{ github.repository }}/odh-mentor-otp-carsharing
   DOCKER_IMAGE_ECHARGING: ghcr.io/${{ github.repository }}/odh-mentor-otp-echarging
   DOCKER_IMAGE_AMARILLO: ghcr.io/${{ github.repository }}/odh-mentor-otp-amarillo
+  DOCKER_IMAGE_OJP_PROXY: ghcr.io/leonardehrenfried/ojp-proxy:2026-10-13T15-15-21Z
   OTP_IMAGE: docker.io/lehrenfried/opentripplanner:stop-place-psa-v2
 
 jobs:
@@ -47,6 +48,7 @@ jobs:
           X_DOCKER_IMAGE_CARSHARING: ${{ env.DOCKER_IMAGE_CARSHARING }}
           X_DOCKER_IMAGE_ECHARGING: ${{ env.DOCKER_IMAGE_ECHARGING }}
           X_DOCKER_IMAGE_AMARILLO: ${{ env.DOCKER_IMAGE_AMARILLO }}          
+          X_DOCKER_IMAGE_OJP_PROXY: ${{ env.DOCKER_IMAGE_OJP_PROXY }}
           X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
 
           X_SERVER_PORT_OTP: 1080
@@ -56,10 +58,12 @@ jobs:
           X_DOCKER_CARSHARING_PORT: 1084
           X_DOCKER_ECHARGING_PORT: 1087
           X_DOCKER_AMARILLO_PORT: 1092
+          X_DOCKER_OJP_PROXY_PORT: 1093
 
           X_OTP_IMAGE: ${{ env.OTP_IMAGE }}
 
           X_CARSHARING_BASEURL: "https://carsharing.otp.opendatahub.testingmachine.eu"
+          X_PELIAS_URL: "https://geocoder.otp.opendatahub.testingmachine.eu"
 
           X_ADMIN_TOKEN: ${{ secrets.AMARILLO_ADMIN_TOKEN }}
           # The Austrian Verbund feeds; data.mobilitaetsverbuende.at authenticates every download.
@@ -114,6 +118,7 @@ jobs:
           X_DOCKER_IMAGE_CARSHARING: ${{ env.DOCKER_IMAGE_CARSHARING }}
           X_DOCKER_IMAGE_ECHARGING: ${{ env.DOCKER_IMAGE_ECHARGING }}
           X_DOCKER_IMAGE_AMARILLO: ${{ env.DOCKER_IMAGE_AMARILLO }}          
+          X_DOCKER_IMAGE_OJP_PROXY: ${{ env.DOCKER_IMAGE_OJP_PROXY }}
           X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
 
           X_SERVER_PORT_OTP: 1060
@@ -124,10 +129,12 @@ jobs:
           X_DOCKER_PARKING_PORT: 1065
           X_DOCKER_ECHARGING_PORT: 1067
           X_DOCKER_AMARILLO_PORT: 1070
+          X_DOCKER_OJP_PROXY_PORT: 1071
 
           X_OTP_IMAGE: ${{ env.OTP_IMAGE }}
 
           X_CARSHARING_BASEURL: "https://carsharing.v2.otp.opendatahub.com"
+          X_PELIAS_URL: "https://geocoder.v2.otp.opendatahub.com"
 
           X_ADMIN_TOKEN: ${{ secrets.AMARILLO_ADMIN_TOKEN }}
           # The Austrian Verbund feeds; data.mobilitaetsverbuende.at authenticates every download.

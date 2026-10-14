@@ -92,6 +92,14 @@ services:
     volumes:
       - graphhopper:/data/
 
+  ojp-proxy:
+    image: ${DOCKER_IMAGE_OJP_PROXY}
+    restart: unless-stopped
+    environment:
+      - PELIAS_URL=${PELIAS_URL}
+    ports:
+      - ${DOCKER_OJP_PROXY_PORT}:8080
+
   carsharing-cron:
     image: ${DOCKER_IMAGE_CARSHARING}:${DOCKER_TAG}
     restart: unless-stopped
