@@ -3,11 +3,13 @@ package conv;
 // Swiss feed loader: a FeedToDb-harness configuration with two deltas, both in options():
 //   1. MEMBER FILTER: only token-matching members load. Every current member matches; the filter
 //      is kept defensively against future drops.
-//   2. DEDUP MERGE: StopPlace quay-union merge, registered defensively — the swiss zip has no
-//      cross-member duplicate stops, and the CH chain gate passes either way.
+//   2. DEDUP MERGE: StopPlace quay-union merge and ValueSet member union, both registered
+//      defensively — the swiss zip has no cross-member duplicate stops and declares its code lists
+//      once in the resource member, and the CH chain gate passes either way.
 // DropForeignJourneys remains a separate pipeline stage.
 
 import noi.netex.model.StopPlace;
+import noi.netex.model.ValueSet;
 import toolkit.harness.FeedToDb;
 import toolkit.load.ZipLoad;
 import toolkit.transform.common.MpLoadRules;
@@ -24,7 +26,8 @@ public class SwissToDb {
         return new ZipLoad.Options(
                 SwissToDb::swissMember,
                 null, // archive order: no name ordering
-                Map.of(StopPlace.class, MpLoadRules::mergeStopPlaceQuays),
+                Map.of(StopPlace.class, MpLoadRules::mergeStopPlaceChildren,
+                        ValueSet.class, MpLoadRules::mergeValueSetValues),
                 null);
     }
 

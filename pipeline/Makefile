@@ -48,7 +48,7 @@ JAVA_CP := $(TOOLKIT_JAR)
 # jar built by hand.
 TOOLKIT_REPO    ?= flaktack/netex-toolkit
 TOOLKIT_ASSET   ?= netex-toolkit-shaded.jar
-TOOLKIT_VERSION ?= v0.0.3
+TOOLKIT_VERSION ?= v0.0.4
 TOOLKIT_JAR_URL ?= https://github.com/$(TOOLKIT_REPO)/releases/$(if $(filter latest,$(TOOLKIT_VERSION)),latest/download,download/$(TOOLKIT_VERSION))/$(TOOLKIT_ASSET)
 
 # Per-stage heaps, measured rather than chosen. Measure before lowering one: `make netex
@@ -102,6 +102,11 @@ JDRV_flatten-wrapped-names       = fix/FlattenWrappedNames.java
 JDRV_align-italo-stop-names      = fix/AlignItaloStopNames.java
 JDRV_sort-italo-sequences        = fix/SortItaloSequences.java
 JDRV_bind-quayless-assignments   = fix/BindQuaylessAssignments.java
+JDRV_at-line-products            = fix/AtLineProducts.java
+JDRV_ch-line-products            = fix/ChLineProducts.java
+JDRV_ch-display-texts            = fix/ChDisplayTexts.java
+JDRV_italo-line-codes            = fix/ItaloLineCodes.java
+JDRV_flix-line-codes             = fix/FlixLineCodes.java
 
 # -D knobs. Each one below differs from the jar's default and leaves the output byte-identical.
 # Keyed by driver, each being read by exactly one code path. Restore the jar's defaults with
@@ -129,13 +134,23 @@ EPIP_JOURNEY_WORKERS ?= 2
 JOPTS_obb-to-db              = -Dtoolkit.load.zipTxnBatch=$(ZIP_TXN_BATCH) -Dtoolkit.load.zipWorkers=$(ZIP_WORKERS)
 JOPTS_swiss-to-db            = -Dtoolkit.load.zipTxnBatch=$(ZIP_TXN_BATCH) -Dtoolkit.load.zipWorkers=$(ZIP_WORKERS)
 JOPTS_epip-db-to-db          = -Dtoolkit.epip.parallelJourneys=$(EPIP_JOURNEY_WORKERS) \
-                                    -Dtoolkit.epip.dayOffsetRewrite=on
+                                    -Dtoolkit.epip.dayOffsetRewrite=on \
+                                    -Dtoolkit.epip.journeyCodeCategories=$(JOURNEY_CODE_CATEGORIES)
 
 # $(call drv,<stage name>,<pinning>) -- joins the heap pinning and the -D knobs to the driver path.
 drv = $(JAVA) -Xmx$(XMX_$(2)) $(JVM) $(JOPTS_$(1)) -cp "$(JAVA_CP)" $(SCRIPTS)/$(JDRV_$(1))
 
 # Every store recipe builds into $@.tmp and renames, but deletes the old store first: epip.lmdb
 # alone is 42 GB and a full chain holds ~96 GB, so keeping both generations would not fit.
+
+# A rail journey takes its train number as its PublicCode on its own. These are the non-rail product
+# categories whose number is advertised too: a rail replacement runs by bus and keeps the number of
+# the train it stands in for. The ids are codespaced, so naming all of them is safe whichever shard
+# the EPIP conversion is running -- no other publisher can match them.
+#
+# A Mentz export carries train numbers far beyond rail, and on a funicular, a tram or a plain bus the
+# number counts courses within a day rather than naming a service. Those take no code.
+JOURNEY_CODE_CATEGORIES ?= at:obb:TypeOfProductCategory:SEV:,at:oov:TypeOfProductCategory:SEV:
 
 # ---- sources ---------------------------------------------------------------------------------
 # Swiss CKAN is per timetable year; /permalink redirects to the most recent export. The Austrian
@@ -485,12 +500,30 @@ EPIP_DESCRIPTION ?= South Tyrol and cross-border public transport
 EPIP_PUBLICATION_TIMESTAMP ?=
 EPIP_FRAME_VERSION ?=
 
-# The flag list, empty-safe: an unset variable contributes no flag at all rather than an empty one.
+# The codespace a generated id falls back to when the object it came from carries no class token to
+# derive one from. Unset, the toolkit uses the EPIP data codespace the profile reserves for it, which
+# is what a publisher with no identifier scheme of its own should ship.
+EPIP_CODESPACE ?=
+
+# The country and local codes in a frame identifier. Empty here on purpose: the merged store spans
+# IT, AT and CH, so there is no single country to name, and an empty field keeps its placeholder
+# colon. A single-country export can fill them.
+EPIP_CODESPACE_COUNTRY ?=
+EPIP_CODESPACE_LOCAL ?=
+
+# The flag lists, empty-safe: an unset variable contributes no flag at all rather than an empty one.
 EPIP_ENVELOPE_FLAGS := \
     $(if $(EPIP_PARTICIPANT_REF),--participant-ref "$(EPIP_PARTICIPANT_REF)") \
     $(if $(EPIP_DESCRIPTION),--description "$(EPIP_DESCRIPTION)") \
     $(if $(EPIP_PUBLICATION_TIMESTAMP),--publication-timestamp $(EPIP_PUBLICATION_TIMESTAMP)) \
-    $(if $(EPIP_FRAME_VERSION),--frame-version $(EPIP_FRAME_VERSION))
+    $(if $(EPIP_FRAME_VERSION),--frame-version $(EPIP_FRAME_VERSION)) \
+    $(if $(EPIP_CODESPACE_COUNTRY),--codespace-country $(EPIP_CODESPACE_COUNTRY)) \
+    $(if $(EPIP_CODESPACE_LOCAL),--codespace-local $(EPIP_CODESPACE_LOCAL))
+
+# Passed to BOTH the transform and the export. Each mints ids for objects the other never sees, so
+# giving it to one alone leaves the frame identifiers and the contents they govern under different
+# prefixes -- a document that still validates, so nothing downstream reports it.
+EPIP_CODESPACE_FLAG := $(if $(EPIP_CODESPACE),--codespace $(EPIP_CODESPACE))
 
 # ---- OTP graph -------------------------------------------------------------------------------
 # The OTP this loads is the `noi-pipeline` branch of an OpenTripPlanner checkout, which carries
@@ -544,6 +577,11 @@ GRAPH         := $(OTP_DIR)/graph.obj
 # can get shorter from here, and after `graph` (OTP, ~2,400 s) the biggest thing on it is `xb`.
 #
 # Stage banners: these steps run for hours. Per-stage timing files keep it safe under `make -j`.
+#
+# The marker is removed on completion, so one left in $(STATE_DIR) is a stage that started and did
+# not finish. That is the only thing that names a failure under -j: make reports the target and
+# then lets the other jobs drain, so the log ends on whichever stage finished last and the `***`
+# line is somewhere above it.
 define stage
 @mkdir -p $(STATE_DIR)
 @echo "=== $$(date '+%F %T') [$(1)] $(2)"
@@ -551,6 +589,7 @@ define stage
 endef
 define stage_done
 @echo "=== $$(date '+%F %T') [$(1)] done in $$(( $$(date +%s) - $$(cat $(STATE_DIR)/.t.$(1)) ))s"
+@rm -f $(STATE_DIR)/.t.$(1)
 endef
 
 # Unlink a failed recipe's target so a partial file never passes the next up-to-date check. The
@@ -584,6 +623,7 @@ help: ## Show this help
 	@echo "  EPIP_SHARDS = $(EPIP_SHARDS)   EPIP_JOURNEYS_PER_FILE = $(EPIP_JOURNEYS_PER_FILE)"
 	@echo "  envelope  = $(EPIP_ENVELOPE_FLAGS)"
 	@echo "              set EPIP_PUBLICATION_TIMESTAMP and EPIP_FRAME_VERSION for a reproducible zip"
+	@echo "  codespace = $(if $(EPIP_CODESPACE),$(EPIP_CODESPACE),epd (the profile's own))"
 	@echo
 	@echo "One credential, taken from the environment and never stored here: the Austrian feeds"
 	@echo "need a data.mobilitaetsverbuende.at login."
@@ -619,9 +659,14 @@ all: $(GRAPH) ## Build everything up to graph.obj (street + transit)
 #
 # The options go before the URL. Everything after the destination is handed to curl, which is what
 # carries the Austrian bearer header, and curl rejects a --validator it was never meant to see.
+#
+# The fetch is silenced because $(5) is a shell substitution, not a value: $(rap_validator) expands
+# to its whole awk-and-fallback lookup, which is 205 of the 382 characters make would echo in front
+# of every feed. What the line carried is already on the two around it -- $(call stage) names the
+# feed and its asset, and a $(FETCH) that fails names the destination it was filling.
 define fetch_src
 $(call stage,$(1),$(2))
-$(FETCH) $(5) "$(3)" $(4)
+@$(FETCH) $(5) "$(3)" $(4)
 $(call stage_done,$(1))
 endef
 
@@ -726,6 +771,10 @@ verify-crossborder: | $(TOOLKIT_JAR) ## Verify the IT/AT/CH cross-border links i
 		$(NETEX_ZIP) $(if $(FULL),--full) --out $(XB_REPORT) \
 		$(if $(wildcard $(OTP_DIR)/report/StopPointsMismatch1.html),--otp-report $(OTP_DIR)/report)
 
+verify-line-labels: | $(TOOLKIT_JAR) ## Report, per publisher, what the merged NeTEx zip names its routes and trips
+	@test -f $(NETEX_ZIP) || { echo "$(NETEX_ZIP) is missing -- run 'make netex' first" >&2; exit 1; }
+	$(JAVA) -Xmx4g $(JVM) -cp "$(JAVA_CP)" $(SCRIPTS)/tools/VerifyLineLabels.java $(NETEX_ZIP)
+
 XB_ATLAS := $(OTP_DIR)/report/xb
 
 # Reads epip.lmdb, not epip-xb.lmdb, and re-runs the coupling to draw it. A refused group leaves no
@@ -767,13 +816,29 @@ repair-inputs: | $(STATE_DIR) ## Delete every input/ file that fails verify-inpu
 # The one token serves both requests. DBP sends no ETag and no Last-Modified and ignores a range
 # request, so the data set's own version id out of its public API is what says whether the zip
 # changed; it reaches $(FEEDVER) on stdin, where argv would show it to every user on the box.
+#
+# The response is captured and then parsed, not piped into the parser: make runs a recipe without
+# pipefail, so the exit status of curl | python3 is python's. A curl that fetched nothing leaves
+# the parser reading an empty stdin, and the recipe reports a JSONDecodeError while curl's own
+# line -- the one naming the host it could not resolve -- scrolls past above it.
+#
+# The credential guards are hoisted out of the request for the same reason: inside $(shell) they
+# would end the substitution rather than the recipe, and their message would be followed by the
+# unreachable-endpoint one below.
 define fetch_austria
-@token=$$(curl -fsS -X POST -d client_id=$(MV_CLIENT_ID) -d grant_type=password -d scope=openid \
-		--data-urlencode "username=$${MV_USERNAME:?export MV_USERNAME and MV_PASSWORD}" \
-		--data-urlencode "password=$${MV_PASSWORD:?export MV_USERNAME and MV_PASSWORD}" \
-		"$(MV_TOKEN_URL)" \
-	  | python3 -c 'import sys,json; print(json.load(sys.stdin)["access_token"])') \
-	&& ver=$$(printf '%s\n' "$$token" | $(FEEDVER) dbp $(1) | awk '{print $$2}') \
+@: $${MV_USERNAME:?export MV_USERNAME and MV_PASSWORD}; \
+ : $${MV_PASSWORD:?export MV_USERNAME and MV_PASSWORD}; \
+ resp=$$(curl -fsS -X POST -d client_id=$(MV_CLIENT_ID) -d grant_type=password -d scope=openid \
+		--data-urlencode "username=$$MV_USERNAME" \
+		--data-urlencode "password=$$MV_PASSWORD" \
+		"$(MV_TOKEN_URL)") || { echo >&2; \
+	  echo "$(MV_TOKEN_URL) did not answer -- curl's own line is the one above." >&2; exit 1; }; \
+ token=$$(printf '%s' "$$resp" \
+	  | python3 -c 'import sys,json; print(json.load(sys.stdin)["access_token"])' 2>/dev/null) \
+	|| { echo >&2; \
+	  echo "$(MV_TOKEN_URL) answered without an access_token. It sent:" >&2; \
+	  printf '%s' "$$resp" | head -c 200 >&2; echo >&2; exit 1; }; \
+ ver=$$(printf '%s\n' "$$token" | $(FEEDVER) dbp $(1) | awk '{print $$2}') \
 	&& $(FETCH) $${ver:+--validator "$$ver"} "$(call MV_FILE_URL,$(1))" $(2) \
 	     -H "Authorization: Bearer $$token"
 endef
@@ -812,7 +877,7 @@ $$(DATA_DIR)/it-rap-$(1)-$(2).lmdb: $$(INPUT_DIR)/it-rap-$(1)-$(2)-$(3).xml.gz |
 	rm -rf $$@ $$@.tmp $$@.raw.tmp $$@.ids.tmp
 	$$(call drv,netex-to-db,FEED) $$< $$@.raw.tmp
 	$$(call drv,normalize-it-ids,FEED) $$@.raw.tmp $$@.ids.tmp
-	$$(call drv,it-rap-db-to-db,FEED) $$@.ids.tmp $$@.tmp
+	$$(call drv,it-rap-db-to-db,FEED) $$@.ids.tmp $$@.tmp --tag $(2)
 	rm -rf $$@.raw.tmp $$@.ids.tmp && mv $$@.tmp $$@
 	$$(call stage_done,rap-$(1)-$(2))
 endef
@@ -848,13 +913,14 @@ refetch-oap-$(1): | $$(INPUT_DIR) $$(STATE_DIR)
 
 $$(DATA_DIR)/it-oap-$(1).lmdb: $$(INPUT_DIR)/it-oap-$(1)-$(2).xml.gz $$(IT2_DB) | $$(DATA_DIR) $$(TOOLKIT_JAR)
 	$$(call stage,oap-$(1),loading OAP $(1) -> $$(notdir $$@))
-	rm -rf $$@ $$@.tmp $$@.raw.tmp $$@.seq.tmp $$@.ids.tmp $$@.align.tmp
+	rm -rf $$@ $$@.tmp $$@.raw.tmp $$@.seq.tmp $$@.lines.tmp $$@.ids.tmp $$@.align.tmp
 	$$(call drv,netex-to-db,FEED) $$< $$@.raw.tmp
 	$$(call drv,sort-italo-sequences,FEED) $$@.raw.tmp $$@.seq.tmp
-	$$(call drv,normalize-it-ids,FEED) $$@.seq.tmp $$@.ids.tmp --home IT:ITALO
+	$$(call drv,italo-line-codes,FEED) $$@.seq.tmp $$@.lines.tmp
+	$$(call drv,normalize-it-ids,FEED) $$@.lines.tmp $$@.ids.tmp --home IT:ITALO
 	$$(call drv,align-italo-stop-names,FEED) $$@.ids.tmp $$(IT2_DB) $$@.align.tmp
-	$$(call drv,it-rap-db-to-db,FEED) $$@.align.tmp $$@.tmp
-	rm -rf $$@.raw.tmp $$@.seq.tmp $$@.ids.tmp $$@.align.tmp && mv $$@.tmp $$@
+	$$(call drv,it-rap-db-to-db,FEED) $$@.align.tmp $$@.tmp --tag $(1)
+	rm -rf $$@.raw.tmp $$@.seq.tmp $$@.lines.tmp $$@.ids.tmp $$@.align.tmp && mv $$@.tmp $$@
 	$$(call stage_done,oap-$(1))
 endef
 $(foreach f,$(OAP_FEEDS),$(eval $(call oap_op_rules,$(call oap_name,$(f)),$(call oap_id,$(f)))))
@@ -951,8 +1017,9 @@ $(AT_DB): $(AT_ZIPS) | $(DATA_DIR) $(TOOLKIT_JAR)
 	$(call drv,drop-foreign-journeys,TIER1) $@.raw.tmp $@.drop.tmp
 	$(call drv,resolve-mentz-line-versions,MENTZ) $@.drop.tmp $@.mentz.tmp
 	$(call drv,sanitize-stop-assignments,TIER1) $@.mentz.tmp $@.sane.tmp
-	$(call drv,stitch-split-journeys,TIER1) $@.sane.tmp $@.tmp
-	rm -rf $@.raw.tmp $@.drop.tmp $@.mentz.tmp $@.sane.tmp && mv $@.tmp $@
+	$(call drv,stitch-split-journeys,TIER1) $@.sane.tmp $@.stitch.tmp
+	$(call drv,at-line-products,TIER1) $@.stitch.tmp $@.tmp
+	rm -rf $@.raw.tmp $@.drop.tmp $@.mentz.tmp $@.sane.tmp $@.stitch.tmp && mv $@.tmp $@
 	$(call stage_done,at)
 
 # The drop step removes the whole-network re-import of VVV (operator 81_VVV) -- at-vbg is
@@ -963,11 +1030,13 @@ $(AT_DB): $(AT_ZIPS) | $(DATA_DIR) $(TOOLKIT_JAR)
 # 46,482 embedded Quays, 0 of them without a coordinate, against 26,065 in at.lmdb (24.4%) and
 # 32,091 in it.lmdb (12.1%). Re-add it if a future export starts carrying them.
 $(CH_DB): $(CH_SRC) | $(DATA_DIR) $(TOOLKIT_JAR)
-	$(call stage,swiss,loading $(notdir $<) -> $(notdir $@) (+ drop republished journeys))
-	rm -rf $@ $@.tmp $@.raw.tmp
+	$(call stage,swiss,loading $(notdir $<) -> $(notdir $@) (+ drop republished journeys + line products + display texts))
+	rm -rf $@ $@.tmp $@.raw.tmp $@.drop.tmp $@.prod.tmp
 	$(call drv,swiss-to-db,TIER1) $< $@.raw.tmp
-	$(call drv,drop-foreign-journeys,TIER1) $@.raw.tmp $@.tmp
-	rm -rf $@.raw.tmp && mv $@.tmp $@
+	$(call drv,drop-foreign-journeys,TIER1) $@.raw.tmp $@.drop.tmp
+	$(call drv,ch-line-products,TIER1) $@.drop.tmp $@.prod.tmp
+	$(call drv,ch-display-texts,TIER1) $@.prod.tmp $@.tmp
+	rm -rf $@.raw.tmp $@.drop.tmp $@.prod.tmp && mv $@.tmp $@
 	$(call stage_done,swiss)
 
 # One publication_delivery.xml in a zip, one codespace (FTG), no ServiceLinks, and a coordinate on
@@ -984,8 +1053,9 @@ $(FLIX_DB): $(FLIX_SRC) | $(DATA_DIR) $(TOOLKIT_JAR)
 	$(call stage,flixbus,loading $(notdir $<) -> $(notdir $@) (+ name unwrap))
 	rm -rf $@ $@.tmp $@.raw.tmp
 	$(call drv,netex-to-db,FEED) $< $@.raw.tmp
-	$(call drv,flatten-wrapped-names,FEED) $@.raw.tmp $@.tmp
-	rm -rf $@.raw.tmp && mv $@.tmp $@
+	$(call drv,flatten-wrapped-names,FEED) $@.raw.tmp $@.flat.tmp
+	$(call drv,flix-line-codes,FEED) $@.flat.tmp $@.tmp
+	rm -rf $@.raw.tmp $@.flat.tmp && mv $@.tmp $@
 	$(call stage_done,flixbus)
 
 # The long-distance rail db: Trenitalia and the OAP operators in one, at a radius the national pass
@@ -1067,7 +1137,7 @@ $(DATA_DIR)/flix-epip.lmdb: XMX_EPIP_COUNTRY := 4g
 $(DATA_DIR)/%-epip.lmdb: $(DATA_DIR)/%-cons.lmdb | $(TOOLKIT_JAR)
 	$(call stage,epip-$*,converting $(notdir $<) -> $(notdir $@) ($(EPIP_JOURNEY_WORKERS) journey workers))
 	rm -rf $@ $@.tmp
-	$(call drv,epip-db-to-db,EPIP_COUNTRY) $< $@.tmp
+	$(call drv,epip-db-to-db,EPIP_COUNTRY) $< $@.tmp $(EPIP_CODESPACE_FLAG)
 	mv $@.tmp $@
 	$(call stage_done,epip-$*)
 
@@ -1109,7 +1179,7 @@ xb: $(XB_DB) ## Re-run only the cross-border coupling against the existing epip.
 # below).
 $(NETEX_ZIP): $(XB_DB) | $(OTP_DIR) $(TOOLKIT_JAR)
 	$(call stage,export,split-serialising $(notdir $<) -> $(notdir $@) ($(EPIP_SHARDS) shards, $(EPIP_JOURNEYS_PER_FILE) journeys/file))
-	$(call drv,epip-db-to-xml,EXPORT) $< $@ --shards $(EPIP_SHARDS) --journeys-per-file $(EPIP_JOURNEYS_PER_FILE) $(EPIP_ENVELOPE_FLAGS)
+	$(call drv,epip-db-to-xml,EXPORT) $< $@ --shards $(EPIP_SHARDS) --journeys-per-file $(EPIP_JOURNEYS_PER_FILE) $(EPIP_ENVELOPE_FLAGS) $(EPIP_CODESPACE_FLAG)
 	$(call stage_done,export)
 
 # ===== graph inputs ===========================================================================

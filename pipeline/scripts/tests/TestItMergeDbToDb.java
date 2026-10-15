@@ -254,6 +254,281 @@ public class TestItMergeDbToDb {
                 "a declaration that differs is qualified, not dropped");
     }
 
+    /// Two publishers in one region describing one stop under the SAME id ship the same Quay id with
+    /// it. The collision detector reads the id index, which an embedded Quay has no row in, so
+    /// qualifying the StopPlaces apart used to leave both Quays under one id -- and a QuayRef then
+    /// binds to an arbitrary one of the two publishers' platforms. The shape is Campania's two SITA
+    /// SUD feeds, which publish `IT:ITF3:StopPlace:53225_Sita2026` and its Quay identically.
+    ///
+    /// Distinct names so the duplicate-stop consolidation leaves the pair alone: what is under test
+    /// is the qualification, not the merge that may follow it.
+    public static void testACollidingEmbeddedQuayIsQualifiedWithItsStopPlace(TestStore ts)
+            throws Exception {
+        Check.equals(Set.of("IT:f3:Quay:53225", "IT:f3:Quay:53225:bus"),
+                mergedQuayIds(ts, "emb-fast.mdbx", true),
+                "the second publisher's Quay takes its source's tag, as its StopPlace does");
+    }
+
+    /// The oracle must qualify the same one.
+    public static void testACollidingEmbeddedQuayIsQualifiedObjectLevelToo(TestStore ts)
+            throws Exception {
+        Check.equals(Set.of("IT:f3:Quay:53225", "IT:f3:Quay:53225:bus"),
+                mergedQuayIds(ts, "emb-ol.mdbx", false),
+                "object-level matches the fast path");
+    }
+
+    /// A PSA naming the qualified Quay has to follow it: the reference rewrite is what makes
+    /// qualifying an embedded id worth anything.
+    public static void testThePsaFollowsItsQualifiedQuay(TestStore ts) throws Exception {
+        Path target = ts.tempPath("emb-psa.mdbx");
+        ItMerge.merge(collidingEmbeddedQuayFeeds(ts, "p"), target, List.of("rail", "bus"),
+                true, true, true, ts.format);
+
+        Map<String, String> quayRefBySp = new TreeMap<>();
+        try (Store db = Stores.open(target, true); Txn txn = db.roTxn()) {
+            for (Object o : db.iterOnlyObjects(txn, noi.netex.model.PassengerStopAssignment.class)) {
+                noi.netex.model.PassengerStopAssignment psa =
+                        (noi.netex.model.PassengerStopAssignment) o;
+                quayRefBySp.put(psa.getStopPlaceRef().getValue().getRef(),
+                        psa.getQuayRef().getValue().getRef());
+            }
+        }
+        Check.equals("IT:f3:Quay:53225", quayRefBySp.get("IT:f3:StopPlace:53225"),
+                "the first publisher's PSA keeps the unqualified Quay");
+        Check.equals("IT:f3:Quay:53225:bus", quayRefBySp.get("IT:f3:StopPlace:53225:bus"),
+                "the second publisher's PSA names ITS quay, not the first publisher's");
+    }
+
+    /// A child id the publisher chose independently of its container does NOT follow the
+    /// qualification. Nothing in the merge establishes that such an id collides, and a sibling
+    /// source's QuayRef to it is loaded unresolved and bound by the closing resolve -- so renaming
+    /// it there would leave that reference matching nothing and the platform gone.
+    public static void testANonCollidingEmbeddedQuayKeepsItsId(TestStore ts) throws Exception {
+        Path target = ts.tempPath("emb-indep.mdbx");
+        ItMerge.merge(List.of(
+                        ts.buildDbFile(stopFrame("53225", "IT:f3:Quay:53225", "Stazione"), "i1.mdbx"),
+                        ts.buildDbFile(stopFrame("53225", "IT:f3:Quay:99999-own", "Autostazione"),
+                                "i2.mdbx")),
+                target, List.of("rail", "bus"), true, true, true, ts.format);
+
+        Check.equals(Set.of("IT:f3:Quay:53225", "IT:f3:Quay:99999-own"),
+                quayIdsOf(target),
+                "the second publisher's own quay id is untouched; only a derived one is qualified");
+    }
+
+    /// An id-less child is stamped by the loader with its container's id, its element name and a
+    /// sibling number, so two sources publishing one Line id ship one ValidBetween id with it.
+    ///
+    /// The stop classes the Quay cases use are buffered; a Line is what takes the duplicate-id
+    /// path.
+    public static void testAnEmbeddedIdBothContainersClaimIsQualified(TestStore ts)
+            throws Exception {
+        Check.equals(Map.of("IT:f3:ValidBetween:dup-Line-1", 1, "IT:f3:ValidBetween:dup-Line-1:bus", 1),
+                mergedValidBetweenIds(ts, "emb-claim-fast.mdbx", true),
+                "the second publisher's child takes its source's tag, as its Line does");
+    }
+
+    /// The oracle must qualify the same one.
+    public static void testAnEmbeddedIdBothContainersClaimIsQualifiedObjectLevelToo(TestStore ts)
+            throws Exception {
+        Check.equals(Map.of("IT:f3:ValidBetween:dup-Line-1", 1, "IT:f3:ValidBetween:dup-Line-1:bus", 1),
+                mergedValidBetweenIds(ts, "emb-claim-ol.mdbx", false),
+                "object-level matches the fast path");
+    }
+
+    /// A colliding container whose children carry one id apiece. Four Marche feeds number their
+    /// own children `<containerId>-001`, which is the shape the loader stamps a synthesized id
+    /// with, so the id alone does not say whether a second container claims it.
+    public static void testASuffixedChildIdOnlyOneSourceClaimsKeepsItsId(TestStore ts)
+            throws Exception {
+        Check.equals(Map.of("IT:f3:ValidBetween:dup-001", 1, "IT:f3:ValidBetween:dup-002", 1),
+                suffixedChildMerge(ts, "emb-claim-own.mdbx", true),
+                "a child id the other container does not claim is the publisher's, and stays");
+    }
+
+    /// The oracle must leave the same one alone.
+    public static void testASuffixedChildIdOnlyOneSourceClaimsKeepsItsIdObjectLevelToo(TestStore ts)
+            throws Exception {
+        Check.equals(Map.of("IT:f3:ValidBetween:dup-001", 1, "IT:f3:ValidBetween:dup-002", 1),
+                suffixedChildMerge(ts, "emb-claim-own-ol.mdbx", false),
+                "object-level matches the fast path");
+    }
+
+    /// A child the source stores first-class as well as embedding keeps its id. The row is cloned
+    /// raw -- the collision detector claims it only where the target holds that exact
+    /// (id, version, class) -- so renaming the embedded copy would leave every reference in the
+    /// source pointing at an id no row carries.
+    public static void testAFirstClassChildIsNotRenamedWithItsContainer(TestStore ts)
+            throws Exception {
+        Path target = ts.tempPath("emb-claim-fc.mdbx");
+        ItMerge.merge(List.of(
+                        ts.buildDbFile(lineChildFrame("first", "IT:f3:ValidBetween:shared"), "fc1.mdbx"),
+                        ts.buildDbFile(lineChildFrame("second", "IT:f3:ValidBetween:shared")
+                                + validityFrame("IT:f3:ValidBetween:shared"), "fc2.mdbx")),
+                target, List.of("rail", "bus"), true, true, true, ts.format);
+
+        Check.equals(Map.of("IT:f3:ValidBetween:shared", 2), validBetweenIdsOf(target),
+                "the embedded copies keep the id its own row carries");
+        Check.equals(Set.of("IT:f3:ValidBetween:shared"), validBetweenRowIdsOf(target),
+                "and the row the references name is there under that id");
+    }
+
+    /// The row and the embedded copy under one id at two versions. A probe keyed on the
+    /// child's own version misses the row and renames the embedded copy, while the row -- cloned
+    /// raw under the published id -- keeps it.
+    public static void testAFirstClassChildAtAnotherVersionIsNotRenamedEither(TestStore ts)
+            throws Exception {
+        Path target = ts.tempPath("emb-claim-fcv.mdbx");
+        ItMerge.merge(List.of(
+                        ts.buildDbFile(lineChildFrame("first", "IT:f3:ValidBetween:shared", "2"),
+                                "fcv1.mdbx"),
+                        ts.buildDbFile(lineChildFrame("second", "IT:f3:ValidBetween:shared", "2")
+                                + validityFrame("IT:f3:ValidBetween:shared"), "fcv2.mdbx")),
+                target, List.of("rail", "bus"), true, true, true, ts.format);
+
+        Check.equals(Map.of("IT:f3:ValidBetween:shared", 2), validBetweenIdsOf(target),
+                "the embedded copies keep the id the version-1 row carries");
+        Check.equals(Set.of("IT:f3:ValidBetween:shared"), validBetweenRowIdsOf(target),
+                "and that row is still the one they name");
+    }
+
+    /// The qualification separates the containers themselves, which is what the embedded rename
+    /// hangs off -- pinned here because both other assertions read quays rather than stop ids.
+    public static void testTheCollidingStopPlaceItselfIsQualified(TestStore ts) throws Exception {
+        Path target = ts.tempPath("emb-sp.mdbx");
+        ItMerge.merge(collidingEmbeddedQuayFeeds(ts, "s"), target, List.of("rail", "bus"),
+                true, true, true, ts.format);
+
+        Set<String> spIds = new TreeSet<>();
+        try (Store db = Stores.open(target, true); Txn txn = db.roTxn()) {
+            for (Object o : db.iterOnlyObjects(txn, noi.netex.model.StopPlace.class)) {
+                spIds.add(((EntityStructure) o).getId());
+            }
+        }
+        Check.equals(Set.of("IT:f3:StopPlace:53225", "IT:f3:StopPlace:53225:bus"), spIds,
+                "one StopPlace per publisher, the later one tagged");
+    }
+
+    private static Set<String> mergedQuayIds(TestStore ts, String name, boolean fastPath)
+            throws Exception {
+        Path target = ts.tempPath(name);
+        ItMerge.merge(collidingEmbeddedQuayFeeds(ts, name), target, List.of("rail", "bus"),
+                true, true, fastPath, ts.format);
+        return quayIdsOf(target);
+    }
+
+    private static Set<String> quayIdsOf(Path target) throws Exception {
+        Set<String> quayIds = new TreeSet<>();
+        try (Store db = Stores.open(target, true); Txn txn = db.roTxn()) {
+            for (Object o : db.iterOnlyObjects(txn, noi.netex.model.StopPlace.class)) {
+                noi.netex.model.StopPlace sp = (noi.netex.model.StopPlace) o;
+                if (sp.getQuays() == null) continue;
+                for (jakarta.xml.bind.JAXBElement<?> el : sp.getQuays().getQuayRefOrQuay()) {
+                    if (el.getValue() instanceof noi.netex.model.Quay q) quayIds.add(q.getId());
+                }
+            }
+        }
+        return quayIds;
+    }
+
+    private static Map<String, Integer> mergedValidBetweenIds(TestStore ts, String name,
+            boolean fastPath) throws Exception {
+        Path target = ts.tempPath(name);
+        ItMerge.merge(List.of(
+                        ts.buildDbFile(lineChildFrame("first", null), name + "-v1.mdbx"),
+                        ts.buildDbFile(lineChildFrame("second", null), name + "-v2.mdbx")),
+                target, List.of("rail", "bus"), true, true, fastPath, ts.format);
+        return validBetweenIdsOf(target);
+    }
+
+    private static Map<String, Integer> suffixedChildMerge(TestStore ts, String name,
+            boolean fastPath) throws Exception {
+        Path target = ts.tempPath(name);
+        ItMerge.merge(List.of(
+                        ts.buildDbFile(lineChildFrame("first", "IT:f3:ValidBetween:dup-001"),
+                                name + "-s1.mdbx"),
+                        ts.buildDbFile(lineChildFrame("second", "IT:f3:ValidBetween:dup-002"),
+                                name + "-s2.mdbx")),
+                target, List.of("rail", "bus"), true, true, fastPath, ts.format);
+        return validBetweenIdsOf(target);
+    }
+
+    /// Embedded ValidBetween ids with the number of containers holding each. The defect under
+    /// test is two containers under one id, so the count is the reading.
+    private static Map<String, Integer> validBetweenIdsOf(Path target) throws Exception {
+        Map<String, Integer> ids = new TreeMap<>();
+        try (Store db = Stores.open(target, true); Txn txn = db.roTxn()) {
+            for (Object o : db.iterOnlyObjects(txn, Line.class)) {
+                for (noi.netex.model.ValidBetween vb : ((Line) o).getValidBetween()) {
+                    ids.merge(vb.getId(), 1, Integer::sum);
+                }
+            }
+        }
+        return ids;
+    }
+
+    /// The ids the store holds ValidBetween rows of its own under.
+    private static Set<String> validBetweenRowIdsOf(Path target) throws Exception {
+        Set<String> rows = new TreeSet<>();
+        try (Store db = Stores.open(target, true); Txn txn = db.roTxn()) {
+            for (Object o : db.iterOnlyObjects(txn, noi.netex.model.ValidBetween.class)) {
+                rows.add(((EntityStructure) o).getId());
+            }
+        }
+        return rows;
+    }
+
+    /// One Line under `IT:f3:Line:dup` holding a ValidBetween. A null `childId` leaves the element
+    /// id-less, which is what makes the loader synthesize one.
+    private static String lineChildFrame(String name, String childId) {
+        return lineChildFrame(name, childId, "1");
+    }
+
+    /// As above, with the child's version given: the loader stamps an id-less element with its
+    /// container's, and a publisher may spell another.
+    private static String lineChildFrame(String name, String childId, String childVersion) {
+        return "<ServiceFrame id=\"sf\" version=\"1\"><lines>"
+                + "<Line id=\"IT:f3:Line:dup\" version=\"1\">"
+                + "<ValidBetween" + (childId == null ? ""
+                        : " id=\"" + childId + "\" version=\"" + childVersion + "\"")
+                + "><FromDate>2026-01-01T00:00:00</FromDate></ValidBetween>"
+                + "<Name>" + name + "</Name></Line></lines></ServiceFrame>";
+    }
+
+    /// A frame-level ValidBetween, which gives the class a table of its own in the loaded store.
+    private static String validityFrame(String childId) {
+        return "<ServiceFrame id=\"vf\" version=\"1\"><validityConditions>"
+                + "<ValidBetween id=\"" + childId + "\" version=\"1\">"
+                + "<FromDate>2026-01-01T00:00:00</FromDate></ValidBetween>"
+                + "</validityConditions></ServiceFrame>";
+    }
+
+    private static List<Path> collidingEmbeddedQuayFeeds(TestStore ts, String name) throws Exception {
+        return List.of(
+                ts.buildDbFile(stopFrame("53225", "IT:f3:Quay:53225", "Stazione"), name + "-e1.mdbx"),
+                ts.buildDbFile(stopFrame("53225", "IT:f3:Quay:53225", "Autostazione"),
+                        name + "-e2.mdbx"));
+    }
+
+    /// One stop under `IT:f3:StopPlace:<suffix>` holding `quayId`, and a PSA naming both. Distinct
+    /// names keep the duplicate-stop consolidation off a pair whose ids collide.
+    private static String stopFrame(String suffix, String quayId, String stopName) {
+        return "<SiteFrame id=\"site\" version=\"1\"><stopPlaces>"
+                + "<StopPlace id=\"IT:f3:StopPlace:" + suffix + "\" version=\"1\">"
+                + "<Name>" + stopName + "</Name>"
+                + "<Centroid><Location><Latitude>40.85000</Latitude>"
+                + "<Longitude>14.25000</Longitude></Location></Centroid>"
+                + "<quays><Quay id=\"" + quayId + "\" version=\"1\"/></quays></StopPlace>"
+                + "</stopPlaces></SiteFrame>"
+                + "<ServiceFrame id=\"sf\" version=\"1\"><stopAssignments>"
+                + "<PassengerStopAssignment id=\"IT:f3:PassengerStopAssignment:" + suffix + "\""
+                + " version=\"1\" order=\"1\">"
+                + "<ScheduledStopPointRef ref=\"IT:f3:ScheduledStopPoint:" + suffix + "\"/>"
+                + "<StopPlaceRef ref=\"IT:f3:StopPlace:" + suffix + "\"/>"
+                + "<QuayRef ref=\"" + quayId + "\"/></PassengerStopAssignment>"
+                + "</stopAssignments></ServiceFrame>";
+    }
+
     private static List<Path> identicalDeclarationFeeds(TestStore ts) throws Exception {
         return List.of(
                 ts.buildDbFile(codespaceFrame("ita", "http://www.ita.it", "l1"), "c1.mdbx"),

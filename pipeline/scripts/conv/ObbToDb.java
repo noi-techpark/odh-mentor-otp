@@ -4,13 +4,20 @@ package conv;
 // in options():
 //   1. LOAD ORDER: members named *STOP_OFFER* load FIRST (the shared stop registry), then the
 //      per-line files sorted by name. With last-wins duplicate-id precedence, order IS semantics.
-//   2. DEDUP MERGE: a duplicate StopPlace quay-union-merges instead of last-wins replacing.
+//   2. DEDUP MERGE: a duplicate StopPlace unions its quays and its levels instead of last-wins
+//      replacing, and a duplicate ValueSet unions its members. Every line file declares the
+//      Verbund's code-list ids and populates them with the members that file uses, so the union is
+//      what makes a code list complete; last-wins keeps one file's members and leaves every
+//      reference to the others dangling. The Verbünde load as one archive and several of them
+//      describe one national stop id, each contributing its own levels in its own codespace, so the
+//      same holds there and the levels describing one floor collapse to the smallest of their ids.
 //      Registered for the load only.
 //   3. POST PASS: hyphenated parent-site refs (at-43-18595) are rewritten to the colon form the
 //      StopPlace ids use (at:43:18595) before resolve, so parent edges wire up.
 // The Mentz line-version fix and DropForeignJourneys remain separate pipeline stages.
 
 import noi.netex.model.StopPlace;
+import noi.netex.model.ValueSet;
 import toolkit.harness.Ensemble;
 import toolkit.harness.FeedToDb;
 import toolkit.load.ZipLoad;
@@ -40,7 +47,8 @@ public class ObbToDb {
         return new ZipLoad.Options(
                 null,
                 STOP_OFFER_FIRST,
-                Map.of(StopPlace.class, MpLoadRules::mergeStopPlaceQuays),
+                Map.of(StopPlace.class, MpLoadRules::mergeStopPlaceChildren,
+                        ValueSet.class, MpLoadRules::mergeValueSetValues),
                 ObbToDb::normalizeParentSiteRefs);
     }
 

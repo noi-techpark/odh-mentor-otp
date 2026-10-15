@@ -1113,7 +1113,7 @@ public final class VerifyCrossborder {
     }
 
     static XMLInputFactory factory() {
-        XMLInputFactory f = XMLInputFactory.newInstance();
+        XMLInputFactory f = new com.fasterxml.aalto.stax.InputFactoryImpl();
         f.setProperty(XMLInputFactory.IS_COALESCING, Boolean.TRUE);
         f.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
         f.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);

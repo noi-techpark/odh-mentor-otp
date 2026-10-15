@@ -22,6 +22,7 @@ import toolkit.test.Check;
 import toolkit.test.Runner;
 import toolkit.test.TestStore;
 import toolkit.transform.common.LineAuthorities;
+import toolkit.transform.epip.GeneratorDefaults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,9 +111,14 @@ public class TestItaloAuthorityCodespace {
 
     /// The repair the backfill proposes, read off the Line it returns rather than off the store: the
     /// pass reads only, and its caller is what writes.
+    ///
+    /// The fallback codespace is the production one, as `it-rap-db-to-db` passes it. No fixture here
+    /// reaches it: every Operator id below carries a class token, so every minted Authority id is
+    /// derived from the Operator rather than from the fallback.
     private static List<Object> backfill(TestStore db) {
         try (Txn txn = db.store.roTxn()) {
-            return new ArrayList<>(LineAuthorities.backfillLineAuthorities(db.store, txn));
+            return new ArrayList<>(LineAuthorities.backfillLineAuthorities(db.store, txn,
+                    GeneratorDefaults.PRODUCTION.codespace()));
         }
     }
 

@@ -154,9 +154,10 @@ public class TestNormalizeItIds {
                 "a ref outside the Italian spaces is left alone");
 
         // RouteView is id-less in the source, so the loader mints its id from the enclosing pattern
-        // -- and RouteView is a DerivedViewStructure, NOT an EntityStructure, so an
-        // `instanceof EntityStructure` arm walks straight past it.
-        Check.equals("IT:ITI3:RouteView:CONTRAM_0002", sjp.getRouteView().getId(),
+        // -- with the sibling sequence it appends to every id it mints -- and RouteView is a
+        // DerivedViewStructure, NOT an EntityStructure, so an `instanceof EntityStructure` arm walks
+        // straight past it.
+        Check.equals("IT:ITI3:RouteView:CONTRAM_0002-ServiceJourneyPattern-1", sjp.getRouteView().getId(),
                 "an id-bearing embedded object outside the EntityStructure hierarchy moves too");
         Check.equals("IT:ITI3:Line:ADRIABUS_13", sjp.getRouteView().getLineRef().getValue().getRef(),
                 "and the ref it holds");

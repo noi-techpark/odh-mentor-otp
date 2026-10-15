@@ -29,6 +29,7 @@ package transformers.common;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import noi.netex.model.Codespace;
+import noi.netex.model.EntityInVersionStructure;
 import noi.netex.model.EntityStructure;
 import noi.netex.model.PassengerStopAssignment;
 import noi.netex.model.ScheduledStopPoint;
@@ -38,6 +39,7 @@ import noi.netex.text.Mls;
 import toolkit.harness.CloneSupport;
 import toolkit.keycodec.NulKeyCodec;
 import toolkit.model.RecursiveAttributes;
+import toolkit.store.IdRow;
 import toolkit.store.ObjectRow;
 import toolkit.store.Store;
 import toolkit.store.Stores;
@@ -55,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.Predicate;
 
 public class ItMerge {
 
@@ -118,9 +121,103 @@ public class ItMerge {
                 + "\0" + Mls.textOrEmpty(c.getDescription()) + "\0" + c.getDataSourceRef();
     }
 
+    /// Put the embedded children of `container` that `claimedEarlier` answers for into `remap`
+    /// under their qualified ids, so the rename and the reference rewrite both follow from
+    /// [#applyRemap]. `claimedEarlier` takes a [#classIdKey].
+    ///
+    /// The collision detector sees first-class rows only: an embedded object has no id-index row, so
+    /// `duplicateIdFullKeys` cannot reach one. Two publishers describing a single national stop id
+    /// therefore ship one Quay id twice, and qualifying their StopPlaces apart left the Quays
+    /// sharing it -- a QuayRef then binds to whichever container the closing resolve reaches first,
+    /// which is to say to an arbitrary one of two publishers' platforms.
+    ///
+    /// `claimedEarlier` holds the ids an earlier source already embeds under this container's own
+    /// address: [#heldEmbeddedKeys] reads them off the copy the target holds there, and for a class
+    /// held back from the clone the buffer holds them. A child whose id no earlier source embeds
+    /// keeps it, because renaming an id that does not collide is how a sibling source's reference
+    /// to it stops resolving.
+    ///
+    /// Two shapes stay out of reach: an id a sibling container of an earlier source embeds, and
+    /// one an intermediate source embedded under a container this merge has already qualified.
+    /// Both of those are claims this reads no copy for.
+    ///
+    /// A child the source stores first-class keeps its id. Renaming it here rewrites every
+    /// reference in the source while the row they name keeps the published id, and the row is out
+    /// of reach: it is cloned raw unless the collision detector claimed it, which it does only when
+    /// the target holds that exact (id, version, class).
+    ///
+    /// The remap is keyed by id alone, so [#applyRemap] renames a registered child wherever it
+    /// sits. The fast path reaches the colliding container and the patch set; a non-colliding
+    /// container of the same source is cloned raw and keeps its copy, while the object-level oracle
+    /// remaps every object it inserts, so the two diverge on a source embedding one child id under
+    /// two containers.
+    static void registerEmbedded(Object container, String tag, Map<String, String> remap,
+            Store sdb, Txn rtx, Predicate<String> claimedEarlier) {
+        for (EntityStructure child : RecursiveAttributes.embeddedEntities(container, c -> true)) {
+            String id = child.getId();
+            if (!claimedEarlier.test(classIdKey(child.getClass().getSimpleName(), id))) continue;
+            if (firstClassInSource(sdb, rtx, child)) continue;
+            remap.putIfAbsent(id, qualified(id, tag));
+        }
+    }
+
+    /// The embedded children of the object the target holds at `container`'s own
+    /// (id, version, class) address, as [#classIdKey]s; empty where it holds nothing there.
+    ///
+    /// The class and id of what came back are re-read: a version-less address takes
+    /// `lookupFullKey`'s prefix arm, which answers with the first row at the id and names no class.
+    static Set<String> heldEmbeddedKeys(Store tdb, Txn ttx, Object container) {
+        String id = ((EntityStructure) container).getId();
+        if (id == null || !tdb.dbNames(ttx).contains(container.getClass())) return Set.of();
+        String version = (container instanceof EntityInVersionStructure eiv) ? eiv.getVersion() : null;
+        long fk = tdb.lookupFullKey(ttx, id, version, container.getClass());
+        if (fk < 0) return Set.of();
+        Object held = tdb.loadObjectByFullKey(ttx, fk);
+        if (held == null || held.getClass() != container.getClass()
+                || !id.equals(((EntityStructure) held).getId())) {
+            return Set.of();
+        }
+        return embeddedKeys(held);
+    }
+
+    /// Every id-bearing descendant of `container` as a [#classIdKey]. [RecursiveAttributes#walk]
+    /// starts below the root, so the container itself is not among them. The key carries the class,
+    /// as the seen sets beside it do, so one class's child id is not a claim on another's.
+    private static Set<String> embeddedKeys(Object container) {
+        Set<String> out = new LinkedHashSet<>();
+        for (EntityStructure e : RecursiveAttributes.embeddedEntities(container, c -> true)) {
+            out.add(classIdKey(e.getClass().getSimpleName(), e.getId()));
+        }
+        return out;
+    }
+
+    /// Whether the source stores `child` as a row of its own as well as inside its container's
+    /// bytes, at any version.
+    ///
+    /// Every row at the child's id is read and its class taken from the full key. A row of this
+    /// class at another version is a row all the same, and the probe that takes a class wants an
+    /// exact version -- without one it answers off the `id NUL` prefix, where the row it finds may
+    /// belong to any class. The class-table test comes first because `classIdx` throws for a class
+    /// the store never stored, which is most embedded classes.
+    private static boolean firstClassInSource(Store sdb, Txn rtx, EntityStructure child) {
+        if (!sdb.dbNames(rtx).contains(child.getClass())) return false;
+        int want = sdb.classIdxInt(child.getClass());
+        for (IdRow row : sdb.lookupById(rtx, child.getId(), null)) {
+            if (NulKeyCodec.fullKeyClassIdx(row.fullKey()) == want) return true;
+        }
+        return false;
+    }
+
     /// rewrite every reference `obj` holds whose target id is in
-    /// `remap` (and, when `renameSelf`, its own id). The refs the walk yields are the
+    /// `remap`, and the id of `obj` itself when `renameSelf` and of every EMBEDDED child whose id
+    /// the remap names. The refs the walk yields are the
     /// live objects in the tree, so mutating in place is enough; insert re-extracts the index.
+    ///
+    /// An embedded child is renamed unconditionally of `renameSelf`, which governs the top-level id
+    /// alone. The match is on the bare id at any depth, so a child reached here is renamed wherever
+    /// it sits, not only under the container [#registerEmbedded] registered it from. That is the
+    /// price of an id-keyed remap, and the reason registration is bounded to an id an earlier
+    /// source claims: what the walk renames has to be an id the merge has established collides.
     static void applyRemap(Object obj, Map<String, String> remap, boolean renameSelf) {
         if (renameSelf && obj instanceof EntityStructure e && e.getId() != null) {
             String mapped = remap.get(e.getId());
@@ -136,7 +233,11 @@ public class ItMerge {
             }
 
             @Override
-            public void node(Object o) {}
+            public void node(Object o) {
+                if (!(o instanceof EntityStructure e) || e.getId() == null) return;
+                String mapped = remap.get(e.getId());
+                if (mapped != null) e.setId(mapped);
+            }
         });
     }
 
@@ -174,6 +275,9 @@ public class ItMerge {
         List<StopPlace> stopBuf = new ArrayList<>();              // buffered StopPlaces (post-remap)
         List<PassengerStopAssignment> psaBuf = new ArrayList<>(); // buffered PSAs (post-remap)
         Set<String> seenBuffered = new LinkedHashSet<>();         // (class name, id) buffered so far
+        // (class name, id) of the buffered objects' embedded children. A buffered class is held
+        // back from every clone, so the target holds no copy for `heldEmbeddedKeys` to read.
+        Set<String> seenEmbedded = new LinkedHashSet<>();
 
         try (Store tdb = Stores.create(target, format)) {
             long offset = 0;
@@ -188,11 +292,15 @@ public class ItMerge {
                     allSourcesSwept = allSourcesSwept && sdb.blobRepairMarkerPresent(rtx);
                     if (!fastPath) {
                         offset = mergeSourceObjectLevel(sdb, rtx, tdb, src, tag, qualify,
-                                consolidateStops || synthesizeStops, seenBuffered, stopBuf, psaBuf);
+                                consolidateStops || synthesizeStops, seenBuffered, seenEmbedded,
+                                stopBuf, psaBuf);
                         continue;
                     }
 
                     Map<String, String> remap = new LinkedHashMap<>();
+                    // The remap also carries the embedded children a qualified container drags with
+                    // it, so its size is not the collision count the message reports.
+                    int collided = 0;
                     List<Class<?>> buffered = new ArrayList<>();
                     if (consolidateStops || synthesizeStops) {
                         for (Class<?> c : sdb.dbNames(rtx)) if (isBuffered(c)) buffered.add(c);
@@ -209,9 +317,13 @@ public class ItMerge {
                             bufKeys.add(sdb.fullKeyOf(clazz, row.localKey()));
                             EntityStructure obj = (EntityStructure) row.object();
                             if (qualify && seenBuffered.contains(classIdKey(cn, String.valueOf(obj.getId())))) {
-                                String newId = qualified(String.valueOf(obj.getId()), tag);
-                                remap.put(String.valueOf(obj.getId()), newId);
+                                String oldId = String.valueOf(obj.getId());
+                                String newId = qualified(oldId, tag);
+                                remap.put(oldId, newId);
                                 obj.setId(newId);
+                                collided++;
+                                registerEmbedded(obj, tag, remap, sdb, rtx,
+                                        seenEmbedded::contains);
                             }
                             pending.add(obj);
                         }
@@ -249,6 +361,10 @@ public class ItMerge {
                             for (Object o : dupObjs) {
                                 String oid = ((EntityStructure) o).getId();
                                 remap.put(oid, qualified(oid, tag));
+                                collided++;
+                                Set<String> held = heldEmbeddedKeys(tdb, wtx, o);
+                                registerEmbedded(o, tag, remap, sdb, rtx,
+                                        k -> held.contains(k) || seenEmbedded.contains(k));
                             }
                         }
                         skip = new LongOpenHashSet(dups);
@@ -281,6 +397,7 @@ public class ItMerge {
                         else psaBuf.add((PassengerStopAssignment) obj);
                         seenBuffered.add(classIdKey(obj.getClass().getSimpleName(),
                                 String.valueOf(((EntityStructure) obj).getId())));
+                        seenEmbedded.addAll(embeddedKeys(obj));
                     }
 
                     String msg = String.format("[it-merge] cloned %s (next offset %d)", src, offset);
@@ -288,9 +405,9 @@ public class ItMerge {
                     // declarations leaves the remap empty, and falling through would report a
                     // qualifying merge as a no-qualify one.
                     if (qualify) {
-                        if (!remap.isEmpty()) {
+                        if (collided > 0) {
                             msg += String.format(" -- qualified %d colliding ids (tag %s)",
-                                    remap.size(), tag);
+                                    collided, tag);
                         }
                     } else if (!dups.isEmpty()) {
                         msg += String.format(" -- dropped %d duplicate ids (no-qualify)", dups.size());
@@ -404,28 +521,36 @@ public class ItMerge {
     /// bulk. Same result, several times slower — it is kept as the slow oracle the fast path is
     /// checked against.
     private static long mergeSourceObjectLevel(Store sdb, Txn rtx, Store tdb, Path src, String tag,
-            boolean qualify, boolean consolidateStops, Set<String> seen,
+            boolean qualify, boolean consolidateStops, Set<String> seen, Set<String> seenEmbedded,
             List<StopPlace> stopBuf, List<PassengerStopAssignment> psaBuf) {
         List<Class<?>> classes = new ArrayList<>(sdb.dbNames(rtx));
 
         // pass 1 — collisions with EARLIER sources only (so a source's own versions of an id are
         // never treated as colliding with each other).
         Map<String, String> remap = new LinkedHashMap<>();
+        // The remap also carries the embedded children a qualified container drags with it, so its
+        // size is not the collision count the message reports.
+        int collided = 0;
         Set<String> skip = new LinkedHashSet<>();
         Set<String> drop = new LinkedHashSet<>();   // repeated declarations, dropped in both modes
-        Set<String> declRepeats;
+        // One read txn over both: the embedded-child claim is read off the copy the target already
+        // holds, which is the same generation `repeatedDeclarations` compares against.
         try (Txn ttx = tdb.roTxn()) {
-            declRepeats = repeatedDeclarations(sdb, rtx, tdb, ttx);
-        }
-        for (Class<?> clazz : classes) {
-            String cn = clazz.getSimpleName();
-            for (Object obj : sdb.iterOnlyObjects(rtx, clazz)) {
-                String oid = String.valueOf(((EntityStructure) obj).getId());
-                String key = classIdKey(cn, oid);
-                if (seen.contains(key)) {
+            Set<String> declRepeats = repeatedDeclarations(sdb, rtx, tdb, ttx);
+            for (Class<?> clazz : classes) {
+                String cn = clazz.getSimpleName();
+                for (Object obj : sdb.iterOnlyObjects(rtx, clazz)) {
+                    String oid = String.valueOf(((EntityStructure) obj).getId());
+                    String key = classIdKey(cn, oid);
+                    if (!seen.contains(key)) continue;
                     if (obj instanceof Codespace && declRepeats.contains(oid)) drop.add(key);
-                    else if (qualify) remap.put(oid, qualified(oid, tag));
-                    else skip.add(key);
+                    else if (qualify) {
+                        remap.put(oid, qualified(oid, tag));
+                        collided++;
+                        Set<String> held = heldEmbeddedKeys(tdb, ttx, obj);
+                        registerEmbedded(obj, tag, remap, sdb, rtx,
+                                k -> held.contains(k) || seenEmbedded.contains(k));
+                    } else skip.add(key);
                 }
             }
         }
@@ -433,6 +558,7 @@ public class ItMerge {
         // pass 2 — insert everything (buffering stops/psas), applying the remap; collect this
         // source's FINAL ids locally, fold into `seen` only after the source is done.
         Set<String> local = new LinkedHashSet<>();
+        Set<String> localEmbedded = new LinkedHashSet<>();
         Iterator<Object> emit = new Iterator<>() {
             private int nextClass = 0;
             private Iterator<Object> objects = Collections.emptyIterator();
@@ -463,8 +589,10 @@ public class ItMerge {
                     local.add(classIdKey(cn, String.valueOf(e.getId())));
                     if (consolidateStops && clazz == StopPlace.class) {
                         stopBuf.add((StopPlace) obj);
+                        localEmbedded.addAll(embeddedKeys(obj));
                     } else if (consolidateStops && clazz == PassengerStopAssignment.class) {
                         psaBuf.add((PassengerStopAssignment) obj);
+                        localEmbedded.addAll(embeddedKeys(obj));
                     } else {
                         next = obj;
                     }
@@ -488,8 +616,9 @@ public class ItMerge {
             wtx.commit();
         }
         seen.addAll(local);
+        seenEmbedded.addAll(localEmbedded);
         String msg = String.format("[it-merge] copied %s object-level", src);
-        if (!remap.isEmpty()) msg += String.format(" -- qualified %d colliding ids (tag %s)", remap.size(), tag);
+        if (collided > 0) msg += String.format(" -- qualified %d colliding ids (tag %s)", collided, tag);
         if (!drop.isEmpty()) msg += String.format(" -- kept %d repeated declaration(s) once", drop.size());
         if (!skip.isEmpty()) msg += String.format(" -- dropped %d duplicate ids (no-qualify)", skip.size());
         Log.info("%s", msg);

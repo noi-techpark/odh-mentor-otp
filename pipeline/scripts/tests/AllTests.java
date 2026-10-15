@@ -26,6 +26,8 @@ import java.util.stream.Stream;
 public class AllTests {
 
     static final Class<?>[] CLASSES = {
+        TestAtLineProducts.class,
+        TestAuthorityNames.class,
         TestConfReads.class,
         TestDedupDefinitionDays.class,
         TestDropForeignJourneys.class,
@@ -36,6 +38,7 @@ public class AllTests {
         TestItMergeDbToDb.class,
         TestItRapDbToDb.class,
         TestItcTrailingLink.class,
+        TestLineCodes.class,
         TestNormalizeItIds.class,
         TestPassthrough.class,
         TestResolveMentzLineVersions.class,

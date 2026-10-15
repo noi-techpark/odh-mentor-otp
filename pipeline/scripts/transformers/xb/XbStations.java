@@ -28,12 +28,15 @@ import noi.netex.model.StopPlaceRefStructure;
 import noi.netex.model.Zone_VersionStructure;
 import toolkit.store.Store;
 import toolkit.store.Txn;
+import toolkit.transform.common.SiteLevels;
+import toolkit.transform.common.TransportModes;
 import toolkit.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -49,8 +52,11 @@ public final class XbStations {
         public long mergedAway;
         public long quaysMoved;
         public long levelsMoved;
+        public long levelsFolded;
         public long levelRefsCleared;
         public long assignmentsRepointed;
+        /// Survivors whose mode block came from a member rather than from themselves.
+        public long modesPromoted;
         public long railServed;
         // The pole-quay gate excludes most of the corpus from the bus-quay merge BEFORE any of its
         // own skip counters run, so its "merged 58" reads as a shortage of matches when it is
@@ -66,10 +72,11 @@ public final class XbStations {
 
         public void report() {
             Log.info("[xb-stations] consolidated %d StopPlaces into %d physical stations "
-                    + "(%d quays and %d levels moved, %d orphaned LevelRefs cleared, "
-                    + "%d assignments re-pointed)",
-                    mergedAway, clusters, quaysMoved, levelsMoved, levelRefsCleared,
-                    assignmentsRepointed);
+                    + "(%d quays and %d levels moved, %d levels folded to one floor, "
+                    + "%d orphaned LevelRefs cleared, %d assignments re-pointed, "
+                    + "%d modes promoted)",
+                    mergedAway, clusters, quaysMoved, levelsMoved, levelsFolded,
+                    levelRefsCleared, assignmentsRepointed, modesPromoted);
             Log.info("[xb-stations] %d rail-served StopPlaces; pole-quay eligibility: %d with none, "
                     + "%d with one, %d with two or more (only the last can enter the bus-quay merge)",
                     railServed, noPoleQuays, onePoleQuay, twoOrMorePoleQuays);
@@ -221,12 +228,18 @@ public final class XbStations {
             if (members.size() < 2) continue;
             counters.clusters++;
             StopPlace survivor = elect(members, uics);
+            // A publisher types a station after the service it runs there. STA surveyed every
+            // platform at Bolzano and types the station `tram`, so the election hands the fullest
+            // record a mode that puts a mainline station and all its platforms in the graph as tram
+            // stops. The mode is settled separately, over the whole cluster.
+            if (TransportModes.adoptHeaviestMode(survivor, members)) counters.modesPromoted++;
             for (StopPlace sp : members) {
                 if (sp == survivor) continue;
                 moveChildren(sp, survivor, counters);
                 mergedAway.add(sp.getId());
                 repoint.put(sp.getId(), survivor.getId());
             }
+            counters.levelsFolded += foldLevels(survivor);
             counters.levelRefsCleared += clearOrphanLevelRefs(survivor);
         }
 
@@ -404,13 +417,14 @@ public final class XbStations {
         return bestVotes > 0 ? best : null;
     }
 
-    /// Move a merged-away copy's embedded Quays AND its Levels onto the survivor.
+    /// Move a merged-away copy's embedded Quays AND its Levels onto the survivor. A level the
+    /// survivor already holds under that id is not added twice.
     ///
     /// Running before `EpipSanitize.stripOrphanLevelRefs` is what makes the levels matter: a quay's
     /// `LevelRef` has to resolve against a `Level` its OWN Site defines, and a quay that moves
     /// without its levels leaves a ref that nothing in the new document answers. Moving both keeps
-    /// every ref that was valid valid; [#clearOrphanLevelRefs] deals with whatever was already
-    /// broken.
+    /// every ref that was valid valid; [#foldLevels] collapses the copies describing one floor and
+    /// [#clearOrphanLevelRefs] deals with whatever was already broken.
     static void moveChildren(StopPlace from, StopPlace to, Counters counters) {
         List<JAXBElement<?>> movable = new ArrayList<>();
         if (from.getQuays() != null) {
@@ -423,16 +437,31 @@ public final class XbStations {
             to.getQuays().getQuayRefOrQuay().addAll(movable);
             counters.quaysMoved += movable.size();
         }
-        if (from.getLevels() != null && !from.getLevels().getLevelRefOrLevel().isEmpty()) {
-            if (to.getLevels() == null) {
-                to.setLevels(new noi.netex.model.Levels_RelStructure());
+        List<Object> levels = new ArrayList<>();
+        Set<String> seen = new LinkedHashSet<>();
+        SiteLevels.union(levels, seen, to);
+        int own = levels.size();
+        SiteLevels.union(levels, seen, from);
+        if (levels.size() > own) {
+            SiteLevels.install(to, levels);
+            for (Object l : levels.subList(own, levels.size())) {
+                if (l instanceof Level) counters.levelsMoved++;
             }
-            List<Object> levels = from.getLevels().getLevelRefOrLevel();
-            for (Object l : levels) {
-                if (unwrap(l) instanceof Level) counters.levelsMoved++;
-            }
-            to.getLevels().getLevelRefOrLevel().addAll(levels);
         }
+    }
+
+    /// Collapse the survivor's Levels that describe one floor, keeping the smallest of their ids
+    /// and re-pointing every reference. Two publishers of one station each name their own ground
+    /// floor, and [#moveChildren] puts both on the survivor.
+    static int foldLevels(StopPlace sp) {
+        if (sp.getLevels() == null) return 0;
+        List<Object> levels = new ArrayList<>(sp.getLevels().getLevelRefOrLevel());
+        Map<String, String> remap = new HashMap<>();
+        int folded = SiteLevels.fold(levels, remap);
+        if (folded == 0) return 0;
+        SiteLevels.install(sp, levels);
+        SiteLevels.repoint(sp, remap);
+        return folded;
     }
 
     /// Clear every `LevelRef` on the survivor's quays whose target is not a `Level` the survivor

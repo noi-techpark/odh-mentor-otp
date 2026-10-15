@@ -5,6 +5,9 @@
 /// versions and the contested (definition, day) pairs that fall out of it; this pipeline loads
 /// Mentz exports for the nine Austrian Verbund feeds and STA.
 ///
+/// `AuthorityNames` swaps the same exporter's Authority Name and PublicCode back: it writes the
+/// authority's name into the code and the feed code into the name. It runs in the same stage.
+///
 /// `StopAssignments` is the wider case: the placeholder-quay strip it performs is named for the
 /// Verbund exporters' coordinate-less `…:HoB:` quays, but the assignment refs it then repairs
 /// dangle in feeds from every source, so it runs on all three feed databases rather than one
