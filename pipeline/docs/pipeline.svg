@@ -133,12 +133,12 @@
   <a href="../scripts/fix/ResolveMentzLineVersions.java">
     <rect class="step" x="135" y="412" width="220" height="45" rx="4"/>
     <text class="lbl" x="245" y="431">fix/ResolveMentzLineVersions</text>
-    <text class="sub" x="245" y="446">MENTZ per-version line dedup</text>
+    <text class="sub" x="245" y="446">MENTZ line dedup · authority names</text>
   </a>
   <a href="../scripts/fix/ResolveMentzLineVersions.java">
     <rect class="step" x="401" y="412" width="220" height="45" rx="4"/>
     <text class="lbl" x="511" y="431">fix/ResolveMentzLineVersions</text>
-    <text class="sub" x="511" y="446">MENTZ per-version line dedup</text>
+    <text class="sub" x="511" y="446">MENTZ line dedup · authority names</text>
   </a>
   <a href="../scripts/conv/TrenitaliaDbToDb.java">
     <rect class="step" x="668" y="412" width="220" height="45" rx="4"/>

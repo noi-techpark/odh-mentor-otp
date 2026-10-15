@@ -27,6 +27,7 @@ public class AllTests {
 
     static final Class<?>[] CLASSES = {
         TestAtLineProducts.class,
+        TestAuthorityNames.class,
         TestConfReads.class,
         TestDedupDefinitionDays.class,
         TestDropForeignJourneys.class,
